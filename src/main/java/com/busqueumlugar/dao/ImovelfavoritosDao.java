@@ -38,7 +38,7 @@ public interface ImovelfavoritosDao  extends GenericDAO<Imovelfavoritos, Long> {
 
 	List findImoveisFavoritosUsuariosInteressadosByIdUsuarioDistinct(Long idUsuario, ImovelfavoritosForm form);
 
-	int findQuantidadeNovosUsuariosInteressados(Long idImovel);
+	long findQuantidadeNovosUsuariosInteressados(Long idImovel);
 
 	List findUsuariosImoveisFavoritosUsuariosInteressadosByIdUsuario(Long idUsuarioSessao, ImovelfavoritosForm form);
 
@@ -51,4 +51,5 @@ public interface ImovelfavoritosDao  extends GenericDAO<Imovelfavoritos, Long> {
 	long findQuantUsuariosInteressadosByIdUsuarioByStatus(Long idUsuario, String status);
 
 	void updateStatusLeitura(Long idUsuario);
+
 }

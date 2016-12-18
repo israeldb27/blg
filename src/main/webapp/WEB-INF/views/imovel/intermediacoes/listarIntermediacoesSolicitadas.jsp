@@ -12,7 +12,7 @@
 <%@page import="com.busqueumlugar.enumerador.TipoImovelEnum"%>
 <%@page import="com.busqueumlugar.enumerador.StatusImovelEnum"%>
 
-<spring:url value="/imovelCompartilhado" var="urlImovelCompartilhado"/>
+<spring:url value="/intermediacao" var="urlIntermediacao"/>
 <spring:url var="urlImovelComentario" value="/imovelComentario"/>
 <spring:url value="/imovelPropostas" var="urlImovelPropostas"/>
 <spring:url value="/imovelIndicado" var="urlImovelIndicado"/>
@@ -31,8 +31,8 @@
 
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
 
-<spring:url value="/imovelCompartilhado/buscarCidadesIntermediacao" var="urlBuscarCidades"/>
-<spring:url value="/imovelCompartilhado/buscarBairrosIntermediacao" var="urlBuscarBairros"/>
+<spring:url value="/intermediacao/buscarCidadesIntermediacao" var="urlBuscarCidades"/>
+<spring:url value="/intermediacao/buscarBairrosIntermediacao" var="urlBuscarBairros"/>
 
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript">
@@ -114,7 +114,7 @@
     	}
     	
     	function desmarcarCheck(id) {
-    	    $.post("${urlImovelCompartilhado}/desmarcarCheckIntermediacao", {'idImovelcompartilhado' : id}, function() {
+    	    $.post("${urlIntermediacao}/desmarcarCheckIntermediacao", {'idImovelcompartilhado' : id}, function() {
     	      	$("#idCheckImovelDiv_"+id).hide();
     	    	$("#idCheckImovel_"+id).hide();    	    	
     	    });
@@ -129,7 +129,7 @@
     	function confirmarExclusaoSolIntermediacao(){	
     		var parametro = document.getElementById("modIdParametro");	
     		$.ajax({
-    				 url: '${urlImovelCompartilhado}/confirmarExclusaoSolIntermediacao/' + parametro.value,			 
+    				 url: '${urlIntermediacao}/confirmarExclusaoSolIntermediacao/' + parametro.value,			 
     				 success: function(){				 
     					 location.reload();     	    
     				 },
@@ -178,7 +178,7 @@
                              
                         <div class="col-lg-3 col-md-3 col-sm-4">                 		
                                 <div class="panel-body no-padding">
-                                    <form:form method="POST" id="intermediacaoForm" modelAttribute="intermediacaoForm" action="${urlImovelCompartilhado}/filtrarIntermediacao" >
+                                    <form:form method="POST" id="intermediacaoForm" modelAttribute="intermediacaoForm" action="${urlIntermediacao}/filtrarIntermediacao" >
                                        
                                        <div class="panel rounded shadow no-overflow">
 	                           			     <div class="panel-heading">
@@ -361,7 +361,7 @@
 		                            </div>
 	                                <div class="pull-right" >
 	                                		<spring:message code="lbl.hint.tipo.agrupar" var="hintAgrupar"/>
-	                                      	<form:form method="POST" id="modVisualizaListaIntermediacaoForm" modelAttribute="intermediacaoForm" action="${urlImovelCompartilhado}/modoVisualizarIntermediacao" >		                             		
+	                                      	<form:form method="POST" id="modVisualizaListaIntermediacaoForm" modelAttribute="intermediacaoForm" action="${urlIntermediacao}/modoVisualizarIntermediacao" >		                             		
 			                                     <form:select id="opcaoVisualizacaoListaIntermediacao" path="opcaoVisualizacao" class="form-control" title="${hintAgrupar}">
 			                                         <form:option value="" disabled="true"><spring:message code="lbl.agrupar.por"/></form:option>
 			                                         <form:option value="agruparImoveis" ><spring:message code="lbl.agrupar.imoveis"/></form:option>                      											
@@ -372,7 +372,7 @@
 	                                </div><!-- /.pull-right -->
 	                                <div class="pull-right" style="padding-right:10px; width: 240px;">
 	                                		<spring:message code="lbl.hint.tipo.ordenacao" var="hintOrdenar"/>
-	                                    		<form:form method="POST" id="intermediacaoSolRecebidaForm" modelAttribute="intermediacaoForm" action="${urlImovelCompartilhado}/ordenarIntermediacao" >
+	                                    		<form:form method="POST" id="intermediacaoSolRecebidaForm" modelAttribute="intermediacaoForm" action="${urlIntermediacao}/ordenarIntermediacao" >
 										                  <form:hidden  path="tipoLista" value="intermediacaoSolRecebida" />									                  
 										                  <form:select id="opcaoOrdenacao2" path="opcaoOrdenacao" class="form-control" title="${hintOrdenar}">                                
 									                         <form:option value="" disabled="true"><spring:message code="lbl.opcao.ordenar"/></form:option>                      
@@ -388,7 +388,7 @@
 	                                
 	                                <c:if test="${intermediacaoForm.isVisible() }">
 	                                	<div class="pull-right" style="padding-right:20px;">
-		                                    <form:form method="POST" id="intermediacaoPageForm" modelAttribute="intermediacaoForm" action="${urlImovelCompartilhado}/filtrarIntermediacao" >
+		                                    <form:form method="POST" id="intermediacaoPageForm" modelAttribute="intermediacaoForm" action="${urlIntermediacao}/filtrarIntermediacao" >
 		                                     	 <spring:message code="lbl.hint.opcao.paginacao" var="hintPaginacao"/>
 	                                             <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="form-control" title="${hintPaginacao}">
 	                                                 <form:option value="" disabled="true"><spring:message code="lbl.opcao.paginacao"/></form:option>
@@ -442,7 +442,7 @@
 	                                                            </tr>
 	                                                            <tr>
 	                                                                <td class="text-left"><spring:message code="lbl.vagas.garagem.resum"/></td>
-	                                                                <td class="text-right">${imovelIntermediacao.imovel.quantGaragem} vaga(s)</td>
+	                                                                <td class="text-right">${imovelIntermediacao.imovel.quantGaragem} <spring:message code="lbl.num.vagas"/></td>
 	                                                            </tr>
 	                                                        </tbody>
 	                                                    </table>
@@ -451,7 +451,7 @@
 	                                              		
 	                                                 	<% if ( request.getSession().getAttribute("acessoValido").equals("S") ) {%>	                                                 			
 	                                                 			<spring:message code="lbl.link.analisar.sol.intermediacoes" var="mensagemAnalisarSol"/>
-	                                                 			<a href="${urlImovelCompartilhado}/analisarSolicitacoesIntermediacoesRecebidas/${imovelIntermediacao.imovel.id}" style="font-size:x-large; color: rgb(99, 110, 123);" class="dropdown-toggle"><i class="fa fa-gavel"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;"> ${mensagemAnalisarSol} </font> &nbsp;&nbsp;</i> </a>
+	                                                 			<a href="${urlIntermediacao}/analisarSolicitacoesIntermediacoesRecebidas/${imovelIntermediacao.imovel.id}" style="font-size:x-large; color: rgb(99, 110, 123);" class="dropdown-toggle"><i class="fa fa-gavel"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;"> ${mensagemAnalisarSol} </font> &nbsp;&nbsp;</i> </a>
 	                                                 			                                                 			
 	                                                 			<spring:message code="lbl.link.excluir.sol.intermediacoes" var="mensagemExcluirSolicitacao"/>
 	                                                 			<a href="#" onClick="prepararModalConfirmaExclusao(${imovelIntermediacao.id})" style="font-size:x-large; color: rgb(99, 110, 123);"  class="dropdown-toggle" ><i class="fa fa-times"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;"> ${mensagemExcluirSolicitacao} </font> &nbsp;&nbsp;</i> </a>                                                 			 

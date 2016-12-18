@@ -20,15 +20,13 @@ import com.busqueumlugar.enumerador.PerfilUsuarioOpcaoEnum;
 import com.busqueumlugar.form.PreferencialocalidadeForm;
 import com.busqueumlugar.form.UsuarioForm;
 import com.busqueumlugar.model.Cidades;
-import com.busqueumlugar.model.Imovelcompartilhado;
 import com.busqueumlugar.model.Nota;
 import com.busqueumlugar.model.Preferencialocalidade;
 import com.busqueumlugar.model.Usuario;
+import com.mysql.jdbc.StringUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class PreferencialocalidadeDaoImpl extends GenericDAOImpl<Preferencialocalidade, Long> implements PreferencialocalidadeDao {
@@ -66,10 +64,10 @@ public class PreferencialocalidadeDaoImpl extends GenericDAOImpl<Preferencialoca
 		    	 crit.add(Restrictions.eq("idBairro", imovel.getIdBairro()));
 		 }	
 
-         if ( imovel.getTipoImovel() != null )
+         if ( StringUtils.isNullOrEmpty(imovel.getTipoImovel()) )
         	 crit.add(Restrictions.eq("tipoImovel", imovel.getTipoImovel()));
          
-         if ( imovel.getAcao() != null )
+         if (StringUtils.isNullOrEmpty(imovel.getAcao()))
         	 crit.add(Restrictions.eq("acao", imovel.getAcao() ));
 
 		return (List<Preferencialocalidade>) crit.list();
@@ -90,24 +88,6 @@ public class PreferencialocalidadeDaoImpl extends GenericDAOImpl<Preferencialoca
         
         if ( form.getIdBairro() > 0 )
        	 crit.add(Restrictions.eq("idBairro", form.getIdBairro()));
-        
-        if ( form.getQtdGaragem() != null &&  ! form.getQtdGaragem().equals(""))
-          	 crit.add(Restrictions.eq("quantGaragem", Integer.parseInt(form.getQtdGaragem())));
-        
-        if ( form.getQtdQuartos() != null &&  ! form.getQtdQuartos().equals(""))
-         	 crit.add(Restrictions.eq("quantQuartos", Integer.parseInt(form.getQtdQuartos())));
-        
-        if ( form.getQtdGaragem() != null &&  ! form.getQtdGaragem().equals(""))
-         	 crit.add(Restrictions.eq("quantGaragem", Integer.parseInt(form.getQtdGaragem())));
-
-        if ( form.getQtdSuites() != null &&  ! form.getQtdSuites().equals(""))
-        	 crit.add(Restrictions.eq("quantSuites", Integer.parseInt(form.getQtdSuites())));
-        
-        if ( form.getTipoImovel() != null && ! form.getTipoImovel().equals("") && ! form.getTipoImovel().equals("-1"))
-       	 crit.add(Restrictions.eq("tipoImovel", form.getTipoImovel()));
-        
-        if ( form.getAcao() != null && ! form.getAcao().equals("") && ! form.getAcao().equals("-1"))
-       	 crit.add(Restrictions.eq("acao", form.getAcao() ));
         
         Criteria critUsuario = crit.createCriteria("usuario");
         critUsuario.add(Restrictions.ne("perfil", PerfilUsuarioOpcaoEnum.ADMIN.getRotulo()));

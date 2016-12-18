@@ -33,7 +33,6 @@ import com.busqueumlugar.form.RelatorioForm;
 import com.busqueumlugar.model.Contato;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Imovelcomentario;
-import com.busqueumlugar.model.Imovelcompartilhado;
 import com.busqueumlugar.model.Imovelindicado;
 import com.busqueumlugar.model.ImovelPropostas;
 import com.busqueumlugar.model.Usuario;
@@ -372,17 +371,14 @@ public class ImovelcomentarioDaoImpl extends GenericDAOImpl<Imovelcomentario, Lo
 	public List findImoveisComentariosSobreMeusImoveisInfoTotais(ImovelcomentarioForm form, Long idUsuario) {
 		
 		Criteria crit = session().createCriteria(Imovelcomentario.class, "i");
-		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));
-		
+		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));		
 		boolean isCritImovelExist = (form.getIdEstado() > 0) || 
 									(!StringUtils.isNullOrEmpty(form.getAcao())) || 
-									(!StringUtils.isNullOrEmpty(form.getTipoImovel()));				
-		
+									(!StringUtils.isNullOrEmpty(form.getTipoImovel()));	
 		if ( form != null ){
 			Criteria critImovel = null;
-			if (isCritImovelExist){
+			if (isCritImovelExist)
 				critImovel = crit.createCriteria("imovel");
-			}
 			
 			if ( form.getIdEstado() > 0 ) {				 
 				 critImovel.add(Restrictions.eq("idEstado", form.getIdEstado()));

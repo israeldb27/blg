@@ -20,16 +20,16 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
 
 import com.busqueumlugar.dao.ContatoDao;
-import com.busqueumlugar.dao.ImovelcompartilhadoDao;
+import com.busqueumlugar.dao.IntermediacaoDao;
 import com.busqueumlugar.dao.SeguidorDao;
 import com.busqueumlugar.enumerador.StatusImovelCompartilhadoEnum;
 import com.busqueumlugar.enumerador.StatusLeituraEnum;
 import com.busqueumlugar.enumerador.TipoContatoOpcaoEnum;
 import com.busqueumlugar.form.AdministracaoForm;
-import com.busqueumlugar.form.ImovelcompartilhadoForm;
+import com.busqueumlugar.form.IntermediacaoForm;
 import com.busqueumlugar.form.PerfilForm;
 import com.busqueumlugar.model.Imovel;
-import com.busqueumlugar.model.Imovelcompartilhado;
+import com.busqueumlugar.model.Intermediacao;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.DateUtil;
@@ -37,9 +37,9 @@ import com.mysql.jdbc.StringUtils;
 
 
 @Repository
-public class ImovelcompartilhadoDaoImpl extends GenericDAOImpl<Imovelcompartilhado, Long>  implements ImovelcompartilhadoDao {
+public class IntermediacaoDaoImpl extends GenericDAOImpl<Intermediacao, Long>  implements IntermediacaoDao {
 	
-	private static final Logger log = LoggerFactory.getLogger(ImovelcompartilhadoDaoImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(IntermediacaoDaoImpl.class);
 	
 	@Autowired
 	private ContatoDao contatoDao;
@@ -47,65 +47,37 @@ public class ImovelcompartilhadoDaoImpl extends GenericDAOImpl<Imovelcompartilha
 	@Autowired
 	private SeguidorDao seguidorDao;
 
-	public ImovelcompartilhadoDaoImpl() {
-		super(Imovelcompartilhado.class);
+	public IntermediacaoDaoImpl() {
+		super(Intermediacao.class);
 	}
 
 	@Override
-	public Imovelcompartilhado findImovelcompartilhadoById(Long id) {
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
+	public Intermediacao findIntermediacaoById(Long id) {
+		Criteria crit = session().createCriteria(Intermediacao.class);
 		crit.add(Restrictions.eq("id", id));
-		return (Imovelcompartilhado)crit.uniqueResult();		
-	}
-
-
-	@Override
-	public List<Imovelcompartilhado> findImovelcompartilhadoByIdUsuarioSolicitante(Long idUsuarioSolicitante) {		
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
-		crit.createCriteria("usuarioSolicitante").add(Restrictions.eq("id", idUsuarioSolicitante));		
-		return crit.list();	
-	}
-
-
-	@Override
-	public List<Imovelcompartilhado> findImovelcompartilhadoByIdDonoImovel(Long idDonoImovel) {
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
-		crit.createCriteria("usuarioDonoImovel").add(Restrictions.eq("id", idDonoImovel));		
-		return crit.list();	
-	}
-
-	
-	@Override
-	public List<Imovelcompartilhado> findImovelcompartilhadoByIdDonoImovelByStatusLeituraByTipoCompartilhamento(Long idDonoImovel, String status, String tipoCompart) {		
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
-		crit.createCriteria("usuarioDonoImovel").add(Restrictions.eq("id", idDonoImovel));
-		crit.add(Restrictions.eq("statusLeitura", status));
-		crit.add(Restrictions.eq("tipoImovelCompartilhado", tipoCompart));
-		return crit.list();	
+		return (Intermediacao)crit.uniqueResult();		
 	}
 
 	@Override
-	public List<Imovelcompartilhado> findImovelcompartilhadoByIdImovel(Long idImovel) {
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
+	public List<Intermediacao> findIntermediacaoByIdImovel(Long idImovel) {
+		Criteria crit = session().createCriteria(Intermediacao.class);
 		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));		
 		return crit.list();	
 	}
 
 	@Override
-	public List<Imovelcompartilhado> findImovelCompartilhadoByIdImovelByStatusByTipoCompartilhamento(Long idImovel, String status, String tipoCompar) {
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
+	public List<Intermediacao> findIntermediacaoByIdImovelByStatus(Long idImovel, String status) {
+		Criteria crit = session().createCriteria(Intermediacao.class);
 		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));
-		crit.add(Restrictions.eq("status", status));
-		crit.add(Restrictions.eq("tipoImovelCompartilhado", tipoCompar));
+		crit.add(Restrictions.eq("status", status));		
 		return crit.list();	
 	}
 
 	@Override
-	public List<Imovelcompartilhado> findImovelcompartilhadoByIdUsuarioSolicitanteByStatusTipoCompartilhado(Long idUsuarioSolicitante, String status, String tipoCompart, ImovelcompartilhadoForm form) {		
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
+	public List<Intermediacao> findIntermediacaoByIdUsuarioSolicitanteByStatus(Long idUsuarioSolicitante, String status, IntermediacaoForm form) {		
+		Criteria crit = session().createCriteria(Intermediacao.class);
 		crit.createCriteria("usuarioSolicitante").add(Restrictions.eq("id", idUsuarioSolicitante));
-		crit.add(Restrictions.eq("status", status));
-		crit.add(Restrictions.eq("tipoImovelCompartilhado", tipoCompart));
+		crit.add(Restrictions.eq("status", status));		
 		form.setQuantRegistros(AppUtil.recuperarQuantidadeLista(crit.list()));
 		if ( form.isVisible()){
 	        crit.setFirstResult((Integer.parseInt((StringUtils.isNullOrEmpty(form.getOpcaoPaginacao())) ? "1": form.getOpcaoPaginacao()) - 1) * form.getQuantMaxRegistrosPerPage());        
@@ -116,11 +88,10 @@ public class ImovelcompartilhadoDaoImpl extends GenericDAOImpl<Imovelcompartilha
 	}
 
 	@Override
-	public List<Imovelcompartilhado> findImovelcompartilhadoByIdDonoImovelByStatusTipoCompartilhamento(Long idDonoImovel, String status, String tipoCompart, ImovelcompartilhadoForm form) {
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
+	public List<Intermediacao> findIntermediacaoByIdDonoImovelByStatus(Long idDonoImovel, String status, IntermediacaoForm form) {
+		Criteria crit = session().createCriteria(Intermediacao.class);
 		crit.createCriteria("usuarioDonoImovel").add(Restrictions.eq("id", idDonoImovel));
-		crit.add(Restrictions.eq("status", status));
-		crit.add(Restrictions.eq("tipoImovelCompartilhado", tipoCompart));
+		crit.add(Restrictions.eq("status", status));		
 		form.setQuantRegistros(AppUtil.recuperarQuantidadeLista(crit.list()));
 		if ( form.isVisible()){
 	        crit.setFirstResult((Integer.parseInt((StringUtils.isNullOrEmpty(form.getOpcaoPaginacao())) ? "1": form.getOpcaoPaginacao()) - 1) * form.getQuantMaxRegistrosPerPage());        
@@ -132,21 +103,18 @@ public class ImovelcompartilhadoDaoImpl extends GenericDAOImpl<Imovelcompartilha
 
 
 	@Override
-	public Imovelcompartilhado findImovelcompartilhadoByIdUsuarioSolicitanteByIdImovelTipoCompart(Long idUsuario, Long idImovel, String tipoCompart) {
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
+	public Intermediacao findIntermediacaoByIdUsuarioSolicitanteByIdImovel(Long idUsuario, Long idImovel) {
+		Criteria crit = session().createCriteria(Intermediacao.class);
 		crit.createCriteria("usuarioSolicitante").add(Restrictions.eq("id", idUsuario));
-		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));		
-		crit.add(Restrictions.eq("tipoImovelCompartilhado", tipoCompart));		
-		return (Imovelcompartilhado)crit.uniqueResult();
+		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));
+		return (Intermediacao)crit.uniqueResult();
 	}
 
 
 	@Override
-	public List checarImoveisComMaisSolCompartilhamentoPeriodo(AdministracaoForm form,  String tipoCompartilhamento) {
+	public List checarImoveisComMaisSolIntermediacaoPeriodo(AdministracaoForm form) {
 		
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
-		crit.add(Restrictions.eq("tipoImovelCompartilhado", tipoCompartilhamento));
-		
+		Criteria crit = session().createCriteria(Intermediacao.class);
 		Criteria critImovel = null;
 		boolean isCritImovelExist = (form.getIdEstado() > 0) || 
 									(!StringUtils.isNullOrEmpty(form.getAcao())) || 
@@ -190,11 +158,10 @@ public class ImovelcompartilhadoDaoImpl extends GenericDAOImpl<Imovelcompartilha
 
 
 	@Override
-	public List findImovelcompartilhadoBySolAceitasDistintasTipoImovelCompartilhado( Long idUsuario, String status, String tipoImovelCompart, ImovelcompartilhadoForm form) {
+	public List findIntermediacaoBySolAceitasDistintas( Long idUsuario, String status, IntermediacaoForm form) {
 		
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
-		crit.add(Restrictions.eq("tipoImovelCompartilhado", tipoImovelCompart));
-		
+		Criteria crit = session().createCriteria(Intermediacao.class);
+
 		Criterion critUsuarioDonoImovel 	= Restrictions.eq("usuarioDonoImovel.id", idUsuario) ;
 		Criterion critStatus1 				= Restrictions.eq("status", status) ;
 		LogicalExpression andExp1 			= Restrictions.and(critUsuarioDonoImovel,critStatus1);
@@ -220,9 +187,9 @@ public class ImovelcompartilhadoDaoImpl extends GenericDAOImpl<Imovelcompartilha
 
 
 	@Override
-	public List<Imovel> findImovelCompartilhadoAceitosPorUsuarioSolicitantePorPerfil(Long idPerfil, String status, PerfilForm form) {
+	public List<Imovel> findIntermediacaoAceitosPorUsuarioSolicitantePorPerfil(Long idPerfil, String status, PerfilForm form) {
 		
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
+		Criteria crit = session().createCriteria(Intermediacao.class);
 		Criterion critUsuarioDonoImovel 	= Restrictions.eq("usuarioDonoImovel.id", idPerfil) ;
 		Criterion critUsuarioSolicitante    = Restrictions.eq("usuarioSolicitante.id", idPerfil);
 		LogicalExpression orExp = Restrictions.or(critUsuarioDonoImovel,critUsuarioSolicitante);		
@@ -305,15 +272,15 @@ public class ImovelcompartilhadoDaoImpl extends GenericDAOImpl<Imovelcompartilha
 
 
 	@Override
-	public Imovelcompartilhado findLastImovelParceriaMeusImoveisByIdImovel(Long idImovel) {		
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
+	public Intermediacao findLastImovelParceriaMeusImoveisByIdImovel(Long idImovel) {		
+		Criteria crit = session().createCriteria(Intermediacao.class);
 		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));
 		crit.add(Restrictions.eq("dataSolicitacao", this.recuperarMaxDataSolicitacaoImovel(idImovel)));
-        return (Imovelcompartilhado)crit.uniqueResult();       
+        return (Intermediacao)crit.uniqueResult();       
 	}
 
 	private Date recuperarMaxDataSolicitacaoImovel(Long idImovel) {
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
+		Criteria crit = session().createCriteria(Intermediacao.class);
 		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));
 		
 		ProjectionList projList = Projections.projectionList();		
@@ -324,9 +291,9 @@ public class ImovelcompartilhadoDaoImpl extends GenericDAOImpl<Imovelcompartilha
 	}
 
 	@Override
-	public List<Imovelcompartilhado> findAllImovelCompartilhadoByIdUsuarioByStatus(	Long idUsuario, String status) {
+	public List<Intermediacao> findAllIntermediacaoByIdUsuarioByStatus(	Long idUsuario, String status) {
 		
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
+		Criteria crit = session().createCriteria(Intermediacao.class);
 		crit.add(Restrictions.eq("status", status));
 		
 		Criterion critUsuarioDonoImovel 	= Restrictions.eq("usuarioDonoImovel.id", idUsuario) ;		
@@ -334,23 +301,14 @@ public class ImovelcompartilhadoDaoImpl extends GenericDAOImpl<Imovelcompartilha
 		
 		LogicalExpression orExp = Restrictions.or(critUsuarioDonoImovel, critUsuarioSolicitante);
 		crit.add(orExp);		          
-        return (List<Imovelcompartilhado>)crit.list();
+        return (List<Intermediacao>)crit.list();
 	}
 
 
 	@Override
-	public List<Imovelcompartilhado> findImovelCompartilhadoByIdImovelByStatus(Long idImovel, String status) {
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
-		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));
-		crit.add(Restrictions.eq("status", status));
-		return crit.list();			
-	}
-
-	@Override
-	public List<Imovelcompartilhado> filterSolImoveisCompartilhado(Long idDonoImovel, ImovelcompartilhadoForm form, String tipoCompart) {
+	public List<Intermediacao> filterSolIntermediacao(Long idDonoImovel, IntermediacaoForm form) {
 		
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
-		crit.add(Restrictions.eq("tipoImovelCompartilhado", tipoCompart));
+		Criteria crit = session().createCriteria(Intermediacao.class);
 		crit.add(Restrictions.eq("status", StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo()));
 		crit.createCriteria("usuarioDonoImovel").add(Restrictions.eq("id", idDonoImovel));
 		
@@ -473,10 +431,9 @@ public class ImovelcompartilhadoDaoImpl extends GenericDAOImpl<Imovelcompartilha
 	}
 	
 	@Override
-	public List<Imovelcompartilhado> filterMinhasSolImoveisCompartilhado(Long idUsuarioSolicitante, ImovelcompartilhadoForm form, String tipoCompart) {
+	public List<Intermediacao> filterMinhasSolIntermediacao(Long idUsuarioSolicitante, IntermediacaoForm form) {
 		
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
-		crit.add(Restrictions.eq("tipoImovelCompartilhado", tipoCompart));
+		Criteria crit = session().createCriteria(Intermediacao.class);
 		crit.add(Restrictions.eq("status", StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo()));
 		crit.createCriteria("usuarioSolicitante").add(Restrictions.eq("id", idUsuarioSolicitante));
 		
@@ -597,10 +554,9 @@ public class ImovelcompartilhadoDaoImpl extends GenericDAOImpl<Imovelcompartilha
 	}
 	
 	@Override
-	public List<Imovelcompartilhado> filterImoveisCompartilhadoAceitas(Long idDonoImovel, ImovelcompartilhadoForm form, String tipoCompart) {
+	public List<Intermediacao> filterIntermediacaoAceitas(Long idDonoImovel, IntermediacaoForm form) {
 		
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
-		crit.add(Restrictions.eq("tipoImovelCompartilhado", tipoCompart));
+		Criteria crit = session().createCriteria(Intermediacao.class);
 		crit.add(Restrictions.eq("status", StatusImovelCompartilhadoEnum.ACEITA.getRotulo()));
 		
 		Criterion critUsuarioDonoImovel 	= Restrictions.eq("usuarioDonoImovel.id", idDonoImovel) ;		
@@ -723,52 +679,12 @@ public class ImovelcompartilhadoDaoImpl extends GenericDAOImpl<Imovelcompartilha
 		}
 		return crit.list();
 	}
-	
 
-	@Override
-	public List findImoveisCompartilhadoByStatusByIdUsuarioDistinct(Long idUsuarioSessao, String status, String tipoCompartilhamento, ImovelcompartilhadoForm form) {
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
-		ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("imovel.id"));
-		projList.add(Projections.count("imovel.id").as("quant"));		
-		projList.add(Projections.groupProperty("imovel.id"));
-		crit.setProjection(projList);
-		Criterion rest1 = Restrictions.and(Restrictions.eq("usuarioSolicitante.id", idUsuarioSessao));
-		Criterion rest2 = Restrictions.and(Restrictions.eq("usuarioDonoImovel.id", idUsuarioSessao));		
-		crit.add(Restrictions.or(rest1, rest2));						
-		crit.add(Restrictions.eq("status", status));
-		crit.add(Restrictions.eq("tipoImovelCompartilhado", tipoCompartilhamento));
-		
-		 if (! StringUtils.isNullOrEmpty(form.getOpcaoOrdenacao()) ){ // fazer a ordenacao ainda
-			 Criteria critImovel= crit.createCriteria("imovel");	
-	    	if (form.getOpcaoOrdenacao().equals("maiorValor"))
-	    		critImovel.addOrder(Order.desc("valorImovel"));    
-	    	else if (form.getOpcaoOrdenacao().equals("menorValor"))
-	    		critImovel.addOrder(Order.asc("valorImovel"));        
-	    	else if (form.getOpcaoOrdenacao().equals("maiorDataCadastro"))
-	    		critImovel.addOrder(Order.desc("dataCadastro"));
-	    	else if (form.getOpcaoOrdenacao().equals("menorDataCadastro"))
-	    		critImovel.addOrder(Order.asc("dataCadastro"));
-	    	else if (form.getOpcaoOrdenacao().equals("tituloImovelCrescente"))
-	    		critImovel.addOrder(Order.asc("titulo"));
-            else if (form.getOpcaoOrdenacao().equals("tituloImovelDeCrescente"))
-            	critImovel.addOrder(Order.desc("titulo"));
-	    }
-		
-		form.setQuantRegistros(AppUtil.recuperarQuantidadeLista(crit.list()));
-		if ( form.isVisible()){
-	        crit.setFirstResult((Integer.parseInt((StringUtils.isNullOrEmpty(form.getOpcaoPaginacao())) ? "1": form.getOpcaoPaginacao()) - 1) * form.getQuantMaxRegistrosPerPage());        
-	        crit.setMaxResults(form.getQuantMaxRegistrosPerPage());
-	        form.setListaPaginas(AppUtil.carregarQuantidadePaginas(form.getQuantRegistros(), form.getQuantMaxRegistrosPerPage()));
-		}
-		return crit.list();
-	}
 	
 	@Override
-	public List filterFindImoveisCompartilhadoByStatusByIdUsuarioDistinct(Long idUsuario, String status, String tipoCompartilhamento, ImovelcompartilhadoForm form) {
+	public List filterFindIntermediacaoByStatusByIdUsuarioDistinct(Long idUsuario, String status, IntermediacaoForm form) {
 		
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
-		crit.add(Restrictions.eq("tipoImovelCompartilhado", tipoCompartilhamento));
+		Criteria crit = session().createCriteria(Intermediacao.class);
 		crit.add(Restrictions.eq("status", status));
 		
 		Criterion critUsuarioDonoImovel 	= Restrictions.eq("usuarioDonoImovel.id", idUsuario) ;		
@@ -844,13 +760,12 @@ public class ImovelcompartilhadoDaoImpl extends GenericDAOImpl<Imovelcompartilha
 	        
 	        if (! StringUtils.isNullOrEmpty(form.getValorMax()) ){
 	        	critImovel.add(Restrictions.le("valorImovel", AppUtil.formatarMoeda(form.getValorMax())));
-}
+	        }
 		}
 
         ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("imovel.id"));
-		projList.add(Projections.count("imovel.id").as("quant"));		
-		projList.add(Projections.groupProperty("imovel.id"));
+        projList.add(Projections.groupProperty("imovel.id"));
+		projList.add(Projections.count("imovel.id").as("quant"));
 		crit.setProjection(projList);
 		crit.addOrder(Order.desc("quant"));		
 		return crit.list();
@@ -859,7 +774,7 @@ public class ImovelcompartilhadoDaoImpl extends GenericDAOImpl<Imovelcompartilha
 	@Override
 	public int findQuantidadeNovosImoveisCompartilhados(Long idImovel) {
 
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
+		Criteria crit = session().createCriteria(Intermediacao.class);
 		ProjectionList projList = Projections.projectionList();		
 		projList.add(Projections.count("imovel.id").as("quant"));
 		crit.setProjection(projList);
@@ -875,16 +790,14 @@ public class ImovelcompartilhadoDaoImpl extends GenericDAOImpl<Imovelcompartilha
 	}
 
 	@Override
-	public List findImoveisCompartilhadoSolicitacoesRecebidasByStatusByIdUsuarioDistinct(Long idUsuarioSessao, String status, String tipoCompartilhamento, ImovelcompartilhadoForm form) {
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
+	public List findImoveisCompartilhadoSolicitacoesRecebidasByStatusByIdUsuarioDistinct(Long idUsuarioSessao, String status, IntermediacaoForm form) {
+		Criteria crit = session().createCriteria(Intermediacao.class);
 		ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("imovel.id"));
-		projList.add(Projections.count("imovel.id").as("quant"));		
 		projList.add(Projections.groupProperty("imovel.id"));
+		projList.add(Projections.count("imovel.id").as("quant"));
 		crit.setProjection(projList);
 		crit.createCriteria("usuarioDonoImovel").add(Restrictions.eq("id", idUsuarioSessao));				
 		crit.add(Restrictions.eq("status", status));
-		crit.add(Restrictions.eq("tipoImovelCompartilhado", tipoCompartilhamento));
 		form.setQuantRegistros(AppUtil.recuperarQuantidadeLista(crit.list()));
 		
 		if (! StringUtils.isNullOrEmpty(form.getOpcaoOrdenacao() )){
@@ -911,10 +824,9 @@ public class ImovelcompartilhadoDaoImpl extends GenericDAOImpl<Imovelcompartilha
 	}
 	
 	@Override
-	public List filterFindImoveisCompartilhadoSolicitacoesRecebidasByStatusByIdUsuarioDistinct(Long idUsuario, String status, String tipoCompartilhamento, ImovelcompartilhadoForm form) {
+	public List filterFindIntermediacaoSolicitacoesRecebidasByStatusByIdUsuarioDistinct(Long idUsuario, String status, IntermediacaoForm form) {
 		
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
-		crit.add(Restrictions.eq("tipoImovelCompartilhado", tipoCompartilhamento));
+		Criteria crit = session().createCriteria(Intermediacao.class);
 		crit.add(Restrictions.eq("status", status));
 		crit.createCriteria("usuarioDonoImovel").add(Restrictions.eq("id", idUsuario));
 		
@@ -986,43 +898,21 @@ public class ImovelcompartilhadoDaoImpl extends GenericDAOImpl<Imovelcompartilha
 	        
 	        if (! StringUtils.isNullOrEmpty(form.getValorMax()) ){
 	        	critImovel.add(Restrictions.le("valorImovel", AppUtil.formatarMoeda(form.getValorMax())));
-}
+	        }
 		}
 
         ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("imovel.id"));
-		projList.add(Projections.count("imovel.id").as("quant"));		
-		projList.add(Projections.groupProperty("imovel.id"));
+        projList.add(Projections.groupProperty("imovel.id"));
+		projList.add(Projections.count("imovel.id").as("quant"));
 		crit.setProjection(projList);
 		crit.addOrder(Order.desc("quant"));		
 		return crit.list();		
 	}	
-
-	@Override
-	public List findImoveisCompartilhadoMinhasSolicitacoesByStatusByIdUsuarioDistinct(Long idUsuarioSessao, String status, String tipoCompartilhamento, ImovelcompartilhadoForm form) {
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
-		ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("imovel.id"));
-		projList.add(Projections.count("imovel.id").as("quant"));		
-		projList.add(Projections.groupProperty("imovel.id"));
-		crit.setProjection(projList);		
-		crit.createCriteria("usuarioSolicitante").add(Restrictions.eq("id", idUsuarioSessao));
-		crit.add(Restrictions.eq("status", status));
-		crit.add(Restrictions.eq("tipoImovelCompartilhado", tipoCompartilhamento));
-		form.setQuantRegistros(AppUtil.recuperarQuantidadeLista(crit.list()));
-		if ( form.isVisible()){
-	        crit.setFirstResult((Integer.parseInt((StringUtils.isNullOrEmpty(form.getOpcaoPaginacao())) ? "1": form.getOpcaoPaginacao()) - 1) * form.getQuantMaxRegistrosPerPage());        
-	        crit.setMaxResults(form.getQuantMaxRegistrosPerPage());
-	        form.setListaPaginas(AppUtil.carregarQuantidadePaginas(form.getQuantRegistros(), form.getQuantMaxRegistrosPerPage()));
-		}
-		return crit.list();
-	}
 	
 	@Override
-	public List filterFindImoveisCompartilhadoMinhasSolicitacoesByStatusByIdUsuarioDistinct(Long idUsuario, String status, String tipoCompartilhamento, ImovelcompartilhadoForm form) {
+	public List filterFindIntermediacaoMinhasSolicitacoesByStatusByIdUsuarioDistinct(Long idUsuario, String status, IntermediacaoForm form) {
 		
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
-		crit.add(Restrictions.eq("tipoImovelCompartilhado", tipoCompartilhamento));
+		Criteria crit = session().createCriteria(Intermediacao.class);		
 		crit.add(Restrictions.eq("status", status));
 		crit.createCriteria("usuarioSolicitante").add(Restrictions.eq("id", idUsuario));
 		
@@ -1106,9 +996,9 @@ public class ImovelcompartilhadoDaoImpl extends GenericDAOImpl<Imovelcompartilha
 	}
 
 	@Override
-	public List findUsuariosImoveisCompartilhadosByStatusByIdUsuario(Long idUsuarioSessao, String status, String tipoCompartilhamento, ImovelcompartilhadoForm form) {
+	public List findUsuariosParceriaByStatusByIdUsuario(Long idUsuarioSessao, String status, IntermediacaoForm form) {
 		
-		Criteria crit1 = session().createCriteria(Imovelcompartilhado.class);
+		Criteria crit1 = session().createCriteria(Intermediacao.class);
 		ProjectionList projList1 = Projections.projectionList();		
 		projList1.add(Projections.count("usuarioDonoImovel.id").as("quant"));
 		projList1.add(Projections.groupProperty("usuarioDonoImovel.id"));
@@ -1157,11 +1047,10 @@ public class ImovelcompartilhadoDaoImpl extends GenericDAOImpl<Imovelcompartilha
 	            }
 		    }
 		}
-		crit1.add(Restrictions.eq("status", status));
-		crit1.add(Restrictions.eq("tipoImovelCompartilhado", tipoCompartilhamento));
+		crit1.add(Restrictions.eq("status", status));		
 		List list1 = crit1.list();		
 		
-		Criteria crit2 = session().createCriteria(Imovelcompartilhado.class);
+		Criteria crit2 = session().createCriteria(Intermediacao.class);
 		ProjectionList projList2 = Projections.projectionList();		
 		projList2.add(Projections.count("usuarioSolicitante.id").as("quant"));
 		projList2.add(Projections.groupProperty("usuarioSolicitante.id"));		
@@ -1210,7 +1099,6 @@ public class ImovelcompartilhadoDaoImpl extends GenericDAOImpl<Imovelcompartilha
 		    }
 		}
 		crit2.add(Restrictions.eq("status", status));
-		crit2.add(Restrictions.eq("tipoImovelCompartilhado", tipoCompartilhamento));		
 		List list2 = crit2.list();
 		
 		List lista = new ArrayList();		
@@ -1244,8 +1132,8 @@ public class ImovelcompartilhadoDaoImpl extends GenericDAOImpl<Imovelcompartilha
 	}
 
 	@Override
-	public List findUsuariosImoveisCompartilhadosByStatusByIdDonoImovel(Long idUsuarioSessao, String status, String tipoCompartilhamento, ImovelcompartilhadoForm form) {
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
+	public List findUsuariosParceriaByStatusByIdDonoImovel(Long idUsuarioSessao, String status, IntermediacaoForm form) {
+		Criteria crit = session().createCriteria(Intermediacao.class);
 		ProjectionList projList = Projections.projectionList();				
 		projList.add(Projections.count("usuarioSolicitante.id").as("quant"));
 		projList.add(Projections.groupProperty("usuarioSolicitante.id"));		
@@ -1296,7 +1184,6 @@ public class ImovelcompartilhadoDaoImpl extends GenericDAOImpl<Imovelcompartilha
 		}		
 		
 		crit.add(Restrictions.eq("status", status));
-		crit.add(Restrictions.eq("tipoImovelCompartilhado", tipoCompartilhamento));
 		form.setQuantRegistros(AppUtil.recuperarQuantidadeLista(crit.list()));
 		if ( form.isVisible()){
 	        crit.setFirstResult((Integer.parseInt((StringUtils.isNullOrEmpty(form.getOpcaoPaginacao())) ? "1": form.getOpcaoPaginacao()) - 1) * form.getQuantMaxRegistrosPerPage());        
@@ -1307,51 +1194,28 @@ public class ImovelcompartilhadoDaoImpl extends GenericDAOImpl<Imovelcompartilha
 	}
 
 	@Override
-	public List<Imovelcompartilhado> findImoveisCompartilhadosByIdUsuarioByIdUsuario2(Long idUsuario, Long idUsuario2, String tipoCompart) {
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
-		crit.add(Restrictions.eq("tipoImovelCompartilhado", tipoCompart));
+	public List<Intermediacao> findIntermediacaoByIdUsuarioByIdUsuario2(Long idUsuario, Long idUsuario2) {
+		Criteria crit = session().createCriteria(Intermediacao.class);
 		crit.createCriteria("usuarioDonoImovel").add(Restrictions.eq("id", idUsuario));
 		crit.createCriteria("usuarioSolicitante").add(Restrictions.eq("id", idUsuario2));
 		return crit.list();
 	}
 
 	@Override
-	public List<Imovelcompartilhado> findImovelcompartilhadoByIdDonoImovelByStatusTipoCompartilhamentoNovos(Long idDonoImovel, String status, String tipoCompart) {
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
-		crit.add(Restrictions.eq("tipoImovelCompartilhado", tipoCompart));
-		crit.add(Restrictions.eq("status", status));
-		crit.add(Restrictions.eq("statusLeitura", StatusLeituraEnum.NOVO.getRotulo()));
-		crit.createCriteria("usuarioDonoImovel").add(Restrictions.eq("id", idDonoImovel));		
-		return crit.list();
-	}
-
-	@Override
-	public long findQuantidadeImovelCompartilhadoPorUsuarioPorStatusPorTipoCompartilhado(Long idUsuario, String status, String tipoCompartilhado) {
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
+	public long findQuantidadeIntermediacaoPorUsuarioPorStatus(Long idUsuario, String status) {
+		Criteria crit = session().createCriteria(Intermediacao.class);
 		Criterion critUsuarioDonoImovel 	   = Restrictions.eq("usuarioDonoImovel.id", idUsuario);
 		Criterion critUsuarioSolicitante 	   = Restrictions.eq("usuarioSolicitante.id", idUsuario); 
 		LogicalExpression orExp = Restrictions.or(critUsuarioDonoImovel, critUsuarioSolicitante);
 		crit.add(orExp);
-		crit.add(Restrictions.eq("tipoImovelCompartilhado", tipoCompartilhado));
 		crit.add(Restrictions.eq("status", status));
 		crit.setProjection(Projections.rowCount());	
 		return (long) crit.uniqueResult();
 	}
 
 	@Override
-	public void updateStatusLeitura(Long idDonoImovel, String tipoCompart) {
-		
-		if ( tipoCompart.equals("P")){
-			Session session = this.openSession();		
-			session.beginTransaction();
-			Query query = session.createSQLQuery("CALL atualizatStatusLeitura(:idUsuario, :tabela)")
-								.addEntity(Usuario.class)
-								.setParameter("idUsuario", idDonoImovel)
-								.setParameter("tabela", "parceria");
-			int rows = query.executeUpdate();
-			session.close();
-		}
-		else if ( tipoCompart.equals("I")){
+	public void updateStatusLeitura(Long idDonoImovel) {
+
 			Session session = this.openSession();		
 			session.beginTransaction();
 			Query query = session.createSQLQuery("CALL atualizatStatusLeitura(:idUsuario, :tabela)")
@@ -1359,21 +1223,28 @@ public class ImovelcompartilhadoDaoImpl extends GenericDAOImpl<Imovelcompartilha
 								.setParameter("idUsuario", idDonoImovel)
 								.setParameter("tabela", "intermediacao");
 			int rows = query.executeUpdate();
-			session.close();
-		} 
-		
+			session.close();		
 	}
 
 	@Override
-	public long checarQuantidadeImovelCompartilhadoSolRecebidaByDonoImovelByStatusByStatusLeituraByTipoCompart(Long idDonoImovel, 
-																											  String statusLeitura, 
-																											  String status,																							  
-																											  String tipoCompartilhamento) {
-		Criteria crit = session().createCriteria(Imovelcompartilhado.class);
-		crit.add(Restrictions.eq("tipoImovelCompartilhado", tipoCompartilhamento));
+	public long checarQuantidadeIntermediacaoSolRecebidaByDonoImovelByStatusByStatusLeitura(Long idDonoImovel, 
+																							String statusLeitura, 
+																							String status) {
+		Criteria crit = session().createCriteria(Intermediacao.class);		
 		crit.add(Restrictions.eq("status", status));
 		crit.add(Restrictions.eq("statusLeitura", statusLeitura));
 		crit.createCriteria("usuarioDonoImovel").add(Restrictions.eq("id", idDonoImovel));		
+		ProjectionList projList = Projections.projectionList();		
+		projList.add(Projections.rowCount());
+		crit.setProjection(projList);
+		return (long)crit.uniqueResult();
+	}
+
+	@Override
+	public long findQuantIntermediacaoByIdImovelByStatus(Long idImovel, String status) {
+		Criteria crit = session().createCriteria(Intermediacao.class);		
+		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));
+		crit.add(Restrictions.eq("status", status));		
 		ProjectionList projList = Projections.projectionList();		
 		projList.add(Projections.rowCount());
 		crit.setProjection(projList);

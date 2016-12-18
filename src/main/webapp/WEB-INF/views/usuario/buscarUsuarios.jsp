@@ -217,7 +217,6 @@ function cancelarSeguirUsuario(id) {
                 <div class="header-content">
                     <h2><i class="fa fa-pencil"></i> <spring:message code="lbl.title.link.busca.usuarios"/> </h2>
                 </div><!-- /.header-content -->
-                <!--/ End header content -->
                 
                 <!-- Start body content -->
                 <div class="body-content animated fadeIn">

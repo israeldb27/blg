@@ -8,15 +8,15 @@
 <%@page import="com.busqueumlugar.enumerador.TipoImovelEnum"%>
 <%@page import="com.busqueumlugar.enumerador.StatusImovelEnum"%>
 
-<spring:url value="/imovelCompartilhado" var="urlImovelCompartilhado"/>
+<spring:url value="/parceria" var="urlParceria"/>
 <spring:url var="urlImovelComentario" value="/imovelComentario"/>
 <spring:url value="/imovelPropostas" var="urlImovelPropostas"/>
 <spring:url value="/imovelIndicado" var="urlImovelIndicado"/>
 <spring:url value="/imovelFavoritos" var="urlImovelFavoritos"/>
 <spring:url value="/imovelVisualizado" var="urlImovelVisualizado"/>
 <spring:url value="/imovelIndicado" var="urlImovelIndicado"/>
-<spring:url value="/imovelCompartilhado/buscarCidadesParceria" var="urlBuscarCidades"/>
-<spring:url value="/imovelCompartilhado/buscarBairrosParceria" var="urlBuscarBairros"/>
+<spring:url value="/parceria/buscarCidadesParceria" var="urlBuscarCidades"/>
+<spring:url value="/parceria/buscarBairrosParceria" var="urlBuscarBairros"/>
 <spring:url value="/imovel" var="urlImovel"/>
 <spring:url value="/usuario" var="urlUsuario"/>
 
@@ -117,7 +117,7 @@
     	function confirmarExclusaoSolParceria(){	
     		var parametro = document.getElementById("modIdParametro");	
     		$.ajax({
-    				 url: '${urlImovelCompartilhado}/confirmarExclusaoEnviadaParceria/' + parametro.value,			 
+    				 url: '${urlParceria}/confirmarExclusaoEnviadaParceria/' + parametro.value,			 
     				 success: function(){				 
     					 location.reload();     	    
     				 },
@@ -166,7 +166,7 @@
                              
                         <div class="col-lg-3 col-md-3 col-sm-4">                 		
                                 <div class="panel-body no-padding">
-                                    <form:form method="POST" id="parceriaForm" modelAttribute="parceriaForm" action="${urlImovelCompartilhado}/filtrarParceria" >
+                                    <form:form method="POST" id="parceriaForm" modelAttribute="parceriaForm" action="${urlParceria}/filtrarParceria" >
                                        
                                        <div class="panel rounded shadow no-overflow">
 		                           			  <div class="panel-heading">
@@ -348,7 +348,7 @@
 		                            </div>
 	                                <div class="pull-right" >
 	                                	  <spring:message code="lbl.hint.tipo.agrupar" var="hintAgrupar"/>	
-	                                      <form:form method="POST" id="modVisualizaListaParceriaForm" modelAttribute="parceriaForm" action="${urlImovelCompartilhado}/modoVisualizarParceria" >		                             		
+	                                      <form:form method="POST" id="modVisualizaListaParceriaForm" modelAttribute="parceriaForm" action="${urlParceria}/modoVisualizarParceria" >		                             		
 		                                     <form:select id="opcaoVisualizacaoListaParceria" path="opcaoVisualizacao" class="form-control" title="${hintAgrupar}">
 		                                         <form:option value="" disabled="true"><spring:message code="lbl.agrupar.por"/></form:option>                      											
 												 <form:option value="agruparUsuarios" ><spring:message code="lbl.agrupar.usuarios"/></form:option>
@@ -358,7 +358,7 @@
 	                                </div><!-- /.pull-right -->
 	                                <div class="pull-right" style="padding-right:10px; width: 240px;">
 	                                			<spring:message code="lbl.hint.tipo.ordenacao" var="hintOrdenar"/>
-	                                    		<form:form method="POST" id="parceriaMinhasSolForm" modelAttribute="parceriaForm" action="${urlImovelCompartilhado}/ordenarParceria" >
+	                                    		<form:form method="POST" id="parceriaMinhasSolForm" modelAttribute="parceriaForm" action="${urlParceria}/ordenarParceria" >
 										                  <form:hidden  path="tipoLista" value="parceriaMinhasSol" />									                  
 										                  <form:select id="opcaoOrdenacao3" path="opcaoOrdenacao" class="form-control" title="${hintOrdenar}">                                
 										                        <form:option value="" disabled="true"><spring:message code="lbl.opcao.ordenar"/></form:option>             
@@ -430,7 +430,7 @@
 	                                                            </tr>
 	                                                            <tr>
 	                                                                <td class="text-left"><spring:message code="lbl.vagas.garagem.resum"/></td>
-	                                                                <td class="text-right">${imovelParceria.imovel.quantGaragem} vaga(s)</td>
+	                                                                <td class="text-right">${imovelParceria.imovel.quantGaragem} <spring:message code="lbl.num.vagas"/></td>
 	                                                            </tr>
 	                                                        </tbody>
 	                                                    </table>

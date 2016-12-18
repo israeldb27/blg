@@ -1,22 +1,16 @@
 package com.busqueumlugar.dao.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+
 import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import com.busqueumlugar.dao.ImovelDao;
 import com.busqueumlugar.dao.RelatorioDao;
 import com.busqueumlugar.enumerador.ServicoValueEnum;
 import com.busqueumlugar.enumerador.StatusPagtoOpcaoEnum;
@@ -31,8 +25,6 @@ import com.mysql.jdbc.StringUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 
@@ -245,8 +237,7 @@ public class RelatorioDaoImpl extends GenericDAOImpl<Relatorio, Long>  implement
 		crit.add(Restrictions.in("descServico", new String[] {ServicoValueEnum.ASSINATURA_PADRAO.getRotulo(),
 															  ServicoValueEnum.ASSINATURA_CORRETOR.getRotulo(),
 															  ServicoValueEnum.ASSINATURA_IMOBILIARIA.getRotulo()}));		
-		ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("descServico"));
+		ProjectionList projList = Projections.projectionList();		
 		projList.add(Projections.groupProperty("descServico"));
 		projList.add(Projections.rowCount());
 		crit.setProjection(projList);

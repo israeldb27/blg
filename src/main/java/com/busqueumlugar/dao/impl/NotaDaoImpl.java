@@ -44,32 +44,6 @@ public class NotaDaoImpl extends GenericDAOImpl<Nota, Long>  implements NotaDao 
 	}
 
 	@Override
-	public List<Nota> findNotasByIdUsuario(Long idUsuario, NotaForm form) {
-		Criteria crit = session().createCriteria(Nota.class);
-		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));
-		crit.addOrder(Order.desc("dataNota")).list();
-		
-		if (! StringUtils.isNullOrEmpty(form.getOpcaoOrdenacao())){
-			if (form.getOpcaoOrdenacao().equals("maiorDataNota"))
-				crit.addOrder(Order.desc("dataNota"));
-		    else if (form.getOpcaoOrdenacao().equals("menorDataNota"))
-		    	crit.addOrder(Order.asc("dataNota"));
-		    else if (form.getOpcaoOrdenacao().equals("tituloImovelCrescente"))
-		    	crit.createCriteria("imovel").addOrder(Order.desc("titulo"));
-		    else if (form.getOpcaoOrdenacao().equals("tituloImovelDeCrescente"))
-		    	crit.createCriteria("imovel").addOrder(Order.asc("titulo"));
-		}
-		 
-		form.setQuantRegistros(AppUtil.recuperarQuantidadeLista(crit.list()));
-		if ( form.isVisible()){
-	        crit.setFirstResult((Integer.parseInt((StringUtils.isNullOrEmpty(form.getOpcaoPaginacao())) ? "1": form.getOpcaoPaginacao()) - 1) * form.getQuantMaxRegistrosPerPage());        
-	        crit.setMaxResults(form.getQuantMaxRegistrosPerPage());
-	        form.setListaPaginas(AppUtil.carregarQuantidadePaginas(form.getQuantRegistros(), form.getQuantMaxRegistrosPerPage()));
-		}   
-		return crit.list();
-	}
-
-	@Override
 	public int destroyNotasByIdImovel(Long idImovel) {
 	
 		StringBuffer sql = new StringBuffer("delete FROM Nota n ");            
@@ -86,10 +60,23 @@ public class NotaDaoImpl extends GenericDAOImpl<Nota, Long>  implements NotaDao 
 	public List<Nota> filterNotasByIdUsuario(Long idUsuario, NotaForm form) {
 		Criteria crit = session().createCriteria(Nota.class);
 		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));
-		if ( StringUtils.isNullOrEmpty(form.getOpcaoFiltro()))
+		
+		if (! StringUtils.isNullOrEmpty(form.getOpcaoFiltro()))
 			crit.add(Restrictions.eq("acao", form.getOpcaoFiltro()));
 		
-		crit.addOrder(Order.desc("dataNota")).list();
+		if (! StringUtils.isNullOrEmpty(form.getOpcaoOrdenacao())){
+			if (form.getOpcaoOrdenacao().equals("maiorDataNota"))
+				crit.addOrder(Order.desc("dataNota"));
+		    else if (form.getOpcaoOrdenacao().equals("menorDataNota"))
+		    	crit.addOrder(Order.asc("dataNota"));
+		    else if (form.getOpcaoOrdenacao().equals("tituloImovelCrescente"))
+		    	crit.createCriteria("imovel").addOrder(Order.desc("titulo"));
+		    else if (form.getOpcaoOrdenacao().equals("tituloImovelDeCrescente"))
+		    	crit.createCriteria("imovel").addOrder(Order.asc("titulo"));
+		}
+		else		
+			crit.addOrder(Order.desc("dataNota")).list();
+		
 		form.setQuantRegistros(AppUtil.recuperarQuantidadeLista(crit.list()));
 		if ( form.isVisible()){
 	        crit.setFirstResult((Integer.parseInt((StringUtils.isNullOrEmpty(form.getOpcaoPaginacao())) ? "1": form.getOpcaoPaginacao()) - 1) * form.getQuantMaxRegistrosPerPage());        
@@ -118,7 +105,24 @@ public class NotaDaoImpl extends GenericDAOImpl<Nota, Long>  implements NotaDao 
 	@Override
 	public List<Nota> findNotasContatosByListaIdsUsuario(List listaIdsContatos, NotaForm form) {
 		Criteria crit = session().createCriteria(Nota.class);
-		crit.createCriteria("usuario").add(Restrictions.in("id", listaIdsContatos));		
+		crit.createCriteria("usuario").add(Restrictions.in("id", listaIdsContatos));
+		
+		if (! StringUtils.isNullOrEmpty(form.getOpcaoFiltro()))
+			crit.add(Restrictions.eq("acao", form.getOpcaoFiltro()));
+		
+		if (! StringUtils.isNullOrEmpty(form.getOpcaoOrdenacao())){
+			if (form.getOpcaoOrdenacao().equals("maiorDataNota"))
+				crit.addOrder(Order.desc("dataNota"));
+		    else if (form.getOpcaoOrdenacao().equals("menorDataNota"))
+		    	crit.addOrder(Order.asc("dataNota"));
+		    else if (form.getOpcaoOrdenacao().equals("tituloImovelCrescente"))
+		    	crit.createCriteria("imovel").addOrder(Order.desc("titulo"));
+		    else if (form.getOpcaoOrdenacao().equals("tituloImovelDeCrescente"))
+		    	crit.createCriteria("imovel").addOrder(Order.asc("titulo"));
+		}
+		else		
+			crit.addOrder(Order.desc("dataNota")).list();
+		
 		form.setQuantRegistros(AppUtil.recuperarQuantidadeLista(crit.list()));
 		if ( form.isVisible()){
 	        crit.setFirstResult((Integer.parseInt((StringUtils.isNullOrEmpty(form.getOpcaoPaginacao())) ? "1": form.getOpcaoPaginacao()) - 1) * form.getQuantMaxRegistrosPerPage());        
@@ -146,8 +150,7 @@ public class NotaDaoImpl extends GenericDAOImpl<Nota, Long>  implements NotaDao 
 	@Override
 	public Nota findNotaByUsuarioByIndex(List<Long> listaIds, int index) {
 		Criteria crit = session().createCriteria(Nota.class);
-		crit.createCriteria("usuario").add(Restrictions.in("id", listaIds));
-		
+		crit.createCriteria("usuario").add(Restrictions.in("id", listaIds));		
 		crit.setFirstResult(index);
 		crit.setMaxResults(1);
 		return (Nota)crit.uniqueResult();

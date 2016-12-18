@@ -70,8 +70,9 @@ public class RecomendacaoDaoImpl extends GenericDAOImpl<Recomendacao, Long>  imp
 		if (! StringUtils.isNullOrEmpty(statusLeitura))		
 			crit.add(Restrictions.eq("statusLeitura", statusLeitura));
 		
-		ProjectionList projList = Projections.projectionList();		
-		crit.setProjection(Projections.rowCount());
+		ProjectionList projList = Projections.projectionList();
+        projList.add(Projections.rowCount());		
+		crit.setProjection(projList);
 		return (long)crit.uniqueResult();		
 	}
 

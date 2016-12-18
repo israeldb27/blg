@@ -1,11 +1,7 @@
 package com.busqueumlugar.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Date;
-
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,20 +9,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import com.busqueumlugar.enumerador.AcaoImovelEnum;
-import com.busqueumlugar.enumerador.TipoImovelEnum;
-
 
 @Entity
-@Table(name = "imovelcompartilhado")
-public class Imovelcompartilhado implements Serializable {
+@Table(name = "intermediacao")
+public class Intermediacao implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)    
@@ -61,22 +53,20 @@ public class Imovelcompartilhado implements Serializable {
         
     @Column(name = "descricaoCompartilhamento")
     private String descricaoCompartilhamento;
-        
-    @Column(name = "tipoImovelCompartilhado")
-    private String tipoImovelCompartilhado; // {I - intermediação ; P - parceria }
+
      
     @Transient
     private int quantTotalParceiros;
 	
 
-	public Imovelcompartilhado() {
+	public Intermediacao() {
     }
 
-    public Imovelcompartilhado(Long id) {
+    public Intermediacao(Long id) {
         this.id = id;
     }
 
-    public Imovelcompartilhado(Long id, long idImovel, long idDonoImovel, long idUsuarioSolicitante, Date dataSolicitacao, String status, String usuarioSolicitante) {
+    public Intermediacao(Long id, long idImovel, long idDonoImovel, long idUsuarioSolicitante, Date dataSolicitacao, String status, String usuarioSolicitante) {
         this.id = id;
         this.dataSolicitacao = dataSolicitacao;
         this.status = status;
@@ -114,32 +104,6 @@ public class Imovelcompartilhado implements Serializable {
         this.status = status;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Imovelcompartilhado)) {
-            return false;
-        }
-        Imovelcompartilhado other = (Imovelcompartilhado) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "br.app.imovelcompartilhado.Imovelcompartilhado[ id=" + id + " ]";
-    }
- 
-
     /**
      * @return the statusLeitura
      */
@@ -168,21 +132,6 @@ public class Imovelcompartilhado implements Serializable {
     public void setDescricaoCompartilhamento(String descricaoCompartilhamento) {
         this.descricaoCompartilhamento = descricaoCompartilhamento;
     }
-
-    /**
-     * @return the tipoImovelCompartilhado
-     */
-    public String getTipoImovelCompartilhado() {
-        return tipoImovelCompartilhado;
-    }
-
-    /**
-     * @param tipoImovelCompartilhado the tipoImovelCompartilhado to set
-     */
-    public void setTipoImovelCompartilhado(String tipoImovelCompartilhado) {
-        this.tipoImovelCompartilhado = tipoImovelCompartilhado;
-    }
-
     
 	public int getQuantTotalParceiros() {
 		return quantTotalParceiros;

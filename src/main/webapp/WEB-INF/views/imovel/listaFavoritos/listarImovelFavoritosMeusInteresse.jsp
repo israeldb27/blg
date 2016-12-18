@@ -114,7 +114,7 @@ function adicionarComparativo(id) {
 		 dataType: 'json',
 		 success: function(data){				 
 			 if ( data == 'ok') {
-				 $('#msgModalComparativo').html('Imóvel foi adicionado a lista de comparativos');
+				 $('#msgModalComparativo').html("<spring:message code='lbl.msg.sucesso.add.comparativo'/>");
 				 $("#idModalConfirmarComparativo").modal("show");	
        	 }
        	 else  {
@@ -404,7 +404,7 @@ function adicionarComparativo(id) {
 	                                                
 	                                                <div class="col-md-5" >
 	                                                 	<div class="media-body" >
-				                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.interesse" /> <br> </font><span class="text-success"><font style="font-size:11px; font-style: normal;"><br>
+				                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.interesse" /> <br> </font><span class="text-success"><font style="font-size:11px; font-style: normal;">
 				                                            <fmt:formatDate value='${imovelFavoritos.dataInteresse}' pattern='dd/MM/yyyy'/></font></span></em>
 				                                        </div>
 	                                                 	                                                  
@@ -427,7 +427,7 @@ function adicionarComparativo(id) {
 	                                                            </tr>
 	                                                            <tr>
 	                                                                <td class="text-left"><spring:message code="lbl.vagas.garagem.resum"/></td>
-	                                                                <td class="text-right">${imovelFavoritos.imovel.quantGaragem} vaga(s)</td>
+	                                                                <td class="text-right">${imovelFavoritos.imovel.quantGaragem} <spring:message code="lbl.num.vagas"/></td>
 	                                                            </tr>
 	                                                        </tbody>
 	                                                    </table>

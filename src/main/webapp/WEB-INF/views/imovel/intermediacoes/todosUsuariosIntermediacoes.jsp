@@ -7,7 +7,7 @@
 <%@page import="com.busqueumlugar.service.UsuarioService"%>
 <%@page import="com.busqueumlugar.form.UsuarioForm"%>
 
-<spring:url value="/imovelCompartilhado" var="urlImovelCompartilhado"/>
+<spring:url value="/intermediacao" var="urlIntermediacao"/>
 <spring:url var="urlImovelComentario" value="/imovelComentario"/>
 <spring:url value="/imovelPropostas" var="urlImovelPropostas"/>
 <spring:url value="/imovelIndicado" var="urlImovelIndicado"/>
@@ -21,14 +21,6 @@
 <c:set var="usuario" value="<%= (UsuarioForm)request.getSession().getAttribute(UsuarioInterface.USUARIO_SESSAO) %>"/>
 
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
- 
-<script type="text/javascript">
-
-$(document).ready(function() {
-
-});	
-
-</script>
 		
 <c:import url="../../layout/head-layout.jsp"></c:import>
 

@@ -317,13 +317,13 @@ public class RelatorioServiceImpl implements RelatorioService {
 
 	
 	public String validarAdicionarPerfilRelatorio(RelatorioForm frm) {		
-		String msgRetorno = "";
+		
         // checar se o perfil selecionado est� vazio ou n�o
         if (( frm.getPerfilSelecionado() == null ) || 
             ( frm.getPerfilSelecionado() != null && frm.getPerfilSelecionado().equals("")))
-            msgRetorno  = MessageUtils.getMessage("msg.erro.selecionar.relatorio.obrigatorio");                    
+            return MessageUtils.getMessage("msg.erro.selecionar.relatorio.obrigatorio");                    
 
-        return msgRetorno;	
+        return "";	
 	}
 
 	@Transactional
@@ -337,18 +337,17 @@ public class RelatorioServiceImpl implements RelatorioService {
 
 	
 	public String validarCadastroNovoRelatorioSistema(RelatorioForm frm) {		
-		String msgRetorno = "";
+		
         // checar se o tipo relatorio est� vazio ou n�o
-        if (( frm.getTipo() == null ) || 
-            ( frm.getTipo() != null && frm.getTipo().equals("")))
-           msgRetorno = MessageUtils.getMessage("msg.erro.selecionar.tipo.relatorio.obrigatorio");
+        if (StringUtils.isEmpty(frm.getTipo()))
+           return MessageUtils.getMessage("msg.erro.selecionar.tipo.relatorio.obrigatorio");
                    
         // checar se existe relatorio com o nome informado
         List<Relatorio> lista = dao.findRelatorioSistemaByNome(frm.getNome());
         if (! CollectionUtils.isEmpty(lista))
-        	msgRetorno = MessageUtils.getMessage("msg.erro.existe.relatorio.sistema");        
+        	return MessageUtils.getMessage("msg.erro.existe.relatorio.sistema");        
 
-        return msgRetorno;
+        return "";
 	}
 
 	

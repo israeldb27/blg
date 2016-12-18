@@ -258,7 +258,7 @@ function mostrarModal(id){
                                                     
                                                    	 <tr>
                                                         <td class="text-left"><spring:message code="lbl.vagas.garagem.resum"/></td>
-                                                        <td class="text-right">${imovelForm.quantGaragem} vaga(s)</td>
+                                                        <td class="text-right">${imovelForm.quantGaragem} <spring:message code="lbl.num.vagas"/></td>
                                                      </tr>
                                                     
                                                      <tr>

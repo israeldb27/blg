@@ -159,7 +159,7 @@ function adicionarRecomendacao(){
 	var x = document.getElementById("novaRecomendacao");	
 	
 	if ($("#novaRecomendacao").val() == ''){
-		$('#msgErroNovaRecomendacao').html('Campo deve ser obrigatorio');
+		$('#msgErroNovaRecomendacao').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
 	}
 	
 	if ($("#novaRecomendacao").val() != '') {
@@ -209,27 +209,27 @@ function recusarRecomendacao(id) {
 
 function mostrarModal(id){	
 	if (id == 0){
-		$('#msgModal').html("Informação resumida sobre o usuário");		
+		$('#msgModal').html("<spring:message code='lbl.modal.sobre.mim'/>");		
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.sobre.mim'/>");
 	}
 	else if ( id == 1){
-		$('#msgModal').html("Lista de notas sobre ações do usuário");
+		$('#msgModal').html("<spring:message code='lbl.modal.notas.usuario'/> ");
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.notas.usuario'/>");
 	}
 	else if ( id == 2){
-		$('#msgModal').html("Lista de preferências de imóveis do usuário");
+		$('#msgModal').html("<spring:message code='lbl.modal.pref.imoveis'/>");
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.pref.imoveis'/>");
 	}
 	else if ( id == 3){
-		$('#msgModal').html("Lista de contatos do usuário");
+		$('#msgModal').html("<spring:message code='lbl.modal.contatos'/>");
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.contatos'/>");
 	}
 	else if ( id == 4){
-		$('#msgModal').html("Lista de seguidores do usuário");
+		$('#msgModal').html("<spring:message code='lbl.modal.lista.seguidores.detalhes.usuario'/>");
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.lista.seguidores.detalhes.usuario'/>");
 	}
 	else if ( id == 5){
-		$('#msgModal').html("Lista de recomendações feitas ao usuário");
+		$('#msgModal').html("<spring:message code='lbl.modal.recomendacoes.detalhe.usuario'/>");
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.aba.recomendacoes.detalhe.usuario'/>");
 	}
 	
@@ -315,7 +315,7 @@ function mostrarModal(id){
 													</c:when>
 													
 													<c:when test="${usuarioForm.possuiContatoUsuarioSessao == 'N'}"> <!-- usuarioSessao nem sequer mandou um convite para o usuarioConvidado entao ele pode enviar um convite -->
-														<a href="#" id="idEnviarConvite" onclick="enviarConvite(${usuarioForm.id})" style="font-size:x-large; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.enviar.convite"/>' ><i class="fa fa-user-plus pull-right" style="color:gray"> <spring:message code="lbl.enviar.convite"/> &nbsp;&nbsp;</i> </a> 
+														<a href="#" id="idEnviarConvite" onclick="enviarConvite(${usuarioForm.id})" style="font-size:x-large; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.enviar.convite"/>' ><i class="fa fa-user-plus pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"><spring:message code="lbl.enviar.convite"/> </font> &nbsp;&nbsp;</i> </a> 
 														<a href="#" id="idCancelarConvite" onclick="prepararModalCancelarConvite(${usuarioForm.id})" style="font-size:x-large; display: none; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.canceler.enviar.convite"/>' ><i class="fa fa-user-times pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.canceler.enviar.convite"/> </font> &nbsp;&nbsp; </i></a> 
 													</c:when>													
 												</c:choose>
@@ -465,7 +465,7 @@ function mostrarModal(id){
 					                                                   <span class="meta-provider ${imovel.classePorAcao}" style="font-size:19px;">${imovel.acaoFmt} <br>
 					                                                   							<strong>  R$<fmt:formatNumber value="${imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
 					                                                   </span><br>                                                   
-					                                                    <img src="${context}${imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 195px; alt="admin"/>
+					                                                    <img src="${context}${imovel.imagemArquivo}" class="img-responsive" style="width: 270px; height: 270px; alt="admin"/>
 					                                                </a>
 					                                            </div>
 					                                            <div class="media-body">
@@ -473,54 +473,64 @@ function mostrarModal(id){
 					                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlImovel}/detalhesImovel/${imovel.id}" style="color : #03A9F4;">${imovel.titulo}</a></h4>
 					                                                <h5 class="media-heading" style="margin-bottom:12px;"><i class="fa fa-map-marker"></i> ${imovel.endereco} - ${imovel.bairro} - ${imovel.cidade} -${imovel.uf} </h1>
 					                                                
-					                                                <div class="col-md-5" >                                                    
-					                                                    <br/> <br/> <br/> <br/> 
-					                                                    
-					                                                    <% if ( request.getSession().getAttribute("acessoValido").equals("S") ) {%>					                                                    
-					                                                    	<c:choose>
-					                                                    		<c:when test="${(imovel.interessadoImovel == 'N') && (imovel.idUsuario != usuario.id)}">
-					                                                    			<a href="#a" id="idMeInteressei_${imovel.id}" onClick="adicionarInteresse(${imovel.id})" style="font-size:x-large; color: #03A9F4;" class="meta-action"><i class="fa fa-star-o" title="<spring:message code="lbl.me.interessei"/>"></i></a>
-					                                                    		</c:when>
-					                                                    		
-					                                                    		<c:when test="${imovel.interessadoImovel == 'S'}"> 
-					                                                    			 <a href="#a" id="idNovoInteressado_${imovel.id}" onClick="retirarInteresse(${imovel.id})" style="font-size:x-large;" class="meta-action"><i class="fa fa-star" title="<spring:message code="lbl.interessado"/>"></i></a>		
-					                                                    		</c:when>					                                                    	
-					                                                    	</c:choose>
-																			
-																			<a href="#a" id="idNovoMeInteressei_${imovel.id}" onClick="adicionarInteresse(${imovel.id})" style="font-size:x-large; color: #03A9F4; display: none;" class="meta-action"><i class="fa fa-star-o" title="<spring:message code="lbl.me.interessei"/>"></i></a>
-																			<a href="#a" id="idInteressado_${imovel.id}" onClick="retirarInteresse(${imovel.id})" style="font-size:x-large; display: none;" class="meta-action"><i class="fa fa-star" title="<spring:message code="lbl.interessado"/>"></i></a>																			
-					                                                        <a href="#a" onClick="adicionarComparativo(${imovel.id})" style="font-size:x-large;" class="meta-action"><i class="fa fa-eye" style="color: #03A9F4;" title="<spring:message code="lbl.title.link.comparar"/>"></i></a>					                                                        
-					                                                    <% } %>
-					                                                </div>
-					                                                
-					                                                <div class="col-md-7">
-					                                                    <table class="table table-condensed">
-					                                                        <tbody style="font-size: 13px;">
-					                                                        	<tr>
-					                                                                <td class="text-left"><spring:message code="lbl.area.m2.resum"/></td>
-					                                                                <td class="text-right"><fmt:formatNumber value="${imovel.area}" pattern="#,##0;-0"/>m<sup>2</sup></td>
-					                                                            </tr>
-					                                                            <tr>
-					                                                                <td class="text-left"><spring:message code="lbl.quartos.dormitorios.resum"/></td>
-					                                                                <td class="text-right">${imovel.quantQuartos}</td>
-					                                                            </tr>
-					                                                            
-					                                                            <tr>
-					                                                                <td class="text-left"><spring:message code="lbl.buscar.imovel.banheiros"/></td>
-					                                                                <td class="text-right">${imovel.quantBanheiro}</td>
-					                                                            </tr>
-					                                                            
-					                                                            <tr>
-					                                                                <td class="text-left"><spring:message code="lbl.suites"/></td>
-					                                                                <td class="text-right">${imovel.quantSuites}</td>
-					                                                            </tr>
-					                                                            <tr>
-					                                                                <td class="text-left"><spring:message code="lbl.vagas.garagem.resum"/></td>
-					                                                                <td class="text-right">${imovel.quantGaragem} vaga(s)</td>
-					                                                            </tr>
-					                                                        </tbody>
-					                                                    </table>
-					                                                </div>
+					                                                  <div class="col-md-5" >  	                                                
+						                                                	<div class="media-body" >
+									                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.ultima.imovel.atualizacao" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;"><fmt:formatDate value='${imovel.dataUltimaAtualizacao}' pattern='dd/MM/yyyy'/></font></span></em> 
+									                                            
+									                                            <br> <br>
+									                                            
+									                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.cadastro.imovel" />: </font><span class="text-success"><br>				                                            
+									                                            <font style="font-size:11px; font-style: normal;"><fmt:formatDate value='${imovel.dataCadastro}' pattern='dd/MM/yyyy'/></font></span></em>				                                            
+									                                            
+									                                        </div>                                                  
+						                                                    <br/> <br/> <br/> 	                                                   
+						                                              </div>
+						                                                
+						                                               <div class="col-md-6" style="margin-right: -9px;">
+						                                                    <table class="table table-condensed">
+						                                                        <tbody style="font-size: 13px;">	                                                        
+						                                                        
+						                                                        	<tr>
+						                                                                <td class="text-left"><spring:message code="lbl.area.m2.resum"/></td>
+						                                                                <td class="text-right"><fmt:formatNumber value="${imovel.area}" pattern="#,##0;-0"/>m<sup>2</sup></td>
+						                                                            </tr>
+						                                                            <tr>
+						                                                                <td class="text-left"><spring:message code="lbl.quartos.dormitorios.resum"/></td>
+						                                                                <td class="text-right">${imovel.quantQuartos}</td>
+						                                                            </tr>	                                                            
+						                                                            <tr>
+						                                                                <td class="text-left"><spring:message code="lbl.buscar.imovel.banheiros"/></td>
+						                                                                <td class="text-right">${imovel.quantBanheiro}</td>
+						                                                            </tr>	                                                            
+						                                                            <tr>
+						                                                                <td class="text-left"><spring:message code="lbl.suites"/></td>
+						                                                                <td class="text-right">${imovel.quantSuites}</td>
+						                                                            </tr>
+						                                                            <tr>
+						                                                                <td class="text-left"><spring:message code="lbl.vagas.garagem.resum"/></td>
+						                                                                <td class="text-right">${imovel.quantGaragem} <spring:message code="lbl.num.vagas"/></td>
+						                                                            </tr>
+						                                                        </tbody>
+						                                                    </table>
+						                                                    
+						                                                    <br>
+						                                                    
+						                                                      <% if ( request.getSession().getAttribute("acessoValido").equals("S") ) {%>   
+						                                                    	<c:if test="${(imovel.interessadoImovel == 'N') && (imovel.usuario.id != usuario.id)}">
+																					<a href="#a" id="idMeInteressei_${imovel.id}" onClick="adicionarInteresse(${imovel.id})" style="font-size:x-large; color: rgb(99, 110, 123);" class="meta-action"><i class="fa fa-star-o" title="<spring:message code="lbl.me.interessei"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;"> <spring:message code="lbl.me.interessei"/> &nbsp;&nbsp; </a> 
+																				</c:if>
+																				
+																				<c:if test="${imovel.interessadoImovel == 'S'}">
+																					<a href="#a" id="idNovoInteressado_${imovel.id}" onClick="retirarInteresse(${imovel.id})" style="font-size:x-medium; color: rgb(99, 110, 123);" class="meta-action"><i class="fa fa-star" style="color: rgb(99, 110, 123);" title="<spring:message code="lbl.interessado"/>"></i> &nbsp;&nbsp; </a>
+																				</c:if>
+																				
+																				<a href="#a" id="idNovoMeInteressei_${imovel.id}" onClick="adicionarInteresse(${imovel.id})" style="font-size:x-large; color: rgb(99, 110, 123); display: none;" class="meta-action"><i class="fa fa-star-o" title="<spring:message code="lbl.me.interessei"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;"> <spring:message code="lbl.me.interessei"/> &nbsp;&nbsp; </a> 
+																				<a href="#a" id="idInteressado_${imovel.id}" onClick="retirarInteresse(${imovel.id})" style="font-size:x-large; display: none;" class="meta-action"><i class="fa fa-star" style="color: rgb(99, 110, 123);" title="<spring:message code="lbl.interessado"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;"> <spring:message code="lbl.interessado"/> </font> &nbsp;&nbsp; </a> 
+																				
+						                                                        <a href="#a" onClick="adicionarComparativo(${imovel.id})" style="font-size:x-large;" class="meta-action"><i class="fa fa-eye" style="color: rgb(99, 110, 123);" title="<spring:message code="lbl.title.link.comparar"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;"> <spring:message code="lbl.title.link.comparar"/> </font></a>
+						                                                    <% } %>	 
+						                                                    <br> <br>
+						                                                </div>  
 					                                            </div>
 					                                        </div>
 					                                    </c:forEach>
@@ -568,7 +578,7 @@ function mostrarModal(id){
 													<div class="media inner-all">
 						                                  <div class="pull-left">
 						                                         <span class="fa fa-stack fa-2x">
-						                                         	<c:if test="${((nota.acao == 'parceria') || (nota.acao == 'preferencia') || (nota.acao == 'usuario') )}">                                         	
+						                                         	<c:if test="${((nota.acao == 'P') || (nota.acao == 'preferencia') || (nota.acao == 'usuario') )}">                                         	
 						                                              	<img class="img-circle img-bordered-success" src="${context}/${nota.usuario.imagemArquivo}" style="width: 60px; height: 60px; " alt="admin"/>
 						                                            </c:if>                                               	 
 						                                            <c:if test="${(nota.acao == 'imovel')}">
@@ -578,25 +588,25 @@ function mostrarModal(id){
 						                                  </div><!-- /.pull-left -->
 						                                  <div class="media-body">
 						                                  	<c:choose>
-														    <c:when test="${nota.acao == 'parceria'}">
+														    <c:when test="${nota.acao == 'P'}">
 														    	<a href="${urlImovel}/detalhesImovel/${nota.imovel.id}" class="h4"><spring:message code="lbl.nota.parceria"/></a>
 														    	
 														    	<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao} <a href="${urlImovel}/detalhesImovel/${nota.imovel.id}" ><strong>${nota.imovel.titulo} </strong></a></small>												    			    	
 														    </c:when>
 														    
-														    <c:when test="${nota.acao == 'preferencia'}">
+														    <c:when test="${nota.acao == 'R'}">
 														    	<a href="#" class="h4"><spring:message code="lbl.nota.preferencia"/></a>
 														    	
 														    	<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao}</small>
 														    </c:when>
 														    
-														    <c:when test="${nota.acao == 'usuario'}">
+														    <c:when test="${nota.acao == 'U'}">
 														    	<a href="${urlUsuario}/meuPerfil" class="h4"><spring:message code="lbl.nota.info.usuario"/></a>
 														    	
 														    	<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao} </small>
 														    </c:when>
 														    
-														    <c:when test="${nota.acao == 'imovel'}">
+														    <c:when test="${nota.acao == 'I'}">
 														    	<a href="${urlImovel}/detalhesImovel/${nota.imovel.id}" class="h4"><spring:message code="lbl.nota.imovel"/></a>
 														    	
 														    	<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao} <a href="${urlImovel}/detalhesImovel/${nota.imovel.id}" ><strong>${nota.imovel.titulo} </strong></a></small>

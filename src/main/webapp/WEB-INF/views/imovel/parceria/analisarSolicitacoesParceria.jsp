@@ -6,15 +6,13 @@
 
 <spring:url value="/usuario" var="urlUsuario"/>
 <spring:url value="/contato" var="urlContato"/>
-<spring:url value="/imovelCompartilhado" var="urlImovelCompartilhado"/>
+<spring:url value="/parceria" var="urlParceria"/>
 <spring:url value="/imovel" var="urlImovel"/>
 
 <c:set var="context" value="<%= request.getContextPath()%>"/>
 
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
 
-<spring:url value="/localidade/buscarCidades" var="urlBuscarCidades"/>
-<spring:url value="/localidade/buscarBairros" var="urlBuscarBairros"/>
 <spring:url value="/mensagem" var="urlMensagem"/>
    
 <%@page import="com.busqueumlugar.util.UsuarioInterface"%>
@@ -42,7 +40,7 @@ function confirmarExclusaoSolParceriaAnaliseSol(){
 	var parametro = document.getElementById("modIdParametro");
 	var idImovel = document.getElementById("modIdImovel");	
 	$.ajax({
-			 url: '${urlImovelCompartilhado}/confirmarExclusaoSolParceriaAnaliseSol/' + parametro.value + "/" + idImovel.value,			 
+			 url: '${urlParceria}/confirmarExclusaoSolParceriaAnaliseSol/' + parametro.value + "/" + idImovel.value,			 
 			 success: function(){				 
 				 location.reload();     	    
 			 },
@@ -185,7 +183,7 @@ function confirmarExclusaoSolParceriaAnaliseSol(){
 																			</td>
 			                                                                <td class="text-center"><fmt:formatDate value='${parceriaSelecionada.dataResposta}' pattern='dd/MM/yyyy'/></td>
 			                                                                <td class="text-center"><fmt:formatDate value='${parceriaSelecionada.dataSolicitacao}' pattern='dd/MM/yyyy'/></td>                                                                
-			                                                                <td class="text-center"><a href="${urlImovelCompartilhado}/excluirSolAnaliseImovelParceria/${parceriaSelecionada.id}/${parceriaSelecionada.imovel.id}" data-toggle="tooltip" data-placement="top" data-original-title="<spring:message code='lbl.link.excluir.sol.parceria'/>"><i class="fa fa-times"></i></a></td>
+			                                                                <td class="text-center"><a href="${urlParceria}/excluirSolAnaliseImovelParceria/${parceriaSelecionada.id}/${parceriaSelecionada.imovel.id}" data-toggle="tooltip" data-placement="top" data-original-title="<spring:message code='lbl.link.excluir.sol.parceria'/>"><i class="fa fa-times"></i></a></td>
 			                                                            </tr>
 		                                                            </c:forEach>
 		                                                            </tbody>
@@ -266,7 +264,7 @@ function confirmarExclusaoSolParceriaAnaliseSol(){
 		                                          <td class="text-center"> <fmt:formatDate value='${parceria.dataSolicitacao}' pattern='dd/MM/yyyy'/>  </td>
 		                                          <td class="text-center"> ${parceria.usuarioSolicitante.nome} </td>
 		                                          <td class="text-center"> ${parceria.descricaoCompartilhamento} </td>              
-		                                          <td class="text-center"> <a href="${urlImovelCompartilhado}/aceitarSolImovelParceria/${parceria.id}/${parceria.imovel.id}" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" data-original-title="<spring:message code='lbl.link.selecionar.sol.parceria'/>"><i class="fa fa-pencil"></i></a> 
+		                                          <td class="text-center"> <a href="${urlParceria}/aceitarSolImovelParceria/${parceria.id}/${parceria.imovel.id}" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" data-original-title="<spring:message code='lbl.link.selecionar.sol.parceria'/>"><i class="fa fa-pencil"></i></a> 
 		                                          						   <a href="#" onClick="prepararModalConfirmaExclusao(${parceria.id}, ${parceria.imovel.id} )" data-toggle="tooltip" data-placement="top" data-original-title="Excluir Solicitação"><i class="fa fa-times"></i></a> 
 		                                          </td>
 											                      		

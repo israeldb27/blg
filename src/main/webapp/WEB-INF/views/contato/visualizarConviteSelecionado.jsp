@@ -105,10 +105,10 @@
 															<c:choose>
 																<c:when test="${((msgConviteAceito == null) && (msgConviteRecusado == null)) }">
 			                                                    	<spring:message code="lbl.acao.aceita.convite" var="mensagemAceitaConvite"/>
-								                                    <a href="${urlContato}/responderConviteSelecionado/${usuarioContato.id}/ok" style="font-size:x-large;"  class="dropdown-toggle my-tooltip" data-toggle="tooltip" data-placement="right"  data-original-title="${mensagemAceitaConvite}" ><i class="fa fa-check"></i></a>
+								                                    <a href="${urlContato}/responderConviteSelecionado/${usuarioContato.id}/O" style="font-size:x-large;"  class="dropdown-toggle my-tooltip" data-toggle="tooltip" data-placement="right"  data-original-title="${mensagemAceitaConvite}" ><i class="fa fa-check"></i></a>
 				                                                                                                    
 				                                                  	<spring:message code="lbl.acao.recusa.convite" var="mensagemRecusarConvite"/>	
-				                                                  	<a href="${urlContato}/responderConviteSelecionado/${usuarioContato.id}/recusado" style="font-size:x-large;"  class="dropdown-toggle my-tooltip" data-toggle="tooltip" data-placement="right"  data-original-title="${mensagemRecusarConvite}" ><i class="fa fa-times"></i></a>
+				                                                  	<a href="${urlContato}/responderConviteSelecionado/${usuarioContato.id}/R" style="font-size:x-large;"  class="dropdown-toggle my-tooltip" data-toggle="tooltip" data-placement="right"  data-original-title="${mensagemRecusarConvite}" ><i class="fa fa-times"></i></a>
 			                                                    	
 			                                                    </c:when>
 			                                                    

@@ -10,7 +10,7 @@
 <%@page import="com.busqueumlugar.enumerador.TipoImovelEnum"%>
 <%@page import="com.busqueumlugar.enumerador.StatusImovelEnum"%>
 
-<spring:url value="/imovelCompartilhado" var="urlImovelCompartilhado"/>
+<spring:url value="/parceria" var="urlParceria"/>
 <spring:url var="urlImovelComentario" value="/imovelComentario"/>
 <spring:url value="/imovelPropostas" var="urlImovelPropostas"/>
 <spring:url value="/imovelIndicado" var="urlImovelIndicado"/>
@@ -28,8 +28,8 @@
 
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
 
-<spring:url value="/imovelCompartilhado/buscarCidadesParceria" var="urlBuscarCidades"/>
-<spring:url value="/imovelCompartilhado/buscarBairrosParceria" var="urlBuscarBairros"/>
+<spring:url value="/parceria/buscarCidadesParceria" var="urlBuscarCidades"/>
+<spring:url value="/parceria/buscarBairrosParceria" var="urlBuscarBairros"/>
 
 <script type="text/javascript">
 
@@ -276,7 +276,7 @@ $('#opcaoPaginacao').change(function () {
 	                         
                                 <div class="pull-right" >
                                 		<spring:message code="lbl.hint.tipo.agrupar" var="hintAgrupar"/>
-                                       <form:form method="POST" id="modVisualizaListaParceriaForm" modelAttribute="parceriaForm" action="${urlImovelCompartilhado}/modoVisualizarParceria" >								                    
+                                       <form:form method="POST" id="modVisualizaListaParceriaForm" modelAttribute="parceriaForm" action="${urlParceria}/modoVisualizarParceria" >								                    
 						                    <form:select id="opcaoVisualizacaoListaParceria" path="opcaoVisualizacao" class="form-control" title="${hintAgrupar}">
 													<form:option value="" disabled="true"><spring:message code="lbl.agrupar.por"/></form:option>                  											
 													<form:option value="agruparUsuarios" ><spring:message code="lbl.agrupar.usuarios"/></form:option>   
@@ -286,7 +286,7 @@ $('#opcaoPaginacao').change(function () {
                                 </div><!-- /.pull-right -->
                                 <div class="pull-right" style="padding-right:10px;">
                                 			<spring:message code="lbl.hint.tipo.ordenacao" var="hintOrdenar"/>
-                                    		 <form:form method="POST" id="imoveisParceriaForm" modelAttribute="parceriaForm" action="${urlImovelCompartilhado}/ordenarAgruparParcerias" >						              		   								               
+                                    		 <form:form method="POST" id="imoveisParceriaForm" modelAttribute="parceriaForm" action="${urlParceria}/ordenarAgruparParcerias" >						              		   								               
 						                        	<form:select id="opcaoOrdenacao2" path="opcaoOrdenacao" class="form-control" title="${hintOrdenar}"> 
 														<form:option value="" disabled="true"><spring:message code="lbl.opcao.ordenar"/></form:option>
 								                        <form:option value="maiorDataCadastrado" ><spring:message code="lbl.opcao.ordenacao.imovel.mais.recente"/></form:option>
@@ -354,7 +354,7 @@ $('#opcaoPaginacao').change(function () {
                                                             </tr>
                                                             <tr>
                                                                 <td class="text-left"><spring:message code="lbl.vagas.garagem.resum"/></td>
-                                                                <td class="text-right">${imovel.quantGaragem} vaga(s)</td>
+                                                                <td class="text-right">${imovel.quantGaragem} <spring:message code="lbl.num.vagas"/></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -364,7 +364,7 @@ $('#opcaoPaginacao').change(function () {
                                                  	<% if ( request.getSession().getAttribute("acessoValido").equals("S") ) {%>
                                                  	
                                                  			<c:if test="${usuario.id == imovel.idDonoImovel}">														    															
-																<a href="${urlImovelCompartilhado}/analisarSolicitacoesParceriasRecebidas/${imovel.idImovel}" ><i class="fa fa-gavel""></i> </a>
+																<a href="${urlParceria}/analisarSolicitacoesParceriasRecebidas/${imovel.idImovel}" ><i class="fa fa-gavel""></i> </a>
 															</c:if> 
 															
 															<div class="btn-group dropup">                                            

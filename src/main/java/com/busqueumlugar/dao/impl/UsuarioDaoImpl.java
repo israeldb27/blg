@@ -22,8 +22,6 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -31,12 +29,15 @@ import org.springframework.util.CollectionUtils;
 import com.busqueumlugar.dao.ContatoDao;
 import com.busqueumlugar.dao.SeguidorDao;
 import com.busqueumlugar.dao.UsuarioDao;
+import com.busqueumlugar.enumerador.PerfilUsuarioOpcaoEnum;
+import com.busqueumlugar.enumerador.StatusImovelCompartilhadoEnum;
 import com.busqueumlugar.enumerador.TipoContatoOpcaoEnum;
+import com.busqueumlugar.enumerador.TipoImovelCompartilhadoEnum;
 import com.busqueumlugar.form.AdministracaoForm;
 import com.busqueumlugar.form.RelatorioForm;
 import com.busqueumlugar.form.UsuarioForm;
-import com.busqueumlugar.model.Imovel;
-import com.busqueumlugar.model.Imovelcompartilhado;
+import com.busqueumlugar.model.Intermediacao;
+import com.busqueumlugar.model.Parceria;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.DateUtil;
@@ -170,9 +171,9 @@ public class UsuarioDaoImpl extends GenericDAOImpl<Usuario, Long> implements  Us
 			}
 			
 			if (isAdmin)
-				crit.add(Restrictions.eq("perfil", "admin"));
+				crit.add(Restrictions.eq("perfil", PerfilUsuarioOpcaoEnum.ADMIN.getRotulo()));
 			else
-				crit.add(Restrictions.ne("perfil", "admin"));
+				crit.add(Restrictions.ne("perfil", PerfilUsuarioOpcaoEnum.ADMIN.getRotulo()));
 			
 			 return (List<Usuario>) crit.list();
 		}
@@ -184,7 +185,7 @@ public class UsuarioDaoImpl extends GenericDAOImpl<Usuario, Long> implements  Us
 	public List<Usuario> findUsuarios(UsuarioForm form) {
 
 		Criteria crit = session().createCriteria(Usuario.class);
-		crit.add(Restrictions.ne("perfil", "admin"));
+		crit.add(Restrictions.ne("perfil", PerfilUsuarioOpcaoEnum.ADMIN.getRotulo()));
 		
 		 if ( form.getIdEstado() > 0 ) {
 			 crit.add(Restrictions.eq("idEstado", form.getIdEstado()));
@@ -321,15 +322,25 @@ public class UsuarioDaoImpl extends GenericDAOImpl<Usuario, Long> implements  Us
 	        if ( ! StringUtils.isNullOrEmpty(perfilUsuario ))
 	        	crit.add(Restrictions.eq("perfil", perfilUsuario)); 
 		}       
-        
-        DetachedCriteria dtIc = DetachedCriteria.forClass(Imovelcompartilhado.class, "ic");
-        dtIc.add(Restrictions.eq("tipoImovelCompartilhado", tipoCompart));
-        dtIc.add(Restrictions.eq("status", "aceita"));
-        dtIc.add(Restrictions.ge("dataResposta", DateUtil.formataDataBanco(form.getDataInicio())));
-        dtIc.add(Restrictions.le("dataResposta", DateUtil.formataDataBanco(form.getDataFim())));	
-        dtIc.add(Restrictions.or(Restrictions.eqProperty("ic.usuarioDonoImovel.id", "u.id") ,Restrictions.eqProperty("ic.usuarioSolicitante.id", "u.id") ));
-        
-        crit.add(Subqueries.exists(dtIc.setProjection(Projections.property("ic.id"))));
+		
+		if (! StringUtils.isNullOrEmpty(tipoCompart)){
+			if (tipoCompart.equals(TipoImovelCompartilhadoEnum.INTERMEDIACAO.getRotulo()) ){
+				DetachedCriteria dtIc = DetachedCriteria.forClass(Intermediacao.class, "ic");		        
+		        dtIc.add(Restrictions.eq("status", StatusImovelCompartilhadoEnum.ACEITA.getRotulo()));
+		        dtIc.add(Restrictions.ge("dataResposta", DateUtil.formataDataBanco(form.getDataInicio())));
+		        dtIc.add(Restrictions.le("dataResposta", DateUtil.formataDataBanco(form.getDataFim())));	
+		        dtIc.add(Restrictions.or(Restrictions.eqProperty("ic.usuarioDonoImovel.id", "u.id") ,Restrictions.eqProperty("ic.usuarioSolicitante.id", "u.id") ));
+		        crit.add(Subqueries.exists(dtIc.setProjection(Projections.property("ic.id"))));
+			}
+			else if (tipoCompart.equals(TipoImovelCompartilhadoEnum.PARCERIA.getRotulo()) ){
+				DetachedCriteria dtIc = DetachedCriteria.forClass(Parceria.class, "ic");		        
+		        dtIc.add(Restrictions.eq("status", StatusImovelCompartilhadoEnum.ACEITA.getRotulo()));
+		        dtIc.add(Restrictions.ge("dataResposta", DateUtil.formataDataBanco(form.getDataInicio())));
+		        dtIc.add(Restrictions.le("dataResposta", DateUtil.formataDataBanco(form.getDataFim())));	
+		        dtIc.add(Restrictions.or(Restrictions.eqProperty("ic.usuarioDonoImovel.id", "u.id") ,Restrictions.eqProperty("ic.usuarioSolicitante.id", "u.id") ));
+		        crit.add(Subqueries.exists(dtIc.setProjection(Projections.property("ic.id"))));
+			}
+		}
         
         ProjectionList projList = Projections.projectionList();
         projList.add(Projections.groupProperty("id"));
@@ -347,60 +358,6 @@ public class UsuarioDaoImpl extends GenericDAOImpl<Usuario, Long> implements  Us
 		return (List<Usuario>) crit.list(); 
 	}
 	
-	@Override	// melhorar as queries do metodo
-	public List<Usuario> findSugestoesCorretoresImobiliarias(Long idUsuario, int quant){		
-		
-		Calendar dtAcesso = Calendar.getInstance();
-		dtAcesso.add(Calendar.DAY_OF_MONTH, -90);
-		
-		Criteria crit = session().createCriteria(Usuario.class);		
-		crit.add(Restrictions.ne("id", idUsuario)); // checar se 'ne' é referente a not equal
-		crit.add(Restrictions.ne("perfil", "padrao")); 
-		crit.add(Restrictions.ne("perfil", "admin"));
-		crit.add(Restrictions.ge("dataUltimoAcesso", dtAcesso.getTime())); // pegar a partir de 30 dias para atras até hoje
-		crit.add(Restrictions.sqlRestriction("1=1 order by rand()"));
-		crit.setMaxResults(quant);
-		return (List<Usuario>) crit.list();
-	}
-	
-	@Override	 // melhorar as queries do metodo
-	public List<Usuario> findSugestoesClientes(Long idUsuario, int quant){	
-		Calendar dtAcesso = Calendar.getInstance();
-		dtAcesso.add(Calendar.DAY_OF_MONTH, -90);
-		
-		Criteria crit = session().createCriteria(Usuario.class);		
-		crit.add(Restrictions.ne("id", idUsuario)); 
-		crit.add(Restrictions.eq("perfil", "padrao")); 
-		crit.add(Restrictions.ge("dataUltimoAcesso", dtAcesso.getTime())); // pegar a partir de 30 dias para atras até hoje		
-		crit.add(Restrictions.sqlRestriction("1=1 order by rand()"));
-		crit.setMaxResults(quant);
-		return (List<Usuario>) crit.list();
-	}
-
-
-
-	@Override
-	public List<Usuario> findUsuariosFiqueOlhoParaCorretoresImobiliarias(Long idUsuario) {
-		
-		boolean valido = AppUtil.getRandomBoolean();
-		
-		StringBuffer sql = new StringBuffer("SELECT u FROM Usuario u, Imovel i, Preferencialocalidade p ");
-		sql.append(" where i.idUsuario = :idUsuario ");
-		sql.append(" and i.idEstado = p.idEstado  ");
-		sql.append(" and i.tipoImovel = p.tipoImovel  ");
-		sql.append(" and u.id = p.idUsuario  ");
-		 
-		if ( valido){
-			sql.append(" and i.idCidade = p.idCidade ");
-		}
-	//	sql.append("and 1=1 order by rand()");
-		
-		Query query = session().createQuery(sql.toString());
-		query.setParameter("idUsuario", idUsuario);
-		
-		query. setMaxResults(4);
-		return (List<Usuario>)query.list();
-	}
 	
 	public String md5(String senha) {	
 		String sen = "";  
@@ -443,7 +400,7 @@ public class UsuarioDaoImpl extends GenericDAOImpl<Usuario, Long> implements  Us
 	@Override
 	public Usuario findUsuarioByUsuarioByIndex(List<Long> listaIds, UsuarioForm user, int index) {
 		Criteria crit = session().createCriteria(Usuario.class);
-		crit.add(Restrictions.ne("perfil", "admin"));   
+		crit.add(Restrictions.ne("perfil", PerfilUsuarioOpcaoEnum.ADMIN.getRotulo()));   
 		if ( ! CollectionUtils.isEmpty(listaIds)){
 			listaIds.add(user.getId());
 			crit.add(Restrictions.not(Restrictions.in("id", listaIds)));

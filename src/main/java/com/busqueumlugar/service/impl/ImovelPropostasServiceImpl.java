@@ -158,27 +158,12 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 
 	@Override
 	public List<ImovelPropostas> recuperarPropostasImovelPorUsuario(Long idUsuario,	Long idImovel) {
-		return dao.findImoveisPropostasLancadasByIdUsuarioByIdImovel(idUsuario, idImovel);
-	}
-
-	@Override
-	public List<ImovelPropostas> listarMinhasPropostasSobreImovel(Long idUsuario, Long idImovel) {		
-		return dao.findImoveisPropostasLancadasByIdUsuarioByIdImovel(idUsuario, idImovel);
+		return dao.findImoveisPropostasLancadasByIdUsuarioByIdImovel(idUsuario, idImovel);				   
 	}
 
 	@Override
 	public List<ImovelPropostas> recuperarPropostasRecebidasPorUsuario(Long idUsuario, ImovelPropostasForm form) {		
         return dao.findImoveisPropostasRecebidasByIdUsuario(idUsuario, form);
-	}
-
-	@Override
-	public int quantidadePropostasRecebidasPorUsuario(Long idUsuario, ImovelPropostasForm form) {		
-        return AppUtil.recuperarQuantidadeLista(dao.findImoveisPropostasRecebidasByIdUsuario(idUsuario, form));
-	}
-
-	@Override
-	public int checaQuantidadeOfertNova(Long idUsuario) {
-		return AppUtil.recuperarQuantidadeLista(dao.findNovaImoveisPropostasRecebidasByIdUsuario(idUsuario));		
 	}
 
 	@Override
@@ -302,49 +287,40 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 
 	@Override
 	public String validarCadastroProposta(Long idImovel,ImovelPropostasForm imovelPropostasForm, UsuarioForm userSession) {
-		
-		 String msg = "";
-	        
-	        Imovel imovel = imovelService.recuperarImovelPorIdImovel(idImovel);
-	        if ( imovel.getUsuario().getId().longValue() == userSession.getId().longValue())
-	            msg = MessageUtils.getMessage("msg.erro.propostas.enviar.para.proprio.usuario");
-	        
-	        if ( msg.equals("")){
-	            if ( imovel.getAtivado().equals("N"))	            	
-	                msg = MessageUtils.getMessage("msg.erro.propostas.imovel.desativado");
-	        }
-	        
-	        if ( msg.equals("")){
-	            if ( imovelPropostasForm.getValorProposta().doubleValue() <= 0.0d )
-	                msg = MessageUtils.getMessage("msg.erro.proposta.vazia");
-	        }        
-	        return msg;
+		    
+        Imovel imovel = imovelService.recuperarImovelPorIdImovel(idImovel);
+        if ( imovel.getUsuario().getId().longValue() == userSession.getId().longValue())
+            return MessageUtils.getMessage("msg.erro.propostas.enviar.para.proprio.usuario");
+        
+        if ( imovel.getAtivado().equals("N"))	            	
+            return MessageUtils.getMessage("msg.erro.propostas.imovel.desativado");
+        
+        if ( imovelPropostasForm.getValorProposta().doubleValue() <= 0.0d )
+            return MessageUtils.getMessage("msg.erro.proposta.vazia");
+                
+        return "";
 	}
 	
 	@Override
 	public String validarCadastroProposta(Long idImovel, String valorProposta,  UsuarioForm userSession) {
-		
-		 	String msg = "";	        
+			        
 	        Imovel imovel = imovelService.recuperarImovelPorIdImovel(idImovel);
 	        if ( imovel.getUsuario().getId().longValue() == userSession.getId().longValue())
-	            msg = MessageUtils.getMessage("msg.erro.propostas.enviar.para.proprio.usuario");
+	            return MessageUtils.getMessage("msg.erro.propostas.enviar.para.proprio.usuario");	        
 	        
-	        if ( msg.equals("")){
-	            if ( imovel.getAtivado().equals("N"))	            	
-	                msg = MessageUtils.getMessage("msg.erro.propostas.imovel.desativado");
-	        }
+	        if ( imovel.getAtivado().equals("N"))	            	
+	        	return MessageUtils.getMessage("msg.erro.propostas.imovel.desativado");
 	        
-	        if ( msg.equals("")){
-	        	try{
-	        		double vl = Double.parseDouble(valorProposta);
-	        		if ( vl <= 0.0d )
-		                msg = MessageUtils.getMessage("msg.erro.proposta.vazia");
-	        	}
-	        	catch(NumberFormatException e ){
-	        		msg = MessageUtils.getMessage("msg.erro.valor.proposta.formato.invalido");
-	        	}	            
-	        }        
-	        return msg;
+        	try{
+        		double vl = Double.parseDouble(valorProposta);
+        		if ( vl <= 0.0d )
+        			return MessageUtils.getMessage("msg.erro.proposta.vazia");
+        	}
+        	catch(NumberFormatException e ){
+        		return MessageUtils.getMessage("msg.erro.valor.proposta.formato.invalido");
+        	}	            
+	                
+	        return "";
 	}
 
 

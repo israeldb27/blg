@@ -36,13 +36,14 @@ import com.busqueumlugar.service.EstadosService;
 import com.busqueumlugar.service.ImovelFavoritosService;
 import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.ImovelcomentarioService;
-import com.busqueumlugar.service.ImovelcompartilhadoService;
 import com.busqueumlugar.service.ImovelindicadoService;
 import com.busqueumlugar.service.ImovelPropostasService;
 import com.busqueumlugar.service.ImovelvisualizadoService;
+import com.busqueumlugar.service.IntermediacaoService;
 import com.busqueumlugar.service.ItemMensagemAdminService;
 import com.busqueumlugar.service.MensagemAdminService;
 import com.busqueumlugar.service.MensagemService;
+import com.busqueumlugar.service.ParceriaService;
 import com.busqueumlugar.service.PlanousuarioService;
 import com.busqueumlugar.service.ServicoService;
 import com.busqueumlugar.service.UsuarioService;
@@ -57,7 +58,7 @@ import com.busqueumlugar.enumerador.StatusPagtoEnum;
 import com.busqueumlugar.enumerador.StatusPagtoOpcaoEnum;
 import com.busqueumlugar.enumerador.TipoImovelCompartilhadoEnum;
 import com.busqueumlugar.enumerador.TipoImovelEnum;
-import com.busqueumlugar.enumerador.StatusPagtoEnum;
+
 
 @Service
 public class AdministracaoServiceImpl implements AdministracaoService {
@@ -83,6 +84,12 @@ public class AdministracaoServiceImpl implements AdministracaoService {
 	private ImovelService imovelService;
 	
 	@Autowired
+	private ParceriaService parceriaService;
+	
+	@Autowired
+	private IntermediacaoService intermediacaoService;
+		
+	@Autowired
 	private ImovelcomentarioService imovelcomentarioService;
 	
 	@Autowired
@@ -93,9 +100,6 @@ public class AdministracaoServiceImpl implements AdministracaoService {
 	
 	@Autowired
 	private ImovelPropostasService imovelPropostasService;
-	
-	@Autowired
-	private ImovelcompartilhadoService imovelcompartilhadoService;
 	
 	@Autowired
 	private ImovelvisualizadoService imovelvisitadoService;
@@ -241,9 +245,9 @@ public class AdministracaoServiceImpl implements AdministracaoService {
 		else if ( tipoRelatorio.equals("maisPropostas"))
 			form.setListaImoveis(imovelPropostasService.checarImoveisMaisReceberamPropostasPorPeriodo(form));
 		else if ( tipoRelatorio.equals("maisSolParceria"))
-			form.setListaImoveis(imovelcompartilhadoService.checarImoveisMaisReceberamSolCompartilhamentoPorPeriodo(form, TipoImovelCompartilhadoEnum.PARCERIA.getRotulo()));	
+			form.setListaImoveis(parceriaService.checarImoveisMaisReceberamSolParceriaPorPeriodo(form));	
 		else if ( tipoRelatorio.equals("maisSolIntermediacao"))
-			form.setListaImoveis(imovelcompartilhadoService.checarImoveisMaisReceberamSolCompartilhamentoPorPeriodo(form, TipoImovelCompartilhadoEnum.INTERMEDIACAO.getRotulo()));
+			form.setListaImoveis(intermediacaoService.checarImoveisMaisReceberamSolIntermediacaoPorPeriodo(form));
 		else if ( tipoRelatorio.equals("maisVisitas"))
 			form.setListaImoveis(imovelvisitadoService.relatorioImoveisMaisVisitadosPorPeriodo(form));
 		else if ( tipoRelatorio.equals("quantTotal"))

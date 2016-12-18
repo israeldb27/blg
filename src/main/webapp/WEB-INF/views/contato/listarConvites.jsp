@@ -9,6 +9,11 @@
 <spring:url var="urlContato" value="/contato"/>
 <spring:url var="urlUsuario" value="/usuario"/>
 
+<%@page import="com.busqueumlugar.util.UsuarioInterface"%>
+<%@page import="com.busqueumlugar.form.UsuarioForm"%>
+<%@page import="com.busqueumlugar.util.ParametrosUtils"%>
+<c:set var="usuario" value="<%= (UsuarioForm)request.getSession().getAttribute(UsuarioInterface.USUARIO_SESSAO) %>"/>
+
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#opcaoOrdenacao1').change(function () {				
@@ -28,7 +33,7 @@
 		var parametro1 = id;
 		$.ajax({  
 		    type: 'GET',	
-	         url: '${urlContato}/responderConvite/ok/' + parametro1,
+	         url: '${urlContato}/responderConvite/O/' + parametro1,
 	         dataType: 'json',
 	         success: function(data){	        	 
 	        	 if ( data == 'ok') {
@@ -48,7 +53,7 @@
 		var parametro1 = id;
 		$.ajax({  
 		    type: 'GET',	
-	         url: '${urlContato}/responderConvite/recusado/' + parametro1,
+	         url: '${urlContato}/responderConvite/R/' + parametro1,
 	         dataType: 'json',
 	         success: function(data){	        	 
 	        	 if ( data == 'ok') {
@@ -127,55 +132,114 @@
 				                   	   
 				                   	    <div class="media-list list-search">
 			                                    <c:forEach var="usuarioContato" items="${listaConvitesRecebidos}" varStatus="item">
-			                                        <div class="media rounded shadow no-overflow">
-			                                            <div class="media-left">
-			                                                <a href="${urlUsuario}/detalhesUsuario/${usuarioContato.usuarioConvidado.id}" >                                                                                                     
-			                                                    <img src="${context}${usuarioContato.usuarioConvidado.imagemArquivo}" class="img-responsive" style="width: 260px; height: 195px; alt="admin"/>
-			                                                </a>
-			                                            </div>
-			                                            <div class="media-body">
-			                                                <span class="label pull-right" style="background-color: #03A9F4; font-size: 12px">${usuarioContato.usuarioConvidado.perfilFmt}</span>
-			                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlUsuario}/detalhesUsuario/${usuarioContato.usuarioConvidado.id}" style="color : #03A9F4;">${usuarioContato.usuarioConvidado.nome}</a></h4>
-			                                                <h5 class="media-heading" style="margin-bottom:12px;"><i class="fa fa-map-marker"></i> ${usuarioContato.usuarioConvidado.cidade} - ${usuarioContato.usuarioConvidado.uf}   </h1>
-			                                                
-			                                                <div class="col-md-5" > 
-			                                                	<div class="media-body" >
-						                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.cadastro.usuario" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;"><fmt:formatDate value='${usuarioContato.dataCadastro}' pattern='dd/MM/yyyy'/></font></span></em> </br>			                                            		                                            	                                            
-						                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.convite" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;"><fmt:formatDate value='${usuarioContato.dataConvite}' pattern='dd/MM/yyyy'/></font></span></em> </br>
-						                                        </div>
-						                                                                                       
-			                                                    <br/> <br/>                                                      
-			                                                     
-			                                                    <spring:message code="lbl.acao.aceita.convite" var="mensagemAceitaConvite"/>
-								                                <a href="#a" onClick="aceitarConvite(${usuarioContato.id})" id="idConviteAceitoUsuario_${usuarioContato.id}" style="font-size:x-large;"  class="dropdown-toggle my-tooltip" data-toggle="tooltip" data-placement="right"  data-original-title="${mensagemAceitaConvite}" ><i class="fa fa-check"></i></a>
-				                                                                                                    
-				                                                <spring:message code="lbl.acao.recusa.convite" var="mensagemRecusarConvite"/>	
-				                                                <a href="#a" onClick="rejeitarConvite(${usuarioContato.id})" id="idConviteRejeitarUsuario_${usuarioContato.id}" style="font-size:x-large;"  class="dropdown-toggle my-tooltip" data-toggle="tooltip" data-placement="right"  data-original-title="${mensagemRecusarConvite}" ><i class="fa fa-times"></i></a>                                                   	
-			                                              
-												          		<div id="idMsgConviteAceitoUsuario_${usuarioContato.id}"  style="display: none;">
-											                           <div class="alert alert-success">
-							                                                <strong><spring:message code="msg.convite.aceito.sucesso"/></strong> 
-							                                            </div>											                          		                          
-												                </div><!-- /.panel -->                      
-												                
-											               		 <div id="idMsgConviteAceitoUsuario_${usuarioContato.id}"  style="display: none;">
-											               		   <div class="alert alert-danger">
-						                                                <strong><spring:message code="msg.convite.recusado.sucesso"/></strong> 
-						                                            </div>											                          			                                                    
-											                      </div><!-- /.panel -->  
-			                                                </div>			                                                
-			                                                <div class="col-md-7">
-			                                                    <table class="table table-condensed">
-			                                                        <tbody style="font-size: 13px;">
-			                                                        	<tr>
-			                                                                <td class="text-left">Total Imóveis</td>
-			                                                                <td class="text-right">110</td>
-			                                                            </tr>                                                      
-			                                                        </tbody>
-			                                                    </table>
-			                                                </div>
-			                                            </div>
-			                                        </div>
+			                                    
+			                                    	<c:choose>
+			                                    		<c:when test="${usuarioContato.usuarioConvidado.id != usuario.id }">
+		                                    				<div class="media rounded shadow no-overflow">
+					                                            <div class="media-left">
+					                                                <a href="${urlUsuario}/detalhesUsuario/${usuarioContato.usuarioConvidado.id}" >                                                                                                     
+					                                                    <img src="${context}${usuarioContato.usuarioConvidado.imagemArquivo}" class="img-responsive" style="width: 260px; height: 195px; alt="admin"/>
+					                                                </a>
+					                                            </div>
+					                                            <div class="media-body">
+					                                                <span class="label pull-right" style="background-color: #03A9F4; font-size: 12px">${usuarioContato.usuarioConvidado.perfilFmt}</span>
+					                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlUsuario}/detalhesUsuario/${usuarioContato.usuarioConvidado.id}" style="color : #03A9F4;">${usuarioContato.usuarioConvidado.nome}</a></h4>
+					                                                <h5 class="media-heading" style="margin-bottom:12px;"><i class="fa fa-map-marker"></i> ${usuarioContato.usuarioConvidado.cidade} - ${usuarioContato.usuarioConvidado.uf}   </h1>
+					                                                
+					                                                <div class="col-md-5" > 
+					                                                	<div class="media-body" >
+								                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.cadastro.usuario" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;"><fmt:formatDate value='${usuarioContato.usuarioConvidado.dataCadastro}' pattern='dd/MM/yyyy'/></font></span></em> </br>			                                            		                                            	                                            
+								                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.convite" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;"><fmt:formatDate value='${usuarioContato.dataConvite}' pattern='dd/MM/yyyy'/></font></span></em> </br>
+								                                        </div>
+								                                                                                       
+					                                                    <br/> <br/>                                                      
+					                                                     
+					                                                    <spring:message code="lbl.acao.aceita.convite" var="mensagemAceitaConvite"/>
+										                                <a href="#a" onClick="aceitarConvite(${usuarioContato.usuarioConvidado.id})" id="idConviteAceitoUsuario_${usuarioContato.usuarioConvidado.id}" style="font-size:x-large;"  class="dropdown-toggle my-tooltip" data-toggle="tooltip" data-placement="right"  data-original-title="${mensagemAceitaConvite}" ><i class="fa fa-check"></i></a>
+						                                                                                                    
+						                                                <spring:message code="lbl.acao.recusa.convite" var="mensagemRecusarConvite"/>	
+						                                                <a href="#a" onClick="rejeitarConvite(${usuarioContato.usuarioConvidado.id})" id="idConviteRejeitarUsuario_${usuarioContato.usuarioConvidado.id}" style="font-size:x-large;"  class="dropdown-toggle my-tooltip" data-toggle="tooltip" data-placement="right"  data-original-title="${mensagemRecusarConvite}" ><i class="fa fa-times"></i></a>                                                   	
+					                                              
+														          		<div id="idMsgConviteAceitoUsuario_${usuarioContato.usuarioConvidado.id}"  style="display: none;">
+													                           <div class="alert alert-success">
+									                                                <strong><spring:message code="msg.convite.aceito.sucesso"/></strong> 
+									                                            </div>											                          		                          
+														                </div><!-- /.panel -->                      
+														                
+													               		 <div id="idMsgConviteAceitoUsuario_${usuarioContato.usuarioConvidado.id}"  style="display: none;">
+													               		   <div class="alert alert-danger">
+								                                                <strong><spring:message code="msg.convite.recusado.sucesso"/></strong> 
+								                                            </div>											                          			                                                    
+													                      </div><!-- /.panel -->  
+					                                                </div>			                                                
+					                                                <div class="col-md-7">
+					                                                    <table class="table table-condensed">
+					                                                        <tbody style="font-size: 13px;">
+					                                                        	<tr>
+					                                                                <td class="text-left">Total Imóveis</td>
+					                                                                <td class="text-right">110</td>
+					                                                            </tr>                                                      
+					                                                        </tbody>
+					                                                    </table>
+					                                                </div>
+					                                            </div>
+					                                        </div>
+			                                    		</c:when>
+			                                    		
+			                                    		<c:when test="${usuarioContato.usuarioHost.id != usuario.id }">
+															<div class="media rounded shadow no-overflow">
+					                                            <div class="media-left">
+					                                                <a href="${urlUsuario}/detalhesUsuario/${usuarioContato.usuarioHost.id}" >                                                                                                     
+					                                                    <img src="${context}${usuarioContato.usuarioHost.imagemArquivo}" class="img-responsive" style="width: 260px; height: 195px; alt="admin"/>
+					                                                </a>
+					                                            </div>
+					                                            <div class="media-body">
+					                                                <span class="label pull-right" style="background-color: #03A9F4; font-size: 12px">${usuarioContato.usuarioHost.perfilFmt}</span>
+					                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlUsuario}/detalhesUsuario/${usuarioContato.usuarioHost.id}" style="color : #03A9F4;">${usuarioContato.usuarioHost.nome}</a></h4>
+					                                                <h5 class="media-heading" style="margin-bottom:12px;"><i class="fa fa-map-marker"></i> ${usuarioContato.usuarioHost.cidade} - ${usuarioContato.usuarioHost.uf}   </h1>
+					                                                
+					                                                <div class="col-md-5" > 
+					                                                	<div class="media-body" >
+								                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.cadastro.usuario" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;"><fmt:formatDate value='${usuarioContato.usuarioHost.dataCadastro}' pattern='dd/MM/yyyy'/></font></span></em> </br>			                                            		                                            	                                            
+								                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.convite" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;"><fmt:formatDate value='${usuarioContato.dataConvite}' pattern='dd/MM/yyyy'/></font></span></em> </br>
+								                                        </div>
+								                                                                                       
+					                                                    <br/> <br/>                                                      
+					                                                     
+					                                                    <spring:message code="lbl.acao.aceita.convite" var="mensagemAceitaConvite"/>
+										                                <a href="#a" onClick="aceitarConvite(${usuarioContato.usuarioHost.id})" id="idConviteAceitoUsuario_${usuarioContato.usuarioHost.id}" style="font-size:x-large;"  class="dropdown-toggle my-tooltip" data-toggle="tooltip" data-placement="right"  data-original-title="${mensagemAceitaConvite}" ><i class="fa fa-check"></i></a>
+						                                                                                                    
+						                                                <spring:message code="lbl.acao.recusa.convite" var="mensagemRecusarConvite"/>	
+						                                                <a href="#a" onClick="rejeitarConvite(${usuarioContato.usuarioHost.id})" id="idConviteRejeitarUsuario_${usuarioContato.usuarioHost.id}" style="font-size:x-large;"  class="dropdown-toggle my-tooltip" data-toggle="tooltip" data-placement="right"  data-original-title="${mensagemRecusarConvite}" ><i class="fa fa-times"></i></a>                                                   	
+					                                              
+														          		<div id="idMsgConviteAceitoUsuario_${usuarioContato.usuarioHost.id}"  style="display: none;">
+													                           <div class="alert alert-success">
+									                                                <strong><spring:message code="msg.convite.aceito.sucesso"/></strong> 
+									                                            </div>											                          		                          
+														                </div><!-- /.panel -->                      
+														                
+													               		 <div id="idMsgConviteAceitoUsuario_${usuarioContato.usuarioHost.id}"  style="display: none;">
+													               		   <div class="alert alert-danger">
+								                                                <strong><spring:message code="msg.convite.recusado.sucesso"/></strong> 
+								                                            </div>											                          			                                                    
+													                      </div><!-- /.panel -->  
+					                                                </div>			                                                
+					                                                <div class="col-md-7">
+					                                                    <table class="table table-condensed">
+					                                                        <tbody style="font-size: 13px;">
+					                                                        	<tr>
+					                                                                <td class="text-left">Total Imóveis</td>
+					                                                                <td class="text-right">110</td>
+					                                                            </tr>                                                      
+					                                                        </tbody>
+					                                                    </table>
+					                                                </div>
+					                                            </div>
+					                                        </div>	
+			                                    		</c:when>
+			                                    	
+			                                    	</c:choose>
+			                                        
 			                                    </c:forEach>
 			                                </div>	                   	   
 				                    </div>

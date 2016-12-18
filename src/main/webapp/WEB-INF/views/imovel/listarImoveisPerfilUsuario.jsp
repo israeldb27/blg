@@ -13,7 +13,6 @@
 <spring:url value="/imovel" var="urlImovel"/>
 <spring:url value="/usuario" var="urlUsuario"/>
 <spring:url value="/imovelIndicado" var="urlImovelIndicado"/>
-<spring:url var="urlImovelComparativo" value="/imovelComparativo"/>
 
 <%@page import="com.busqueumlugar.enumerador.AcaoImovelEnum"%>
 <%@page import="com.busqueumlugar.enumerador.TipoImovelEnum"%>
@@ -22,7 +21,6 @@
 <c:set var="listaAcaoImovel" value="<%= AcaoImovelEnum.values() %>"/>
 <c:set var="listaTipoImovel" value="<%= TipoImovelEnum.values() %>"/>
 <c:set var="listaStatusImovel" value="<%= StatusImovelEnum.values() %>"/>
-
 
     
 <script type="text/javascript">
@@ -97,26 +95,7 @@
             });    	    
     	}
     	
-    	function adicionarComparativo(id) {    		
-    		var parametro1 = id;
-    	    $.ajax({        
-    			 url: '${urlImovelComparativo}/adicionarImovelComparativo/' + parametro1,
-    			 dataType: 'json',
-    			 success: function(data){				 
-    				 if ( data == 'ok') {
-    					 $('#msgModalComparativo').html('Imóvel foi adicionado a lista de comparativos');
-    					 $("#idModalConfirmarComparativo").modal("show");	
-    	       	 }
-    	       	 else  {
-    	       		$("#idModalConfirmarComparativo").modal("show"); 
-    	       		$('#msgModalComparativo').html(data);
-    		         }     	    
-    			 },
-    			 error: function(jqXHR, textStatus, errorThrown) {				 
-    				 $('#msgModalComparativo').html("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
-    			 }
-    		 });
-    	}
+
 		</script>
 			
 			<c:import url="../layout/head-layout.jsp"></c:import>   
@@ -135,8 +114,6 @@
 
             <!-- START @PAGE CONTENT -->
             <section id="page-content">
-            
-            	<!-- Inicio - Meus Interesses -->
             
             	 <!-- Start header content -->
                 <div class="header-content">
@@ -557,7 +534,7 @@
                                                             </tr>
                                                             <tr>
                                                                 <td class="text-left"><spring:message code="lbl.vagas.garagem.resum"/></td>
-                                                                <td class="text-right"><c:if test="${imovel.quantGaragem > 0}">${imovel.quantGaragem}</c:if> vaga(s)</td>
+                                                                <td class="text-right"><c:if test="${imovel.quantGaragem > 0}">${imovel.quantGaragem}</c:if> <spring:message code="lbl.num.vagas"/></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>

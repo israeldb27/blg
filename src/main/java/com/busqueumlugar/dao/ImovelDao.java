@@ -45,10 +45,6 @@ public interface ImovelDao extends GenericDAO<Imovel, Long> {
 	
 	List<Imovel> findImoveisByValor(String valor);
 	
-	List<Imovel> findSugestoesImoveisParaClientes(Long idUsuario, int regra);
-	
-	List<Imovel> findSugestoesImoveisParaCorretoresImobiliarias(Long idUsuario, int regra);
-
 	long findQuantMeusImoveis(Long idUsuario);
 
 	List<Imovel> findImoveisByListaIdsByIndex(List<Long> listaIds, int index);

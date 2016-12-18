@@ -51,12 +51,7 @@
             
             	 <!-- Start header content -->
                 <div class="header-content">
-                    <h2><i class="fa fa-pencil"></i> <spring:message code="lbl.title.link.mensagens"/>  </h2>         
-					
-					<!-- Start header modal Ajuda - funcionalidade -->
-						<c:import url="../ajuda/headerMenuModal.jsp"></c:import>																				
-					<!-- End header  modal Ajuda - funcionalidade -->					
-					
+                    <h2><i class="fa fa-pencil"></i> <spring:message code="lbl.title.link.mensagens"/>  </h2>      
                 </div><!-- /.header-content -->
                 <!--/ End header content -->
                 
@@ -94,13 +89,13 @@
 																			                    	    
 							                                                <span class="media-text">${mensagem.descricao} </span>
 							                                                <!-- Start meta icon -->	                                                              	                                                
-							                                                <span class="media-meta"><i class="fa fa-plus-square"></i> Mais Mensagens</span>	                                                
+							                                                <span class="media-meta"><i class="fa fa-plus-square"></i> <spring:message code="lbl.mais.mensagens"/></span>	                                                
 							                                                
 							                                                <span class="media-meta pull-right">	                                                		                                  
 							                                                	<fmt:formatDate value="${mensagem.dataMensagem}" pattern='dd/MM/yyyy'/></span>
 							                                                	
 							                                                	<c:if test="${(mensagem.status == 'N')}">
-							                                                		Nova Mensagem	                                                	
+							                                                		<spring:message code="lbl.nova.mensagem.resum"/>	                                                	
 							                                                	</c:if>
 							                                                <!--/ End meta icon -->
 							                                            </div><!-- /.media-body -->
@@ -115,13 +110,13 @@
 																			                    	    
 							                                                <span class="media-text">${mensagem.descricao} </span>
 							                                                <!-- Start meta icon -->	                                                              	                                                
-							                                                <span class="media-meta"><i class="fa fa-plus-square"></i> Mais Mensagens</span>	                                                
+							                                                <span class="media-meta"><i class="fa fa-plus-square"></i><spring:message code="lbl.mais.mensagens"/></span>	                                                
 							                                                
 							                                                <span class="media-meta pull-right">	                                                		                                  
 							                                                	<fmt:formatDate value="${mensagem.dataMensagem}" pattern='dd/MM/yyyy'/></span>
 							                                                	
 							                                                	<c:if test="${(mensagem.status == 'N')}">
-							                                                		Nova Mensagem	                                                	
+							                                                		<spring:message code="lbl.nova.mensagem.resum"/>	                                                	
 							                                                	</c:if>
 							                                                <!--/ End meta icon -->
 							                                            </div><!-- /.media-body -->
@@ -138,7 +133,7 @@
                             	
                             		<c:when test="${empty listaMinhasMensagens}">
                             			<div class="callout callout-warning">
-		                                    <strong>Nenhuma mensagem</strong>		                                    
+		                                    <strong><spring:message code="lbl.nenhuma.mensagem"/> </strong>		                                    
 		                                </div>
                             		</c:when>
                             	</c:choose>

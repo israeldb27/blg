@@ -139,11 +139,8 @@
                                 </div><!-- /.panel-body -->
                             </div>
                         </div>
-
                 </div>
-       
-       			</div>
-               
+       		</div>               
          
             </section><!-- /#page-content -->
             <!--/ END PAGE CONTENT -->

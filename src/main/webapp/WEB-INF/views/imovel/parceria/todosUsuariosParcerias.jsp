@@ -7,7 +7,7 @@
 <%@page import="com.busqueumlugar.service.UsuarioService"%>
 <%@page import="com.busqueumlugar.form.UsuarioForm"%>
 
-<spring:url value="/imovelCompartilhado" var="urlImovelCompartilhado"/>
+
 <spring:url var="urlImovelComentario" value="/imovelComentario"/>
 <spring:url value="/imovelPropostas" var="urlImovelPropostas"/>
 <spring:url value="/imovelIndicado" var="urlImovelIndicado"/>

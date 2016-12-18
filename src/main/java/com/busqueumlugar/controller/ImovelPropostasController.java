@@ -1,6 +1,7 @@
 package com.busqueumlugar.controller;
 
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.busqueumlugar.enumerador.StatusLeituraEnum;
 import com.busqueumlugar.form.ImovelPropostasForm;
 import com.busqueumlugar.form.UsuarioForm;
 import com.busqueumlugar.model.ImovelPropostas;
@@ -105,7 +107,7 @@ public class ImovelPropostasController {
 		try {
 			imovelPropostasservice.atualizarStatusImovelProposta(imovelPropostasservice.recuperarImovelImovelPropostasPorId(idImovelPropostas));
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
-			session.setAttribute(ImovelService.QUANT_IMOVEIS_PropostaS, imovelPropostasservice.checaQuantidadeOfertNova(user.getId()));
+			session.setAttribute(ImovelService.QUANT_IMOVEIS_PropostaS, imovelPropostasservice.checarQuantidadesPropostasRecebidasPorUsuarioPorStatus(user.getId(), StatusLeituraEnum.NOVO.getRotulo()));
 			response.setStatus(200);
 		} catch (Exception e) {
 			log.error("Erro metodo - ImovelPropostasController -  desmarcarCheck");

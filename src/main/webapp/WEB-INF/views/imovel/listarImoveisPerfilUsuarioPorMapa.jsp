@@ -12,7 +12,6 @@
 <spring:url value="/imovel/buscarBairros" var="urlBuscarBairros"/>
 <spring:url value="/imovel/buscarImovelMapa" var="urlBuscarImoveisMapa"/>
 <spring:url var="urlImovelFavoritos" value="/imovelFavoritos"/>
-<spring:url var="urlImovelComparativo" value="/imovelComparativo"/>
 
 <%@page import="com.busqueumlugar.util.UsuarioInterface"%>
 <%@page import="com.busqueumlugar.service.UsuarioService"%>
@@ -189,18 +188,6 @@ div#map_container{
                 success: function(){
                 	$("#idMeInteressei_"+id).hide();
 	    	    	$("#idInteressado_"+id).show();
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
-                }
-            });   
-    	}
-    	
-    	function adicionarComparativo(id) {    	
-    		var parametro1 = id;
-    	    $.ajax({                
-                url: '${urlImovelComparativo}/adicionarImovelComparativo/' + parametro1,                
-                success: function(){                	
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);

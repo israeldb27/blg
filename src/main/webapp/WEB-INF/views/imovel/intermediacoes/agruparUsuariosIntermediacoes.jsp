@@ -7,7 +7,7 @@
 <%@page import="com.busqueumlugar.service.UsuarioService"%>
 <%@page import="com.busqueumlugar.form.UsuarioForm"%>
 
-<spring:url value="/imovelCompartilhado" var="urlImovelCompartilhado"/>
+<spring:url value="/intermediacao" var="urlIntermediacao"/>
 <spring:url var="urlImovelComentario" value="/imovelComentario"/>
 <spring:url value="/imovelPropostas" var="urlImovelPropostas"/>
 <spring:url value="/imovelIndicado" var="urlImovelIndicado"/>
@@ -95,7 +95,7 @@ $('#opcaoPaginacao').change(function () {
                             <c:import url="../avisoRenovacaoAssinatura.jsp"></c:import>
                         <% } %>
                         <div class="col-lg-3 col-md-3 col-sm-4">
-                            <form:form class="form-horizontal" role="form" method="POST" id="intermediacaoForm" modelAttribute="intermediacaoForm" action="${urlImovelCompartilhado}/filtrarAgruparUsuariosIntermediacao" >
+                            <form:form class="form-horizontal" role="form" method="POST" id="intermediacaoForm" modelAttribute="intermediacaoForm" action="${urlIntermediacao}/filtrarAgruparUsuariosIntermediacao" >
                             
                                 <div class="panel rounded shadow no-overflow">
                            					<div class="panel-heading">
@@ -145,7 +145,7 @@ $('#opcaoPaginacao').change(function () {
 	                            </div>
                                 <div class="pull-right" >
                                 			<spring:message code="lbl.hint.tipo.agrupar" var="hintAgrupar"/>
-                                      		<form:form method="POST" id="modVisualizaListaIntermediacaoForm" modelAttribute="intermediacaoForm" action="${urlImovelCompartilhado}/modoVisualizarIntermediacao" >								                    
+                                      		<form:form method="POST" id="modVisualizaListaIntermediacaoForm" modelAttribute="intermediacaoForm" action="${urlIntermediacao}/modoVisualizarIntermediacao" >								                    
 							                    <form:select id="opcaoVisualizacaoListaIntermediacao" path="opcaoVisualizacao" class="form-control" title="${hintAgrupar}">
 														<form:option value="" disabled="true"><spring:message code="lbl.agrupar.por"/></form:option>                  											
 														<form:option value="agruparUsuarios" ><spring:message code="lbl.agrupar.usuarios"/></form:option>   
@@ -155,7 +155,7 @@ $('#opcaoPaginacao').change(function () {
                                 </div><!-- /.pull-right -->
                                 <div class="pull-right" style="padding-right:10px;">
                                 			<spring:message code="lbl.hint.tipo.ordenacao" var="hintOrdenar"/>
-                                    		<form:form method="POST" id="imoveisIntermediacaoForm" modelAttribute="intermediacaoForm" action="${urlImovelCompartilhado}/ordenarAgruparIntermediacoes" >         		      	
+                                    		<form:form method="POST" id="imoveisIntermediacaoForm" modelAttribute="intermediacaoForm" action="${urlIntermediacao}/ordenarAgruparIntermediacoes" >         		      	
 					                        	<form:select id="opcaoOrdenacao2" path="opcaoOrdenacao" class="form-control" title="${hintOrdenar}">                                
 							                        <form:option value="" disabled="true"><spring:message code="lbl.opcao.ordenar"/></form:option>
 							                        <form:option value="maiorDataCadastrado" ><spring:message code="lbl.opcao.ordenacao.usuario.cad.mais.recente"/></form:option>
@@ -168,7 +168,7 @@ $('#opcaoPaginacao').change(function () {
                                 
                                 <c:if test="${intermediacaoForm.isVisible() }">
                                 	<div class="pull-right" style="padding-right:20px;">
-	                                    <form:form method="POST" id="intermediacaoPageForm" modelAttribute="intermediacaoForm" action="${urlImovelCompartilhado}/filtrarIntermediacao" >
+	                                    <form:form method="POST" id="intermediacaoPageForm" modelAttribute="intermediacaoForm" action="${urlIntermediacao}/filtrarIntermediacao" >
 	                                     	 <spring:message code="lbl.hint.opcao.paginacao" var="hintPaginacao"/>
                                              <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="form-control" title="${hintPaginacao}">
                                                  <form:option value="" disabled="true"><spring:message code="lbl.opcao.paginacao"/></form:option>
@@ -231,7 +231,7 @@ $('#opcaoPaginacao').change(function () {
 		                                                    <br>
 		                                                    <% if ( request.getSession().getAttribute("acessoValido").equals("S") ) {%> 
 		                                                    	<spring:message code="lbl.aba.todos.imoveis.intermediacao.por.usuario" var="mensagemTodosImoveisIntermediacao"/>                                                    	
-		                                                    	<a href="${urlImovelCompartilhado}/todosImoveisIntermediacoesPorUsuario/${usuarioIntermediacao.id}" style="font-size:x-large; color: rgb(99, 110, 123);" class="dropdown-toggle" ><i class="fa fa-cog"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;"> ${mensagemTodosImoveisIntermediacao} </font> &nbsp;&nbsp; </i> </a>
+		                                                    	<a href="${urlIntermediacao}/todosImoveisIntermediacoesPorUsuario/${usuarioIntermediacao.id}" style="font-size:x-large; color: rgb(99, 110, 123);" class="dropdown-toggle" ><i class="fa fa-cog"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;"> ${mensagemTodosImoveisIntermediacao} </font> &nbsp;&nbsp; </i> </a>
 		                                                    <% } %>
 		                                                </div>
 		                                            </div>

@@ -32,13 +32,7 @@ public interface ImovelPropostasService {
 	
 	List<ImovelPropostas> recuperarPropostasImovelPorUsuario(Long idUsuario, Long idImovel);
 	
-	List<ImovelPropostas> listarMinhasPropostasSobreImovel(Long idUsuario, Long idImovel);
-	
 	List<ImovelPropostas> recuperarPropostasRecebidasPorUsuario(Long idUsuario, ImovelPropostasForm form);
-	
-	int quantidadePropostasRecebidasPorUsuario(Long idUsuario, ImovelPropostasForm form);
-	
-	int checaQuantidadeOfertNova(Long idUsuario);
 	
 	List<ImovelPropostas> recuperarImoveisPropostasNovas(List<ImovelPropostas> lista);
 	

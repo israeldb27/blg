@@ -1,10 +1,7 @@
 package com.busqueumlugar.controller;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
-import java.util.ResourceBundle;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -17,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,25 +21,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.busqueumlugar.enumerador.PerfilUsuarioOpcaoEnum;
 import com.busqueumlugar.enumerador.ServicoValueEnum;
 import com.busqueumlugar.enumerador.TipoImovelCompartilhadoEnum;
-import com.busqueumlugar.form.ImovelForm;
 import com.busqueumlugar.form.RelatorioForm;
-import com.busqueumlugar.form.ServicoForm;
 import com.busqueumlugar.form.UsuarioForm;
-import com.busqueumlugar.model.Bairros;
-import com.busqueumlugar.model.Cidades;
-import com.busqueumlugar.model.Estados;
-import com.busqueumlugar.model.Formapagamento;
-import com.busqueumlugar.model.Imovel;
-import com.busqueumlugar.model.Infoservico;
 import com.busqueumlugar.model.Relatorio;
-import com.busqueumlugar.model.RelatorioQuantidadeImoveisCriados;
-import com.busqueumlugar.model.RelatorioVariacaoPrecoTipoImovel;
-import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.BairrosService;
 import com.busqueumlugar.service.CidadesService;
 import com.busqueumlugar.service.EstadosService;
@@ -58,7 +41,6 @@ import com.busqueumlugar.service.ParamservicoService;
 import com.busqueumlugar.service.RelatorioService;
 import com.busqueumlugar.service.ServicoService;
 import com.busqueumlugar.service.UsuarioService;
-import com.busqueumlugar.util.ParametrosUtils;
 import com.busqueumlugar.util.Select;
 import com.busqueumlugar.util.UsuarioInterface;
 import com.paypal.api.payments.Payment;
@@ -391,7 +373,7 @@ public class RelatorioController {
     		            map.addAttribute("relatorioImobiliaria", mapper.writeValueAsString(map.get(form.getItem())));
     		        }    
     		        else if ( form.getItem().equals("imobiliariaMaisIntermediacoesAceitas") ) {
-    		            map.addAttribute(form.getItem(), usuarioService.relatorioUsuarioMaisCompartilhamentosAceitos(form,PerfilUsuarioOpcaoEnum.IMOBILIARIA.getRotulo(), TipoImovelCompartilhadoEnum.INTERMEDIACAO.getRotulo()));
+    		            map.addAttribute(form.getItem(), usuarioService.relatorioUsuarioMaisCompartilhamentosAceitos(form,PerfilUsuarioOpcaoEnum.IMOBILIARIA.getRotulo(), TipoImovelCompartilhadoEnum.PARCERIA.getRotulo()));
     		            map.addAttribute("relatorioImobiliaria", mapper.writeValueAsString(map.get(form.getItem())));
     		        }    
     		        else if ( form.getItem().equals("corretoresMaisParceriasAceitas") ){

@@ -51,7 +51,7 @@ public class RecomendacaoServiceImpl implements RecomendacaoService {
 		rec.setUsuarioRecomendado(usuarioDao.findUsuario(idUsuario));
 		rec.setUsuario(usuarioDao.findUsuario(idUsuarioSessao));
 		rec.setDataRecomendacao(new Date());
-		rec.setStatus("enviado");
+		rec.setStatus(RecomendacaoStatusEnum.ENVIADO.getRotulo());
 		rec.setStatusLeitura(StatusLeituraEnum.NOVO.getRotulo());
 		rec.setDescricao(novaRecomendacao);
 		dao.save(rec);	

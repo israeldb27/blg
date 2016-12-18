@@ -17,6 +17,7 @@ import org.springframework.util.CollectionUtils;
 import com.busqueumlugar.dao.ContatoDao;
 import com.busqueumlugar.dao.ImovelvisualizadoDao;
 import com.busqueumlugar.dao.SeguidorDao;
+import com.busqueumlugar.enumerador.StatusLeituraEnum;
 import com.busqueumlugar.enumerador.TipoContatoOpcaoEnum;
 import com.busqueumlugar.form.AdministracaoForm;
 import com.busqueumlugar.form.ImovelForm;
@@ -260,7 +261,7 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 	public List<Imovelvisualizado> findImoveisvisitadosByIdDonoImovelNovos(Long idUsuario) {
 		Criteria crit = session().createCriteria(Imovelvisualizado.class);
 		crit.createCriteria("usuarioDonoImovel").add(Restrictions.eq("id", idUsuario));
-		crit.add(Restrictions.eq("statusVisita", "novo")).list();
+		crit.add(Restrictions.eq("statusVisita", StatusLeituraEnum.NOVO.getRotulo())).list();
 		return crit.list();				
 	}
 
@@ -275,9 +276,8 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 	public List filterImovelVisitadoPorDataPorQuantImoveis(Date dataInicio,	Date dataFim, int quantImoveis) {		
 		Criteria crit = session().createCriteria(Imovelvisualizado.class);
 		ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("imovel.id"));
-		projList.add(Projections.count("imovel.id").as("quant"));		
-		projList.add(Projections.groupProperty("idImovel"));
+		projList.add(Projections.groupProperty("imovel.id"));
+		projList.add(Projections.count("imovel.id").as("quant"));
 		crit.setProjection(projList);
 		crit.add(Restrictions.ge("dataVisita", dataInicio));
 		crit.add(Restrictions.le("dataVisita", dataFim));		
@@ -290,9 +290,8 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 	public List checarImoveisComMaisVisitasPeriodo(Date dataInicio,	Date dataFim, int quant) {		
 		Criteria crit = session().createCriteria(Imovelvisualizado.class);
 		ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("imovel.id"));
-		projList.add(Projections.count("imovel.id").as("quant"));		
 		projList.add(Projections.groupProperty("imovel.id"));
+		projList.add(Projections.count("imovel.id").as("quant"));
 		crit.setProjection(projList);
 		crit.add(Restrictions.ge("dataVisita", dataInicio));
 		crit.add(Restrictions.le("dataVisita", dataFim));		
@@ -343,9 +342,8 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 	public List findMeusImoveisVisitadosByIdUsuarioDistinct(Long idUsuario, ImovelvisualizadoForm form) {
 		Criteria crit = session().createCriteria(Imovelvisualizado.class);
 		ProjectionList projList = Projections.projectionList();	
-		projList.add(Projections.property("imovel.id"));
-		projList.add(Projections.count("imovel.id").as("quant"));
 		projList.add(Projections.groupProperty("imovel.id"));
+		projList.add(Projections.count("imovel.id").as("quant"));
 		crit.setProjection(projList);
 		crit.createCriteria("usuarioDonoImovel").add(Restrictions.eq("id", idUsuario));
 		 if (! StringUtils.isNullOrEmpty(form.getOpcaoOrdenacao()) ){ // fazer a ordenacao ainda
@@ -444,9 +442,8 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 		}
 
         ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("imovel.id"));
-		projList.add(Projections.count("imovel.id").as("quant"));		
-		projList.add(Projections.groupProperty("imovel.id"));
+        projList.add(Projections.groupProperty("imovel.id"));
+		projList.add(Projections.count("imovel.id").as("quant"));
 		crit.setProjection(projList);			
 		crit.addOrder(Order.desc("quant"));
 		form.setQuantRegistros(AppUtil.recuperarQuantidadeLista(crit.list()));
@@ -459,20 +456,17 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 	}
 
 	@Override
-	public int findQuantidadeNovosImoveisVisitados(Long idImovel) {
-		Criteria crit = session().createCriteria(Imovelvisualizado.class);
+	public long findQuantidadeImoveisVisitadosPorImovelPorStatus(Long idImovel, String statusLeitura) {
+		Criteria crit = session().createCriteria(Imovelvisualizado.class);		
+		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));	
+		if (! StringUtils.isNullOrEmpty(statusLeitura))
+			crit.add(Restrictions.eq("statusVisita", StatusLeituraEnum.NOVO.getRotulo()));
+		
 		ProjectionList projList = Projections.projectionList();		
 		projList.add(Projections.count("imovel.id").as("quant"));
 		crit.setProjection(projList);
-		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));		
-		crit.add(Restrictions.eq("statusVisita", "novo"));		
-		List lista = crit.list();
-		if ( lista == null )
-			return 0;
-		else {
-			Object obj = lista.get(0);
-			return Integer.parseInt(obj.toString());
-		}		
+		crit.setMaxResults(1);
+		return (long) crit.uniqueResult();
 	}
 
 	@Override
@@ -497,11 +491,9 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 				}
 				else if (form.getOpcaoContatoAgruparUsuarios().equals(TipoContatoOpcaoEnum.USUARIOS_SEGUINDO.getRotulo())){
 					listaIds = seguidorDao.filterListaIdsUsuariosSeguidores(idUsuario, form.getOpcaoPerfilContatoAgruparUsuarios());
-					//listaIds = seguidorDao.filterListaIdsUsuariosSeguindo(idUsuario, form.getOpcaoPerfilContatoAgruparUsuarios());
 				}
 				else if (form.getOpcaoContatoAgruparUsuarios().equals(TipoContatoOpcaoEnum.USUARIOS_SEGUIDORES.getRotulo())){
 					listaIds = seguidorDao.filterListaIdsUsuariosSeguindo(idUsuario, form.getOpcaoPerfilContatoAgruparUsuarios());
-					//listaIds = seguidorDao.filterListaIdsUsuariosSeguidores(idUsuario, form.getOpcaoPerfilContatoAgruparUsuarios());
 				}				
 				if (! CollectionUtils.isEmpty(listaIds))
 					critUsuario.add(Restrictions.in("id", listaIds));
@@ -543,9 +535,8 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 	public List findUsuariosImoveisVisitadosByIdUsuarioDistinct(Long idUsuarioSessao, ImovelvisualizadoForm form) {
 		Criteria crit = session().createCriteria(Imovelvisualizado.class);
 		ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("usuarioDonoImovel.id"));
-		projList.add(Projections.count("usuarioDonoImovel.id").as("quant"));		
 		projList.add(Projections.groupProperty("usuarioDonoImovel.id"));
+		projList.add(Projections.count("usuarioDonoImovel.id").as("quant"));
 		crit.setProjection(projList);
 		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuarioSessao));		
 		
@@ -562,11 +553,9 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 				}
 				else if (form.getOpcaoContatoAgruparUsuarios().equals(TipoContatoOpcaoEnum.USUARIOS_SEGUINDO.getRotulo())){
 					listaIds = seguidorDao.filterListaIdsUsuariosSeguidores(idUsuarioSessao, form.getOpcaoPerfilContatoAgruparUsuarios());
-					//listaIds = seguidorDao.filterListaIdsUsuariosSeguindo(idUsuarioSessao, form.getOpcaoPerfilContatoAgruparUsuarios());
 				}
 				else if (form.getOpcaoContatoAgruparUsuarios().equals(TipoContatoOpcaoEnum.USUARIOS_SEGUIDORES.getRotulo())){
 					listaIds = seguidorDao.filterListaIdsUsuariosSeguindo(idUsuarioSessao, form.getOpcaoPerfilContatoAgruparUsuarios());
-					//listaIds = seguidorDao.filterListaIdsUsuariosSeguidores(idUsuarioSessao, form.getOpcaoPerfilContatoAgruparUsuarios());
 				}				
 				if (! CollectionUtils.isEmpty(listaIds))
 					critUsuario.add(Restrictions.in("id", listaIds));

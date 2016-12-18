@@ -12,7 +12,6 @@
 <spring:url value="/imovel/buscarBairros" var="urlBuscarBairros"/>
 <spring:url value="/imovel/buscarImovelMapa" var="urlBuscarImoveisMapa"/>
 <spring:url var="urlImovelFavoritos" value="/imovelFavoritos"/>
-<spring:url var="urlImovelComparativo" value="/imovelComparativo"/>
 
 <%@page import="com.busqueumlugar.util.UsuarioInterface"%>
 <%@page import="com.busqueumlugar.service.UsuarioService"%>
@@ -35,8 +34,7 @@ div#map_container{
 	height:150px;
 }
 </style>
-<script type="text/javascript"  src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-  
+<script type="text/javascript"  src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>  
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
 
     	<script type="text/javascript">		
@@ -432,13 +430,13 @@ div#map_container{
                         <div class="col-lg-9 col-md-9 col-sm-8"> 
                         
                         	<c:choose>
-                        		<c:when test="${ empty listaImoveis }">
+                        		<c:when test="${empty listaImoveis }">
                         			<div class="callout callout-warning">
-	                                    <strong><spring:message code="lbl.nenhum.imovel.retornado"/></strong>	                                    
+	                                    <strong><spring:message code="lbl.nenhum.imovel.mapa.encontrado"/></strong>	                                    
 	                                </div>                        			   
                         		</c:when>
                         		
-                        		<c:when test="${ not empty listaImoveis }">
+                        		<c:when test="${not empty listaImoveis }">
                         			<div class="pull-left col-lg-4" style="padding-top: 9px;">                        				
 	                                    <span class="meta-level" style="font-size: 16px;"><strong> <spring:message code="lbl.quant.total.imoveis"/> </strong>: </span> &nbsp; ${imovelForm.quantRegistros}  
 	                                </div>	

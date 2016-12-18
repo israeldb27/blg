@@ -11,7 +11,6 @@
 <spring:url value="/localidade/buscarCidades" var="urlBuscarCidades"/>
 <spring:url value="/localidade/buscarBairros" var="urlBuscarBairros"/>
 <spring:url var="urlImovelFavoritos" value="/imovelFavoritos"/>
-<spring:url var="urlImovelComparativo" value="/imovelComparativo"/>
 <spring:url var="urlAdmin" value="/admin"/>
 <spring:url value="/admin/buscarImovelMapa" var="urlBuscarImoveisMapa"/>
 
@@ -182,18 +181,7 @@ div#map_container{
                 }
             });
     	}
-
-    	function adicionarComparativo(id) {    	
-    		var parametro1 = id;
-    	    $.ajax({                
-                url: '${urlImovelComparativo}/adicionarImovelComparativo/' + parametro1,                
-                success: function(){                	
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
-                }
-            });   
-    	}	
+	
 		</script>
 
 		<c:import url="../layout-admin/head-layout.jsp"></c:import>

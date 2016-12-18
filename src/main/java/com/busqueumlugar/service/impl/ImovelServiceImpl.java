@@ -33,7 +33,6 @@ import com.busqueumlugar.dao.BairrosDao;
 import com.busqueumlugar.dao.CidadesDao;
 import com.busqueumlugar.dao.EstadosDao;
 import com.busqueumlugar.dao.ImovelDao;
-import com.busqueumlugar.dao.ImovelcompartilhadoDao;
 import com.busqueumlugar.dao.ImovelfavoritosDao;
 import com.busqueumlugar.dao.UsuarioDao;
 import com.busqueumlugar.enumerador.PerfilUsuarioOpcaoEnum;
@@ -59,20 +58,19 @@ import com.busqueumlugar.service.EstadosService;
 import com.busqueumlugar.service.ImovelFavoritosService;
 import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.ImovelcomentarioService;
-import com.busqueumlugar.service.ImovelcompartilhadoService;
 import com.busqueumlugar.service.ImoveldestaqueService;
 import com.busqueumlugar.service.ImovelfotosService;
 import com.busqueumlugar.service.ImovelindicadoService;
 import com.busqueumlugar.service.ImovelPropostasService;
 import com.busqueumlugar.service.ImovelvisualizadoService;
+import com.busqueumlugar.service.IntermediacaoService;
 import com.busqueumlugar.service.NotaService;
+import com.busqueumlugar.service.ParceriaService;
 import com.busqueumlugar.service.PreferencialocalidadeService;
 import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.DateUtil;
 import com.busqueumlugar.util.MessageUtils;
-
-import org.springframework.util.CollectionUtils;
 
 @Service
 public class ImovelServiceImpl implements ImovelService{
@@ -95,10 +93,13 @@ public class ImovelServiceImpl implements ImovelService{
 	private UsuarioService usuarioService;
 	
 	@Autowired
-	private ImovelFavoritosService imovelFavoritosService;
+	private ImovelFavoritosService imovelFavoritosService;	
 	
 	@Autowired
-	private ImovelcompartilhadoService imovelcompartilhadoService;
+	private IntermediacaoService intermediacaoService;
+	
+	@Autowired
+	private ParceriaService parceriaService;
 	
 	@Autowired
 	private ImovelindicadoService imovelindicadoService;
@@ -110,7 +111,7 @@ public class ImovelServiceImpl implements ImovelService{
 	private ImovelPropostasService imovelPropostasService;
 	
 	@Autowired
-	private ImovelvisualizadoService imovelvisitadoService;
+	private ImovelvisualizadoService imovelvisualizadoService;
 	
 	@Autowired
 	private NotaService notaService;	
@@ -184,8 +185,7 @@ public class ImovelServiceImpl implements ImovelService{
          imovel.setBairro(bairro.getNome());         
          
          imovel.setHabilitaInfoDonoImovel("S");
-         imovel.setAutorizacaoPropostas("S");
-         imovel.setAutorizaComentario("S");
+         imovel.setAutorizacaoPropostas("S");         
          imovel.setHabilitaBusca("S");
          imovel.setAcessoVisualizacao("S");
          
@@ -227,7 +227,7 @@ public class ImovelServiceImpl implements ImovelService{
 			}
 		}            
 		
-		List<Imovel> listaImoveisCompartilhadoUsuarioSolicitante = imovelcompartilhadoService.recuperarMinhasSolCompartilhamentoAceitasPorUsuarioSolicitantePorPerfil(idUsuario, perfilForm);                                
+		List<Imovel> listaImoveisCompartilhadoUsuarioSolicitante = intermediacaoService.recuperarMinhasSolIntermediacaoAceitasPorUsuarioSolicitantePorPerfil(idUsuario, perfilForm);                                
 		if (! CollectionUtils.isEmpty(listaImoveisCompartilhadoUsuarioSolicitante)) 
 			listaFinal.addAll(listaImoveisCompartilhadoUsuarioSolicitante);
 		
@@ -841,21 +841,19 @@ public class ImovelServiceImpl implements ImovelService{
 	@Override
 	public void preparaDetalhesImovelForm(Long idImovel, ImovelForm form, UsuarioForm usuarioSessao) {
 		Imovel imovel = dao.findImovelById(idImovel);		
-		BeanUtils.copyProperties(imovel, form);	
-		
-		form.setListaFotos(imovelfotosService.recuperarFotosImovel(imovel.getId()));
-		form.setQuantVisitasImovel(imovelvisitadoService.checarQuantidadeVisitarsPorImovel(idImovel));
-		form.setQuantUsuariosInteressados(imovelFavoritosService.checarQuantidadeUsuariosInteressadosPorIdImovel(idImovel));
+		BeanUtils.copyProperties(imovel, form);			
+		form.setListaFotos(imovelfotosService.recuperarFotosImovel(imovel.getId()));		
+		form.setListaComentario(imovelcomentarioService.listarComentarios(idImovel, null));
 		
 		if (usuarioSessao.getId().equals(form.getIdUsuario())){
 			form.setListaPropostas(imovelPropostasService.recuperarPropostasImovel(idImovel));
 			form.setListaComentario(imovelcomentarioService.listarComentarios(idImovel, null));
 			form.setListaUsuariosInteressados(imovelFavoritosService.recuperarUsuariosInteressadosPorIdImovel(idImovel));
 			form.setUsuarioDonoImovel(imovel.getUsuario());
-			form.setListaVisita(imovelvisitadoService.recuperarUsuariosVisitantesPorIdImovel(idImovel));
+			form.setListaVisita(imovelvisualizadoService.recuperarUsuariosVisitantesPorIdImovel(idImovel));
 		}
 		else {
-			imovelvisitadoService.adicionarVisitaImovel(idImovel, usuarioSessao.getId());
+			imovelvisualizadoService.adicionarVisitaImovel(idImovel, usuarioSessao.getId());
 			form.setInteressadoImovel(imovelFavoritosService.checarUsuarioEstaInteressadoImovel(usuarioSessao.getId(), idImovel));			
 			if (imovel.getHabilitaInfoDonoImovel().equals("S")) { 
 				form.setUsuarioDonoImovel(imovel.getUsuario());
@@ -865,20 +863,20 @@ public class ImovelServiceImpl implements ImovelService{
 			if ( imovel.getAutorizacaoPropostas().equals("S"))
 				form.setListaPropostas(imovelPropostasService.recuperarPropostasImovelPorUsuario(usuarioSessao.getId(), idImovel));
 			
-			if (imovel.getAutorizaComentario().equals("S"))
-				form.setListaComentario(imovelcomentarioService.listarComentarios(idImovel, null));
 			
 			if (imovel.getUsuario().getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()))	{	
-				form.setUsuarioIntermediador(imovelcompartilhadoService.recuperarUsuarioIntermediador(form.getId()));
-				if ( ! usuarioSessao.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) ) 
-					form.setIntermediacaoEnviada(imovelcompartilhadoService.recuperarMinhasSolicitacoesPorUsuarioSolPorImovelIntermediacao(usuarioSessao.getId(), form.getId()));	
+				form.setUsuarioIntermediador(intermediacaoService.recuperarUsuarioIntermediador(form.getId()));
+				if ( ! usuarioSessao.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) )						
+					form.setIntermediacaoEnviada(intermediacaoService.recuperarMinhasSolicitacoesPorUsuarioSolPorImovel(usuarioSessao.getId(), form.getId()));						
 			}	
 			else {
 				if ( ! usuarioSessao.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) ) 
-					form.setParceriaEnviada(imovelcompartilhadoService.recuperarMinhasSolicitacoesPorUsuarioSolPorImovel(usuarioSessao.getId(), form.getId()));	
+					form.setParceriaEnviada(parceriaService.recuperarMinhasSolicitacoesPorUsuarioSolPorImovelParceria(usuarioSessao.getId(), form.getId()));	
 			}
-		}
 			
+			form.setQuantVisualizacoesImovel(imovelvisualizadoService.checarQuantidadeImoveisVisualizadosPorImovel(idImovel, null));
+			form.setQuantUsuariosInteressados(imovelFavoritosService.checarQuantidadeUsuariosInteressadosPorIdImovel(idImovel));
+		}			
 	}
 	
 	@Override
@@ -888,17 +886,17 @@ public class ImovelServiceImpl implements ImovelService{
 		form.setListaFotos(imovelfotosService.recuperarFotosImovel(imovel.getId()));
 		form.setUsuarioDonoImovel(imovel.getUsuario());
 		form.setListaComentario(imovelcomentarioService.listarComentarios(idImovel, null));
-		form.setQuantVisitasImovel(imovelvisitadoService.checarQuantidadeVisitarsPorImovel(idImovel));
+		form.setQuantVisualizacoesImovel(imovelvisualizadoService.checarQuantidadeVisitantesPorUsuarioPorStatus(idImovel, null));
 		form.setQuantUsuariosInteressados(imovelFavoritosService.checarQuantidadeUsuariosInteressadosPorIdImovel(idImovel));
-		form.setListaVisita(imovelvisitadoService.recuperarUsuariosVisitantesPorIdImovel(idImovel));
+		form.setListaVisita(imovelvisualizadoService.recuperarUsuariosVisitantesPorIdImovel(idImovel));
 		form.setListaPropostas(imovelPropostasService.recuperarPropostasImovel(idImovel));
 		form.setListaUsuariosInteressados(imovelFavoritosService.recuperarUsuariosInteressadosPorIdImovel(idImovel));
 		form.setListaImovelAnuncio(imoveldestaqueService.recuperarImoveisAnuncioPorImovel(idImovel));
 		
 		if (imovel.getUsuario().getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()))			
-			form.setListaIntermediacao(imovelcompartilhadoService.recuperarTodasSolicitacoesPorIdImovel(idImovel));
+			form.setListaIntermediacao(intermediacaoService.recuperarTodosImovelIntermediacaoPorImovel(idImovel));
 		else
-			form.setListaParceria(imovelcompartilhadoService.recuperarTodasSolicitacoesPorIdImovel(idImovel));	
+			form.setListaParceria(parceriaService.recuperarTodosImovelParceriaPorImovel(idImovel));	
 	}
 
 
@@ -993,50 +991,6 @@ public class ImovelServiceImpl implements ImovelService{
 	public List<Imovel> pesquisarTodosImoveis (String valor){		
 		return dao.findImoveisByValor(valor);
 	}
-	
-	@Override
-	public List<Imovel> sugerirImoveis(UsuarioForm user){
-		/*
-		*  Obs.: Para clientes --> sugerir imoveis de acordo com a preferencia e sugerir tambem imoveis aleatoriamente.
-		*
-		*  Obs.: Para corretores e imobiliarias -->  sugerir imóveis que estão disponiveis para receber solicitação de 
-		*											 parceria ou intermediação e sugerir imoveis aleatoriamente
-		*/
-		
-		List<Imovel> listaAux = null;
-		List<Imovel> lista = new ArrayList<Imovel>();
-		//List<Imovel> listaFinal = new ArrayList<Imovel>();
-		
-		if ( user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) ){
-			int regra = (int)(Math.random()*(5)) + 1;
-			int quant = 0;
-			int tentativas = 1;
-			while (quant < 4){				
-				listaAux = dao.findSugestoesImoveisParaClientes(user.getId() , regra);
-				lista.addAll(listaAux);
-				quant = AppUtil.recuperarQuantidadeLista(lista);
-				regra = (int)(Math.random()*(5)) + 1;
-				tentativas++;
-				if ( tentativas == 3 )
-					break;
-			}						
-		}
-		else if ( user.getPerfil().equals(PerfilUsuarioOpcaoEnum.CORRETOR.getRotulo()) || user.getPerfil().equals(PerfilUsuarioOpcaoEnum.IMOBILIARIA.getRotulo()) ){
-			int regra = (int)(Math.random()*(5)) + 1;
-			int quant = 0;
-			int tentativas = 1;
-			while (quant < 4) {				
-				listaAux = dao.findSugestoesImoveisParaCorretoresImobiliarias(user.getId(), regra);
-				lista.addAll(listaAux); 
-				quant = AppUtil.recuperarQuantidadeLista(lista);
-				regra = (int)(Math.random()*(5)) + 1;
-				if ( tentativas == 3 )
-					break;
-			}
-		}	
-		
-		return lista;
-	}
 
 
 	@Override
@@ -1062,26 +1016,6 @@ public class ImovelServiceImpl implements ImovelService{
 	    buf.append("                       Actions <i class='fa fa-angle-down'></i>");
 	    buf.append("                   </button>");
 	    buf.append("                   <ul class='dropdown-menu pull-right' role='menu'>");
-	    buf.append("                       <li>");
-	    buf.append("                           <a href='javascript:void(0);'>Pin to top</a>");
-	    buf.append("                       </li>");
-	    buf.append("                       <li>");
-	    buf.append("                           <a href='javascript:void(0);'>Change date</a>");
-	    buf.append("                       </li>");
-	    buf.append("                       <li>");
-	    buf.append("                           <a href='javascript:void(0);'>Highlight</a>");
-	    buf.append("                       </li>");
-	    buf.append("                               <li>");
-	    buf.append("                           <a href='javascript:void(0);'>Embed post</a>");
-	    buf.append("                       </li>");
-	    buf.append("                               <li class='divider'>");
-	    buf.append("                       </li>");
-	    buf.append("                       <li>");
-	    buf.append("                           <a href='javascript:void(0);'>Hide from timeline</a>");
-	    buf.append("                       </li>");
-	    buf.append("                       <li>");
-	    buf.append("                           <a href='javascript:void(0);'>Delete</a>");
-	    buf.append("                       </li>");
 	    buf.append("                   </ul>");
    		buf.append("               </div>");
    		buf.append("                   </div>");
@@ -1166,7 +1100,7 @@ public class ImovelServiceImpl implements ImovelService{
 		   buf.append("                                                        </tr> ");
 		   buf.append("                                                        <tr> ");
 		   buf.append("                                                           <td class='text-left'><spring:message code='lbl.vagas.garagem.resum'/></td> ");
-		   buf.append("                                                            <td class='text-right'>1 vaga(s)</td> ");
+		   buf.append("                                                            <td class='text-right'>"+ MessageUtils.getMessage("lbl.num.vagas") +" </td> ");
 		   buf.append("                                                        </tr> ");
 		   buf.append("                                                    </tbody> ");
 		   buf.append("                                                </table> ");

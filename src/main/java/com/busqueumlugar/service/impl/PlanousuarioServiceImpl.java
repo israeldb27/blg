@@ -132,8 +132,8 @@ public class PlanousuarioServiceImpl implements PlanousuarioService{
         
         //inserindo notificacao de pagamento do plano
         notificacaoService.cadastrarNotificacao(p.getUsuario().getId(), 
-        										AcaoNotificacaoEnum.PLANO.getRotulo(), 
-        										"Foi recebido pagamento de plano: " + p.getPlano().getNome(), 
+        										AcaoNotificacaoEnum.PLANO.getRotulo(),
+        										MessageUtils.getMessage("msg.sucesso.recebimento.pagto.plano") +": " + p.getPlano().getNome(), 
         										TipoNotificacaoEnum.PLANO.getRotulo(),
         										0l);
 		
@@ -367,8 +367,7 @@ public class PlanousuarioServiceImpl implements PlanousuarioService{
 				relatorio.setNomePlano(obj[0].toString());
 				relatorio.setValorFinanceiro(Double.parseDouble(obj[1].toString()));
 				listaFinal.add(relatorio);
-			}
-			
+			}			
 		}
 		return listaFinal;
 	}
@@ -543,40 +542,35 @@ public class PlanousuarioServiceImpl implements PlanousuarioService{
 	@Override
 	public String validarSolicitacaoPlano(Long idUsuario, ServicoForm form) {
 		
-		String msg = "";
-		
 		if (( form.getIdPlanoSelecionado() == null ) || (form.getIdPlanoSelecionado() != null && form.getIdPlanoSelecionado().longValue() == -1)) 
-			msg = MessageUtils.getMessage("msg.erro.nenhum.plano.selecionado");
+			return MessageUtils.getMessage("msg.erro.nenhum.plano.selecionado");
 		
-		if ( msg.equals("")){
-			Planousuario plano = dao.findPlanoUsuarioByIdPlanoByIdUsuario(idUsuario, form.getIdPlanoSelecionado());			
-			if ( plano != null ){
-				if ( plano.getStatus().equals(StatusPagtoOpcaoEnum.SOLICITADO.getRotulo()))
-					msg = MessageUtils.getMessage("msg.erro.plano.selecionado.anteriormente");
-				else if ( plano.getStatus().equals(StatusPagtoOpcaoEnum.AGUARDANDO.getRotulo()))
-					msg =  MessageUtils.getMessage("msg.erro.plano.aguardando.pagto");							
-			}					
-		}		
-		return msg;
+		Planousuario plano = dao.findPlanoUsuarioByIdPlanoByIdUsuario(idUsuario, form.getIdPlanoSelecionado());			
+		if ( plano != null ){
+			if ( plano.getStatus().equals(StatusPagtoOpcaoEnum.SOLICITADO.getRotulo()))
+				return MessageUtils.getMessage("msg.erro.plano.selecionado.anteriormente");
+			else if ( plano.getStatus().equals(StatusPagtoOpcaoEnum.AGUARDANDO.getRotulo()))
+				return  MessageUtils.getMessage("msg.erro.plano.aguardando.pagto");							
+		}					
+				
+		return "";
 	}
 	
 	@Override
 	public String validarSolicitacaoPlano(Long idUsuario, Long idPlano) {
-String msg = "";
 		
 		if (( idPlano == null ) || (idPlano != null && idPlano.longValue() == -1)) 
-			msg = MessageUtils.getMessage("msg.erro.nenhum.plano.selecionado");
+			return MessageUtils.getMessage("msg.erro.nenhum.plano.selecionado");
 		
-		if ( msg.equals("")){
-			Planousuario plano = dao.findPlanoUsuarioByIdPlanoByIdUsuario(idUsuario, idPlano);			
-			if ( plano != null ){
-				if ( plano.getStatus().equals(StatusPagtoOpcaoEnum.SOLICITADO.getRotulo()))
-					msg = MessageUtils.getMessage("msg.erro.plano.selecionado.anteriormente");
-				else if ( plano.getStatus().equals(StatusPagtoOpcaoEnum.AGUARDANDO.getRotulo()))
-					msg =  MessageUtils.getMessage("msg.erro.plano.aguardando.pagto");							
-			}					
-		}		
-		return msg;
+		Planousuario plano = dao.findPlanoUsuarioByIdPlanoByIdUsuario(idUsuario, idPlano);			
+		if ( plano != null ){
+			if ( plano.getStatus().equals(StatusPagtoOpcaoEnum.SOLICITADO.getRotulo()))
+				return MessageUtils.getMessage("msg.erro.plano.selecionado.anteriormente");
+			else if ( plano.getStatus().equals(StatusPagtoOpcaoEnum.AGUARDANDO.getRotulo()))
+				return  MessageUtils.getMessage("msg.erro.plano.aguardando.pagto");							
+		}					
+		
+		return "";
 	}
 
 	@Override
@@ -640,11 +634,11 @@ String msg = "";
 	@Override
 	public String validarCadastroSolicitacaoPlano(Long idUsuario, ServicoForm form) {
 		
-		String msg = "";		
+		
 		if ((form.getIdFormapagamentoSelecionada() == null ) || (form.getIdFormapagamentoSelecionada() != null && form.getIdFormapagamentoSelecionada().longValue() == -1))
-			msg =  MessageUtils.getMessage("msg.erro.plano.nenhum.forma.pagto");		
+			return  MessageUtils.getMessage("msg.erro.plano.nenhum.forma.pagto");		
 			
-		return msg;
+		return "";
 	}	
 
 }

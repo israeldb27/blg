@@ -3,15 +3,12 @@ package com.busqueumlugar.service.impl;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 
@@ -60,7 +56,6 @@ import com.busqueumlugar.service.ParamservicoService;
 import com.busqueumlugar.service.PlanoService;
 import com.busqueumlugar.service.ServicoService;
 import com.busqueumlugar.service.UsuarioService;
-import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.DateUtil;
 import com.busqueumlugar.util.GenerateAccessToken;
 import com.paypal.api.payments.Amount;
@@ -75,19 +70,6 @@ import com.paypal.api.payments.RedirectUrls;
 import com.paypal.api.payments.Transaction;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
-import com.paypal.api.payments.Amount;
-import com.paypal.api.payments.Details;
-import com.paypal.api.payments.Item;
-import com.paypal.api.payments.ItemList;
-import com.paypal.api.payments.Links;
-import com.paypal.api.payments.Payer;
-import com.paypal.api.payments.Payment;
-import com.paypal.api.payments.PaymentExecution;
-import com.paypal.api.payments.RedirectUrls;
-import com.paypal.api.payments.Transaction;
-import com.paypal.base.rest.APIContext;
-import com.paypal.base.rest.PayPalRESTException;
-import com.paypal.base.rest.PayPalResource;
 import com.busqueumlugar.util.MessageUtils;
 
 @Service
@@ -533,48 +515,43 @@ public class ServicoServiceImpl implements ServicoService {
 
 	
 	public String validarPagamentoServico(long idInfoServico, Long formaPgto) {		
-		 String msg = "";       
-	     
-		 if (( formaPgto == null ) || (formaPgto != null && formaPgto.longValue() == -1))
-			 msg = MessageUtils.getMessage("msg.erro.selecionar.pagamento");	   
 		 
-		 if ( msg.equals("")){
-			 if ( idInfoServico <= 0 )
-				 msg = MessageUtils.getMessage("msg.erro.nenhum.valor.servico.plano");
-		 }	
-	     
-		 return msg;
+		 if (( formaPgto == null ) || (formaPgto != null && formaPgto.longValue() == -1))
+			 return MessageUtils.getMessage("msg.erro.selecionar.pagamento");	   
+		 
+		 
+		if ( idInfoServico <= 0 )
+		     return MessageUtils.getMessage("msg.erro.nenhum.valor.servico.plano");
+		 
+		 return "";
 	}
 
 	
 	// esta validacao só envolve servicos que solicitem Tempo de um serviço como Relatorio e nao quantidade como Adicionar Imoveis 
 	public String validarSolicitacaoServico(long idParamServico, long idUsuario, Date dtCorrente) {		
-		// checando se existe um periodo contrato no periodo
-        String msg = "";
+		// checando se existe um periodo contrato no periodo        
         Servico servico = null;
         try {   
         	
         	if ( idParamServico == -1 )
-        		msg = MessageUtils.getMessage("msg.erro.selecionar.um.servico");        	
+        		return MessageUtils.getMessage("msg.erro.selecionar.um.servico");
         	
-        	if ( msg.equals("")){
-            	// checando se o servico ja foi solicitado anteriormente
-            	servico = dao.findServicoByIdParamServicoByIdUsuarioByStatusByTipoServico(idParamServico, idUsuario, StatusPagtoOpcaoEnum.SOLICITADO.getRotulo(), TipoParamServicoOpcaoEnum.TIPO_PARAM_SERVICO_USUARIO.getRotulo());            
-                if ( servico != null)            	
-    				msg = MessageUtils.getMessage("msg.erro.servico.sol.anteriormente");
-                else { // checando se o servico está aguardando pagamento
-                	servico = dao.findServicoByIdParamServicoByIdUsuarioByStatusByTipoServico(idParamServico, idUsuario, StatusPagtoOpcaoEnum.AGUARDANDO.getRotulo(), TipoParamServicoOpcaoEnum.TIPO_PARAM_SERVICO_USUARIO.getRotulo());
-                	if ( servico != null )            		
-    					msg = MessageUtils.getMessage("msg.erro.servico.aguarde.pagto");
-                	else { 
-                		servico = dao.findServicoByIdParamServicoByData(idParamServico, idUsuario, dtCorrente);
-                		if ( servico != null )            			
-    						msg = MessageUtils.getMessage("msg.erro.servico.pago.periodo");
-                	}	
-                }
-        	}		
+        	// checando se o servico ja foi solicitado anteriormente
+        	servico = dao.findServicoByIdParamServicoByIdUsuarioByStatusByTipoServico(idParamServico, idUsuario, StatusPagtoOpcaoEnum.SOLICITADO.getRotulo(), TipoParamServicoOpcaoEnum.TIPO_PARAM_SERVICO_USUARIO.getRotulo());            
+            if ( servico != null)            	
+            	return MessageUtils.getMessage("msg.erro.servico.sol.anteriormente");
+            else { // checando se o servico está aguardando pagamento
+            	servico = dao.findServicoByIdParamServicoByIdUsuarioByStatusByTipoServico(idParamServico, idUsuario, StatusPagtoOpcaoEnum.AGUARDANDO.getRotulo(), TipoParamServicoOpcaoEnum.TIPO_PARAM_SERVICO_USUARIO.getRotulo());
+            	if ( servico != null )            		
+            		return MessageUtils.getMessage("msg.erro.servico.aguarde.pagto");
+            	else { 
+            		servico = dao.findServicoByIdParamServicoByData(idParamServico, idUsuario, dtCorrente);
+            		if ( servico != null )            			
+            			return MessageUtils.getMessage("msg.erro.servico.pago.periodo");
+            	}	
+            }
              
-            return msg;
+            return "";
         } catch (Exception e) {
             e.printStackTrace();
             return "";
@@ -584,14 +561,14 @@ public class ServicoServiceImpl implements ServicoService {
 	
 	public String validarSolicitacaoServicoPorLabelServico(String nomeServico, long idUsuario, Date dtCorrente) {		
 		 // checando se existe um periodo contrato no periodo
-        String msg = "";
+        
         Servico servico = null;
         try {            
             servico = dao.findServicoByLabelServicoServicoByData(nomeServico, idUsuario, dtCorrente);
             if ( servico != null )
-                msg = MessageUtils.getMessage("msg.erro.selecionar.servico.contratado");            
+                return MessageUtils.getMessage("msg.erro.selecionar.servico.contratado");            
             
-            return msg;
+            return "";
         } catch (Exception e) {
             e.printStackTrace();
             return "";
@@ -635,28 +612,7 @@ public class ServicoServiceImpl implements ServicoService {
 	}
 	
 	public List<Servico> recuperarServicosDisponiveisPorUsuarioPorTipo(Long idUsuario, String tipoServico) {		
-		 if ( tipoServico.equals("I")){
-	            /*List<Servico> lista = dao.findServicosByIdUsuarioByTipoServico(idUsuario, tipoServico);
-	            List<Servico> listaFinal = new ArrayList<Servico>();
-	            if ( lista != null && lista.size() > 0 ){
-	                Servico servico = null;
-	                Imovel imovel = null;
-	                for (Iterator iter = lista.iterator();iter.hasNext();){
-	                    servico = (Servico) iter.next();
-	                    imovel = imovelService.recuperarImovelPorid(servico.getIdImovel());
-	                    servico.setEstado(imovel.getEstado());
-	                    servico.setCidade(imovel.getCidade());
-	                    servico.setBairro(imovel.getBairro());
-	                    servico.setTituloImovel(imovel.getTitulo());
-	                    servico.setImagemImovel(imovelService.carregaFotoPrincipalImovel(imovel));
-	                    listaFinal.add(servico);                    
-	                }    
-	            }
-	            return listaFinal;*/
-			 return dao.findServicosByIdUsuarioByTipoServico(idUsuario, tipoServico);
-	        }
-	        else
-	            return dao.findServicosByIdUsuarioByTipoServico(idUsuario, tipoServico);
+	     return dao.findServicosByIdUsuarioByTipoServico(idUsuario, tipoServico);
 	}
 
 	@Transactional
@@ -835,9 +791,8 @@ public class ServicoServiceImpl implements ServicoService {
 	}
 	
 	
-	public Long recuperarUltimoIdServicoPorUsuario(long idUsuario, String descServico) {		
-		Servico servico = dao.findLastServicoGeradoByIdUsuario(idUsuario, descServico);
-        return servico.getId();
+	public Long recuperarUltimoIdServicoPorUsuario(long idUsuario, String descServico) {
+        return dao.findLastServicoGeradoByIdUsuario(idUsuario, descServico).getId();
 	}
 
 	

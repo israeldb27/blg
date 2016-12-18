@@ -151,17 +151,17 @@ function adicionarProposta(){
 	var x = document.getElementById("novaProposta2");
 	var y = document.getElementById("novaObsProposta2");
 	
-	if ($("#novaProposta2").val() == ''){
-		$('#msgErroNovaProposta2').html('Campo deve ser obrigatorio');
+	if ($("#novaProposta2").val() == ''){  
+		$('#msgErroNovaProposta2').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
 	}
 	else {
-		if ( ! $.isNumeric( $("#novaProposta2").val() ) ){
-			$('#msgErroNovaProposta2').html('Valor Proposta invalido');
+		if ( ! $.isNumeric( $("#novaProposta2").val() ) ){ 
+			$('#msgErroNovaProposta2').html("<spring:message code='msg.erro.valor.proposta.invalido'/>");
 		}
 	}
 	
 	if ($("#novaObsProposta2").val() == ''){
-		$('#msgErroNovaObsProposta2').html('Campo deve ser obrigatorio');
+		$('#msgErroNovaObsProposta2').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
 	}
 	
 	if (($("#novaProposta2").val() != '') && ($("#novaObsProposta2").val() != '')) { 
@@ -209,7 +209,7 @@ function adicionarComentario(){
 	var x = document.getElementById("novoComentario2");	
 	
 	if ($("#novoComentario2").val() == ''){
-		$('#msgErroNovoComentario').html('Campo deve ser obrigatorio');
+		$('#msgErroNovoComentario').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
 	}
 	
 	if ($("#novoComentario2").val() != '') {
@@ -219,13 +219,15 @@ function adicionarComentario(){
 	}	
 }
 function prepararModalSolIntermediacao(){
-	$("#msgRetornoSolIntermediacaoErro").html("");	
+	$("#msgRetornoSolIntermediacaoErro").html("");
 	$("#msgRetornoSolIntermediacaoErroForm").html("");	
 	$("#idModalSolIntermediacao").modal("show");	
 }
-function adicionarSolIntermediacao(){	
+function adicionarSolIntermediacao(){
+	$("#msgAguardeMomento").html("Aguarde um momento ...");
+	
 	if ($("#novaSolIntermediacao").val() == ''){
-		$('#msgRetornoSolIntermediacaoErro').html('Campo deve ser obrigatorio');
+		$('#msgRetornoSolIntermediacaoErro').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
 	}
 	else {
 		var parametro1=document.getElementById("novaSolIntermediacao");	
@@ -233,10 +235,10 @@ function adicionarSolIntermediacao(){
 			 url: '${urlImovel}/adicionarSolIntermediacaoDetalheImovel/' + parametro1.value,
 			 dataType: 'json',
 			 success: function(data){				 
-				 if ( data == 'ok') {
+				 if ( data == 'ok') {					 	
 	        		 location.reload();
 	        	 }
-	        	 else  {
+	        	 else  {	        		 
 		        	 $('#msgRetornoSolIntermediacaoErroForm').html(data);
 		         }     	    
 			 },
@@ -276,7 +278,7 @@ function prepararModalSolParceria(){
 function adicionarSolParceria(){
 	
 	if ($("#novaSolParceria").val() == ''){
-		$('#msgRetornoSolParceriaErro').html('Campo deve ser obrigatorio');
+		$('#msgRetornoSolParceriaErro').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
 	}
 	else {
 		var parametro1=document.getElementById("novaSolParceria");	
@@ -339,8 +341,8 @@ function adicionarComparar(id) {
 		 url: '${urlImovelComparativo}/adicionarImovelComparativo/' + parametro1,
 		 dataType: 'json',
 		 success: function(data){				 
-			 if ( data == 'ok') {
-				 $('#msgModalComparativo').html('Imóvel foi adicionado a lista de comparativos');
+			 if ( data == 'ok') {  
+				 $('#msgModalComparativo').html("<spring:message code='lbl.msg.sucesso.add.comparativo'/>");
 				 $("#idModalConfirmarComparativo").modal("show");	
        	 }
        	 else  {
@@ -357,55 +359,52 @@ function adicionarComparar(id) {
 function mostrarModal(id){
 	
 	if (id == 0){
-		$('#msgModal').html("Descrição resumida sobre o imóvel");
+		$('#msgModal').html("<spring:message code='lbl.modal.descricao.imovel'/>");
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.descricao.imovel'/>");
 	}
 	else if ( id == 1){
-		$('#msgModal').html("Exibição da localização do imóvel");
+		$('#msgModal').html("<spring:message code='lbl.modal.det.mapa.imovel'/>");
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.aba.det.mapa.imovel'/>");
 	}
 	else if ( id == 2){
-		$('#msgModal').html("Lista de todas propostas recebidas pelo imóvel");
+		$('#msgModal').html("<spring:message code='lbl.modal.det.propostas.imovel'/>");
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.aba.det.propostas.imovel'/>");
 	}
 	else if ( id == 3){
-		$('#msgModal').html("Lista de propostas que você lançou sobre o imóvel");
+		$('#msgModal').html("<spring:message code='lbl.modal.det.propostas.imovel.dono.imovel'/>");
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.aba.det.propostas.imovel.dono.imovel'/>");
 	}
 	else if ( id == 4){
-		$('#msgModal').html("Informações sobre a intermediação do imóvel");
+		$('#msgModal').html("<spring:message code='lbl.modal.det.intermediacoes.imovel'/>");
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.aba.det.intermediacoes.imovel'/>");
 	}
 	else if ( id == 5){
-		$('#msgModal').html("Informações sobre a parceria do imóvel");
+		$('#msgModal').html("<spring:message code='lbl.modal.det.parcerias.imovel'/>");
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.aba.det.parcerias.imovel'/>");
 	}
 	else if ( id == 6){
-		$('#msgModal').html("Lista de usuários que visitaram o imóvel. ");
+		$('#msgModal').html("<spring:message code='lbl.modal.det.visualizacoes.imovel'/>");
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.aba.det.visualizacoes.imovel'/>");
 	}
 	else if ( id == 7){
-		$('#msgModal').html("Lista de usuários interessados sobre o imóvel. ");
+		$('#msgModal').html("<spring:message code='lbl.modal.usuarios.interessados'/>");
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.usuarios.interessados'/>");
 	}
 	else if ( id == 8){
-		$('#msgModal').html("Lista de comentários sobre o imóvel. ");
+		$('#msgModal').html("<spring:message code='lbl.modal.det.comentarios.imovel'/>");
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.aba.det.comentarios.imovel'/>");
 	}
 	else if ( id == 9){
-		$('#msgModal').html("Informações de contato de responsável pelo imóvel. ");
+		$('#msgModal').html("<spring:message code='lbl.modal.contato.detalhe.imoveis'/>");
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.contato.detalhe.imoveis'/>");
 	}
 	else if ( id == 10){
-		$('#msgModal').html("Informações de contato de responsável pelo imóvel. ");
+		$('#msgModal').html("<spring:message code='lbl.modal.contato.detalhe.imoveis'/>");
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.contato.detalhe.imoveis'/>");
 	}
 	
 	$("#idModalItem").modal("show");
 }
-
-
-
 
 
 function prepararModalGaleriaFotos(){		
@@ -459,32 +458,32 @@ function prepararModalGaleriaFotos(){
 									<h5 style="margin-top: 4px;margin-bottom: 0px;width: 50%;">${imovelForm.bairro}, ${imovelForm.cidade} - ${imovelForm.estado}</h5>
 									<br>
                                     <div class="pull-right">
-                                    	<a href="#a" onClick="prepararModalGaleriaFotos()" style="font-size:x-large;" class="meta-action"><i class="fa fa-file-image-o" style="color:gray" title="<spring:message code="lbl.title.link.alterar.galeria.foto.imovel"/>"></i><font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.title.link.alterar.galeria.foto.imovel"/> </font></a> &nbsp;&nbsp; 
+                                    	<a href="#a" onClick="prepararModalGaleriaFotos()" style="font-size:x-large;" class="meta-action"><i class="fa fa-file-image-o" style="color:gray" title="<spring:message code="lbl.title.link.alterar.galeria.foto.imovel"/>"></i><font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.title.link.alterar.galeria.foto.imovel"/> </font></a>
+                                    	&nbsp;&nbsp;&nbsp;&nbsp;  
                                     	<c:choose>
                                     		<c:when test="${(imovelForm.interessadoImovel == 'N')}">
-                                    			<a href="#a" id="idMeInteressei" onClick="adicionarInteresse(${imovelForm.id})" style="font-size:x-large;" class="meta-action"><i class="fa fa-star-o" style="color:gray" title="<spring:message code="lbl.me.interessei"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.me.interessei"/> </font></a> &nbsp; &nbsp;
-                                            	<a href="#a" id="idInteressado" onClick="retirarInteresse(${imovelForm.id})" style="font-size:x-large;display:none;" class="meta-action"><i class="fa fa-star" style="color:gray" title="<spring:message code="lbl.interessado"/>"></i><font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.interessado"/> </font></a> &nbsp;&nbsp;
+                                    			<a href="#a" id="idMeInteressei" onClick="adicionarInteresse(${imovelForm.id})" style="font-size:x-large;" class="meta-action"><i class="fa fa-star-o" style="color:gray" title="<spring:message code="lbl.me.interessei"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.me.interessei"/> </font></a> 
+                                            	<a href="#a" id="idInteressado" onClick="retirarInteresse(${imovelForm.id})" style="font-size:x-large;display:none;" class="meta-action"><i class="fa fa-star" style="color:gray" title="<spring:message code="lbl.interessado"/>"></i><font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.interessado"/> </font></a> 
                                     		</c:when>
                                     		
                                     		<c:when test="${imovelForm.interessadoImovel == 'S'}">
-                                    			<a href="#a" id="idMeInteressei" onClick="adicionarInteresse(${imovelForm.id})" style="font-size:x-large;display:none;" class="meta-action"><i class="fa fa-star-o" style="color:gray" title="<spring:message code="lbl.me.interessei"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.me.interessei"/> </font></a> &nbsp; &nbsp;</a>
-                                            	<a href="#a" id="idInteressado" onClick="retirarInteresse(${imovelForm.id})" style="font-size:x-large;" class="meta-action"><i class="fa fa-star" style="color:gray" title="<spring:message code="lbl.interessado"/>"></i> <spring:message code="lbl.interessado"/> </a>
+                                    			<a href="#a" id="idMeInteressei" onClick="adicionarInteresse(${imovelForm.id})" style="font-size:x-large;display:none;" class="meta-action"><i class="fa fa-star-o" style="color:gray" title="<spring:message code="lbl.me.interessei"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.me.interessei"/> </font></a></a>
+                                            	<a href="#a" id="idInteressado" onClick="retirarInteresse(${imovelForm.id})" style="font-size:x-large;" class="meta-action"><i class="fa fa-star" style="color:gray" title="<spring:message code="lbl.interessado"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.interessado"/> </font> </a>
                                     		</c:when>
                                     	</c:choose>  
-
-                                        <a href="#a" onClick="adicionarComparar(${imovelForm.id})" style="font-size:x-large;" class="meta-action"><i class="fa fa-eye" style="color:gray" title="<spring:message code="lbl.title.link.comparar"/>"></i><font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.title.link.comparar"/> </font></a> &nbsp;&nbsp;
-                                        <a href="${urlImovelIndicado}/selecionarParaIndicarImovel/${imovelForm.id}" style="font-size:x-large;" lass="meta-action"><i class="fa fa-share-alt" style="color:gray" title="<spring:message code="lbl.acao.sugerir"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.acao.sugerir"/> </font></a> &nbsp;&nbsp;
+ 										 &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="#a" onClick="adicionarComparar(${imovelForm.id})" style="font-size:x-large;" class="meta-action"><i class="fa fa-eye" style="color:gray" title="<spring:message code="lbl.title.link.comparar"/>"></i><font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.title.link.comparar"/> </font></a>&nbsp;&nbsp;&nbsp;&nbsp; 
+                                        <a href="${urlImovelIndicado}/selecionarParaIndicarImovel/${imovelForm.id}" style="font-size:x-large;" lass="meta-action"><i class="fa fa-share-alt" style="color:gray" title="<spring:message code="lbl.acao.sugerir"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.acao.sugerir"/> </font></a>
                                     </div>
                                     
                                     <br> <br>
-
 								</div>
 								
 								<!-- Start Galeria Fotos -->
 								<div class="panel-body">
 									<div class="col-lg-7 col-md-8 col-sm-6">
                                       	<div id="owl-demo" class="owl-carousel owl-theme">                                             
-	                                             <div class="item"><img class="responsive" src="${context}${imovelForm.imagemArquivo}" style="max-height:320px; height: 500px;"></div>                                            
+	                                             <div class="item"><img class="responsive" src="${context}${imovelForm.imagemArquivo}" style="max-height:350px; height: 500px;"></div>                                            
 	                                     </div>
 	                				</div>
 	                				
@@ -529,7 +528,7 @@ function prepararModalGaleriaFotos(){
                                                     <c:if test="${imovelForm.quantGaragem > 0}">
                                                     	<tr>
 	                                                        <td class="text-left"><spring:message code="lbl.vagas.garagem.resum"/></td>
-	                                                        <td class="text-right">${imovelForm.quantGaragem} vaga(s)</td>
+	                                                        <td class="text-right">${imovelForm.quantGaragem} <spring:message code="lbl.num.vagas"/></td>
 	                                                    </tr>
                                                     </c:if>
                                                     
@@ -546,6 +545,16 @@ function prepararModalGaleriaFotos(){
 	                                                        <td class="text-right">${imovelForm.quantSuites}</td>
 	                                                    </tr>
                                                     </c:if>
+                                                    
+                                                    	<tr>
+	                                                        <td class="text-left"><spring:message code="lbl.total.visualizacoes"/></td>
+	                                                        <td class="text-right">${imovelForm.quantVisualizacoesImovel}</td>
+	                                                    </tr>
+	                                                    
+	                                                    <tr>
+	                                                        <td class="text-left"><spring:message code="lbl.total.imoveis.interessados"/></td>
+	                                                        <td class="text-right">${imovelForm.quantUsuariosInteressados}</td>
+	                                                    </tr>
                                                     
                                                       <tr>
                                                            <td class="text-left"><spring:message code="lbl.data.cadastro.imovel" /></td>
@@ -643,7 +652,7 @@ function prepararModalGaleriaFotos(){
                                 		<c:when test="${imovelForm.usuarioDonoImovel.id == usuario.id}">
                                 			<h3 class="panel-title">
                                 				<div class="pull-left">
-                                					<spring:message code="lbl.title.aba.det.propostas.imovel"/>
+                                					<spring:message code="lbl.title.aba.det.propostas.imovel.dono.imovel"/>
 	                                			</div>	
                                 				<div class="pull-right">                                					
                                 					<a href="#a" class="btn btn-sm"  onClick="mostrarModal(2);" style=""><i class="fa fa-question" ></i></a>
@@ -655,7 +664,7 @@ function prepararModalGaleriaFotos(){
                                 		<c:when test="${imovelForm.usuarioDonoImovel.id != usuario.id}">
 											<h3 class="panel-title">
 												<div class="pull-left">
-													<spring:message code="lbl.title.aba.det.propostas.imovel.dono.imovel"/>
+													<spring:message code="lbl.title.aba.det.propostas.imovel"/>
 												</div>
 												<div class="pull-right">													
 													<a href="#a" class="btn btn-sm"  onClick="mostrarModal(3);" style=""><i class="fa fa-question" ></i></a>
@@ -669,9 +678,20 @@ function prepararModalGaleriaFotos(){
                                 <div class="panel-body">
                                 	<c:choose>
                                 		<c:when test="${  empty imovelForm.listaPropostas }">
-                               				<div class="callout callout-warning">
-			                                    <strong><spring:message code="msg.nenhuma.proposta.detalhe.imovel"/></strong>		                                    
-			                                </div>
+                                			<c:choose>	
+                                				<c:when test="${imovelForm.usuarioDonoImovel.id == usuario.id}">
+                                					<div class="callout callout-warning">
+					                                    <strong><spring:message code="msg.nenhuma.proposta.imovel"/></strong>		                                    
+					                                </div>
+                                				</c:when>
+                                				
+                                				<c:when test="${imovelForm.usuarioDonoImovel.id != usuario.id}">
+                                					<div class="callout callout-warning">
+					                                    <strong><spring:message code="msg.nenhuma.proposta.detalhe.imovel"/></strong>		                                    
+					                                </div>
+                                				</c:when>
+                                			</c:choose>                                			    
+			                                
 	                                      </br> </br>	
                                 		</c:when>
                                 		
@@ -714,7 +734,7 @@ function prepararModalGaleriaFotos(){
                           <!-- /.END Propostas -->
               				
                           <!-- /.START Intermediação --> 
-                          <c:if test="${((imovelForm.usuarioDonoImovel.perfil == 'P') && (usuario.perfil != 'P') && (imovelForm.autorizacaoOutroUsuario == 'S') && (usuario.id != imovelForm.idUsuario))}">
+                          <c:if test="${((imovelForm.usuarioDonoImovel.perfil == 'P') && (usuario.perfil != 'P') && (imovelForm.autorizacaoOutroUsuario == 'S') && (usuario.id != imovelForm.usuarioDonoImovel.id))}">
                           		<div class="panel rounded shadow">
 		                                <div class="panel-heading">
 		                                    <h3 class="panel-title">	
@@ -742,9 +762,9 @@ function prepararModalGaleriaFotos(){
 		                                        </li><!-- media -->		
 		                                    </ul>
 		                                    <br/>
-		                                    
+
 		                                    <c:choose>
-		                                    	<c:when test="${  imovelForm.intermediacaoEnviada == null }">
+		                                    	<c:when test="${imovelForm.intermediacaoEnviada == null }">
 		                                    		<ul class="media-list comment-list">
 				                                        <li class="media">                                                                                        
 				                                            <div class="mb-20"></div>
@@ -757,7 +777,7 @@ function prepararModalGaleriaFotos(){
 				                                   </ul>
 		                                    	</c:when>
 		                                    	
-		                                    	<c:when test="${  imovelForm.intermediacaoEnviada != null }">
+		                                    	<c:when test="${imovelForm.intermediacaoEnviada != null }">
 		                                    		 <table class="table table-striped" >
 				                                         <thead>
 				                                            <tr>	                                               
@@ -791,8 +811,8 @@ function prepararModalGaleriaFotos(){
                           </c:if>
                           <!-- /.END Intermediação -->
                           
-                          <!-- /.START Parceria -->
-                           <c:if test="${((imovelForm.usuarioDonoImovel.perfil != 'P') && (usuario.perfil != 'P') && (imovelForm.autorizacaoOutroUsuario == 'S') && (usuario.id != imovelForm.idUsuario))}">
+                          <!-- /.START Parceria -->                          
+                           <c:if test="${((imovelForm.usuarioDonoImovel.perfil != 'P') && (usuario.perfil != 'P') && (imovelForm.autorizacaoOutroUsuario == 'S') && (usuario.id != imovelForm.usuarioDonoImovel.id))}">
                           		<div class="panel rounded shadow">
 		                                <div class="panel-heading">
 		                                    <h3 class="panel-title">
@@ -998,7 +1018,7 @@ function prepararModalGaleriaFotos(){
 						  <!-- /.END Usuarios Interessados-->	
 						  
 						  <!-- /.START Comentarios -->	
-						<c:if test="${(((imovelForm.autorizaComentario == 'S') && ( imovelForm.idUsuario != usuario.id )) || (imovelForm.idUsuario == usuario.id ))  }">									
+															
 							<div class="panel rounded shadow">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">
@@ -1064,7 +1084,7 @@ function prepararModalGaleriaFotos(){
                                 	
                                 </c:choose>
                             </div>
-                           </c:if> 
+                
                          <!-- /.END Comentarios -->  
 						</div>						
 						
@@ -1309,7 +1329,7 @@ function prepararModalGaleriaFotos(){
                                 <div class="form-footer">
                                     <div class="col-sm-offset-3">
                                     	<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.btn.cancelar.geral"/></button>
-                                        <button type="button" class="btn btn-success" onClick="adicionarSolIntermediacao();"><spring:message code="lbl.btn.confirmar.geral"/></button>
+                                        <button type="button" class="btn btn-success" onClick="adicionarSolIntermediacao();" ><spring:message code="lbl.btn.confirmar.geral"/></button>
                                     </div>
                                     
                                     <div id="msgRetornoSolIntermediacaoErroForm" cssClass="errorEntrada"  ></div>
@@ -1549,7 +1569,7 @@ function prepararModalGaleriaFotos(){
             </div><!-- /.modal -->
          
          
-             <!-- Start optional size modal element - item 1 -->
+            <!-- Start optional size modal element - item 1 -->
             <div id="idModalItem" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog">
 				      <div class="modal-content">

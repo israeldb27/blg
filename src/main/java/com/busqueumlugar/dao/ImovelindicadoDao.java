@@ -32,8 +32,6 @@ public interface ImovelindicadoDao extends GenericDAO<Imovelindicado, Long> {
 
 	List<Imovelindicado> filterImoveisIndicados(Long idUsuario, ImovelindicadoForm form);
 
-	List findInfoAgruparUsuariosImoveisIndicados(Long idUsuarioSessao, Long idUsuarioIndicado);
-
 	List findInfoAgruparUsuariosImoveisIndicacoes(Long idUsuarioIndicacao);
 
 	List findImoveisPorUsuarioDistinct(Long idUsuario, ImovelindicadoForm form);
@@ -55,5 +53,9 @@ public interface ImovelindicadoDao extends GenericDAO<Imovelindicado, Long> {
 	List<Imovelindicado> findImoveisNovosPorUsuario(Long idUsuario);	
 	
 	void updateStatusLeituraByIdUsuarioIndicado(Long idUsuario);
+
+	long findQuantImoveisIndicadosByIdUsuarioByStatusLeitura(Long idUsuario, String statusLeitura);
+
+	long findQuantImoveisIndicacoesByIdUsuarioByStatusLeitura(Long idUsuario, String statusLeitura);
 
 }

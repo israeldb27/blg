@@ -194,46 +194,46 @@ public class Imovel  implements Serializable{
     private String interessadoImovel = ""; // este campo � usado para indicar se o usu�rio est� interessado ou nao no imovel
         
 	@Transient
-    private int quantPropostas;
+    private long quantPropostas;
     
     @Transient
-    private int quantNovasPropostas;
+    private long quantNovasPropostas;
     
     @Transient
-    private int quantComentarios;
+    private long quantComentarios;
     
     @Transient
-    private int quantNovosComentarios;
+    private long quantNovosComentarios;
     
     @Transient
-    private int quantImoveisFavoritos;
+    private long quantImoveisFavoritos;
     
     @Transient
-    private int quantNovosImoveisFavoritos;
+    private long quantNovosImoveisFavoritos;
     
     @Transient
-    private int quantImoveisIndicados;
+    private long quantImoveisIndicados;
     
     @Transient
-    private int quantNovosImoveisIndicados;
+    private long quantNovosImoveisIndicados;
     
     @Transient
-    private int quantImoveisVisitados;
+    private long quantImoveisVisitados;
     
     @Transient
-    private int quantNovosImoveisVisitados;
+    private long quantNovosImoveisVisitados;
     
     @Transient
-    private int quantImovelParceria;
+    private long quantImovelParceria;
     
     @Transient
-    private int quantNovosImovelParceria;
+    private long quantNovosImovelParceria;
     
     @Transient
-    private int quantImovelIntermediacao;
+    private long quantImovelIntermediacao;
     
     @Transient
-    private int quantNovosImovelIntermediacao;
+    private long quantNovosImovelIntermediacao;
     
     @Transient
     private double valorMetroQuadrado; // este campo é usado no comparativo imoveis. é um campo derivado ( valor imovel / area m2)
@@ -268,101 +268,7 @@ public class Imovel  implements Serializable{
 		this.valorMetroQuadrado = valorMetroQuadrado;
 	}
 
-	public int getQuantImovelIntermediacao() {
-		return quantImovelIntermediacao;
-	}
-
-	public void setQuantImovelIntermediacao(int quantImovelIntermediacao) {
-		this.quantImovelIntermediacao = quantImovelIntermediacao;
-	}
-
-	public int getQuantNovosImovelIntermediacao() {
-		return quantNovosImovelIntermediacao;
-	}
-
-	public void setQuantNovosImovelIntermediacao(int quantNovosImovelIntermediacao) {
-		this.quantNovosImovelIntermediacao = quantNovosImovelIntermediacao;
-	}
-
-	public int getQuantImovelParceria() {
-		return quantImovelParceria;
-	}
-
-	public void setQuantImovelParceria(int quantImovelParceria) {
-		this.quantImovelParceria = quantImovelParceria;
-	}
-
-	public int getQuantNovosImovelParceria() {
-		return quantNovosImovelParceria;
-	}
-
-	public void setQuantNovosImovelParceria(int quantNovosImovelParceria) {
-		this.quantNovosImovelParceria = quantNovosImovelParceria;
-	}
-
-	public int getQuantImoveisVisitados() {
-		return quantImoveisVisitados;
-	}
-
-	public void setQuantImoveisVisitados(int quantImoveisVisitados) {
-		this.quantImoveisVisitados = quantImoveisVisitados;
-	}
-
-	public int getQuantNovosImoveisVisitados() {
-		return quantNovosImoveisVisitados;
-	}
-
-	public void setQuantNovosImoveisVisitados(int quantNovosImoveisVisitados) {
-		this.quantNovosImoveisVisitados = quantNovosImoveisVisitados;
-	}
-
-	public int getQuantImoveisIndicados() {
-		return quantImoveisIndicados;
-	}
-
-	public void setQuantImoveisIndicados(int quantImoveisIndicados) {
-		this.quantImoveisIndicados = quantImoveisIndicados;
-	}
-
-	public int getQuantNovosImoveisIndicados() {
-		return quantNovosImoveisIndicados;
-	}
-
-	public void setQuantNovosImoveisIndicados(int quantNovosImoveisIndicados) {
-		this.quantNovosImoveisIndicados = quantNovosImoveisIndicados;
-	}
-
-	public int getQuantImoveisFavoritos() {
-		return quantImoveisFavoritos;
-	}
-
-	public void setQuantImoveisFavoritos(int quantImoveisFavoritos) {
-		this.quantImoveisFavoritos = quantImoveisFavoritos;
-	}
-
-	public int getQuantNovosImoveisFavoritos() {
-		return quantNovosImoveisFavoritos;
-	}
-
-	public void setQuantNovosImoveisFavoritos(int quantNovosImoveisFavoritos) {
-		this.quantNovosImoveisFavoritos = quantNovosImoveisFavoritos;
-	}
-
-	public int getQuantComentarios() {
-		return quantComentarios;
-	}
-
-	public void setQuantComentarios(int quantComentarios) {
-		this.quantComentarios = quantComentarios;
-	}
-
-	public int getQuantNovosComentarios() {
-		return quantNovosComentarios;
-	}
-
-	public void setQuantNovosComentarios(int quantNovosComentarios) {
-		this.quantNovosComentarios = quantNovosComentarios;
-	}
+	
 
 
 	public Imovel() {
@@ -995,18 +901,6 @@ public class Imovel  implements Serializable{
         this.acessoVisualizacao = acessoVisualizacao;
     }
   	
-	public int getQuantPropostas() {
-		return quantPropostas;
-	}
-
-	public void setQuantPropostas(int quantPropostas) {
-		this.quantPropostas = quantPropostas;
-	}
-
-	public int getQuantNovasPropostas() {
-		return quantNovasPropostas;
-	}
-
 	public void setQuantNovasPropostas(int quantNovasPropostas) {
 		this.quantNovasPropostas = quantNovasPropostas;
 	}
@@ -1104,6 +998,118 @@ public class Imovel  implements Serializable{
 
 	public void setPerfilUsuario(String perfilUsuario) {
 		this.perfilUsuario = perfilUsuario;
+	}
+
+	public long getQuantPropostas() {
+		return quantPropostas;
+	}
+
+	public void setQuantPropostas(long quantPropostas) {
+		this.quantPropostas = quantPropostas;
+	}
+
+	public long getQuantNovasPropostas() {
+		return quantNovasPropostas;
+	}
+
+	public void setQuantNovasPropostas(long quantNovasPropostas) {
+		this.quantNovasPropostas = quantNovasPropostas;
+	}
+
+	public long getQuantComentarios() {
+		return quantComentarios;
+	}
+
+	public void setQuantComentarios(long quantComentarios) {
+		this.quantComentarios = quantComentarios;
+	}
+
+	public long getQuantNovosComentarios() {
+		return quantNovosComentarios;
+	}
+
+	public void setQuantNovosComentarios(long quantNovosComentarios) {
+		this.quantNovosComentarios = quantNovosComentarios;
+	}
+
+	public long getQuantImoveisFavoritos() {
+		return quantImoveisFavoritos;
+	}
+
+	public void setQuantImoveisFavoritos(long quantImoveisFavoritos) {
+		this.quantImoveisFavoritos = quantImoveisFavoritos;
+	}
+
+	public long getQuantNovosImoveisFavoritos() {
+		return quantNovosImoveisFavoritos;
+	}
+
+	public void setQuantNovosImoveisFavoritos(long quantNovosImoveisFavoritos) {
+		this.quantNovosImoveisFavoritos = quantNovosImoveisFavoritos;
+	}
+
+	public long getQuantImoveisIndicados() {
+		return quantImoveisIndicados;
+	}
+
+	public void setQuantImoveisIndicados(long quantImoveisIndicados) {
+		this.quantImoveisIndicados = quantImoveisIndicados;
+	}
+
+	public long getQuantNovosImoveisIndicados() {
+		return quantNovosImoveisIndicados;
+	}
+
+	public void setQuantNovosImoveisIndicados(long quantNovosImoveisIndicados) {
+		this.quantNovosImoveisIndicados = quantNovosImoveisIndicados;
+	}
+
+	public long getQuantImoveisVisitados() {
+		return quantImoveisVisitados;
+	}
+
+	public void setQuantImoveisVisitados(long quantImoveisVisitados) {
+		this.quantImoveisVisitados = quantImoveisVisitados;
+	}
+
+	public long getQuantNovosImoveisVisitados() {
+		return quantNovosImoveisVisitados;
+	}
+
+	public void setQuantNovosImoveisVisitados(long quantNovosImoveisVisitados) {
+		this.quantNovosImoveisVisitados = quantNovosImoveisVisitados;
+	}
+
+	public long getQuantImovelParceria() {
+		return quantImovelParceria;
+	}
+
+	public void setQuantImovelParceria(long quantImovelParceria) {
+		this.quantImovelParceria = quantImovelParceria;
+	}
+
+	public long getQuantNovosImovelParceria() {
+		return quantNovosImovelParceria;
+	}
+
+	public void setQuantNovosImovelParceria(long quantNovosImovelParceria) {
+		this.quantNovosImovelParceria = quantNovosImovelParceria;
+	}
+
+	public long getQuantImovelIntermediacao() {
+		return quantImovelIntermediacao;
+	}
+
+	public void setQuantImovelIntermediacao(long quantImovelIntermediacao) {
+		this.quantImovelIntermediacao = quantImovelIntermediacao;
+	}
+
+	public long getQuantNovosImovelIntermediacao() {
+		return quantNovosImovelIntermediacao;
+	}
+
+	public void setQuantNovosImovelIntermediacao(long quantNovosImovelIntermediacao) {
+		this.quantNovosImovelIntermediacao = quantNovosImovelIntermediacao;
 	}
 
 }

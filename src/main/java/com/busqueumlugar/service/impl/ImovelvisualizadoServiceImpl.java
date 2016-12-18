@@ -1,20 +1,12 @@
 package com.busqueumlugar.service.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.TreeSet;
 
-import org.apache.commons.mail.EmailException;
-import org.hibernate.Query;
-import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +24,6 @@ import com.busqueumlugar.form.ImovelvisualizadoForm;
 import com.busqueumlugar.form.RelatorioForm;
 import com.busqueumlugar.model.EmailImovel;
 import com.busqueumlugar.model.Imovel;
-import com.busqueumlugar.model.Imovelindicado;
-import com.busqueumlugar.model.ImovelPropostas;
 import com.busqueumlugar.model.Imovelvisualizado;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.ContatoService;
@@ -252,11 +242,7 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
         return listaFinal;
 	}
 
-	
-	public int checarQuantidadeVisitarsPorImovel(Long idImovel) {		
-		return AppUtil.recuperarQuantidadeLista(dao.findImoveisVisitadosPorIdImovel(idImovel));		
-	}
-	
+
 	public EmailImovel notificarVisitaImovel(Long idImovel) {		
 		Imovel imovel = imovelService.recuperarImovelPorid(idImovel);
         EmailImovel email = new EmailImovel();        
@@ -354,7 +340,7 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 				obj = (Object[]) iter.next();				
 				imovel = imovelService.recuperarImovelPorid(Long.parseLong(obj[0].toString()));
 				imovel.setQuantImoveisVisitados(Integer.parseInt(obj[1].toString()));
-				imovel.setQuantNovosImoveisVisitados(dao.findQuantidadeNovosImoveisVisitados(Long.parseLong(obj[0].toString())));				
+				imovel.setQuantNovosImoveisVisitados(dao.findQuantidadeImoveisVisitadosPorImovelPorStatus(Long.parseLong(obj[0].toString()), StatusLeituraEnum.NOVO.getRotulo()));				
 				listaFinal.add(imovel);
 			}
 		}				
@@ -374,7 +360,7 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 				obj = (Object[]) iter.next();				
 				imovel = imovelService.recuperarImovelPorid(Long.parseLong(obj[0].toString()));
 				imovel.setQuantImoveisVisitados(Integer.parseInt(obj[1].toString()));
-				imovel.setQuantNovosImoveisVisitados(dao.findQuantidadeNovosImoveisVisitados(Long.parseLong(obj[0].toString())));				
+				imovel.setQuantNovosImoveisVisitados(dao.findQuantidadeImoveisVisitadosPorImovelPorStatus(Long.parseLong(obj[0].toString()), StatusLeituraEnum.NOVO.getRotulo()));				
 				listaFinal.add(imovel);
 			}
 		}				
@@ -446,6 +432,11 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 	@Override
 	public long checarQuantidadeVisitantesPorUsuarioPorStatus(Long idUsuario, String status) {
 		return dao.findQuantidadeVisitantesByIdUsuarioByStatus(idUsuario, status);
+	}
+
+	@Override
+	public long checarQuantidadeImoveisVisualizadosPorImovel(Long idImovel, String statusLeitura) {
+		return dao.findQuantidadeImoveisVisitadosPorImovelPorStatus(idImovel, statusLeitura);
 	}
 
 }

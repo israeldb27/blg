@@ -1,13 +1,8 @@
 package com.busqueumlugar.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +17,6 @@ import com.busqueumlugar.dao.NotaDao;
 import com.busqueumlugar.dao.PreferencialocalidadeDao;
 import com.busqueumlugar.dao.UsuarioDao;
 import com.busqueumlugar.form.NotaForm;
-import com.busqueumlugar.form.UsuarioForm;
-import com.busqueumlugar.model.Contato;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Nota;
 import com.busqueumlugar.model.Usuario;
@@ -77,7 +70,7 @@ public class NotaServiceImpl implements NotaService {
 	}
 	
 	@Transactional
-	public void cadastrarNota(String descricao, Usuario usuario, Date dataAtual,	String acao) {		
+	public void cadastrarNota(String descricao, Usuario usuario, Date dataAtual, String acao) {		
 		Nota nota = new Nota();
         nota.setDescricao(descricao);
         nota.setUsuario(usuario);        
@@ -99,7 +92,7 @@ public class NotaServiceImpl implements NotaService {
 
 	
 	public List<Nota> listarTodasNotasPorPerfil(Long idUsuario,	NotaForm form) {
-        return dao.findNotasByIdUsuario(idUsuario, form);
+        return dao.filterNotasByIdUsuario(idUsuario, form);
 	}
 
 	
@@ -159,9 +152,9 @@ public class NotaServiceImpl implements NotaService {
 		
 		List<Nota> lista = null;		
 		if ( form.getOpcaoFiltro().equals("todos"))
-			lista = dao.findNotasByIdUsuario(idUsuario, form);
+			lista = dao.filterNotasByIdUsuario(idUsuario, form);
 		else 
-			lista = dao.findNotasByIdUsuario(idUsuario, form);		
+			lista = dao.filterNotasByIdUsuario(idUsuario, form);		
 		
 		return lista;
 	}
@@ -189,7 +182,7 @@ public class NotaServiceImpl implements NotaService {
 
 
 	private List<Nota> filtrarListaTodasNotasPorPerfil(Long idUsuario, NotaForm form) {
-        return dao.findNotasByIdUsuario(idUsuario, form);
+        return dao.filterNotasByIdUsuario(idUsuario, form);
 	}
 
 

@@ -44,13 +44,11 @@ public interface ImovelFavoritosService {
 	
 	List<Imovelfavoritos> recuperarUsuariosInteressadosPorIdImovel(Long idImovel);
 	
-	int checarQuantidadeUsuariosInteressadosPorIdImovel(Long idImovel);
+	long checarQuantidadeUsuariosInteressadosPorIdImovel(Long idImovel);
 		
 	List<Imovel> checarImoveisMaisInteressadosPorPeriodo(AdministracaoForm form);
 	
 	String checarUsuarioEstaInteressadoImovel(Long idUsuario, Long idImovel);
-	
-	int checarQuantidadeUsuariosPorImovelPorDonoImovel(Long idDonoImovel, ImovelfavoritosForm form);
 	
 	EmailImovel notificarInteresseImovel(Imovel imovel);
 	

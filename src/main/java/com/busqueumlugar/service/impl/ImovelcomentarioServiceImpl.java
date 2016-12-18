@@ -1,9 +1,6 @@
 package com.busqueumlugar.service.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -27,13 +24,10 @@ import com.busqueumlugar.form.UsuarioForm;
 import com.busqueumlugar.model.EmailImovel;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Imovelcomentario;
-import com.busqueumlugar.model.ImovelPropostas;
-import com.busqueumlugar.model.Imovelvisualizado;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.ImovelcomentarioService;
 import com.busqueumlugar.service.UsuarioService;
-import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.DateUtil;
 
 @Service
@@ -98,28 +92,26 @@ public class ImovelcomentarioServiceImpl implements ImovelcomentarioService {
 	@Override
 	@Transactional
 	public void cadastrarComentario(Long idImovel, UsuarioForm usuarioForm,	String comentario) {
-
 		Imovelcomentario imovelcomentario = new Imovelcomentario();
         imovelcomentario.setComentario(comentario);
         imovelcomentario.setImovel(imovelService.recuperarImovelPorid(idImovel));        
         imovelcomentario.setDataComentario(new Date());
         imovelcomentario.setUsuarioComentario(usuarioService.recuperarUsuarioPorId(usuarioForm.getId()));   
         imovelcomentario.setUsuario(imovelcomentario.getImovel().getUsuario());
-        imovelcomentario.setStatus("novo");
+        imovelcomentario.setStatus(StatusLeituraEnum.NOVO.getRotulo());
         dao.save(imovelcomentario);  
 	}
 	
 	@Override
 	@Transactional
-	public void cadastrarComentario(Long idImovel, Long idUsuario,	String comentario) {
-		
+	public void cadastrarComentario(Long idImovel, Long idUsuario,	String comentario) {		
 		Imovelcomentario imovelcomentario = new Imovelcomentario();
         imovelcomentario.setComentario(comentario);
         imovelcomentario.setImovel(imovelService.recuperarImovelPorid(idImovel));
         imovelcomentario.setDataComentario(new Date());
         imovelcomentario.setUsuarioComentario(usuarioService.recuperarUsuarioPorId(idUsuario));   
         imovelcomentario.setUsuario(imovelcomentario.getImovel().getUsuario());   
-        imovelcomentario.setStatus("novo");
+        imovelcomentario.setStatus(StatusLeituraEnum.NOVO.getRotulo());
         dao.save(imovelcomentario);  
 	}
 

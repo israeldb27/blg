@@ -147,12 +147,7 @@
     
             	 <!-- Start header content -->
                 <div class="header-content">
-                    <h2><i class="fa fa-pencil"></i><spring:message code="lbl.editar.imovel"/> </h2>                                                                        
-					
-					<!-- Start header modal Ajuda - funcionalidade -->
-						<c:import url="../../ajuda/headerMenuModal.jsp"></c:import>																				
-					<!-- End header  modal Ajuda - funcionalidade -->
-					
+                    <h2><i class="fa fa-pencil"></i><spring:message code="lbl.editar.imovel"/> </h2>				
                 </div><!-- /.header-content -->
                 <!--/ End header content -->
                 
@@ -181,7 +176,7 @@
 	                                        <h3 class="panel-title"><spring:message code="lbl.title.aba.alterar.foto.imovel.atual"/> <code></code></h3>
 	                                    </div>
 	                                    <div class="pull-right">
-	                                                	                                        
+	                                         <a href="#a" class="btn btn-sm"  data-toggle="modal" data-target=".bs-modal-ajuda-informacoes" style=""><i class="fa fa-question" ></i></a>       	                                        
 	                                    </div>
 	                                    <div class="clearfix"></div>
 	                                </div><!-- /.panel-heading -->
@@ -527,21 +522,7 @@
 									                 <form:errors id="autorizacaoPropostas" path="autorizacaoPropostas" cssClass="errorEntrada"  />
                                                 </div>
                                             </div><!-- /.form-group -->
-                                                                                        
-                                            
-                                            <div class="form-group">
-                                                <label for="autorizaComentario" class="col-sm-3 control-label"><spring:message code="lbl.permissao.autoriza.comentarios"/></label>
-                                                <div class="col-sm-7">
-                                                     <spring:message code="lbl.hint.imovel.autoriza.comentarios" var="hintAutorizaComentarios"/>
-                                                     <form:select id="autorizaComentario" path="autorizaComentario" class="form-control" title="${hintAutorizaComentarios}">                                
-								                    	<form:option value="" > <spring:message code="opcao.selecao.uma.opcao"/> </form:option>
-														<form:option value="S"> <spring:message code="lbl.sim"/></form:option>
-														<form:option value="N"> <spring:message code="lbl.nao"/></form:option>														
-									                 </form:select>
-									                 <form:errors id="autorizaComentario" path="autorizaComentario" cssClass="errorEntrada"  />
-                                                </div>
-                                            </div><!-- /.form-group -->
-                                            
+                                                                                       
                                              <div class="form-group">
                                                 <label for="aceitaFinanciamento" class="col-sm-3 control-label"><spring:message code="lbl.permissao.aceita.financiamento"/></label>
                                                 <div class="col-sm-7">

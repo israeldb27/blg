@@ -6,7 +6,6 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
@@ -18,6 +17,7 @@ import org.springframework.util.CollectionUtils;
 import com.busqueumlugar.dao.ContatoDao;
 import com.busqueumlugar.dao.ImovelindicadoDao;
 import com.busqueumlugar.dao.SeguidorDao;
+import com.busqueumlugar.enumerador.StatusLeituraEnum;
 import com.busqueumlugar.enumerador.TipoContatoOpcaoEnum;
 import com.busqueumlugar.form.AdministracaoForm;
 import com.busqueumlugar.form.ImovelindicadoForm;
@@ -103,8 +103,8 @@ public class ImovelindicadoDaoImpl extends GenericDAOImpl<Imovelindicado, Long> 
 	@Override
 	public List<Imovelindicado> findImoveisIndicadosNovos(Long idUsuario) {
 		Criteria crit = session().createCriteria(Imovelindicado.class);
-		crit.add(Restrictions.eq("statusIndicado", "novo"));		
 		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));
+		crit.add(Restrictions.eq("statusIndicado", StatusLeituraEnum.NOVO.getRotulo()));				
 		return (List<Imovelindicado>)crit.list();			
 	}
 
@@ -112,9 +112,8 @@ public class ImovelindicadoDaoImpl extends GenericDAOImpl<Imovelindicado, Long> 
 	public List checarImoveisComMaisIndicacoesPeriodo(Date dataInicio,Date dataFim, int quant) {
 		Criteria crit = session().createCriteria(Imovelindicado.class);
 		ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("imovel.id"));
-		projList.add(Projections.count("imovel.id").as("quant"));		
 		projList.add(Projections.groupProperty("imovel.id"));
+		projList.add(Projections.count("imovel.id").as("quant"));
 		crit.setProjection(projList);
 		crit.add(Restrictions.ge("dataIndicacao", dataInicio));
 		crit.add(Restrictions.le("dataIndicacao", dataFim));			
@@ -311,22 +310,6 @@ public class ImovelindicadoDaoImpl extends GenericDAOImpl<Imovelindicado, Long> 
 		}   
 		return crit.list();
 	}
-
-	@Override
-	public List findInfoAgruparUsuariosImoveisIndicados(Long idUsuarioSessao, Long idUsuarioIndicado) {
-		
-		StringBuffer sql = new StringBuffer("SELECT ip.idUsuarioIndicador, ");
-					 sql.append("count(1) as quant ");
-					 sql.append("FROM Imovelindicado ip ");
-					 sql.append("where ip.idUsuario = :idUsuario and ip.idUsuarioIndicador = :idUsuarioIndicador");
-				
-		 Query query = session().createQuery(sql.toString());        
-	        
-	     query.setParameter("idUsuario", idUsuarioSessao);
-	     query.setParameter("idUsuarioIndicador", idUsuarioIndicado);
-		
-	     return query.list();
-	}
 	
 	@Override
 	public List filtrarAgruparImoveis(Long idUsuario, ImovelindicadoForm form){
@@ -405,9 +388,8 @@ public class ImovelindicadoDaoImpl extends GenericDAOImpl<Imovelindicado, Long> 
 		}
 
         ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("imovel.id"));
-		projList.add(Projections.count("imovel.id").as("quant"));		
-		projList.add(Projections.groupProperty("imovel.id"));
+        projList.add(Projections.groupProperty("imovel.id"));
+		projList.add(Projections.count("imovel.id").as("quant"));
 		crit.setProjection(projList);			
 		crit.addOrder(Order.desc("quant"));		
 		form.setQuantRegistros(AppUtil.recuperarQuantidadeLista(crit.list()));
@@ -509,11 +491,9 @@ public class ImovelindicadoDaoImpl extends GenericDAOImpl<Imovelindicado, Long> 
 				}
 				else if (form.getOpcaoContatoAgruparUsuarios().equals(TipoContatoOpcaoEnum.USUARIOS_SEGUINDO.getRotulo())){
 					listaIds = seguidorDao.filterListaIdsUsuariosSeguidores(idUsuario, form.getOpcaoPerfilContatoAgruparUsuarios());
-					//listaIds = seguidorDao.filterListaIdsUsuariosSeguindo(idUsuario, form.getOpcaoPerfilContatoAgruparUsuarios());
 				}
 				else if (form.getOpcaoContatoAgruparUsuarios().equals(TipoContatoOpcaoEnum.USUARIOS_SEGUIDORES.getRotulo())){
 					listaIds = seguidorDao.filterListaIdsUsuariosSeguindo(idUsuario, form.getOpcaoPerfilContatoAgruparUsuarios());
-					//listaIds = seguidorDao.filterListaIdsUsuariosSeguidores(idUsuario, form.getOpcaoPerfilContatoAgruparUsuarios());
 				}				
 				if (! CollectionUtils.isEmpty(listaIds))
 					critUsuario.add(Restrictions.in("id", listaIds));
@@ -555,9 +535,8 @@ public class ImovelindicadoDaoImpl extends GenericDAOImpl<Imovelindicado, Long> 
 	public List findImoveisIndicacoesByIdUsuarioDistinct(Long idUsuario, ImovelindicadoForm form) {
 		Criteria crit = session().createCriteria(Imovelindicado.class);
 		ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("imovel.id"));		
+		projList.add(Projections.groupProperty("imovel.id"));				
 		projList.add(Projections.count("imovel.id").as("quant"));
-		projList.add(Projections.groupProperty("imovel.id"));		
 		crit.setProjection(projList);
 		crit.add(Restrictions.eq("usuarioIndicador.id", idUsuario));
 		
@@ -582,18 +561,14 @@ public class ImovelindicadoDaoImpl extends GenericDAOImpl<Imovelindicado, Long> 
 	@Override
 	public int findQuantidadeNovosImoveisIndicacoes(Long idImovel) {
 		Criteria crit = session().createCriteria(Imovelindicado.class);
-		ProjectionList projList = Projections.projectionList();		
-		projList.add(Projections.count("imovel.id").as("quant"));				
+		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));
+		crit.add(Restrictions.eq("statusIndicado", StatusLeituraEnum.NOVO.getRotulo()));
+		
+		ProjectionList projList = Projections.projectionList();
+        projList.add(Projections.rowCount());		
 		crit.setProjection(projList);
-		crit.add(Restrictions.eq("statusIndicado", "novo"));
-		List lista =  crit.list();
-		if ( lista == null)
-			return 0;
-		else {
-			Object obj = lista.get(0);
-			return Integer.parseInt(obj.toString());
-		}			
-
+		crit.setMaxResults(1);
+		return (int)crit.uniqueResult();
 	}
 
 	@Override
@@ -653,9 +628,8 @@ public class ImovelindicadoDaoImpl extends GenericDAOImpl<Imovelindicado, Long> 
 		}
 
         ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("imovel.id"));
-		projList.add(Projections.count("imovel.id").as("quant"));		
-		projList.add(Projections.groupProperty("imovel.id"));
+        projList.add(Projections.groupProperty("imovel.id"));
+		projList.add(Projections.count("imovel.id").as("quant"));
 		crit.setProjection(projList);		
 		crit.add(Restrictions.ge("dataIndicacao", form.getDataInicio()));
 		crit.add(Restrictions.le("dataIndicacao", form.getDataFim()));	
@@ -669,7 +643,7 @@ public class ImovelindicadoDaoImpl extends GenericDAOImpl<Imovelindicado, Long> 
 	public List<Imovelindicado> findImoveisNovosPorUsuario(Long idUsuario) {
 		Criteria crit = session().createCriteria(Imovelindicado.class);
 		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));		
-		crit.add(Restrictions.eq("statusIndicado", "novo"));
+		crit.add(Restrictions.eq("statusIndicado", StatusLeituraEnum.NOVO.getRotulo()));
 		return (List<Imovelindicado>)crit.list();	
 	}
 	
@@ -683,6 +657,37 @@ public class ImovelindicadoDaoImpl extends GenericDAOImpl<Imovelindicado, Long> 
 							.setParameter("tabela", "imovelindicado");
 		int rows = query.executeUpdate();
 		session.close();		
+	}
+
+
+	@Override
+	public long findQuantImoveisIndicadosByIdUsuarioByStatusLeitura(Long idUsuario, String statusLeitura) {
+		Criteria crit = session().createCriteria(Imovelindicado.class);
+		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));	
+		if (! StringUtils.isNullOrEmpty(statusLeitura))
+			crit.add(Restrictions.eq("statusIndicado", statusLeitura));
+		
+		ProjectionList projList = Projections.projectionList();
+        projList.add(Projections.rowCount());		
+		crit.setProjection(projList);
+		crit.setMaxResults(1);
+		return (long)crit.uniqueResult();
+	}
+
+
+	
+	@Override
+	public long findQuantImoveisIndicacoesByIdUsuarioByStatusLeitura(Long idUsuario, String statusLeitura) {
+		Criteria crit = session().createCriteria(Imovelindicado.class);
+		crit.createCriteria("usuarioIndicador").add(Restrictions.eq("id", idUsuario));
+		if (! StringUtils.isNullOrEmpty(statusLeitura))
+			crit.add(Restrictions.eq("statusIndicado", statusLeitura));
+		
+		ProjectionList projList = Projections.projectionList();
+        projList.add(Projections.rowCount());		
+		crit.setProjection(projList);
+		crit.setMaxResults(1);
+		return (long)crit.uniqueResult();
 	}
 
 

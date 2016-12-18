@@ -9,10 +9,14 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.busqueumlugar.dao.MensagemDao;
+import com.busqueumlugar.enumerador.PerfilUsuarioOpcaoEnum;
+import com.busqueumlugar.enumerador.StatusLeituraEnum;
 import com.busqueumlugar.model.Cidades;
 import com.busqueumlugar.model.Contato;
 import com.busqueumlugar.model.Mensagem;
@@ -52,16 +56,6 @@ public class MensagemDaoImpl extends GenericDAOImpl<Mensagem, Long> implements M
 	}
 
 	@Override
-	public List<Mensagem> findAllMensagemByIdUsuario(Long idUsuario) {		
-		Criteria crit = session().createCriteria(Mensagem.class);
-		Criterion usuarioDe = Restrictions.eq("usuarioDe.id",idUsuario); 
-		Criterion usuarioPara = Restrictions.eq("usuarioPara.id",idUsuario); 
-		LogicalExpression orExp = Restrictions.or(usuarioDe,usuarioPara);
-		crit.add(orExp); 
-		return (List<Mensagem>) crit.list();
-	}
-
-	@Override
 	public List<Mensagem> findAllMensagemByIdUsuarioOrderByDataMensagem(Long idUsuario) {
 		Criteria crit = session().createCriteria(Mensagem.class);
 		Criterion usuarioDe = Restrictions.eq("usuarioDe.id",idUsuario); 
@@ -75,12 +69,12 @@ public class MensagemDaoImpl extends GenericDAOImpl<Mensagem, Long> implements M
 	
 	@Override
 	public List<Mensagem> findAllMensagemNovasByIdUsuarioOrderByDataMensagem(Long idUsuario) {
-		Criteria crit = session().createCriteria(Mensagem.class);
-		crit.add(Restrictions.eq("status","novo"));
+		Criteria crit = session().createCriteria(Mensagem.class);		
 		Criterion usuarioDe = Restrictions.eq("usuarioDe.id",idUsuario); 
 		Criterion usuarioPara = Restrictions.eq("usuarioPara.id",idUsuario); 
 		LogicalExpression orExp = Restrictions.or(usuarioDe,usuarioPara);
 		crit.add(orExp);
+		crit.add(Restrictions.eq("status",StatusLeituraEnum.NOVO.getRotulo()));
 		crit.addOrder(Order.desc("dataMensagem"));
 		return (List<Mensagem>) crit.list();
 	}
@@ -120,96 +114,29 @@ public class MensagemDaoImpl extends GenericDAOImpl<Mensagem, Long> implements M
 		Criteria crit = session().createCriteria(Mensagem.class);
 		crit.createCriteria("usuarioPara").add(Restrictions.eq("id", idUsuarioPara));		
 		crit.createCriteria("usuarioDe").add(Restrictions.eq("id", idUsuarioDe));
-		crit.add(Restrictions.eq("status", "novo"));
+		crit.add(Restrictions.eq("status",StatusLeituraEnum.NOVO.getRotulo()));
 		return crit.list();
-	}
-
-	@Override
-	public List<Mensagem> findAllMensagensByIdUsuarioParaAdmin(Long idUsuario) {		
-		Criteria crit = session().createCriteria(Mensagem.class);
-		crit.add(Restrictions.eq("perfilUsuario", "admin"));
-		Criterion usuarioDe = Restrictions.eq("usuarioDe.id",idUsuario); 
-		Criterion usuarioPara = Restrictions.eq("usuarioPara.id",idUsuario); 
-		LogicalExpression orExp = Restrictions.or(usuarioDe,usuarioPara);
-		crit.add(orExp);		
-		crit.addOrder(Order.desc("dataMensagem"));
-		return (List<Mensagem>) crit.list();
-	}
-
-	@Override
-	public List<Mensagem> findAllMensagensTrocadasComAdmin(long idUsuarioPara) {
-		Criteria crit = session().createCriteria(Mensagem.class);
-		crit.add(Restrictions.eq("perfilUsuario", "admin"));
-		Criterion usuarioDe = Restrictions.eq("usuarioDe.id",idUsuarioPara); 
-		Criterion usuarioPara = Restrictions.eq("usuarioPara.id",idUsuarioPara); 
-		LogicalExpression orExp = Restrictions.or(usuarioDe,usuarioPara);
-		crit.add(orExp);		
-		crit.addOrder(Order.desc("dataMensagem"));
-		return (List<Mensagem>) crit.list();
 	}
 
 	@Override
 	public List<Mensagem> findExistsNovaMensagem(Long idUsuario) {
 		Criteria crit = session().createCriteria(Mensagem.class);
 		crit.createCriteria("usuarioPara").add(Restrictions.eq("id", idUsuario));
-		crit.add(Restrictions.eq("status", "novo"));		
+		crit.add(Restrictions.eq("status",StatusLeituraEnum.NOVO.getRotulo()));		
 		return crit.list();
 	}
 
-
 	@Override
-	public List<Mensagem> findAllMensagensByIdUsuarioParaAdminNovas(Long idUsuario) {
-		return (List<Mensagem>)session().createCriteria(Mensagem.class)				
-				.add(Restrictions.eq("idUsuarioPara", 0))
-				.add(Restrictions.eq("perfilUsuario", "admin"))
-				.add(Restrictions.eq("status", "novo")).list();
-	}
-
-	@Override
-	public List<Mensagem> findExistsNovaMensagemAdmin() {
-		return (List<Mensagem>)session().createCriteria(Mensagem.class)
-				.add(Restrictions.eq("loginUsuarioPara", "admin"))
-				.add(Restrictions.eq("status", "novo")).list();
-	}
-
-	@Override
-	public List<Mensagem> findNovasMensagensByAdmin(Long idUsuario) {
-		return (List<Mensagem>)session().createCriteria(Mensagem.class)				
-				.add(Restrictions.eq("idUsuarioDe", 0))
-				.add(Restrictions.eq("idUsuarioPara", idUsuario))
-				.add(Restrictions.eq("perfilUsuario", "admin"))
-				.add(Restrictions.eq("status", "novo")).list();
-	}
-
-	@Override
-	public List<Mensagem> findNovasMensagensToAdmin2(Long idUsuario) {
-		return (List<Mensagem>)session().createCriteria(Mensagem.class)
-				.add(Restrictions.eq("idUsuarioPara", idUsuario))
-				.add(Restrictions.eq("remetenteAdmin", "S"))
-				.add(Restrictions.eq("perfilUsuario", "admin"))
-				.add(Restrictions.eq("status", "novo")).list();
-	}
-
-	@Override
-	public List<Mensagem> findAllMensagemByIdUsuarioDeParaNovas(long idUsuarioDe, long idUsuarioPara) {
+	public long findQuantMensagensByIdUsuarioByStatusLeitura(Long idUsuario, String statusLeitura) {
+		Criteria crit = session().createCriteria(Mensagem.class);
+		crit.createCriteria("usuarioPara").add(Restrictions.eq("id", idUsuario));
+		crit.add(Restrictions.eq("status",StatusLeituraEnum.NOVO.getRotulo()));
 		
-		StringBuffer sql = new StringBuffer(" SELECT m FROM Mensagem m ");
-		sql.append(" WHERE (( m.idUsuarioDe = :idUsuarioDe and m.idUsuarioPara = :idUsuarioPara) or  "); 
-		sql.append("        ( m.idUsuarioDe = :idUsuarioDe2 and m.idUsuarioPara = :idUsuarioPara2)) and ");
-		sql.append(" m.status = :status " );
-		sql.append(" order by m.dataMensagem desc ");
-		
-		Query query = session().createQuery(sql.toString());
-        query.setParameter("idUsuarioDe", idUsuarioDe);            
-        query.setParameter("idUsuarioPara", idUsuarioPara);
-        
-        query.setParameter("idUsuarioDe2", idUsuarioPara);            
-        query.setParameter("idUsuarioPara2", idUsuarioDe);
-        
-        query.setParameter("status", "novo");        
-		return (List<Mensagem>) query.list();
+		ProjectionList projList = Projections.projectionList();
+        projList.add(Projections.rowCount());		
+		crit.setProjection(projList);
+		crit.setMaxResults(1);
+		return (long)crit.uniqueResult();		
 	}
-
-
 
 }

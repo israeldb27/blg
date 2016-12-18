@@ -211,15 +211,14 @@ public class ImovelcomentarioController {
 			form.setTipoLista(tipoLista);
 			form.setListaEstados(estadosService.listarTodosEstadosSelect());		
 			
-			if ( tipoLista.equals("comentariosSobreMeusImoveis")){
-				
+			if ( tipoLista.equals("comentariosSobreMeusImoveis")){				
 				long quantNovas = Long.parseLong(request.getSession().getAttribute(ImovelService.QUANT_NOVOS_IMOVEIS_COMENTARIOS).toString());
 				if (quantNovas > 0){
 					imovelComentarioService.atualizarStatusComentariosMeusImoveis(user.getId());
 					session.setAttribute(ImovelService.QUANT_NOVOS_IMOVEIS_COMENTARIOS, 0);
 				}
 				
-				map.addAttribute("listaComentariosRecebidos", imovelComentarioService.listarComentariosSobreMeuImovelOutros(null, user.getId()));			
+				map.addAttribute("listaComentariosRecebidos", imovelComentarioService.listarComentariosSobreMeuImovelOutros(form, user.getId()));			
 				map.addAttribute("imovelComentarioForm", form);
 				 session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "comentariosSobreMeusImoveis");
 				return DIR_PATH + "listarMeusComentariosRecebidos";

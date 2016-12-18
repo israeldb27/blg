@@ -132,7 +132,7 @@ public class MensagemServiceImpl implements MensagemService {
 
 	
 	public List<Mensagem> recuperaTodasMensagens(Long idUsuario) {
-        return dao.findAllMensagemByIdUsuario(idUsuario);
+        return dao.findAllMensagemByIdUsuarioOrderByDataMensagem(idUsuario);
 	}
 
 
@@ -278,8 +278,8 @@ public class MensagemServiceImpl implements MensagemService {
 
 
 	
-	public int checarQuantidadeNovasMensagens(Long idUsuario) {	
-		return AppUtil.recuperarQuantidadeLista(dao.findExistsNovaMensagem(idUsuario));
+	public long checarQuantidadeNovasMensagens(Long idUsuario) {	
+		return dao.findQuantMensagensByIdUsuarioByStatusLeitura(idUsuario, StatusLeituraEnum.NOVO.getRotulo());
 	}
 
 
@@ -474,13 +474,11 @@ public class MensagemServiceImpl implements MensagemService {
 
 	@Override
 	public String validarCriarMensagem(MensagemForm form) {
-
-		String msg = "";
 		
 		if ((form.getEntradaMensagem() == null) || ( form.getEntradaMensagem() != null && form.getEntradaMensagem().equals("")))
-				msg = MessageUtils.getMessage("msg.erro.descricao.mensagem.obrigatorio");		
+			return MessageUtils.getMessage("msg.erro.descricao.mensagem.obrigatorio");		
 				
-		return msg;
+		return "";
 	}
 
 }

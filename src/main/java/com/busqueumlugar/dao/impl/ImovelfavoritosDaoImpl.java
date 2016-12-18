@@ -1,15 +1,11 @@
 package com.busqueumlugar.dao.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
@@ -23,17 +19,12 @@ import org.springframework.util.CollectionUtils;
 import com.busqueumlugar.dao.ContatoDao;
 import com.busqueumlugar.dao.ImovelfavoritosDao;
 import com.busqueumlugar.dao.SeguidorDao;
+import com.busqueumlugar.enumerador.StatusLeituraEnum;
 import com.busqueumlugar.enumerador.TipoContatoOpcaoEnum;
 import com.busqueumlugar.form.AdministracaoForm;
 import com.busqueumlugar.form.ImovelfavoritosForm;
 import com.busqueumlugar.form.RelatorioForm;
-import com.busqueumlugar.model.Estados;
-import com.busqueumlugar.model.Imovel;
-import com.busqueumlugar.model.Imovelcompartilhado;
 import com.busqueumlugar.model.Imovelfavoritos;
-import com.busqueumlugar.model.Imovelindicado;
-import com.busqueumlugar.model.ImovelPropostas;
-import com.busqueumlugar.model.Imovelvisualizado;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.DateUtil;
@@ -99,7 +90,7 @@ public class ImovelfavoritosDaoImpl extends GenericDAOImpl<Imovelfavoritos, Long
 	public List<Imovelfavoritos> findNovoUsuariosInteressadosByIdDonoImovel(Long idUsuario) {
 		Criteria crit = session().createCriteria(Imovelfavoritos.class);
 		crit.createCriteria("usuarioDonoImovel").add(Restrictions.eq("id", idUsuario));
-		crit.add(Restrictions.eq("status", "novo"));
+		crit.add(Restrictions.eq("status", StatusLeituraEnum.NOVO.getRotulo()));
 		return (List<Imovelfavoritos>)crit.list();
 	}
 
@@ -114,9 +105,8 @@ public class ImovelfavoritosDaoImpl extends GenericDAOImpl<Imovelfavoritos, Long
 	public List findImoveisfavoritosMaisInteressadosPorPeriodo(Date dataInicio,	Date dataFim, int quantImoveis) {		
 		Criteria crit = session().createCriteria(Imovelfavoritos.class);
 		ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("idImovel"));
-		projList.add(Projections.count("idImovel").as("quant"));		
-		projList.add(Projections.groupProperty("idImovel"));
+		projList.add(Projections.groupProperty("imovel.id"));
+		projList.add(Projections.count("imovel.id").as("quant"));
 		crit.setProjection(projList);
 		crit.add(Restrictions.ge("dataInteresse", dataInicio));
 		crit.add(Restrictions.le("dataInteresse", dataFim));			
@@ -204,8 +194,7 @@ public class ImovelfavoritosDaoImpl extends GenericDAOImpl<Imovelfavoritos, Long
 	}
 	
 	@Override
-	public List relatorioImovelMaisAdotadosInteressadosPeriodo(AdministracaoForm form) {
-	       
+	public List relatorioImovelMaisAdotadosInteressadosPeriodo(AdministracaoForm form) {	       
         
 		Criteria crit = session().createCriteria(Imovelfavoritos.class);
 		Criteria critUsuario = null;
@@ -257,9 +246,8 @@ public class ImovelfavoritosDaoImpl extends GenericDAOImpl<Imovelfavoritos, Long
 		}	  
 
         ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("imovel.id"));
-		projList.add(Projections.count("imovel.id").as("quant"));		
-		projList.add(Projections.groupProperty("imovel.id"));
+        projList.add(Projections.groupProperty("imovel.id"));
+		projList.add(Projections.count("imovel.id").as("quant"));
 		crit.setProjection(projList);
 		crit.add(Restrictions.ge("dataInteresse", DateUtil.formataDataBanco(form.getDataInicio())));
 		crit.add(Restrictions.le("dataInteresse", DateUtil.formataDataBanco(form.getDataFim())));			
@@ -269,8 +257,7 @@ public class ImovelfavoritosDaoImpl extends GenericDAOImpl<Imovelfavoritos, Long
 	}
 
 	@Override
-	public Imovelfavoritos findLastUsuarioInteressadoByIdImovel(Long idImovel) {
-		
+	public Imovelfavoritos findLastUsuarioInteressadoByIdImovel(Long idImovel) {		
 		Criteria crit = session().createCriteria(Imovelfavoritos.class);
 		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));
 		crit.add(Restrictions.eq("dataCadastro", this.recuperarDataInteresseMax(idImovel)));				
@@ -286,8 +273,7 @@ public class ImovelfavoritosDaoImpl extends GenericDAOImpl<Imovelfavoritos, Long
 	}
 
 	@Override
-	public List<Imovelfavoritos> filterImoveisInteresse(Long idUsuario, ImovelfavoritosForm form) {
-		
+	public List<Imovelfavoritos> filterImoveisInteresse(Long idUsuario, ImovelfavoritosForm form) {		
 		Criteria crit = session().createCriteria(Imovelfavoritos.class);
 		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));		
 		Criteria critImovel = null;			
@@ -498,9 +484,8 @@ public class ImovelfavoritosDaoImpl extends GenericDAOImpl<Imovelfavoritos, Long
 	public List findImoveisFavoritosUsuariosInteressadosByIdUsuarioDistinct(Long idUsuario, ImovelfavoritosForm form) {
 		Criteria crit = session().createCriteria(Imovelfavoritos.class);
 		ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("imovel.id"));
-		projList.add(Projections.count("imovel.id").as("quant"));		
 		projList.add(Projections.groupProperty("imovel.id"));
+		projList.add(Projections.count("imovel.id").as("quant"));
 		crit.setProjection(projList);
 		crit.add(Restrictions.eq("usuarioDonoImovel.id", idUsuario));		
 		
@@ -530,18 +515,15 @@ public class ImovelfavoritosDaoImpl extends GenericDAOImpl<Imovelfavoritos, Long
 	}
 
 	@Override
-	public int findQuantidadeNovosUsuariosInteressados(Long idImovel) {
-		Criteria crit = session().createCriteria(Imovelfavoritos.class);
+	public long findQuantidadeNovosUsuariosInteressados(Long idImovel) {
+		Criteria crit = session().createCriteria(Imovelfavoritos.class);		
+		crit.add(Restrictions.eq("imovel.id", idImovel));						
+		crit.add(Restrictions.eq("status", StatusLeituraEnum.NOVO.getRotulo()));
 		ProjectionList projList = Projections.projectionList();		
 		projList.add(Projections.count("imovel.id").as("quant"));
 		crit.setProjection(projList);
-		crit.add(Restrictions.eq("imovel.id", idImovel));						
-		crit.add(Restrictions.eq("status", "novo"));
-		List lista = crit.list();
-		if ( lista == null )
-			return 0;
-		else
-			return lista.size();
+		crit.setMaxResults(1);
+		return (long)crit.uniqueResult();
 	}
 
 	@Override
@@ -757,9 +739,8 @@ public class ImovelfavoritosDaoImpl extends GenericDAOImpl<Imovelfavoritos, Long
 		}
 
         ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("imovel.id"));
-		projList.add(Projections.count("imovel.id").as("quant"));		
-		projList.add(Projections.groupProperty("imovel.id"));
+        projList.add(Projections.groupProperty("imovel.id"));
+		projList.add(Projections.count("imovel.id").as("quant"));
 		crit.setProjection(projList);			
 		crit.addOrder(Order.desc("quant"));		
 		form.setQuantRegistros(AppUtil.recuperarQuantidadeLista(crit.list()));

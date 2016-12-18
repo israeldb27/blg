@@ -148,7 +148,7 @@
 					                                                            </tr>
 					                                                            <tr>
 					                                                                <td class="text-left"><spring:message code="lbl.vagas.garagem.resum"/></td>
-					                                                                <td class="text-right">${imovel.quantGaragem} vaga(s)</td>
+					                                                                <td class="text-right">${imovel.quantGaragem} <spring:message code="lbl.num.vagas"/></td>
 					                                                            </tr>
 					                                                        </tbody>
 					                                                    </table>

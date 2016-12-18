@@ -62,12 +62,7 @@
             
             	 <!-- Start header content -->
                 <div class="header-content">
-                    <h2><i class="fa fa-pencil"></i> <spring:message code="lbl.title.link.mensagens"/>  </h2>                                                      
-					
-					<!-- Start header modal Ajuda - funcionalidade -->
-						<c:import url="../ajuda/headerMenuModal.jsp"></c:import>																				
-					<!-- End header  modal Ajuda - funcionalidade -->
-					
+                    <h2><i class="fa fa-pencil"></i> <spring:message code="lbl.title.link.mensagens"/>  </h2>                                                      					
                 </div><!-- /.header-content -->
                 <!--/ End header content -->
                 
@@ -89,14 +84,14 @@
 	                                <div class="form-body">
 	                                	
 	                                	<div class="form-group">
-	                                		<label for="titulo" class="col-sm-3 control-label">De:</label>
+	                                		<label for="titulo" class="col-sm-3 control-label"><spring:message code="lbl.mensagem.usuario.de"/>:</label>
 	                                		<div class="col-sm-7">                                                    
                                                     ${mensagemForm.nomeUsuarioDe}
                                              </div>
 	                                    </div><!-- /.form-group -->
 	                                    
 	                                    <div class="form-group">
-	                                		<label for="titulo" class="col-sm-3 control-label">Para:</label>
+	                                		<label for="titulo" class="col-sm-3 control-label"><spring:message code="lbl.mensagem.usuario.para"/>:</label>
 	                                		<div class="col-sm-7">                                                    
                                                     ${mensagemForm.nomeUsuarioPara}
                                              </div>

@@ -39,7 +39,7 @@ public interface MensagemService {
 	
 	boolean checarExisteNovaMensagem(Long idUsuario);
 	
-	int checarQuantidadeNovasMensagens(Long idUsuario);
+	long checarQuantidadeNovasMensagens(Long idUsuario);
 	
 	List<MensagemForm> recuperarNovasMensagens(List<MensagemForm> lista, UsuarioForm usuario);
 	

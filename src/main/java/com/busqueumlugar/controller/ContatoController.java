@@ -156,7 +156,7 @@ public class ContatoController {
 		UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 		if ( respostaConvite.equals(ContatoStatusEnum.OK.getRotulo()) || respostaConvite.equals(ContatoStatusEnum.RECUSADO.getRotulo())) {
 			contatoService.responderConvite(user.getId(), idUsuarioContato, respostaConvite);
-			if ( respostaConvite.equals("ok") )
+			if ( respostaConvite.equals(ContatoStatusEnum.OK.getRotulo()) )
 				map.addAttribute("msgConviteAceito", "S");
 			else
 				map.addAttribute("msgConviteRecusado", "S");
@@ -177,7 +177,7 @@ public class ContatoController {
 		map.addAttribute("listaConvitesRecebidos", contatoService.recuperarConviteSelecionado(user.getId(), idUsuarioContato));
 		if ( respostaConvite.equals(ContatoStatusEnum.OK.getRotulo()) || respostaConvite.equals(ContatoStatusEnum.RECUSADO.getRotulo())) {
 			contatoService.responderConvite(user.getId(), idUsuarioContato, respostaConvite);
-			if ( respostaConvite.equals("ok") )
+			if ( respostaConvite.equals(ContatoStatusEnum.OK.getRotulo()) )
 				map.addAttribute("msgConviteAceito", "S");
 			else
 				map.addAttribute("msgConviteRecusado", "S");

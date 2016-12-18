@@ -20,16 +20,10 @@ public interface ContatoDao extends GenericDAO<Contato, Long>{
 	
 	List<Contato> findContatos(Long idUsuario, ContatoForm form, int quant); 
 	
-	Contato findContatos(Long idUsuarioConvidado, Long idUsuarioHost);
-	
 	Contato findContatosByStatus(Long idUsuarioConvidado, Long idUsuarioHost, String status);
 	
 	Contato findAnyContatoByStatus(Long idUsuarioConvidado, Long idUsuarioHost, String status);
 	
-	Contato findConvite(Long idUsuarioConvidado, Long idUsuarioHost);
-	
-	List<Contato> findOthersContatosByIdUsuario(Long idUsuario);
-
 	List<Contato> findConvitesBydIdUsuarioByStatus(Long idUsuario, String status);
 
 	List<Contato> findContatosHostFiltroRelatorio(RelatorioForm form,Long idUsuario);
@@ -37,8 +31,6 @@ public interface ContatoDao extends GenericDAO<Contato, Long>{
 	List<Contato> findContatosConvidadoFiltroRelatorio(RelatorioForm form,Long idUsuario);
 
 	List<Contato> findConvites(Long idUsuario, int quant);
-
-	Contato findContatoRandomByIdUsuarioByStatus(Long idUsuario, String status);
 
 	List<Contato> findContatosByPerfilUsuario(Long idUsuario, String tipoPerfil);
 

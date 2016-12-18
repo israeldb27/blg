@@ -12,7 +12,7 @@
 <%@page import="com.busqueumlugar.enumerador.TipoImovelEnum"%>
 <%@page import="com.busqueumlugar.enumerador.StatusImovelEnum"%>
 
-<spring:url value="/imovelCompartilhado" var="urlImovelCompartilhado"/>
+<spring:url value="/parceria" var="urlParceria"/>
 <spring:url var="urlImovelComentario" value="/imovelComentario"/>
 <spring:url value="/imovelPropostas" var="urlImovelPropostas"/>
 <spring:url value="/imovelIndicado" var="urlImovelIndicado"/>
@@ -148,7 +148,7 @@
                              
                         <div class="col-lg-3 col-md-3 col-sm-4">                 		
                                 <div class="panel-body no-padding">
-                                    <form:form method="POST" id="parceriaForm" modelAttribute="parceriaForm" action="${urlImovelCompartilhado}/filtrarParceria" >
+                                    <form:form method="POST" id="parceriaForm" modelAttribute="parceriaForm" action="${urlParceria}/filtrarParceria" >
                                        
                                        <div class="panel rounded shadow no-overflow">
 		                           			  <div class="panel-heading">
@@ -330,7 +330,7 @@
 			                            </div>
 		                                <div class="pull-right" >
 		                                	  <spring:message code="lbl.hint.tipo.agrupar" var="hintAgrupar"/>	
-		                                      <form:form method="POST" id="modVisualizaListaParceriaForm" modelAttribute="parceriaForm" action="${urlImovelCompartilhado}/modoVisualizarParceria" >		                             		
+		                                      <form:form method="POST" id="modVisualizaListaParceriaForm" modelAttribute="parceriaForm" action="${urlParceria}/modoVisualizarParceria" >		                             		
 			                                     <form:select id="opcaoVisualizacaoListaParceria" path="opcaoVisualizacao" class="form-control" title="${hintAgrupar}">
 			                                         <form:option value="" disabled="true"><spring:message code="lbl.agrupar.por"/></form:option>                      											
 													 <form:option value="agruparUsuarios" ><spring:message code="lbl.agrupar.usuarios"/></form:option>
@@ -340,7 +340,7 @@
 		                                </div><!-- /.pull-right -->
 		                                <div class="pull-right" style="padding-right:10px; width: 240px;">
 		                                			<spring:message code="lbl.hint.tipo.ordenacao" var="hintOrdenar"/>
-		                                    		<form:form method="POST" id="parceriaAceitaForm" modelAttribute="parceriaForm" action="${urlImovelCompartilhado}/ordenarParceria" >
+		                                    		<form:form method="POST" id="parceriaAceitaForm" modelAttribute="parceriaForm" action="${urlParceria}/ordenarParceria" >
 											                  <form:hidden  path="tipoLista" value="parceriaAceita" />
 											                  <form:select id="opcaoOrdenacao1" path="opcaoOrdenacao"  class="form-control" title="${hintOrdenar}">                                
 											                        <form:option value="" disabled="true"><spring:message code="lbl.opcao.ordenar"/></form:option>             
@@ -412,7 +412,7 @@
 		                                                            </tr>
 		                                                            <tr>
 		                                                                <td class="text-left"><spring:message code="lbl.vagas.garagem.resum"/></td>
-		                                                                <td class="text-right">${imovelParceria.imovel.quantGaragem} vaga(s)</td>
+		                                                                <td class="text-right">${imovelParceria.imovel.quantGaragem} <spring:message code="lbl.num.vagas"/></td>
 		                                                            </tr>
 		                                                        </tbody>
 		                                                    </table>
@@ -422,7 +422,7 @@
 		                                                 	<% if ( request.getSession().getAttribute("acessoValido").equals("S") ) {%>		                                                 	
 		                                                 			<c:if test="${usuario.id == imovelParceria.usuarioDonoImovel.id}">
 		                                                 				<spring:message code="lbl.link.analisar.sol.intermediacoes" var="mensagemAnalisarSol"/>														    															
-																		<a href="${urlImovelCompartilhado}/analisarSolicitacoesParceriasRecebidas/${imovelParceria.imovel.id}" style="font-size:x-large; color: rgb(99, 110, 123);" class="dropdown-toggle" ><i class="fa fa-gavel"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;"> ${mensagemAnalisarSol} </font> </i> </a>
+																		<a href="${urlParceria}/analisarSolicitacoesParceriasRecebidas/${imovelParceria.imovel.id}" style="font-size:x-large; color: rgb(99, 110, 123);" class="dropdown-toggle" ><i class="fa fa-gavel"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;"> ${mensagemAnalisarSol} </font> </i> </a>
 																	</c:if> 
 																	
 																	<div class="btn-group dropup">                                            

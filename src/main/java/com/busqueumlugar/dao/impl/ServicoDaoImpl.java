@@ -91,13 +91,11 @@ public class ServicoDaoImpl extends GenericDAOImpl<Servico, Long> implements Ser
 		}		
 		
 		ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("descServico"));
-		projList.add(Projections.countDistinct(("descServico")).as("quant"));
 		projList.add(Projections.groupProperty("descServico"));
+		projList.add(Projections.countDistinct(("descServico")).as("quant"));
 		crit.setProjection(projList);
 		crit.addOrder(Order.desc("quant"));
-		return crit.list();
-		
+		return crit.list();		
 	}
 	
 	
@@ -121,8 +119,7 @@ public class ServicoDaoImpl extends GenericDAOImpl<Servico, Long> implements Ser
 		}
 		
 		ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.sum(("valorServico")).as("valorTotal"));
-		
+		projList.add(Projections.sum(("valorServico")).as("valorTotal"));		
 		crit.setProjection(projList);
 		return (Double) crit.uniqueResult();
 	}
@@ -148,9 +145,8 @@ public class ServicoDaoImpl extends GenericDAOImpl<Servico, Long> implements Ser
 		}		
 		
 		ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("usuario.id"));
-		projList.add(Projections.sum(("valorServico")).as("valorTotal"));	
 		projList.add(Projections.groupProperty("usuario.id"));
+		projList.add(Projections.sum(("valorServico")).as("valorTotal"));
 		crit.setProjection(projList);
 		return crit.list();		
 	}
@@ -178,9 +174,8 @@ public class ServicoDaoImpl extends GenericDAOImpl<Servico, Long> implements Ser
 		}
 		
 		ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("descServico"));
-		projList.add(Projections.sum(("valorServico")).as("valorTotal"));	
-		projList.add(Projections.groupProperty("descServico"));	
+		projList.add(Projections.groupProperty("descServico"));
+		projList.add(Projections.sum(("valorServico")).as("valorTotal"));
 		crit.setProjection(projList);
 		return crit.list();
 	}

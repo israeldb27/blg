@@ -18,6 +18,7 @@
 <spring:url var="urlImovel" value="/imovel"/>
 <spring:url value="/admin" var="urlAdmin"/>			
 <spring:url var="urlMensagemAdmin" value="/mensagemAdmin"/>
+<spring:url var="urlImovelComparativo" value="/imovelComparativo"/>
 
 <header id="header">
 
@@ -161,3 +162,21 @@
                 <!--/ End header left -->
 
             </header> <!-- /#header -->
+            
+            <!-- Start optional size modal element - comparativo de imoveis -->
+            <div id="idModalConfirmarComparativo" class="modal fade bs-example-modal-lg-comparativo" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title"><spring:message code="lbl.modal.comparativo"/></h4>
+                        </div>
+                        <div class="modal-body">
+                            <p><div id="msgModalComparativo" cssClass="errorEntrada"  ></div>   </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.btn.fechar.geral"/></button>                                                        
+                        </div>						
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->

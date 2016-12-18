@@ -133,13 +133,13 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
 	}
 
 	@Override
-	public int quantImoveisIndicados(Long idUsuario) {		
-	    return AppUtil.recuperarQuantidadeLista(dao.findImoveisPorUsuario(idUsuario, new ImovelindicadoForm()));
+	public long quantImoveisIndicados(Long idUsuario) {		
+	    return dao.findQuantImoveisIndicadosByIdUsuarioByStatusLeitura(idUsuario, null);
 	}
 
 	@Override
-	public int checaQuantImoveisIndicados(Long idUsuario) {
-		return AppUtil.recuperarQuantidadeLista(dao.findImoveisIndicacoesPorUsuario(idUsuario, new ImovelindicadoForm()));		
+	public long checaQuantImoveisIndicados(Long idUsuario) {
+		return dao.findQuantImoveisIndicadosByIdUsuarioByStatusLeitura(idUsuario, null);				
 	}
 
 	@Override
@@ -205,8 +205,8 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
 	}
 
 	@Override
-	public int checarQuantidadeNovosImoveisIndicados(Long idUsuario) {
-		return AppUtil.recuperarQuantidadeLista(dao.findImoveisIndicadosNovos(idUsuario));		
+	public long checarQuantidadeNovosImoveisIndicados(Long idUsuario) {
+		return dao.findQuantImoveisIndicadosByIdUsuarioByStatusLeitura(idUsuario, StatusLeituraEnum.NOVO.getRotulo());		
 	}
 
 	@Override
@@ -214,7 +214,7 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
 		List lista = dao.checarImoveisComMaisIndicacoesPeriodo(form);
         List<Imovel> listaFinal = new ArrayList<Imovel>();
         
-        if ( lista != null && lista.size() > 0){
+        if ( ! CollectionUtils.isEmpty(lista) ){
             Imovel imovel = null;
             for (Iterator iter = lista.iterator();iter.hasNext();){
                 Object[] obj = (Object[]) iter.next();
@@ -425,29 +425,25 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
 
 	@Override
 	public String validarIndicavaoImovel(Long idImovel, Long idUsuario) {
-		String msg = "";
 		
 		Imovelindicado imovelindicado = dao.findImovelIndicadoByIdImovelIdUsuario(idImovel, idUsuario);
 		if ( imovelindicado != null )  
-			msg = MessageUtils.getMessage("msg.erro.indicacao.ja.realizada"); 			
+			return MessageUtils.getMessage("msg.erro.indicacao.ja.realizada"); 			
 		
-		return msg;
+		return "";
 	}
 	
 	@Override
 	public String validarIndicavaoImovelUsuariosSelecionados(ImovelindicadoForm form, Long idUsuario){
-		String msg = "";
+		
 		String [] usuariosSelecionados = form.getIdUsuariosSelecionados();
 		Usuario usuario = usuarioService.recuperarUsuarioPorId(idUsuario);
 		
 		if ( usuariosSelecionados.length == 0)
-			msg = MessageUtils.getMessage("msg.erro.indicacoes.nenhum.usuario.selecionado");
+			return MessageUtils.getMessage("msg.erro.indicacoes.nenhum.usuario.selecionado");		
 		
-		if ( msg.equals("")){
-			if ( usuariosSelecionados.length > usuario.getQuantMaxIndicacoesImovel())
-				msg = MessageUtils.getMessage("msg.erro.indicacoes.quant.usuarios.selecionados");
-		}
-		
+		if ( usuariosSelecionados.length > usuario.getQuantMaxIndicacoesImovel())
+			return MessageUtils.getMessage("msg.erro.indicacoes.quant.usuarios.selecionados");
 		
 		/*if ( msg.equals("")){ // checando se algum usuario selecionado já recebeu a indicação do imovel anteriormente
 			String idUsuarioSel = null;
@@ -461,7 +457,7 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
 			}
 		}	*/	
 		
-		return msg;
+		return "";
 	}
 
 	@Override

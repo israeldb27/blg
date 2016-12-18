@@ -105,7 +105,7 @@ public interface UsuarioService {
 	
 	void atualizarStatusAtivadoUsuario(Long idUsuario);
 	
-	List<Usuario> relatorioUsuarioMaisCompartilhamentosAceitos(RelatorioForm frm, String perfilUsuario, String tipoCompartilhamento);
+	List<Usuario> relatorioUsuarioMaisCompartilhamentosAceitos(RelatorioForm frm, String perfilUsuario, String tipoImovelCompart);
 	
 	String validarIndicarAmigos(String email);
 	
@@ -141,8 +141,6 @@ public interface UsuarioService {
 	
 	void preparaCampoDataNascimentoEditarUsuario(UsuarioForm form);
 
-	String validarDadosCadastroUsuarioAdmin(UsuarioForm form, BindingResult result);
-
 	UsuarioForm cadastrarUsuarioAdmin(UsuarioForm form);
 
 	UsuarioForm prepararDetalhesUsuarioAdmin(Long idUsuario);
@@ -153,8 +151,6 @@ public interface UsuarioService {
 	
 	List<Usuario> pesquisarTodosUsuarios (UsuarioForm form);
 	
-	List<Usuario> sugerirUsuarios(UsuarioForm user);
-
 	boolean validarBuscarUsuarios(UsuarioForm form, BindingResult result);
 
 	List<Usuario> pesquisarTodosUsuariosAdmin(String valorBusca);

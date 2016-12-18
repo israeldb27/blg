@@ -130,8 +130,6 @@ public interface ImovelService {
 	
 	List<Imovel> pesquisarTodosImoveis (String valor);
 	
-	List<Imovel> sugerirImoveis(UsuarioForm user);
-
 	List<Imovel> recuperarImovelDestaqueParaTelaInicial(int i);
 
 	List<ImovelMapaForm> buscarImoveisMapaPorIdUsuario(ImovelForm form, Long idUsuario);

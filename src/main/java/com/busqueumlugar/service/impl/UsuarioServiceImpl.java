@@ -39,12 +39,12 @@ import com.busqueumlugar.service.EstadosService;
 import com.busqueumlugar.service.ImovelFavoritosService;
 import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.ImovelcomentarioService;
-import com.busqueumlugar.service.ImovelcompartilhadoService;
 import com.busqueumlugar.service.ImoveldestaqueService;
 import com.busqueumlugar.service.ImovelindicadoService;
 import com.busqueumlugar.service.ImovelPropostasService;
 import com.busqueumlugar.service.ImovelvisualizadoService;
 import com.busqueumlugar.service.InfoservicoService;
+import com.busqueumlugar.service.IntermediacaoService;
 import com.busqueumlugar.service.ItemMensagemAdminService;
 import com.busqueumlugar.service.MensagemAdminService;
 import com.busqueumlugar.service.MensagemService;
@@ -52,6 +52,7 @@ import com.busqueumlugar.service.NotaService;
 import com.busqueumlugar.service.NotificacaoService;
 import com.busqueumlugar.service.ParametrosIniciaisService;
 import com.busqueumlugar.service.ParamservicoService;
+import com.busqueumlugar.service.ParceriaService;
 import com.busqueumlugar.service.PlanoService;
 import com.busqueumlugar.service.PlanousuarioService;
 import com.busqueumlugar.service.PreferencialocalidadeService;
@@ -130,7 +131,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	private ImovelindicadoService imovelindicadoService;	
 	
 	@Autowired
-	private ImovelcompartilhadoService imovelcompartilhadoService;
+	private IntermediacaoService intermediacaoService;
 	
 	@Autowired
 	private ContatoService contatoService;
@@ -167,6 +168,9 @@ public class UsuarioServiceImpl implements UsuarioService{
 	
 	@Autowired
 	private SeguidorService seguidorService;
+	
+	@Autowired
+	private ParceriaService	parceriaService;
 	
 	@Autowired
 	private RecomendacaoService recomendacaoService;
@@ -940,14 +944,14 @@ public class UsuarioServiceImpl implements UsuarioService{
             }
         }
         else if ( tipoVisualizar.equals("infoPessoais")) {
-            if ( frm.getValorBusca()!= null && ! frm.getValorBusca().equals("") && JsfUtil.isEmail(frm.getValorBusca())){
+            if (! StringUtils.isEmpty(frm.getValorBusca()) && JsfUtil.isEmail(frm.getValorBusca())){
                listaUsuario = dao.findUsuariosByCampo(frm, "email", false);
             }            
             else if ( frm.getIdEstado() > 0 || frm.getIdCidade() > 0 || frm.getIdBairro() > 0 ){                                       
                     listaUsuario = dao.findUsuarios(frm);
             }
             else {                
-                if ( frm.getValorBusca() != null && ! frm.getValorBusca().equals("")) 
+                if (! StringUtils.isEmpty(frm.getValorBusca())) 
                     listaUsuario = dao.findUsuariosByCampo(frm, "nome", false);                
             } 
             
@@ -1085,32 +1089,29 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	
 	public String validarCadastroInicial(UsuarioForm frm) {	
-		String msg = "";
+		
         Usuario usuario = null;
-        if ( frm != null){            
+        if ( frm != null){           
             
         	usuario = dao.findUsuarioByCampo(frm, "login");             
             if ( usuario != null)
-                    msg = MessageUtils.getMessage("msg.usuario.campo.login.existente");                        
+               return MessageUtils.getMessage("msg.usuario.campo.login.existente");                        
             
-            if ( msg.equals("")){                
-                if (! JsfUtil.isEmail(frm.getEmail()))                	
-                    msg = MessageUtils.getMessage("msg.usuario.campo.email.valido"); 
-            }
-            
-            if ( msg.equals("")){
-                usuario = dao.findUsuarioByCampo(frm, "email");
-                if ( usuario != null)                	
-                    msg = MessageUtils.getMessage("msg.usuario.campo.email.existente");
-            }
-            
-            if ( msg.equals("")){
-                List<Usuario> lista  = dao.findUsuariosByCampo(frm, "nomeLike", false);
-                if ( lista != null && lista.size() > 0 )                	
-                    msg = MessageUtils.getMessage("msg.usuario.campo.nome.existente");
-            }
+                           
+            if (! JsfUtil.isEmail(frm.getEmail()))                	
+            	return MessageUtils.getMessage("msg.usuario.campo.email.valido");            
+        
+       
+            usuario = dao.findUsuarioByCampo(frm, "email");
+            if ( usuario != null)                	
+            	return MessageUtils.getMessage("msg.usuario.campo.email.existente");            
+        
+       
+            List<Usuario> lista  = dao.findUsuariosByCampo(frm, "nomeLike", false);
+            if (! CollectionUtils.isEmpty(lista))                	
+            	return MessageUtils.getMessage("msg.usuario.campo.nome.existente");           
         }        
-        return msg;
+        return "";
 	}
 
 
@@ -1134,7 +1135,7 @@ public class UsuarioServiceImpl implements UsuarioService{
                         ultrapassou = true;
                  }                
                 else if (nomeServico.equals(ServicoValueEnum.INDICACOES_IMOVEIS.getRotulo())){
-                    int quantIndicacoes = imovelindicadoService.checaQuantImoveisIndicados(idUsuario);
+                    long quantIndicacoes = imovelindicadoService.checaQuantImoveisIndicados(idUsuario);
                     if (quantIndicacoes >= usuario.getQuantMaxIndicacoesImovel())
                         ultrapassou = true;                    
                 }
@@ -1166,26 +1167,21 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	
 	public String validarMudancaSenha(UsuarioForm frm) {	
-		String msg = "";
-        
+		        
         if ( ! frm.getPassword().equals(frm.getConfirmaPassword()))        	
-        	msg = MessageUtils.getMessage("msg.usuario.campo.confirma.password.conferem");
+        	return MessageUtils.getMessage("msg.usuario.campo.confirma.password.conferem");
         
         // acrescentar depois outras regras para formaÔøΩÔøΩo de senha         
-        if ( msg.equals("")){
-            if ( frm.getPassword().length() < 8 || frm.getPassword().length() > 10)            	
-            	msg = MessageUtils.getMessage("msg.usuario.campo.password.tamanho.minimo.maximo");             
-        }
         
+        if ( frm.getPassword().length() < 8 || frm.getPassword().length() > 10)            	
+        	return MessageUtils.getMessage("msg.usuario.campo.password.tamanho.minimo.maximo");             
         
-        if ( msg.equals("")){
-            boolean isCaractereAlfa = this.validaCaractereAlfa(frm.getPassword());
-            boolean isCaractereNumerico = this.validaCaractereNumerico(frm.getPassword());
-            if ( ! isCaractereAlfa || ! isCaractereNumerico )            	
-            	msg = MessageUtils.getMessage("msg.usuario.campo.password.caractere.alfanumerico");                                                   
-        }
+        boolean isCaractereAlfa = this.validaCaractereAlfa(frm.getPassword());
+        boolean isCaractereNumerico = this.validaCaractereNumerico(frm.getPassword());
+        if ( ! isCaractereAlfa || ! isCaractereNumerico )            	
+        	return  MessageUtils.getMessage("msg.usuario.campo.password.caractere.alfanumerico");                                                   
         
-       return msg;
+       return "";
 	}
 
 	@Transactional
@@ -1231,16 +1227,16 @@ public class UsuarioServiceImpl implements UsuarioService{
                 return MessageUtils.getMessage("msg.usuario.campo.perfil.obrigatorio");                   
             }
             
-            if (( frm.getNome() == null ) || ( frm.getNome() != null &&  frm.getNome().equals(""))){
+            if (StringUtils.isEmpty(frm.getNome())){
                 return MessageUtils.getMessage("msg.usuario.campo.nome.obrigatorio");                   
             }
             else{
             	List<Usuario> lista  = dao.findUsuariosByCampo(frm, "nomeLike", false);
-                if ( lista != null && lista.size() > 0 )               
+                if ( ! CollectionUtils.isEmpty(lista) )               
                 	return MessageUtils.getMessage("msg.usuario.campo.nome.existente");                                       
             }
             
-            if (( frm.getLogin() == null ) || ( frm.getLogin() != null &&  frm.getLogin().equals(""))){
+            if (StringUtils.isEmpty(frm.getLogin())){
                 return MessageUtils.getMessage("msg.usuario.campo.login.obrigatorio");                   
             }
             else{
@@ -1249,7 +1245,7 @@ public class UsuarioServiceImpl implements UsuarioService{
                 	return MessageUtils.getMessage("msg.usuario.campo.nome.existente");
             }
             
-            if (( frm.getCpf() == null ) || ( frm.getCpf() != null &&  frm.getCpf().equals(""))){
+            if (StringUtils.isEmpty(frm.getCpf())){
                 if ( frm.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) || frm.getPerfil().equals(PerfilUsuarioOpcaoEnum.CORRETOR.getRotulo()) ) 
                 	return MessageUtils.getMessage("msg.usuario.campo.cpf.obrigatorio");                                      
                 else if ( frm.getPerfil().equals(PerfilUsuarioOpcaoEnum.IMOBILIARIA.getRotulo()) )             	   
@@ -1295,11 +1291,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 	
 	public String validarCadastroPwDUsuario(UsuarioForm frm) {	
 		try {
-            if (( frm.getPassword() == null ) || ( frm.getPassword() != null &&  frm.getPassword().equals(""))){
+            if (StringUtils.isEmpty(frm.getPassword())){
                 return MessageUtils.getMessage("msg.usuario.campo.password.obrigatorio");                  
             }
             
-            if (( frm.getConfirmaPassword() == null ) || ( frm.getConfirmaPassword() != null &&  frm.getConfirmaPassword().equals(""))){
+            if (StringUtils.isEmpty(frm.getConfirmaPassword())){
                 return MessageUtils.getMessage("msg.usuario.campo.confirma.password.obrigatorio");                                     
             }
             
@@ -1317,7 +1313,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	
 	public String validarCadastroContato(UsuarioForm frm) {	
 		try {
-            if (( frm.getEmail() == null ) || ( frm.getEmail() != null &&  frm.getEmail().equals(""))){
+            if (StringUtils.isEmpty(frm.getEmail())){
                 return MessageUtils.getMessage("msg.usuario.campo.email.obrigatorio");                    
             }
             
@@ -1329,7 +1325,7 @@ public class UsuarioServiceImpl implements UsuarioService{
                     return MessageUtils.getMessage("msg.usuario.campo.email.existente");
             } 
             
-            if (( frm.getTelefone() == null ) || ( frm.getTelefone() != null &&  frm.getTelefone().equals(""))){
+            if (StringUtils.isEmpty(frm.getTelefone())){
                 return MessageUtils.getMessage("msg.usuario.campo.telefone.obrigatorio");                   
             }
              
@@ -1357,7 +1353,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	
 	public String validarAtualizacaoInfoUsuario(UsuarioForm frm) {	
 		try {            
-            if (( frm.getNome() == null ) || ( frm.getNome() != null &&  frm.getNome().equals(""))){
+            if (StringUtils.isEmpty(frm.getNome())){
                 return MessageUtils.getMessage("msg.usuario.campo.nome.obrigatorio");                   
             }
             else{
@@ -1370,7 +1366,7 @@ public class UsuarioServiceImpl implements UsuarioService{
                 }                        
             }
             
-            if (( frm.getLogin() == null ) || ( frm.getLogin() != null &&  frm.getLogin().equals(""))){
+            if (StringUtils.isEmpty(frm.getLogin())){
                 return MessageUtils.getMessage("msg.usuario.campo.login.obrigatorio");                     
             }
             else{
@@ -1379,7 +1375,7 @@ public class UsuarioServiceImpl implements UsuarioService{
                      return MessageUtils.getMessage("msg.usuario.campo.login.existente");                     
             }
             
-            if (( frm.getCpf() == null ) || ( frm.getCpf() != null &&  frm.getCpf().equals(""))){
+            if (StringUtils.isEmpty(frm.getCpf())){
                 if ( frm.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) || frm.getPerfil().equals(PerfilUsuarioOpcaoEnum.CORRETOR.getRotulo()) ) 
                     return MessageUtils.getMessage("msg.usuario.campo.cpf.obrigatorio");                                        
                 else if ( frm.getPerfil().equals(PerfilUsuarioOpcaoEnum.IMOBILIARIA.getRotulo()) )
@@ -1433,7 +1429,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	
 	public String validarAtualizarContato(UsuarioForm frm) {	
 		try {
-            if (( frm.getEmail() == null ) || ( frm.getEmail() != null &&  frm.getEmail().equals(""))){                 
+            if (StringUtils.isEmpty(frm.getEmail())){                 
                 return MessageUtils.getMessage("msg.usuario.campo.email.obrigatorio");  
             }
             
@@ -1445,7 +1441,7 @@ public class UsuarioServiceImpl implements UsuarioService{
                     return MessageUtils.getMessage("msg.usuario.campo.email.existente");  
             } 
             
-            if (( frm.getTelefone() == null ) || ( frm.getTelefone() != null &&  frm.getTelefone().equals(""))){
+            if (StringUtils.isEmpty(frm.getTelefone())){
                 return MessageUtils.getMessage("msg.usuario.campo.telefone.obrigatorio");                     
             }
              
@@ -1523,12 +1519,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	
 	public String validarIndicarAmigos(String email) {	
-		String msg = "";
-        
+		
         if ( ! JsfUtil.isEmail(email))
-            msg = MessageUtils.getMessage("msg.usuario.campo.email.valido");
+            return MessageUtils.getMessage("msg.usuario.campo.email.valido");
         
-        return msg;
+        return "";
 	}
 
 
@@ -1643,10 +1638,10 @@ public class UsuarioServiceImpl implements UsuarioService{
 		session.setAttribute(ContatoService.QUANT_TOTAL_CONTATOS, contatoService.checarTotalContatosPorUsuarioPorStatus(user.getId(), ContatoStatusEnum.OK.getRotulo() ));
 		
 		if ( user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) ){
-			session.setAttribute(ImovelService.QUANT_NOVAS_INTERMEDIACOES, imovelcompartilhadoService.checarQuantidadeNovasSolImoveisCompartilhamentoPorTipoCompartilhamento(user.getId(), TipoImovelCompartilhadoEnum.INTERMEDIACAO.getRotulo()) );			}
+			session.setAttribute(ImovelService.QUANT_NOVAS_INTERMEDIACOES, intermediacaoService.checarQuantidadeNovasSolIntermediacao(user.getId()) );			}
 		else {
-			session.setAttribute(ImovelService.QUANT_NOVAS_PARCERIAS, imovelcompartilhadoService.checarQuantidadeNovasSolImoveisCompartilhamentoPorTipoCompartilhamento(user.getId(), TipoImovelCompartilhadoEnum.PARCERIA.getRotulo()) );		
-			session.setAttribute(ImovelService.QUANT_NOVAS_INTERMEDIACOES, imovelcompartilhadoService.checarQuantidadeNovasSolImoveisCompartilhamentoPorTipoCompartilhamento(user.getId(), TipoImovelCompartilhadoEnum.INTERMEDIACAO.getRotulo()) );	
+			session.setAttribute(ImovelService.QUANT_NOVAS_PARCERIAS, parceriaService.checarQuantidadeNovasSolParceria(user.getId()) );		
+			session.setAttribute(ImovelService.QUANT_NOVAS_INTERMEDIACOES, intermediacaoService.checarQuantidadeNovasSolIntermediacao(user.getId()) );	
 		}
 		
 		//session.setAttribute(ImovelService.LISTA_IMOVEL_ANUNCIO_DESTAQUE, imovelService.recuperarImovelDestaqueParaAnuncio(3));
@@ -1665,20 +1660,14 @@ public class UsuarioServiceImpl implements UsuarioService{
 		*/
 		
 		if ( user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){
-			map.addAttribute("listaImoveisDestaque", imovelService.recuperarImovelDestaqueParaTelaInicial(4));
-			map.addAttribute("listaSugestaoImoveis", imovelService.sugerirImoveis(user));			
+			map.addAttribute("listaImoveisDestaque", imovelService.recuperarImovelDestaqueParaTelaInicial(4));					
 			map.addAttribute("listaNotasContatos", notaService.recuperarNotasContatosUsuario(user.getId(), 5));
-			
-			if ( AppUtil.getRandomBoolean()){
-				map.addAttribute("listaSugestaoUsuarios", this.sugerirUsuarios(user) );
-			}
 		}
 		else if (! user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){
 			if ( AppUtil.getRandomBoolean()){
 				map.addAttribute("listaImoveisDestaque", imovelService.recuperarImovelDestaqueParaTelaInicial(4));
-			}
+			}			
 			
-			map.addAttribute("listaSugestaoImoveis", imovelService.sugerirImoveis(user));
 			map.addAttribute("listaNotasContatos", notaService.recuperarNotasContatosUsuario(user.getId(), 6));
 			
 			if ( AppUtil.getRandomBoolean()){
@@ -1711,13 +1700,12 @@ public class UsuarioServiceImpl implements UsuarioService{
 	
 	@Override
 	public String validarAcessoUsuario(UsuarioForm user) {
-
-		String msg = "";
+		
 		if (user.getDataValidadeAcesso().compareTo(new Date()) < 0)
-			msg = "N";
+			return "N";
 			//msg = "UsuÔøΩrio possui data de validade de acesso expirada";
 		
-	    return msg;
+	    return "";
 	}
 
 
@@ -1754,8 +1742,8 @@ public class UsuarioServiceImpl implements UsuarioService{
 			form.setQuantTotalPrefImoveis(AppUtil.recuperarQuantidadeLista(form.getListaPreferenciaImoveis()));
 		}
 		else {			
-			form.setQuantTotalParcerias(imovelcompartilhadoService.checarQuantidadeImovelCompartilhadoAceitaPorIdUsuarioPorTipoCompartilhamento(idUsuario, TipoImovelCompartilhadoEnum.PARCERIA.getRotulo()));
-			form.setQuantTotalIntermediacoes(imovelcompartilhadoService.checarQuantidadeImovelCompartilhadoAceitaPorIdUsuarioPorTipoCompartilhamento(idUsuario, TipoImovelCompartilhadoEnum.INTERMEDIACAO.getRotulo()));			
+			form.setQuantTotalParcerias(parceriaService.checarQuantidadeParceriaAceitaPorIdUsuario(idUsuario));
+			form.setQuantTotalIntermediacoes(intermediacaoService.checarQuantidadeIntermediacaoAceitaPorIdUsuario(idUsuario));			
 			form.setQuantUsuarioAprovServico(usuario.getQuantUsuarioAprovServico());
 			form.setQuantUsuarioDesaprovServico(usuario.getQuantUsuarioDesaprovServico());
 		}
@@ -1798,8 +1786,8 @@ public class UsuarioServiceImpl implements UsuarioService{
 		}
 		else {
 			form.setListaImoveisUsuario(imovelService.listarMeusImoveis(idUsuario));
-			form.setQuantTotalParcerias(imovelcompartilhadoService.checarQuantidadeImovelCompartilhadoAceitaPorIdUsuarioPorTipoCompartilhamento(idUsuario, TipoImovelCompartilhadoEnum.PARCERIA.getRotulo()));
-			form.setQuantTotalIntermediacoes(imovelcompartilhadoService.checarQuantidadeImovelCompartilhadoAceitaPorIdUsuarioPorTipoCompartilhamento(idUsuario, TipoImovelCompartilhadoEnum.INTERMEDIACAO.getRotulo()));			
+			form.setQuantTotalParcerias(parceriaService.checarQuantidadeParceriaAceitaPorIdUsuario(idUsuario));
+			form.setQuantTotalIntermediacoes(intermediacaoService.checarQuantidadeIntermediacaoAceitaPorIdUsuario(idUsuario));			
 			form.setQuantUsuarioAprovServico(usuario.getQuantUsuarioAprovServico());
 			form.setQuantUsuarioDesaprovServico(usuario.getQuantUsuarioDesaprovServico());
 		}
@@ -1957,65 +1945,6 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 
 	@Override
-	public String validarDadosCadastroUsuarioAdmin(UsuarioForm frm, BindingResult result) {
-
-		String msg = "";
-        Usuario usuario = null;
-        if ( frm != null){            
-            if ( ! frm.getPassword().equals(frm.getConfirmaPassword()))
-            	msg = MessageUtils.getMessage("msg.erro.pwd.confirma.pwd.nao.conferem");	                
-            else
-                usuario = dao.findUsuarioByCampo(frm, "login");
-            
-            if ( msg.equals("")){                
-                if ( usuario != null)
-                	msg = MessageUtils.getMessage("msg.erro.login.existente");
-            }
-            
-            if ( msg.equals("")){                
-                if (! JsfUtil.isEmail(frm.getEmail()))
-                	msg = MessageUtils.getMessage("msg.erro.email.invalido");
-            }
-            
-            // validando cpf ou cnpj
-            if ( msg.equals("")){
-                if ( frm.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) || frm.getPerfil().equals(PerfilUsuarioOpcaoEnum.CORRETOR.getRotulo()) ) {
-                    if ( ! JsfUtil.isValidoCPF(frm.getCpf()))
-                    	msg = MessageUtils.getMessage("msg.erro.cpf.invalido");	                
-                }
-                else if ( frm.getPerfil().equals(PerfilUsuarioOpcaoEnum.IMOBILIARIA.getRotulo()) ){
-                    if (! JsfUtil.isValidoCNPJ(frm.getCpf())){
-                    	msg = MessageUtils.getMessage("msg.erro.cnpj.invalido");
-                    }
-                }
-            }
-            
-            // validando se existe jÔøΩ um usuario com o cpf ou cnpj informado
-            if ( msg.equals("")){                
-                usuario = dao.findUsuarioByCampo(frm, "cpf");                
-                if ( usuario != null ){
-                     if ( frm.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) || frm.getPerfil().equals(PerfilUsuarioOpcaoEnum.CORRETOR.getRotulo()) ) 
-                    	 msg = MessageUtils.getMessage("msg.erro.cpf.existente");    
-                     else 
-                    	 msg = MessageUtils.getMessage("msg.erro.cnpj.existente");
-                }                
-            }
-            
-            // para o caso corretor verficar se jÔøΩ existem alguem com o creci informado
-            if ( msg.equals("")){
-                if ( frm.getPerfil().equals(PerfilUsuarioOpcaoEnum.CORRETOR.getRotulo()) ){
-                    usuario = dao.findUsuarioByCampo(frm, "creci");
-                    if ( usuario != null )
-                    	msg = MessageUtils.getMessage("msg.erro.creci.existente");
-                }                
-            }
-        }
-        
-        return msg;
-	}
-
-
-	@Override
 	public UsuarioForm cadastrarUsuarioAdmin(UsuarioForm frm) {
 		Usuario usuario = new Usuario();
 		BeanUtils.copyProperties(frm, usuario);
@@ -2087,28 +2016,6 @@ public class UsuarioServiceImpl implements UsuarioService{
 	@Override
 	public List<Usuario> pesquisarTodosUsuariosAdmin (String valor){		
 		return dao.findUsuarioByValorAdmin(valor);
-	}
-	
-	@Override
-	public List<Usuario> sugerirUsuarios(UsuarioForm user){
-		/*  
-		 *   Obs.: Clientes --> Sugerir corretores e/ou imobiliarias para auxiliar na intermedia√ß√£o de um im√≥vel seu e sugerir 
-		 *						corretores e imobiliarias aleatoriamente. (Sugerir, por exemplo, corretores e imobiliarias que possuem uma certa frequencia de acesso ao sistema)
-		 *	
-		 *	 Obs.: Corretores e Imobili√°rias -->  sugerir usuarios clientes que podem ter interesse em im√≥veis seus de acordo com a preferencia 
-		 *										  de im√≥veis e sugerir outros usu√°rios aleatoriamente que n√£o sejam seus contatos
-		 *										  embutir na query o join da preferenciaImoveis e os imoveis do usuario corretor ou imobiliaria
-		 *
-		 */	
-		 List<Usuario> lista = null;		 
-		if ( user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) ){
-			lista = dao.findSugestoesCorretoresImobiliarias(user.getId(), 4);			
-		}
-		else if ( user.getPerfil().equals(PerfilUsuarioOpcaoEnum.CORRETOR.getRotulo()) || user.getPerfil().equals(PerfilUsuarioOpcaoEnum.CORRETOR.getRotulo()) ){
-			lista = dao.findSugestoesClientes(user.getId(), 4);
-		}			
-		
-		return lista;			
 	}
 
 
@@ -2230,36 +2137,36 @@ public class UsuarioServiceImpl implements UsuarioService{
 								
 								regraSel = r.nextInt(18) + 1;								
 								
-								if ( ( regraSel == 1 ) || ( regraSel == 2 ) || ( regraSel == 3 ) || ( regraSel == 4 ) || (regraSel == 5)) { // Exibir imÛveis de seus contatos e usu·rios que esteja seguindo
+								if ( ( regraSel >= 1 ) && ( regraSel <= 5 )) { // Exibir imÛveis de seus contatos e usu·rios que esteja seguindo
 									List<Imovel> lista = this.regraTimeLineRecuperarImoveisCompartilhadosIdsUsuarios(session, "N");
 									if (! CollectionUtils.isEmpty(lista))
 										listaFinal.addAll(lista);
 								}
-								else if ( ( regraSel == 6 ) || ( regraSel == 7 ) || ( regraSel == 8)) { // Exibir imÛveis de seus contatos e /ou usuario que esteja seguindo que deseje ser intermediado ou queira parceria
+								else if ( ( regraSel >= 6 ) && ( regraSel <= 8 )) { // Exibir imÛveis de seus contatos e /ou usuario que esteja seguindo que deseje ser intermediado ou queira parceria
 									List<Imovel> lista = this.regraTimeLineRecuperarImoveisCompartilhadosIdsUsuarios(session, "S");
 									if (! CollectionUtils.isEmpty(lista))
 										listaFinal.addAll(lista);
 								}
-								else if ( ( regraSel == 9 ) || ( regraSel == 10 ) || ( regraSel == 11)) { // Exibir Notas de seus contatos e usu·rios que esteja seguindo
+								else if ( ( regraSel >= 9 ) && ( regraSel <= 11 )) { // Exibir Notas de seus contatos e usu·rios que esteja seguindo
 									notaTimeLine = this.regraTimeLineRecuperarNota(user, session);
 									if ( notaTimeLine != null ){
 										isNotaExiste = true;
 										break;
 									}
 								}
-								else if ( ( regraSel == 12 ) || ( regraSel == 13 ) || ( regraSel == 14 ) ) { // Exibir uma preferencia de imÛvel de algum contato e/ou usu·rio que esteja seguindo
+								else if ( ( regraSel >= 12 ) && ( regraSel <= 14 )) { // Exibir uma preferencia de imÛvel de algum contato e/ou usu·rio que esteja seguindo
 									prefLocalidadeTimeline = this.regraTimelineRecuperarPreferenciaLocalidadeUsuario(listaIds, session, false);
 									if ( prefLocalidadeTimeline != null ){
 										isPrefLocalidadeExiste = true;
 										break;
 									}	
 								}
-								else if ( ( regraSel == 15 ) || ( regraSel == 16 )) { // Exibir uma anuncio imÛvel  
+								else if ( ( regraSel >= 15 ) && ( regraSel <= 16 )) { // Exibir uma anuncio imÛvel  
 									Imovel imovel = this.regraTimeLineRecuperarImovelAnuncio(session);
 									if ( imovel != null)
 										listaFinal.add(imovel);									
 								}
-								else if ( ( regraSel == 17 ) || ( regraSel == 18 )) { // Exibir aleatoriamente uma preferencia de imÛvel de algum usu·rio da plataforma  
+								else if ( ( regraSel >= 17 ) && ( regraSel <= 18 )) { // Exibir aleatoriamente uma preferencia de imÛvel de algum usu·rio da plataforma  
 									prefLocalidadeTimeline = this.regraTimelineRecuperarPreferenciaLocalidadeUsuario(listaIds, session, true);
 									if ( prefLocalidadeTimeline != null ){
 										isPrefLocalidadeExiste = true;
@@ -2284,19 +2191,19 @@ public class UsuarioServiceImpl implements UsuarioService{
 								while ( (AppUtil.recuperarQuantidadeLista(listaFinal) < 4)  ){
 								
 									regraSel = r.nextInt(11) + 1;									
-									if ( ( regraSel == 1 ) || ( regraSel == 2 ) || ( regraSel == 3 ) || ( regraSel == 4 ) || (regraSel == 5)) { // Exibir aleatoriamente algum imÛvel que deseje ser intermediado ou queira alguma parceria
+									if (( regraSel >= 1 ) && ( regraSel <= 5 )) { // Exibir aleatoriamente algum imÛvel que deseje ser intermediado ou queira alguma parceria
 										List<Imovel> lista = this.regraTimeLineRecuperarImoveisCompartilhadosSemContato(user, session, "S");
 										if (! CollectionUtils.isEmpty(lista))
 											listaFinal.addAll(lista);
 									}
-									else if ( ( regraSel == 6 ) || ( regraSel == 7 ) || ( regraSel == 8 ) ) { // Exibir aleatoriamente algum usu·rio e sua respectiva preferencia de imÛvel
+									else if (( regraSel >= 6 ) && ( regraSel <= 8 )) { // Exibir aleatoriamente algum usu·rio e sua respectiva preferencia de imÛvel
 										prefLocalidadeTimeline = this.regraTimelineRecuperarPreferenciaLocalidadeUsuario(session);
 										if ( prefLocalidadeTimeline != null ){
 											isPrefLocalidadeExiste = true;
 											break;
 										}
 									}
-									else if ( ( regraSel == 9 ) || ( regraSel == 10 ) ) { // Sugerir algum usu·rio para formalizar contato ou para seguir
+									else if ( ( regraSel >= 9 ) && ( regraSel <= 10 ) ) { // Sugerir algum usu·rio para formalizar contato ou para seguir
 										//usuarioTimeline = dao.findUsuario(124l);
 										usuarioTimeline = this.regraTimelineRecuperarSugestaoUsuario(null, user, session);
 										if ( usuarioTimeline != null){
@@ -2304,7 +2211,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 											break;
 										}
 									}						
-									else if ( ( regraSel == 11 ) || ( regraSel == 12 ) ) { // Exibir an˙ncio de imÛvel
+									else if ( ( regraSel >= 11 ) && ( regraSel <= 12 ) ) { // Exibir an˙ncio de imÛvel
 										Imovel imovel = this.regraTimeLineRecuperarImovelAnuncio(session);
 										if ( imovel != null )
 											listaFinal.add(imovel);								
@@ -2374,28 +2281,27 @@ public class UsuarioServiceImpl implements UsuarioService{
 							
 							while ( (AppUtil.recuperarQuantidadeLista(listaFinal) < 4)){
 								regraSel = r.nextInt(8) + 1;
-								if ( ( regraSel == 1 ) || ( regraSel == 2 ) || ( regraSel == 3 ) || ( regraSel == 4 ) || (regraSel == 5)) { // Recuperar ImÛveis de acordo com a Preferencia de ImÛveis
+								if ( ( regraSel >= 1 ) && ( regraSel <= 5 )) { // Recuperar ImÛveis de acordo com a Preferencia de ImÛveis
 									List<Imovel> lista = this.regraTimeLineRecuperarImoveisPreferencia(user, session);
 									if (! CollectionUtils.isEmpty(lista))
 										listaFinal.addAll(lista);
 								}
-								else if ( ( regraSel == 6 ) || ( regraSel == 7 )) { // Exibir algum imovel selecionado aleatoriamente da base
+								else if ( ( regraSel >= 6 ) && ( regraSel <= 7 )) { // Exibir algum imovel selecionado aleatoriamente da base
 									List<Imovel> lista = this.regraTimeLineRecuperarImoveisAleatoriamente(user, session);
 									if (! CollectionUtils.isEmpty(lista))
 										listaFinal.addAll(lista);
 								}
-								else if ( ( regraSel == 8 ) || ( regraSel == 9 )) { // Exibir um anucio imÛvel
+								else if ( ( regraSel >= 8 ) && ( regraSel <= 9 )) { // Exibir um anucio imÛvel
 									Imovel imovel = this.regraTimeLineRecuperarImovelAnuncio(session);
 									if ( imovel != null)
 										listaFinal.add(imovel);
 								}
-								else if ( ( regraSel == 10 ) || ( regraSel == 11 )) { // Exibir uma indicaÁ„o de usu·rio  
+								else if ( ( regraSel >= 10 ) || ( regraSel <= 11 )) { // Exibir uma indicaÁ„o de usu·rio  
 									usuarioTimeline = dao.findUsuario(124l);
 									if ( usuarioTimeline != null){
 										isUsuarioTimeLine = true;
 										break;
-									}									
-									
+									}	
 								}
 							}							
 							
@@ -2404,22 +2310,22 @@ public class UsuarioServiceImpl implements UsuarioService{
 							while ( (AppUtil.recuperarQuantidadeLista(listaFinal) < 4) || (isNotaExiste) ){
 								
 								regraSel = r.nextInt(12) + 1;
-								if ( ( regraSel == 1 ) || ( regraSel == 2 ) || ( regraSel == 3 ) || ( regraSel == 4 ) || (regraSel == 5)) { // exibir algum imovel de um contato ou de um usu·rio que esteja seguindo
+								if ( ( regraSel >= 1 ) && ( regraSel <= 5 )) { // exibir algum imovel de um contato ou de um usu·rio que esteja seguindo
 									List<Imovel> lista = this.regraTimeLineRecuperarImoveisIdsUsuarios(session);
 									if (! CollectionUtils.isEmpty(lista))
 										listaFinal.addAll(lista);
 								}
-								else if ( ( regraSel == 6 ) || ( regraSel == 7 ) || ( regraSel == 8 ) ) { // Recuperar ImÛveis de acordo com a Preferencia de ImÛveis
+								else if ( ( regraSel >= 6 ) && ( regraSel <= 8 )) { // Recuperar ImÛveis de acordo com a Preferencia de ImÛveis
 									List<Imovel> lista = this.regraTimeLineRecuperarImoveisPreferencia(user, session);
 									if (! CollectionUtils.isEmpty(lista))
 										listaFinal.addAll(lista);
 								}
-								else if ( ( regraSel == 9 ) || ( regraSel == 10 ) ) { // Exibir ImÛvel An˙ncio
+								else if ( ( regraSel >= 9 ) && ( regraSel <= 10 )) { // Exibir ImÛvel An˙ncio
 									Imovel imovel = this.regraTimeLineRecuperarImovelAnuncio(session);
 									if ( imovel != null )
 										listaFinal.add(imovel);
 								}						
-								else if ( ( regraSel == 11 ) || ( regraSel == 12 ) ) { // Exibir alguma Nota de Contato
+								else if ( ( regraSel >= 11 ) && ( regraSel <= 12 ) ) { // Exibir alguma Nota de Contato
 									notaTimeLine = this.regraTimeLineRecuperarNota(user, session);
 									if ( notaTimeLine != null ){
 										isNotaExiste = true;
@@ -2801,7 +2707,9 @@ public class UsuarioServiceImpl implements UsuarioService{
 		}	
 	
 	public String carregarTimeLineUsuario(Usuario usuario, UsuarioForm user) {
-	
+		
+		this.carregaAlgunsDetalhesUsuario(usuario);
+		
 		StringBuffer buf = new StringBuffer("");
 		buf.append("	  <div class='timeline-item last-timeline'> ");
 		buf.append("          <div class='timeline-badge'> ");
@@ -2843,16 +2751,23 @@ public class UsuarioServiceImpl implements UsuarioService{
 	    buf.append("                      <tbody style='font-size: 13px;'> ");
 	    buf.append("                        <tr> ");    
 	    buf.append("                            <td class='text-left'>" + MessageUtils.getMessage("lbl.total.imoveis") + "</td> ");
-	    buf.append("                            <td class='text-right'>10</td> ");
+	    buf.append("                            <td class='text-right'> " + usuario.getQuantTotalImoveis() + " </td> ");
 	    buf.append("                        </tr> ");
 	    buf.append("                        <tr> ");
 	    buf.append("                            <td class='text-left'>" + MessageUtils.getMessage("lbl.total.contato") + "</td> ");
-	    buf.append("                            <td class='text-right'>2</td> ");
+	    buf.append("                            <td class='text-right'> " + usuario.getQuantTotalContatos() + "</td> ");
 	    buf.append("                        </tr> ");
 	    buf.append("                        <tr> ");
 	    buf.append("                            <td class='text-left'>" + MessageUtils.getMessage("lbl.total.seguidores") + "</td> ");
-	    buf.append("                            <td class='text-right'>1</td> ");
-	    buf.append("                        </tr> ");		 	                                                       
+	    buf.append("                            <td class='text-right'> " + usuario.getQuantTotalSeguidores() + " </td> ");
+	    buf.append("                        </tr> ");
+	    
+	    buf.append("                        <tr> ");
+	    buf.append("                            <td class='text-left'>" + MessageUtils.getMessage("lbl.total.recomendacoes") + "</td> ");
+	    buf.append("                            <td class='text-right'> " + usuario.getQuantTotalRecomendacoes() + " </td> ");
+	    buf.append("                        </tr> ");
+	    
+	    
 	    buf.append("                      </tbody> ");
 	    buf.append("                </table> ");
 	    buf.append("           </div> ");
@@ -2865,6 +2780,14 @@ public class UsuarioServiceImpl implements UsuarioService{
 		return buf.toString();
 	}
 	
+	private void carregaAlgunsDetalhesUsuario(Usuario usuario) {
+		usuario.setQuantTotalImoveis(imovelService.checarQuantMeusImoveis(usuario.getId()));
+		usuario.setQuantTotalContatos(contatoService.checarTotalContatosPorUsuarioPorStatus(usuario.getId(), ContatoStatusEnum.OK.getRotulo()));
+		usuario.setQuantTotalSeguidores(seguidorService.checarQuantidadeSeguidores(usuario.getId()));
+		usuario.setQuantTotalRecomendacoes(recomendacaoService.checarQuantidadeTotalRecomendacaoRecebidaPorStatus(usuario.getId(), RecomendacaoStatusEnum.ACEITO.getRotulo()));		
+	}
+
+
 	public String carregarTimeLinePreferenciaLocalidade(Preferencialocalidade pref) {
 		
 		StringBuffer buf = new StringBuffer("");

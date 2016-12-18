@@ -1,10 +1,7 @@
 package com.busqueumlugar.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
+
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +16,6 @@ import org.springframework.validation.BindingResult;
 import com.busqueumlugar.dao.PreferencialocalidadeDao;
 import com.busqueumlugar.form.PreferencialocalidadeForm;
 import com.busqueumlugar.form.UsuarioForm;
-import com.busqueumlugar.model.Bairros;
-import com.busqueumlugar.model.Cidades;
 import com.busqueumlugar.model.Estados;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Preferencialocalidade;
@@ -118,19 +113,6 @@ public class PreferencialocalidadeServiceImpl implements PreferencialocalidadeSe
 
 	@Override
 	public List<Usuario> buscarPreferenciaSemDuplicidadeUsuario(UsuarioForm form) {		
-		
-		/*List<Usuario> listaFinal = new ArrayList<Usuario>();        
-        List<Object> lista = dao.findPreferencialocalidadeSemDuplicidadeUsuario(form);
-        if ( ! CollectionUtils.isEmpty(lista)){            
-            Usuario usuario = null;            
-            Object[] obj = null;
-            for (Iterator iter = lista.iterator();iter.hasNext();){
-                usuario = usuarioService.recuperarUsuarioPorId((long)iter.next());
-                if ( ! usuario.equals("admin") && usuario.getAtivado().equals("S") )                
-                    listaFinal.add(usuario);  
-            }
-        }        
-        return listaFinal;*/
 		return (List<Usuario>) dao.findPreferencialocalidadeSemDuplicidadeUsuario(form);
 	}
 

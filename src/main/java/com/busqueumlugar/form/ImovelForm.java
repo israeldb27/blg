@@ -10,14 +10,14 @@ import javax.persistence.Transient;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.busqueumlugar.enumerador.StatusImovelEnum;
-import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Imovelcomentario;
-import com.busqueumlugar.model.Imovelcompartilhado;
 import com.busqueumlugar.model.Imoveldestaque;
 import com.busqueumlugar.model.Imovelfavoritos;
 import com.busqueumlugar.model.Imovelfotos;
 import com.busqueumlugar.model.ImovelPropostas;
 import com.busqueumlugar.model.Imovelvisualizado;
+import com.busqueumlugar.model.Intermediacao;
+import com.busqueumlugar.model.Parceria;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.DateUtil;
@@ -123,8 +123,8 @@ public class ImovelForm extends BaseForm{
     // inicio campos usados para o Detalhes Im�vel
     private List<ImovelPropostas> listaPropostas;
     private List<Imovelcomentario> listaComentario;
-    private List<Imovelcompartilhado> listaParceria;
-    private List<Imovelcompartilhado> listaIntermediacao;
+    private List<Parceria> listaParceria;
+    private List<Intermediacao> listaIntermediacao;
 	private List<Imovelvisualizado> listaVisita;
 	private List<Imovelfavoritos> listaUsuariosInteressados;	
 	private List<Usuario> listaUsuariosParceiros;	
@@ -135,10 +135,11 @@ public class ImovelForm extends BaseForm{
     private Usuario usuarioImobiliariaImovel;
 	private String novoComentario = "";
 	private BigDecimal novaProposta;
+	private Intermediacao intermediacaoEnviada = null;
 	private String novaSolIntermediacao = "";
 	private String novaSolParceria = "";
-	private Imovelcompartilhado parceriaEnviada; // este campo é usado para checar se o usuario enviou ou nao uma solicitacao de parceria
-	private Imovelcompartilhado intermediacaoEnviada; // este campo é usado para checar se o usuario enviou ou nao uma solicitacao de intermediacao
+	private Parceria parceriaEnviada; // este campo é usado para checar se o usuario enviou ou nao uma solicitacao de parceria
+	
 	private Usuario usuarioIntermediador = null;
 	
     // fim campos usados para o Detalhes Imovel
@@ -174,20 +175,12 @@ public class ImovelForm extends BaseForm{
 		this.listaImovelFotos = listaImovelFotos;
 	}
 
-	public Imovelcompartilhado getParceriaEnviada() {
+	public Parceria getParceriaEnviada() {
 		return parceriaEnviada;
 	}
 
-	public void setParceriaEnviada(Imovelcompartilhado parceriaEnviada) {
+	public void setParceriaEnviada(Parceria parceriaEnviada) {
 		this.parceriaEnviada = parceriaEnviada;
-	}
-	
-	public Imovelcompartilhado getIntermediacaoEnviada() {
-		return intermediacaoEnviada;
-	}
-
-	public void setIntermediacaoEnviada(Imovelcompartilhado intermediacaoEnviada) {
-		this.intermediacaoEnviada = intermediacaoEnviada;
 	}
 	
 	public String getLatitudeFmt() {
@@ -291,8 +284,8 @@ public class ImovelForm extends BaseForm{
 		this.usuarioImobiliariaImovel = usuarioImobiliariaImovel;
 	}
 
-	private int quantVisitasImovel = 0; // checa a quantidade de visitas que o imovel recebeu - para estatistica
-    private int quantUsuariosInteressados = 0;
+	private long quantVisualizacoesImovel = 0; // checa a quantidade de visitas que o imovel recebeu - para estatistica
+    private long quantUsuariosInteressados = 0;
     
     
     
@@ -1048,28 +1041,28 @@ public class ImovelForm extends BaseForm{
     /**
      * @return the quantVisitasImovel
      */
-    public int getQuantVisitasImovel() {
-        return quantVisitasImovel;
+    public long getQuantVisualizacoesImovel() {
+        return quantVisualizacoesImovel;
     }
 
     /**
      * @param quantVisitasImovel the quantVisitasImovel to set
      */
-    public void setQuantVisitasImovel(int quantVisitasImovel) {
-        this.quantVisitasImovel = quantVisitasImovel;
+    public void setQuantVisualizacoesImovel(long quantVisualizacoesImovel) {
+        this.quantVisualizacoesImovel = quantVisualizacoesImovel;
     }
 
     /**
      * @return the quantUsuariosInteressados
      */
-    public int getQuantUsuariosInteressados() {
+    public long getQuantUsuariosInteressados() {
         return quantUsuariosInteressados;
     }
 
     /**
      * @param quantUsuariosInteressados the quantUsuariosInteressados to set
      */
-    public void setQuantUsuariosInteressados(int quantUsuariosInteressados) {
+    public void setQuantUsuariosInteressados(long quantUsuariosInteressados) {
         this.quantUsuariosInteressados = quantUsuariosInteressados;
     }
 
@@ -1553,19 +1546,19 @@ public class ImovelForm extends BaseForm{
 		this.listaComentario = listaComentario;
 	}
 
-	public List<Imovelcompartilhado> getListaParceria() {
+	public List<Parceria> getListaParceria() {
 		return listaParceria;
 	}
 
-	public void setListaParceria(List<Imovelcompartilhado> listaParceria) {
+	public void setListaParceria(List<Parceria> listaParceria) {
 		this.listaParceria = listaParceria;
 	}
 
-	public List<Imovelcompartilhado> getListaIntermediacao() {
+	public List<Intermediacao> getListaIntermediacao() {
 		return listaIntermediacao;
 	}
 
-	public void setListaIntermediacao(List<Imovelcompartilhado> listaIntermediacao) {
+	public void setListaIntermediacao(List<Intermediacao> listaIntermediacao) {
 		this.listaIntermediacao = listaIntermediacao;
 	}
 
@@ -1640,6 +1633,14 @@ public class ImovelForm extends BaseForm{
 
 	public void setValorCondominioFmt(String valorCondominioFmt) {
 		this.valorCondominioFmt = valorCondominioFmt;
+	}
+
+	public Intermediacao getIntermediacaoEnviada() {
+		return intermediacaoEnviada;
+	}
+
+	public void setIntermediacaoEnviada(Intermediacao intermediacaoSelecionada) {
+		this.intermediacaoEnviada = intermediacaoSelecionada;
 	}
 	
 }

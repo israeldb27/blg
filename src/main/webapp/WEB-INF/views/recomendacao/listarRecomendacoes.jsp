@@ -82,12 +82,7 @@
             <section id="page-content">            
             	 <!-- Start header content -->
                 <div class="header-content">
-                    <h2><i class="fa fa-pencil"></i> <spring:message code="lbl.title.link.recomendacao"/>  </h2>                                                      
-					
-					<!-- Start header modal Ajuda - funcionalidade -->
-						<c:import url="../ajuda/headerMenuModal.jsp"></c:import>																				
-					<!-- End header  modal Ajuda - funcionalidade -->
-					
+                    <h2><i class="fa fa-pencil"></i> <spring:message code="lbl.title.link.recomendacao"/></h2>
                 </div><!-- /.header-content -->
                 <!--/ End header content -->
                 

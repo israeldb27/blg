@@ -45,9 +45,7 @@ $(document).ready(function() {
 
             <!-- START @PAGE CONTENT -->
             <section id="page-content">
-            
-            	<!-- Inicio - Meus Favoritos -->
-				
+    				
             	 <!-- Start header content -->
                 <div class="header-content">
                     <h2><i class="fa fa-pencil"></i><spring:message code="lbl.title.link.imoveis.visualizacoes"/> </h2>                                                                      

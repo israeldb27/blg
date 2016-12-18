@@ -20,6 +20,7 @@
 <spring:url var="urlMensagemAdmin" value="/mensagemAdmin"/>
 <spring:url var="urlAjuda" value="/ajuda"/>
 <spring:url var="urlRecomendacao" value="/recomendacao"/>
+<spring:url var="urlImovelComparativo" value="/imovelComparativo"/>
 
 <c:set var="context" value="<%= request.getContextPath()%>"/>
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
@@ -42,6 +43,27 @@ function pesquisarTudo(){
 		 
     }); 
 } 
+
+function adicionarComparativo(id) {    		
+	var parametro1 = id;
+    $.ajax({        
+		 url: '${urlImovelComparativo}/adicionarImovelComparativo/' + parametro1,
+		 dataType: 'json',
+		 success: function(data){				 
+			 if ( data == 'ok') {
+				 $('#msgModalComparativo').html("<spring:message code='lbl.msg.sucesso.add.comparativo'/>");
+				 $("#idModalConfirmarComparativo").modal("show");	
+       	 }
+       	 else  {
+       		$("#idModalConfirmarComparativo").modal("show"); 
+       		$('#msgModalComparativo').html(data);
+	         }     	    
+		 },
+		 error: function(jqXHR, textStatus, errorThrown) {				 
+			 $('#msgModalComparativo').html("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+		 }
+	 });
+}
 </script>
 
 <header id="header">
@@ -491,3 +513,21 @@ function pesquisarTudo(){
 		<!--/ End header left -->
 
 	</header> <!-- /#header -->
+	
+	<!-- Start optional size modal element - comparativo de imoveis -->
+            <div id="idModalConfirmarComparativo" class="modal fade bs-example-modal-lg-comparativo" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title"><spring:message code="lbl.modal.comparativo"/></h4>
+                        </div>
+                        <div class="modal-body">
+                            <p><div id="msgModalComparativo" cssClass="errorEntrada"  ></div>   </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.btn.fechar.geral"/></button>                                                        
+                        </div>						
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->

@@ -13,14 +13,17 @@
 
 <spring:url var="urlUsuario" value="/usuario"/>
 <spring:url var="urlImovelComentario" value="/imovelComentario"/>
-<spring:url var="urlImovelCompartilhado" value="/imovelCompartilhado"/>
+
+<spring:url var="urlParceria" value="/parceria"/>
+<spring:url var="urlIntermediacao" value="/intermediacao"/>
+
 <spring:url var="urlImovel" value="/imovel"/>
 <spring:url var="urlImovelIndicado" value="/imovelIndicado"/>
+<spring:url var="urlImovelComparativo" value="/imovelComparativo"/>
 <spring:url var="urlImovelDestaque" value="/imovelDestaque"/>
 <spring:url var="urlImovelFavoritos" value="/imovelFavoritos"/>
 <spring:url var="urlImovelPropostas" value="/imovelPropostas"/>
 <spring:url var="urlImovelVisualizado" value="/imovelVisualizado"/>
-<spring:url var="urlImovelComparativo" value="/imovelComparativo"/>
 <spring:url var="urlMensagem" value="/mensagem"/>
 <spring:url var="urlMensagemAdmin" value="/mensagemAdmin"/>
 <spring:url var="urlNota" value="/nota"/>
@@ -165,17 +168,17 @@
                             </c:if>
                         </a>
                         <ul>
-                        	<li><a href="${urlImovelCompartilhado}/listarImoveisIntermediacoes/intermediacaoAceita"><spring:message code="lbl.title.link.aceita"/></a></li> 
+                        	<li><a href="${urlIntermediacao}/listarImoveisIntermediacoes/intermediacaoAceita"><spring:message code="lbl.title.link.aceita"/></a></li> 
                         	
                         	<c:if test="${usuario.perfil == 'P'}">
                         		<% if ( Long.parseLong(request.getSession().getAttribute("quantNovasIntermediacoes").toString()) > 0l ) {%>
-	                        		<li><a href="${urlImovelCompartilhado}/listarImoveisIntermediacoes/intermediacaoSolRecebida"><spring:message code="lbl.title.link.solicitacoes.recebidas"/><span class="label label-danger pull-right rounded">&nbsp;&nbsp; <%= request.getSession().getAttribute("quantNovasIntermediacoes") %></span></a></li>
+	                        		<li><a href="${urlIntermediacao}/listarImoveisIntermediacoes/intermediacaoSolRecebida"><spring:message code="lbl.title.link.solicitacoes.recebidas"/><span class="label label-danger pull-right rounded">&nbsp;&nbsp; <%= request.getSession().getAttribute("quantNovasIntermediacoes") %></span></a></li>
 	                        	<% } else { %>
-	                            	<li><a href="${urlImovelCompartilhado}/listarImoveisIntermediacoes/intermediacaoSolRecebida"><spring:message code="lbl.title.link.solicitacoes.recebidas"/></a></li>	                            	
+	                            	<li><a href="${urlIntermediacao}/listarImoveisIntermediacoes/intermediacaoSolRecebida"><spring:message code="lbl.title.link.solicitacoes.recebidas"/></a></li>	                            	
 	                            <% }  %>
                         	</c:if>
                         	<c:if test="${usuario.perfil != 'P'}">
-                        		<li><a href="${urlImovelCompartilhado}/listarImoveisIntermediacoes/intermediacaoMinhasSol"><spring:message code="lbl.title.link.solicitacoes.enviadas"/></a></li>
+                        		<li><a href="${urlIntermediacao}/listarImoveisIntermediacoes/intermediacaoMinhasSol"><spring:message code="lbl.title.link.solicitacoes.enviadas"/></a></li>
                         	</c:if>                            
                             
                         </ul>
@@ -195,14 +198,14 @@
 	                            <% }  %> 
 	                        </a>
 	                        <ul>
-	                        	<li><a href="${urlImovelCompartilhado}/listarImoveisParcerias/parceriaAceita"><spring:message code="lbl.title.link.aceita"/></a></li> 
+	                        	<li><a href="${urlParceria}/listarImoveisParcerias/parceriaAceita"><spring:message code="lbl.title.link.aceita"/></a></li> 
 	                        	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovasParcerias").toString()) > 0l ) {%>
-	                        		<li><a href="${urlImovelCompartilhado}/listarImoveisParcerias/parceriaSolRecebida"><spring:message code="lbl.title.link.solicitacoes.recebidas"/><span class="label label-danger pull-right rounded">&nbsp;&nbsp; <%= request.getSession().getAttribute("quantNovasParcerias") %></span></a></li>
+	                        		<li><a href="${urlParceria}/listarImoveisParcerias/parceriaSolRecebida"><spring:message code="lbl.title.link.solicitacoes.recebidas"/><span class="label label-danger pull-right rounded">&nbsp;&nbsp; <%= request.getSession().getAttribute("quantNovasParcerias") %></span></a></li>
 	                        	<% } else { %>
-	                            	<li><a href="${urlImovelCompartilhado}/listarImoveisParcerias/parceriaSolRecebida"><spring:message code="lbl.title.link.solicitacoes.recebidas"/></a></li>                            	
+	                            	<li><a href="${urlParceria}/listarImoveisParcerias/parceriaSolRecebida"><spring:message code="lbl.title.link.solicitacoes.recebidas"/></a></li>                            	
 	                            <% }  %>                                                        
 	                                                        
-	                            <li><a href="${urlImovelCompartilhado}/listarImoveisParcerias/parceriaMinhasSol"><spring:message code="lbl.title.link.solicitacoes.enviadas"/></a></li>
+	                            <li><a href="${urlParceria}/listarImoveisParcerias/parceriaMinhasSol"><spring:message code="lbl.title.link.solicitacoes.enviadas"/></a></li>
 	                        </ul>
 	                    </li>
 	                    <!--/ End navigation - Parcerias-->

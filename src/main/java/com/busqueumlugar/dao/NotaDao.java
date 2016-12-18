@@ -10,8 +10,6 @@ public interface NotaDao extends GenericDAO<Nota, Long> {
 	
 	Nota findNotaById(Long id);
 	
-	List<Nota> findNotasByIdUsuario(Long idUsuario, NotaForm form);
-	
 	int destroyNotasByIdImovel(Long idImovel);
 
 	List<Nota> filterNotasByIdUsuario(Long idUsuario, NotaForm form);

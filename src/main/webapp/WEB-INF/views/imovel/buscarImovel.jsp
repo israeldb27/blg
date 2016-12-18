@@ -11,7 +11,6 @@
 <spring:url value="/imovel/buscarCidades" var="urlBuscarCidades"/>
 <spring:url value="/imovel/buscarBairros" var="urlBuscarBairros"/>
 <spring:url var="urlImovelFavoritos" value="/imovelFavoritos"/>
-<spring:url var="urlImovelComparativo" value="/imovelComparativo"/>
 
 <%@page import="com.busqueumlugar.util.UsuarioInterface"%>
 <%@page import="com.busqueumlugar.form.UsuarioForm"%>
@@ -151,27 +150,7 @@
             });   
     	}
     	
-    	function adicionarComparativo(id) {    		
-    		var parametro1 = id;
-    	    $.ajax({        
-    			 url: '${urlImovelComparativo}/adicionarImovelComparativo/' + parametro1,
-    			 dataType: 'json',
-    			 success: function(data){				 
-    				 if ( data == 'ok') {
-    					 $('#msgModalComparativo').html('Imóvel foi adicionado a lista de comparativos');
-    					 $("#idModalConfirmarComparativo").modal("show");	
-    	       	 }
-    	       	 else  {
-    	       		$("#idModalConfirmarComparativo").modal("show"); 
-    	       		$('#msgModalComparativo').html(data);
-    		         }     	    
-    			 },
-    			 error: function(jqXHR, textStatus, errorThrown) {				 
-    				 $('#msgModalComparativo').html("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
-    			 }
-    		 });
-    	}
-    	        	
+    	    	        	
 		</script>	
 
 			<c:import url="../layout/head-layout.jsp"></c:import>   
@@ -496,7 +475,7 @@
 	                                                            </tr>
 	                                                            <tr>
 	                                                                <td class="text-left"><spring:message code="lbl.vagas.garagem.resum"/></td>
-	                                                                <td class="text-right">${imovel.quantGaragem} vaga(s)</td>
+	                                                                <td class="text-right">${imovel.quantGaragem} <spring:message code="lbl.num.vagas"/></td>
 	                                                            </tr>
 	                                                        </tbody>
 	                                                    </table>
@@ -545,23 +524,7 @@
 				<c:import url="../ajuda/contentMenuModal.jsp"></c:import>																				
 			<!-- End content  modal Ajuda - funcionalidade -->
          
-         <!-- Start optional size modal element - comparativo de imoveis -->
-            <div id="idModalConfirmarComparativo" class="modal fade bs-example-modal-lg-comparativo" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title"><spring:message code="lbl.modal.comparativo"/></h4>
-                        </div>
-                        <div class="modal-body">
-                            <p><div id="msgModalComparativo" cssClass="errorEntrada"  ></div>   </p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.btn.fechar.geral"/></button>                                                        
-                        </div>						
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
+         
 
         <!-- START JAVASCRIPT SECTION (Load javascripts at bottom to reduce load time) -->
   			<c:import url="../layout/head-bootstrap.jsp"></c:import> 

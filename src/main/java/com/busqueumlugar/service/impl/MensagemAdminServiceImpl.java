@@ -52,8 +52,6 @@ public class MensagemAdminServiceImpl implements MensagemAdminService {
 	
 	@Override
 	public int checarQuantidadeNovasMensagensFromAdmin(Long idUsuario) {
-		//return AppUtil.recuperarQuantidadeLista(itemMensagemAdminService.checarNovasMensagemAdminPorStatusLeitura(idUsuario, StatusLeituraEnum.NOVO.getRotulo()));
-		
 		return itemMensagemAdminService.checarQuantidadeMensagensAdminPorStatusLeitura(idUsuario, StatusLeituraEnum.NOVO.getRotulo());
 	}
 

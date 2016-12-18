@@ -29,7 +29,6 @@ import org.springframework.validation.BindingResult;
 import com.busqueumlugar.config.WebApplicationContext;
 import com.busqueumlugar.enumerador.AcaoImovelEnum;
 import com.busqueumlugar.enumerador.NotaAcaoEnum;
-import com.busqueumlugar.enumerador.TipoImovelCompartilhadoEnum;
 import com.busqueumlugar.form.ImovelForm;
 import com.busqueumlugar.form.ImovelMapaForm;
 import com.busqueumlugar.form.UsuarioForm;
@@ -38,12 +37,13 @@ import com.busqueumlugar.service.CidadesService;
 import com.busqueumlugar.service.EstadosService;
 import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.ImovelcomentarioService;
-import com.busqueumlugar.service.ImovelcompartilhadoService;
 import com.busqueumlugar.service.ImoveldestaqueService;
 import com.busqueumlugar.service.ImovelfotosService;
 import com.busqueumlugar.service.ImovelPropostasService;
 import com.busqueumlugar.service.ImovelvisualizadoService;
+import com.busqueumlugar.service.IntermediacaoService;
 import com.busqueumlugar.service.NotaService;
+import com.busqueumlugar.service.ParceriaService;
 import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.MessageUtils;
@@ -93,7 +93,10 @@ public class ImovelController {
 	private  ImovelPropostasService imovelPropostasservice;
 	
 	@Autowired
-	private ImovelcompartilhadoService imovelCompartilhadoService;
+	private IntermediacaoService intermediacaoService;
+	
+	@Autowired
+	private ParceriaService parceriaService; 	
 	
 	@Autowired
 	private ImovelfotosService imovelfotosService;	
@@ -375,19 +378,19 @@ public class ImovelController {
 		}	 	
 	}
 	
-	@RequestMapping(value = "/adicionarSolIntermediacaoDetalheImovel/{novaSolIntermediacao}", method = RequestMethod.GET )	
-	@ResponseBody
-	public  String adicionarSolIntermediacao(@PathVariable("novaSolIntermediacao") String novaSolIntermediacao,
-							    			 HttpSession session, 	
-							    			 ModelMap map, 
-							    			 @ModelAttribute("imovelForm") ImovelForm form){
+	@RequestMapping(value = "/adicionarSolIntermediacaoDetalheImovel/{novaSolIntermediacao}" )
+	public @ResponseBody String adicionarSolIntermediacao(@PathVariable("novaSolIntermediacao") String novaSolIntermediacao,
+										    			  HttpSession session, 	
+										    			  ModelMap map, 
+										    			  @ModelAttribute("imovelForm") ImovelForm form){
 		
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
-			String msg = imovelCompartilhadoService.validarSolicitacaoCompartilhamento(user.getId(), form.getId(), form.getPerfilUsuario(), novaSolIntermediacao);
+			String msg = intermediacaoService.validarSolicitacaoIntermediacao(user.getId(), form.getId(), form.getPerfilUsuario(), novaSolIntermediacao);
 			if ( StringUtils.isNullOrEmpty(msg) ) {
-				imovelCompartilhadoService.cadastrarSolicitacaoCompartilhamento(user.getId(), "", form.getId(), novaSolIntermediacao);
-				form.setParceriaEnviada(imovelCompartilhadoService.recuperarMinhasSolicitacoesPorUsuarioSolPorImovel(user.getId(), form.getId()));
+				intermediacaoService.cadastrarSolicitacaoIntermediacao(user.getId(), "", form.getId(), novaSolIntermediacao);
+			//	form.setIntermediacaoEnviada(intermediacaoService.recuperarMinhasSolicitacoesPorUsuarioSolPorImovel(user.getId(), form.getId()));
+				map.addAttribute("imovelForm", form );
 				msg = "ok"; 
 			}
 			return msg;
@@ -407,10 +410,11 @@ public class ImovelController {
 		
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
-			String msg = imovelCompartilhadoService.validarSolicitacaoCompartilhamento(user.getId(), form.getId(), form.getPerfilUsuario(), novaSolParceria);
+			String msg = parceriaService.validarSolicitacaoParceria(user.getId(), form.getId(), form.getPerfilUsuario(), novaSolParceria);
 			if ( StringUtils.isNullOrEmpty(msg) ) {
-				imovelCompartilhadoService.cadastrarSolicitacaoCompartilhamento(user.getId(), "", form.getId(), novaSolParceria);
-				form.setParceriaEnviada(imovelCompartilhadoService.recuperarMinhasSolicitacoesPorUsuarioSolPorImovel(user.getId(), form.getId()));
+				parceriaService.cadastrarSolicitacaoParceria(user.getId(), "", form.getId(), novaSolParceria);
+				//form.setParceriaEnviada(parceriaService.recuperarMinhasSolicitacoesPorUsuarioSolPorImovelParceria(user.getId(), form.getId()));
+				map.addAttribute("imovelForm", form );
 				msg = "ok"; 
 			}
 			return msg;
@@ -430,7 +434,7 @@ public class ImovelController {
 		
 		try{
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);										   
-			imovelCompartilhadoService.excluirSolicitacaoImovelCompartilhado(user.getId(), form.getId(), TipoImovelCompartilhadoEnum.INTERMEDIACAO.getRotulo() );
+			intermediacaoService.excluirSolicitacaoIntermediacao(user.getId(), form.getId() );
 			form.setIntermediacaoEnviada(null);
 			map.addAttribute("imovelForm", form );
 			return "ok";
@@ -450,7 +454,7 @@ public class ImovelController {
 									  @ModelAttribute("imovelForm") ImovelForm form){
 		try{
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);										   
-			imovelCompartilhadoService.excluirSolicitacaoImovelCompartilhado(user.getId(), form.getId(), TipoImovelCompartilhadoEnum.PARCERIA.getRotulo() );
+			intermediacaoService.excluirSolicitacaoIntermediacao(user.getId(), form.getId() );
 			form.setParceriaEnviada(null);
 			map.addAttribute("imovelForm", form );
 			return "ok";
@@ -1040,11 +1044,12 @@ public class ImovelController {
 			form.setLongitude(Double.parseDouble(form.getLongitudeFmt()));		
 			imovelService.atualizarImovel(form, user);		
 			map.addAttribute("imovelForm", form);
+			map.addAttribute("msgSucesso", "S");
 			return DIR_PATH_EDICAO + "editarImovelMapa";
 		} catch (Exception e) {
 			log.error("Erro metodo - ImovelController -  salvarMapaImovel");
 			log.error("Mensagem Erro: " + e.getMessage());
-			map.addAttribute("mensagemErroGeral", "S");
+			map.addAttribute("mensagemErroGeral", "S");			
 			return ImovelService.PATH_ERRO_GERAL;
 		} 		
 	}	

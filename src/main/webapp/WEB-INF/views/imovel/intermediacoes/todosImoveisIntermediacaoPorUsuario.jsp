@@ -11,14 +11,6 @@
 
 <spring:url value="/imovel" var="urlImovel"/>
 <spring:url value="/usuario" var="urlUsuario"/>
- 
-<script type="text/javascript">
-
-$(document).ready(function() {
-
-});	
-
-</script>
 		
 <c:import url="../../layout/head-layout.jsp"></c:import>
 

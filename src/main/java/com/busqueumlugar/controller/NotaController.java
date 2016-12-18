@@ -83,7 +83,7 @@ public class NotaController {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			NotaForm form = new NotaForm();		
 			map.addAttribute("listaMinhasNotas", notaService.listarTodasNotasPorPerfil(user.getId(), form));
-			map.addAttribute("notaForm", form);		
+			map.addAttribute("notaForm", form);			
 			return DIR_PATH + "minhasNotas";
 		} catch (Exception e) {
 			log.error("Erro metodo - NotaController - minhasNotas");
@@ -121,6 +121,7 @@ public class NotaController {
 			map.addAttribute("listaMinhasNotas", notaService.filtrarMinhasNotas(user.getId(), form));
 			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "minhasNotas");
 			form.setOpcaoOrdenacao("");
+			map.addAttribute("exibeMinhasNotas", "S");
 			map.addAttribute("notaForm", form);		
 			return DIR_PATH + "minhasNotas";
 		} catch (Exception e) {
@@ -159,7 +160,8 @@ public class NotaController {
 			map.addAttribute("listaNotasContato", notaService.filtrarNotasContatos(user.getId(), form));
 			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "minhasNotas");
 			form.setOpcaoOrdenacao("");
-			map.addAttribute("notaForm", form);		
+			map.addAttribute("notaForm", form);	
+			map.addAttribute("exibeMinhasNotas", "S");
 			return DIR_PATH + "notasContatos";
 		} catch (Exception e) {
 			log.error("Erro metodo - NotaController - filtrarNotasContatos");

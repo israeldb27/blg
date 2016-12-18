@@ -3,6 +3,7 @@ package com.busqueumlugar.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ import com.busqueumlugar.service.NotificacaoService;
 import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.DateUtil;
 import com.busqueumlugar.util.MessageUtils;
+import com.mysql.jdbc.StringUtils;
 
 @Service
 public class ContatoServiceImpl implements ContatoService {
@@ -130,9 +132,9 @@ public class ContatoServiceImpl implements ContatoService {
 
 	
 	public void responderConvite(Long idUsuarioConvidado, Long idUsuarioHost, String resposta) {
-		Contato contato = dao.findConvite(idUsuarioConvidado, idUsuarioHost);
+		Contato contato = dao.findContatosByStatus(idUsuarioConvidado, idUsuarioHost, ContatoStatusEnum.CONVIDADO.getRotulo());
         contato.setStatus(resposta);
-        if ( resposta != null && ! resposta.equals("")){
+        if ( ! StringUtils.isNullOrEmpty(resposta)){
             if ( resposta.equals(ContatoStatusEnum.RECUSADO.getRotulo()) || resposta.equals(ContatoStatusEnum.CANCELADO.getRotulo())) 
             	dao.delete(contato);
             else if ( resposta.equals(ContatoStatusEnum.OK.getRotulo())) {
@@ -140,8 +142,8 @@ public class ContatoServiceImpl implements ContatoService {
                 // inserir notificacao para o usuario que enviou o convite
                 Usuario usuarioConvidado = usuarioService.recuperarUsuarioPorId(idUsuarioConvidado);
                 notificacaoService.cadastrarNotificacao(idUsuarioHost,
-                										AcaoNotificacaoEnum.CONVITE.getRotulo(), 
-                										usuarioConvidado.getNome() + " aceitou seu convite ",
+                										AcaoNotificacaoEnum.CONVITE.getRotulo(),  
+                										usuarioConvidado.getNome() + " " + MessageUtils.getMessage("msg.sucesso.aceitou.seu.convite"),
                 										TipoNotificacaoEnum.CONVITE.getRotulo(), 
                 										idUsuarioConvidado);
             }
@@ -151,9 +153,9 @@ public class ContatoServiceImpl implements ContatoService {
 	
 	public void excluirContato(Long idUsuarioContato, Long idUsuarioSessao) {		
 		
-        Contato contato = dao.findContatos(idUsuarioContato, idUsuarioSessao);        
+        Contato contato = dao.findContatosByStatus(idUsuarioContato, idUsuarioSessao, ContatoStatusEnum.OK.getRotulo());        
         if (( contato == null ) || ( contato != null &&  contato.getId().intValue() == 0)) {
-            contato = dao.findContatos(idUsuarioSessao, idUsuarioContato);
+            contato = dao.findContatosByStatus(idUsuarioSessao, idUsuarioContato, ContatoStatusEnum.OK.getRotulo());
         }
         
         dao.delete(contato);
@@ -174,15 +176,11 @@ public class ContatoServiceImpl implements ContatoService {
 	@Override
 	@Transactional
 	public void cancelarConviteEnviado(Long idUsuarioHost, Usuario usuarioConvidado) {
-		Contato contato = dao.findConvite(usuarioConvidado.getId(), idUsuarioHost);
+		Contato contato = dao.findContatosByStatus(usuarioConvidado.getId(), idUsuarioHost, ContatoStatusEnum.CONVIDADO.getRotulo());
         if (( contato == null ) || ( contato != null && contato.getId().intValue() == 0))
-            contato = dao.findConvite(idUsuarioHost, usuarioConvidado.getId());
+            contato = dao.findContatosByStatus(idUsuarioHost, usuarioConvidado.getId(), ContatoStatusEnum.CONVIDADO.getRotulo());
         
         dao.delete(contato);		
-	}
-	
-	public List<Contato> recuperarOutrosContatos(Long idUsuario) {		
-		return dao.findOthersContatosByIdUsuario(idUsuario);
 	}
 
 	public List<Contato> recuperaContatosOkPorUsuarioFiltroRelatorio(RelatorioForm frm, Long idUsuario){
@@ -200,64 +198,48 @@ public class ContatoServiceImpl implements ContatoService {
 	
 	public String validarEnvioConvite(UsuarioForm userSession, Usuario usuarioConvidado) {
 		
-		String retorno = "";           
-		
         if ( userSession.getId().equals(usuarioConvidado.getId()))
-            retorno = MessageUtils.getMessage("msg.erro.enviar.convite.si.mesmo"); 
+            return MessageUtils.getMessage("msg.erro.enviar.convite.si.mesmo"); 
         
-        if ( retorno.equals("")){
-           if ( usuarioConvidado.getAtivado().equals("N"))
-            retorno = MessageUtils.getMessage("msg.erro.enviar.convite.usuario.desativado");      
-        }            
+        
+        if ( usuarioConvidado.getAtivado().equals("N"))
+    	    return MessageUtils.getMessage("msg.erro.enviar.convite.usuario.desativado");      
+                    
 
-        // checando se j� existe um contato com o usuario
-        if (  retorno.equals("")){                
-            if (( dao.findContatosByStatus(userSession.getId(), usuarioConvidado.getId(), ContatoStatusEnum.OK.getRotulo()) != null ) ||
-                ( dao.findContatosByStatus(usuarioConvidado.getId(), userSession.getId(), ContatoStatusEnum.OK.getRotulo()) != null )){
-                retorno = MessageUtils.getMessage("msg.erro.enviar.convite.contato.feito");                               
-            }   
-        }
+        // checando se j� existe um contato com o usuario                        
+        if (( dao.findContatosByStatus(userSession.getId(), usuarioConvidado.getId(), ContatoStatusEnum.OK.getRotulo()) != null ) ||
+            ( dao.findContatosByStatus(usuarioConvidado.getId(), userSession.getId(), ContatoStatusEnum.OK.getRotulo()) != null )){
+            return MessageUtils.getMessage("msg.erro.enviar.convite.contato.feito");                               
+        }   
         
-        if (  retorno.equals("")){
-            if (( dao.findContatosByStatus(userSession.getId(), usuarioConvidado.getId(), ContatoStatusEnum.CONVIDADO.getRotulo()) != null ) ||
-                ( dao.findContatosByStatus(usuarioConvidado.getId(), userSession.getId(), ContatoStatusEnum.CONVIDADO.getRotulo()) != null )){
-                retorno = MessageUtils.getMessage("msg.erro.enviar.convite.ja.enviado");                                                   
-            }                      
-        }
-        return retorno;
+        if (( dao.findContatosByStatus(userSession.getId(), usuarioConvidado.getId(), ContatoStatusEnum.CONVIDADO.getRotulo()) != null ) ||
+            ( dao.findContatosByStatus(usuarioConvidado.getId(), userSession.getId(), ContatoStatusEnum.CONVIDADO.getRotulo()) != null )){
+            return MessageUtils.getMessage("msg.erro.enviar.convite.ja.enviado");                                                   
+        }                      
+        
+        return "";
 	}
 
 	
 	public String validarEnvioConvite(UsuarioForm userSession, Long idUsuarioConvidado) {
-		
-		String retorno = "";           
+        
 
         if ( userSession.getId().equals(idUsuarioConvidado))
-        	retorno = MessageUtils.getMessage("msg.erro.enviar.convite.si.mesmo");
+        	return MessageUtils.getMessage("msg.erro.enviar.convite.si.mesmo");
 
-        // checando se j� existe um contato com o usuario
-        if (  retorno.equals("")){                
-            if (( dao.findContatosByStatus(userSession.getId(), idUsuarioConvidado, ContatoStatusEnum.OK.getRotulo()) != null ) ||
-                ( dao.findContatosByStatus(idUsuarioConvidado, userSession.getId(), ContatoStatusEnum.OK.getRotulo()) != null )){
-            	retorno = MessageUtils.getMessage("msg.erro.enviar.convite.contato.feito");           	 
-            }   
+        // checando se j� existe um contato com o usuario                        
+        if (( dao.findContatosByStatus(userSession.getId(), idUsuarioConvidado, ContatoStatusEnum.OK.getRotulo()) != null ) ||
+            ( dao.findContatosByStatus(idUsuarioConvidado, userSession.getId(), ContatoStatusEnum.OK.getRotulo()) != null )){
+        	return MessageUtils.getMessage("msg.erro.enviar.convite.contato.feito");           	 
         }
         
-        if (  retorno.equals("")){
-            if (( dao.findContatosByStatus(userSession.getId(), idUsuarioConvidado, ContatoStatusEnum.CONVIDADO.getRotulo()) != null ) ||
-                ( dao.findContatosByStatus(idUsuarioConvidado, userSession.getId(), ContatoStatusEnum.CONVIDADO.getRotulo()) != null )){
-            	retorno = MessageUtils.getMessage("msg.erro.enviar.convite.ja.enviado");
-            }                      
+        if (( dao.findContatosByStatus(userSession.getId(), idUsuarioConvidado, ContatoStatusEnum.CONVIDADO.getRotulo()) != null ) ||
+            ( dao.findContatosByStatus(idUsuarioConvidado, userSession.getId(), ContatoStatusEnum.CONVIDADO.getRotulo()) != null )){
+        	return  MessageUtils.getMessage("msg.erro.enviar.convite.ja.enviado");
         }
 
-        return retorno;	
+        return "";	
 	}
-
-	
-	public String carregaFotoPrincipalImovel(Usuario usuario) {		
-		return null;
-	}
-
 	
 	public boolean checarExisteContato(Long idUsuario, Long idUsuarioDonoImovel) {		
 		 Contato contato = dao.findAnyContatoByStatus(idUsuarioDonoImovel, idUsuario, ContatoStatusEnum.OK.getRotulo());
@@ -324,17 +306,6 @@ public class ContatoServiceImpl implements ContatoService {
         email.setAcao("aceiteContato");
         return email;
     }
-	
-	private String carregaFotoPrincipalUsuario(Usuario usuario) {       
-       return null;
-   }
-
-
-	@Override
-	public List<Contato> ordenarContatos(Long idUsuario, ContatoForm form) {		
-        return dao.findContatos(idUsuario, form);
-	}
-
 
 	@Override
 	public long checarConvitesRecebidosPorUsuarioPorStatus(Long idUsuario, String status){
@@ -406,7 +377,7 @@ public class ContatoServiceImpl implements ContatoService {
 	@Override
 	public List<Usuario> recuperarConviteSelecionado(Long idUsuario,Long idContatoConvite) {
 		
-		Contato contato = dao.findConvite(idUsuario, idContatoConvite);
+		Contato contato = dao.findContatosByStatus(idUsuario, idContatoConvite, ContatoStatusEnum.CONVIDADO.getRotulo());
 		List<Usuario> listaHost = new ArrayList<Usuario>();
 		if (contato != null){
 			contato.setStatusLeitura(StatusLeituraEnum.LIDO.getRotulo());
@@ -425,9 +396,9 @@ public class ContatoServiceImpl implements ContatoService {
 	@Transactional
 	public void cancelarConviteEnviado(Long idUsuarioHost, Long idUsuarioConvidado) {
 
-		Contato contato = dao.findConvite(idUsuarioConvidado, idUsuarioHost);
+		Contato contato = dao.findContatosByStatus(idUsuarioConvidado, idUsuarioHost, ContatoStatusEnum.CONVIDADO.getRotulo());
         if (( contato == null ) || ( contato != null && contato.getId().intValue() == 0))
-            contato = dao.findConvite(idUsuarioHost, idUsuarioHost);
+            contato = dao.findContatosByStatus(idUsuarioHost, idUsuarioHost, ContatoStatusEnum.CONVIDADO.getRotulo());
         
         dao.delete(contato);
 	}

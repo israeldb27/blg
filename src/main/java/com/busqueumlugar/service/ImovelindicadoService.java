@@ -21,9 +21,9 @@ public interface ImovelindicadoService {
 	
 	List<Imovelindicado> listarImovelIndicado(Long idUsuario, ImovelindicadoForm form);
 	
-	int quantImoveisIndicados(Long idUsuario);
+	long quantImoveisIndicados(Long idUsuario);
 	
-	int checaQuantImoveisIndicados(Long idUsuario);
+	long checaQuantImoveisIndicados(Long idUsuario);
 	
 	List<Imovelindicado> listarImoveisIndicacoes(Long idUsuario, ImovelindicadoForm form);
 	
@@ -41,7 +41,7 @@ public interface ImovelindicadoService {
 	
 	List<Imovel> recuperarImoveisIndicadosNovos(Long idUsuario);
 	
-	int checarQuantidadeNovosImoveisIndicados(Long idUsuario);
+	long checarQuantidadeNovosImoveisIndicados(Long idUsuario);
 	
 	List<Imovel> checarImoveisMaisReceberamIndicacoesPorPeriodo(AdministracaoForm form);
 	

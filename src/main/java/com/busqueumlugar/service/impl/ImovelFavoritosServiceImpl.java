@@ -3,18 +3,12 @@ package com.busqueumlugar.service.impl;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ResourceBundle;
-import java.util.TreeSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +17,6 @@ import org.springframework.util.CollectionUtils;
 import com.busqueumlugar.dao.ImovelDao;
 import com.busqueumlugar.dao.ImovelfavoritosDao;
 import com.busqueumlugar.dao.UsuarioDao;
-import com.busqueumlugar.enumerador.AcaoImovelEnum;
 import com.busqueumlugar.enumerador.ContatoStatusEnum;
 import com.busqueumlugar.enumerador.RecomendacaoStatusEnum;
 import com.busqueumlugar.enumerador.StatusLeituraEnum;
@@ -34,7 +27,6 @@ import com.busqueumlugar.form.RelatorioForm;
 import com.busqueumlugar.form.UsuarioForm;
 import com.busqueumlugar.model.EmailImovel;
 import com.busqueumlugar.model.Imovel;
-import com.busqueumlugar.model.Imovelcomentario;
 import com.busqueumlugar.model.Imovelfavoritos;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.ContatoService;
@@ -44,9 +36,7 @@ import com.busqueumlugar.service.RecomendacaoService;
 import com.busqueumlugar.service.SeguidorService;
 import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.AppUtil;
-import com.busqueumlugar.util.DateUtil;
 import com.busqueumlugar.util.MessageUtils;
-import com.mysql.jdbc.StringUtils;
 
 @Service
 public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
@@ -116,7 +106,7 @@ public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
 	@Transactional
 	public void adicionarFavoritosPorUsuario(Long idUsuario, Imovel imovel) {
 		Imovelfavoritos imovelfavoritos = new Imovelfavoritos();
-        imovelfavoritos.setImovel(imovelDao.findImovelById(imovel.getId()));
+        imovelfavoritos.setImovel(imovel);
         imovelfavoritos.setUsuario(usuarioDao.findUsuario(idUsuario));
         imovelfavoritos.setUsuarioDonoImovel(imovelfavoritos.getImovel().getUsuario());
         imovelfavoritos.setStatus(StatusLeituraEnum.NOVO.getRotulo());
@@ -227,8 +217,8 @@ public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
 	}
 
 	@Override
-	public int checarQuantidadeUsuariosInteressadosPorIdImovel(Long idImovel) {		
-		return AppUtil.recuperarQuantidadeLista(dao.findUsuariosInteressadosPorIdImovel(idImovel));
+	public long checarQuantidadeUsuariosInteressadosPorIdImovel(Long idImovel) {		
+		return dao.findQuantidadeNovosUsuariosInteressados(idImovel);
 	}
 
 	@Override
@@ -254,11 +244,6 @@ public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
             return "S";
         else           
             return "N";
-	}
-
-	@Override
-	public int checarQuantidadeUsuariosPorImovelPorDonoImovel(Long idDonoImovel, ImovelfavoritosForm form) {
-		return AppUtil.recuperarQuantidadeLista(dao.findUsuariosInteressadosByIdDonoImovel(idDonoImovel, form));
 	}
 
 	@Override
@@ -406,13 +391,13 @@ public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
 			List lista = dao.findImoveisFavoritosUsuariosInteressadosByIdUsuarioDistinct(idUsuario, form);
 			Object[] obj = null;
 			Long idImovel = null;
-			int quantUsuariosInteressados = 0;
-			int quantNovosUsuariosInteressados = 0;
+			long quantUsuariosInteressados = 0;
+			long quantNovosUsuariosInteressados = 0;
 			Imovel imovel = null;
 			for (Iterator iter = lista.iterator();iter.hasNext();){
 				obj = (Object[]) iter.next();
 				idImovel = Long.parseLong(obj[0].toString());
-				quantUsuariosInteressados = Integer.parseInt(obj[1].toString());
+				quantUsuariosInteressados = Long.parseLong(obj[1].toString());
 				quantNovosUsuariosInteressados = dao.findQuantidadeNovosUsuariosInteressados(idImovel);
 				imovel = imovelService.recuperarImovelPorid(idImovel);
 				imovel.setQuantImoveisFavoritos(quantUsuariosInteressados);

@@ -40,13 +40,9 @@ public interface ContatoService {
 	
 	void cancelarConviteEnviado(Long idUsuarioHost, Usuario usuarioConvidado); 	
 	
-	List<Contato> recuperarOutrosContatos(Long idUsuario);		
-	
 	String validarEnvioConvite(UsuarioForm userSession, Usuario usuarioConvidado);
 	
 	String validarEnvioConvite(UsuarioForm userSession, Long  idUsuarioConvidado);	
-	
-	String carregaFotoPrincipalImovel(Usuario usuario);	
 	
 	boolean checarExisteContato(Long idUsuario, Long idUsuarioDonoImovel);	
 	
@@ -55,8 +51,6 @@ public interface ContatoService {
 	EmailImovel notificarSolicitacaoContato(Long idUsuario);	
 	
 	EmailImovel notificarAceiteConvite(Usuario usuario);
-	
-	List<Contato> ordenarContatos(Long idUsuario, ContatoForm form);
 	
 	long checarConvitesRecebidosPorUsuarioPorStatus(Long idUsuario, String status);
 

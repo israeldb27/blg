@@ -7,7 +7,7 @@
 <%@page import="com.busqueumlugar.service.UsuarioService"%>
 <%@page import="com.busqueumlugar.form.UsuarioForm"%>
 
-<spring:url value="/imovelCompartilhado" var="urlImovelCompartilhado"/>
+<spring:url value="/parceria" var="urlParceria"/>
 <spring:url var="urlImovelComentario" value="/imovelComentario"/>
 <spring:url value="/imovelPropostas" var="urlImovelPropostas"/>
 <spring:url value="/imovelIndicado" var="urlImovelIndicado"/>
@@ -22,8 +22,6 @@
 
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
 
-<spring:url value="/localidade/buscarBairros" var="urlBuscarBairros"/>
-<spring:url value="/imovelCompartilhado/buscarBairrosIntermediacao" var="urlBuscarBairros"/>
 
 <%@page import="com.busqueumlugar.enumerador.PerfilUsuarioNormalEnum"%>
 <c:set var="listaPerfilUsuario" value="<%= PerfilUsuarioNormalEnum.values() %>"/>
@@ -97,7 +95,7 @@ $('#opcaoPaginacao').change(function () {
                             <c:import url="../avisoRenovacaoAssinatura.jsp"></c:import>
                         <% } %>
                         <div class="col-lg-3 col-md-3 col-sm-4">
-                            <form:form class="form-horizontal" role="form" method="POST" id="parceriaForm" modelAttribute="parceriaForm" action="${urlImovelCompartilhado}/filtrarAgruparUsuariosParceria" >
+                            <form:form class="form-horizontal" role="form" method="POST" id="parceriaForm" modelAttribute="parceriaForm" action="${urlParceria}/filtrarAgruparUsuariosParceria" >
                             
                                 <div class="panel rounded shadow no-overflow">
                            			     <div class="panel-heading">
@@ -148,7 +146,7 @@ $('#opcaoPaginacao').change(function () {
 	                            </div>	                            
                                 <div class="pull-right" >
                                 			<spring:message code="lbl.hint.tipo.agrupar" var="hintAgrupar"/>
-                                      		<form:form method="POST" id="modVisualizaListaParceriaForm" modelAttribute="parceriaForm" action="${urlImovelCompartilhado}/modoVisualizarParceria" >								                    
+                                      		<form:form method="POST" id="modVisualizaListaParceriaForm" modelAttribute="parceriaForm" action="${urlParceria}/modoVisualizarParceria" >								                    
 								                    <form:select id="opcaoVisualizacaoListaParceria" path="opcaoVisualizacao" class="form-control" title="${hintAgrupar}">
 															<form:option value="" disabled="true"><spring:message code="lbl.agrupar.por"/></form:option>                  											
 															<form:option value="agruparUsuarios" ><spring:message code="lbl.agrupar.usuarios"/></form:option>   
@@ -158,7 +156,7 @@ $('#opcaoPaginacao').change(function () {
                                 </div><!-- /.pull-right -->
                                 <div class="pull-right" style="padding-right:10px; width: 240px;">
                                 			<spring:message code="lbl.hint.tipo.ordenacao" var="hintOrdenar"/>	
-                                    		<form:form method="POST" id="imoveisParceriaForm" modelAttribute="parceriaForm" action="${urlImovelCompartilhado}/ordenarAgruparParcerias" >         		      	
+                                    		<form:form method="POST" id="imoveisParceriaForm" modelAttribute="parceriaForm" action="${urlParceria}/ordenarAgruparParcerias" >         		      	
 						                        	<form:select id="opcaoOrdenacao2" path="opcaoOrdenacao" class="form-control" title="${hintOrdenar}">                                
 								                        <form:option value="" disabled="true"><spring:message code="lbl.opcao.ordenar"/></form:option>
 								                        <form:option value="maiorDataCadastrado" ><spring:message code="lbl.opcao.ordenacao.usuario.cad.mais.recente"/></form:option>
@@ -231,7 +229,7 @@ $('#opcaoPaginacao').change(function () {
                                                     <br>
                                                     <% if ( request.getSession().getAttribute("acessoValido").equals("S") ) {%> 
                                                     	<spring:message code="lbl.aba.todos.imoveis.parceria.por.usuario" var="mensagemTodosImoveisParceria"/>                                                    	
-                                                    	<a href="${urlImovelCompartilhado}/todosImoveisParceriasPorUsuario/${usuarioParceria.id}" style="font-size:x-large; color: rgb(99, 110, 123);" class="dropdown-toggle" ><i class="fa fa-cog"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;"> ${mensagemTodosImoveisParceria} </font> &nbsp;&nbsp; </i> </a>
+                                                    	<a href="${urlParceria}/todosImoveisParceriasPorUsuario/${usuarioParceria.id}" style="font-size:x-large; color: rgb(99, 110, 123);" class="dropdown-toggle" ><i class="fa fa-cog"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;"> ${mensagemTodosImoveisParceria} </font> &nbsp;&nbsp; </i> </a>
                                                     <% } %>
                                                 </div>
                                             </div>

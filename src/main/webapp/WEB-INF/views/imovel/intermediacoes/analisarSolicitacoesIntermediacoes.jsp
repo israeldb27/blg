@@ -6,7 +6,7 @@
 
 <spring:url value="/usuario" var="urlUsuario"/>
 <spring:url value="/contato" var="urlContato"/>
-<spring:url value="/imovelCompartilhado" var="urlImovelCompartilhado"/>
+<spring:url value="/intermediacao" var="urlIntermediacao"/>
 <spring:url value="/imovel" var="urlImovel"/>
 
 <c:set var="context" value="<%= request.getContextPath()%>"/>
@@ -41,7 +41,7 @@ function confirmarExclusaoSolIntermediacaoAnaliseSol(){
 	var parametro = document.getElementById("modIdParametro");
 	var idImovel = document.getElementById("modIdImovel");	
 	$.ajax({
-			 url: '${urlImovelCompartilhado}/confirmarExclusaoSolIntermediacaoAnaliseSol/' + parametro.value + "/" + idImovel.value,			 
+			 url: '${urlIntermediacao}/confirmarExclusaoSolIntermediacaoAnaliseSol/' + parametro.value + "/" + idImovel.value,			 
 			 success: function(){				 
 				 location.reload();     	    
 			 },
@@ -176,7 +176,7 @@ function confirmarExclusaoSolIntermediacaoAnaliseSol(){
 		                                         </div><!-- /.form-group -->
 		                                         
 		                                         <div class="section-sample">		                                				
-		                                				<a href="${urlImovelCompartilhado}/limparImovelIntermediacaoSelecionada/${intermediacaoSelecionadaForm.id}/${imovel.id}" class="btn btn-primary btn-stroke"><spring:message code="lbl.link.limpar.sol.intermediacoes"/></a>         
+		                                				<a href="${urlIntermediacao}/limparImovelIntermediacaoSelecionada/${intermediacaoSelecionadaForm.id}/${imovel.id}" class="btn btn-primary btn-stroke"><spring:message code="lbl.link.limpar.sol.intermediacoes"/></a>         
 		                                         </div>
                                         
 	                                         </c:if>	                                         
@@ -254,7 +254,7 @@ function confirmarExclusaoSolIntermediacaoAnaliseSol(){
 																		   </a> 
 												  </td>
 		                                          <td class="text-center"> ${intermediacao.descricaoCompartilhamento} </td>              
-		                                          <td class="text-center"> <a href="${urlImovelCompartilhado}/aceitarSolImovelIntermediacao/${intermediacao.id}/${intermediacao.imovel.id}" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" data-original-title="Aceitar Solicitação"><i class="fa fa-pencil"></i></a> 
+		                                          <td class="text-center"> <a href="${urlIntermediacao}/aceitarSolImovelIntermediacao/${intermediacao.id}/${intermediacao.imovel.id}" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" data-original-title="Aceitar Solicitação"><i class="fa fa-pencil"></i></a> 
 		                                          						   <a href="#" onClick="prepararModalConfirmaExclusao(${intermediacao.id}, ${intermediacao.imovel.id} )" data-toggle="tooltip" data-placement="top" data-original-title="Excluir Solicitação"><i class="fa fa-times"></i></a> 
 		                                          </td>
 		                                      </tr>

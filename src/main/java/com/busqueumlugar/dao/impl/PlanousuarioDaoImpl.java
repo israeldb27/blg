@@ -4,30 +4,22 @@ import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import com.busqueumlugar.dao.MensagemDao;
 import com.busqueumlugar.dao.PlanousuarioDao;
 import com.busqueumlugar.enumerador.StatusPagtoOpcaoEnum;
 import com.busqueumlugar.form.AdministracaoForm;
-import com.busqueumlugar.model.Mensagem;
-import com.busqueumlugar.model.Plano;
 import com.busqueumlugar.model.Planousuario;
 import com.busqueumlugar.model.RelatorioQuantPlano;
-import com.busqueumlugar.model.Servico;
 import com.busqueumlugar.util.DateUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 @Repository
 public class PlanousuarioDaoImpl extends GenericDAOImpl<Planousuario, Long> implements PlanousuarioDao {
@@ -71,9 +63,8 @@ public class PlanousuarioDaoImpl extends GenericDAOImpl<Planousuario, Long> impl
 		}
 			
 		ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("id"));
-		projList.add(Projections.count(("id")).as("quant"));
-		projList.add(Projections.groupProperty("id"));		
+		projList.add(Projections.groupProperty("id"));
+		projList.add(Projections.count(("id")).as("quant"));				
 		crit.setProjection(projList);
 		crit.addOrder(Order.desc("quant"));        
         return crit.list();
@@ -86,11 +77,9 @@ public class PlanousuarioDaoImpl extends GenericDAOImpl<Planousuario, Long> impl
 		crit.createCriteria("usuario").add(Restrictions.ilike("nome", "%" + buscarUsuario + "%"));
 		
 		ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("usuario.nome"));
-		projList.add(Projections.property("nomePlano"));
-		projList.add(Projections.count(("id")).as("quant"));
 		projList.add(Projections.groupProperty("usuario.nome"));
-		projList.add(Projections.groupProperty("nomePlano"));		
+		projList.add(Projections.groupProperty("nomePlano"));	
+		projList.add(Projections.count(("id")).as("quant"));
 		crit.setProjection(projList);
 		crit.addOrder(Order.desc("quant"));
 		return (List<RelatorioQuantPlano>)crit.list();
@@ -111,9 +100,8 @@ public class PlanousuarioDaoImpl extends GenericDAOImpl<Planousuario, Long> impl
 		}
 		
 		ProjectionList projList = Projections.projectionList();		
-		projList.add(Projections.property("nomePlano"));
-		projList.add(Projections.sum(("valorPlano")).as("quant"));		
-		projList.add(Projections.groupProperty("nomePlano"));		
+		projList.add(Projections.groupProperty("nomePlano"));
+		projList.add(Projections.sum(("valorPlano")).as("quant"));
 		crit.setProjection(projList);
 		crit.addOrder(Order.desc("quant"));
 		return (List<RelatorioQuantPlano>)crit.list();
@@ -134,11 +122,9 @@ public class PlanousuarioDaoImpl extends GenericDAOImpl<Planousuario, Long> impl
 		}
 		
 		ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("usuario.id"));
-		projList.add(Projections.property("nomePlano"));
-		projList.add(Projections.sum(("valorPlano")).as("quant"));
 		projList.add(Projections.groupProperty("usuario.id"));
-		projList.add(Projections.groupProperty("nomePlano"));		
+		projList.add(Projections.groupProperty("nomePlano"));
+		projList.add(Projections.sum(("valorPlano")).as("quant"));				
 		crit.setProjection(projList);
 		crit.addOrder(Order.desc("quant"));
 		return crit.list();

@@ -3,8 +3,6 @@ package com.busqueumlugar.service;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.mail.EmailException;
-
 import com.busqueumlugar.form.AdministracaoForm;
 import com.busqueumlugar.form.ImovelForm;
 import com.busqueumlugar.form.ImovelvisualizadoForm;
@@ -42,8 +40,6 @@ public interface ImovelvisualizadoService {
 	
 	List<Imovel> checarImoveisMaisReceberamVisitasPorPeriodo(Date dataInicio, Date dataFim, int quant);
 	
-	int checarQuantidadeVisitarsPorImovel(Long idImovel);
-	
 	EmailImovel notificarVisitaImovel(Long idImovel);
 	
 	Imovelvisualizado recuperarUltimaVisitaPorIdImovel(Long idImovel);
@@ -74,6 +70,8 @@ public interface ImovelvisualizadoService {
 
 	void atualizarStatusLeituraMeusImoveisVisitados(Long idUsuario);
 
-	long checarQuantidadeVisitantesPorUsuarioPorStatus(Long idUsuario, String status);		
+	long checarQuantidadeVisitantesPorUsuarioPorStatus(Long idUsuario, String status);
+	
+	long checarQuantidadeImoveisVisualizadosPorImovel(Long idImovel, String statusLeitura);
 	
 }

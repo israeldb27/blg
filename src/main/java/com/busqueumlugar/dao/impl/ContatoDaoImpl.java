@@ -63,17 +63,18 @@ public class ContatoDaoImpl extends GenericDAOImpl<Contato, Long>  implements Co
 		Criterion usuarioConvidado = Restrictions.eq("usuarioConvidado.id", idUsuario); 
 		LogicalExpression orExp = Restrictions.or(usuarioHost,usuarioConvidado); 
 		crit.add(orExp);
-		if ( StringUtils.isNullOrEmpty(form.getOpcaoFiltro()))
+		if (! StringUtils.isNullOrEmpty(form.getOpcaoFiltro()))
 			crit.add(Restrictions.eq("status", form.getOpcaoFiltro()));
+		else
+			crit.add(Restrictions.eq("status", ContatoStatusEnum.OK.getRotulo()));
 		
 		if (! StringUtils.isNullOrEmpty(form.getOpcaoOrdenacao())){
 			if (form.getOpcaoOrdenacao().equals("maiorDataContato"))
 				crit.addOrder(Order.desc("dataConvite"));	        
 			else if (form.getOpcaoOrdenacao().equals("menorDataContato"))
 				crit.addOrder(Order.asc("dataConvite"));	       
-		}
+		}		
 		
-		crit.add(Restrictions.eq("status", ContatoStatusEnum.OK.getRotulo()));
 		return (List<Contato>) crit.list();			
 	}
 	
@@ -85,24 +86,17 @@ public class ContatoDaoImpl extends GenericDAOImpl<Contato, Long>  implements Co
 		Criterion usuarioConvidado = Restrictions.eq("usuarioConvidado.id", idUsuario); 
 		LogicalExpression orExp = Restrictions.or(usuarioHost,usuarioConvidado); 
 		crit.add(orExp);
-		if ( StringUtils.isNullOrEmpty(form.getOpcaoFiltro()))
+		if (! StringUtils.isNullOrEmpty(form.getOpcaoFiltro()))
 			crit.add(Restrictions.eq("status", form.getOpcaoFiltro()));
-		crit.add(Restrictions.eq("status", ContatoStatusEnum.OK.getRotulo()));
+		else
+			crit.add(Restrictions.eq("status", ContatoStatusEnum.OK.getRotulo()));
+		
 		crit.setMaxResults(quant);
 		return (List<Contato>) crit.list();		
 	}
 
 	@Override
-	public Contato findContatos(Long idUsuarioConvidado, Long idUsuarioHost) {		
-		Criteria crit = session().createCriteria(Contato.class);
-		crit.createCriteria("usuarioConvidado").add(Restrictions.eq("id", idUsuarioConvidado));
-		crit.createCriteria("usuarioHost").add(Restrictions.eq("id", idUsuarioHost));		
-		crit.add(Restrictions.eq("status", ContatoStatusEnum.OK.getRotulo()));
-		return (Contato) crit.uniqueResult();
-	}
-
-	@Override
-	public Contato findContatosByStatus(Long idUsuarioConvidado,	Long idUsuarioHost, String status) {
+	public Contato findContatosByStatus(Long idUsuarioConvidado, Long idUsuarioHost, String status) {
 		Criteria crit = session().createCriteria(Contato.class);
 		crit.createCriteria("usuarioConvidado").add(Restrictions.eq("id", idUsuarioConvidado));
 		crit.createCriteria("usuarioHost").add(Restrictions.eq("id", idUsuarioHost));		
@@ -126,25 +120,6 @@ public class ContatoDaoImpl extends GenericDAOImpl<Contato, Long>  implements Co
 		crit.add(Restrictions.eq("status", status));
 		crit.add(orExp);
 		return (Contato) crit.uniqueResult();	
-	}
-
-	@Override
-	public Contato findConvite(Long idUsuarioConvidado, Long idUsuarioHost) {		
-		Criteria crit = session().createCriteria(Contato.class);
-		crit.createCriteria("usuarioConvidado").add(Restrictions.eq("id", idUsuarioConvidado));
-		crit.createCriteria("usuarioHost").add(Restrictions.eq("id", idUsuarioHost));
-		crit.add(Restrictions.eq("status", ContatoStatusEnum.CONVIDADO.getRotulo()));
-		return (Contato) crit.uniqueResult();
-	}
-
-	@Override
-	public List<Contato> findOthersContatosByIdUsuario(Long idUsuario) {
-		Criteria crit = session().createCriteria(Contato.class);
-		Criterion usuarioHost 	   = Restrictions.eq("usuarioHost.id", idUsuario);
-		Criterion usuarioConvidado = Restrictions.eq("usuarioConvidado.id", idUsuario); 
-		LogicalExpression orExp = Restrictions.or(usuarioHost,usuarioConvidado); 
-		crit.add(orExp);
-		return (List<Contato>) crit.list();
 	}
 
 	@Override
@@ -224,18 +199,6 @@ public class ContatoDaoImpl extends GenericDAOImpl<Contato, Long>  implements Co
 	}
 
 	@Override
-	public Contato findContatoRandomByIdUsuarioByStatus(Long idUsuario, String status) {
-		
-		Criteria crit = session().createCriteria(Contato.class);
-		Criterion usuarioHost 	   = Restrictions.ne("usuarioHost.id", idUsuario);
-		Criterion usuarioConvidado = Restrictions.ne("usuarioConvidado.id", idUsuario); 
-		LogicalExpression orExp = Restrictions.or(usuarioHost,usuarioConvidado); 
-		crit.add(orExp);
-		crit.add(Restrictions.eq("status", status));
-		return (Contato) crit.list();		
-	}
-
-	@Override
 	public List<Contato> findContatosByPerfilUsuario(Long idUsuario, String tipoPerfil) {
 		Criteria crit = session().createCriteria(Contato.class);
 		crit.createCriteria("usuarioHost").add(Restrictions.eq("id", idUsuario));
@@ -267,10 +230,12 @@ public class ContatoDaoImpl extends GenericDAOImpl<Contato, Long>  implements Co
 	@Override
 	public long findQuantidadeConvitesPorUsuarioPorStatus(Long idUsuario, String status) {
 		Criteria crit = session().createCriteria(Contato.class);
-		crit.createCriteria("usuarioConvidado").add(Restrictions.eq("id", idUsuario));
-		crit.add(Restrictions.eq("status", ContatoStatusEnum.CONVIDADO.getRotulo()));
+		crit.createCriteria("usuarioConvidado").add(Restrictions.eq("id", idUsuario));		
 		if (!StringUtils.isNullOrEmpty(status))
-			crit.add(Restrictions.eq("statusLeitura", status));
+			crit.add(Restrictions.eq("status", status));
+		else
+			crit.add(Restrictions.eq("status", ContatoStatusEnum.CONVIDADO.getRotulo()));
+		
 		crit.setProjection(Projections.rowCount());
 		return (long) crit.uniqueResult();
 	}

@@ -13,14 +13,12 @@
 
 <spring:url var="urlUsuario" value="/usuario"/>
 <spring:url var="urlImovelComentario" value="/imovelComentario"/>
-<spring:url var="urlImovelCompartilhado" value="/imovelCompartilhado"/>
 <spring:url var="urlImovel" value="/imovel"/>
 <spring:url var="urlImovelIndicado" value="/imovelIndicado"/>
 <spring:url var="urlImovelDestaque" value="/imovelDestaque"/>
 <spring:url var="urlImovelFavoritos" value="/imovelFavoritos"/>
 <spring:url var="urlImovelPropostas" value="/imovelPropostas"/>
 <spring:url var="urlImovelVisualizado" value="/imovelVisualizado"/>
-<spring:url var="urlImovelComparativo" value="/imovelComparativo"/>
 <spring:url var="urlMensagem" value="/mensagem"/>
 <spring:url var="urlMensagemAdmin" value="/mensagemAdmin"/>
 <spring:url var="urlNota" value="/nota"/>

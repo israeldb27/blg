@@ -14,13 +14,8 @@
 <spring:url value="/imovel" var="urlImovel"/>
 <spring:url value="/gmap" var="urlGmap"/>
 
-
-
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
-
-		<script>
-			
-		</script>
+		
 <style type="text/css">
 
 div#map_container{
@@ -111,12 +106,7 @@ $( document ).ready(function() {
             
             	 <!-- Start header content --> 
                 <div class="header-content">
-                    <h2><i class="fa fa-pencil"></i><spring:message code="lbl.editar.imovel.mapa"/>  </h2>                                                                        
-					
-					<!-- Start header modal Ajuda - funcionalidade -->
-						<c:import url="../../ajuda/headerMenuModal.jsp"></c:import>																				
-					<!-- End header  modal Ajuda - funcionalidade -->
-					
+                    <h2><i class="fa fa-pencil"></i><spring:message code="lbl.editar.imovel.mapa"/>  </h2>			
                 </div><!-- /.header-content -->
                 <!--/ End header content -->
                 
@@ -127,6 +117,18 @@ $( document ).ready(function() {
                    	<form:hidden path="latitude" id="latitude"/>
     				<form:hidden path="longitude" id="longitude"/>
                      <div class="row"> 	
+                     	<c:if test="${msgSucesso != null }">
+                    	 		 <div class="alert alert-success">
+                                     <strong><spring:message code="msg.atualizado.imovel.sucesso"/></strong> 
+                                </div>	                     	 
+		               </c:if>   
+		               <c:if test="${msgErro != null }">			               		 
+		                       <div class="alert alert-danger">
+                                    <strong><spring:message code="msg.atualizado.imovel.erro"/></strong> 
+                               </div>                 
+		               </c:if>
+                     
+                     
                     	<!--/ INICIO ABA LOCALIZACAO -->
                     	<div class="col-md-12">
                             <!-- Start horizontal form -->
@@ -136,7 +138,7 @@ $( document ).ready(function() {
                                         <h3 class="panel-title"><spring:message code="lbl.title.aba.imovel.localizacao"/> <code></code></h3>
                                     </div>
                                     <div class="pull-right">
-                                        <button class="btn btn-sm" data-action="collapse" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Collapse"><i class="fa fa-angle-up"></i></button>
+                                        <a href="#a" class="btn btn-sm"  data-toggle="modal" data-target=".bs-modal-ajuda-informacoes" style=""><i class="fa fa-question" ></i></a>
                                     </div>
                                     <div class="clearfix"></div>
                                 </div><!-- /.panel-heading -->

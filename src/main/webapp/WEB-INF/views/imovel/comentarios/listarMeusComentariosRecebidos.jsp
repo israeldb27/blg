@@ -111,7 +111,7 @@ function adicionarComparativo(id) {
 		 dataType: 'json',
 		 success: function(data){				 
 			 if ( data == 'ok') {
-				 $('#msgModalComparativo').html('Imóvel foi adicionado a lista de comparativos');
+				 $('#msgModalComparativo').html("<spring:message code='lbl.msg.sucesso.add.comparativo'/>");
 				 $("#idModalConfirmarComparativo").modal("show");	
        	 }
        	 else  {
@@ -149,7 +149,6 @@ function adicionarComparativo(id) {
                 <div class="header-content">
                     <h2><i class="fa fa-commenting"></i> <spring:message code="lbl.title.link.comentarios.imoveis"/> <span><spring:message code="lbl.title.link.comentarios.imoveis.recebidos"/></span> </h2>                                   
                 </div><!-- /.header-content -->
-                <!--/ End header content -->
                 
                 <!-- Start body content -->
                 <div class="body-content animated fadeIn">
@@ -301,8 +300,12 @@ function adicionarComparativo(id) {
 		                                                
 		                                                <div class="col-md-4" >                                                    
 		                                                    
-		                                                 	<div class="media-body" >					                                            
-					                                            			                                            
+		                                                 	<div class="media-body" >
+		                                                 			<br> <br>                                       
+						                                            <em class="text-sm text-muted" ><font style="font-size:13px; font-style: normal;"><spring:message code="lbl.usuario.comentario" />: </font><span class="text-success"></span></em> </br>
+						                                            <a href="${urlUsuario}/detalhesUsuario/${imovelComentario.usuarioComentario.id}">
+						                                            	<img src="${context}${imovelComentario.usuarioComentario.imagemArquivo}" class="img-responsive" style="width: 60px; height: 65px; alt="admin"/>
+						                                            </a>	                                            
 					                                        </div>		                                              		
 		                                                                                                   
 		                                                </div>
@@ -314,11 +317,7 @@ function adicionarComparativo(id) {
 		                                                                <td class="text-left"><spring:message code="lbl.data.ult.comentario"/></td>
 		                                                                <td class="text-right"><fmt:formatDate value='${imovelComentario.dataComentario}' pattern='dd/MM/yyyy'/></td>
 		                                                            </tr>
-		                                                            <tr>
-		                                                                <td class="text-left"><spring:message code="lbl.usuario.comentario"/></td>
-		                                                                <td class="text-right">${imovelComentario.usuarioComentario.nome} </td>
-		                                                            </tr>
-		                                                           
+		                                                   		                                                           
 		                                                            <tr>
 		                                                                <td class="text-left"><spring:message code="lbl.descricao.comentario.ultimo"/></td>
 		                                                                <td class="text-right">${imovelComentario.comentarioResumido} </td>
@@ -339,8 +338,7 @@ function adicionarComparativo(id) {
 		                                                 			                                                 	                          
 																	<spring:message code="lbl.title.link.comparar" var="mensagemComparar"/>                                                 			                                                 	                                                 	
 			                                                        <a href="#a" onClick="adicionarComparativo(${imovelComentario.imovel.id})" style="font-size:x-large; color: rgb(99, 110, 123);"  class="dropdown-toggle" ><i class="fa fa-eye"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;"> ${mensagemComparar} </font> &nbsp;&nbsp;</i></a>
-					                                        <% } %>		
-		                                                    
+					                                        <% } %>	
 		                                                    
 		                                                </div>
 		                                            </div>
