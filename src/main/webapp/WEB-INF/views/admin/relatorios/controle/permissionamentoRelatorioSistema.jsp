@@ -58,7 +58,7 @@ $(document).ready(function() {
                             <div class="panel rounded shadow">
                                 <div class="panel-heading">
                                     <div class="pull-left">  
-                                        <h3 class="panel-title">Formulário</h3>
+                                        <h3 class="panel-title">FormulÃ¡rio</h3>
                                     </div><!-- /.pull-left -->
                                     <div class="pull-right">
                                         <button class="btn btn-sm" data-action="collapse" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Collapse"><i class="fa fa-angle-up"></i></button>
@@ -129,11 +129,15 @@ $(document).ready(function() {
                                             
                                               <div class="form-group">             			
 	                                			 <label for="btnSubmitAdd" class="col-sm-4 control-label"></label>
-	                                            <div class="col-sm-7">
-	                                            	<br>
+	                                			 
+	                                            <div class="col-sm-3">	                                          
 	                                            	<button id="btnSubmitAdd" type="submit" class="btn btn-primary btn-block" style="width: 40%;"><spring:message code="lbl.btn.adicionar.geral"/></button>
 	                                            </div>
-	                                       </div>  
+	                                            
+	                                            <div class="col-sm-3">	                                            
+	                                            	<a href="${urlAdmin}/prepararRelatorios/relatorioSistema" id="btnSubmitAdd"  type="submit" class="btn btn-primary btn-block" style="width: 40%;"><spring:message code="lbl.btn.voltar.geral"/></a>
+	                                            </div>
+	                                         </div>  
 	                                       
                                         </div><!-- /.form-group -->
                                        </div> 
@@ -184,7 +188,7 @@ $(document).ready(function() {
 	                                            <tr>
 	                                                <td class="text-center"> <fmt:formatDate value='${permissao.dataAcesso}' pattern='dd/MM/yyyy'/></td>
 	                                                <td class="text-center"><c:if test="${permissao.perfilUsuario == 'P'}" >
-																				 <spring:message code="lbl.perfil.usuario.cliente"/>
+																				 <spring:message code="lbl.perfil.usuario.comum"/>
 																			</c:if>
 																			<c:if test="${permissao.perfilUsuario == 'C'}" >
 																				 <spring:message code="lbl.perfil.usuario.corretor"/>

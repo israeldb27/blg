@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.busqueumlugar.dao.InfoservicoDao;
+import com.busqueumlugar.dao.ParamservicoDao;
 import com.busqueumlugar.form.InfoservicoForm;
 import com.busqueumlugar.model.Infoservico;
 import com.busqueumlugar.model.Paramservico;
@@ -28,7 +29,7 @@ public class InfoservicoServiceImpl implements InfoservicoService {
 	private InfoservicoDao dao;
 
 	@Autowired
-	private ParamservicoService paramservicoService;
+	private ParamservicoDao paramservicoDao;
 	
 
 	public Infoservico recuperarInfoservicoPorId(Long id) {
@@ -47,7 +48,7 @@ public class InfoservicoServiceImpl implements InfoservicoService {
 		Infoservico i = new Infoservico();         
         infoservicoForm.setItemInfoServico(String.valueOf(infoservicoForm.getValorServico()));
         BeanUtils.copyProperties(i, infoservicoForm);        
-        Paramservico paramservico = paramservicoService.recuperarParamServicoPorId(infoservicoForm.getIdParamServico());
+        Paramservico paramservico = paramservicoDao.findParamservicoById(infoservicoForm.getIdParamServico());
         i.setTipoInfoServico(paramservico.getTipoParamServico());
         dao.save(i);
 	}
@@ -92,7 +93,7 @@ public class InfoservicoServiceImpl implements InfoservicoService {
 
 	
 	public List<Infoservico> recuperarInfoServicoPagamentoPorNomeServico(String nome) {
-		Paramservico paramServico = paramservicoService.recuperarParamServicoPorNome2(nome);
+		Paramservico paramServico = paramservicoDao.findParamservicoPorNome(nome);
         return dao.findInfoServicoByIdParametroServico(paramServico.getId());
 	}
 

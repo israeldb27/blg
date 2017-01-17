@@ -14,8 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.busqueumlugar.dao.ContatoDao;
 import com.busqueumlugar.dao.ImovelDao;
 import com.busqueumlugar.dao.ImovelfavoritosDao;
+import com.busqueumlugar.dao.RecomendacaoDao;
+import com.busqueumlugar.dao.SeguidorDao;
 import com.busqueumlugar.dao.UsuarioDao;
 import com.busqueumlugar.enumerador.ContatoStatusEnum;
 import com.busqueumlugar.enumerador.RecomendacaoStatusEnum;
@@ -29,12 +32,7 @@ import com.busqueumlugar.model.EmailImovel;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Imovelfavoritos;
 import com.busqueumlugar.model.Usuario;
-import com.busqueumlugar.service.ContatoService;
 import com.busqueumlugar.service.ImovelFavoritosService;
-import com.busqueumlugar.service.ImovelService;
-import com.busqueumlugar.service.RecomendacaoService;
-import com.busqueumlugar.service.SeguidorService;
-import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.MessageUtils;
 
@@ -47,25 +45,19 @@ public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
 	private ImovelfavoritosDao dao;
 	
 	@Autowired
-	private ImovelService imovelService; 
-	
-	@Autowired
 	private ImovelDao imovelDao;
-	
-	@Autowired
-	private UsuarioService usuarioService;
 	
 	@Autowired
 	private UsuarioDao usuarioDao;
 	
 	@Autowired
-	private ContatoService contatoService;
+	private ContatoDao contatoDao;
 	
 	@Autowired
-	private SeguidorService seguidorService;
+	private SeguidorDao seguidorDao;
 	
 	@Autowired
-	private RecomendacaoService recomendacaoService;
+	private RecomendacaoDao recomendacaoDao;
 
 	
 	@Override
@@ -77,7 +69,7 @@ public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
             Imovel imovel = null;       
             for (Iterator iter = lista.iterator();iter.hasNext();){                
                 Object[] obj = (Object[]) iter.next();
-                imovel = imovelService.recuperarImovelPorid(Long.parseLong(obj[0].toString()));                
+                imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));                
                 imovel.setQuantidade(Integer.parseInt(obj[1].toString()));
                 listaFinal.add(imovel);
             }
@@ -230,7 +222,7 @@ public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
             Imovel imovel = null;           
             for (Iterator iter = lista.iterator();iter.hasNext();){
                 Object[] obj = (Object[]) iter.next();
-                imovel = imovelService.recuperarImovelPorid(new Long(obj[0].toString()));
+                imovel = imovelDao.findImovelById(new Long(obj[0].toString()));
                 listaFinal.add(imovel);
             }
         }
@@ -275,7 +267,7 @@ public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
 	@Override
 	public EmailImovel notificarInteresseImovelFrm(ImovelForm frm) {
 
-		Imovel imovel = imovelService.recuperarImovelPorid(frm.getId());
+		Imovel imovel = imovelDao.findImovelById(frm.getId());
         EmailImovel email = new EmailImovel();        
         StringBuilder texto = new StringBuilder(); 
                 
@@ -310,7 +302,7 @@ public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
 	@Override
 	@Transactional
 	public void adicionarFavoritosPorUsuario(Long idUsuario, Long idImovel) {
-		Imovel imovel = imovelService.recuperarImovelPorid(idImovel);
+		Imovel imovel = imovelDao.findImovelById(idImovel);
 		Imovelfavoritos imovelfavoritos = new Imovelfavoritos();
 		imovelfavoritos.setImovel(imovelDao.findImovelById(idImovel));
 		imovelfavoritos.setUsuario(usuarioDao.findUsuario(idUsuario));
@@ -347,7 +339,7 @@ public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
 			Imovel imovel = null;
 			for (Iterator iter = lista.iterator();iter.hasNext();){
 				obj = (Object[]) iter.next();				
-				imovel = imovelService.recuperarImovelPorid(Long.parseLong(obj[0].toString()));
+				imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));
 				imovel.setQuantImoveisFavoritos(Integer.parseInt(obj[1].toString()));
 				imovel.setQuantNovosImoveisFavoritos(dao.findQuantidadeNovosUsuariosInteressados(Long.parseLong(obj[0].toString())));
 				listaFinal.add(imovel);
@@ -399,7 +391,7 @@ public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
 				idImovel = Long.parseLong(obj[0].toString());
 				quantUsuariosInteressados = Long.parseLong(obj[1].toString());
 				quantNovosUsuariosInteressados = dao.findQuantidadeNovosUsuariosInteressados(idImovel);
-				imovel = imovelService.recuperarImovelPorid(idImovel);
+				imovel = imovelDao.findImovelById(idImovel);
 				imovel.setQuantImoveisFavoritos(quantUsuariosInteressados);
 				imovel.setQuantNovosImoveisFavoritos(quantNovosUsuariosInteressados);
 				listaFinal.add(imovel);
@@ -427,13 +419,13 @@ public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
 		Usuario usuario = null;
 		for (Iterator iter = lista.iterator();iter.hasNext();){
 			obj = (Object[]) iter.next(); //[0] - usuarioRecep, [1] - usuarioEmissor, [2] - quantidade (count)				
-			usuario = usuarioService.recuperarUsuarioPorId(Long.parseLong(obj[0].toString()));
+			usuario = usuarioDao.findUsuario(Long.parseLong(obj[0].toString()));
 			usuario.setQuantImovelFavoritos(Integer.parseInt(obj[1].toString())); // quantidade de Propostas que o usuário enviou para os imóveis do usuario sessao
 			usuario.setQuantImovelVisitado(Integer.parseInt(obj[1].toString()));
-			usuario.setQuantTotalContatos(contatoService.checarTotalContatosPorUsuarioPorStatus(usuario.getId(), ContatoStatusEnum.OK.getRotulo()));
-			usuario.setQuantTotalRecomendacoes(recomendacaoService.checarQuantidadeTotalRecomendacaoRecebidaPorStatus(usuario.getId(), RecomendacaoStatusEnum.ACEITO.getRotulo()));
-			usuario.setQuantTotalImoveis(imovelService.checarQuantMeusImoveis(usuario.getId()));
-			usuario.setQuantTotalSeguidores(seguidorService.checarQuantidadeSeguidores(usuario.getId()));
+			usuario.setQuantTotalContatos(contatoDao.findQuantidadeTotalContatosByIdUsuarioByStatus(usuario.getId(), ContatoStatusEnum.OK.getRotulo()));
+			usuario.setQuantTotalRecomendacoes(recomendacaoDao.findQuantidadeRecomendacoesByUsuarioByStatusByStatusLeitura(usuario.getId(), RecomendacaoStatusEnum.ACEITO.getRotulo(), null));
+			usuario.setQuantTotalImoveis(imovelDao.findQuantMeusImoveis(usuario.getId()));
+			usuario.setQuantTotalSeguidores(seguidorDao.findQuantSeguidoresByIdUsuarioSeguido(usuario.getId()));
 			listaFinal.add(usuario);
 		}
 		return listaFinal;
@@ -449,7 +441,7 @@ public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		for (Iterator iter = lista.iterator();iter.hasNext();){
 			obj = (Object[]) iter.next(); 
-			imovel = imovelService.recuperarImovelPorid(Long.parseLong(obj[0].toString()));			
+			imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));			
 			try {
 				imovel.setDataInteresse(df.parse(obj[1].toString()));
 			} catch (ParseException e) {				

@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
+import javax.jms.Queue;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -13,9 +14,12 @@ import com.busqueumlugar.enumerador.RecomendacaoStatusEnum;
 import com.busqueumlugar.enumerador.StatusUsuarioEnum;
 import com.busqueumlugar.enumerador.TipoParamServicoOpcaoEnum;
 
+import org.apache.activemq.command.ActiveMQQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -524,7 +528,7 @@ public class UsuarioController {
 	@RequestMapping(value = "/prepararBuscaUsuarios", method = RequestMethod.GET)
     public String goBuscarUsuarios(ModelMap map, HttpSession session){
 		
-		try {
+		try {	 
 			UsuarioForm form = new UsuarioForm();
 			form.setListaEstados(estadosService.listarTodosEstadosSelect());
 			map.addAttribute("usuarioForm", form);	
@@ -965,9 +969,7 @@ public class UsuarioController {
 				 UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 				 usuarioService.editarSenha(user.getId(), form);
 				 map.addAttribute("msgSucesso", MessageUtils.getMessage("msg.sucesso.editar.senha"));			 
-			 }
-			 else 
-				 map.addAttribute("msgErro", MessageUtils.getMessage("msg.erro.editar.senha"));				 
+			 }		 
 		 	 
 		 	 map.addAttribute("usuarioForm", form);
 		 	return DIR_PATH + "editarSenha";

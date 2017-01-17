@@ -1,37 +1,11 @@
 package com.busqueumlugar.dao.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import javax.transaction.Transactional;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
@@ -43,11 +17,11 @@ import org.springframework.util.CollectionUtils;
 import com.busqueumlugar.dao.ContatoDao;
 import com.busqueumlugar.dao.ImovelPropostasDao;
 import com.busqueumlugar.dao.SeguidorDao;
+import com.busqueumlugar.enumerador.StatusLeituraEnum;
 import com.busqueumlugar.enumerador.TipoContatoOpcaoEnum;
 import com.busqueumlugar.form.AdministracaoForm;
 import com.busqueumlugar.form.ImovelPropostasForm;
 import com.busqueumlugar.form.RelatorioForm;
-import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.ImovelPropostas;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.util.AppUtil;
@@ -123,7 +97,7 @@ public class ImovelPropostasDaoImpl extends GenericDAOImpl<ImovelPropostas, Long
 	public List<ImovelPropostas> findNovaImoveisPropostasRecebidasByIdUsuario(Long idUsuario) {
 		Criteria crit = session().createCriteria(ImovelPropostas.class);
 		crit.createCriteria("usuarioReceptor").add(Restrictions.eq("id", idUsuario));		
-		crit.add(Restrictions.eq("status", "novo"));
+		crit.add(Restrictions.eq("status", StatusLeituraEnum.NOVO.getRotulo()));
 		return (List<ImovelPropostas>)crit.list();		
 	}
 

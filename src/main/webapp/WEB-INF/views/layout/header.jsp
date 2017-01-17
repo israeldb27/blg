@@ -346,6 +346,17 @@ function adicionarComparativo(id) {
 														</a><!-- /.media -->												
 													</c:when>
 													
+													<c:when test="${notificacao.tipoNotificacao == 'U' }">
+														<a href="${urlNotificacao}/selecionarNotificacao/${notificacao.id}" class="media">
+															<div class="pull-left"><img src="${context}/${notificacao.imagemUsuario}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
+															<div class="media-body">
+																<span class="media-heading"> ${notificacao.descricao}</span>
+																<span class="media-text"></span>		                                                		                                                
+																<span class="media-meta pull-right"><spring:message code="lbl.data.notificacao"/>:  <fmt:formatDate value='${notificacao.dataNotificacao}' pattern='dd/MM/yyyy'/></span>		                                                
+															</div><!-- /.media-body -->
+														</a><!-- /.media -->												
+													</c:when>
+													
 													<c:when test="${notificacao.tipoNotificacao == 'S' }">
 														<a href="${urlNotificacao}/selecionarNotificacao/${notificacao.id}" class="media">
 															<div class="pull-left"><i class="fa fa-building-o fa-5x"></i></div>

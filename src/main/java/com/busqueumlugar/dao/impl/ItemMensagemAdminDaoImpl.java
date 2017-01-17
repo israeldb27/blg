@@ -112,7 +112,7 @@ public class ItemMensagemAdminDaoImpl  extends GenericDAOImpl<ItemMensagemAdmin,
 
 
 	@Override
-	public int findQuantItemMensagemAdminByIdUsuarioByStatusLeitura(Long idUsuario, String statusLeitura) {
+	public long findQuantItemMensagemAdminByIdUsuarioByStatusLeitura(Long idUsuario, String statusLeitura) {
 		Criteria crit = session().createCriteria(ItemMensagemAdmin.class);
 		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));
 		crit.add(Restrictions.eq("statusLeitura", statusLeitura));
@@ -120,7 +120,20 @@ public class ItemMensagemAdminDaoImpl  extends GenericDAOImpl<ItemMensagemAdmin,
 		ProjectionList projList = Projections.projectionList();
 		projList.add(Projections.count("id").as("quant"));	
 		crit.setProjection(projList);		
-		return (int)crit.uniqueResult();
+		return (long)crit.uniqueResult();
+	}
+
+
+	@Override
+	public long findQuantidadeMensagensAdminEnviadasParaAdmin() {
+		Criteria crit = session().createCriteria(ItemMensagemAdmin.class);
+		crit.add(Restrictions.eq("statusLeitura", StatusLeituraEnum.NOVO.getRotulo()));
+		crit.add(Restrictions.eq("remetenteAdmin", "N"));
+		crit.addOrder(Order.desc("dataMensagem"));				 
+		ProjectionList projList = Projections.projectionList();
+		projList.add(Projections.rowCount());	
+		crit.setProjection(projList);		
+		return (long)crit.uniqueResult();
 	}
 
 }

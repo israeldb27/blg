@@ -1,6 +1,5 @@
 package com.busqueumlugar.service.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,10 +18,7 @@ import com.busqueumlugar.enumerador.StatusLeituraEnum;
 import com.busqueumlugar.form.MensagemAdminForm;
 import com.busqueumlugar.model.ItemMensagemAdmin;
 import com.busqueumlugar.model.MensagemAdmin;
-import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.ItemMensagemAdminService;
-import com.busqueumlugar.service.MensagemAdminService;
-import com.busqueumlugar.service.UsuarioService;
 import com.mysql.jdbc.StringUtils;
 
 
@@ -33,15 +29,9 @@ public class ItemMensagemAdminServiceImpl implements ItemMensagemAdminService{
 	
 	@Autowired
 	private ItemMensagemAdminDao dao;
-
-	@Autowired
-	private UsuarioService usuarioService;
 	
 	@Autowired
 	private UsuarioDao usuarioDao;
-	
-	@Autowired
-	private MensagemAdminService mensagemAdminService;
 	
 	@Autowired
 	private MensagemAdminDao mensagemAdminDao;
@@ -72,10 +62,10 @@ public class ItemMensagemAdminServiceImpl implements ItemMensagemAdminService{
 	@Transactional
 	public void adicionarNovoItemMensagemAdmin(MensagemAdminForm form, Long idUsuario) {
 		
-		MensagemAdmin mensagem = mensagemAdminService.recuperarMensagemAdminPorId(form.getId());
+		MensagemAdmin mensagem = mensagemAdminDao.findMensagemAdminById(form.getId());
 		mensagem.setDataUltimaMensagem(new Date());
 		mensagem.setDescricaoUltimaMensagem(form.getNovaMensagem());
-		mensagemAdminService.atualizarMensagemAdmin(mensagem);
+		mensagemAdminDao.save(mensagem);
 		
 		ItemMensagemAdmin itemMensagem = new ItemMensagemAdmin();
 		itemMensagem.setDataMensagem(mensagem.getDataUltimaMensagem());
@@ -99,7 +89,7 @@ public class ItemMensagemAdminServiceImpl implements ItemMensagemAdminService{
 		MensagemAdmin mensagem = mensagemAdminDao.findMensagemAdminById(form.getId());
 		mensagem.setDataUltimaMensagem(new Date());
 		mensagem.setDescricaoUltimaMensagem(form.getNovaMensagem());		
-		mensagemAdminService.atualizarMensagemAdmin(mensagem);		
+		mensagemAdminDao.save(mensagem);		
 		
 		ItemMensagemAdmin itemMensagem = new ItemMensagemAdmin();
 		itemMensagem.setDataMensagem(mensagem.getDataUltimaMensagem());
@@ -118,7 +108,7 @@ public class ItemMensagemAdminServiceImpl implements ItemMensagemAdminService{
 		MensagemAdmin mensagem = mensagemAdminDao.findMensagemAdminById(form.getId());
 		mensagem.setDataUltimaMensagem(new Date());
 		mensagem.setDescricaoUltimaMensagem(form.getNovaMensagem());
-		mensagemAdminService.atualizarMensagemAdmin(mensagem);
+		mensagemAdminDao.save(mensagem);
 		
 		ItemMensagemAdmin itemMensagem = new ItemMensagemAdmin();
 		itemMensagem.setDataMensagem(mensagem.getDataUltimaMensagem());
@@ -209,7 +199,7 @@ public class ItemMensagemAdminServiceImpl implements ItemMensagemAdminService{
 	}
 
 	@Override
-	public int checarQuantidadeMensagensAdminPorStatusLeitura(Long idUsuario, String statusLeitura) {
+	public long checarQuantidadeMensagensAdminPorStatusLeitura(Long idUsuario, String statusLeitura) {
 		return dao.findQuantItemMensagemAdminByIdUsuarioByStatusLeitura(idUsuario, statusLeitura);
 	}	
 }

@@ -35,24 +35,17 @@ public class MensagemAdminServiceImpl implements MensagemAdminService {
 	
 	@Autowired
 	private MensagemAdminDao dao;
-
-	
-	@Autowired
-	private ItemMensagemAdminService itemMensagemAdminService;
 	
 	@Autowired
 	private ItemMensagemAdminDao itemMensagemAdminDao;
-
-	@Autowired
-	private UsuarioService usuarioService;
 	
 	@Autowired
 	private UsuarioDao usuarioDao;
 	
 	
 	@Override
-	public int checarQuantidadeNovasMensagensFromAdmin(Long idUsuario) {
-		return itemMensagemAdminService.checarQuantidadeMensagensAdminPorStatusLeitura(idUsuario, StatusLeituraEnum.NOVO.getRotulo());
+	public long checarQuantidadeNovasMensagensFromAdmin(Long idUsuario) {
+		return itemMensagemAdminDao.findQuantItemMensagemAdminByIdUsuarioByStatusLeitura(idUsuario, StatusLeituraEnum.NOVO.getRotulo());
 	}
 
 	 
@@ -63,7 +56,7 @@ public class MensagemAdminServiceImpl implements MensagemAdminService {
 			List<MensagemAdmin> listaFinal = new ArrayList<MensagemAdmin>();		
 			int quantNovaMensagens = 0;
 			for (MensagemAdmin mensagem : lista){
-				quantNovaMensagens = itemMensagemAdminService.recuperarQuantNovasMensagensParaUsuarioPorIdMensagemAdmin(mensagem.getId());
+				quantNovaMensagens = itemMensagemAdminDao.findQuantNovasItensMensagensByIdMensagemAdmin(mensagem.getId());
 				if ( quantNovaMensagens > 0 ) {
 					mensagem.setPossuiNovaMensagem("S");
 					listaFinal.add(mensagem);
@@ -78,7 +71,7 @@ public class MensagemAdminServiceImpl implements MensagemAdminService {
 		List<MensagemAdmin> listaFinal = new ArrayList<MensagemAdmin>();		
 		int quantNovaMensagens = 0;
 		for (MensagemAdmin mensagem : lista){
-			quantNovaMensagens = itemMensagemAdminService.recuperarQuantNovasMensagensParaUsuarioPorIdMensagemAdmin(mensagem.getId());
+			quantNovaMensagens = itemMensagemAdminDao.findQuantNovasItensMensagensByIdMensagemAdmin(mensagem.getId());
 			if ( quantNovaMensagens > 0 ) {
 				mensagem.setPossuiNovaMensagem("S");			
 			}
@@ -105,7 +98,7 @@ public class MensagemAdminServiceImpl implements MensagemAdminService {
 		itemMensagem.setRemetenteAdmin("N");
 		itemMensagem.setStatusLeitura(StatusLeituraEnum.NOVO.getRotulo());
 		itemMensagem.setMensagemAdmin(mensagem);		
-		itemMensagemAdminService.cadastrarItemMensagem(itemMensagem);		
+		itemMensagemAdminDao.save(itemMensagem);		
 		form.setId(mensagem.getId());
 	}
 	
@@ -127,7 +120,7 @@ public class MensagemAdminServiceImpl implements MensagemAdminService {
 		itemMensagem.setRemetenteAdmin("S");
 		itemMensagem.setStatusLeitura(StatusLeituraEnum.NOVO.getRotulo());
 		itemMensagem.setMensagemAdmin(dao.findMensagemAdminById(mensagem.getId()));		
-		itemMensagemAdminService.cadastrarItemMensagem(itemMensagem);		
+		itemMensagemAdminDao.save(itemMensagem);		
 		form.setId(mensagem.getId());
 	}
 

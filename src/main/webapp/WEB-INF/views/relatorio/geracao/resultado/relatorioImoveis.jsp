@@ -13,66 +13,6 @@
     
 <script type="text/javascript">
 
-$(window).load(function() {
-	 
-	 var menuItem = "${relatorioForm.item}";
-	 var listaRelatorio = ${relatorioImoveis};	 
-	 var dataArray = null;	
-	 if ( listaRelatorio.length > 0 ){
-		 
-		 if ( menuItem == 'imoveisMaisVisualizados') {			 
-	     	 dataArray = [['Imovel', 'Quantidade']];  
-		   	 $.each(listaRelatorio, function (index, table) {  
-		   	        dataArray.push([table.titulo, table.quantidade]);  
-		   	 });
-		 }
-		 else if ( menuItem == 'imoveisMaisPropostados') {			 
-	     	 dataArray = [['Imovel', 'Quantidade']];  
-		   	 $.each(listaRelatorio, function (index, table) {  
-		   	        dataArray.push([table.titulo, table.quantidade]);  
-		   	 });
-		 }
-		 else if ( menuItem == 'imoveisMaisComentados') {
-			 dataArray = [['Imovel', 'Quantidade']];  
-		   	 $.each(listaRelatorio, function (index, table) {  
-		   	        dataArray.push([table.titulo, table.quantidade]);  
-		   	 });
-		 }
-		 else if ( menuItem == 'imoveisMaisAdotadosInteressados') {
-			 dataArray = [['Imovel', 'Quantidade']];  
-		   	 $.each(listaRelatorio, function (index, table) {  
-		   	        dataArray.push([table.titulo, table.quantidade]);  
-		   	 });
-		 }
-	 }  
-	 
-	 var bardata = dataArray ;
-    $.plot("#flot-bar-chart", [ bardata ], {
-        series: {
-            lines: {
-                lineWidth: 1
-            },
-            bars: {
-                show: true,
-                barWidth: 0.5,
-                align: "center",
-                lineWidth: 0,
-                fillColor: "#03A9F4"
-            }
-        },
-        grid: {
-            borderColor: '#ddd',
-            borderWidth: 5,
-            labelMargin: 5
-        },
-        xaxis: {
-            mode: "categories",
-            tickLength: 0
-        }
-    }); 
-});
-
-
 $(document).ready(function() {
 	$('#tipo').change(function () {
         var comboPai = '#tipo';
@@ -148,15 +88,7 @@ function recuperaRelatorios(){
                                                     </div>
                                                 </a>
                                             </li>                                            
-                                            <li>
-                                                <a href="#tab2-3" data-toggle="tab">
-                                                    <i class="fa fa-credit-card"></i>
-                                                    <div>
-                                                        <span class="text-strong"><spring:message code="lbl.relatorios.aba.graficos"/></span>                                                        
-                                                    </div>
-                                                </a>
-                                            </li>  
-                                            
+                                                                            
                                             <li>
                                                 <a href="#tab2-4" data-toggle="tab">
                                                     <i class="fa fa-credit-card"></i>
@@ -257,40 +189,7 @@ function recuperaRelatorios(){
 		                                             </div>       	
 				                            	</c:if>                                                                                                                                           
                                             </div>
-                                            
-                                            <div class="tab-pane fade inner-all" id="tab2-3">
-                                            	<c:if test="${ ((not empty imoveisMaisVisualizados) || (not empty imoveisMaisAdotadosInteressados) || (not empty imoveisMaisComentados) || (not empty imoveisMaisPropostados)) }">
-                                            		<div class="form-group">                                                    
-	                                                    <div class="col-sm-13">
-	                                                         <!-- Start bar chart -->
-									                            <div class="panel rounded shadow panel-lilac">
-									                                <div class="panel-heading">
-									                                    <div class="pull-left">
-									                                        <h3 class="panel-title"></h3>
-									                                    </div>
-									                                    <div class="pull-right">
-									                                        <button class="btn btn-sm" data-action="expand" data-toggle="tooltip" data-placement="top" data-title="Expand"><i class="fa fa-expand"></i></button>							                                        									                                        								                                        
-									                                    </div>
-									                                    <div class="clearfix"></div>
-									                                </div><!-- /.panel-heading -->
-									                                <div class="panel-body">
-									                                    <div id="flot-bar-chart" class="chart"></div>
-									                                </div><!-- /.panel-body -->
-									                            </div><!-- /.panel -->
-									                            <!--/ End bar chart -->
-	                                                    </div>
-	                                                </div> 
-                                            	</c:if>
-                                            	
-                                            	<c:if test="${ ((empty imoveisMaisVisualizados) && (empty imoveisMaisAdotadosInteressados) && (empty imoveisMaisComentados) && (empty imoveisMaisPropostados)) }">
-				                            		<div class="form-group">
-                                                    	<div class="col-sm-13">                                                    		
-                                                    		<spring:message code="msg.sem.registro.relatorio.grafico"/>
-                                                    	</div>
-		                                             </div>       	
-				                            	</c:if>       
-                                                                                                                                         
-                                            </div>    
+                                             
                                             
                                              <div class="tab-pane fade inner-all" id="tab2-4">
                                                 <h4 class="page-header"><spring:message code="lbl.relatorio.lista.filtros.utilizados"/></h4>

@@ -324,7 +324,28 @@
                                     </div>
                                </div> 
                                             
-                             </form:form>                
+                             </form:form>                             
+                             
+                             <!-- Buscar pelo codigo de identificação imóvel -->
+                             
+                             <form:form method="POST" id="imovelForm" modelAttribute="imovelForm" action="${urlImovel}/filtrarMeusImoveisPorCodigoIdentificacao" >
+	                             	<div class="panel rounded shadow no-overflow">
+	                                	 <div class="panel-body">
+		                                	 <br>
+		                                	 <span class="label label-default"><spring:message code="lbl.codigo.identificacao.imovel.resum"/> </span>                                	                                 	  
+			                                 <form:input  id="codigoIdentificacao" path="codigoIdentificacao" class="form-control"  />
+			                                 <form:errors id="codigoIdentificacao" path="codigoIdentificacao" cssClass="errorEntrada"  />
+		                                	  
+		                                      <br>
+							             	  <div class="pull-right">
+													<button type="submit" class="btn btn-sm btn-primary btn-lg btn-expand" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
+												  </div><!-- /.pull-right -->            												   
+												<br>		
+	                                	 </div>
+	                                </div>
+                             
+                             </form:form>
+                                             
                         </div>                    
 					                   
 					       <div class="col-lg-9 col-md-9 col-sm-8">
@@ -384,7 +405,7 @@
                                                    <span class="meta-provider ${imovel.classePorAcao}" style="font-size:19px;">${imovel.acaoFmt} <br>
                                                    							<strong>  R$<fmt:formatNumber value="${imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
                                                    </span><br>                                                   
-                                                    <img src="${context}${imovel.imagemArquivo}" class="img-responsive" style="width: 270px; height: 325px;  alt="admin"/>
+                                                    <img src="${context}${imovel.imagemArquivo}" class="img-responsive" style="width: 270px; height: 355px;  alt="admin"/>
                                                 </a>
                                             </div>
                                             <div class="media-body">
@@ -430,6 +451,11 @@
                                                             <tr>
                                                                 <td class="text-left"><spring:message code="lbl.data.cadastro.imovel" /></td>
                                                                 <td class="text-right"><fmt:formatDate value='${imovel.dataCadastro}' pattern='dd/MM/yyyy'/></td>
+                                                            </tr>
+                                                            
+                                                             <tr>
+                                                                <td class="text-left"><spring:message code="lbl.codigo.identificacao.imovel.resum"/></td>
+                                                                <td class="text-right">${imovel.codigoIdentificacao}</td>
                                                             </tr>
                                                             
                                                         </tbody>

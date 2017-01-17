@@ -32,6 +32,7 @@ import com.busqueumlugar.enumerador.NotaAcaoEnum;
 import com.busqueumlugar.form.ImovelForm;
 import com.busqueumlugar.form.ImovelMapaForm;
 import com.busqueumlugar.form.UsuarioForm;
+import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.service.BairrosService;
 import com.busqueumlugar.service.CidadesService;
 import com.busqueumlugar.service.EstadosService;
@@ -649,11 +650,12 @@ public class ImovelController {
 									   		  		ModelMap map, 
 									   		  		HttpSession session){
 		try {
-			ObjectMapper mapper = new ObjectMapper();				
-			String json = "";
-			List<ImovelMapaForm> lista = null;
-			int tam = 0;
-			
+			 ObjectMapper mapper = new ObjectMapper();				
+			 String json = "";
+			 List<ImovelMapaForm> lista = null;
+			 int tam = 0;			 
+			 UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
+			 map.addAttribute("usuarioForm", usuarioService.prepararDetalhesUsuarioForm(form.getIdUsuarioPerfil(), user.getId()));
 			 lista = imovelService.buscarImoveisMapaPorIdUsuario(form, form.getIdUsuarioPerfil());
 			 tam = AppUtil.recuperarQuantidadeLista(lista);
 			 if (tam > 0 ){
@@ -683,6 +685,93 @@ public class ImovelController {
 			return DIR_PATH + "listarMeusImoveis";
 		} catch (Exception e) {
 			log.error("Erro metodo - ImovelController -  filtrarMeusImoveis");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		} 		
+	}
+	
+	@RequestMapping(value = "/filtrarMeusImoveisPorCodigoIdentificacao", method = RequestMethod.POST)	
+	public String filtrarMeusImoveisPorCodigoIdentificacao(@ModelAttribute("imovelForm") ImovelForm form, 
+									 					   ModelMap map, 
+									 					   HttpSession session){		
+		try {
+			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
+			map.addAttribute("listaMeusImoveis",  imovelService.recuperarImovelPorCodigoIdentificacaoPorUsuario(form, user.getId(), true));		
+			form.setListaEstados(estadosService.listarTodosEstadosSelect());
+			map.addAttribute("imovelForm", form);				
+			return DIR_PATH + "listarMeusImoveis";
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelController -  filtrarMeusImoveisPorCodigoIdentificacao");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		} 		
+	}
+	
+	@RequestMapping(value = "/filtrarBuscaImoveisPorCodigoIdentificacao", method = RequestMethod.POST)	
+	public String filtrarBuscaImoveisPorCodigoIdentificacao(@ModelAttribute("imovelForm") ImovelForm form, 
+									 					    ModelMap map, 
+									 					    HttpSession session){		
+		try {
+			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
+			map.addAttribute("listaBuscarImoveis",  imovelService.recuperarImovelPorCodigoIdentificacaoPorUsuario(form, user.getId(), false));		
+			form.setListaEstados(estadosService.listarTodosEstadosSelect());
+			map.addAttribute("imovelForm", form);				
+			return DIR_PATH + "buscarImovel";
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelController -  filtrarBuscaImoveisPorCodigoIdentificacao");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		} 		
+	}
+	
+	
+	@RequestMapping(value = "/filtrarImoveisPerfilUsuarioPorCodigoIdentificacao", method = RequestMethod.POST)	
+	public String filtrarImoveisPerfilUsuarioPorCodigoIdentificacao(@ModelAttribute("imovelForm") ImovelForm form, 
+									 					    		ModelMap map, 
+									 					    		HttpSession session){		
+		try {			
+			map.addAttribute("listaImoveisPerfilUsuario",  imovelService.recuperarImovelPorCodigoIdentificacaoPorUsuario(form, form.getIdUsuarioPerfil(), true));		
+			form.setListaEstados(estadosService.listarTodosEstadosSelect());
+			map.addAttribute("imovelForm", form);				
+			return DIR_PATH + "listarImoveisPerfilUsuario";
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelController -  filtrarImoveisPerfilUsuarioPorCodigoIdentificacao");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		} 		
+	}
+	
+	
+	@RequestMapping(value = "/filtrarImoveisPerfilUsuarioMapaPorCodigoIdentificacao", method = RequestMethod.POST)	
+	public String filtrarImoveisPerfilUsuarioMapaPorCodigoIdentificacao(@ModelAttribute("imovelForm") ImovelForm form, 
+									 					    			ModelMap map, 
+									 					    			HttpSession session){		
+		try {			
+			
+			 ObjectMapper mapper = new ObjectMapper();				
+			 String json = "";
+			 List<Imovel> lista = null;
+			 int tam = 0;			 
+			 UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
+			 map.addAttribute("usuarioForm", usuarioService.prepararDetalhesUsuarioForm(form.getIdUsuarioPerfil(), user.getId()));
+			 lista = imovelService.recuperarImovelPorCodigoIdentificacaoPorUsuario(form, form.getIdUsuarioPerfil(), true);
+			 tam = AppUtil.recuperarQuantidadeLista(lista);
+			 if (tam > 0 ){
+				 json = mapper.writeValueAsString(lista);
+				 map.addAttribute("listaImoveis", json );
+			 }
+			 else
+				 map.addAttribute("listaImoveis", null );			
+			
+			form.setListaEstados(estadosService.listarTodosEstadosSelect());
+			map.addAttribute("imovelForm", form);				
+			return DIR_PATH + "listarImoveisPerfilUsuarioPorMapa";
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelController -  filtrarImoveisPerfilUsuarioPorCodigoIdentificacao");
 			log.error("Mensagem Erro: " + e.getMessage());
 			map.addAttribute("mensagemErroGeral", "S");
 			return ImovelService.PATH_ERRO_GERAL;

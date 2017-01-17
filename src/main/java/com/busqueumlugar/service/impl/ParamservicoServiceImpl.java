@@ -19,6 +19,7 @@ import com.busqueumlugar.dao.FormapagamentoDao;
 import com.busqueumlugar.dao.ParamservicoDao;
 import com.busqueumlugar.enumerador.PerfilUsuarioOpcaoEnum;
 import com.busqueumlugar.enumerador.ServicoValueEnum;
+import com.busqueumlugar.enumerador.TipoParamServicoOpcaoEnum;
 import com.busqueumlugar.form.FormapagamentoForm;
 import com.busqueumlugar.form.ParamservicoForm;
 import com.busqueumlugar.form.UsuarioForm;
@@ -68,24 +69,8 @@ public class ParamservicoServiceImpl implements ParamservicoService {
 
 	
 	@Override
-	public List<Paramservico> recuperaTodosParametrosPorTipoSemAssinatura(UsuarioForm user) {
-		
-		List<Paramservico> lista1 = dao.findParamservicoPorTipo("I");
-        List<Paramservico> lista2 = dao.findParamservicoPorTipo("U");
-        
-        Paramservico param = null;
-        if ( user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()))
-            param = dao.findParamservicoPorNome(ServicoValueEnum.RELATORIO_PADRAO.getRotulo());
-        else if ( user.getPerfil().equals(PerfilUsuarioOpcaoEnum.CORRETOR.getRotulo()))
-            param = dao.findParamservicoPorNome(ServicoValueEnum.RELATORIO_CORRETOR.getRotulo());
-        else if ( user.getPerfil().equals(PerfilUsuarioOpcaoEnum.IMOBILIARIA.getRotulo()))
-            param = dao.findParamservicoPorNome(ServicoValueEnum.RELATORIO_IMOBILIARIA.getRotulo());
-        
-        List<Paramservico> listaFinal =  new ArrayList<Paramservico>();
-        listaFinal.add(param);
-        listaFinal.addAll(lista1);
-        listaFinal.addAll(lista2);
-        return listaFinal;
+	public List<Paramservico> recuperaTodosParametrosPorTipoSemAssinatura(UsuarioForm user) {		
+		return dao.findParametrosSemTipoAssinatura(user);
 	}
 
 	

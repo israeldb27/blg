@@ -21,6 +21,8 @@ public interface ItemMensagemAdminDao extends GenericDAO<ItemMensagemAdmin, Long
 
 	List<ItemMensagemAdmin> findItemMensagemAdminByStatusLeituraByIdUsuario(Long idUsuario, String status);
 
-	int findQuantItemMensagemAdminByIdUsuarioByStatusLeitura(Long idUsuario, String statusLeitura);
+	long findQuantItemMensagemAdminByIdUsuarioByStatusLeitura(Long idUsuario, String statusLeitura);
+
+	long findQuantidadeMensagensAdminEnviadasParaAdmin();
 
 }

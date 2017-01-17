@@ -96,10 +96,10 @@ $(document).ready(function() {
 	                                            <tr>
 	                                                <td class="text-center"> <fmt:formatDate value='${relatorio.dataCriacao}' pattern='dd/MM/yyyy'/></td>
 	                                                <td class="text-center">${relatorio.nome}</td>	                                                
-	                                                <td class="text-center"><c:if test="${relatorio.tipo == 'T'}">
+	                                                <td class="text-center"><c:if test="${relatorio.tipo == 'B'}">
 																				<spring:message code="lbl.rel.tipo.basico"/>
 																			</c:if>
-																			<c:if test="${relatorio.tipo == 'A'}">
+																			<c:if test="${relatorio.tipo == 'P'}">
 																				<spring:message code="lbl.rel.tipo.premium"/>
 																			</c:if>	</td>
 	                                                <td class="text-center"> <c:if test="${relatorio.cobranca == 'S'}">

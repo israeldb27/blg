@@ -18,6 +18,8 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <spring:url value="/imovel" var="urlImovel"/>
 <spring:url value="/usuario" var="urlUsuario"/>
+<spring:url value="/contato" var="urlContato"/>
+<spring:url var="urlImovelFavoritos" value="/imovelFavoritos"/>
 
 <c:set var="usuario" value="<%= (UsuarioForm)request.getSession().getAttribute(UsuarioInterface.USUARIO_SESSAO) %>"/>
 
@@ -53,6 +55,122 @@
 		         },	      
 		     }); 
 	  } 
+	  
+	  function enviarConvite(id) {	
+			var parametro1 = id;
+		    $.ajax({                
+		        url: '${urlContato}/enviarConvite/' + parametro1,                
+		        success: function(){
+		        	$("#idEnviarConvite").hide();        	
+			    	$("#idCancelarConvite").show();	    	    	
+		        },
+		        error: function(jqXHR, textStatus, errorThrown) {
+		            alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+		        }
+		    });
+		}
+
+		function prepararModalCancelarContato(id){	
+			$("#modIdContato").val(id);
+			$("#msgRetornoConfirmCancelContatoErro").html("");	
+			$("#idModalConfirmacaoCancelContato").modal("show");	
+		}
+
+		function cancelarContato() {	
+			var parametro1 = document.getElementById("modIdContato");	
+		    $.ajax({                
+		        url: '${urlContato}/cancelarContato/' + parametro1.value,                
+		        success: function(){
+		        	$("#idCancelarContato").hide();
+		        	$("#idEnviarConvite").show();  
+		        	$("#idModalConfirmacaoCancelContato").modal("hide");
+		        },
+		        error: function(jqXHR, textStatus, errorThrown) {
+		            alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+		        }
+		    });
+		}
+
+		function prepararModalCancelarConvite(id){
+			$("#modIdConvite").val(id);
+			$("#msgRetornoConfirmCancelConviteErro").html("");	
+			$("#idModalConfirmacaoCancelConvite").modal("show");	
+		}
+
+		function cancelarConvite() {	
+			var parametro1 = document.getElementById("modIdConvite");
+		    $.ajax({                
+		        url: '${urlContato}/cancelarConvite/' + parametro1.value,                
+		        success: function(){
+		        	$("#idCancelarConvite").hide();
+		        	$("#idEnviarConvite").show();
+		        	$("#idModalConfirmacaoCancelConvite").modal("hide");
+		        },
+		        error: function(jqXHR, textStatus, errorThrown) {
+		            alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+		        }
+		    });
+		}
+
+		function iniciarSeguirUsuario(id) {
+			var parametro1 = id;	
+		    $.ajax({                
+		        url: '${urlUsuario}/iniciarSeguirUsuario/' + parametro1,                
+		        success: function(){
+		        	$("#idIniciarSeguidor").hide();        	
+		        	$("#idCancelarSeguidor").show();
+		        },
+		        error: function(jqXHR, textStatus, errorThrown) {
+		            alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+		        }
+		    });
+		}
+
+		function cancelarSeguirUsuario(id) {	
+			var parametro1 = id;
+		    $.ajax({                
+		        url: '${urlUsuario}/cancelarSeguirUsuario/' + parametro1,                
+		        success: function(){
+		        	$("#idCancelarSeguidor").hide();
+		        	$("#idIniciarSeguidor").show(); 
+		        },
+		        error: function(jqXHR, textStatus, errorThrown) {
+		            alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+		        }
+		    });
+		}
+		
+		function adicionarInteresse(id) {    	
+    		var parametro1 = id;
+    	    $.ajax({                
+                url: '${urlImovelFavoritos}/adicionarFavoritos/' + parametro1,                
+                success: function(){
+                	$("#idMeInteressei_"+id).hide();
+                	$("#idNovoMeInteressei_"+id).hide();
+	    	    	$("#idInteressado_"+id).show();	    	    	
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+                }
+            });   
+    	}
+    	
+    	function retirarInteresse(id) {
+    		var parametro1 = id;    		
+    	    $.ajax({                
+                url: '${urlImovelFavoritos}/retirarFavoritos/' + parametro1,                
+                success: function(){
+                	$("#idNovoMeInteressei_"+id).show();                	
+	    	    	$("#idInteressado_"+id).hide();
+	    	    	$("#idNovoInteressado_"+id).hide();	    	    	
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+                }
+            });   
+    	}
+
+		
 	  
     </script>	
     
@@ -229,6 +347,54 @@ border-color: black;
           
         </section><!-- /#wrapper -->
         <!--/ END WRAPPER -->
+        
+        <!-- Start optional size modal element - confirmacao cancelamento de contato -->
+            <div id="idModalConfirmacaoCancelContato" class="modal fade bs-example-modal-lg-confirmacao-cancel-contato" tabindex="-1" role="dialog" aria-hidden="true">
+	            <input type="hidden" id="modIdContato" readonly="readonly" name="modIdContato">
+	                <div class="modal-dialog modal-lg">
+	                    <div class="modal-content">
+	                        <div class="modal-header">
+	                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                            <h4 class="modal-title"><spring:message code="lbl.modal.confirmar.cancel.contato"/></h4>
+	                        </div>
+	                        <div class="modal-body">
+	                            <p><spring:message code="lbl.modal.pergunta.confirma.cancel.contato"/></p>
+	                        </div>
+	                        <div class="modal-footer">
+	                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
+	                            <button type="button" class="btn btn-theme" onClick="cancelarContato();"><spring:message code="lbl.sim"/></button>                            
+	                        </div>
+							
+							<div id="msgRetornoConfirmCancelContatoErro" cssClass="errorEntrada"  ></div>   
+							
+	                    </div><!-- /.modal-content -->
+	                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+         <!-- End optional size modal element - confirmacao cancelamento de contato -->
+         
+          <!-- Start optional size modal element - confirmacao cancelamento de convite -->
+            <div id="idModalConfirmacaoCancelConvite" class="modal fade bs-example-modal-lg-confirmacao-cancel-convite" tabindex="-1" role="dialog" aria-hidden="true">
+	            <input type="hidden" id="modIdConvite" readonly="readonly" name="modIdConvite">
+	                <div class="modal-dialog modal-lg">
+	                    <div class="modal-content">
+	                        <div class="modal-header">
+	                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                            <h4 class="modal-title"><spring:message code="lbl.modal.confirmar.cancel.convite"/></h4>
+	                        </div>
+	                        <div class="modal-body">
+	                            <p><spring:message code="lbl.modal.pergunta.confirma.cancel.convite"/></p>
+	                        </div>
+	                        <div class="modal-footer">
+	                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
+	                            <button type="button" class="btn btn-theme" onClick="cancelarConvite();"><spring:message code="lbl.sim"/></button>                            
+	                        </div>
+							
+							<div id="msgRetornoConfirmCancelContatoErro" cssClass="errorEntrada"  ></div>   
+							
+	                    </div><!-- /.modal-content -->
+	                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+         <!-- End optional size modal element - confirmacao cancelamento de convite -->
 
         <!-- START @BACK TOP -->
         <div id="back-top" class="animated pulse circle">

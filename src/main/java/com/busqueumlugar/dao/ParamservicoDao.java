@@ -2,6 +2,7 @@ package com.busqueumlugar.dao;
 
 import java.util.List;
 
+import com.busqueumlugar.form.UsuarioForm;
 import com.busqueumlugar.model.Paramservico;
 
 public interface ParamservicoDao extends GenericDAO<Paramservico, Long> {
@@ -17,6 +18,8 @@ public interface ParamservicoDao extends GenericDAO<Paramservico, Long> {
 	List<Paramservico> findParamServicoByValor(String valor);
 
 	List<Paramservico> findAllParametrosServicos();
+
+	List<Paramservico> findParametrosSemTipoAssinatura(UsuarioForm user);
 	
 
 }

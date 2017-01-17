@@ -356,7 +356,7 @@
 	                                                   <span class="meta-provider ${imovel.classePorAcao}" style="font-size:19px;">${imovel.acaoFmt} <br>
 	                                                   							<strong>  R$<fmt:formatNumber value="${imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
 	                                                   </span><br>                                                   
-	                                                    <img src="${context}${imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 240px; alt="admin"/>
+	                                                    <img src="${context}${imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 245px; alt="admin"/>
 	                                                </a>
 	                                            </div>
 	                                            <div class="media-body">
@@ -401,6 +401,12 @@
 	                                                                <td class="text-left"><spring:message code="lbl.vagas.garagem.resum"/></td>
 	                                                                <td class="text-right">${imovel.quantGaragem} <spring:message code="lbl.num.vagas"/></td>
 	                                                            </tr>
+	                                                            
+	                                                             <tr>
+	                                                                <td class="text-left"><spring:message code="lbl.codigo.identificacao.imovel.resum"/></td>
+	                                                                <td class="text-right">${imovel.codigoIdentificacao}</td>
+	                                                            </tr>
+	                                                            
 	                                                        </tbody>
 	                                                    </table>
 	                                                </div>

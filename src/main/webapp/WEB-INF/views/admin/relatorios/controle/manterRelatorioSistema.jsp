@@ -37,9 +37,7 @@ $(document).ready(function() {
 
             <!-- START @PAGE CONTENT -->
             <section id="page-content">
-            
-            	<!-- Inicio - Meus Favoritos -->
-            
+                
             	 <!-- Start header content -->
                 <div class="header-content">
                     <h2><i class="fa fa-pencil"></i> <spring:message code="lbl.admin.link.atualizacao.relatorios.sistema"/> </h2>                                                      
@@ -50,6 +48,12 @@ $(document).ready(function() {
                 <div class="body-content animated fadeIn">
 
                     <div class="row">
+                    	  <c:if test="${msgSucesso != null }">
+                     	 		 <div class="alert alert-success">
+                                      <strong> ${msgSucesso}</strong> 
+                                 </div>	                     	 
+			               </c:if> 
+			                                   
                         <div class="col-md-12">                        		
 
                             <div class="panel rounded shadow">
@@ -116,27 +120,23 @@ $(document).ready(function() {
                                                 </div>
                                             </div><!-- /.form-group -->
 
-                                            <div class="form-group">             			
+                                             <div class="form-group">             			
 	                                			 <label for="btnSubmitAdd" class="col-sm-4 control-label"></label>
-	                                            <div class="col-sm-7">
-	                                            	<br>
+	                                			 
+	                                            <div class="col-sm-3">	                                          
 	                                            	<button id="btnSubmitAdd" type="submit" class="btn btn-primary btn-block" style="width: 40%;"><spring:message code="lbl.btn.editar.geral"/></button>
 	                                            </div>
-	                                       </div>  
+	                                            
+	                                            <div class="col-sm-3">	                                            
+	                                            	<a href="${urlAdmin}/prepararRelatorios/relatorioSistema" id="btnSubmitAdd"  type="submit" class="btn btn-primary btn-block" style="width: 40%;"><spring:message code="lbl.btn.voltar.geral"/></a>
+	                                            </div>
+	                                         </div>
                                         </div><!-- /.form-group -->
                                        </div> 
                                     </form:form>                                    
                                 </div><!-- /.panel-body -->                                
                             </div><!-- /.panel -->
-                            
-                             <c:if test="${msgSucesso != null }">
-			               		 <div class="panel panel-success">
-			                          <div class="panel-heading">
-			                              <h3 class="panel-title">${msgSucesso}</h3>
-			                          </div><!-- /.panel-heading -->			                                                    
-			                      </div><!-- /.panel -->                      
-			                </c:if>	
-                           
+                                          
                         </div><!-- /.col-md-9 -->
                                         
                     </div><!-- /.row -->

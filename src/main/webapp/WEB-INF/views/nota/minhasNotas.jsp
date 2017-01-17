@@ -76,16 +76,15 @@
 					                    
                         <div class="col-lg-9 col-md-12 col-sm-9"> 
                         	<div class="panel rounded shadow">                        
-                           	  
-                                	<c:choose>
-                                		<c:when test="${not empty listaMinhasNotas}">
+                           	    	
                                 			<div class="panel-heading">
 			                                    <div class="pull-left">
 			                                        <form:form method="POST" id="notaFiltroForm" modelAttribute="notaForm" action="${urlNota}/filtrarMinhasNotas" >							                        	
 								                        	<form:select id="opcaoFiltro1" path="opcaoFiltro" class="form-control">                                
 										                        <form:option value="" disabled="true"><spring:message code="lbl.opcao.filtrar"/></form:option>                      
 										                        <form:option value="I" ><spring:message code="lbl.nota.filtro.imovel"/></form:option>
-																<form:option value="U" ><spring:message code="lbl.nota.filtro.usuario"/></form:option>													
+																<form:option value="U" ><spring:message code="lbl.nota.filtro.usuario"/></form:option>
+																<form:option value="E" ><spring:message code="lbl.nota.filtro.pessoal"/></form:option>													
 																<form:option value="R" ><spring:message code="lbl.nota.filtro.preferencia"/></form:option>
 																<c:choose>
 																	<c:when test="${usuario.perfil != 'P'}">
@@ -127,13 +126,36 @@
 			                                </div><!-- /.panel-heading -->
 			                                
 			                                <div class="panel-body no-padding">
-                                		
+			                                	
+			                                	<br>
+			                                	
+			                                	<form:form method="POST" id="notaEscreveForm" modelAttribute="notaForm" action="${urlNota}/escreverMinhaNota" >
+			                                		 <div class="row">								                                	
+					                                		<div class="col-md-11">	                                                    	
+		                                                    	<form:textarea id="escreverNota" path="escreverNota" class="form-control"  rows="5" cols="40"/>
+							                                	 <form:errors id="escreverNota" path="escreverNota" cssClass="errorEntrada"  />						                                	 
+		                                                    </div>
+		                                                    
+		                                                    <div class="form-group">             			
+					                                			 <label for="btnSubmitAdd" class="col-sm-4 control-label"></label>
+					                                            <div class="col-sm-7">
+					                                            	<br>                                            	
+					                                            	<button id="btnSubmitAdd" type="submit" class="btn btn-primary btn-block" style="width: 40%;"><spring:message code="btn.escrever.nota"/></button>
+					                                            </div>
+					                                       </div>
+		                                             </div>
+			                                	
+			                                	</form:form>			                                		
+			                                
+			                                	<br>
+                                		<c:choose>
+                                			<c:when test="${not empty listaMinhasNotas}">
 	                                			<c:forEach var="nota" items="${listaMinhasNotas}"> 		                                	
 													<div class="media inner-all">
 						                                  <div class="pull-left">
 						                                         <span class="fa fa-stack fa-2x">
 						                                         	<c:choose>
-						                                         		<c:when test="${((nota.acao == 'R') || (nota.acao == 'U') )}">
+						                                         		<c:when test="${((nota.acao == 'R') || (nota.acao == 'U') || (nota.acao == 'E'))}">
 						                                         			<img class="img-circle img-bordered-success" src="${context}${nota.usuario.imagemArquivo}" style="width: 60px; height: 60px; " alt="admin"/>
 						                                         		</c:when>
 						                                         		
@@ -157,7 +179,7 @@
 															    	<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao}</small>
 															    </c:when>
 															    
-															    <c:when test="${nota.acao == 'U'}">
+															    <c:when test="${((nota.acao == 'U') || (nota.acao == 'E'))}">
 															    	<a href="${urlUsuario}/meuPerfil" class="h4"><spring:message code="lbl.nota.info.usuario"/></a>
 															    	
 															    	<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao} </small>
@@ -175,44 +197,9 @@
 						                              </div><!-- /.media -->
 				                              		  <div class="line"></div>
 				                              	  </c:forEach>	 
-				                              </div>				                            
-				                              	  
+				                              </div>
                                 		</c:when>
-                                		
-                                		<c:when test="${((empty listaMinhasNotas) && (not empty exibeMinhasNotas))}">
-                                			<div class="panel-heading">
-			                                    <div class="pull-left">
-			                                        <form:form method="POST" id="notaFiltroForm" modelAttribute="notaForm" action="${urlNota}/filtrarMinhasNotas" >							                        	
-								                        	<form:select id="opcaoFiltro1" path="opcaoFiltro" class="form-control">                                
-										                        <form:option value="" disabled="true"><spring:message code="lbl.opcao.filtrar"/></form:option>                      
-										                        <form:option value="I" ><spring:message code="lbl.nota.filtro.imovel"/></form:option>
-																<form:option value="U" ><spring:message code="lbl.nota.filtro.usuario"/></form:option>													
-																<form:option value="R" ><spring:message code="lbl.nota.filtro.preferencia"/></form:option>
-																<c:choose>
-																	<c:when test="${usuario.perfil != 'P'}">
-																		<form:option value="P" ><spring:message code="lbl.nota.filtro.parceria"/></form:option>	
-																	</c:when>
-																	
-																	<c:when test="${usuario.perfil == 'P'}">
-																		<form:option value="T" ><spring:message code="lbl.nota.filtro.intermediacoes"/></form:option>	
-																	</c:when>
-																</c:choose>																
-																<form:option value="" ><spring:message code="lbl.nota.filtro.todos"/></form:option>
-										                  </form:select>							                        
-								                  </form:form>
-			                                    </div><!-- /.pull-left -->				                                
-				                                
-			                                    <div class="clearfix"></div>
-			                                </div><!-- /.panel-heading -->
-                                			
-                                			<br>
-                                			<div class="panel-body no-padding">
-                                				<div class="callout callout-warning">
-				                                    <strong><spring:message code="lbl.nenhuma.nota.encontrada"/></strong>			                                    
-				                                </div>
-                                			</div>                           		
-                                		</c:when>
-                                		
+                                		                                		
                                 		<c:when test="${ empty listaMinhasNotas }">
                                 			 <div class="callout callout-warning">
 			                                    <strong><spring:message code="lbl.nenhuma.nota"/></strong>			                                    

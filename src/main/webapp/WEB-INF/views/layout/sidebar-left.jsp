@@ -106,7 +106,7 @@
                     <!-- Start navigation - Favoritos -->
                     <li class="submenu">  
                         <a href="javascript:void(0);">
-                            <span class="icon"><i class="fa fa-television"></i></span>                            
+                            <span class="icon"><i class="fa fa-thumbs-up"></i></span>                            
                             <span class="text"><spring:message code="lbl.title.link.lista.Favoritos"/></span>                                                        
                             <% if ( Long.parseLong(request.getSession().getAttribute("quantNovoUsuarioInteressado").toString()) > 0l ) {%>
                             	<span class="label label-danger pull-right rounded">&nbsp;&nbsp; <spring:message code="lbl.opcao.geral.novo"/> </span>
@@ -130,7 +130,7 @@
                     <!-- Start navigation - Visitas Imóveis -->
                     <li class="submenu">
                         <a href="javascript:void(0);">
-                            <span class="icon"><i class="fa fa-user"></i></span>  
+                            <span class="icon"><i class="fa fa-television"></i></span>  
                             <span class="text"><spring:message code="lbl.title.link.imoveis.visualizacoes"/></span>
                             <% if ( Long.parseLong(request.getSession().getAttribute("quantNovosVisitantes").toString()) > 0l ) {%>
                             	<span class="label label-danger pull-right rounded">&nbsp;&nbsp; Novo</span>

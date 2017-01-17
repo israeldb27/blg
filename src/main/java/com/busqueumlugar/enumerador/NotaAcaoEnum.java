@@ -7,8 +7,9 @@ public enum NotaAcaoEnum implements Serializable, ICodigoDescricao {
 	IMOVEL("I"), 
 	USUARIO("U"),
 	PREFERENCIA("R"),
-	INTERMEDIACAO("T"),
-	PARCERIA("P");	
+	INTERMEDIACAO("T"),	
+	PARCERIA("P"),
+	PESSOAL("E");
 
 	private String descricao;
 	

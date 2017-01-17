@@ -51,9 +51,6 @@ public class ContatoServiceImpl implements ContatoService {
 	private ImovelDao imovelDao;
 	
 	@Autowired
-	private UsuarioService usuarioService;
-	
-	@Autowired
 	private NotificacaoService notificacaoService;
 	
 	@Autowired
@@ -140,7 +137,7 @@ public class ContatoServiceImpl implements ContatoService {
             else if ( resposta.equals(ContatoStatusEnum.OK.getRotulo())) {
                 dao.save(contato);
                 // inserir notificacao para o usuario que enviou o convite
-                Usuario usuarioConvidado = usuarioService.recuperarUsuarioPorId(idUsuarioConvidado);
+                Usuario usuarioConvidado = usuarioDao.findUsuario(idUsuarioConvidado);
                 notificacaoService.cadastrarNotificacao(idUsuarioHost,
                 										AcaoNotificacaoEnum.CONVITE.getRotulo(),  
                 										usuarioConvidado.getNome() + " " + MessageUtils.getMessage("msg.sucesso.aceitou.seu.convite"),
@@ -338,7 +335,7 @@ public class ContatoServiceImpl implements ContatoService {
 		// checando se já existe algum contato enviado
 		Contato contatoOK = dao.findAnyContatoByStatus(idUsuario, idUsuarioSessao, ContatoStatusEnum.OK.getRotulo());
 		if ( contatoOK != null )
-			return "S";
+			return "O";
 		else {
 			// checando se algum convite já foi enviado
 			Contato contatoSol = dao.findAnyContatoByStatus(idUsuario, idUsuarioSessao, ContatoStatusEnum.CONVIDADO.getRotulo());

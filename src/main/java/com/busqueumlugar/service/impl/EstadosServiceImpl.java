@@ -1,11 +1,6 @@
 package com.busqueumlugar.service.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -16,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.busqueumlugar.dao.EstadosDao;
-import com.busqueumlugar.dao.ImovelcomentarioDao;
 import com.busqueumlugar.form.RelatorioForm;
 import com.busqueumlugar.model.Estados;
 import com.busqueumlugar.service.EstadosService;

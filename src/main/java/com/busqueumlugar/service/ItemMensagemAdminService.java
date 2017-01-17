@@ -43,6 +43,6 @@ public interface ItemMensagemAdminService {
 
 	List<ItemMensagemAdmin> recuperarItemMensagemAdminPorIdUsuarioStatusLeitura(Long idUsuario, String status);
 
-	int checarQuantidadeMensagensAdminPorStatusLeitura(Long idUsuario, String statusLeitura);
+	long checarQuantidadeMensagensAdminPorStatusLeitura(Long idUsuario, String statusLeitura);
 
 }

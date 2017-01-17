@@ -13,21 +13,20 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 
+import com.busqueumlugar.dao.BairrosDao;
+import com.busqueumlugar.dao.CidadesDao;
+import com.busqueumlugar.dao.EstadosDao;
 import com.busqueumlugar.dao.PreferencialocalidadeDao;
+import com.busqueumlugar.dao.UsuarioDao;
 import com.busqueumlugar.form.PreferencialocalidadeForm;
 import com.busqueumlugar.form.UsuarioForm;
 import com.busqueumlugar.model.Estados;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Preferencialocalidade;
 import com.busqueumlugar.model.Usuario;
-import com.busqueumlugar.service.BairrosService;
-import com.busqueumlugar.service.CidadesService;
-import com.busqueumlugar.service.EstadosService;
 import com.busqueumlugar.service.ImovelFavoritosService;
-import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.NotaService;
 import com.busqueumlugar.service.PreferencialocalidadeService;
-import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.MessageUtils;
 
@@ -40,22 +39,19 @@ public class PreferencialocalidadeServiceImpl implements PreferencialocalidadeSe
 	private PreferencialocalidadeDao dao;	
 	
 	@Autowired
-	private EstadosService estadosService;	
+	private EstadosDao estadosDao;	
 	
 	@Autowired
-	private CidadesService cidadesService;	
+	private CidadesDao cidadesDao;	
 	
 	@Autowired
-	private BairrosService bairrosService;	
+	private BairrosDao bairrosDao;	
 	
 	@Autowired
 	private NotaService notaService;	
 	
 	@Autowired
-	private ImovelService imovelService;	
-	
-	@Autowired
-	private UsuarioService usuarioService;		
+	private UsuarioDao usuarioDao;		
 	
 	@Autowired
 	private ImovelFavoritosService imovelFavoritosService;
@@ -75,17 +71,17 @@ public class PreferencialocalidadeServiceImpl implements PreferencialocalidadeSe
 		
 		Preferencialocalidade local = new Preferencialocalidade();
 		BeanUtils.copyProperties(form, local);
-        local.setUsuario(usuarioService.recuperarUsuarioPorId(idUsuario));
-        Estados estado = estadosService.selecionaEstadoPorId(form.getIdEstado());
+        local.setUsuario(usuarioDao.findUsuario(idUsuario));
+        Estados estado = estadosDao.findEstadosById(form.getIdEstado());
         local.setEstado(estado.getUf());
         local.setNomeEstado(estado.getNome());        
         
         if ( form.getIdCidade() > 0 ) {             
-           local.setNomeCidade(cidadesService.selecionarCidadesPorId(form.getIdCidade()).getNome());
+           local.setNomeCidade(cidadesDao.findCidadesById(form.getIdCidade()).getNome());
         }
         
         if ( form.getIdBairro() > 0 ){            
-           local.setNomeBairro(bairrosService.selecionarBairroPorId(form.getIdBairro()).getNome());
+           local.setNomeBairro(bairrosDao.findBairrosById(form.getIdBairro()).getNome());
         }         
         dao.save(local);             
      //   notaService.cadastrarNotaPreferenciaLocalidade(getBundle().getString("msg.usuario.para.adicionar.preferencia.nota.imovel"), idUsuario, local.getId(), new Date(),"preferencia");    

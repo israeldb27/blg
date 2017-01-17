@@ -1,24 +1,15 @@
 package com.busqueumlugar.service.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javax.servlet.ServletContext;
 
-import org.hibernate.hql.internal.CollectionSubqueryFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -29,13 +20,16 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 
-import com.busqueumlugar.dao.BairrosDao;
-import com.busqueumlugar.dao.CidadesDao;
-import com.busqueumlugar.dao.EstadosDao;
 import com.busqueumlugar.dao.ImovelDao;
+import com.busqueumlugar.dao.ImovelPropostasDao;
+import com.busqueumlugar.dao.ImovelcomentarioDao;
+import com.busqueumlugar.dao.ImoveldestaqueDao;
 import com.busqueumlugar.dao.ImovelfavoritosDao;
+import com.busqueumlugar.dao.IntermediacaoDao;
+import com.busqueumlugar.dao.ParceriaDao;
 import com.busqueumlugar.dao.UsuarioDao;
 import com.busqueumlugar.enumerador.PerfilUsuarioOpcaoEnum;
+import com.busqueumlugar.enumerador.StatusImovelCompartilhadoEnum;
 import com.busqueumlugar.form.AdministracaoForm;
 import com.busqueumlugar.form.ImovelForm;
 import com.busqueumlugar.form.ImovelMapaForm;
@@ -45,11 +39,7 @@ import com.busqueumlugar.model.Bairros;
 import com.busqueumlugar.model.Cidades;
 import com.busqueumlugar.model.Estados;
 import com.busqueumlugar.model.Imovel;
-import com.busqueumlugar.model.Imovelcomentario;
 import com.busqueumlugar.model.Imoveldestaque;
-import com.busqueumlugar.model.Imovelfavoritos;
-import com.busqueumlugar.model.Imovelindicado;
-import com.busqueumlugar.model.Preferencialocalidade;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.BairrosService;
 import com.busqueumlugar.service.CidadesService;
@@ -57,17 +47,10 @@ import com.busqueumlugar.service.ContatoService;
 import com.busqueumlugar.service.EstadosService;
 import com.busqueumlugar.service.ImovelFavoritosService;
 import com.busqueumlugar.service.ImovelService;
-import com.busqueumlugar.service.ImovelcomentarioService;
-import com.busqueumlugar.service.ImoveldestaqueService;
 import com.busqueumlugar.service.ImovelfotosService;
-import com.busqueumlugar.service.ImovelindicadoService;
-import com.busqueumlugar.service.ImovelPropostasService;
 import com.busqueumlugar.service.ImovelvisualizadoService;
 import com.busqueumlugar.service.IntermediacaoService;
 import com.busqueumlugar.service.NotaService;
-import com.busqueumlugar.service.ParceriaService;
-import com.busqueumlugar.service.PreferencialocalidadeService;
-import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.DateUtil;
 import com.busqueumlugar.util.MessageUtils;
@@ -90,7 +73,7 @@ public class ImovelServiceImpl implements ImovelService{
 	private BairrosService bairrosService;
 	
 	@Autowired
-	private UsuarioService usuarioService;
+	private UsuarioDao usuarioDao;
 	
 	@Autowired
 	private ImovelFavoritosService imovelFavoritosService;	
@@ -99,25 +82,22 @@ public class ImovelServiceImpl implements ImovelService{
 	private IntermediacaoService intermediacaoService;
 	
 	@Autowired
-	private ParceriaService parceriaService;
+	private IntermediacaoDao intermediacaoDao;
 	
 	@Autowired
-	private ImovelindicadoService imovelindicadoService;
+	private ParceriaDao parceriaDao;
 	
 	@Autowired
-	private ImovelcomentarioService imovelcomentarioService;
+	private ImovelcomentarioDao imovelcomentarioDao;
 	
 	@Autowired
-	private ImovelPropostasService imovelPropostasService;
+	private ImovelPropostasDao imovelPropostasDao;
 	
 	@Autowired
 	private ImovelvisualizadoService imovelvisualizadoService;
 	
 	@Autowired
 	private NotaService notaService;	
-	
-	@Autowired
-	private PreferencialocalidadeService preferenciaLocalidadeService;	
 	
 	@Autowired
 	private ContatoService contatoService;
@@ -129,7 +109,7 @@ public class ImovelServiceImpl implements ImovelService{
 	private ImovelfotosService imovelfotosService;
 	
 	@Autowired
-	private ImoveldestaqueService imoveldestaqueService;	
+	private ImoveldestaqueDao imoveldestaqueDao;	
 	
 	@Autowired
 	private ServletContext context;	
@@ -154,7 +134,7 @@ public class ImovelServiceImpl implements ImovelService{
 	public ImovelForm cadastrar(ImovelForm frm) {	
          Imovel imovel = new Imovel();              
          BeanUtils.copyProperties(frm, imovel);  
-         Usuario usuario = usuarioService.recuperarUsuarioPorId(frm.getIdUsuario());
+         Usuario usuario = usuarioDao.findUsuario(frm.getIdUsuario());
          imovel.setUsuario(usuario);
          imovel.setDataCadastro(new Date());
          imovel.setDataUltimaAtualizacao(new Date());  
@@ -194,7 +174,7 @@ public class ImovelServiceImpl implements ImovelService{
          dao.save(imovel);   
          frm.setId(imovel.getId());         
          imovel.getUsuario().setQuantCadastroImoveis(imovel.getUsuario().getQuantCadastroImoveis() - 1);
-         usuarioService.editarUsuario(imovel.getUsuario());
+         usuarioDao.save(imovel.getUsuario());
          return frm;
 	}
 
@@ -227,7 +207,7 @@ public class ImovelServiceImpl implements ImovelService{
 			}
 		}            
 		
-		List<Imovel> listaImoveisCompartilhadoUsuarioSolicitante = intermediacaoService.recuperarMinhasSolIntermediacaoAceitasPorUsuarioSolicitantePorPerfil(idUsuario, perfilForm);                                
+		List<Imovel> listaImoveisCompartilhadoUsuarioSolicitante = intermediacaoDao.findIntermediacaoAceitosPorUsuarioSolicitantePorPerfil(idUsuario, StatusImovelCompartilhadoEnum.ACEITA.getRotulo(),perfilForm);                                
 		if (! CollectionUtils.isEmpty(listaImoveisCompartilhadoUsuarioSolicitante)) 
 			listaFinal.addAll(listaImoveisCompartilhadoUsuarioSolicitante);
 		
@@ -268,7 +248,7 @@ public class ImovelServiceImpl implements ImovelService{
         BeanUtils.copyProperties(frm, imovel);
         
         imovel.setDataUltimaAtualizacao(new Date());
-        Usuario usuario = usuarioService.recuperarUsuarioPorId(user.getId());
+        Usuario usuario = usuarioDao.findUsuario(user.getId());
         imovel.setUsuario(usuario);        
         Estados estado = estadosService.selecionaEstadoPorId(frm.getIdEstado());
         Cidades cidade = cidadesService.selecionarCidadesPorId(frm.getIdCidade());
@@ -290,57 +270,6 @@ public class ImovelServiceImpl implements ImovelService{
         dao.save(imovel);
         BeanUtils.copyProperties(imovel, frm );
         return frm;
-	}
-
-	
-	@Override
-	public List<Imovel> oferecerSugestaoImovel(Long idUsuario) {
-		// buscar imoveis que se assemelhem a alguma preferencia do usu�rio.        
-        Preferencialocalidade preferencia = preferenciaLocalidadeService.findPreferencialocalidadeByIdUsuarioByRandom(idUsuario);        
-        ImovelForm frm = new ImovelForm();
-        
-        if ( preferencia != null ){
-            if ( preferencia.getAcao() != null && ! preferencia.getAcao().equals("")){            
-            if ( preferencia.getAcao().equals("compra"))
-                frm.setAcao("venda");
-            else if ( preferencia.getAcao().equals("aluguel"))
-                frm.setAcao("aluguel");
-            else if ( preferencia.getAcao().equals("temporada"))
-                frm.setAcao("temporada");
-        }
-        
-                /*  H� 3 tipos de sugest�o:
-                 * 
-                 *   1. apenas por estado
-                 *   2. apenas por estado e cidade
-                 *   3. por estado, cidade e bairro
-                 * 
-                 * Obs.: a regra para compra e venda deve ser sempre estabelecidad
-                 */
-
-                // escolhendo uma das 3 op��es de sugestao
-                int size = 3;
-                int opcao =  (int)(Math.random() * size);
-                frm.setIdEstado(preferencia.getIdEstado());
-                frm.setTipoImovel(preferencia.getTipoImovel());
-
-                if ( opcao == 1){ // opcao por estado             
-                    frm.setIdCidade(0);
-                    frm.setIdBairro(0);                                
-                }
-                else if ( opcao == 2) { // opcao por estado e cidade
-                    frm.setIdCidade(preferencia.getIdCidade());
-                    frm.setIdBairro(0);                    
-                }
-                else if ( opcao == 3) {  // opcao por estado, cidade e bairro
-                    frm.setIdCidade(preferencia.getIdCidade());
-                    frm.setIdBairro(preferencia.getIdBairro());                    
-                }
-
-                return buscar(frm, idUsuario, null);    
-        }
-        else 
-            return new ArrayList<Imovel>();
 	}
 
 	 
@@ -391,9 +320,9 @@ public class ImovelServiceImpl implements ImovelService{
 
 
 	
-	public List<Imovel> recuperarImovelPorCodigoIdentificacaoPorIdUsuario( Long idUsuario, String codIdentificacao) {
+	public List<Imovel> recuperarImovelPorCodigoIdentificacaoPorIdUsuario( Long idUsuario, ImovelForm form) {
 		
-		 Imovel imovel = dao.findImovelByCodigoIdentificacaoBydIdimovel(idUsuario, codIdentificacao);
+		 Imovel imovel = dao.findImovelByCodigoIdentificacaoBydIdUsuario(idUsuario, form );
 	        List<Imovel> lista = new ArrayList<Imovel>();
 	        if ( imovel != null ){	                        
 	            lista.add(imovel);
@@ -546,18 +475,27 @@ public class ImovelServiceImpl implements ImovelService{
 
 
 	
-	public List<Imovel> recuperarImovelPorCodigoIdentificacaoPorUsuario(String codIdentificacao, Long idUsuario) {		
-		Imovel imovel = dao.findImovelByCodigoIdentificacao(codIdentificacao);      
+	public List<Imovel> recuperarImovelPorCodigoIdentificacaoPorUsuario(ImovelForm form, Long idUsuario, boolean isUsuarioSessao) {		
+		Imovel imovel = null;
+		if ( isUsuarioSessao ) 
+			imovel = dao.findImovelByCodigoIdentificacaoBydIdUsuario(idUsuario, form);			
+		else
+			imovel = dao.findImovelByCodigoIdentificacaoBydIdUsuario(null, form);
+		
         if (imovel == null)
             return null;
         else {
-            if ( imovel.getUsuario().getId().longValue() == idUsuario.longValue() ){                
+            if ( imovel.getUsuario().getId().longValue() == idUsuario.longValue() ){            	
+            	imovel.setInteressadoImovel(imovelFavoritosService.checarUsuarioEstaInteressadoImovel(idUsuario, imovel.getId()));            	
                 List<Imovel> lista = new ArrayList<Imovel>();
                 lista.add(imovel);
                 return lista;
             }    
-            else
-                return null;
+            else {
+            	List<Imovel> lista = new ArrayList<Imovel>();
+                lista.add(imovel);
+                return lista;
+            }    
         }
 	}
 
@@ -597,7 +535,7 @@ public class ImovelServiceImpl implements ImovelService{
 	public void preparaImovelDestaqueFormAdmin(Long idImovel, ImovelForm form){
 		Imovel imovel = dao.findImovelById(idImovel);		
 		BeanUtils.copyProperties(imovel, form);
-		form.setListaImoveisDestaque(imoveldestaqueService.recuperarImoveisDestaquePorIdImovel(idImovel));
+		form.setListaImoveisDestaque(imoveldestaqueDao.findImoveldestaqueByIdImovel(idImovel));
 	}
 	
 	@Override
@@ -843,11 +781,11 @@ public class ImovelServiceImpl implements ImovelService{
 		Imovel imovel = dao.findImovelById(idImovel);		
 		BeanUtils.copyProperties(imovel, form);			
 		form.setListaFotos(imovelfotosService.recuperarFotosImovel(imovel.getId()));		
-		form.setListaComentario(imovelcomentarioService.listarComentarios(idImovel, null));
+		form.setListaComentario(imovelcomentarioDao.findImovelcomentariosByIdImovel(idImovel, null));
 		
 		if (usuarioSessao.getId().equals(form.getIdUsuario())){
-			form.setListaPropostas(imovelPropostasService.recuperarPropostasImovel(idImovel));
-			form.setListaComentario(imovelcomentarioService.listarComentarios(idImovel, null));
+			form.setListaPropostas(imovelPropostasDao.findImovelPropostaByIdImovel(idImovel));
+			form.setListaComentario(imovelcomentarioDao.findImovelcomentariosByIdImovel(idImovel, null));
 			form.setListaUsuariosInteressados(imovelFavoritosService.recuperarUsuariosInteressadosPorIdImovel(idImovel));
 			form.setUsuarioDonoImovel(imovel.getUsuario());
 			form.setListaVisita(imovelvisualizadoService.recuperarUsuariosVisitantesPorIdImovel(idImovel));
@@ -861,17 +799,17 @@ public class ImovelServiceImpl implements ImovelService{
 			}
 			
 			if ( imovel.getAutorizacaoPropostas().equals("S"))
-				form.setListaPropostas(imovelPropostasService.recuperarPropostasImovelPorUsuario(usuarioSessao.getId(), idImovel));
+				form.setListaPropostas(imovelPropostasDao.findImoveisPropostasLancadasByIdUsuarioByIdImovel(usuarioSessao.getId(), idImovel));
 			
 			
 			if (imovel.getUsuario().getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()))	{	
 				form.setUsuarioIntermediador(intermediacaoService.recuperarUsuarioIntermediador(form.getId()));
 				if ( ! usuarioSessao.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) )						
-					form.setIntermediacaoEnviada(intermediacaoService.recuperarMinhasSolicitacoesPorUsuarioSolPorImovel(usuarioSessao.getId(), form.getId()));						
+					form.setIntermediacaoEnviada(intermediacaoDao.findIntermediacaoByIdUsuarioSolicitanteByIdImovel(usuarioSessao.getId(), form.getId()));						
 			}	
 			else {
 				if ( ! usuarioSessao.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) ) 
-					form.setParceriaEnviada(parceriaService.recuperarMinhasSolicitacoesPorUsuarioSolPorImovelParceria(usuarioSessao.getId(), form.getId()));	
+					form.setParceriaEnviada(parceriaDao.findParceriaByIdUsuarioSolicitanteByIdImovel(usuarioSessao.getId(), form.getId()));	
 			}
 			
 			form.setQuantVisualizacoesImovel(imovelvisualizadoService.checarQuantidadeImoveisVisualizadosPorImovel(idImovel, null));
@@ -885,18 +823,18 @@ public class ImovelServiceImpl implements ImovelService{
 		BeanUtils.copyProperties(imovel, form);	
 		form.setListaFotos(imovelfotosService.recuperarFotosImovel(imovel.getId()));
 		form.setUsuarioDonoImovel(imovel.getUsuario());
-		form.setListaComentario(imovelcomentarioService.listarComentarios(idImovel, null));
+		form.setListaComentario(imovelcomentarioDao.findImovelcomentariosByIdImovel(idImovel, null));
 		form.setQuantVisualizacoesImovel(imovelvisualizadoService.checarQuantidadeVisitantesPorUsuarioPorStatus(idImovel, null));
 		form.setQuantUsuariosInteressados(imovelFavoritosService.checarQuantidadeUsuariosInteressadosPorIdImovel(idImovel));
 		form.setListaVisita(imovelvisualizadoService.recuperarUsuariosVisitantesPorIdImovel(idImovel));
-		form.setListaPropostas(imovelPropostasService.recuperarPropostasImovel(idImovel));
+		form.setListaPropostas(imovelPropostasDao.findImovelPropostaByIdImovel(idImovel));
 		form.setListaUsuariosInteressados(imovelFavoritosService.recuperarUsuariosInteressadosPorIdImovel(idImovel));
-		form.setListaImovelAnuncio(imoveldestaqueService.recuperarImoveisAnuncioPorImovel(idImovel));
+		form.setListaImovelAnuncio(imoveldestaqueDao.findImoveisAnunciosPorImovel(idImovel));
 		
 		if (imovel.getUsuario().getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()))			
-			form.setListaIntermediacao(intermediacaoService.recuperarTodosImovelIntermediacaoPorImovel(idImovel));
+			form.setListaIntermediacao(intermediacaoDao.findIntermediacaoByIdImovel(idImovel));
 		else
-			form.setListaParceria(parceriaService.recuperarTodosImovelParceriaPorImovel(idImovel));	
+			form.setListaParceria(parceriaDao.findParceriaByIdImovel(idImovel));	
 	}
 
 
@@ -930,13 +868,13 @@ public class ImovelServiceImpl implements ImovelService{
 		imovelDestaque.setStatus("criado");
 		imovelDestaque.setTipo(form.getOpcaoDestaque());
 		imovelDestaque.setImovel(dao.findImovelById(form.getId()));
-		imoveldestaqueService.cadastrarImovelDestaque(imovelDestaque);		
+		imoveldestaqueDao.save(imovelDestaque);		
 	}	
 	
 	@Override
 	public List<Imovel> recuperarImovelDestaqueParaAnuncio(int quant){
 		Calendar cal = Calendar.getInstance();
-		List<Imoveldestaque> listaImoveisDestaque = imoveldestaqueService.recuperarImoveisDestaquePorDataDestaque(cal.getTime(), quant);
+		List<Imoveldestaque> listaImoveisDestaque = imoveldestaqueDao.findImoveisDestaqueByDataDestaqueByQuantidade(cal.getTime(), quant);
 		List<Imovel> listaFinal = new ArrayList<Imovel>();		
 		for (Imoveldestaque imoveldestaque : listaImoveisDestaque){				
 			listaFinal.add(imoveldestaque.getImovel());
@@ -946,7 +884,7 @@ public class ImovelServiceImpl implements ImovelService{
 	
 	@Override
 	public List<Imovel> recuperarImovelDestaqueParaTelaInicial(int quant){		
-		List<Imoveldestaque> listaImoveisDestaque = imoveldestaqueService.recuperarImoveisDestaqueAnuncioPorDataDestaque(quant);
+		List<Imoveldestaque> listaImoveisDestaque = imoveldestaqueDao.findImoveisDestaqueAnuncioByDataDestaqueByQuantidade(quant);
 		List<Imovel> listaFinal = new ArrayList<Imovel>();		
 		for (Imoveldestaque imoveldestaque : listaImoveisDestaque){
 			listaFinal.add(imoveldestaque.getImovel());

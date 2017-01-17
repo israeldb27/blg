@@ -14,7 +14,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.busqueumlugar.dao.ContatoDao;
+import com.busqueumlugar.dao.ImovelDao;
 import com.busqueumlugar.dao.ImovelvisualizadoDao;
+import com.busqueumlugar.dao.RecomendacaoDao;
+import com.busqueumlugar.dao.SeguidorDao;
+import com.busqueumlugar.dao.UsuarioDao;
 import com.busqueumlugar.enumerador.ContatoStatusEnum;
 import com.busqueumlugar.enumerador.RecomendacaoStatusEnum;
 import com.busqueumlugar.enumerador.StatusLeituraEnum;
@@ -22,21 +27,13 @@ import com.busqueumlugar.form.AdministracaoForm;
 import com.busqueumlugar.form.ImovelForm;
 import com.busqueumlugar.form.ImovelvisualizadoForm;
 import com.busqueumlugar.form.RelatorioForm;
+import com.busqueumlugar.messaging.MessageSender;
 import com.busqueumlugar.model.EmailImovel;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Imovelvisualizado;
 import com.busqueumlugar.model.Usuario;
-import com.busqueumlugar.service.ContatoService;
-import com.busqueumlugar.service.ImovelFavoritosService;
-import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.ImovelvisualizadoService;
-import com.busqueumlugar.service.RecomendacaoService;
-import com.busqueumlugar.service.SeguidorService;
-import com.busqueumlugar.service.UsuarioService;
-import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.DateUtil;
-import com.busqueumlugar.util.EnviaEmailHtml;
-import com.busqueumlugar.util.MessageUtils;
 
 @Service
 public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
@@ -47,22 +44,22 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 	private ImovelvisualizadoDao dao;
 	
 	@Autowired
-	private ImovelService imovelService;
+	private ImovelDao imovelDao;
 	
 	@Autowired
-	private UsuarioService usuarioService;
+	private UsuarioDao usuarioDao;
 	
 	@Autowired
-	private SeguidorService seguidorService;
+	private ContatoDao contatoDao;
 	
 	@Autowired
-	private RecomendacaoService recomendacaoService;
+	private SeguidorDao seguidorDao;
 	
 	@Autowired
-	private ImovelFavoritosService imovelFavoritosService;
+	private RecomendacaoDao recomendacaoDao;
 	
 	@Autowired
-	private ContatoService contatoService;
+	private  MessageSender messageSender;
 
 	
 	
@@ -78,7 +75,7 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
                 Imovel imovel = null;       
                 for (Iterator iter = lista.iterator();iter.hasNext();){                
                     Object[] obj = (Object[]) iter.next();
-                    imovel = imovelService.recuperarImovelPorid(Long.parseLong(obj[0].toString()));                    
+                    imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));                    
                     imovel.setQuantidade(Integer.parseInt(obj[1].toString()));
                     listaFinal.add(imovel);
                 }
@@ -95,7 +92,7 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
                 Imovel imovel = null;       
                 for (Iterator iter = lista.iterator();iter.hasNext();){                
                     Object[] obj = (Object[]) iter.next();
-                    imovel = imovelService.recuperarImovelPorid(Long.parseLong(obj[0].toString()));                    
+                    imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));                    
                     imovel.setQuantidade(Integer.parseInt(obj[1].toString()));
                     listaFinal.add(imovel);
                 }
@@ -145,14 +142,14 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 	
 	@Transactional
 	public void adicionarVisitaImovel(Long idImovel, Long idUsuario) {
-		Imovel imovel = imovelService.recuperarImovelPorid(idImovel);
+		Imovel imovel = imovelDao.findImovelById(idImovel);
 		if (! imovel.getUsuario().getId().equals(idUsuario)){
 			//checar se este im�vel j� foi visitado anteriormente
 	        Imovelvisualizado imovelVisitadoAntes = dao.findImovelVisitadoPorUsuarioPorImovel(idUsuario, idImovel);
 	        if ( imovelVisitadoAntes == null ){
 	            Imovelvisualizado imovelvisitado = new Imovelvisualizado();   
 	            imovelvisitado.setImovel(imovel);
-	            imovelvisitado.setUsuario(usuarioService.recuperarUsuarioPorId(idUsuario));
+	            imovelvisitado.setUsuario(usuarioDao.findUsuario(idUsuario));
 	            imovelvisitado.setDataVisita(new Date());
 	            imovelvisitado.setUsuarioDonoImovel(imovel.getUsuario());
 	            imovelvisitado.setStatusVisita(StatusLeituraEnum.NOVO.getRotulo());
@@ -220,7 +217,7 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
             Imovel imovel = null;       
             for (Iterator iter = lista.iterator();iter.hasNext();){                
                 Object[] obj = (Object[]) iter.next();
-                imovel = imovelService.recuperarImovelPorid(new Long(obj[0].toString()));                
+                imovel = imovelDao.findImovelById(new Long(obj[0].toString()));                
                 listaFinal.add(imovel);
             }
         }        
@@ -235,7 +232,7 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
             Imovel imovel = null;
             for (Iterator iter = lista.iterator();iter.hasNext();){
                 Object[] obj = (Object[]) iter.next();
-                imovel = imovelService.recuperarImovelPorid(Long.parseLong(obj[0].toString()));
+                imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));
                 listaFinal.add(imovel);
             }
         }
@@ -244,7 +241,7 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 
 
 	public EmailImovel notificarVisitaImovel(Long idImovel) {		
-		Imovel imovel = imovelService.recuperarImovelPorid(idImovel);
+		Imovel imovel = imovelDao.findImovelById(idImovel);
         EmailImovel email = new EmailImovel();        
         StringBuilder texto = new StringBuilder(); 
                 
@@ -338,7 +335,7 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 			Imovel imovel = null;
 			for (Iterator iter = lista.iterator();iter.hasNext();){
 				obj = (Object[]) iter.next();				
-				imovel = imovelService.recuperarImovelPorid(Long.parseLong(obj[0].toString()));
+				imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));
 				imovel.setQuantImoveisVisitados(Integer.parseInt(obj[1].toString()));
 				imovel.setQuantNovosImoveisVisitados(dao.findQuantidadeImoveisVisitadosPorImovelPorStatus(Long.parseLong(obj[0].toString()), StatusLeituraEnum.NOVO.getRotulo()));				
 				listaFinal.add(imovel);
@@ -358,7 +355,7 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 			Imovel imovel = null;
 			for (Iterator iter = lista.iterator();iter.hasNext();){
 				obj = (Object[]) iter.next();				
-				imovel = imovelService.recuperarImovelPorid(Long.parseLong(obj[0].toString()));
+				imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));
 				imovel.setQuantImoveisVisitados(Integer.parseInt(obj[1].toString()));
 				imovel.setQuantNovosImoveisVisitados(dao.findQuantidadeImoveisVisitadosPorImovelPorStatus(Long.parseLong(obj[0].toString()), StatusLeituraEnum.NOVO.getRotulo()));				
 				listaFinal.add(imovel);
@@ -388,12 +385,12 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 		for (Iterator iter = lista.iterator();iter.hasNext();){
 			obj = (Object[]) iter.next();
 			idUsuario = Long.parseLong(obj[0].toString());
-			usuario = usuarioService.recuperarUsuarioPorId(idUsuario);
+			usuario = usuarioDao.findUsuario(idUsuario);
 			usuario.setQuantImovelVisitado(Integer.parseInt(obj[1].toString()));
-			usuario.setQuantTotalContatos(contatoService.checarTotalContatosPorUsuarioPorStatus(usuario.getId(), ContatoStatusEnum.OK.getRotulo()));
-			usuario.setQuantTotalRecomendacoes(recomendacaoService.checarQuantidadeTotalRecomendacaoRecebidaPorStatus(usuario.getId(), RecomendacaoStatusEnum.ACEITO.getRotulo()));
-			usuario.setQuantTotalImoveis(imovelService.checarQuantMeusImoveis(usuario.getId()));
-			usuario.setQuantTotalSeguidores(seguidorService.checarQuantidadeSeguidores(usuario.getId()));
+			usuario.setQuantTotalContatos(contatoDao.findQuantidadeTotalContatosByIdUsuarioByStatus(usuario.getId(), ContatoStatusEnum.OK.getRotulo()));
+			usuario.setQuantTotalRecomendacoes(recomendacaoDao.findQuantidadeRecomendacoesByUsuarioByStatusByStatusLeitura(usuario.getId(), RecomendacaoStatusEnum.ACEITO.getRotulo(), null));
+			usuario.setQuantTotalImoveis(imovelDao.findQuantMeusImoveis(usuario.getId()));
+			usuario.setQuantTotalSeguidores(seguidorDao.findQuantSeguidoresByIdUsuarioSeguido(usuario.getId()));
 			listaFinal.add(usuario);
 		}
 		

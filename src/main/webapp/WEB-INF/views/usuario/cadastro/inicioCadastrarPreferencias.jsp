@@ -8,8 +8,8 @@
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
 
 <spring:url value="/usuario" var="urlUsuario"/>
-<spring:url value="/usuario/buscarCidades" var="urlBuscarCidades"/>
-<spring:url value="/usuario/buscarBairros" var="urlBuscarBairros"/>
+<spring:url value="/preferencia/buscarCidades" var="urlBuscarCidades"/>
+<spring:url value="/preferencia/buscarBairros" var="urlBuscarBairros"/>
 <spring:url value="/preferencia/adicionarPreferenciaInicioCadastroUsuario" var="urlPrefAdicionar"/>
 <spring:url value="/preferencia/excluirPreferencia" var="urlPrefExcluir"/>
 <spring:url value="/preferencia/direcionarMain" var="urlPrefDirecionarMain"/>
@@ -49,37 +49,41 @@ $(document).ready(function() {
 
 function recuperaCidades(){
     var parametro1 = $("#idEstado").val();
-    $.get("${urlBuscarCidades}/"+parametro1, function(data){
-        jQuery.each(data, function(key, value) {
-            if(value.label == null){            	
-                return;
-            }            
-            $("#idCidade").append("<option value='"+value.key+"'>"+value.label+"</option>");
-        });
-    });
+    $.ajax({
+        type: 'GET',
+        url: '${urlBuscarCidades}/' + parametro1,
+        dataType: 'json',
+        success: function(json){
+            var options = "";
+            $.each(json, function(key, value){
+               $("#idCidade").append("<option value='"+value.key+"'>"+value.label+"</option>");
+            });
+            $('#idCidade').trigger("chosen:updated");
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+        }
+    });    	   
 }
-
-
-function recuperaBairros(){
+function recuperaBairros(){   
     var parametro1 = $("#idCidade").val();
-    $.get("${urlBuscarBairros}/"+parametro1, function(data){
-        jQuery.each(data, function(key, value) {
-            if(value.label == null){            	
-                return;
-            }            
-            $("#idBairro").append("<option value='"+value.key+"'>"+value.label+"</option>");
-        });
+    $.ajax({
+        type: 'GET',
+        url: '${urlBuscarBairros}/' + parametro1,
+        dataType: 'json',
+        success: function(json){
+            var options = "";
+            $.each(json, function(key, value){
+            	$("#idBairro").append("<option value='"+value.key+"'>"+value.label+"</option>");
+            });
+          $('#idBairro').trigger("chosen:updated");
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+        }
     });
 }
 
-function enviarConvite(id) {
-    $.post("${urlContato}/enviarConvite", {'idUsuario' : id}, function() {
-      // selecionando o elemento html através da 
-      // ID e alterando o HTML dele
-    	$("#idConvite_"+id).show();    	
-    });
-  }
-  
 function direcionarMain() {
     $.post("${urlUsuario}/submitLogin", {}, function() {
          	
@@ -98,14 +102,17 @@ function direcionarMain() {
                    			<button type="submit" class="btn btn-primary btn-lg btn-slideright">Continuar</button>
                    		</form:form>
                    		
-                   		<c:if test="${msgErro != null }">
-		               		 <div class="panel panel-danger">
-		                          <div class="panel-heading">
-		                              <h3 class="panel-title"><spring:message code="msg.erro.lista.pref.imoveis.vazia"/></h3>
-		                          </div><!-- /.panel-heading -->		                          
-		                      </div><!-- /.panel -->                      
-		                </c:if>
-		                	
+                   		 <c:if test="${msgSucesso != null }">
+                     	 		 <div class="alert alert-success">
+                                      <strong><spring:message code="msg.atualizado.imovel.sucesso"/></strong> 
+                                 </div>	                     	 
+			               </c:if>   
+			               <c:if test="${msgErro != null }">			               		 
+			                       <div class="alert alert-danger">
+                                          <strong><spring:message code="msg.erro.lista.pref.imoveis.vazia"/></strong> 
+                                   </div>                 
+			               </c:if>	
+
 	                    <div class="row"> 	
 	                   		<div class="col-md-12">                        		
 
@@ -122,82 +129,113 @@ function direcionarMain() {
                                 </div><!-- /.panel-heading -->
                                 <div class="panel-body no-padding">
                                     <form:form class="form-horizontal mt-10" method="POST" id="preferenciaLocalidadeForm" modelAttribute="preferenciaLocalidadeForm" action="${urlPrefAdicionar}" >
-                                      <div class="form-body">
-                                        <div class="form-group">
-                                        	<label for="idEstado" class="col-sm-4 control-label"><spring:message code="lbl.estado"/> :</label>
-                                        	<div class="col-sm-7">                                        	
-	                                            <spring:message code="lbl.hint.imovel.estado" var="hintEstado"/>
-	                                            <form:select id="idEstado" path="idEstado" class="form-control" title="${hintEstado}">                                
-													<form:option value="-1" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
-													<form:options items="${preferenciaLocalidadeForm.listaEstados}" itemValue="key" itemLabel="label"/>
-											  </form:select>
-	                                        </div>
-	                                        <label for="idCidade" class="col-sm-4 control-label"><spring:message code="lbl.cidade"/>:</label>
-	                                        <div class="col-sm-7">
-	                                            <spring:message code="lbl.hint.imovel.cidade" var="hintCidade"/>
-	                                            <form:select id="idCidade" path="idCidade" class="form-control" title="${hintCidade}">                                
-													<form:option value="-1" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
-													<form:options items="${preferenciaLocalidadeForm.listaCidades}" itemValue="key" itemLabel="label"/>
-											  </form:select>
-                                            </div>
-                                             
-                                            <label for="idBairro" class="col-sm-4 control-label"><spring:message code="lbl.bairro"/>:</label>
-	                                        <div class="col-sm-7">
-	                                            <spring:message code="lbl.hint.imovel.bairro" var="hintBairro"/>
-	                                            <form:select id="idBairro" path="idBairro" class="form-control" title="${hintBairro}">                                
-													<form:option value="-1" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
-													<form:options items="${preferenciaLocalidadeForm.listaBairros}" itemValue="key" itemLabel="label"/>
-											  </form:select>
-                                            </div>
-                                            
-                                            <label for="acao" class="col-sm-4 control-label"><spring:message code="lbl.acao.imovel"/>:</label>
-	                                        <div class="col-sm-7">
-	                                            <spring:message code="lbl.hint.imovel.acao.imovel" var="hintAcaoImovel"/>
-	                                            <form:select id="acao" path="acao" class="form-control" title="${hintAcaoImovel}">                                
-								                    <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
-													<form:options items="${listaAcaoImovel}" itemValue="identificador" itemLabel="rotulo" />
-								                </form:select>
-                                            </div>
-                                            
-                                            <label for="tipoImovel" class="col-sm-4 control-label"><spring:message code="lbl.tipo.imovel"/>:</label>
-	                                        <div class="col-sm-7">
-	                                            <spring:message code="lbl.hint.imovel.tipo.imovel" var="hintTipoImovel"/>
-	                                            <form:select id="tipoImovel" path="tipoImovel" class="form-control" title="${hintTipoImovel}">                                
-								                        <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>	                        
-														<form:options items="${listaTipoImovel}" itemValue="identificador" itemLabel="rotulo" />
-								                 </form:select> 
-                                            </div>            
-
-											<label for="quantQuartos" class="col-sm-3 control-label"><spring:message code="lbl.quartos.dormitorios"/></label>
-											<div class="col-sm-7">
-												<spring:message code="lbl.hint.pref.imovel.quant.quartos" var="hintQuartos"/>
-												<form:input id="quantQuartos" path="quantQuartos" class="form-control" title="${hintQuartos}"/>
-											</div>
-                                            
-                                            <label for="quantGaragem" class="col-sm-3 control-label"><spring:message code="lbl.vagas.garagem"/></label>
-											<div class="col-sm-7">
-												<spring:message code="lbl.hint.pref.imovel.quant.garagem" var="hintGaragem"/>
-												<form:input id="quantGaragem" path="quantGaragem" class="form-control" title="${hintGaragem}"/>
-											</div>
-											
-											  												
-                                            <label for="quantBanheiro" class="col-sm-3 control-label"><spring:message code="lbl.banheiros"/></label>
+                                    
+                                      <div class="form-body" style="vertical-align: middle;">
+	                                      <div class="form-group no-margin">								       				   		
+						       				 <div class="row" style="margin-left: 70px; margin-right: 0px;">
+						       				 	 <div class="col-md-3">
+                                                   	<span class="label label-default"><spring:message code="lbl.estado"/> </span>
+                                                   	<form:select id="idEstado" path="idEstado" class="chosen-select" tabindex="-1" style="display: none;" >                                
+														<form:option value="-1" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
+														<form:options items="${preferenciaLocalidadeForm.listaEstados}" itemValue="key" itemLabel="label"/>
+												    </form:select>
+                                                  </div>
+                                                   
+                                                  <div class="col-md-3">
+                                                   	<span class="label label-default"><spring:message code="lbl.tipo.imovel"/> </span>
+                                                   	<form:select id="tipoImovel" path="tipoImovel" class="chosen-select" tabindex="-1" style="display: none;" >                                
+									                        <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>	                        
+															<form:options items="${listaTipoImovel}" itemValue="identificador" itemLabel="rotulo" />
+									                 </form:select>
+									                 <form:errors id="tipoImovel" path="tipoImovel" cssClass="errorEntrada"  />
+                                                  </div>
+                                                  
+                                                  <div class="col-md-3">
+                                                   		<span class="label label-default"><spring:message code="lbl.quartos.dormitorios"/> </span>
+                                                   		<spring:message code="lbl.hint.pref.imovel.quant.quartos" var="hintQuartos"/>
+														<form:input id="quantQuartos" path="quantQuartos" class="form-control" title="${hintQuartos}"/>
+									                 	<form:errors id="quantQuartos" path="quantQuartos" cssClass="errorEntrada"  />
+                                                  </div>	
+                                                  
+                                                  <div class="col-md-3">
+                                                   		<span class="label label-default"><spring:message code="lbl.suites"/> </span>
+                                                   		<spring:message code="lbl.hint.pref.imovel.quant.suites" var="hintSuites"/>
+														<form:input id="quantSuites" path="quantSuites" class="form-control" title="${hintSuites}"/>
+									                 	<form:errors id="quantSuites" path="quantSuites" cssClass="errorEntrada"  />
+                                                  </div>	
+						       				 	
+						       				 </div>
+						       				 
+						       				 <br> 
+						       				 
+						       				 <div class="row" style="margin-left: 70px; margin-right: 0px;">
+						       				 		<div class="col-md-3">
+                                                    	<span class="label label-default"><spring:message code="lbl.cidade"/> </span>
+                                                    	<form:select id="idCidade" path="idCidade" class="chosen-select" tabindex="-1" style="display: none;">                                
+															<form:option value="-1" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
+															<form:options items="${preferenciaLocalidadeForm.listaCidades}" itemValue="key" itemLabel="label"/>
+													    </form:select>
+                                                    </div>
+                                                    
+                                                    <div class="col-md-3">
+                                                    	<span class="label label-default"><spring:message code="lbl.acao.imovel"/> </span>
+                                                    	<form:select id="acao" path="acao" class="chosen-select" tabindex="-1" style="display: none;">                                
+										                    <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
+															<form:options items="${listaAcaoImovel}" itemValue="identificador" itemLabel="rotulo" />
+										                </form:select> 			
+										                <form:errors id="acao" path="acao" cssClass="errorEntrada"  />
+                                                    </div>
+                                                    
+                                                     <div class="col-md-3">
+	                                                   		<span class="label label-default"><spring:message code="lbl.vagas.garagem"/> </span>
+	                                                   		<spring:message code="lbl.hint.pref.imovel.quant.garagem" var="hintGaragem"/>
+															<form:input id="quantGaragem" path="quantGaragem" class="form-control" title="${hintGaragem}"/>
+										                 	<form:errors id="quantGaragem" path="quantGaragem" cssClass="errorEntrada"  />
+	                                                  </div>
+						       				 </div>
+						       				 
+						       				 <br> 
+						       				 
+						       				 <div class="row" style="margin-left: 70px; margin-right: 0px;">
+						       				 		<div class="col-md-3">
+                                                    	<span class="label label-default"><spring:message code="lbl.bairro"/> </span>
+                                                    	<form:select id="idBairro" path="idBairro" class="chosen-select" tabindex="-1" style="display: none;">                                
+																<form:option value="-1" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
+																<form:options items="${preferenciaLocalidadeForm.listaBairros}" itemValue="key" itemLabel="label"/>
+														 </form:select>
+                                                    </div>
+                                                    
+                                                    <div class="col-md-3">
+                                                    	<span class="label label-default"><spring:message code="lbl.buscar.imovel.status.imovel"/> </span>
+											            <spring:message code="lbl.hint.imovel.perfil.imovel" var="hintPerfilImovel"/>
+												              <form:select id="perfilImovel" path="perfilImovel" class="form-control" title="${hintPerfilImovel}">                                
+											                    	<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
+											                    	<form:options items="${listaStatusImovel}" itemValue="identificador" itemLabel="rotulo" />								                    	   
+											                  </form:select>
+                                                     </div>
+                                                     
+                                                     <div class="col-md-3">
+	                                                   		<span class="label label-default"><spring:message code="lbl.banheiros"/> </span>
+	                                                   		<spring:message code="lbl.hint.pref.imovel.quant.banheiros" var="hintBanheiros"/>
+															<form:input id="quantBanheiro" path="quantBanheiro" class="form-control" title="${hintBanheiros}"/>
+										                 	<form:errors id="quantBanheiro" path="quantBanheiro" cssClass="errorEntrada"  />
+	                                                  </div>
+						       				 </div>
+						       				 
+						       				 <br> 						    
+						       				 
+						       			  </div>
+						       		  </div>	
+						       		  
+						       		  <div class="form-group">             			
+                                			 <label for="btnSubmitAdd" class="col-sm-4 control-label"></label>
                                             <div class="col-sm-7">
-                                              	  <spring:message code="lbl.hint.pref.imovel.quant.banheiros" var="hintBanheiros"/>	
-                                                  <form:input id="quantBanheiro" path="quantBanheiro" class="form-control" title="${hintBanheiros}"/>
+                                            	<br>                                            	
+                                            	<spring:message code="lbl.hint.adicionar.geral" var="hintAdicionar"/>	
+                                            	<button id="btnSubmitAdd" type="submit" class="btn btn-primary btn-block" title="${hintAdicionar}" style="width: 20%;"><spring:message code="lbl.btn.adicionar.geral"/></button>
                                             </div>
-                                            
-                                            <label for="quantSuites" class="col-sm-3 control-label"><spring:message code="lbl.suites"/></label>
-											<div class="col-sm-7">
-												<spring:message code="lbl.hint.pref.imovel.quant.suites" var="hintSuites"/>
-												<form:input id="quantSuites" path="quantSuites" class="form-control" title="${hintSuites}"/>
-											</div>  		
-                                            
-                                            <spring:message code="lbl.hint.adicionar.geral" var="hintAdicionar"/>	
-                                            <button id="btnSubmitAdd" type="submit" class="btn btn-primary btn-block" title="${hintAdicionar}" style="width: 20%;"><spring:message code="lbl.btn.adicionar.geral"/></button>
-                                            
-                                        </div><!-- /.form-group -->
-                                       </div> 
+                                       </div>	  	 
+     
                                     </form:form>  
                                     
                                 </div><!-- /.panel-body -->                                

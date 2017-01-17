@@ -191,9 +191,6 @@ public class ImovelDaoImpl extends GenericDAOImpl<Imovel, Long>   implements Imo
         if ( ! StringUtils.isEmpty(form.getPerfilImovel()) && ! form.getPerfilImovel().equals("todos") )
         	crit.add(Restrictions.eq("perfilImovel", form.getPerfilImovel())); 
         
-        if ( ! StringUtils.isEmpty(form.getStatusNegociacao()))
-        	crit.add(Restrictions.eq("statusNegociacaoImovel", form.getStatusNegociacao()));
-        
         if ( form.getQuantQuartos() > 0 ){
             if (form.getQuantQuartos() >= 6 )
             	crit.add(Restrictions.gt("quantQuartos", form.getQuantQuartos()));
@@ -226,9 +223,11 @@ public class ImovelDaoImpl extends GenericDAOImpl<Imovel, Long>   implements Imo
         	crit.add(Restrictions.ge("valorImovel", AppUtil.formatarMoeda(form.getValorMin())));
         }
         
-        if (! StringUtils.isEmpty(form.getValorMax()) ){
-        	crit.add(Restrictions.le("valorImovel", AppUtil.formatarMoeda(form.getValorMax())));
-        }
+        if (! StringUtils.isEmpty(form.getValorMax()) )
+        	crit.add(Restrictions.le("valorImovel", AppUtil.formatarMoeda(form.getValorMax())));        
+        
+        if ( ! StringUtils.isEmpty(form.getAutorizacaoOutroUsuario()))         
+        	crit.add(Restrictions.eq("autorizacaoOutroUsuario", form.getAutorizacaoOutroUsuario() ));        
         
         if (! StringUtils.isEmpty(opcaoOrdenacao) ){ // fazer a ordenacao ainda
         	  if (opcaoOrdenacao.equals("maiorValor"))
@@ -349,9 +348,10 @@ public class ImovelDaoImpl extends GenericDAOImpl<Imovel, Long>   implements Imo
 	}
 
 	@Override
-	public Imovel findImovelByCodigoIdentificacao(String codigo) {		
+	public Imovel findImovelByCodigoIdentificacao(String codigo) {
 		return (Imovel)session().createCriteria(Imovel.class)
-				.add(Restrictions.eq("codigoIdentificacao", codigo)).uniqueResult();	
+				.add(Restrictions.eq("codigoIdentificacao", codigo)).uniqueResult();
+
 	}
 
 	@Override
@@ -422,10 +422,12 @@ public class ImovelDaoImpl extends GenericDAOImpl<Imovel, Long>   implements Imo
 	}
 
 	@Override
-	public Imovel findImovelByCodigoIdentificacaoBydIdimovel(Long idUsuario, String codigo) {
-		Criteria crit = session().createCriteria(Imovel.class);		
-		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));
-		crit.add(Restrictions.eq("codigoIdentificacao", codigo));		
+	public Imovel findImovelByCodigoIdentificacaoBydIdUsuario(Long idUsuario, ImovelForm form) {
+		Criteria crit = session().createCriteria(Imovel.class);	
+		if ( idUsuario != null && idUsuario.longValue() > 0)
+			crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));
+		crit.add(Restrictions.eq("habilitaBusca", "S"));
+		crit.add(Restrictions.eq("codigoIdentificacao", form.getCodigoIdentificacao()));		
 		return (Imovel) crit.uniqueResult();
 	}
 

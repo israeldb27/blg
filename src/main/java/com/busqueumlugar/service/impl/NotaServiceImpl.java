@@ -12,10 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import com.busqueumlugar.dao.ContatoDao;
 import com.busqueumlugar.dao.ImovelDao;
 import com.busqueumlugar.dao.NotaDao;
 import com.busqueumlugar.dao.PreferencialocalidadeDao;
 import com.busqueumlugar.dao.UsuarioDao;
+import com.busqueumlugar.enumerador.ContatoStatusEnum;
 import com.busqueumlugar.form.NotaForm;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Nota;
@@ -35,7 +37,7 @@ public class NotaServiceImpl implements NotaService {
 	private ImovelDao imovelDao;
 
 	@Autowired
-	private ContatoService contatoService;
+	private ContatoDao contatoDao;
 	
 	@Autowired
 	private UsuarioDao usuarioDao;
@@ -98,7 +100,7 @@ public class NotaServiceImpl implements NotaService {
 	
 	public List<Nota> recuperarNotasContatosUsuario(Long idUsuario, NotaForm form) {
         List<Nota> listaNotasContatos = new ArrayList<Nota>();
-        List listaIds = contatoService.recuperarIDsMeusContatos(idUsuario);
+        List listaIds = contatoDao.findIdsUsuariosContatosByIdUsuarioByStatus(idUsuario, ContatoStatusEnum.OK.getRotulo());
         if (! CollectionUtils.isEmpty(listaIds) ){
         	listaNotasContatos = dao.findNotasContatosByListaIdsUsuario(listaIds, form);
         }   
@@ -107,7 +109,7 @@ public class NotaServiceImpl implements NotaService {
 	
 	public List<Nota> recuperarNotasContatosUsuario(Long idUsuario, int quant) {
         List<Nota> listaNotasContatos = new ArrayList<Nota>();        
-        List listaIds = contatoService.recuperarIDsMeusContatos(idUsuario);
+        List listaIds = contatoDao.findIdsUsuariosContatosByIdUsuarioByStatus(idUsuario, ContatoStatusEnum.OK.getRotulo());
         if (! CollectionUtils.isEmpty(listaIds) ){
         	listaNotasContatos = dao.findNotasContatosByListaIdsUsuarioQuant(listaIds, new NotaForm(), quant);
         }
@@ -166,7 +168,7 @@ public class NotaServiceImpl implements NotaService {
         List<Nota> listaNotasContatos = new ArrayList<Nota>();
                 
         // recuperar Ids dos contatos
-    	List listaIdsContatos = contatoService.recuperarIDsMeusContatos(idUsuario);
+    	List listaIdsContatos = contatoDao.findIdsUsuariosContatosByIdUsuarioByStatus(idUsuario, ContatoStatusEnum.OK.getRotulo());
         
         if ( StringUtils.isEmpty(form.getOpcaoFiltro()) || (form.getOpcaoFiltro().equals("todos"))) {
         	if (! CollectionUtils.isEmpty(listaIdsContatos))

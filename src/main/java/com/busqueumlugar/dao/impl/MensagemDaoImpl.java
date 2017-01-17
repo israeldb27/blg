@@ -130,7 +130,7 @@ public class MensagemDaoImpl extends GenericDAOImpl<Mensagem, Long> implements M
 	public long findQuantMensagensByIdUsuarioByStatusLeitura(Long idUsuario, String statusLeitura) {
 		Criteria crit = session().createCriteria(Mensagem.class);
 		crit.createCriteria("usuarioPara").add(Restrictions.eq("id", idUsuario));
-		crit.add(Restrictions.eq("status",StatusLeituraEnum.NOVO.getRotulo()));
+		crit.add(Restrictions.eq("status", statusLeitura));
 		
 		ProjectionList projList = Projections.projectionList();
         projList.add(Projections.rowCount());		

@@ -1,16 +1,10 @@
 package com.busqueumlugar.service.impl;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.TreeSet;
 
 import org.slf4j.Logger;
@@ -21,7 +15,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.busqueumlugar.dao.ContatoDao;
+import com.busqueumlugar.dao.ImovelDao;
 import com.busqueumlugar.dao.ImovelPropostasDao;
+import com.busqueumlugar.dao.RecomendacaoDao;
+import com.busqueumlugar.dao.SeguidorDao;
+import com.busqueumlugar.dao.UsuarioDao;
 import com.busqueumlugar.enumerador.ContatoStatusEnum;
 import com.busqueumlugar.enumerador.RecomendacaoStatusEnum;
 import com.busqueumlugar.enumerador.StatusLeituraEnum;
@@ -40,11 +39,8 @@ import com.busqueumlugar.service.ImovelPropostasService;
 import com.busqueumlugar.service.RecomendacaoService;
 import com.busqueumlugar.service.SeguidorService;
 import com.busqueumlugar.service.UsuarioService;
-import com.busqueumlugar.util.AppUtil;
-import com.busqueumlugar.util.DateUtil;
-import com.busqueumlugar.util.EnviaEmailHtml;
 import com.busqueumlugar.util.MessageUtils;
-import com.mysql.jdbc.StringUtils;
+
 
 @Service
 public class ImovelPropostasServiceImpl implements ImovelPropostasService {
@@ -55,22 +51,19 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 	private ImovelPropostasDao dao;
 
 	@Autowired
-	private ImovelService imovelService;
+	private ImovelDao imovelDao;
 
 	@Autowired
-	private UsuarioService usuarioService;
+	private UsuarioDao usuarioDao;	
 	
 	@Autowired
-	private ImovelFavoritosService imovelFavoritosService;
+	private ContatoDao contatoDao;
 	
 	@Autowired
-	private ContatoService contatoService;
+	private SeguidorDao seguidorDao;
 	
 	@Autowired
-	private SeguidorService seguidorService;
-	
-	@Autowired
-	private RecomendacaoService recomendacaoService;
+	private RecomendacaoDao recomendacaoDao;
 		
 	
 	public ImovelPropostas recuperarImovelImovelPropostasPorId(Long id) {
@@ -86,7 +79,7 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
              Imovel imovel = null;       
              for (Iterator iter = lista.iterator();iter.hasNext();){                
                  Object[] obj = (Object[]) iter.next();
-                 imovel = imovelService.recuperarImovelPorid(Long.parseLong(obj[0].toString()));                 
+                 imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));                 
                  imovel.setQuantidade(Integer.parseInt(obj[1].toString()));
                  listaFinal.add(imovel);
              }
@@ -100,8 +93,8 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 		ImovelPropostas imovelPropostas = new ImovelPropostas();
         BeanUtils.copyProperties(imovelPropostas, imovelPropostasForm);
         imovelPropostas.setDataCadastro(new Date()); 
-        imovelPropostas.setUsuarioLancador(usuarioService.recuperarUsuarioPorId(imovelPropostasForm.getIdUsuarioLancador()));
-        Imovel imovel = imovelService.recuperarImovelPorid(idImovel);
+        imovelPropostas.setUsuarioLancador(usuarioDao.findUsuario(imovelPropostasForm.getIdUsuarioLancador()));
+        Imovel imovel = imovelDao.findImovelById(idImovel);
         imovelPropostas.setImovel(imovel);
         imovelPropostas.setUsuarioReceptor(imovel.getUsuario());        
         imovelPropostas.setDescricao(imovel.getDescricao());
@@ -113,8 +106,8 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 	@Transactional
 	public void cadastrarProposta(Long idImovel, Long idUsuario, String novaObs, BigDecimal valorProposta ) {
 		
-		Usuario usuario = usuarioService.recuperarUsuarioPorId(idUsuario);
-		Imovel imovel = imovelService.recuperarImovelPorid(idImovel);
+		Usuario usuario = usuarioDao.findUsuario(idUsuario);
+		Imovel imovel = imovelDao.findImovelById(idImovel);
 		
 		ImovelPropostas imovelPropostas = new ImovelPropostas();
         imovelPropostas.setDataCadastro(new Date());
@@ -202,7 +195,7 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
             Imovel imovel = null;
             for (Iterator iter = lista.iterator();iter.hasNext();){
                 Object[] obj = (Object[]) iter.next();
-                imovel = imovelService.recuperarImovelPorid(Long.parseLong(obj[0].toString()));                
+                imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));                
                 listaFinal.add(imovel);
             }
         }        
@@ -212,7 +205,7 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 	@Override
 	public EmailImovel notificarLancamentoPropostas(Long idImovel) {
 		
-		Imovel imovel = imovelService.recuperarImovelPorid(idImovel);
+		Imovel imovel = imovelDao.findImovelById(idImovel);
         EmailImovel email = new EmailImovel();        
         StringBuilder texto = new StringBuilder(); 
                 
@@ -288,7 +281,7 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 	@Override
 	public String validarCadastroProposta(Long idImovel,ImovelPropostasForm imovelPropostasForm, UsuarioForm userSession) {
 		    
-        Imovel imovel = imovelService.recuperarImovelPorIdImovel(idImovel);
+        Imovel imovel = imovelDao.findImovelById(idImovel);
         if ( imovel.getUsuario().getId().longValue() == userSession.getId().longValue())
             return MessageUtils.getMessage("msg.erro.propostas.enviar.para.proprio.usuario");
         
@@ -304,7 +297,7 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 	@Override
 	public String validarCadastroProposta(Long idImovel, String valorProposta,  UsuarioForm userSession) {
 			        
-	        Imovel imovel = imovelService.recuperarImovelPorIdImovel(idImovel);
+	        Imovel imovel = imovelDao.findImovelById(idImovel);
 	        if ( imovel.getUsuario().getId().longValue() == userSession.getId().longValue())
 	            return MessageUtils.getMessage("msg.erro.propostas.enviar.para.proprio.usuario");	        
 	        
@@ -350,7 +343,7 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 			Imovel imovel = null;
 			for (Iterator iter = lista.iterator();iter.hasNext();){
 				obj = (Object[]) iter.next();				
-				imovel = imovelService.recuperarImovelPorid(Long.parseLong(obj[0].toString()));				
+				imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));				
 				imovel.setQuantPropostas(Integer.parseInt(obj[1].toString()));
 				imovel.setQuantNovasPropostas(dao.findQuantidadeNovasPropostasRecebidas(Long.parseLong(obj[0].toString())));
 				listaFinal.add(imovel);
@@ -363,7 +356,7 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 			Imovel imovel = null;
 			for (Iterator iter = lista.iterator();iter.hasNext();){
 				obj = (Object[]) iter.next();
-				imovel = imovelService.recuperarImovelPorid(Long.parseLong(obj[0].toString()));				
+				imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));				
 				imovel.setQuantPropostas(Integer.parseInt(obj[1].toString()));				
 				listaFinal.add(imovel);
 			}
@@ -383,7 +376,7 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 			Imovel imovel = null;
 			for (Iterator iter = lista.iterator();iter.hasNext();){
 				obj = (Object[]) iter.next();				
-				imovel = imovelService.recuperarImovelPorid(Long.parseLong(obj[0].toString()));				
+				imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));				
 				imovel.setQuantPropostas(Integer.parseInt(obj[1].toString()));
 				imovel.setQuantNovasPropostas(dao.findQuantidadeNovasPropostasRecebidas(Long.parseLong(obj[0].toString())));
 				listaFinal.add(imovel);
@@ -396,7 +389,7 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 			Imovel imovel = null;
 			for (Iterator iter = lista.iterator();iter.hasNext();){
 				obj = (Object[]) iter.next();
-				imovel = imovelService.recuperarImovelPorid(Long.parseLong(obj[0].toString()));				
+				imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));				
 				imovel.setQuantPropostas(Integer.parseInt(obj[1].toString()));				
 				listaFinal.add(imovel);
 			}
@@ -415,7 +408,7 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 			Usuario usuario = null;
 			for (Iterator iter = lista.iterator();iter.hasNext();){
 				obj = (Object[]) iter.next(); //[0] - usuarioRecep, [1] - usuarioEmissor, [2] - quantidade (count)				
-				usuario = usuarioService.recuperarUsuarioPorId(Long.parseLong(obj[0].toString()));
+				usuario = usuarioDao.findUsuario(Long.parseLong(obj[0].toString()));
 				usuario.setQuantPropostas(Integer.parseInt(obj[1].toString())); // quantidade de Propostas que o usuário enviou para os imóveis do usuario sessao								
 				listaFinal.add(usuario);
 			}			
@@ -427,13 +420,13 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 			Usuario usuario = null;
 			for (Iterator iter = lista.iterator();iter.hasNext();){
 				obj = (Object[]) iter.next(); //[0] - usuarioRecep,  [1] - quantidade (count)				
-				usuario = usuarioService.recuperarUsuarioPorId(Long.parseLong(obj[0].toString()));
+				usuario = usuarioDao.findUsuario(Long.parseLong(obj[0].toString()));
 				usuario.setQuantPropostas(Integer.parseInt(obj[1].toString())); // quantidade de Propostas que o usuário enviou para os imóveis do usuario sessao
 				usuario.setQuantImovelVisitado(Integer.parseInt(obj[1].toString()));
-				usuario.setQuantTotalContatos(contatoService.checarTotalContatosPorUsuarioPorStatus(usuario.getId(), ContatoStatusEnum.OK.getRotulo()));
-				usuario.setQuantTotalRecomendacoes(recomendacaoService.checarQuantidadeTotalRecomendacaoRecebidaPorStatus(usuario.getId(), RecomendacaoStatusEnum.ACEITO.getRotulo()));
-				usuario.setQuantTotalImoveis(imovelService.checarQuantMeusImoveis(usuario.getId()));
-				usuario.setQuantTotalSeguidores(seguidorService.checarQuantidadeSeguidores(usuario.getId()));				
+				usuario.setQuantTotalContatos(contatoDao.findQuantidadeTotalContatosByIdUsuarioByStatus(usuario.getId(), ContatoStatusEnum.OK.getRotulo()));
+				usuario.setQuantTotalRecomendacoes(recomendacaoDao.findQuantidadeRecomendacoesByUsuarioByStatusByStatusLeitura(usuario.getId(), RecomendacaoStatusEnum.ACEITO.getRotulo(), null));
+				usuario.setQuantTotalImoveis(imovelDao.findQuantMeusImoveis(usuario.getId()));
+				usuario.setQuantTotalSeguidores(seguidorDao.findQuantSeguidoresByIdUsuarioSeguido(usuario.getId()));				
 				listaFinal.add(usuario);
 			}
 		}

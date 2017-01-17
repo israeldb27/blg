@@ -36,6 +36,9 @@ import com.busqueumlugar.enumerador.TipoImovelCompartilhadoEnum;
 import com.busqueumlugar.form.AdministracaoForm;
 import com.busqueumlugar.form.RelatorioForm;
 import com.busqueumlugar.form.UsuarioForm;
+import com.busqueumlugar.model.ImovelPropostas;
+import com.busqueumlugar.model.Imovelfavoritos;
+import com.busqueumlugar.model.Imovelvisualizado;
 import com.busqueumlugar.model.Intermediacao;
 import com.busqueumlugar.model.Parceria;
 import com.busqueumlugar.model.Usuario;
@@ -289,13 +292,12 @@ public class UsuarioDaoImpl extends GenericDAOImpl<Usuario, Long> implements  Us
 	}
 
 	@Override
-	public List recuperarUsuariosComMaisCompartilhamentoAceitos(RelatorioForm form, String perfilUsuario, String tipoCompart) {		
+	public List recuperarUsuariosComMaisCompartilhamentoAceitos(RelatorioForm form, String tipoCompart) {		
 		
 		Criteria crit = session().createCriteria(Usuario.class, "u");
 		
 		if (! StringUtils.isNullOrEmpty(form.getOpcaoFiltroContato()) && ! form.getOpcaoFiltroContato().equals(TipoContatoOpcaoEnum.TODOS_USUARIOS.getRotulo())){		
-			List listaIds = null;
-			form.setPerfilUsuario(perfilUsuario);
+			List listaIds = null;			
 			if (form.getOpcaoFiltroContato().equals(TipoContatoOpcaoEnum.MEUS_CONTATOS.getRotulo())){
 				listaIds = contatoDao.filterListaIds(form);
 			}
@@ -319,8 +321,8 @@ public class UsuarioDaoImpl extends GenericDAOImpl<Usuario, Long> implements  Us
 			    	 crit.add(Restrictions.eq("idBairro", form.getIdBairro()));
 			 }	 	
 	        
-	        if ( ! StringUtils.isNullOrEmpty(perfilUsuario ))
-	        	crit.add(Restrictions.eq("perfil", perfilUsuario)); 
+	        if ( ! StringUtils.isNullOrEmpty(form.getPerfilUsuario() ))
+	        	crit.add(Restrictions.eq("perfil", form.getPerfilUsuario())); 
 		}       
 		
 		if (! StringUtils.isNullOrEmpty(tipoCompart)){
@@ -415,7 +417,218 @@ public class UsuarioDaoImpl extends GenericDAOImpl<Usuario, Long> implements  Us
 	}
 
 
+	@Override
+	public long findQuantidadeTotalUsuarioPorPeriodo(AdministracaoForm form) {
+		Criteria crit = session().createCriteria(Usuario.class);
+		
+		if ( form.getIdEstado() > 0 ) {
+			crit.add(Restrictions.eq("idEstado", form.getIdEstado()));
+			
+			if ( form.getIdCidade() > 0 )
+        		crit.add(Restrictions.eq("idCidade", form.getIdCidade()));    
+        
+			if ( form.getIdBairro() > 0 )
+				crit.add(Restrictions.eq("idBairro", form.getIdBairro()));
+		}
+		
+        if ( ! StringUtils.isNullOrEmpty(form.getPerfilUsuario()) )
+        	crit.add(Restrictions.eq("perfil", form.getPerfilUsuario()));        	
+        	
+        
+        crit.add(Restrictions.ge("dataCadastro", DateUtil.formataDataBanco(form.getDataInicio())));
+		crit.add(Restrictions.le("dataCadastro", DateUtil.formataDataBanco(form.getDataFim())));
+		
+		ProjectionList projList = Projections.projectionList();
+        projList.add(Projections.rowCount());
+		crit.setProjection(projList);
+		return (long) crit.uniqueResult();
+	}
 
 
+	@Override
+	public long findQuantidadeUsuariosByDataVisita(AdministracaoForm form) {
+		Criteria crit = session().createCriteria(Usuario.class);
+		
+		if ( form.getIdEstado() > 0 ) {
+			crit.add(Restrictions.eq("idEstado", form.getIdEstado()));
+			
+			if ( form.getIdCidade() > 0 )
+        		crit.add(Restrictions.eq("idCidade", form.getIdCidade()));    
+        
+			if ( form.getIdBairro() > 0 )
+				crit.add(Restrictions.eq("idBairro", form.getIdBairro()));
+		}
+		
+        if ( ! StringUtils.isNullOrEmpty(form.getPerfilUsuario()) )
+        	crit.add(Restrictions.eq("perfil", form.getPerfilUsuario()));  
+        
+        crit.add(Restrictions.ge("dataUltimoAcesso", DateUtil.formataDataBanco(form.getDataInicio())));
+		crit.add(Restrictions.le("dataUltimoAcesso", DateUtil.formataDataBanco(form.getDataFim())));
+		ProjectionList projList = Projections.projectionList();
+        projList.add(Projections.rowCount());
+		crit.setProjection(projList);
+		return (long) crit.uniqueResult();
+	}
+
+
+	@Override
+	public List findUsuariosImoveisMaisVisualizados(RelatorioForm form) {
+		
+		Criteria crit = session().createCriteria(Imovelvisualizado.class);
+		
+		Criteria critUsuario = null;
+		
+		boolean isCritUsuarioExist = (!StringUtils.isNullOrEmpty(form.getOpcaoFiltroContato()) ||									
+				 					 (form.getIdEstado() > 0));
+		
+		if ( isCritUsuarioExist ){
+			critUsuario = crit.createCriteria("usuario");
+			
+			if (! StringUtils.isNullOrEmpty(form.getOpcaoFiltroContato()) && ! form.getOpcaoFiltroContato().equals(TipoContatoOpcaoEnum.TODOS_USUARIOS.getRotulo())){		
+				List listaIds = null;				
+				if (form.getOpcaoFiltroContato().equals(TipoContatoOpcaoEnum.MEUS_CONTATOS.getRotulo())){
+					listaIds = contatoDao.filterListaIds(form);
+				}
+				else if (form.getOpcaoFiltroContato().equals(TipoContatoOpcaoEnum.USUARIOS_SEGUINDO.getRotulo())){
+					listaIds = seguidorDao.filterListaIdsUsuariosSeguindo(form);
+				}
+				else if (form.getOpcaoFiltroContato().equals(TipoContatoOpcaoEnum.USUARIOS_SEGUIDORES.getRotulo())){
+					listaIds = seguidorDao.filterListaIdsUsuariosSeguidores(form);
+				}
+				
+				critUsuario.add(Restrictions.in("id", listaIds));
+			}
+			
+			if ( form.getIdEstado() > 0 ) {
+				critUsuario.add(Restrictions.eq("idEstado", form.getIdEstado()));
+				 
+				 if ( form.getIdCidade() > 0 )
+					 critUsuario.add(Restrictions.eq("idCidade", form.getIdCidade()));		            
+			        
+			     if ( form.getIdBairro() > 0 )
+			    	 critUsuario.add(Restrictions.eq("idBairro", form.getIdBairro()));
+			 }	 	
+	        
+	        if ( ! StringUtils.isNullOrEmpty(form.getPerfilUsuario()))
+	        	critUsuario.add(Restrictions.eq("perfil", form.getPerfilUsuario())); 			 
+		}
+		
+        
+		ProjectionList projList = Projections.projectionList();
+        projList.add(Projections.groupProperty("usuario.id"));
+		projList.add(Projections.count("usuario.id").as("quant"));
+		crit.setProjection(projList);
+		crit.add(Restrictions.ge("dataVisita", DateUtil.formataDataBanco(form.getDataInicio())));
+		crit.add(Restrictions.le("dataVisita", DateUtil.formataDataBanco(form.getDataFim())));		
+		crit.addOrder(Order.desc("quant"));
+		crit.setMaxResults(form.getQuantMaxRegistrosResultado());
+		return crit.list();
+	}
+
+
+	@Override
+	public List findUsuariosImoveisMaisFavoritos(RelatorioForm form) {
+		
+		Criteria crit = session().createCriteria(Imovelfavoritos.class);		
+		Criteria critUsuario = null;		
+		boolean isCritUsuarioExist = (!StringUtils.isNullOrEmpty(form.getOpcaoFiltroContato()) ||									
+				 					 (form.getIdEstado() > 0));
+		
+		if ( isCritUsuarioExist ){
+			critUsuario = crit.createCriteria("usuario");
+			
+			if (! StringUtils.isNullOrEmpty(form.getOpcaoFiltroContato()) && ! form.getOpcaoFiltroContato().equals(TipoContatoOpcaoEnum.TODOS_USUARIOS.getRotulo())){		
+				List listaIds = null;				
+				if (form.getOpcaoFiltroContato().equals(TipoContatoOpcaoEnum.MEUS_CONTATOS.getRotulo())){
+					listaIds = contatoDao.filterListaIds(form);
+				}
+				else if (form.getOpcaoFiltroContato().equals(TipoContatoOpcaoEnum.USUARIOS_SEGUINDO.getRotulo())){
+					listaIds = seguidorDao.filterListaIdsUsuariosSeguindo(form);
+				}
+				else if (form.getOpcaoFiltroContato().equals(TipoContatoOpcaoEnum.USUARIOS_SEGUIDORES.getRotulo())){
+					listaIds = seguidorDao.filterListaIdsUsuariosSeguidores(form);
+				}
+				
+				critUsuario.add(Restrictions.in("id", listaIds));
+			}
+			
+			if ( form.getIdEstado() > 0 ) {
+				critUsuario.add(Restrictions.eq("idEstado", form.getIdEstado()));
+				 
+				 if ( form.getIdCidade() > 0 )
+					 critUsuario.add(Restrictions.eq("idCidade", form.getIdCidade()));		            
+			        
+			     if ( form.getIdBairro() > 0 )
+			    	 critUsuario.add(Restrictions.eq("idBairro", form.getIdBairro()));
+			 }	 	
+	        
+	        if ( ! StringUtils.isNullOrEmpty(form.getPerfilUsuario() ))
+	        	critUsuario.add(Restrictions.eq("perfil", form.getPerfilUsuario())); 			 
+		}
+		
+        
+		ProjectionList projList = Projections.projectionList();
+        projList.add(Projections.groupProperty("usuario.id"));
+		projList.add(Projections.count("usuario.id").as("quant"));
+		crit.setProjection(projList);
+		crit.add(Restrictions.ge("dataInteresse", DateUtil.formataDataBanco(form.getDataInicio())));
+		crit.add(Restrictions.le("dataInteresse", DateUtil.formataDataBanco(form.getDataFim())));		
+		crit.addOrder(Order.desc("quant"));
+		crit.setMaxResults(form.getQuantMaxRegistrosResultado());
+		return crit.list();
+	}
+
+
+	@Override
+	public List findUsuariosImoveisMaisPropostas(RelatorioForm form) {
+		
+        Criteria crit = session().createCriteria(ImovelPropostas.class);		
+		Criteria critUsuario = null;		
+		boolean isCritUsuarioExist = (!StringUtils.isNullOrEmpty(form.getOpcaoFiltroContato()) ||									
+				 					 (form.getIdEstado() > 0));
+		
+		if ( isCritUsuarioExist ){
+			critUsuario = crit.createCriteria("usuario");
+			
+			if (! StringUtils.isNullOrEmpty(form.getOpcaoFiltroContato()) && ! form.getOpcaoFiltroContato().equals(TipoContatoOpcaoEnum.TODOS_USUARIOS.getRotulo())){		
+				List listaIds = null;				
+				if (form.getOpcaoFiltroContato().equals(TipoContatoOpcaoEnum.MEUS_CONTATOS.getRotulo())){
+					listaIds = contatoDao.filterListaIds(form);
+				}
+				else if (form.getOpcaoFiltroContato().equals(TipoContatoOpcaoEnum.USUARIOS_SEGUINDO.getRotulo())){
+					listaIds = seguidorDao.filterListaIdsUsuariosSeguindo(form);
+				}
+				else if (form.getOpcaoFiltroContato().equals(TipoContatoOpcaoEnum.USUARIOS_SEGUIDORES.getRotulo())){
+					listaIds = seguidorDao.filterListaIdsUsuariosSeguidores(form);
+				}
+				
+				critUsuario.add(Restrictions.in("id", listaIds));
+			}
+			
+			if ( form.getIdEstado() > 0 ) {
+				critUsuario.add(Restrictions.eq("idEstado", form.getIdEstado()));
+				 
+				 if ( form.getIdCidade() > 0 )
+					 critUsuario.add(Restrictions.eq("idCidade", form.getIdCidade()));		            
+			        
+			     if ( form.getIdBairro() > 0 )
+			    	 critUsuario.add(Restrictions.eq("idBairro", form.getIdBairro()));
+			 }	 	
+	        
+	        if ( ! StringUtils.isNullOrEmpty(form.getPerfilUsuario() ))
+	        	critUsuario.add(Restrictions.eq("perfil", form.getPerfilUsuario())); 			 
+		}
+		
+        
+		ProjectionList projList = Projections.projectionList();
+        projList.add(Projections.groupProperty("usuario.id"));
+		projList.add(Projections.count("usuario.id").as("quant"));
+		crit.setProjection(projList);
+		crit.add(Restrictions.ge("dataCadastro", DateUtil.formataDataBanco(form.getDataInicio())));
+		crit.add(Restrictions.le("dataCadastro", DateUtil.formataDataBanco(form.getDataFim())));		
+		crit.addOrder(Order.desc("quant"));
+		crit.setMaxResults(form.getQuantMaxRegistrosResultado());
+		return crit.list();
+	}
 
 }

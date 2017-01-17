@@ -13,8 +13,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.busqueumlugar.dao.ContatoDao;
 import com.busqueumlugar.dao.ImovelDao;
 import com.busqueumlugar.dao.ParceriaDao;
+import com.busqueumlugar.dao.RecomendacaoDao;
+import com.busqueumlugar.dao.SeguidorDao;
 import com.busqueumlugar.dao.UsuarioDao;
 import com.busqueumlugar.enumerador.AcaoNotificacaoEnum;
 import com.busqueumlugar.enumerador.ContatoStatusEnum;
@@ -32,13 +35,9 @@ import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Parceria;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.ContatoService;
-import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.NotaService;
 import com.busqueumlugar.service.NotificacaoService;
 import com.busqueumlugar.service.ParceriaService;
-import com.busqueumlugar.service.RecomendacaoService;
-import com.busqueumlugar.service.SeguidorService;
-import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.MessageUtils;
 import com.mysql.jdbc.StringUtils;
@@ -50,18 +49,21 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
 	
 	@Autowired
 	private ParceriaDao dao;
-
-	@Autowired
-	private ImovelService imovelService;
 	
 	@Autowired
 	private ImovelDao imovelDao;
 	
 	@Autowired
-	private UsuarioService usuarioService;
+	private UsuarioDao usuarioDao;
 	
 	@Autowired
-	private UsuarioDao usuarioDao;
+	private ContatoDao contatoDao;
+	
+	@Autowired
+	private SeguidorDao seguidorDao;
+	
+	@Autowired
+	private RecomendacaoDao recomendacaoDao;
 	
 	@Autowired
 	private NotaService notaService;
@@ -71,12 +73,6 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
 	
 	@Autowired
 	private ContatoService contatoService;
-	
-	@Autowired
-	private SeguidorService seguidorService;
-	
-	@Autowired
-	private RecomendacaoService recomendacaoService;
 
 
 	
@@ -289,7 +285,7 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
             Imovel imovel = null;
             for (Iterator iter = lista.iterator();iter.hasNext();){
                 Object[] obj = (Object[]) iter.next();
-                imovel = imovelService.recuperarImovelPorid(Long.parseLong(obj[0].toString()));
+                imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));
                 listaFinal.add(imovel);
             }
         }
@@ -334,7 +330,7 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
         if (jaEnviouSolicitacao)                 
             return MessageUtils.getMessage("msg.parceria.sol.sucesso.enviada.antes");
         
-        Imovel imovel = imovelService.recuperarImovelPorid(idImovel);
+        Imovel imovel = imovelDao.findImovelById(idImovel);
         if ( imovel.getAtivado().equals("N"))
         	return MessageUtils.getMessage("msg.parceria.intermediacao.sol.imovel.desativado");
                    
@@ -354,7 +350,7 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
 	
 	@Override
 	public EmailImovel notificarSolicitacaoParceria(Long idImovel) {		
-		Imovel imovel = imovelService.recuperarImovelPorid(idImovel);
+		Imovel imovel = imovelDao.findImovelById(idImovel);
         EmailImovel email = new EmailImovel();        
         StringBuilder texto = new StringBuilder(); 
                 
@@ -381,7 +377,7 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
 	
 	@Override
 	public EmailImovel notificarAceiteCompartilhamento(Parceria parceria) {		
-		Imovel imovel = imovelService.recuperarImovelPorid(parceria.getImovel().getId());
+		Imovel imovel = imovelDao.findImovelById(parceria.getImovel().getId());
         EmailImovel email = new EmailImovel();        
         StringBuilder texto = new StringBuilder(); 
                 
@@ -414,18 +410,7 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
 	@Override
 	@Transactional
 	public void atualizarPontuacaoNegocioParceria(Long idImovel, String novoStatus) {
-		Imovel imovel = imovelService.recuperarImovelPorid(idImovel);
-        // checando se o imovel tem parceria
-        List<Parceria> lista = recuperarUsuarioParceiroPorIdImovel(idImovel, StatusImovelCompartilhadoEnum.ACEITA.getRotulo());
-        // cliente possui parceria com 1 corretor ou imobiliaria. Ent�o o usuario parceiro estar� recebendo 1 ponto de negocioacao de imovel com sucesso
-        if (! CollectionUtils.isEmpty(lista)){ 
-            for (Parceria parceria : lista ){
-                if ( novoStatus.equals("fechado") )
-                    usuarioService.atualizarPontuacaoNegociacaoImovel(parceria.getUsuarioSolicitante(), "sucesso");
-                 else if ( novoStatus.equals("aberto"))
-                    usuarioService.atualizarPontuacaoNegociacaoImovel(parceria.getUsuarioSolicitante(), "revogado");
-            }
-        }
+		
 		
 	}
 
@@ -521,7 +506,7 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
 		Imovel imovel = null;
 		for (Iterator iter = lista.iterator();iter.hasNext();){
 			obj = (Object[]) iter.next();			
-			imovel = imovelService.recuperarImovelPorid(Long.parseLong(obj[0].toString()));
+			imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));
 			imovel.setQuantImovelParceria(Integer.parseInt(obj[1].toString()));
 			imovel.setQuantNovosImovelParceria(dao.findQuantidadeNovosParcerias(Long.parseLong(obj[0].toString())));			
 			listaFinal.add(imovel);
@@ -552,13 +537,13 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
 		Usuario usuario = null;
 		for (Iterator iter = lista.iterator();iter.hasNext();){
 			obj = (Object[]) iter.next(); 				
-			usuario = usuarioService.recuperarUsuarioPorId(Long.parseLong(obj[1].toString()));
+			usuario = usuarioDao.findUsuario(Long.parseLong(obj[1].toString()));
 			usuario.setQuantImovelParceria(Integer.parseInt(obj[0].toString()));
 			usuario.setQuantImovelVisitado(Integer.parseInt(obj[1].toString()));
-			usuario.setQuantTotalContatos(contatoService.checarTotalContatosPorUsuarioPorStatus(usuario.getId(), ContatoStatusEnum.OK.getRotulo()));
-			usuario.setQuantTotalRecomendacoes(recomendacaoService.checarQuantidadeTotalRecomendacaoRecebidaPorStatus(usuario.getId(), RecomendacaoStatusEnum.ACEITO.getRotulo()));
-			usuario.setQuantTotalImoveis(imovelService.checarQuantMeusImoveis(usuario.getId()));
-			usuario.setQuantTotalSeguidores(seguidorService.checarQuantidadeSeguidores(usuario.getId()));
+			usuario.setQuantTotalContatos(contatoDao.findQuantidadeTotalContatosByIdUsuarioByStatus(usuario.getId(), ContatoStatusEnum.OK.getRotulo()));
+			usuario.setQuantTotalRecomendacoes(recomendacaoDao.findQuantidadeRecomendacoesByUsuarioByStatusByStatusLeitura(usuario.getId(), RecomendacaoStatusEnum.ACEITO.getRotulo(), null));
+			usuario.setQuantTotalImoveis(imovelDao.findQuantMeusImoveis(usuario.getId()));
+			usuario.setQuantTotalSeguidores(seguidorDao.findQuantSeguidoresByIdUsuarioSeguido(usuario.getId()));
 			listaFinal.add(usuario);
 		}
 		
@@ -624,7 +609,7 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
 			Imovel imovel = null;
 			for (Iterator iter = lista.iterator();iter.hasNext();){
 				obj = (Object[]) iter.next();			
-				imovel = imovelService.recuperarImovelPorid(Long.parseLong(obj[0].toString()));
+				imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));
 				imovel.setQuantImovelParceria(Integer.parseInt(obj[1].toString()));
 				imovel.setQuantNovosImovelParceria(dao.findQuantidadeNovosParcerias(Long.parseLong(obj[0].toString())));				
 				listaFinal.add(imovel);

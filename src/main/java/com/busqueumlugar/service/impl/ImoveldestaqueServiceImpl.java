@@ -1,9 +1,7 @@
 package com.busqueumlugar.service.impl;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.busqueumlugar.dao.ImovelDao;
-import com.busqueumlugar.dao.ImovelcomentarioDao;
 import com.busqueumlugar.dao.ImoveldestaqueDao;
 import com.busqueumlugar.form.ImovelForm;
 import com.busqueumlugar.form.ImoveldestaqueForm;
-import com.busqueumlugar.form.UsuarioForm;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Imoveldestaque;
-import com.busqueumlugar.model.Imovelfotos;
-import com.busqueumlugar.service.ImovelFavoritosService;
-import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.ImoveldestaqueService;
 import com.busqueumlugar.util.DateUtil;
 import com.busqueumlugar.util.MessageUtils;

@@ -60,19 +60,14 @@ public interface ImovelService {
 	
 	ImovelForm atualizarImovel(ImovelForm frm, UsuarioForm user);	
 	
-	List<Imovel> oferecerSugestaoImovel(Long idUsuario);
-	
 	boolean checaStatusLiberadoUsuarioPorImovel(Long idImovel);
 	
 	void adicionarFotoPrincipalImovel(Long idImovel, byte[] foto);
 	
 	int checarQuantCadastradaFotosImovel(Long idImovel);
 	
-	void adicionarMaisFotos(long idImovel, int quantFotoPaga);
+	void adicionarMaisFotos(long idImovel, int quantFotoPaga);	
 	
-	List<Imovel> recuperarImovelPorCodigoIdentificacao(String codIdentificacao);
-	
-	List<Imovel> recuperarImovelPorCodigoIdentificacaoPorIdUsuario(Long idUsuario, String codIdentificacao);
 	
 	String gerarCodigoIdentificacao(Imovel imovel, Estados estado);
 	
@@ -96,7 +91,7 @@ public interface ImovelService {
 	
 	List<Imovel> acessoVisualizacao(List<Imovel> listaImoveis, UsuarioForm user, Long idPerfil);
 	
-	List<Imovel> recuperarImovelPorCodigoIdentificacaoPorUsuario(String codIdentificacao, Long idUsuario);
+	List<Imovel> recuperarImovelPorCodigoIdentificacaoPorUsuario(ImovelForm form, Long idUsuario, boolean isUsuarioSessao);
 
 	long checarQuantMeusImoveis(Long idUsuario);
 
@@ -150,5 +145,6 @@ public interface ImovelService {
 
 	List<Imovel> recuperarImovelPorIdsUsuarioPorPosicao(Long idUsuario, int index);
 
-	String validarPrepararImovel(Long idImovel, UsuarioForm user);	
+	String validarPrepararImovel(Long idImovel, UsuarioForm user);
+		
 }

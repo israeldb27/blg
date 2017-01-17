@@ -10,6 +10,7 @@
 <%@page import="com.busqueumlugar.enumerador.StatusImovelEnum"%>
 <%@page import="com.busqueumlugar.enumerador.FaixaSalarialEnum"%>
 <%@page import="com.busqueumlugar.enumerador.PerfilUsuarioNormalEnum"%>
+<%@page import="com.busqueumlugar.enumerador.PerfilUsuarioSemComumlEnum"%>
 <%@page import="com.busqueumlugar.enumerador.TipoContatoEnum"%>
 
 <c:set var="listaAcaoImovel" value="<%= AcaoImovelEnum.values() %>"/>
@@ -17,6 +18,7 @@
 <c:set var="listaStatusImovel" value="<%= StatusImovelEnum.values() %>"/>
 <c:set var="listaFaixaSalarial" value="<%= FaixaSalarialEnum.values() %>"/>
 <c:set var="listaPerfilUsuario" value="<%= PerfilUsuarioNormalEnum.values() %>"/>
+<c:set var="listaPerfilUsuarioSemComum" value="<%= PerfilUsuarioSemComumlEnum.values() %>"/>
 <c:set var="listaTipoContato" value="<%= TipoContatoEnum.values() %>"/>
 
 
@@ -24,8 +26,8 @@
 
 <spring:url value="/relatorio/buscarRelatorio" var="urlBuscarRelatorios"/>
 <spring:url value="/relatorio" var="urlRelatorio"/>
-<spring:url value="/localidade/buscarCidades" var="urlBuscarCidades"/>
-<spring:url value="/localidade/buscarBairros" var="urlBuscarBairros"/>
+<spring:url value="/relatorio/buscarCidades" var="urlBuscarCidades"/>
+<spring:url value="/relatorio/buscarBairros" var="urlBuscarBairros"/>
 
 <%@page import="com.busqueumlugar.util.UsuarioInterface"%>
 <%@page import="com.busqueumlugar.service.UsuarioService"%>
@@ -62,7 +64,8 @@ $(document).ready(function() {
 
     function limpaComboLinha(comboLinha) {
         $(comboLinha).empty();
-        $(comboLinha).append('<option value="-1" >' + "<spring:message code='opcao.selecao.uma.opcao'/>" + '</option>');        
+        $(comboLinha).append('<option value="-1" >' + "<spring:message code='opcao.selecao.uma.opcao'/>" + '</option>');       
+        $(comboLinha).trigger("chosen:updated");
     }
 });	
 
@@ -76,7 +79,8 @@ function recuperaCidades(){
             var options = "";
             $.each(json, function(key, value){
                $("#idCidade").append("<option value='"+value.key+"'>"+value.label+"</option>");
-            });  
+            });
+            $('#idCidade').trigger("chosen:updated");
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
@@ -95,6 +99,7 @@ function recuperaBairros(){
             $.each(json, function(key, value){
             	$("#idBairro").append("<option value='"+value.key+"'>"+value.label+"</option>");
             });  
+            $('#idBairro').trigger("chosen:updated");
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
@@ -262,17 +267,16 @@ function recuperaRelatorios(){
 																<form:errors id="acao" path="acao" cssClass="errorEntrada"  />
 														    </div>	                                            
 	                                                </div>
-	                                     	</c:when>
+	                                     	</c:when>	                                     	
 	                                     	
-	                                     	
-	                                     	<c:when test="${( (menu == 'imoveisMaisVisualizados') 				       || 
+	                                     	<c:when test="${( (menu == 'imoveisMaisVisualizados') 				   || 
 											       			  (menu == 'imoveisMaisPropostados') 				   || 
 											       			  (menu == 'imoveisMaisComentados') 			       ||
 											       			  (menu == 'imoveisMaisAdotadosInteressados') 	       ||									       			  
-											       			  (menu == 'imobiliariasMaisParceriasAceitas') 	       ||
-											       			  (menu == 'imobiliariaMaisIntermediacoesAceitas')     ||
-											       			  (menu == 'corretoresMaisParceriasAceitas') 	       ||
-											       			  (menu == 'corretoresMaisIntermediacoesAceitas')      ||
+											       			  (menu == 'usuariosMaisParceriasAceitas') 	           ||
+											       			  (menu == 'usuariosMaisIntermediacoesAceitas')        ||
+											       			  (menu == 'usuariosImoveisMaisVisualizados')          ||
+											       			  (menu == 'usuariosImoveisMaisFavoritos')         	   ||											       			 
 											       			  (menu == 'quantImoveisPorLocalizacaoAcaoTipoImovel') || 								       				  
 										       				  (menu == 'tipoImoveisMaisProcuradoPorLocalizacao')   ||
 										       				  (menu == 'variacaoPrecosPorTipoImovelPorLocalizacao')) }">
@@ -287,19 +291,19 @@ function recuperaRelatorios(){
 																    </form:select>
 			                                                    </div>
 			                                                    
-			                                                    <div class="col-md-3">
-			                                                    	<span class="label label-default"><spring:message code="lbl.tipo.imovel"/> </span>
-			                                                    	<form:select id="tipoImovel" path="tipoImovel" class="chosen-select" tabindex="-1" style="display: none;" >                                
-													                        <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>	                        
-																			<form:options items="${listaTipoImovel}" itemValue="identificador" itemLabel="rotulo" />
-													                 </form:select>
-													                 <form:errors id="tipoImovel" path="tipoImovel" cssClass="errorEntrada"  />
-			                                                    </div>		
-			                                                    
-			                                                    <c:if test="${((menu != 'imobiliariasMaisParceriasAceitas') 	       ||
-											       			  				   (menu != 'imobiliariaMaisIntermediacoesAceitas')        ||
-											       			  				   (menu != 'corretoresMaisParceriasAceitas') 	       	   ||
-											       			  				   (menu != 'corretoresMaisIntermediacoesAceitas')      ) } ">
+			                                                    <c:if test="${((menu != 'usuariosMaisParceriasAceitas') 	        ||
+															       			   (menu != 'usuariosMaisIntermediacoesAceitas')        ||
+															       			   (menu != 'usuariosImoveisMaisVisualizados')          ||
+															       			   (menu != 'usuariosImoveisMaisFavoritos')         	) } ">
+											       			  				   
+											       			  			<div class="col-md-3">
+					                                                    	<span class="label label-default"><spring:message code="lbl.tipo.imovel"/> </span>
+					                                                    	<form:select id="tipoImovel" path="tipoImovel" class="chosen-select" tabindex="-1" style="display: none;" >                                
+															                        <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>	                        
+																					<form:options items="${listaTipoImovel}" itemValue="identificador" itemLabel="rotulo" />
+															                 </form:select>
+															                 <form:errors id="tipoImovel" path="tipoImovel" cssClass="errorEntrada"  />
+					                                                    </div>		   
 			                                                    
 					                                                    <div class="col-md-3">
 					                                                    	<span class="label label-default"><spring:message code="lbl.perfil.usuario"/> </span>
@@ -309,6 +313,7 @@ function recuperaRelatorios(){
 																			 </form:select>	
 																			 <form:errors id="perfilUsuario" path="perfilUsuario" cssClass="errorEntrada"  />
 					                                                    </div>
+					                                                    
 			                                                    </c:if> 	 
 			                                                    
 			                                                    <div class="col-md-3">
@@ -320,16 +325,12 @@ function recuperaRelatorios(){
 													                <form:errors id="opcaoFiltroContato" path="opcaoFiltroContato" cssClass="errorEntrada"  />
 					                                             </div>
 					                                             
-					                                             
-					                                             <div class="col-md-3">  
-			                                                    	<span class="label label-default"><spring:message code="lbl.relatorio.quant.registros"/> </span>
-			                                                    	<form:select id="quantMaxRegistrosResultado" path="quantMaxRegistrosResultado" class="chosen-select" tabindex="-1" style="display: none;">								                                		
-																		<form:option value="10">10</form:option>
-																		<form:option value="20">20</form:option>																		
-																		<form:option value="30">30</form:option>																																	      
-													                </form:select>							                                			
-													                <form:errors id="quantMaxRegistrosResultado" path="quantMaxRegistrosResultado" cssClass="errorEntrada"  />
-					                                             </div>
+					                                             <div class="col-md-3">
+			                                                         <span class="label label-default"><spring:message code="lbl.relatorio.data.inicio"/> </span>
+						                                        	 <form:input id="dataInicio" path="dataInicio" class="form-control" onKeyUp="mascaraData(this);"  maxlength="10"/>
+						                                			 <form:errors id="dataInicio" path="dataInicio" cssClass="errorEntrada"  />
+			                                                     </div>	
+					                                          
 								       				   		</div>
 								       				   		</br>
 								       				   		<div class="row">
@@ -342,36 +343,59 @@ function recuperaRelatorios(){
 																    </form:select>
 			                                                    </div>
 			                                                    
-			                                                    <div class="col-md-3">
-			                                                    	<span class="label label-default"><spring:message code="lbl.acao.imovel"/> </span>
-			                                                    	<form:select id="acao" path="acao" class="chosen-select" tabindex="-1" style="display: none;">                                
-													                    <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
-																		<form:options items="${listaAcaoImovel}" itemValue="identificador" itemLabel="rotulo" />
-													                </form:select> 			
-													                <form:errors id="acao" path="acao" cssClass="errorEntrada"  />
-			                                                    </div>
-			                                                    
-			                                                     <c:if test="${((menu != 'imobiliariasMaisParceriasAceitas') 	       ||
-											       			  				   (menu != 'imobiliariaMaisIntermediacoesAceitas')        ||
-											       			  				   (menu != 'corretoresMaisParceriasAceitas') 	       	   ||
-											       			  				   (menu != 'corretoresMaisIntermediacoesAceitas')      ) } ">
+			                                                         <c:if test="${((menu != 'usuariosMaisParceriasAceitas') 	        ||
+															       			        (menu != 'usuariosMaisIntermediacoesAceitas')       ||
+															       			        (menu != 'usuariosImoveisMaisVisualizados')         ||
+															       			        (menu != 'usuariosImoveisMaisFavoritos')         	) } ">
+												       			  				   
+												       			  		<div class="col-md-3">
+					                                                    	<span class="label label-default"><spring:message code="lbl.acao.imovel"/> </span>
+					                                                    	<form:select id="acao" path="acao" class="chosen-select" tabindex="-1" style="display: none;">                                
+															                    <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
+																				<form:options items="${listaAcaoImovel}" itemValue="identificador" itemLabel="rotulo" />
+															                </form:select> 			
+															                <form:errors id="acao" path="acao" cssClass="errorEntrada"  />
+					                                                    </div>		   
 											       			  				   
 											       			  			<div class="col-md-3">
-				                                                    	<span class="label label-default"><spring:message code="lbl.faixa.salarial"/> </span>
-				                                                    	<form:select id="faixaSalarial" path="faixaSalarial" class="chosen-select" tabindex="-1" style="display: none;">
-																				<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>   
-																				<form:options items="${listaFaixaSalarial}" itemValue="identificador" itemLabel="rotulo" />      
-													                	</form:select>	
-																		 <form:errors id="faixaSalarial" path="faixaSalarial" cssClass="errorEntrada"  />
-				                                                    </div>	   
+					                                                    	<span class="label label-default"><spring:message code="lbl.faixa.salarial"/> </span>
+					                                                    	<form:select id="faixaSalarial" path="faixaSalarial" class="chosen-select" tabindex="-1" style="display: none;">
+																					<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>   
+																					<form:options items="${listaFaixaSalarial}" itemValue="identificador" itemLabel="rotulo" />      
+														                	</form:select>	
+																			 <form:errors id="faixaSalarial" path="faixaSalarial" cssClass="errorEntrada"  />
+					                                                    </div>	  
 											       			  				   
-											       			  	</c:if>	
-			                                                    
-			                                                     <div class="col-md-3">
-			                                                         <span class="label label-default"><spring:message code="lbl.relatorio.data.inicio"/> </span>
-						                                        	 <form:input id="dataInicio" path="dataInicio" class="form-control" onKeyUp="mascaraData(this);"  maxlength="10"/>
-						                                			 <form:errors id="dataInicio" path="dataInicio" cssClass="errorEntrada"  />
-			                                                     </div>			                                                    		                                                    
+											       			  	     </c:if>
+											       			  	     
+											       			  	     
+											       			  	     <div class="col-md-3">
+				                                                        <span id="idLabelPerfil" class="label label-default"><spring:message code="lbl.filtro.perfil.usuario"/></span>
+						                                            	 <spring:message code="lbl.hint.usuario.perfil.usuario" var="hintPerfilUsuario"/>
+															             <form:select id="perfilUsuario" path="perfilUsuario" class="chosen-select" tabindex="-1" style="display: none;">                                
+													                       <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
+													                       	
+													                       	<c:choose>
+													                       		<c:when test="${((menu == 'usuariosImoveisMaisVisualizados')   ||
+																	       			             (menu == 'usuariosImoveisMaisFavoritos')) }">																	       			             
+																	       			     <form:options items="${listaPerfilUsuario}" itemValue="identificador" itemLabel="rotulo" />        
+																	     		</c:when> 
+																	     		
+																	     		<c:when test="${((menu == 'usuariosMaisIntermediacoesAceitas') ||
+																	     		                 (menu == 'usuariosMaisParceriasAceitas')) }">																	       			             
+																	       			     <form:options items="${listaPerfilUsuarioSemComum}" itemValue="identificador" itemLabel="rotulo" />        
+																	     		</c:when>  	
+																	     
+													                        </c:choose>	
+													                    </form:select>
+				                                                     </div>	
+														       	
+															  
+															   <div class="col-md-3">			                                                    	
+				                                                    	<span class="label label-default"><spring:message code="lbl.relatorio.data.fim"/> </span>
+				                                                    	<form:input path="dataFim" class="form-control"  id="dataFim" onKeyUp="mascaraData(this);"  maxlength="10"/>
+							                                			<form:errors id="dataFim" path="dataFim" cssClass="errorEntrada"  />			
+				                                                </div>		                                                    		                                                    
 								       				   	  </div>
 								       				   	
 								       				   	  </br>
@@ -385,20 +409,20 @@ function recuperaRelatorios(){
 																	 </form:select>
 			                                                    </div>					                                                    
 			                                                    
-			                                                    <div class="col-md-3">
-			                                                    	<span class="label label-default"><spring:message code="lbl.status.imovel"/> </span>
-			                                                    	<form:select id="perfilImovel" path="perfilImovel" class="chosen-select" tabindex="-1" style="display: none;">                                
-																		<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>   
-																		<form:options items="${listaStatusImovel}" itemValue="identificador" itemLabel="rotulo" />
-																	</form:select> 			
-													                <form:errors id="acao" path="acao" cssClass="errorEntrada"  />
-			                                                    </div>
-			                                                    
-		                                                        <c:if test="${((menu != 'imobiliariasMaisParceriasAceitas') 	       ||
-										       			  				   (menu != 'imobiliariaMaisIntermediacoesAceitas')        ||
-										       			  				   (menu != 'corretoresMaisParceriasAceitas') 	       	   ||
-										       			  				   (menu != 'corretoresMaisIntermediacoesAceitas')      ) } ">
-											       			  	
+		                                                             <c:if test="${((menu != 'usuariosMaisParceriasAceitas') 	        ||
+															       			        (menu != 'usuariosMaisIntermediacoesAceitas')       ||
+															       			        (menu != 'usuariosImoveisMaisVisualizados')         ||
+															       			        (menu != 'usuariosImoveisMaisFavoritos')         	) } ">
+												       			  				   
+												       			  	<div class="col-md-3">
+				                                                    	<span class="label label-default"><spring:message code="lbl.status.imovel"/> </span>
+				                                                    	<form:select id="perfilImovel" path="perfilImovel" class="chosen-select" tabindex="-1" style="display: none;">                                
+																			<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>   
+																			<form:options items="${listaStatusImovel}" itemValue="identificador" itemLabel="rotulo" />
+																		</form:select> 			
+														                <form:errors id="perfilImovel" path="perfilImovel" cssClass="errorEntrada"  />
+				                                                    </div>
+												       			  												       			  	
 											       			  		<div class="col-md-3">
 				                                                    	<span class="label label-default"><spring:message code="lbl.sexo"/> </span>
 				                                                    	<form:select id="sexo" path="sexo" class="chosen-select" tabindex="-1" style="display: none;">                                
@@ -409,12 +433,17 @@ function recuperaRelatorios(){
 																		 <form:errors id="sexo" path="sexo" cssClass="errorEntrada"  />
 				                                                    </div>											       			  				   
 											       			  	</c:if>	
-			                                                    
-			                                                    <div class="col-md-3">			                                                    	
-			                                                    	<span class="label label-default"><spring:message code="lbl.relatorio.data.fim"/> </span>
-			                                                    	<form:input path="dataFim" class="form-control"  id="dataFim" onKeyUp="mascaraData(this);"  maxlength="10"/>
-						                                			<form:errors id="dataFim" path="dataFim" cssClass="errorEntrada"  />			
-			                                                    </div>			                                                    					                                                    								                                	
+											       			  	
+											       			  	 <div class="col-md-3">  
+			                                                    	<span class="label label-default"><spring:message code="lbl.relatorio.quant.registros"/> </span>
+			                                                    	<form:select id="quantMaxRegistrosResultado" path="quantMaxRegistrosResultado" class="chosen-select" tabindex="-1" style="display: none;">								                                		
+																		<form:option value="10">10</form:option>
+																		<form:option value="20">20</form:option>																		
+																		<form:option value="30">30</form:option>																																	      
+													                </form:select>							                                			
+													                <form:errors id="quantMaxRegistrosResultado" path="quantMaxRegistrosResultado" cssClass="errorEntrada"  />
+					                                             </div>
+			                                                    	                                                    					                                                    								                                	
 						                                	</div>        				   		
 								       				   	</div> 
 	                                     	  </c:when>	                                     	

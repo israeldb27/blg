@@ -1,6 +1,8 @@
 package com.busqueumlugar.controller;
 
 
+import java.util.Date;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -13,11 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.busqueumlugar.enumerador.NotaAcaoEnum;
 import com.busqueumlugar.form.NotaForm;
 import com.busqueumlugar.form.UsuarioForm;
 import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.NotaService;
 import com.busqueumlugar.service.UsuarioService;
+import com.busqueumlugar.util.DateUtil;
 import com.busqueumlugar.util.UsuarioInterface;
 
 @Controller("notaController")
@@ -37,6 +41,25 @@ public class NotaController {
 	private UsuarioService usuarioService;
 	
 	private static final String DIR_PATH = "/nota/";
+	
+	@RequestMapping(value="/escreverMinhaNota", method = RequestMethod.POST)
+	public String escreverMinhaNota(HttpSession session,	
+									ModelMap map,
+							        @ModelAttribute("notaForm") NotaForm form){	
+		try {
+			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);		
+			notaService.cadastrarNota(form.getEscreverNota(), user.getId(), new Date(), NotaAcaoEnum.PESSOAL.getRotulo());
+			map.addAttribute("listaMinhasNotas", notaService.listarTodasNotasPorPerfil(user.getId(), form));
+			map.addAttribute("notaForm", form);
+			return DIR_PATH + "minhasNotas";
+		} catch (Exception e) {
+			log.error("Erro metodo - NotaController - escreverMinhaNota");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		}	
+	}
+	
 	
 	
 	@RequestMapping(value="/ordenarMinhasNotas", method = RequestMethod.POST)

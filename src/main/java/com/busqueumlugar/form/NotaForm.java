@@ -6,9 +6,6 @@ package com.busqueumlugar.form;
 
 import java.math.BigInteger;
 import java.util.Date;
-import java.util.List;
-
-import com.busqueumlugar.model.Nota;
 
 /**
  *
@@ -26,6 +23,7 @@ public class NotaForm extends BaseForm{
     private String opcaoOrdenacao = "";
     private String opcaoFiltro = "";
     private String tipoLista = "";
+    private String escreverNota = "";
     
 
     public String getOpcaoFiltro() {
@@ -149,5 +147,13 @@ public class NotaForm extends BaseForm{
     public void setDescMinhaNota(String descMinhaNota) {
         this.descMinhaNota = descMinhaNota;
     }
+
+	public String getEscreverNota() {
+		return escreverNota;
+	}
+
+	public void setEscreverNota(String escreverNota) {
+		this.escreverNota = escreverNota;
+	}
     
 }

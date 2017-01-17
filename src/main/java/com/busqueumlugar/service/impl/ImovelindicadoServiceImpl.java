@@ -1,15 +1,11 @@
 package com.busqueumlugar.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +13,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.busqueumlugar.dao.ContatoDao;
 import com.busqueumlugar.dao.ImovelDao;
 import com.busqueumlugar.dao.ImovelindicadoDao;
+import com.busqueumlugar.dao.RecomendacaoDao;
+import com.busqueumlugar.dao.SeguidorDao;
 import com.busqueumlugar.dao.UsuarioDao;
 import com.busqueumlugar.enumerador.ContatoStatusEnum;
 import com.busqueumlugar.enumerador.RecomendacaoStatusEnum;
@@ -30,15 +29,7 @@ import com.busqueumlugar.model.EmailImovel;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Imovelindicado;
 import com.busqueumlugar.model.Usuario;
-import com.busqueumlugar.service.ImovelFavoritosService;
-import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.ImovelindicadoService;
-import com.busqueumlugar.service.RecomendacaoService;
-import com.busqueumlugar.service.SeguidorService;
-import com.busqueumlugar.service.UsuarioService;
-import com.busqueumlugar.service.ContatoService;
-import com.busqueumlugar.util.AppUtil;
-import com.busqueumlugar.util.DateUtil;
 import com.busqueumlugar.util.EnviaEmailHtml;
 import com.busqueumlugar.util.MessageUtils;
 
@@ -49,30 +40,22 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
 	
 	@Autowired
 	private ImovelindicadoDao dao;
-
-	@Autowired
-	private UsuarioService usuarioService;
 	
 	@Autowired
 	private UsuarioDao usuarioDao;
 	
 	@Autowired
-	private ImovelService imovelService;
-	
-	@Autowired
 	private ImovelDao imovelDao;
 	
 	@Autowired
-	private ImovelFavoritosService imovelFavoritosService;
+	private ContatoDao contatoDao;
 	
 	@Autowired
-	private ContatoService contatoService;
+	private SeguidorDao seguidorDao;
 	
 	@Autowired
-	private SeguidorService seguidorService;
-	
-	@Autowired
-	private RecomendacaoService recomendacaoService;
+	private RecomendacaoDao recomendacaoDao;
+
 
 	
 	public Imovelindicado recuperarImovelindicadoPorId(Long id) {
@@ -94,7 +77,7 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
         
         //atualizando a quantidade de indicacoes do usuario
         usuario.setQuantMaxIndicacoesImovel(usuario.getQuantMaxIndicacoesImovel() - 1);
-        usuarioService.editarUsuario(usuario);		
+        usuarioDao.save(usuario);		
 	}
 
 	@Override
@@ -112,7 +95,7 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
         
         //atualizando a quantidade de indicacoes do usuario
         usuario.setQuantMaxIndicacoesImovel(usuario.getQuantMaxIndicacoesImovel() - 1);
-        usuarioService.editarUsuario(usuario);	        
+        usuarioDao.save(usuario);	        
         
         try {
         	// enviar email
@@ -218,7 +201,7 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
             Imovel imovel = null;
             for (Iterator iter = lista.iterator();iter.hasNext();){
                 Object[] obj = (Object[]) iter.next();
-                imovel = imovelService.recuperarImovelPorid(Long.parseLong(obj[0].toString()));                
+                imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));                
                 listaFinal.add(imovel);
             }
         }
@@ -248,7 +231,7 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
 	@Override
 	public boolean checarPermissaoIndicarImoveis(Long idUsuario, int quantSelecionados) {
 		boolean ultrapassou = false;
-        Usuario usuario = usuarioService.recuperarUsuarioPorId(idUsuario);
+        Usuario usuario = usuarioDao.findUsuario(idUsuario);
         if ( usuario.getQuantMaxIndicacoesImovel() < quantSelecionados)        
             ultrapassou = true; 
         
@@ -303,13 +286,13 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
             Usuario usuario = null;        
             for ( Iterator iter = lista.iterator(); iter.hasNext();){
             	obj = (Object[]) iter.next();
-                usuario = usuarioService.recuperarUsuarioPorId(Long.parseLong(obj[0].toString()));                        
+                usuario = usuarioDao.findUsuario(Long.parseLong(obj[0].toString()));                        
                 usuario.setQuantImoveisIndicado(Integer.parseInt(obj[1].toString()));
                 usuario.setQuantImovelVisitado(Integer.parseInt(obj[1].toString()));
-    			usuario.setQuantTotalContatos(contatoService.checarTotalContatosPorUsuarioPorStatus(usuario.getId(), ContatoStatusEnum.OK.getRotulo()));
-    			usuario.setQuantTotalRecomendacoes(recomendacaoService.checarQuantidadeTotalRecomendacaoRecebidaPorStatus(usuario.getId(), RecomendacaoStatusEnum.ACEITO.getRotulo()));
-    			usuario.setQuantTotalImoveis(imovelService.checarQuantMeusImoveis(usuario.getId()));
-    			usuario.setQuantTotalSeguidores(seguidorService.checarQuantidadeSeguidores(usuario.getId()));
+    			usuario.setQuantTotalContatos(contatoDao.findQuantidadeTotalContatosByIdUsuarioByStatus(usuario.getId(), ContatoStatusEnum.OK.getRotulo()));
+    			usuario.setQuantTotalRecomendacoes(recomendacaoDao.findQuantidadeRecomendacoesByUsuarioByStatusByStatusLeitura(usuario.getId(), RecomendacaoStatusEnum.ACEITO.getRotulo(), null));
+    			usuario.setQuantTotalImoveis(imovelDao.findQuantMeusImoveis(usuario.getId()));
+    			usuario.setQuantTotalSeguidores(seguidorDao.findQuantSeguidoresByIdUsuarioSeguido(usuario.getId()));
             	listaUsuario.add(usuario);
             }
     	}
@@ -320,13 +303,13 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
             Usuario usuario = null;        
             for ( Iterator iter = lista.iterator(); iter.hasNext();){
             	obj = (Object[]) iter.next();
-                usuario = usuarioService.recuperarUsuarioPorId(Long.parseLong(obj[0].toString()));                        
+                usuario = usuarioDao.findUsuario(Long.parseLong(obj[0].toString()));                        
                 usuario.setQuantImoveisIndicado(Integer.parseInt(obj[1].toString()));
                 usuario.setQuantImovelVisitado(Integer.parseInt(obj[1].toString()));
-    			usuario.setQuantTotalContatos(contatoService.checarTotalContatosPorUsuarioPorStatus(usuario.getId(), ContatoStatusEnum.OK.getRotulo()));
-    			usuario.setQuantTotalRecomendacoes(recomendacaoService.checarQuantidadeTotalRecomendacaoRecebidaPorStatus(usuario.getId(), RecomendacaoStatusEnum.ACEITO.getRotulo()));
-    			usuario.setQuantTotalImoveis(imovelService.checarQuantMeusImoveis(usuario.getId()));
-    			usuario.setQuantTotalSeguidores(seguidorService.checarQuantidadeSeguidores(usuario.getId()));
+    			usuario.setQuantTotalContatos(contatoDao.findQuantidadeTotalContatosByIdUsuarioByStatus(usuario.getId(), ContatoStatusEnum.OK.getRotulo()));
+    			usuario.setQuantTotalRecomendacoes(recomendacaoDao.findQuantidadeRecomendacoesByUsuarioByStatusByStatusLeitura(usuario.getId(), RecomendacaoStatusEnum.ACEITO.getRotulo(), null));
+    			usuario.setQuantTotalImoveis(imovelDao.findQuantMeusImoveis(usuario.getId()));
+    			usuario.setQuantTotalSeguidores(seguidorDao.findQuantSeguidoresByIdUsuarioSeguido(usuario.getId()));
             	listaUsuario.add(usuario);
             }
     	}
@@ -349,7 +332,7 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
         Object[] obj = null;
         for ( Iterator iter = set.iterator(); iter.hasNext();){
         	idUsuarioIndicacao = (Long) iter.next();
-        	usuario = usuarioService.recuperarUsuarioPorId(idUsuarioIndicacao);        	
+        	usuario = usuarioDao.findUsuario(idUsuarioIndicacao);        	
         	List lista = dao.findInfoAgruparUsuariosImoveisIndicacoes(idUsuarioIndicacao);        	
             usuario.setQuantImoveisIndicacoes(Integer.parseInt(obj[1].toString()));            
             listaUsuario.add(usuario);
@@ -370,7 +353,7 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
 			Imovel imovel = null;
 			for (Iterator iter = lista.iterator();iter.hasNext();){
 				obj = (Object[]) iter.next();				
-				imovel = imovelService.recuperarImovelPorid(Long.parseLong(obj[0].toString()));				
+				imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));				
 				imovel.setQuantImoveisIndicados(Integer.parseInt(obj[1].toString()));
 				imovel.setQuantNovosImoveisIndicados(dao.findQuantidadeNovosImoveisIndicacoes(Long.parseLong(obj[0].toString())));
 				listaFinal.add(imovel);
@@ -389,7 +372,7 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
 			Imovel imovel = null;
 			for (Iterator iter = lista.iterator();iter.hasNext();){
 				obj = (Object[]) iter.next();				
-				imovel = imovelService.recuperarImovelPorid(Long.parseLong(obj[0].toString()));				
+				imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));				
 				imovel.setQuantImoveisIndicados(Integer.parseInt(obj[1].toString()));
 				imovel.setQuantNovosImoveisIndicados(dao.findQuantidadeNovosImoveisIndicacoes(Long.parseLong(obj[0].toString())));
 				listaFinal.add(imovel);
@@ -437,7 +420,7 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
 	public String validarIndicavaoImovelUsuariosSelecionados(ImovelindicadoForm form, Long idUsuario){
 		
 		String [] usuariosSelecionados = form.getIdUsuariosSelecionados();
-		Usuario usuario = usuarioService.recuperarUsuarioPorId(idUsuario);
+		Usuario usuario = usuarioDao.findUsuario(idUsuario);
 		
 		if ( usuariosSelecionados.length == 0)
 			return MessageUtils.getMessage("msg.erro.indicacoes.nenhum.usuario.selecionado");		
@@ -475,9 +458,8 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
 	}
 
 	@Override
-	public String checarUsuarioIndicacaoImovel(Long idUsuario, Long idImovel) {
-		Imovelindicado imovelIndicado = dao.findImovelIndicadoByIdImovelIdUsuario(idImovel, idUsuario);
-		if (imovelIndicado != null)
+	public String checarUsuarioIndicacaoImovel(Long idUsuario, Long idImovel) {		 
+		if (dao.findImovelIndicadoByIdImovelIdUsuario(idImovel, idUsuario) != null)
 			return "S";
 		else
 			return "N";

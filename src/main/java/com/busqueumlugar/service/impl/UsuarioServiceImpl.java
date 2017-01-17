@@ -9,8 +9,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -18,8 +16,11 @@ import java.util.List;
 import java.util.Random;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.CharSequenceUtils;
+import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.mail.EmailException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,24 +39,15 @@ import com.busqueumlugar.service.ContatoService;
 import com.busqueumlugar.service.EstadosService;
 import com.busqueumlugar.service.ImovelFavoritosService;
 import com.busqueumlugar.service.ImovelService;
-import com.busqueumlugar.service.ImovelcomentarioService;
 import com.busqueumlugar.service.ImoveldestaqueService;
-import com.busqueumlugar.service.ImovelindicadoService;
-import com.busqueumlugar.service.ImovelPropostasService;
-import com.busqueumlugar.service.ImovelvisualizadoService;
 import com.busqueumlugar.service.InfoservicoService;
-import com.busqueumlugar.service.IntermediacaoService;
-import com.busqueumlugar.service.ItemMensagemAdminService;
 import com.busqueumlugar.service.MensagemAdminService;
 import com.busqueumlugar.service.MensagemService;
 import com.busqueumlugar.service.NotaService;
 import com.busqueumlugar.service.NotificacaoService;
 import com.busqueumlugar.service.ParametrosIniciaisService;
-import com.busqueumlugar.service.ParamservicoService;
-import com.busqueumlugar.service.ParceriaService;
 import com.busqueumlugar.service.PlanoService;
 import com.busqueumlugar.service.PlanousuarioService;
-import com.busqueumlugar.service.PreferencialocalidadeService;
 import com.busqueumlugar.service.RecomendacaoService;
 import com.busqueumlugar.service.SeguidorService;
 import com.busqueumlugar.service.ServicoService;
@@ -69,6 +61,22 @@ import com.busqueumlugar.util.MessageUtils;
 import com.busqueumlugar.util.PasswordGenerator;
 import com.busqueumlugar.util.Select;
 import com.busqueumlugar.util.UsuarioInterface;
+import com.busqueumlugar.dao.BairrosDao;
+import com.busqueumlugar.dao.CidadesDao;
+import com.busqueumlugar.dao.EstadosDao;
+import com.busqueumlugar.dao.FormapagamentoDao;
+import com.busqueumlugar.dao.ImovelPropostasDao;
+import com.busqueumlugar.dao.ImovelcomentarioDao;
+import com.busqueumlugar.dao.ImovelfavoritosDao;
+import com.busqueumlugar.dao.ImovelindicadoDao;
+import com.busqueumlugar.dao.ImovelvisualizadoDao;
+import com.busqueumlugar.dao.IntermediacaoDao;
+import com.busqueumlugar.dao.ItemMensagemAdminDao;
+import com.busqueumlugar.dao.ParamservicoDao;
+import com.busqueumlugar.dao.ParceriaDao;
+import com.busqueumlugar.dao.PlanoDao;
+import com.busqueumlugar.dao.PlanousuarioDao;
+import com.busqueumlugar.dao.PreferencialocalidadeDao;
 import com.busqueumlugar.dao.UsuarioDao;
 import com.busqueumlugar.form.AdministracaoForm;
 import com.busqueumlugar.form.ContatoForm;
@@ -77,6 +85,7 @@ import com.busqueumlugar.form.NotaForm;
 import com.busqueumlugar.form.RelatorioForm;
 import com.busqueumlugar.form.ServicoForm;
 import com.busqueumlugar.form.UsuarioForm;
+import com.busqueumlugar.messaging.MessageSender;
 import com.busqueumlugar.model.*;
 import com.busqueumlugar.enumerador.AcaoNotificacaoEnum;
 import com.busqueumlugar.enumerador.ContatoStatusEnum;
@@ -84,9 +93,9 @@ import com.busqueumlugar.enumerador.NotaAcaoEnum;
 import com.busqueumlugar.enumerador.PerfilUsuarioOpcaoEnum;
 import com.busqueumlugar.enumerador.RecomendacaoStatusEnum;
 import com.busqueumlugar.enumerador.ServicoValueEnum;
+import com.busqueumlugar.enumerador.StatusImovelCompartilhadoEnum;
 import com.busqueumlugar.enumerador.StatusLeituraEnum;
 import com.busqueumlugar.enumerador.StatusUsuarioEnum;
-import com.busqueumlugar.enumerador.TipoImovelCompartilhadoEnum;
 import com.busqueumlugar.enumerador.TipoNotificacaoEnum;
 
 @Service
@@ -98,10 +107,19 @@ public class UsuarioServiceImpl implements UsuarioService{
 	private UsuarioDao dao;	
 		
 	@Autowired
-	private EstadosService estadosService;	
+	private EstadosDao estadosDao;	
 	
 	@Autowired
-	private CidadesService cidadesService;	
+	private CidadesDao cidadesDao;	
+	
+	@Autowired
+	private BairrosDao bairrosDao;
+	
+	@Autowired
+	private EstadosService estadosService;
+	
+	@Autowired
+	private CidadesService cidadesService;
 	
 	@Autowired
 	private BairrosService bairrosService;
@@ -110,28 +128,31 @@ public class UsuarioServiceImpl implements UsuarioService{
 	private NotaService notaService;	
 	
 	@Autowired
-	private PreferencialocalidadeService preferenciaLocalidadeService;	
+	private PreferencialocalidadeDao preferenciaLocalidadeDao;	
 	
 	@Autowired
 	private ImovelService imovelService;
 	
 	@Autowired
+	private ImovelfavoritosDao imovelFavoritosDao;
+	
+	@Autowired
 	private ImovelFavoritosService imovelFavoritosService;
 	
 	@Autowired
-	private ImovelcomentarioService imovelcomentarioService;
+	private ImovelcomentarioDao imovelcomentarioDao;
 	
 	@Autowired
-	private ImovelPropostasService imovelPropostasService;
+	private ImovelPropostasDao imovelPropostasDao;
 	
 	@Autowired
-	private ImovelvisualizadoService imovelvisitadoService;
+	private ImovelvisualizadoDao imovelvisualizadoDao;
 	
 	@Autowired
-	private ImovelindicadoService imovelindicadoService;	
+	private ImovelindicadoDao imovelindicadoDao;	
 	
 	@Autowired
-	private IntermediacaoService intermediacaoService;
+	private IntermediacaoDao intermediacaoDao;
 	
 	@Autowired
 	private ContatoService contatoService;
@@ -146,10 +167,13 @@ public class UsuarioServiceImpl implements UsuarioService{
 	private NotificacaoService notificacaoService;
 	
 	@Autowired
-	private ParamservicoService paramservicoService;
+	private ParamservicoDao paramservicoDao;
 	
 	@Autowired
-	private ItemMensagemAdminService itemMensagemAdminService;
+	private FormapagamentoDao formapagamentoDao;
+	
+	@Autowired
+	private ItemMensagemAdminDao itemMensagemAdminDao;
 	
 	@Autowired
 	private InfoservicoService infoservicoService;
@@ -161,16 +185,16 @@ public class UsuarioServiceImpl implements UsuarioService{
 	private ServicoService servicoService;
 	
 	@Autowired
-	private PlanousuarioService planousuarioService;
+	private PlanousuarioDao planousuarioDao;
 	
 	@Autowired
-	private PlanoService planoService;
+	private PlanoDao planoDao;
 	
 	@Autowired
 	private SeguidorService seguidorService;
 	
 	@Autowired
-	private ParceriaService	parceriaService;
+	private ParceriaDao	parceriaDao;
 	
 	@Autowired
 	private RecomendacaoService recomendacaoService;
@@ -180,6 +204,10 @@ public class UsuarioServiceImpl implements UsuarioService{
 	
 	@Autowired
 	private ServletContext context;	
+	
+	
+	 @Autowired
+	 private  MessageSender messageSender;
 	
 	
 	@Override
@@ -247,7 +275,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 
 	@Transactional
-	public UsuarioForm cadastrarUsuario(UsuarioForm frm) {	
+	public UsuarioForm cadastrarUsuario(UsuarioForm frm) throws EmailException {	
 		Usuario usuario = new Usuario();
 		BeanUtils.copyProperties(frm, usuario);
         usuario.setPassword(md5(frm.getPassword()));
@@ -256,6 +284,9 @@ public class UsuarioServiceImpl implements UsuarioService{
         usuario.setDataCadastro(new Date());
         usuario.setDataUltimoAcesso(null);
         usuario.setAtivado("S");
+        usuario.setHabilitaBusca("S");
+        usuario.setHabilitaDetalhesInfoUsuario("S");
+        usuario.setHabilitaRecebeSeguidor("S");
         
         DateUtil dtNascimento = new DateUtil(frm.getDiaNascimento(), frm.getMesNascimento(), frm.getAnoNascimento());
         usuario.setDataNascimento(dtNascimento.getTime());
@@ -275,9 +306,9 @@ public class UsuarioServiceImpl implements UsuarioService{
         usuario.setHabilitaEnvioSolParceria(map.get(UsuarioInterface.HABILITA_ENVIAR_SOL_PARCERIA).toString());
         usuario.setHabilitaEnvioMensagens(map.get(UsuarioInterface.HABILITA_ENVIAR_MENSAGENS).toString());        
         
-        Estados estado = estadosService.selecionaEstadoPorId(frm.getIdEstado());
-        Cidades cidade = cidadesService.selecionarCidadesPorId(frm.getIdCidade());
-        Bairros bairro = bairrosService.selecionarBairroPorId(frm.getIdBairro());
+        Estados estado = estadosDao.findEstadosById(frm.getIdEstado());
+        Cidades cidade = cidadesDao.findCidadesById(frm.getIdCidade());
+        Bairros bairro = bairrosDao.findBairrosById(frm.getIdBairro());
         
         usuario.setUf(estado.getUf());
         usuario.setEstado(estado.getNome());
@@ -302,6 +333,14 @@ public class UsuarioServiceImpl implements UsuarioService{
 												MessageUtils.getMessage("lbl.bem.vindo.plataforma"), 
 												TipoNotificacaoEnum.USUARIO.getRotulo(),
 												0l);
+        
+        // 
+        EnviaEmailHtml enviaEmail = new EnviaEmailHtml();
+        enviaEmail.setSubject(MessageUtils.getMessage("msg.email.subject.confirmacao.cadastro.usuario"));
+        enviaEmail.setTo(frm.getEmail());
+        enviaEmail.setTexto(MessageUtils.getMessage("msg.email.texto.confirmacao.cadastro.usuario") + "<link> ");		            	
+        enviaEmail.enviaEmail(enviaEmail.getEmail());        
+        
         return frm;
 	}
 
@@ -330,9 +369,9 @@ public class UsuarioServiceImpl implements UsuarioService{
         usuario.setPassword(usuarioAux.getPassword());        
         BeanUtils.copyProperties(frm, usuario);
    
-        Estados estado = estadosService.selecionaEstadoPorId(frm.getIdEstado());
-        Cidades cidade = cidadesService.selecionarCidadesPorId(frm.getIdCidade());
-        Bairros bairro = bairrosService.selecionarBairroPorId(frm.getIdBairro());
+        Estados estado = estadosDao.findEstadosById(frm.getIdEstado());
+        Cidades cidade = cidadesDao.findCidadesById(frm.getIdCidade());
+        Bairros bairro = bairrosDao.findBairrosById(frm.getIdBairro());
 
         usuario.setUf(estado.getUf());
         usuario.setEstado(estado.getNome());
@@ -500,27 +539,51 @@ public class UsuarioServiceImpl implements UsuarioService{
 		// fim - validacao contato
 		
 		// inicio - validacao senha
-		if ( StringUtils.isEmpty(form.getPassword())){
+		boolean isVazio = false;
+		if ( StringUtils.isEmpty(form.getPassword())) {
 			result.rejectValue("password", "msg.erro.campo.obrigatorio");
-			filtroValido = true;                   
+			filtroValido = false;
+			isVazio = true;
 		}
 		
-		if ( StringUtils.isEmpty(form.getConfirmaPassword())){
+		if ( StringUtils.isEmpty(form.getConfirmaPassword())) {
 			result.rejectValue("confirmaPassword", "msg.erro.campo.obrigatorio");
-			filtroValido = true;                   
+			filtroValido = false;
+			isVazio = true;
 		}
 		
-		if ( ! StringUtils.isEmpty(form.getConfirmaPassword()) &&  ! StringUtils.isEmpty(form.getPassword()) ){
-			if ( ! form.getPassword().equals(form.getConfirmaPassword())){
-				result.rejectValue("confirmaPassword", "msg.erro.pwd.confirma.pwd.nao.conferem");
-				filtroValido = true;
+		if ( !isVazio ){
+			
+			if ( !org.apache.commons.lang3.StringUtils.isAlphanumeric(form.getPassword())){				
+				result.rejectValue("password", "msg.erro.senha.caractere.alfanumerico");
+				filtroValido = false;
+			}
+			
+			if ( ! org.apache.commons.lang3.StringUtils.isAlphanumeric(form.getConfirmaPassword())){				
+				result.rejectValue("confirmaPassword", "msg.erro.senha.caractere.alfanumerico");
+				filtroValido = false;
+			}
+			
+			if ( form.getPassword().length() < 6 ){
+				result.rejectValue("password", "msg.erro.senha.tamanho.minimo");
+				filtroValido = false;
+			}
+			
+			if ( form.getConfirmaPassword().length() < 6 ){
+				result.rejectValue("confirmaPassword", "msg.erro.senha.tamanho.minimo");
+				filtroValido = false;
 			}			
+			
+			if (! form.getPassword().equals(form.getConfirmaPassword())){
+				result.rejectValue("confirmaPassword", "msg.erro.nova.senha.confirma.senha.esquece");
+				filtroValido = false;
+			}					
 		}
 				
 		// fim - validacao senha
 		
 		// inicio - validacao permissÃµes
-		if ( StringUtils.isEmpty(form.getHabilitaBusca())){
+/*		if ( StringUtils.isEmpty(form.getHabilitaBusca())){
 			result.rejectValue("habilitaBusca", "msg.erro.campo.obrigatorio");
 			filtroValido = true;                   
 		}
@@ -530,7 +593,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 			filtroValido = true;                   
 		}
 		// fim - validacao permissÃµes
-		
+		*/
 		return filtroValido;
 	}	
 
@@ -927,7 +990,7 @@ public class UsuarioServiceImpl implements UsuarioService{
         
         if ( tipoVisualizar.equals("infoPreferenciais")) {
             if ( frm.getIdEstado() != 0 && frm.getIdCidade() != 0 && frm.getIdBairro() != 0 ){                
-                listaUsuario = preferenciaLocalidadeService.buscarPreferenciaSemDuplicidadeUsuario(frm);
+                listaUsuario = preferenciaLocalidadeDao.findPreferencialocalidadeSemDuplicidadeUsuario(frm);
                 if (! CollectionUtils.isEmpty(listaUsuario)){
                     for (Usuario user : listaUsuario){
                         user.setIsContato(contatoService.checarTipoContato(user.getId(), idUsuarioSessao));
@@ -982,7 +1045,7 @@ public class UsuarioServiceImpl implements UsuarioService{
         List<Usuario> listaUsuario = new ArrayList<Usuario>();
         if ( tipoVisualizar.equals("infoPreferenciais")) {
             if ( frm.getIdEstado() != 0 && frm.getIdCidade() != 0 && frm.getIdBairro() != 0 ){                
-                listaUsuario = preferenciaLocalidadeService.buscarPreferenciaSemDuplicidadeUsuario(frm);          
+                listaUsuario = preferenciaLocalidadeDao.findPreferencialocalidadeSemDuplicidadeUsuario(frm);          
             }
         }
         else if ( tipoVisualizar.equals("infoPessoais")) {        	
@@ -1029,7 +1092,7 @@ public class UsuarioServiceImpl implements UsuarioService{
             Imovel imovel = listaMeusImoveis.get(opcao);
             imovel.setAcao("compra");
             imovel.setIdBairro(0);
-            List<Preferencialocalidade> listaPref = preferenciaLocalidadeService.buscarPreferencia(imovel);
+            List<Preferencialocalidade> listaPref = preferenciaLocalidadeDao.findPreferencialocalidade(imovel);
             if ( ! CollectionUtils.isEmpty(listaPref))
                 return new ArrayList<Usuario>();
             else {
@@ -1050,8 +1113,8 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	
-	public int checarQuantidadeTotalUsuariosPorPeriodo(AdministracaoForm form) {		
-		return AppUtil.recuperarQuantidadeLista(dao.findUsuariosByDataCadastro(form));	 
+	public long checarQuantidadeTotalUsuariosPorPeriodo(AdministracaoForm form) {	
+		return dao.findQuantidadeTotalUsuarioPorPeriodo(form);
 	}
 	
 	@Override
@@ -1125,7 +1188,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	public boolean checarPermissaoServico(Long idUsuario, String nomeServico) {	
 		try {         
             boolean ultrapassou = false;
-            Paramservico paramservico = paramservicoService.recuperarParamServicoPorNome2(nomeServico);
+            Paramservico paramservico = paramservicoDao.findParamservicoPorNome(nomeServico);
             if ( paramservico.getCobranca().equals("S")){
                 Usuario usuario =  dao.findUsuario(idUsuario);
                          
@@ -1135,7 +1198,7 @@ public class UsuarioServiceImpl implements UsuarioService{
                         ultrapassou = true;
                  }                
                 else if (nomeServico.equals(ServicoValueEnum.INDICACOES_IMOVEIS.getRotulo())){
-                    long quantIndicacoes = imovelindicadoService.checaQuantImoveisIndicados(idUsuario);
+                    long quantIndicacoes = imovelindicadoDao.findQuantImoveisIndicadosByIdUsuarioByStatusLeitura(idUsuario, null);
                     if (quantIndicacoes >= usuario.getQuantMaxIndicacoesImovel())
                         ultrapassou = true;                    
                 }
@@ -1156,7 +1219,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	@Transactional
 	public void atualizarIndicacoesImoveisPorEmail(Long idUsuario) {	
-		Paramservico paramservico = paramservicoService.recuperarParamServicoPorNome2(ServicoValueEnum.INDICACOES_EMAIL.getRotulo());
+		Paramservico paramservico = paramservicoDao.findParamservicoPorNome(ServicoValueEnum.INDICACOES_EMAIL.getRotulo());
         if ( paramservico.getCobranca().equals("S")){
             Usuario usuario = dao.findUsuario(idUsuario);
             usuario.setQuantMaxIndicacoesImovelEmail(usuario.getQuantMaxIndicacoesImovelEmail() - 1);
@@ -1499,10 +1562,10 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 
 	
-	public List<Usuario> relatorioUsuarioMaisCompartilhamentosAceitos(RelatorioForm frm, String perfilUsuario, String tipoCompartilhamento) {
+	public List<Usuario> relatorioUsuarioMaisCompartilhamentosAceitos(RelatorioForm frm, String tipoCompartilhamento) {
 		
         List<Usuario> listaUsuarioFinal = new ArrayList<Usuario>();        
-        List listaUsuario = dao.recuperarUsuariosComMaisCompartilhamentoAceitos(frm, perfilUsuario, tipoCompartilhamento);        
+        List listaUsuario = dao.recuperarUsuariosComMaisCompartilhamentoAceitos(frm, tipoCompartilhamento);        
         if ( ! CollectionUtils.isEmpty(listaUsuario) ){
             Usuario usuario = null;
             Object[] obj = null;
@@ -1591,7 +1654,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 			session.setAttribute(MensagemService.QUANT_NOVAS_MENSAGENS, mensagemService.checarQuantidadeNovasMensagens(user.getId()));
 			List<MensagemAdmin> listaNovasMensagensAdmin = mensagemAdminService.recuperaTodasMensagensNovasPorUsuario(user.getId());
 			session.setAttribute(MensagemAdminService.LISTA_NOVAS_MENSAGENS_ADMIN, listaNovasMensagensAdmin);
-			session.setAttribute(MensagemAdminService.QUANT_NOVAS_MENSAGENS_ADMIN, AppUtil.recuperarQuantidadeLista(itemMensagemAdminService.recuperarItemMensagemAdminPorIdUsuarioStatusLeitura(user.getId(), StatusLeituraEnum.NOVO.getRotulo())));
+			session.setAttribute(MensagemAdminService.QUANT_NOVAS_MENSAGENS_ADMIN, AppUtil.recuperarQuantidadeLista(itemMensagemAdminDao.findItemMensagemAdminByStatusLeituraByIdUsuario(user.getId(), StatusLeituraEnum.NOVO.getRotulo())));
 		}
 		
 		long quantNovasRecomendacoes = recomendacaoService.checarNovasRecomendacoesRecebidas(user.getId());
@@ -1614,18 +1677,18 @@ public class UsuarioServiceImpl implements UsuarioService{
 		session.setAttribute(ImovelService.QUANT_LISTA_IMOVEL_COMPARATIVO, 0L);
 		session.setAttribute(ImovelService.QUANT_MEUS_IMOVEIS, imovelService.checarQuantMeusImoveis(user.getId()));
 		
-		session.setAttribute(ImovelService.QUANT_TOTAL_IMOVEIS_PropostaS,  imovelPropostasService.checarQuantidadesPropostasRecebidasPorUsuarioPorStatus(user.getId() , null));		
-		session.setAttribute(ImovelService.QUANT_IMOVEIS_PropostaS, imovelPropostasService.checarQuantidadesPropostasRecebidasPorUsuarioPorStatus(user.getId(), StatusLeituraEnum.NOVO.getRotulo()));		
+		session.setAttribute(ImovelService.QUANT_TOTAL_IMOVEIS_PropostaS,  imovelPropostasDao.findQuantPropostasRecebidasByIdUsuarioByStatus(user.getId() , null));		
+		session.setAttribute(ImovelService.QUANT_IMOVEIS_PropostaS, imovelPropostasDao.findQuantPropostasRecebidasByIdUsuarioByStatus(user.getId(), StatusLeituraEnum.NOVO.getRotulo()));		
 		
-		session.setAttribute(ImovelService.QUANT_TOTAL_IMOVEIS_COMENTARIOS, imovelcomentarioService.checarQuantidadeTotalImoveisComentariosRecebidos(user.getId()));
-		session.setAttribute(ImovelService.QUANT_NOVOS_IMOVEIS_COMENTARIOS, imovelcomentarioService.checaQuantidadeNovoComentario(user.getId()) );
+		session.setAttribute(ImovelService.QUANT_TOTAL_IMOVEIS_COMENTARIOS, imovelcomentarioDao.findQuantImoveisComentariosRecebidos(user.getId(), null));
+		session.setAttribute(ImovelService.QUANT_NOVOS_IMOVEIS_COMENTARIOS, imovelcomentarioDao.findQuantImoveisComentariosRecebidos(user.getId(), StatusLeituraEnum.NOVO.getRotulo()));
 				
-		session.setAttribute(ImovelService.QUANT_TOTAL_USUARIOS_INTERESSADOS, imovelFavoritosService.checarQuantidadeUsuariosInteressadosPorUsuario(user.getId(), null) );
-		session.setAttribute(ImovelService.QUANT_NOVOS_USUARIOS_INTERESSADOS, imovelFavoritosService.checarQuantidadeUsuariosInteressadosPorUsuario(user.getId(), StatusLeituraEnum.NOVO.getRotulo()));
+		session.setAttribute(ImovelService.QUANT_TOTAL_USUARIOS_INTERESSADOS, imovelFavoritosDao.findQuantUsuariosInteressadosByIdUsuarioByStatus(user.getId(), null) );
+		session.setAttribute(ImovelService.QUANT_NOVOS_USUARIOS_INTERESSADOS, imovelFavoritosDao.findQuantUsuariosInteressadosByIdUsuarioByStatus(user.getId(), StatusLeituraEnum.NOVO.getRotulo()));
 		
-		session.setAttribute(ImovelService.QUANT_IMOVEIS_INDICADOS, imovelindicadoService.checarQuantidadeNovosImoveisIndicados(user.getId()));		
-		session.setAttribute(ImovelService.QUANT_NOVOS_VISITANTES,  imovelvisitadoService.checarQuantidadeVisitantesPorUsuarioPorStatus(user.getId(), StatusLeituraEnum.NOVO.getRotulo()));
-		session.setAttribute(ImovelService.QUANT_TOTAL_VISITANTES,  imovelvisitadoService.checarQuantidadeVisitantesPorUsuarioPorStatus(user.getId(), null));
+		session.setAttribute(ImovelService.QUANT_IMOVEIS_INDICADOS, imovelindicadoDao.findQuantImoveisIndicadosByIdUsuarioByStatusLeitura(user.getId(),  StatusLeituraEnum.NOVO.getRotulo()));		
+		session.setAttribute(ImovelService.QUANT_NOVOS_VISITANTES,  imovelvisualizadoDao.findQuantidadeVisitantesByIdUsuarioByStatus(user.getId(), StatusLeituraEnum.NOVO.getRotulo()));
+		session.setAttribute(ImovelService.QUANT_TOTAL_VISITANTES,  imovelvisualizadoDao.findQuantidadeVisitantesByIdUsuarioByStatus(user.getId(), null));
 		
 		List<Notificacao> listaNovasNotificacoes = notificacaoService.recuperarListaNotificacoesNovas(user.getId());
 		session.setAttribute(ImovelService.LISTA_NOVAS_NOTIFICACOES, listaNovasNotificacoes);
@@ -1638,10 +1701,18 @@ public class UsuarioServiceImpl implements UsuarioService{
 		session.setAttribute(ContatoService.QUANT_TOTAL_CONTATOS, contatoService.checarTotalContatosPorUsuarioPorStatus(user.getId(), ContatoStatusEnum.OK.getRotulo() ));
 		
 		if ( user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) ){
-			session.setAttribute(ImovelService.QUANT_NOVAS_INTERMEDIACOES, intermediacaoService.checarQuantidadeNovasSolIntermediacao(user.getId()) );			}
+			session.setAttribute(ImovelService.QUANT_NOVAS_INTERMEDIACOES, intermediacaoDao.checarQuantidadeIntermediacaoSolRecebidaByDonoImovelByStatusByStatusLeitura(user.getId(), 
+																																									    StatusLeituraEnum.NOVO.getRotulo(),
+																																									    StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo()));
+		}
 		else {
-			session.setAttribute(ImovelService.QUANT_NOVAS_PARCERIAS, parceriaService.checarQuantidadeNovasSolParceria(user.getId()) );		
-			session.setAttribute(ImovelService.QUANT_NOVAS_INTERMEDIACOES, intermediacaoService.checarQuantidadeNovasSolIntermediacao(user.getId()) );	
+			session.setAttribute(ImovelService.QUANT_NOVAS_PARCERIAS, parceriaDao.checarQuantidadeParceriaSolRecebidaByDonoImovelByStatusByStatusLeitura(user.getId(), 
+																																						 StatusLeituraEnum.NOVO.getRotulo(),
+																																						 StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo()));
+			
+			session.setAttribute(ImovelService.QUANT_NOVAS_INTERMEDIACOES, intermediacaoDao.checarQuantidadeIntermediacaoSolRecebidaByDonoImovelByStatusByStatusLeitura(user.getId(), 
+																																									    StatusLeituraEnum.NOVO.getRotulo(),
+																																									    StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo()));	
 		}
 		
 		//session.setAttribute(ImovelService.LISTA_IMOVEL_ANUNCIO_DESTAQUE, imovelService.recuperarImovelDestaqueParaAnuncio(3));
@@ -1738,17 +1809,28 @@ public class UsuarioServiceImpl implements UsuarioService{
 		BeanUtils.copyProperties(usuario, form);
 		
 		if ( usuario.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){
-			form.setListaPreferenciaImoveis(preferenciaLocalidadeService.listarPreferenciaPorUsuario(idUsuario));
+			form.setListaPreferenciaImoveis(preferenciaLocalidadeDao.findPreferencialocalidadeByIdUsuario(idUsuario));
 			form.setQuantTotalPrefImoveis(AppUtil.recuperarQuantidadeLista(form.getListaPreferenciaImoveis()));
 		}
 		else {			
-			form.setQuantTotalParcerias(parceriaService.checarQuantidadeParceriaAceitaPorIdUsuario(idUsuario));
-			form.setQuantTotalIntermediacoes(intermediacaoService.checarQuantidadeIntermediacaoAceitaPorIdUsuario(idUsuario));			
+			form.setQuantTotalParcerias(parceriaDao.findQuantidadeParceriaPorUsuarioPorStatus(idUsuario, StatusImovelCompartilhadoEnum.ACEITA.getRotulo()));
+			form.setQuantTotalIntermediacoes(intermediacaoDao.findQuantidadeIntermediacaoPorUsuarioPorStatus(idUsuario, StatusImovelCompartilhadoEnum.ACEITA.getRotulo()));			
 			form.setQuantUsuarioAprovServico(usuario.getQuantUsuarioAprovServico());
 			form.setQuantUsuarioDesaprovServico(usuario.getQuantUsuarioDesaprovServico());
 		}
 		
-		form.setListaImoveisUsuario(imovelService.listarMeusImoveis(idUsuario));
+		List<Imovel> listaImoveisUsuario = imovelService.listarMeusImoveis(idUsuario);
+		List<Imovel> listaImoveisFinal = new ArrayList<Imovel>();
+		if ( ! CollectionUtils.isEmpty(listaImoveisUsuario) ){			
+			for (Imovel imovel : listaImoveisUsuario){
+				imovel.setInteressadoImovel(imovelFavoritosService.checarUsuarioEstaInteressadoImovel(idUsuario, imovel.getId()));
+				listaImoveisFinal.add(imovel);
+			}
+			form.setListaImoveisUsuario(listaImoveisFinal);
+		}
+		else
+			form.setListaImoveisUsuario(null);
+		
 		form.setListaNotasUsuario(notaService.listarTodasNotasPorPerfil(idUsuario, new NotaForm()));
 		form.setListaSeguidores(seguidorService.recuperarSeguidoresPorIdUsuarioSeguido(idUsuario));		
 		form.setListaRecomendacoes(recomendacaoService.recuperarRecomendacoesPorIdUsuarioRecomendado(idUsuario));		
@@ -1756,8 +1838,8 @@ public class UsuarioServiceImpl implements UsuarioService{
 		
 		form.setQuantTotalSeguidores(AppUtil.recuperarQuantidadeLista(form.getListaSeguidores()));
 		form.setQuantTotalImoveis(AppUtil.recuperarQuantidadeLista(form.getListaImoveisUsuario()));
-		form.setQuantTotalInteressadosImoveis(imovelFavoritosService.checarQuantidadeUsuariosInteressadosPorUsuario(idUsuario, null));
-		form.setQuantTotalVisitasImoveis(imovelvisitadoService.checarQuantidadeVisitantesPorUsuarioPorStatus(idUsuario, null));
+		form.setQuantTotalInteressadosImoveis(imovelFavoritosDao.findQuantUsuariosInteressadosByIdUsuarioByStatus(idUsuario, null));
+		form.setQuantTotalVisitasImoveis(imovelvisualizadoDao.findQuantidadeVisitantesByIdUsuarioByStatus(idUsuario, null));
 		form.setQuantTotalNotas(AppUtil.recuperarQuantidadeLista(form.getListaNotasUsuario()));
 		form.setQuantTotalContatos(AppUtil.recuperarQuantidadeLista(form.getListaContatosUsuario()));
 		form.setQuantTotalRecomendacoes(AppUtil.recuperarQuantidadeLista(form.getListaRecomendacoes()));		
@@ -1777,17 +1859,17 @@ public class UsuarioServiceImpl implements UsuarioService{
 		Usuario usuario = dao.findUsuario(idUsuario);
 		UsuarioForm form = new UsuarioForm();		
 		BeanUtils.copyProperties(usuario, form);
-		form.setListaPlanosDisponiveis(planoService.listarTodosDisponiveis());
-		form.setListaServicosDisponiveis(paramservicoService.recuperaTodosParametrosPorTipoSemAssinatura(form));
+		form.setListaPlanosDisponiveis(planoDao.listAll());
+		form.setListaServicosDisponiveis(paramservicoDao.findParametrosSemTipoAssinatura(form));
 		
 		if ( usuario.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){
 			form.setListaImoveisUsuario(imovelService.listarMeusImoveis(idUsuario));
-			form.setListaPreferenciaImoveis(preferenciaLocalidadeService.listarPreferenciaPorUsuario(idUsuario));		
+			form.setListaPreferenciaImoveis(preferenciaLocalidadeDao.findPreferencialocalidadeByIdUsuario(idUsuario));		
 		}
 		else {
 			form.setListaImoveisUsuario(imovelService.listarMeusImoveis(idUsuario));
-			form.setQuantTotalParcerias(parceriaService.checarQuantidadeParceriaAceitaPorIdUsuario(idUsuario));
-			form.setQuantTotalIntermediacoes(intermediacaoService.checarQuantidadeIntermediacaoAceitaPorIdUsuario(idUsuario));			
+			form.setQuantTotalParcerias(parceriaDao.findQuantidadeParceriaPorUsuarioPorStatus(idUsuario, StatusImovelCompartilhadoEnum.ACEITA.getRotulo()));
+			form.setQuantTotalIntermediacoes(intermediacaoDao.findQuantidadeIntermediacaoPorUsuarioPorStatus(idUsuario, StatusImovelCompartilhadoEnum.ACEITA.getRotulo()));			
 			form.setQuantUsuarioAprovServico(usuario.getQuantUsuarioAprovServico());
 			form.setQuantUsuarioDesaprovServico(usuario.getQuantUsuarioDesaprovServico());
 		}
@@ -1795,13 +1877,13 @@ public class UsuarioServiceImpl implements UsuarioService{
 		form.setListaNotasUsuario(notaService.listarTodasNotasPorPerfil(idUsuario, new NotaForm()));
 		form.setListaMensagemAdmin(mensagemAdminService.recuperaTodasMensagensPorUsuario(idUsuario));
 		form.setListaServicos(servicoService.recuperarServicosDisponiveisPorUsuario(idUsuario));
-		form.setListaPlanos(planousuarioService.recuperarPlanosPorUsuario(idUsuario));		
+		form.setListaPlanos(planousuarioDao.findPlanoUsuarioByIdUsuario(idUsuario));		
 		form.setListaContatosUsuario(contatoService.recuperarConvidadosHabilitados(idUsuario, new ContatoForm()));
 		
 		form.setQuantTotalContatos(AppUtil.recuperarQuantidadeLista(form.getListaContatosUsuario()));
 		form.setQuantTotalImoveis(AppUtil.recuperarQuantidadeLista(form.getListaImoveisUsuario()));
-		form.setQuantTotalInteressadosImoveis(imovelFavoritosService.checarQuantidadeUsuariosInteressadosPorUsuario(idUsuario, null));
-		form.setQuantTotalVisitasImoveis(imovelvisitadoService.checarQuantidadeVisitantesPorUsuarioPorStatus(idUsuario, null));
+		form.setQuantTotalInteressadosImoveis(imovelFavoritosDao.findQuantUsuariosInteressadosByIdUsuarioByStatus(idUsuario, null));
+		form.setQuantTotalVisitasImoveis(imovelvisualizadoDao.findQuantidadeVisitantesByIdUsuarioByStatus(idUsuario, null));
 		return form;
 	}
 	
@@ -1830,7 +1912,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	public void preparararSolicitacaoRenovacaoAssinaturaUsuario(UsuarioForm user, ServicoForm servicoForm) {
 		
 		servicoForm.setIdUsuario(user.getId());
-		servicoForm.setListaOpcoesFormaPagamento(paramservicoService.listarTodasFormasPagamento());
+		servicoForm.setListaOpcoesFormaPagamento(formapagamentoDao.listAll());
 		if ( user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()))	{		
 			servicoForm.setListaInfoServicoPagamento(infoservicoService.recuperarInfoServicoPagamentoPorNomeServico(ServicoValueEnum.ASSINATURA_PADRAO.getRotulo()));
 			servicoForm.setAcao(ServicoValueEnum.ASSINATURA_PADRAO.getRotulo());
@@ -1961,9 +2043,9 @@ public class UsuarioServiceImpl implements UsuarioService{
       	
         usuario.setCpf(frm.getCpf());       
         
-        Estados estado = estadosService.selecionaEstadoPorId(frm.getIdEstado());
-        Cidades cidade = cidadesService.selecionarCidadesPorId(frm.getIdCidade());
-        Bairros bairro = bairrosService.selecionarBairroPorId(frm.getIdBairro());
+        Estados estado = estadosDao.findEstadosById(frm.getIdEstado());
+        Cidades cidade = cidadesDao.findCidadesById(frm.getIdCidade());
+        Bairros bairro = bairrosDao.findBairrosById(frm.getIdBairro());
         
         usuario.setUf(estado.getUf());
         usuario.setEstado(estado.getNome());
@@ -2021,6 +2103,9 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	@Override
 	public boolean validarBuscarUsuarios(UsuarioForm form, BindingResult result) {
+		Usuario usuario = new Usuario();
+		usuario.setLogin("Israel Teste");
+		 messageSender.sendMessage(usuario);
 
 		boolean possuiErro = false;
 		if (! StringUtils.isEmpty(form.getOpcaoTipoBuscaUsuarios())){
@@ -2224,7 +2309,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 						listaFinalTimeLine.add(carregarTimeLineUsuario(usuarioTimeline, user));
 						if (! CollectionUtils.isEmpty(listaFinal)){					
 							for (Imovel imovel : listaFinal){
-								listaFinalTimeLine.add(carregarTimeLineImovel(imovel));
+								listaFinalTimeLine.add(carregarTimeLineImovel(user, imovel));
 							}
 						}
 						return listaFinalTimeLine;
@@ -2234,7 +2319,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 						
 						if (! CollectionUtils.isEmpty(listaFinal)){					
 							for (Imovel imovel : listaFinal){
-								listaFinalTimeLine.add(carregarTimeLineImovel(imovel));
+								listaFinalTimeLine.add(carregarTimeLineImovel(user, imovel));
 							}
 						}
 						return listaFinalTimeLine;
@@ -2244,7 +2329,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 						listaFinalTimeLine.add(carregarTimeLineNota(notaTimeLine, user));
 						if (! CollectionUtils.isEmpty(listaFinal)){					
 							for (Imovel imovel : listaFinal){
-								listaFinalTimeLine.add(carregarTimeLineImovel(imovel));
+								listaFinalTimeLine.add(carregarTimeLineImovel(user, imovel));
 							}
 						}
 						return listaFinalTimeLine;
@@ -2252,7 +2337,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 					else {
 						if (! CollectionUtils.isEmpty(listaFinal)){					
 							for (Imovel imovel : listaFinal){
-								listaFinalTimeLine.add(carregarTimeLineImovel(imovel));
+								listaFinalTimeLine.add(carregarTimeLineImovel(user, imovel));
 							}
 						}
 						return listaFinalTimeLine;
@@ -2281,6 +2366,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 							
 							while ( (AppUtil.recuperarQuantidadeLista(listaFinal) < 4)){
 								regraSel = r.nextInt(8) + 1;
+								
 								if ( ( regraSel >= 1 ) && ( regraSel <= 5 )) { // Recuperar Imóveis de acordo com a Preferencia de Imóveis
 									List<Imovel> lista = this.regraTimeLineRecuperarImoveisPreferencia(user, session);
 									if (! CollectionUtils.isEmpty(lista))
@@ -2310,6 +2396,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 							while ( (AppUtil.recuperarQuantidadeLista(listaFinal) < 4) || (isNotaExiste) ){
 								
 								regraSel = r.nextInt(12) + 1;
+								
 								if ( ( regraSel >= 1 ) && ( regraSel <= 5 )) { // exibir algum imovel de um contato ou de um usuário que esteja seguindo
 									List<Imovel> lista = this.regraTimeLineRecuperarImoveisIdsUsuarios(session);
 									if (! CollectionUtils.isEmpty(lista))
@@ -2345,7 +2432,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 						listaFinalTimeLine.add(carregarTimeLineNota(notaTimeLine, user));
 						if (! CollectionUtils.isEmpty(listaFinal)){					
 							for (Imovel imovel : listaFinal){
-								listaFinalTimeLine.add(carregarTimeLineImovel(imovel));
+								listaFinalTimeLine.add(carregarTimeLineImovel(user, imovel));
 							}
 						}
 						return listaFinalTimeLine;
@@ -2354,7 +2441,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 						listaFinalTimeLine.add(carregarTimeLineUsuario(usuarioTimeline, user));
 						if (! CollectionUtils.isEmpty(listaFinal)){					
 							for (Imovel imovel : listaFinal){
-								listaFinalTimeLine.add(carregarTimeLineImovel(imovel));
+								listaFinalTimeLine.add(carregarTimeLineImovel(user, imovel));
 							}
 						}
 						return listaFinalTimeLine;
@@ -2362,7 +2449,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 					else {
 						if (! CollectionUtils.isEmpty(listaFinal)){					
 							for (Imovel imovel : listaFinal){
-								listaFinalTimeLine.add(carregarTimeLineImovel(imovel));
+								listaFinalTimeLine.add(carregarTimeLineImovel(user, imovel));
 							}
 						}
 						return listaFinalTimeLine;
@@ -2402,7 +2489,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		
 		if ( isAleatorio ){
 			int index = (int) session.getAttribute(TimelineService.ID_INDEX_PREF_IMOVEL_ALEATORIAMENTE);			
-			Preferencialocalidade pref= preferenciaLocalidadeService.recuperarPrefLocalidadeByUsuarioByIndexByAleatoriamente(listaIds, index, isAleatorio);
+			Preferencialocalidade pref= preferenciaLocalidadeDao.findPreferencialocalidadeByUsuarioByIndexByAleatorio(listaIds, index, isAleatorio);
 			if ( pref != null ){
 				index +=  1;
 				session.setAttribute(TimelineService.ID_INDEX_PREF_IMOVEL_ALEATORIAMENTE, index);
@@ -2413,7 +2500,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		}
 		else {
 			int index = (int) session.getAttribute(TimelineService.ID_INDEX_PREF_IMOVEL);			
-			Preferencialocalidade pref= preferenciaLocalidadeService.recuperarPrefLocalidadeByUsuarioByIndexByAleatoriamente(listaIds, index, isAleatorio);
+			Preferencialocalidade pref= preferenciaLocalidadeDao.findPreferencialocalidadeByUsuarioByIndexByAleatorio(listaIds, index, isAleatorio);
 			if ( pref != null ){
 				index +=  1;
 				session.setAttribute(TimelineService.ID_INDEX_PREF_IMOVEL, index);
@@ -2428,7 +2515,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	private Preferencialocalidade regraTimelineRecuperarPreferenciaLocalidadeUsuario(HttpSession session) {
 		
 		int index = (int) session.getAttribute(TimelineService.ID_INDEX_PREF_IMOVEL_ALEATORIAMENTE);			
-		Preferencialocalidade pref= preferenciaLocalidadeService.recuperarPrefLocalidadeByUsuarioByIndexByAleatoriamente(index);
+		Preferencialocalidade pref= preferenciaLocalidadeDao.findPreferencialocalidadeByUsuarioByIndexByAleatorio(index);
 		if ( pref != null ){
 			index +=  1;
 			session.setAttribute(TimelineService.ID_INDEX_PREF_IMOVEL_ALEATORIAMENTE, index);
@@ -2508,7 +2595,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		
 		int index = (int) session.getAttribute(TimelineService.ID_INDEX_PREF_IMOVEL);
 		int regra = (int)session.getAttribute(TimelineService.REGRA_PREF_IMOVEL);	
-		List<Imovel> lista = preferenciaLocalidadeService.recuperarImoveisPrefLocalidade(user, index, regra);
+		List<Imovel> lista = preferenciaLocalidadeDao.findImoveisByPrefLocalidadeByUsuarioByIndex(user, index, regra);
 		if ( ! CollectionUtils.isEmpty(lista)){
 			int quant = AppUtil.recuperarQuantidadeLista(lista);
 			session.setAttribute(TimelineService.ID_INDEX_PREF_IMOVEL, index + quant);
@@ -2584,7 +2671,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		 buf.append("        <div class='media inner-all'> ");
 		 buf.append("              <div class='pull-left'> ");
 		 buf.append("                     <span class='fa fa-stack fa-2x'> ");		 
-	     if ( nota.getAcao().equals(NotaAcaoEnum.PREFERENCIA.getRotulo()) || nota.getAcao().equals(NotaAcaoEnum.USUARIO.getRotulo()) ) {	 
+	     if ( nota.getAcao().equals(NotaAcaoEnum.PREFERENCIA.getRotulo()) || nota.getAcao().equals(NotaAcaoEnum.USUARIO.getRotulo()) || nota.getAcao().equals(NotaAcaoEnum.PESSOAL.getRotulo()) ) {	 
 			 buf.append("                       <img class='img-circle img-bordered-success' src='" + context.getContextPath() + nota.getUsuario().getImagemArquivo()  +  "' style='width: 60px; height: 60px; ' alt='admin'/> ");
 		 }
 		 else if ( nota.getAcao().equals(NotaAcaoEnum.IMOVEL.getRotulo()) || nota.getAcao().equals(NotaAcaoEnum.PARCERIA.getRotulo()) ) {
@@ -2595,17 +2682,22 @@ public class UsuarioServiceImpl implements UsuarioService{
 		 buf.append("              <div class='media-body'>  ");
 		 
 		 if ( nota.getAcao().equals(NotaAcaoEnum.PARCERIA.getRotulo())) {
-			 buf.append("					<a href='#' class='h4'>" + MessageUtils.getMessage("lbl.nota.parceria") + "</a> ");												    			    	
+			 buf.append("					<a href='#'a class='h4'>" + MessageUtils.getMessage("lbl.nota.parceria") + "</a> ");												    			    	
 			 buf.append(" ");					  
 			 buf.append("					<small class='block text-muted'><label>" + MessageUtils.getMessage("lbl.descricao.nota") + ": </label> " + nota.getDescricao() +" <a href='" + context.getContextPath() + "/imovel/detalhesImovel/ "+ nota.getImovel().getId() + "' ><strong> " + nota.getImovel().getTitulo()  +" </strong></a></small> ");
 		 }
 		 else if ( nota.getAcao().equals(NotaAcaoEnum.PREFERENCIA.getRotulo())) {
-			 buf.append("					<a href='#' class='h4'>" + MessageUtils.getMessage("lbl.nota.preferencia") + "</a> ");												    			    	
+			 buf.append("					<a href='#'a class='h4'>" + MessageUtils.getMessage("lbl.nota.preferencia") + "</a> ");												    			    	
 			 buf.append(" ");					  
 			 buf.append("					<small class='block text-muted'><label>" + MessageUtils.getMessage("lbl.descricao.nota") + ": </label> " + nota.getDescricao() +" </small> ");	
 		 }
 		 else if ( nota.getAcao().equals(NotaAcaoEnum.USUARIO.getRotulo())) {
-			 buf.append("					<a href='#' class='h4'>" + MessageUtils.getMessage("lbl.nota.info.usuario") + "</a> ");												    			    	
+			 buf.append("					<a href='#'a class='h4'>" + MessageUtils.getMessage("lbl.nota.info.usuario") + "</a> ");												    			    	
+			 buf.append(" ");					  
+			 buf.append("					<small class='block text-muted'><label>" + MessageUtils.getMessage("lbl.descricao.nota") + ": </label> " + nota.getDescricao() +" </small> ");
+		 }
+		 else if ( nota.getAcao().equals(NotaAcaoEnum.PESSOAL.getRotulo())) {
+			 buf.append("					<a href='#'a class='h4'>" + MessageUtils.getMessage("lbl.nota.pessoal") + "</a> ");												    			    	
 			 buf.append(" ");					  
 			 buf.append("					<small class='block text-muted'><label>" + MessageUtils.getMessage("lbl.descricao.nota") + ": </label> " + nota.getDescricao() +" </small> ");
 		 }
@@ -2627,7 +2719,9 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 	
 	
-	public String carregarTimeLineImovel(Imovel imovel) {
+	public String carregarTimeLineImovel(UsuarioForm user, Imovel imovel) {
+		
+			String isInteressado = imovelFavoritosService.checarUsuarioEstaInteressadoImovel(user.getId(), imovel.getId());
 
 		   StringBuffer buf = new StringBuffer("");
 		   buf.append("<div class='timeline-item last-timeline'>");
@@ -2655,8 +2749,8 @@ public class UsuarioServiceImpl implements UsuarioService{
 		   buf.append("                                   <div class='media rounded shadow no-overflow'> ");
 		   buf.append("                                        <div class='media-left'> ");
 		   buf.append("                                            <a href='" + context.getContextPath() + "/imovel/detalhesImovel/" +  imovel.getId() + "' > ");
-		   buf.append("                                               <span class='meta-provider' style='font-size:15px;'>"+ imovel.getAcaoFmt() + " <br><strong>  R$ " + AppUtil.formataMoedaString(imovel.getValorImovel()) + " </strong></span><br> ");
-		   buf.append("                                                <img src='" + context.getContextPath() + imovel.getImagemArquivo() + "' class='img-responsive' style='width: 220px; height: 230px; alt='admin'/> ");
+		   buf.append("                                               <span class='meta-provider' style='font-size:13px;'>"+ imovel.getAcaoFmt() + " <br><strong>  R$ " + AppUtil.formataMoedaString(imovel.getValorImovel()) + " </strong></span><br> ");
+		   buf.append("                                                <img src='" + context.getContextPath() + imovel.getImagemArquivo() + "' class='img-responsive' style='width: 230px; height: 290px; alt='admin'/> ");
 		   buf.append("                                            </a> ");
 		   buf.append("                                        </div> ");
 		   buf.append("                              <div class='media-body'> ");
@@ -2664,9 +2758,9 @@ public class UsuarioServiceImpl implements UsuarioService{
 		   buf.append("                                            <h4 class='media-heading' style='margin-bottom:20px;'><a href='" + context.getContextPath() + "/imovel/detalhesImovel/" +  imovel.getId() + "' style='color : #03A9F4;'>"+ imovel.getTitulo() + "</a></h4> ");
 		   buf.append("                                            <h5 class='media-heading' style='margin-bottom:12px;'><i class='fa fa-map-marker'></i> " + imovel.getEndereco() + " - " + imovel.getBairro()  + " - " +  imovel.getCidade() + " - " + imovel.getUf() + " </h1> ");
 		   buf.append("                                 <div class='col-md-5' > ");
-		   buf.append("                                               <div class='media-body' > ");
+		/*   buf.append("                                               <div class='media-body' > ");
 		   buf.append("                                                <em class='text-xs text-muted'> <font style='font-size:13px; font-style: normal;'><spring:message code='lbl.data.cadastro.imovel' />: </font><span class='text-success'><font style='font-size:11px; font-style: normal;'><fmt:formatDate value='${imovel.dataCadastro}' pattern='dd/MM/yyyy'/></font></span></em> ");
-		   buf.append("                                             </div> ");
+		   buf.append("                                             </div> ");  */
 		   buf.append("                                           </div> ");
 		   buf.append("                                            <div class='col-md-7'> ");
 		   buf.append("                                               <table class='table table-condensed'> ");
@@ -2693,6 +2787,20 @@ public class UsuarioServiceImpl implements UsuarioService{
 		   buf.append("                                                        </tr> ");		   
 		   buf.append("                                                    </tbody> ");
 		   buf.append("                                                </table> ");
+		   buf.append("                                                <br> ");
+		   
+		   if ( isInteressado.equals("N") && imovel.getUsuario().getId().longValue() != user.getId().longValue()) {
+			   buf.append("                                                <a href='#a' id='idMeInteressei_" + imovel.getId() + "' onClick='adicionarInteresse("+ imovel.getId() + ")' style='font-size:x-large; color: rgb(99, 110, 123);' class='meta-action'><i class='fa fa-star-o'> </i> <font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;'>" + MessageUtils.getMessage("lbl.me.interessei") + "  &nbsp;&nbsp; </a> ");
+		   }
+		   else  if ( isInteressado.equals("S")) {		   
+			   buf.append("                                                <a href='#a' id='idNovoInteressado_" + imovel.getId() + "' onClick='retirarInteresse("+ imovel.getId() + ")' style='font-size:x-large; color: rgb(99, 110, 123);' class='meta-action'><i class='fa fa-star'> </i> <font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;'>" + MessageUtils.getMessage("lbl.interessado") + "  &nbsp;&nbsp; </a> ");
+		   } 		   
+		   
+		   buf.append("                                                <a href='#a' id='idNovoMeInteressei_" + imovel.getId() + "' onClick='adicionarInteresse("+ imovel.getId() + ")' style='font-size:x-large; color: rgb(99, 110, 123);display: none;' class='meta-action'><i class='fa fa-star-o'> </i> <font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;'>" + MessageUtils.getMessage("lbl.me.interessei") + "  &nbsp;&nbsp; </a> ");		   
+		   buf.append("                                                <a href='#a' id='idInteressado_" + imovel.getId() + "' onClick='retirarInteresse("+ imovel.getId() + ")' style='font-size:x-large; color: rgb(99, 110, 123);display: none;' class='meta-action'><i class='fa fa-star'> </i> <font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;'>" + MessageUtils.getMessage("lbl.interessado") + "  &nbsp;&nbsp; </a> ");
+		   
+		   buf.append("                                                <a href='#a'  onClick='adicionarComparativo("+ imovel.getId() + ")' style='font-size:x-large; color: rgb(99, 110, 123);' class='meta-action'><i class='fa fa-eye'> </i> <font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;'>" + MessageUtils.getMessage("lbl.title.link.comparar") + "  &nbsp;&nbsp; </a> ");		   						
+		   
 		   buf.append("                                            </div> ");
 		   buf.append("                                        </div> ");
 		   buf.append("                                    </div> ");
@@ -2709,7 +2817,9 @@ public class UsuarioServiceImpl implements UsuarioService{
 	public String carregarTimeLineUsuario(Usuario usuario, UsuarioForm user) {
 		
 		this.carregaAlgunsDetalhesUsuario(usuario);
-		
+		String  tipoContato  = contatoService.checarTipoContato(usuario.getId(), user.getId());
+		String  isSeguindo   = seguidorService.checarUsuarioEstaSeguindo(user.getId(), usuario.getId());
+			
 		StringBuffer buf = new StringBuffer("");
 		buf.append("	  <div class='timeline-item last-timeline'> ");
 		buf.append("          <div class='timeline-badge'> ");
@@ -2760,16 +2870,45 @@ public class UsuarioServiceImpl implements UsuarioService{
 	    buf.append("                        <tr> ");
 	    buf.append("                            <td class='text-left'>" + MessageUtils.getMessage("lbl.total.seguidores") + "</td> ");
 	    buf.append("                            <td class='text-right'> " + usuario.getQuantTotalSeguidores() + " </td> ");
-	    buf.append("                        </tr> ");
-	    
+	    buf.append("                        </tr> ");	    
 	    buf.append("                        <tr> ");
 	    buf.append("                            <td class='text-left'>" + MessageUtils.getMessage("lbl.total.recomendacoes") + "</td> ");
 	    buf.append("                            <td class='text-right'> " + usuario.getQuantTotalRecomendacoes() + " </td> ");
 	    buf.append("                        </tr> ");
-	    
-	    
 	    buf.append("                      </tbody> ");
 	    buf.append("                </table> ");
+	    buf.append("                <br> ");	    	
+	    
+	    buf.append("    <a href='" + context.getContextPath() + "/imovel/visualizarImoveisPerfilUsuario/"+ usuario.getId()  +  "' style='font-size:x-large; color: rgb(99, 110, 123);' class='meta-action' ><i class='fa fa-home pull-left' style='color:gray'><font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;'>" + MessageUtils.getMessage("lbl.visualizar.imoveis.perfil.usuario") + "</font> </i>  </a> ");
+	    
+	    if ( user.getId().longValue() != usuario.getId().longValue()){
+	    	
+	    	if ( tipoContato.equals("S") || tipoContato.equals("C") || usuario.getHabilitaRecebeSeguidor().equals("S")){
+	    		if ( isSeguindo.equals("S")){
+	    			buf.append("    <a href='#a' id='idCancelarSeguidor' onclick='cancelarSeguirUsuario("+ usuario.getId() +")' style='font-size:x-large; color: rgb(99, 110, 123); ' class='meta-action'><i class='fa fa-outdent pull-right' style='color:gray'><font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;'> " + MessageUtils.getMessage("lbl.link.cancelar.seguir.usuario") + " </font> &nbsp; &nbsp; </i> </a> ");
+	    			buf.append("    <a href='#a' id='idIniciarSeguidor' onclick='iniciarSeguirUsuario("+ usuario.getId() +")' style='font-size:x-large; color: rgb(99, 110, 123); display: none;' class='meta-action'><i class='fa fa-list-ul pull-right' style='color:gray'><font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;'> " + MessageUtils.getMessage("lbl.link.iniciar.seguir.usuario") + " </font> &nbsp; &nbsp; </i> </a> ");
+	    		}
+	    		else {
+	    			buf.append("    <a href='#a' id='idIniciarSeguidor' onclick='iniciarSeguirUsuario("+ usuario.getId() +")' style='font-size:x-large; color: rgb(99, 110, 123);' class='meta-action'><i class='fa fa-list-ul pull-right' style='color:gray'><font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;'> " + MessageUtils.getMessage("lbl.link.iniciar.seguir.usuario") + " </font> &nbsp; &nbsp; </i> </a> ");
+	    			buf.append("    <a href='#a' id='idCancelarSeguidor' onclick='cancelarSeguirUsuario("+ usuario.getId() +")' style='font-size:x-large; color: rgb(99, 110, 123); display: none;' class='meta-action'><i class='fa fa-outdent pull-right' style='color:gray'><font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;'> " + MessageUtils.getMessage("lbl.link.cancelar.seguir.usuario") + " </font> &nbsp; &nbsp; </i> </a> ");
+	    		}
+	    	}
+	    	
+	    	if ( tipoContato.equals("S")){	    		
+	    		buf.append("    <a href='#a' id='idCancelarContato' onclick='prepararModalCancelarContato("+ usuario.getId() +")' style='font-size:x-large; color: rgb(99, 110, 123); ' class='meta-action'><i class='fa fa-user-times pull-right' style='color:gray'><font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;'> " + MessageUtils.getMessage("lbl.canceler.contato") + " </font> &nbsp; &nbsp; </i> </a> ");	    		
+	    		buf.append("    <a href='#a' id='idEnviarConvite' onclick='enviarConvite("+ usuario.getId() +")' style='font-size:x-large; display: none; ' class='meta-action'><i class='fa fa-user-times pull-right' style='color:gray'><font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;'> " + MessageUtils.getMessage("lbl.enviar.convite") + " </font> &nbsp; &nbsp; </i> </a> ");	    		
+	    		buf.append("    <a href='#a' id='idCancelarConvite' onclick='prepararModalCancelarConvite("+ usuario.getId() +")' style='font-size:x-large; display: none; color: rgb(99, 110, 123);' class='meta-action'><i class='fa fa-user-times pull-right' style='color:gray'><font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;'> " + MessageUtils.getMessage("lbl.canceler.enviar.convite") + " </font> &nbsp; &nbsp; </i> </a> ");
+	    	}
+	    	else if ( tipoContato.equals("C")){
+	    		buf.append("    <a href='#a' id='idCancelarConvite' onclick='prepararModalCancelarConvite("+ usuario.getId() +")' style='font-size:x-large; color: rgb(99, 110, 123);' class='meta-action'><i class='fa fa-user-times pull-right' style='color:gray'><font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;'> " + MessageUtils.getMessage("lbl.canceler.enviar.convite") + " </font> &nbsp; &nbsp; </i> </a> ");
+	    		buf.append("    <a href='#a' id='idEnviarConvite' onclick='enviarConvite("+ usuario.getId() +")' style='font-size:x-large; display: none; color: rgb(99, 110, 123);' class='meta-action'><i class='fa fa-user-times pull-right' style='color:gray'><font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;'> " + MessageUtils.getMessage("lbl.enviar.convite") + " </font> &nbsp; &nbsp; </i> </a> ");
+	    	}
+	    	else if ( tipoContato.equals("N")){
+	    		buf.append("    <a href='#a' id='idEnviarConvite' onclick='enviarConvite("+ usuario.getId() +")' style='font-size:x-large; color: rgb(99, 110, 123);' class='meta-action'><i class='fa fa-user-times pull-right' style='color:gray'><font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;'> " + MessageUtils.getMessage("lbl.enviar.convite") + " </font> &nbsp; &nbsp; </i> </a> ");
+	    		buf.append("    <a href='#a' id='idCancelarConvite' onclick='prepararModalCancelarConvite("+ usuario.getId() +")' style='font-size:x-large; display: none; color: rgb(99, 110, 123);' class='meta-action'><i class='fa fa-user-times pull-right' style='color:gray'><font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;'> " + MessageUtils.getMessage("lbl.canceler.enviar.convite") + " </font> &nbsp; &nbsp; </i> </a> ");
+	    	}
+	    }
+	    
 	    buf.append("           </div> ");
 	    buf.append("     </div> ");
 	    buf.append("   </div> ");
@@ -3051,11 +3190,32 @@ public class UsuarioServiceImpl implements UsuarioService{
 		}
 		
 		if ( !isVazio ){
+			
+			if ( !org.apache.commons.lang3.StringUtils.isAlphanumeric(form.getPassword())){				
+				result.rejectValue("password", "msg.erro.senha.caractere.alfanumerico");
+				filtroValido = false;
+			}
+			
+			if ( ! org.apache.commons.lang3.StringUtils.isAlphanumeric(form.getConfirmaPassword())){				
+				result.rejectValue("confirmaPassword", "msg.erro.senha.caractere.alfanumerico");
+				filtroValido = false;
+			}
+			
+			if ( form.getPassword().length() < 6 ){
+				result.rejectValue("password", "msg.erro.senha.tamanho.minimo");
+				filtroValido = false;
+			}
+			
+			if ( form.getConfirmaPassword().length() < 6 ){
+				result.rejectValue("confirmaPassword", "msg.erro.senha.tamanho.minimo");
+				filtroValido = false;
+			}			
+			
 			if (! form.getPassword().equals(form.getConfirmaPassword())){
 				result.rejectValue("confirmaPassword", "msg.erro.nova.senha.confirma.senha.esquece");
 				filtroValido = false;
-			}
-		}
+			}					
+		}	
 		
 		return filtroValido;
 	}
@@ -3096,6 +3256,61 @@ public class UsuarioServiceImpl implements UsuarioService{
         enviaEmail.setTo(form.getEmailIndicaAmigos()); 
         enviaEmail.setTexto(MessageUtils.getMessage("msg.email.texto.indicar.amigo") + ": " + MessageUtils.getMessage("msg.email.texto.indicar.amigo.link"));		            	
         enviaEmail.enviaEmail(enviaEmail.getEmail());		
+	}
+
+
+	@Override
+	public List<Usuario> relatorioUsuariosImoveisMaisVisualizados(RelatorioForm form) {
+		
+		 List<Usuario> listaUsuarioFinal = new ArrayList<Usuario>();        
+	        List listaUsuario = dao.findUsuariosImoveisMaisVisualizados(form);        
+	        if ( ! CollectionUtils.isEmpty(listaUsuario) ){
+	            Usuario usuario = null;
+	            Object[] obj = null;
+	            for (Iterator iter = listaUsuario.iterator();iter.hasNext();){
+	                obj = (Object[]) iter.next();
+	                usuario = recuperarUsuarioPorId(Long.parseLong(obj[0].toString()));                
+	                usuario.setQuantImovelVisitado(Integer.parseInt(obj[1].toString()));
+	                listaUsuarioFinal.add(usuario);
+	            }
+	        }
+	        return listaUsuarioFinal;
+	}
+
+
+	@Override
+	public List<Usuario> relatorioUsuariosImoveisMaisFavoritos(	RelatorioForm form) {
+		List<Usuario> listaUsuarioFinal = new ArrayList<Usuario>();        
+        List listaUsuario = dao.findUsuariosImoveisMaisFavoritos(form);        
+        if ( ! CollectionUtils.isEmpty(listaUsuario) ){
+            Usuario usuario = null;
+            Object[] obj = null;
+            for (Iterator iter = listaUsuario.iterator();iter.hasNext();){
+                obj = (Object[]) iter.next();
+                usuario = recuperarUsuarioPorId(Long.parseLong(obj[0].toString()));                
+                usuario.setQuantImovelFavoritos(Integer.parseInt(obj[1].toString()));
+                listaUsuarioFinal.add(usuario);
+            }
+        }
+        return listaUsuarioFinal;
+	}
+
+
+	@Override
+	public List<Usuario> relatorioUsuariosImoveisMaisPropostas(RelatorioForm form) {
+		List<Usuario> listaUsuarioFinal = new ArrayList<Usuario>();        
+        List listaUsuario = dao.findUsuariosImoveisMaisPropostas(form);        
+        if ( ! CollectionUtils.isEmpty(listaUsuario) ){
+            Usuario usuario = null;
+            Object[] obj = null;
+            for (Iterator iter = listaUsuario.iterator();iter.hasNext();){
+                obj = (Object[]) iter.next();
+                usuario = recuperarUsuarioPorId(Long.parseLong(obj[0].toString()));                
+                usuario.setQuantImovelFavoritos(Integer.parseInt(obj[1].toString()));
+                listaUsuarioFinal.add(usuario);
+            }
+        }
+        return listaUsuarioFinal;
 	}	
 
 }

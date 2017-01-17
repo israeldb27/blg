@@ -39,7 +39,7 @@ public class Nota implements Serializable {
     private Usuario usuario;
    
     @Column(name = "dataNota")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dataNota;    
    
     @Column(name = "descricao")

@@ -35,7 +35,7 @@ public interface ImovelDao extends GenericDAO<Imovel, Long> {
 	
 	List<Imovel> findImoveisDestaqueByIdUsuario(Long idUsuario);
 	
-	Imovel findImovelByCodigoIdentificacaoBydIdimovel(Long idUsuario, String codigo);
+	Imovel findImovelByCodigoIdentificacaoBydIdUsuario(Long idUsuario, ImovelForm form);
 	
 	void reativaImoveisUsuario(long idUsuario);
 	

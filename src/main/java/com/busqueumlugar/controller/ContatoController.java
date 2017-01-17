@@ -164,8 +164,11 @@ public class ContatoController {
 		else
 			contatoService.responderConvite(idUsuarioContato, user.getId(), respostaConvite);
 		
-		session.setAttribute(ContatoService.QUANT_CONVITES_RECEBIDOS, contatoService.checarConvitesRecebidosPorUsuarioPorStatus(user.getId(), ContatoStatusEnum.OK.getRotulo()));
-		session.setAttribute(ContatoService.QUANT_TOTAL_CONTATOS, contatoService.checarTotalContatosPorUsuarioPorStatus(user.getId(), ContatoStatusEnum.OK.getRotulo()));
+		
+		session.setAttribute(ContatoService.QUANT_TOTAL_CONTATOS, contatoService.checarTotalContatosPorUsuarioPorStatus(user.getId(), ContatoStatusEnum.OK.getRotulo()));	
+		session.setAttribute(ContatoService.LISTA_CONVITES_RECEBIDOS, contatoService.recuperarConvites(user.getId(), 4));		
+		session.setAttribute(ContatoService.QUANT_NOVOS_CONVITES_RECEBIDOS, contatoService.checarConvitesRecebidosPorUsuarioPorStatus(user.getId(), StatusLeituraEnum.NOVO.getRotulo()));
+		session.setAttribute(ContatoService.QUANT_CONVITES_RECEBIDOS, contatoService.checarConvitesRecebidosPorUsuarioPorStatus(user.getId(), null));
 		map.addAttribute("contatoForm", new ContatoForm());
         return "ok";
     }
@@ -185,10 +188,10 @@ public class ContatoController {
 		else
 			contatoService.responderConvite(idUsuarioContato, user.getId(), respostaConvite);
 		
-		session.setAttribute(ContatoService.LISTA_CONVITES_RECEBIDOS, contatoService.recuperarConvites(user.getId(), 4));
+		session.setAttribute(ContatoService.QUANT_TOTAL_CONTATOS, contatoService.checarTotalContatosPorUsuarioPorStatus(user.getId(), ContatoStatusEnum.OK.getRotulo()));	
+		session.setAttribute(ContatoService.LISTA_CONVITES_RECEBIDOS, contatoService.recuperarConvites(user.getId(), 4));		
 		session.setAttribute(ContatoService.QUANT_NOVOS_CONVITES_RECEBIDOS, contatoService.checarConvitesRecebidosPorUsuarioPorStatus(user.getId(), StatusLeituraEnum.NOVO.getRotulo()));
 		session.setAttribute(ContatoService.QUANT_CONVITES_RECEBIDOS, contatoService.checarConvitesRecebidosPorUsuarioPorStatus(user.getId(), null));
-		session.setAttribute(ContatoService.QUANT_TOTAL_CONTATOS, contatoService.checarTotalContatosPorUsuarioPorStatus(user.getId(), ContatoStatusEnum.OK.getRotulo()));
 		return DIR_PATH + "visualizarConviteSelecionado";
     }
 	

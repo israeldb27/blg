@@ -29,7 +29,6 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 
 @Configuration
-//@Import({MessagingConfiguration.class,MessagingListnerConfiguration.class})
 @EnableWebMvc
 @PropertySource(
         {
@@ -42,7 +41,7 @@ import org.springframework.http.converter.json.GsonHttpMessageConverter;
 {
     "com.busqueumlugar"
 })
-@Import(value = { LoginSecurityConfig.class })
+@Import(value = { LoginSecurityConfig.class,MessagingConfiguration.class,MessagingListnerConfiguration.class })
 public class WebApplicationContext extends WebMvcConfigurerAdapter
 {
 

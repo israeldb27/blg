@@ -24,6 +24,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 
 import com.busqueumlugar.enumerador.AcaoImovelEnum;
+import com.busqueumlugar.enumerador.ContatoStatusEnum;
 import com.busqueumlugar.enumerador.PerfilUsuarioOpcaoEnum;
 import com.busqueumlugar.enumerador.RelatorioEnum;
 import com.busqueumlugar.enumerador.ServicoValueEnum;
@@ -33,8 +34,14 @@ import com.busqueumlugar.enumerador.TipoContatoEnum;
 import com.busqueumlugar.enumerador.TipoContatoOpcaoEnum;
 import com.busqueumlugar.enumerador.TipoImovelEnum;
 import com.busqueumlugar.enumerador.TipoRelatorioSobreLocalidadeEnum;
+import com.busqueumlugar.dao.BairrosDao;
+import com.busqueumlugar.dao.CidadesDao;
+import com.busqueumlugar.dao.ContatoDao;
+import com.busqueumlugar.dao.EstadosDao;
 import com.busqueumlugar.dao.RelatorioDao;
 import com.busqueumlugar.dao.RelatorioacessoperfilDao;
+import com.busqueumlugar.dao.SeguidorDao;
+import com.busqueumlugar.dao.ServicoDao;
 import com.busqueumlugar.form.FiltroRelatorioForm;
 import com.busqueumlugar.form.RelatorioForm;
 import com.busqueumlugar.form.UsuarioForm;
@@ -82,25 +89,25 @@ public class RelatorioServiceImpl implements RelatorioService {
 	private RelatorioacessoperfilDao relatorioacessoperfilDao;
 
 	@Autowired
-	private EstadosService estadosService;
+	private EstadosDao estadosDao;
 
 	@Autowired
-	private BairrosService bairrosService;
+	private BairrosDao bairrosDao;
 	
 	@Autowired
-	private CidadesService cidadesService;
+	private CidadesDao cidadesDao;
 	
 	@Autowired
-	private ContatoService contatoService;
+	private ContatoDao contatoDao;
 
 	@Autowired
 	private ParamservicoService paramservicoService;
 
 	@Autowired
-	private ServicoService servicoService;
+	private ServicoDao servicoDao;
 	
 	@Autowired
-	private SeguidorService seguidorService;
+	private SeguidorDao seguidorDao;
 	
 	@Autowired
 	private ParametrosIniciaisService parametrosIniciaisService;
@@ -118,12 +125,12 @@ public class RelatorioServiceImpl implements RelatorioService {
         if ( frm.getOpcaoFiltroContato().equals(TipoContatoOpcaoEnum.TODOS_USUARIOS.getRotulo()))
         	lista = dao.listarQuantImoveisCriadosLocalizacaoAcaoTipoImovel(frm, null);        
         else if ( frm.getOpcaoFiltroContato().equals(TipoContatoOpcaoEnum.MEUS_CONTATOS.getRotulo())){ // utilizar aqui Restrictions.in(..) na classe DAO
-            List listaIds = contatoService.recuperarIDsMeusContatos(idUsuario);              
+            List listaIds = contatoDao.findIdsUsuariosContatosByIdUsuarioByStatus(idUsuario, ContatoStatusEnum.OK.getRotulo());              
             if ( ! CollectionUtils.isEmpty(listaIds))
             	lista = dao.listarQuantImoveisCriadosLocalizacaoAcaoTipoImovel(frm, listaIds);
         }
         else if ( frm.getOpcaoFiltroContato().equals(TipoContatoOpcaoEnum.USUARIOS_SEGUINDO.getRotulo())){ 
-        	List listaIds = seguidorService.recuperarIdsSeguidores(idUsuario);
+        	List listaIds = seguidorDao.findIdsSeguidoresByIdUsuario(idUsuario);
         	if ( ! CollectionUtils.isEmpty(listaIds))
             	lista = dao.listarQuantImoveisCriadosLocalizacaoAcaoTipoImovel(frm, listaIds);  
         }           
@@ -162,12 +169,12 @@ public class RelatorioServiceImpl implements RelatorioService {
         if ( frm.getOpcaoFiltroContato().equals(TipoContatoOpcaoEnum.TODOS_USUARIOS.getRotulo()))
         	lista = dao.recuperarTiposImoveisQuantidade(frm, null);        
         else if ( frm.getOpcaoFiltroContato().equals(TipoContatoOpcaoEnum.MEUS_CONTATOS.getRotulo())){ // utilizar aqui Restrictions.in(..) na classe DAO
-            List listaIds = contatoService.recuperarIDsMeusContatos(idUsuario);              
+            List listaIds = contatoDao.findIdsUsuariosContatosByIdUsuarioByStatus(idUsuario, ContatoStatusEnum.OK.getRotulo());              
             if ( ! CollectionUtils.isEmpty(listaIds))
             	lista = dao.recuperarTiposImoveisQuantidadesPorIdsUsuarios(frm, listaIds);
         }
         else if ( frm.getOpcaoFiltroContato().equals(TipoContatoOpcaoEnum.USUARIOS_SEGUINDO.getRotulo())){ 
-        	List listaIds = seguidorService.recuperarIdsSeguidores(idUsuario);
+        	List listaIds = seguidorDao.findIdsSeguidoresByIdUsuario(idUsuario);
         	if ( ! CollectionUtils.isEmpty(listaIds))
             	lista = dao.recuperarTiposImoveisQuantidadesPorIdsUsuarios(frm, listaIds);  
         }        
@@ -222,12 +229,12 @@ public class RelatorioServiceImpl implements RelatorioService {
         if ( frm.getOpcaoFiltroContato().equals(TipoContatoOpcaoEnum.TODOS_USUARIOS.getRotulo()))
         	lista = dao.recuperarVariacaoPrecoImovel(frm, null);        
         else if ( frm.getOpcaoFiltroContato().equals(TipoContatoOpcaoEnum.MEUS_CONTATOS.getRotulo())){ // utilizar aqui Restrictions.in(..) na classe DAO
-            List listaIds = contatoService.recuperarIDsMeusContatos(idUsuario);              
+            List listaIds = contatoDao.findIdsUsuariosContatosByIdUsuarioByStatus(idUsuario, ContatoStatusEnum.OK.getRotulo());              
             if ( ! CollectionUtils.isEmpty(listaIds))
             	lista = dao.recuperarVariacaoPrecoImovel(frm, listaIds);
         }
         else if ( frm.getOpcaoFiltroContato().equals(TipoContatoOpcaoEnum.USUARIOS_SEGUINDO.getRotulo())){ 
-        	List listaIds = seguidorService.recuperarIdsSeguidores(idUsuario);
+        	List listaIds = seguidorDao.findIdsSeguidoresByIdUsuario(idUsuario);
         	if ( ! CollectionUtils.isEmpty(listaIds))
             	lista = dao.recuperarVariacaoPrecoImovel(frm, listaIds);  
         }       
@@ -409,11 +416,11 @@ public class RelatorioServiceImpl implements RelatorioService {
             
             if ( cobrado ){ // se o servico � cobrado entao checar se o usu�rio pagou pelo servico para usar no periodo corrente
                 if ( perfil.equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()))
-                    servico = servicoService.checarHabilitadoModuloRelatorio(idUsuario,ServicoValueEnum.RELATORIO_PADRAO.getRotulo(), dtAtual.getTime());
+                    servico = servicoDao.findServicoRelatorioByIdUsuario(idUsuario,ServicoValueEnum.RELATORIO_PADRAO.getRotulo(), dtAtual.getTime());
                 else if ( perfil.equals(PerfilUsuarioOpcaoEnum.CORRETOR.getRotulo()))
-                    servico = servicoService.checarHabilitadoModuloRelatorio(idUsuario,ServicoValueEnum.RELATORIO_CORRETOR.getRotulo(), dtAtual.getTime());
+                    servico = servicoDao.findServicoRelatorioByIdUsuario(idUsuario,ServicoValueEnum.RELATORIO_CORRETOR.getRotulo(), dtAtual.getTime());
                 else if ( perfil.equals(PerfilUsuarioOpcaoEnum.IMOBILIARIA.getRotulo()))
-                    servico = servicoService.checarHabilitadoModuloRelatorio(idUsuario,ServicoValueEnum.RELATORIO_IMOBILIARIA.getRotulo(), dtAtual.getTime());
+                    servico = servicoDao.findServicoRelatorioByIdUsuario(idUsuario,ServicoValueEnum.RELATORIO_IMOBILIARIA.getRotulo(), dtAtual.getTime());
 
                 if ( servico == null ){
                     return true;
@@ -679,11 +686,11 @@ public class RelatorioServiceImpl implements RelatorioService {
 				e.printStackTrace();
 			}
 			// atualizar status na tabela Servico
-			Servico servico = servicoService.recuperarServicoPorId(form.getIdServicoGerado());
+			Servico servico = servicoDao.findServicoById(form.getIdServicoGerado());
 			servico.setStatusPgto(StatusPagtoOpcaoEnum.AGUARDANDO.getRotulo());
 			servico.setDataAguardandoPagto(new Date());
 			servico.setToken(guid);
-			servicoService.atualizarServico(servico);
+			servicoDao.save(servico);
 			
 		}
 		return createdPayment;
@@ -697,17 +704,17 @@ public class RelatorioServiceImpl implements RelatorioService {
 		List<FiltroRelatorioForm> lista = new ArrayList<FiltroRelatorioForm>();
 		if ( form.getIdEstado() > 0  ){
 			filtro.setNomeFiltro(MessageUtils.getMessage("lbl.estado"));
-			filtro.setValorFiltro(estadosService.rescuperarEstadosPorId(form.getIdEstado()).getNome() );
+			filtro.setValorFiltro(estadosDao.findEstadosById(form.getIdEstado()).getNome() );
 			lista.add(filtro);
 			if (form.getIdCidade() > 0 ){
 				filtro = new FiltroRelatorioForm();
 				filtro.setNomeFiltro(MessageUtils.getMessage("lbl.cidade"));
-				filtro.setValorFiltro(cidadesService.recuperarCidadesPorId(form.getIdCidade()).getNome());
+				filtro.setValorFiltro(cidadesDao.findCidadesById(form.getIdCidade()).getNome());
 				lista.add(filtro);
 				if (form.getIdBairro() > 0 ){
 					filtro = new FiltroRelatorioForm();
 					filtro.setNomeFiltro(MessageUtils.getMessage("lbl.bairro"));
-					filtro.setValorFiltro(bairrosService.recuperarBairrosPorId(form.getIdBairro()).getNome());
+					filtro.setValorFiltro(bairrosDao.findBairrosById(form.getIdBairro()).getNome());
 					lista.add(filtro);
 				}
 			}

@@ -37,7 +37,7 @@ public interface UsuarioService {
 	
 	UsuarioForm carregaUsuarioByLogin(UsuarioForm form);
 	
-	UsuarioForm cadastrarUsuario(UsuarioForm frm);
+	UsuarioForm cadastrarUsuario(UsuarioForm frm)throws EmailException;
 	
 	String gerarCodigoIdentificacao(Usuario usuario, Estados estado);
 	
@@ -65,7 +65,7 @@ public interface UsuarioService {
 	
 	int checarQuantidadeTotalUsuarios();
 	
-	int checarQuantidadeTotalUsuariosPorPeriodo(AdministracaoForm form);
+	long checarQuantidadeTotalUsuariosPorPeriodo(AdministracaoForm form);
 	
 	List<Usuario> checarUsuariosPorUltimoAcesso(AdministracaoForm form);
 	
@@ -105,7 +105,7 @@ public interface UsuarioService {
 	
 	void atualizarStatusAtivadoUsuario(Long idUsuario);
 	
-	List<Usuario> relatorioUsuarioMaisCompartilhamentosAceitos(RelatorioForm frm, String perfilUsuario, String tipoImovelCompart);
+	List<Usuario> relatorioUsuarioMaisCompartilhamentosAceitos(RelatorioForm frm, String tipoImovelCompart);
 	
 	String validarIndicarAmigos(String email);
 	
@@ -174,5 +174,11 @@ public interface UsuarioService {
 	boolean validarIndicarAmigo(UsuarioForm form, BindingResult result);
 
 	void enviarIndicarAmigo(UsuarioForm form) throws EmailException;
+
+	List<Usuario> relatorioUsuariosImoveisMaisVisualizados(RelatorioForm form);
+
+	List<Usuario> relatorioUsuariosImoveisMaisFavoritos(RelatorioForm form);
+
+	List<Usuario> relatorioUsuariosImoveisMaisPropostas(RelatorioForm form);
 }
 

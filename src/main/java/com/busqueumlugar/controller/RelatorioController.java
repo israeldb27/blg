@@ -2,6 +2,7 @@ package com.busqueumlugar.controller;
 
 import java.io.IOException;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.busqueumlugar.enumerador.PerfilUsuarioOpcaoEnum;
 import com.busqueumlugar.enumerador.ServicoValueEnum;
 import com.busqueumlugar.enumerador.TipoImovelCompartilhadoEnum;
+import com.busqueumlugar.form.ImovelForm;
 import com.busqueumlugar.form.RelatorioForm;
 import com.busqueumlugar.form.UsuarioForm;
 import com.busqueumlugar.model.Relatorio;
@@ -99,6 +101,39 @@ public class RelatorioController {
 	private static final String  DIR_PATH_ADMIN_RELATORIOS = "/administracao/relatorios/";
 	private static final String DIR_PATH_REL_COBRANCA_SERVICO = "/relatorio/cobrancaServico/";
 	private static final String MENU = "menu";
+	
+	@RequestMapping(value = "/buscarCidades/{idEstado}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Select> populaCidadePorEstado(@PathVariable("idEstado") Integer idEstado, 
+    										  @ModelAttribute("relatorioForm") RelatorioForm form,	
+											  ModelMap map)  {       
+		try {		
+			form.setListaCidades(cidadesService.selecionarCidadesPorIdEstadoSelect(idEstado));
+	        return form.getListaCidades();
+		} catch (Exception e) {
+			log.error("Erro metodo - RelatorioController -  populaCidadePorEstado");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return null;
+		}
+    }		
+	
+	@RequestMapping(value = "/buscarBairros/{idCidade}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Select> populaBairroPorEstado(@PathVariable("idCidade") Integer idCidade,
+    										  @ModelAttribute("relatorioForm") RelatorioForm form,	
+											  ModelMap map)  {
+        
+		try {			
+			form.setListaBairros(bairrosService.selecionarBairrosPorIdCidadeSelect(idCidade));
+	        return form.getListaBairros();
+		} catch (Exception e) {
+			log.error("Erro metodo - RelatorioController -  populaBairroPorEstado");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return null;
+		}
+    }
 		
 	
 	@RequestMapping(value = "/buscarRelatorio/{item}", method = RequestMethod.GET)
@@ -328,16 +363,13 @@ public class RelatorioController {
     	    	ObjectMapper mapper = new ObjectMapper();
     	    	try {
     	    		if ( form.getItem().equals("sobreEstados") ) { 		
-    		            map.addAttribute(form.getItem(), estadosService.relatorioSobreEstados(form));
-    		            map.addAttribute("relatorioLocalidadesMais", mapper.writeValueAsString(map.get(form.getItem())));
+    		            map.addAttribute(form.getItem(), estadosService.relatorioSobreEstados(form));    		            
     	    		}    
     		        else if ( form.getItem().equals("sobreCidades") ){ 
-    		        	map.addAttribute(form.getItem(), cidadesService.relatorioSobreCidades(form));
-    		        	map.addAttribute("relatorioLocalidadesMais", mapper.writeValueAsString(map.get(form.getItem())));
+    		        	map.addAttribute(form.getItem(), cidadesService.relatorioSobreCidades(form));    		        	
     		        }	
     		        else if ( form.getItem().equals("sobreBairros") ) {
-    		        	map.addAttribute(form.getItem(), bairrosService.relatorioSobreBairros(form));
-    		        	map.addAttribute("relatorioLocalidadesMais", mapper.writeValueAsString(map.get(form.getItem())));
+    		        	map.addAttribute(form.getItem(), bairrosService.relatorioSobreBairros(form));    		        	
     		        }	
     		        else if ( form.getItem().equals("quantImoveisPorLocalizacaoAcaoTipoImovel") ) {
     		        	map.addAttribute(form.getItem(), relatorioService.listarQuantidadeImoveisPorLocalAcaoTipoImovel(user.getId(), form));
@@ -352,38 +384,33 @@ public class RelatorioController {
     		            map.addAttribute("relatorioContabilidadeEstatistica", mapper.writeValueAsString(map.get(form.getItem())));
     		        }    
     		    	if ( form.getItem().equals("imoveisMaisVisualizados") ) {			
-    		           	map.addAttribute(form.getItem(), imovelvisualizadoService.relatorioImoveisMaisVisitadosPorPeriodo(form));
-    		           	map.addAttribute("relatorioImoveis", mapper.writeValueAsString(map.get(form.getItem())));
+    		           	map.addAttribute(form.getItem(), imovelvisualizadoService.relatorioImoveisMaisVisitadosPorPeriodo(form));    		           	
     		    	}
     		        else if ( form.getItem().equals("imoveisMaisPropostados") ) {       	
     		            map.addAttribute(form.getItem(), imovelPropostasService.relatorioImoveisMaisPropostadosPorPeriodo(form));
-    		            map.addAttribute("relatorioImoveis", mapper.writeValueAsString(map.get(form.getItem())));
     		        }    
     		        else if ( form.getItem().equals("imoveisMaisComentados") ) {       	
     		            map.addAttribute(form.getItem(), imovelcomentarioService.relatorioImoveisMaisComentadosPorPeriodo(form));
-    		            map.addAttribute("relatorioImoveis", mapper.writeValueAsString(map.get(form.getItem())));
     		        }    
     		        else if ( form.getItem().equals("imoveisMaisAdotadosInteressados") ) {
     		            map.addAttribute(form.getItem(), imovelFavoritosService.relatorioImoveisMaisAdotadosInteressadosPorPeriodo(form));
-    		            map.addAttribute("relatorioImoveis", mapper.writeValueAsString(map.get(form.getItem())));
     		        }
     		        // novo - 12/01/2015
-    		        else if ( form.getItem().equals("imobiliariasMaisParceriasAceitas") ) {
-    		            map.addAttribute(form.getItem(), usuarioService.relatorioUsuarioMaisCompartilhamentosAceitos(form,PerfilUsuarioOpcaoEnum.IMOBILIARIA.getRotulo(), TipoImovelCompartilhadoEnum.PARCERIA.getRotulo()));
-    		            map.addAttribute("relatorioImobiliaria", mapper.writeValueAsString(map.get(form.getItem())));
+    		        else if ( form.getItem().equals("usuariosMaisParceriasAceitas") ) {
+    		            map.addAttribute(form.getItem(), usuarioService.relatorioUsuarioMaisCompartilhamentosAceitos(form, TipoImovelCompartilhadoEnum.PARCERIA.getRotulo()));    		            
     		        }    
-    		        else if ( form.getItem().equals("imobiliariaMaisIntermediacoesAceitas") ) {
-    		            map.addAttribute(form.getItem(), usuarioService.relatorioUsuarioMaisCompartilhamentosAceitos(form,PerfilUsuarioOpcaoEnum.IMOBILIARIA.getRotulo(), TipoImovelCompartilhadoEnum.PARCERIA.getRotulo()));
-    		            map.addAttribute("relatorioImobiliaria", mapper.writeValueAsString(map.get(form.getItem())));
-    		        }    
-    		        else if ( form.getItem().equals("corretoresMaisParceriasAceitas") ){
-    		            map.addAttribute(form.getItem(), usuarioService.relatorioUsuarioMaisCompartilhamentosAceitos(form,PerfilUsuarioOpcaoEnum.CORRETOR.getRotulo(), TipoImovelCompartilhadoEnum.PARCERIA.getRotulo()));
-    		            map.addAttribute("relatorioCorretores", mapper.writeValueAsString(map.get(form.getItem())));
-    		        }    
-    		        else if ( form.getItem().equals("corretoresMaisIntermediacoesAceitas") ) {
-    		            map.addAttribute(form.getItem(), usuarioService.relatorioUsuarioMaisCompartilhamentosAceitos(form,PerfilUsuarioOpcaoEnum.CORRETOR.getRotulo(), TipoImovelCompartilhadoEnum.INTERMEDIACAO.getRotulo()));
-    		            map.addAttribute("relatorioCorretores", mapper.writeValueAsString(map.get(form.getItem())));
-    		        }    
+    		        else if ( form.getItem().equals("usuariosMaisIntermediacoesAceitas") ) {
+    		            map.addAttribute(form.getItem(), usuarioService.relatorioUsuarioMaisCompartilhamentosAceitos(form, TipoImovelCompartilhadoEnum.INTERMEDIACAO.getRotulo()));    		            
+    		        } 
+    		        else if ( form.getItem().equals("usuariosImoveisMaisVisualizados") ) {
+    		            map.addAttribute(form.getItem(), usuarioService.relatorioUsuariosImoveisMaisVisualizados(form));    		            
+    		        }
+    		        else if ( form.getItem().equals("usuariosImoveisMaisFavoritos") ) {
+    		            map.addAttribute(form.getItem(), usuarioService.relatorioUsuariosImoveisMaisFavoritos(form));    		            
+    		        }
+    		        else if ( form.getItem().equals("usuariosImoveisMaisPropostas") ) {
+    		            map.addAttribute(form.getItem(), usuarioService.relatorioUsuariosImoveisMaisPropostas(form));    		            
+    		        } 
     		    	
     		    	map.addAttribute("filtrosUsados", relatorioService.checarFiltrosUtilizados(form));
     		    	map.addAttribute(MENU, form.getItem());

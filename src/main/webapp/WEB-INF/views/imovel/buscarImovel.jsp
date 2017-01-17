@@ -362,7 +362,7 @@
 							             <br>
 							             
 							         	<c:if test="${(usuario.perfil != 'P')}">
-								             <span class="label label-default">Parceria ou Intermediação </span>
+								             <span class="label label-default"><spring:message code="lbl.buscar.imovel.intermediacao.parceria"/> </span>
 								             <spring:message code="lbl.hint.imovel.parceria.intermediacao" var="hintParceriaIntermediaca"/>
 									             <form:select id="autorizacaoOutroUsuario" path="autorizacaoOutroUsuario" class="form-control" title="${hintParceriaIntermediaca}">            
 													<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>                        
@@ -376,9 +376,29 @@
 										  </div><!-- /.pull-right -->            												   
 										  <br>
                                     </div>
-                               </div>     
+                               </div>  
+                            </form:form>   
+                                <!-- Buscar pelo codigo de identificação imóvel -->
+                             
+                             <form:form method="POST" id="imovelForm" modelAttribute="imovelForm" action="${urlImovel}/filtrarBuscaImoveisPorCodigoIdentificacao" >
+	                             	<div class="panel rounded shadow no-overflow">
+	                                	 <div class="panel-body">
+		                                	 <br>
+		                                	 <span class="label label-default"><spring:message code="lbl.codigo.identificacao.imovel.resum"/> </span>                                	                                 	  
+			                                 <form:input  id="codigoIdentificacao" path="codigoIdentificacao" class="form-control"  />
+			                                 <form:errors id="codigoIdentificacao" path="codigoIdentificacao" cssClass="errorEntrada"  />
+		                                	  
+		                                      <br>
+							             	  <div class="pull-right">
+													<button type="submit" class="btn btn-sm btn-primary btn-lg btn-expand" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
+												  </div><!-- /.pull-right -->            												   
+												<br>		
+	                                	 </div>
+	                                </div>
+                             
+                             </form:form>   
 								
-                            </form:form>
+                            
                         </div>
                         <div class="col-lg-9 col-md-9 col-sm-8">
                         	<c:choose>
@@ -432,7 +452,7 @@
 	                                                   <span class="meta-provider ${imovel.classePorAcao}" style="font-size:19px;">${imovel.acaoFmt} <br>
 	                                                   							<strong>  R$<fmt:formatNumber value="${imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
 	                                                   </span><br>                                                   
-	                                                    <img src="${context}${imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 250px; alt="admin"/>
+	                                                    <img src="${context}${imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 275px; alt="admin"/>
 	                                                </a>
 	                                            </div>
 	                                            <div class="media-body">
@@ -476,6 +496,11 @@
 	                                                            <tr>
 	                                                                <td class="text-left"><spring:message code="lbl.vagas.garagem.resum"/></td>
 	                                                                <td class="text-right">${imovel.quantGaragem} <spring:message code="lbl.num.vagas"/></td>
+	                                                            </tr>
+	                                                            
+	                                                            <tr>
+	                                                                <td class="text-left"><spring:message code="lbl.codigo.identificacao.imovel.resum"/></td>
+	                                                                <td class="text-right">${imovel.codigoIdentificacao}</td>
 	                                                            </tr>
 	                                                        </tbody>
 	                                                    </table>

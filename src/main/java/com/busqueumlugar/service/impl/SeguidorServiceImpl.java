@@ -1,22 +1,17 @@
 package com.busqueumlugar.service.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-
 import com.busqueumlugar.dao.SeguidorDao;
 import com.busqueumlugar.dao.UsuarioDao;
 import com.busqueumlugar.enumerador.StatusLeituraEnum;
-import com.busqueumlugar.model.Bairros;
 import com.busqueumlugar.model.Seguidor;
 import com.busqueumlugar.service.SeguidorService;
 import com.busqueumlugar.service.UsuarioService;
@@ -31,9 +26,6 @@ public class SeguidorServiceImpl implements SeguidorService {
 	
 	@Autowired
 	private UsuarioDao usuarioDao;
-	
-	@Autowired
-	private UsuarioService usuarioService;
 	
 	@Override
 	public Seguidor recuperarSeguidorPorId(Long id) {

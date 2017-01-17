@@ -31,8 +31,6 @@ public class RecomendacaoServiceImpl implements RecomendacaoService {
 	@Autowired
 	private UsuarioDao usuarioDao;
 	
-	@Autowired
-	private UsuarioService usuarioService;
 
 	@Override
 	public Recomendacao recuperarRecomendacaoPorId(Long idRecomendacao) {

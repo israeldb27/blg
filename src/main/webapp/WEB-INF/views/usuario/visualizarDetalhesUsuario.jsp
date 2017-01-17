@@ -17,6 +17,7 @@
 <spring:url value="/imovel" var="urlImovel"/>
 <spring:url value="/nota" var="urlNota"/>
 <spring:url value="/preferencia" var="urlPreferencia"/>
+<spring:url var="urlImovelFavoritos" value="/imovelFavoritos"/>
    
 <%@page import="com.busqueumlugar.util.UsuarioInterface"%>
 <%@page import="com.busqueumlugar.service.UsuarioService"%>
@@ -68,11 +69,36 @@ Shadowbox.init();
 
 function enviarConvite(id) {	
 	var parametro1 = id;
-    $.ajax({                
-        url: '${urlContato}/enviarConvite/' + parametro1,                
+    $.ajax({        
+        url: '${urlContato}/enviarConvite/' + parametro1,        
         success: function(){
-        	$("#idEnviarConvite").hide();        	
-	    	$("#idCancelarConvite").show();	    	    	
+        	$("#idConvite_"+id).hide();    	
+        	$("#idCancelarConvite_"+id).show(); 
+        	$("#idIniciarSeguidor_"+id).hide();
+        	$("#idCancelarSeguidor_"+id).hide();
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+        }
+    });	    
+  }
+  
+function prepararModalCancelarConvite(id){
+	$("#modIdConvite").val(id);
+	$("#msgRetornoConfirmCancelConviteErro").html("");	
+	$("#idModalConfirmacaoCancelConvite").modal("show");	
+}  
+  
+function cancelarConvite(){	
+	var id = document.getElementById("modIdConvite");	
+    $.ajax({        
+        url: '${urlContato}/cancelarConvite/' + id.value,        
+        success: function(){
+        	$("#idConvite_"+id.value).show();    	
+        	$("#idCancelarConvite_"+id.value).hide(); 
+        	$("#idIniciarSeguidor_"+id.value).show();
+        	$("#idCancelarSeguidor_"+id.value).hide();
+        	$("#idModalConfirmacaoCancelConvite").modal("hide");
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
@@ -87,34 +113,15 @@ function prepararModalCancelarContato(id){
 }
 
 function cancelarContato() {	
-	var parametro1 = document.getElementById("modIdContato");	
+	var id = document.getElementById("modIdContato");	
     $.ajax({                
-        url: '${urlContato}/cancelarContato/' + parametro1.value,                
+        url: '${urlContato}/cancelarContato/' + id.value,                
         success: function(){
-        	$("#idCancelarContato").hide();
-        	$("#idEnviarConvite").show();  
+        	$("#idCancelarContato_"+id.value).hide();
+        	$("#idConvite_"+id.value).show();
+        	$("#idIniciarSeguidor_"+id.value).show();
+        	$("#idCancelarSeguidor_"+id.value).hide();  
         	$("#idModalConfirmacaoCancelContato").modal("hide");
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
-        }
-    });
-}
-
-function prepararModalCancelarConvite(id){
-	$("#modIdConvite").val(id);
-	$("#msgRetornoConfirmCancelConviteErro").html("");	
-	$("#idModalConfirmacaoCancelConvite").modal("show");	
-}
-
-function cancelarConvite() {	
-	var parametro1 = document.getElementById("modIdConvite");
-    $.ajax({                
-        url: '${urlContato}/cancelarConvite/' + parametro1.value,                
-        success: function(){
-        	$("#idCancelarConvite").hide();
-        	$("#idEnviarConvite").show();
-        	$("#idModalConfirmacaoCancelConvite").modal("hide");
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
@@ -127,8 +134,10 @@ function iniciarSeguirUsuario(id) {
     $.ajax({                
         url: '${urlUsuario}/iniciarSeguirUsuario/' + parametro1,                
         success: function(){
-        	$("#idIniciarSeguidor").hide();        	
-        	$("#idCancelarSeguidor").show();
+        	$("#idIniciarSeguidor_"+id).hide();        	
+        	$("#idCancelarSeguidor_"+id).show();
+        	$("#idConvite_"+id).hide();    	
+        	$("#idConvidado_"+id).hide();
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
@@ -141,14 +150,16 @@ function cancelarSeguirUsuario(id) {
     $.ajax({                
         url: '${urlUsuario}/cancelarSeguirUsuario/' + parametro1,                
         success: function(){
-        	$("#idCancelarSeguidor").hide();
-        	$("#idIniciarSeguidor").show(); 
+        	$("#idCancelarSeguidor_"+id).hide();
+        	$("#idIniciarSeguidor_"+id).show(); 
+        	$("#idConvite_"+id).show();
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
         }
     });
 }
+
 
 function prepararModalAddRecomendacao(){
 	$("#msgErroNovaRecomendacao").html("");
@@ -167,6 +178,36 @@ function adicionarRecomendacao(){
 			location.reload();
 		});
 	}	
+}
+
+function adicionarInteresse(id) {    	
+	var parametro1 = id;
+    $.ajax({                
+        url: '${urlImovelFavoritos}/adicionarFavoritos/' + parametro1,                
+        success: function(){
+        	$("#idMeInteressei_"+id).hide();
+        	$("#idNovoMeInteressei_"+id).hide();
+	    	$("#idInteressado_"+id).show();	    	    	
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+        }
+    });   
+}
+
+function retirarInteresse(id) {
+	var parametro1 = id;    		
+    $.ajax({                
+        url: '${urlImovelFavoritos}/retirarFavoritos/' + parametro1,                
+        success: function(){
+        	$("#idNovoMeInteressei_"+id).show();                	
+	    	$("#idInteressado_"+id).hide();
+	    	$("#idNovoInteressado_"+id).hide();	    	    	
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+        }
+    });   
 }
 
 function aceitarRecomendacao(id) {    	
@@ -273,56 +314,62 @@ function mostrarModal(id){
 									<h5 style="margin-top: 4px;margin-bottom: 0px;width: 50%;">${usuarioForm.cidade} - ${usuarioForm.estado}</h5>
 									<br>
                                     <div class="pull-right">
-                                    	
-                                    	<c:if test="${((usuarioForm.possuiContatoUsuarioSessao == 'C') || (usuarioForm.possuiContatoUsuarioSessao == 'S') || (usuarioForm.habilitaRecebeSeguidor == 'S'))}">
-                                    		<c:choose>
-	                                    		<c:when test="${usuarioForm.isSeguindoUsuario == 'S' }">
-													<a href="#a" onClick="cancelarSeguirUsuario(${usuarioForm.id})" id="idCancelarSeguidor" style="font-size:x-large; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.link.cancelar.seguir.usuario"/>'> <i class="fa fa-outdent pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.link.cancelar.seguir.usuario"/> </font> &nbsp; &nbsp;</i> </a>   	                                    			
-													<a href="#a" onClick="iniciarSeguirUsuario(${usuarioForm.id})" id="idIniciarSeguidor" style="font-size:x-large;display: none; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.link.iniciar.seguir.usuario"/>'> <i class="fa fa-list-ul pull-right" style="color:gray">  <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.link.iniciar.seguir.usuario"/> </font> &nbsp; &nbsp;  </i></a> 
-	                                    		</c:when>
-	                                    		
-	                                    		<c:when test="${usuarioForm.isSeguindoUsuario == 'N' }">
-	                                    			<a href="#a" onClick="iniciarSeguirUsuario(${usuarioForm.id})" id="idIniciarSeguidor" style="font-size:x-large; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.link.iniciar.seguir.usuario"/>'> <i class="fa fa-list-ul pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.link.iniciar.seguir.usuario"/> </font> &nbsp; &nbsp; </i> </a> 
-	                                    			<a href="#a" onClick="cancelarSeguirUsuario(${usuarioForm.id})" id="idCancelarSeguidor" style="font-size:x-large; display: none; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.link.cancelar.seguir.usuario"/>'> <i class="fa fa-outdent pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.link.cancelar.seguir.usuario"/> </font> &nbsp; &nbsp; </i></a> 
-	                                    		</c:when>                                    	
-	                                    	</c:choose>
-                                    	</c:if>                                    	                                    	
+                                    
+                                    	<c:if test="${(usuarioForm.id != usuario.id)}">
+                                    		<a href="${urlMensagem}/maisMensagens/${usuarioForm.id}" style="font-size:x-large; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.enviar.mensagem"/>' ><i class="fa fa-envelope-o pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"><spring:message code="lbl.enviar.mensagem"/> </font>&nbsp;&nbsp; </i> </a>
+                                    	</c:if>                                    		
                                     
                                     	<c:choose>
-											<c:when test="${usuario.id == usuarioForm.id}">
-												<a href="${urlImovel}/listarMeusImoveis" style="font-size:x-large; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.title.link.meus.imoveis"/>'> <i class="fa fa-home pull-right" style="color:gray"><font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.title.link.meus.imoveis"/> </font> &nbsp; &nbsp;</i> </a> 
+	                                       <c:when test="${((usuarioForm.id != usuario.id) && (usuarioForm.possuiContatoUsuarioSessao == 'N'))}" >
+												<c:choose>
+													<c:when test="${usuarioForm.isSeguindoUsuario == 'N'}">
+														<spring:message code="lbl.enviar.convite" var="mensagemEnviarConvite"/>
+	                                     					<a href="#a" id="idConvite_${usuarioForm.id}"  onClick="enviarConvite(${usuarioForm.id})" style="font-size:x-large; color: rgb(99, 110, 123);"  class="dropdown-toggle"  ><i class="fa fa-user-plus"></i> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> ${mensagemEnviarConvite} </font> </a>				                                        					
+	                                     					<a href="#a" id="idCancelarConvite_${usuarioForm.id}" onclick="prepararModalCancelarConvite(${usuarioForm.id})" style="font-size:x-large; display: none; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.canceler.enviar.convite"/>' ><i class="fa fa-user-times pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.canceler.enviar.convite"/> </font> &nbsp;&nbsp; </i> </a>
+	                                     		
+	                                     					<a href="#a" onClick="iniciarSeguirUsuario(${usuarioForm.id})" id="idIniciarSeguidor_${usuarioForm.id}" style="font-size:x-large; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.link.iniciar.seguir.usuario"/>'> <i class="fa fa-list-ul pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.link.iniciar.seguir.usuario"/> </font> &nbsp; &nbsp; </i> </a> 
+	                                   						<a href="#a" onClick="cancelarSeguirUsuario(${usuarioForm.id})" id="idCancelarSeguidor_${usuarioForm.id}" style="font-size:x-large; display: none; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.link.cancelar.seguir.usuario"/>'> <i class="fa fa-outdent pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.link.cancelar.seguir.usuario"/> </font> &nbsp; &nbsp; </i></a>		                                     		
+													</c:when>
+													
+													<c:when test="${usuarioForm.isSeguindoUsuario == 'S'}">																																						
+														<spring:message code="lbl.enviar.convite" var="mensagemEnviarConvite"/>
+														<a href="#a" id="idConvite_${usuarioForm.id}"  onClick="enviarConvite(${usuarioForm.id})" style="font-size:x-large; color: rgb(99, 110, 123); display: none;"  class="dropdown-toggle"  ><i class="fa fa-user-plus"></i> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> ${mensagemEnviarConvite} </font> </a>
+														<a href="#a" id="idCancelarConvite_${usuarioForm.id}" onclick="prepararModalCancelarConvite(${usuarioForm.id})" style="font-size:x-large; display: none; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.canceler.enviar.convite"/>' ><i class="fa fa-user-times pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.canceler.enviar.convite"/> </font> &nbsp;&nbsp; </i> </a>
+														
+														<a href="#a" onClick="cancelarSeguirUsuario(${usuarioForm.id})" id="idCancelarSeguidor_${usuarioForm.id}" style="font-size:x-large; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.link.cancelar.seguir.usuario"/>'> <i class="fa fa-outdent pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.link.cancelar.seguir.usuario"/> </font> &nbsp; &nbsp;</i> </a>   	                                    			
+														<a href="#a" onClick="iniciarSeguirUsuario(${usuarioForm.id})" id="idIniciarSeguidor_${usuarioForm.id}" style="font-size:x-large;display: none; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.link.iniciar.seguir.usuario"/>'> <i class="fa fa-list-ul pull-right" style="color:gray">  <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.link.iniciar.seguir.usuario"/> </font> &nbsp; &nbsp;  </i></a>														
+													</c:when>
+												</c:choose>														
+	                                        </c:when>
+	                                                		
+	                                       <c:when test="${((usuarioForm.id != usuario.id) && (usuarioForm.possuiContatoUsuarioSessao == 'C'))}" >	                                                      			
+												<a href="#a" onClick="iniciarSeguirUsuario(${usuarioForm.id})" id="idIniciarSeguidor_${usuarioForm.id}" style="font-size:x-large; color: rgb(99, 110, 123); display: none;" class="meta-action" title='<spring:message code="lbl.link.iniciar.seguir.usuario"/>'> <i class="fa fa-list-ul pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.link.iniciar.seguir.usuario"/> </font> &nbsp; &nbsp; </i> </a> 
+		                                   		<a href="#a" onClick="cancelarSeguirUsuario(${usuarioForm.id})" id="idCancelarSeguidor_${usuarioForm.id}" style="font-size:x-large; display: none; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.link.cancelar.seguir.usuario"/>'> <i class="fa fa-outdent pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.link.cancelar.seguir.usuario"/> </font> &nbsp; &nbsp; </i></a>
 												
-												<c:if test="${usuario.perfil == 'P' }">
+												<a href="#a" id="idCancelarConvite_${usuarioForm.id}" onclick="prepararModalCancelarConvite(${usuarioForm.id})" style="font-size:x-large; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.canceler.enviar.convite"/>' ><i class="fa fa-user-times pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.canceler.enviar.convite"/> </font> &nbsp;&nbsp; </i> </a>
+												<a href="#a" id="idConvite_${usuarioForm.id}" onclick="enviarConvite(${usuarioForm.id})" style="font-size:x-large; display: none; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.enviar.convite"/>' ><i class="fa fa-user-plus pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.enviar.convite"/> </font> &nbsp;&nbsp; </i></a>																							
+	                                       </c:when>
+	                                                		
+	                                       <c:when test="${((usuarioForm.id != usuario.id) && (usuarioForm.possuiContatoUsuarioSessao == 'O'))}" >
+	
+                                               	<a href="#a" id="idCancelarContato_${usuarioForm.id}" onclick="prepararModalCancelarContato(${usuarioForm.id})" style="font-size:x-large; color: rgb(99, 110, 123); " class="meta-action" title='<spring:message code="lbl.canceler.contato"/>' ><i class="fa fa-user-times pull-right" style="color:gray"><font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.canceler.contato"/> </font> &nbsp; &nbsp; </i> </a>
+                                               			
+												<a href="#a" onClick="iniciarSeguirUsuario(${usuarioForm.id})" id="idIniciarSeguidor_${usuarioForm.id}" style="font-size:x-large; color: rgb(99, 110, 123); display: none;" class="meta-action" title='<spring:message code="lbl.link.iniciar.seguir.usuario"/>'> <i class="fa fa-list-ul pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.link.iniciar.seguir.usuario"/> </font> &nbsp; &nbsp; </i> </a> 
+                                  					<a href="#a" onClick="cancelarSeguirUsuario(${usuarioForm.id})" id="idCancelarSeguidor_${usuarioForm.id}" style="font-size:x-large; display: none; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.link.cancelar.seguir.usuario"/>'> <i class="fa fa-outdent pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.link.cancelar.seguir.usuario"/> </font> &nbsp; &nbsp; </i></a>
+                                  		
+		                                   		<a href="#a" id="idCancelarConvite_${usuarioForm.id}" onclick="prepararModalCancelarConvite(${usuarioForm.id})" style="font-size:x-large; color: rgb(99, 110, 123); display: none;" class="meta-action" title='<spring:message code="lbl.canceler.enviar.convite"/>' ><i class="fa fa-user-times pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.canceler.enviar.convite"/> </font> &nbsp;&nbsp; </i> </a>
+												<a href="#a" id="idConvite_${usuarioForm.id}" onclick="enviarConvite(${usuarioForm.id})" style="font-size:x-large; display: none; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.enviar.convite"/>' ><i class="fa fa-user-plus pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.enviar.convite"/> </font> &nbsp;&nbsp; </i></a>
+	                                       </c:when>	                                                
+	                                       
+	                                       <c:when test="${(usuarioForm.id == usuario.id)}" >
+	                                       		<a href="${urlImovel}/listarMeusImoveis" style="font-size:x-large; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.title.link.meus.imoveis"/>'> <i class="fa fa-home pull-right" style="color:gray"><font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.title.link.meus.imoveis"/> </font> &nbsp; &nbsp;</i> </a> 
+												
+												<c:if test="${usuario.perfil == 'P'}">
 													<a href="${urlPreferencia}/listarPreferencias" style="font-size:x-large; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.title.link.pref.imoveis"/>'><i class="fa fa-bookmark pull-right" style="color:gray"><font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.title.link.pref.imoveis"/>  </font> &nbsp; &nbsp; </i> </a>  																	
 											     </c:if>
-												<a href="${urlNota}/minhasNotas" style="font-size:x-large;" class="meta-action" title='<spring:message code="lbl.title.link.minhas.notas"/>'><i class="fa fa-sticky-note pull-right" style="color:gray"><font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.title.link.minhas.notas"/> </font> &nbsp; &nbsp; </i> </a> 																	
-											</c:when>
-											
-											<c:when test="${usuario.id != usuarioForm.id}">
-												&nbsp;<a href="${urlImovel}/visualizarImoveisPerfilUsuario/${usuarioForm.id}" style="font-size:x-large; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.visualizar.imoveis.perfil.usuario"/>' ><i class="fa fa-home pull-right" style="color:gray"><font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.visualizar.imoveis.perfil.usuario"/> </font> &nbsp; &nbsp; </i>  </a>
-												
-												<c:choose>
-													<c:when test="${usuarioForm.possuiContatoUsuarioSessao == 'S'}"> <!-- usuarios tem contato entao o usuarioSessao pode pedir para cancelar contato (e futuramente bloquear contato) -->
-														<a href="#" id="idCancelarContato" onclick="prepararModalCancelarContato(${usuarioForm.id})" style="font-size:x-large; color: rgb(99, 110, 123); " class="meta-action" title='<spring:message code="lbl.canceler.contato"/>' ><i class="fa fa-user-times pull-right" style="color:gray"><font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.canceler.contato"/> </font> &nbsp; &nbsp; </i> </a> 
-														
-														<a href="#" id="idEnviarConvite" onclick="enviarConvite(${usuarioForm.id})" style="font-size:x-large; display: none;" class="meta-action" title='<spring:message code="lbl.enviar.convite"/>' ><i class="fa fa-user-plus pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.enviar.convite"/> </font> &nbsp;&nbsp; </i> </a>
-														<a href="#" id="idCancelarConvite" onclick="prepararModalCancelarConvite(${usuarioForm.id})" style="font-size:x-large; display: none; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.canceler.enviar.convite"/>' ><i class="fa fa-user-times pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.canceler.enviar.convite"/> </font> &nbsp;&nbsp; </i> </a>
-													</c:when>
-													
-													<c:when test="${usuarioForm.possuiContatoUsuarioSessao == 'C'}"> <!-- usuarioSessao apenas enviou convite, mas nao teve resposta do usuarioConvidado entao ele pode cancelar o convite -->
-														<a href="#" id="idCancelarConvite" onclick="prepararModalCancelarConvite(${usuarioForm.id})" style="font-size:x-large; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.canceler.enviar.convite"/>' ><i class="fa fa-user-times pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.canceler.enviar.convite"/> </font> &nbsp;&nbsp; </i> </a>
-														<a href="#" id="idEnviarConvite" onclick="enviarConvite(${usuarioForm.id})" style="font-size:x-large; display: none; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.enviar.convite"/>' ><i class="fa fa-user-plus pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.enviar.convite"/> </font> &nbsp;&nbsp; </i></a>												
-													</c:when>
-													
-													<c:when test="${usuarioForm.possuiContatoUsuarioSessao == 'N'}"> <!-- usuarioSessao nem sequer mandou um convite para o usuarioConvidado entao ele pode enviar um convite -->
-														<a href="#" id="idEnviarConvite" onclick="enviarConvite(${usuarioForm.id})" style="font-size:x-large; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.enviar.convite"/>' ><i class="fa fa-user-plus pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"><spring:message code="lbl.enviar.convite"/> </font> &nbsp;&nbsp;</i> </a> 
-														<a href="#" id="idCancelarConvite" onclick="prepararModalCancelarConvite(${usuarioForm.id})" style="font-size:x-large; display: none; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.canceler.enviar.convite"/>' ><i class="fa fa-user-times pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.canceler.enviar.convite"/> </font> &nbsp;&nbsp; </i></a> 
-													</c:when>													
-												</c:choose>
-												
-												&nbsp;<a href="${urlMensagem}/maisMensagens/${usuarioForm.id}" style="font-size:x-large; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.enviar.mensagem"/>' ><i class="fa fa-envelope-o pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"><spring:message code="lbl.enviar.mensagem"/> </font>&nbsp;&nbsp; </i> </a>  
-											</c:when>
-										</c:choose>
+												<a href="${urlNota}/minhasNotas" style="font-size:x-large;" class="meta-action" title='<spring:message code="lbl.title.link.minhas.notas"/>'><i class="fa fa-sticky-note pull-right" style="color:gray"><font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.title.link.minhas.notas"/> </font> &nbsp; &nbsp; </i> </a>	                                       
+	                                       </c:when>
+	                                    </c:choose>
 
                                     </div>
                                     <br> <br>                                                                        
@@ -389,10 +436,7 @@ function mostrarModal(id){
                                                  <td class="text-left"><spring:message code="lbl.total.visualizacoes" /></td>
                                                  <td class="text-right">${usuarioForm.quantTotalVisitasImoveis}</td>
                                              </tr>
-                                             <tr>
-                                                 <td class="text-left"><spring:message code="lbl.total.aprovacoes.usuario" /></td>
-                                                 <td class="text-right">${usuarioForm.quantTotalAprovacoesUsuario}</td>
-                                             </tr>
+                                           
                                          </tbody>
                                      </table>	
                                 	</div>       	
@@ -465,7 +509,7 @@ function mostrarModal(id){
 					                                                   <span class="meta-provider ${imovel.classePorAcao}" style="font-size:19px;">${imovel.acaoFmt} <br>
 					                                                   							<strong>  R$<fmt:formatNumber value="${imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
 					                                                   </span><br>                                                   
-					                                                    <img src="${context}${imovel.imagemArquivo}" class="img-responsive" style="width: 270px; height: 270px; alt="admin"/>
+					                                                    <img src="${context}${imovel.imagemArquivo}" class="img-responsive" style="width: 270px; height: 300px; alt="admin"/>
 					                                                </a>
 					                                            </div>
 					                                            <div class="media-body">
@@ -509,6 +553,11 @@ function mostrarModal(id){
 						                                                            <tr>
 						                                                                <td class="text-left"><spring:message code="lbl.vagas.garagem.resum"/></td>
 						                                                                <td class="text-right">${imovel.quantGaragem} <spring:message code="lbl.num.vagas"/></td>
+						                                                            </tr>
+						                                                            
+						                                                            <tr>
+						                                                                <td class="text-left"><spring:message code="lbl.codigo.identificacao.imovel.resum"/></td>
+						                                                                <td class="text-right">${imovel.codigoIdentificacao}</td>
 						                                                            </tr>
 						                                                        </tbody>
 						                                                    </table>

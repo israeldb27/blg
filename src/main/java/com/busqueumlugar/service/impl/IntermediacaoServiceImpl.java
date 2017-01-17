@@ -13,8 +13,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.busqueumlugar.dao.ContatoDao;
 import com.busqueumlugar.dao.ImovelDao;
 import com.busqueumlugar.dao.IntermediacaoDao;
+import com.busqueumlugar.dao.RecomendacaoDao;
+import com.busqueumlugar.dao.SeguidorDao;
 import com.busqueumlugar.dao.UsuarioDao;
 import com.busqueumlugar.enumerador.AcaoNotificacaoEnum;
 import com.busqueumlugar.enumerador.ContatoStatusEnum;
@@ -50,33 +53,30 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
 	
 	@Autowired
 	private IntermediacaoDao dao;
-
-	@Autowired
-	private ImovelService imovelService;
 	
 	@Autowired
 	private ImovelDao imovelDao;
 	
 	@Autowired
-	private UsuarioService usuarioService;
+	private UsuarioDao usuarioDao;
 	
 	@Autowired
-	private UsuarioDao usuarioDao;
+	private ContatoDao contatoDao;
+	
+	@Autowired
+	private ContatoService contatoService;
+	
+	@Autowired
+	private SeguidorDao seguidorDao;
+	
+	@Autowired
+	private RecomendacaoDao recomendacaoDao;
 	
 	@Autowired
 	private NotaService notaService;
 	
 	@Autowired
 	private NotificacaoService notificacaoService;
-	
-	@Autowired
-	private ContatoService contatoService;
-	
-	@Autowired
-	private SeguidorService seguidorService;
-	
-	@Autowired
-	private RecomendacaoService recomendacaoService;
 
 
 	
@@ -297,7 +297,7 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
             Imovel imovel = null;
             for (Iterator iter = lista.iterator();iter.hasNext();){
                 Object[] obj = (Object[]) iter.next();
-                imovel = imovelService.recuperarImovelPorid(Long.parseLong(obj[0].toString()));
+                imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));
                 listaFinal.add(imovel);
             }
         }
@@ -317,7 +317,7 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
 	
 	@Override
 	public List<Imovel> recuperarMinhasSolIntermediacaoAceitasPorUsuarioSolicitantePorPerfil(Long idPerfil, PerfilForm frm) {		
-		 return dao.findIntermediacaoAceitosPorUsuarioSolicitantePorPerfil(idPerfil,  StatusImovelCompartilhadoEnum.ACEITA.getRotulo(), frm);
+		 return dao.findIntermediacaoAceitosPorUsuarioSolicitantePorPerfil(idPerfil, StatusImovelCompartilhadoEnum.ACEITA.getRotulo(), frm);
 	}
 
 	
@@ -341,7 +341,7 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
         if (jaEnviouSolicitacao) 
         	return MessageUtils.getMessage("msg.intermediacao.sol.sucesso.enviada.antes");
         
-        Imovel imovel = imovelService.recuperarImovelPorid(idImovel);
+        Imovel imovel = imovelDao.findImovelById(idImovel);
         if ( imovel.getAtivado().equals("N"))
         	return MessageUtils.getMessage("msg.parceria.intermediacao.sol.imovel.desativado");
         
@@ -361,7 +361,7 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
 	
 	@Override
 	public EmailImovel notificarSolicitacaoIntermediacao(Long idImovel) {		
-		Imovel imovel = imovelService.recuperarImovelPorid(idImovel);
+		Imovel imovel = imovelDao.findImovelById(idImovel);
         EmailImovel email = new EmailImovel();        
         StringBuilder texto = new StringBuilder(); 
                 
@@ -388,7 +388,7 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
 	
 	@Override
 	public EmailImovel notificarAceiteIntermediacao(Intermediacao intermediacao) {		
-		Imovel imovel = imovelService.recuperarImovelPorid(intermediacao.getImovel().getId());
+		Imovel imovel = imovelDao.findImovelById(intermediacao.getImovel().getId());
         EmailImovel email = new EmailImovel();        
         StringBuilder texto = new StringBuilder(); 
                 
@@ -421,18 +421,7 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
 	@Override
 	@Transactional
 	public void atualizarPontuacaoNegocioParceria(Long idImovel, String novoStatus) {
-		Imovel imovel = imovelService.recuperarImovelPorid(idImovel);
-        // checando se o imovel tem parceria
-        List<Intermediacao> lista = recuperarTodosImovelIntermediacaoPorImovel(idImovel);
-        // cliente possui parceria com 1 corretor ou imobiliaria. Ent�o o usuario parceiro estar� recebendo 1 ponto de negocioacao de imovel com sucesso
-        if (! CollectionUtils.isEmpty(lista)){ 
-            for (Intermediacao intermediacao : lista ){
-                if ( novoStatus.equals("fechado") )
-                    usuarioService.atualizarPontuacaoNegociacaoImovel(intermediacao.getUsuarioSolicitante(), "sucesso");
-                 else if ( novoStatus.equals("aberto"))
-                    usuarioService.atualizarPontuacaoNegociacaoImovel(intermediacao.getUsuarioSolicitante(), "revogado");
-            }
-        }
+		
 		
 	}
 
@@ -508,7 +497,7 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
 		Imovel imovel = null;
 		for (Iterator iter = lista.iterator();iter.hasNext();){
 			obj = (Object[]) iter.next();			
-			imovel = imovelService.recuperarImovelPorid(Long.parseLong(obj[0].toString()));
+			imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));
 			imovel.setQuantImovelIntermediacao(Integer.parseInt(obj[1].toString()));
 			imovel.setQuantNovosImovelIntermediacao(dao.findQuantidadeNovosImoveisCompartilhados(Long.parseLong(obj[0].toString())));
 			listaFinal.add(imovel);
@@ -539,13 +528,13 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
 		Usuario usuario = null;
 		for (Iterator iter = lista.iterator();iter.hasNext();){
 			obj = (Object[]) iter.next(); 				
-			usuario = usuarioService.recuperarUsuarioPorId(Long.parseLong(obj[1].toString()));
+			usuario = usuarioDao.findUsuario(Long.parseLong(obj[1].toString()));
 			usuario.setQuantImovelIntermediacao(Integer.parseInt(obj[0].toString()));
 			usuario.setQuantImovelVisitado(Integer.parseInt(obj[1].toString()));
-			usuario.setQuantTotalContatos(contatoService.checarTotalContatosPorUsuarioPorStatus(usuario.getId(), ContatoStatusEnum.OK.getRotulo()));
-			usuario.setQuantTotalRecomendacoes(recomendacaoService.checarQuantidadeTotalRecomendacaoRecebidaPorStatus(usuario.getId(), RecomendacaoStatusEnum.ACEITO.getRotulo()));
-			usuario.setQuantTotalImoveis(imovelService.checarQuantMeusImoveis(usuario.getId()));
-			usuario.setQuantTotalSeguidores(seguidorService.checarQuantidadeSeguidores(usuario.getId()));
+			usuario.setQuantTotalContatos(contatoDao.findQuantidadeTotalContatosByIdUsuarioByStatus(usuario.getId(), ContatoStatusEnum.OK.getRotulo()));
+			usuario.setQuantTotalRecomendacoes(recomendacaoDao.findQuantidadeRecomendacoesByUsuarioByStatusByStatusLeitura(usuario.getId(), RecomendacaoStatusEnum.ACEITO.getRotulo(), null));
+			usuario.setQuantTotalImoveis(imovelDao.findQuantMeusImoveis(usuario.getId()));
+			usuario.setQuantTotalSeguidores(seguidorDao.findQuantSeguidoresByIdUsuarioSeguido(usuario.getId()));
 			listaFinal.add(usuario);
 		}
 		
@@ -610,7 +599,7 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
 			Imovel imovel = null;
 			for (Iterator iter = lista.iterator();iter.hasNext();){
 				obj = (Object[]) iter.next();			
-				imovel = imovelService.recuperarImovelPorid(Long.parseLong(obj[0].toString()));
+				imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));
 				imovel.setQuantImovelParceria(Integer.parseInt(obj[1].toString()));
 				imovel.setQuantNovosImovelParceria(dao.findQuantidadeNovosImoveisCompartilhados(Long.parseLong(obj[0].toString())));				
 				listaFinal.add(imovel);

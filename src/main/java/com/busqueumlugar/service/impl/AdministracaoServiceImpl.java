@@ -2,9 +2,7 @@ package com.busqueumlugar.service.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,14 +15,16 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 
-import com.busqueumlugar.dao.AvaliacaousuarioDao;
+import com.busqueumlugar.dao.BairrosDao;
+import com.busqueumlugar.dao.CidadesDao;
+import com.busqueumlugar.dao.EstadosDao;
 import com.busqueumlugar.dao.ImovelDao;
-import com.busqueumlugar.dao.impl.UsuarioDaoImpl;
+import com.busqueumlugar.dao.ItemMensagemAdminDao;
+import com.busqueumlugar.dao.UsuarioDao;
 import com.busqueumlugar.form.AdministracaoForm;
 import com.busqueumlugar.form.FiltroRelatorioForm;
 import com.busqueumlugar.form.UsuarioForm;
 import com.busqueumlugar.model.Imovel;
-import com.busqueumlugar.model.MensagemAdmin;
 import com.busqueumlugar.model.Planousuario;
 import com.busqueumlugar.model.RelatorioQuantAssinatura;
 import com.busqueumlugar.model.Servico;
@@ -55,8 +55,6 @@ import com.busqueumlugar.enumerador.AcaoImovelEnum;
 import com.busqueumlugar.enumerador.PerfilUsuarioNormalEnum;
 import com.busqueumlugar.enumerador.StatusImovelEnum;
 import com.busqueumlugar.enumerador.StatusPagtoEnum;
-import com.busqueumlugar.enumerador.StatusPagtoOpcaoEnum;
-import com.busqueumlugar.enumerador.TipoImovelCompartilhadoEnum;
 import com.busqueumlugar.enumerador.TipoImovelEnum;
 
 
@@ -66,14 +64,14 @@ public class AdministracaoServiceImpl implements AdministracaoService {
 	private static final Logger log = LoggerFactory.getLogger(AdministracaoServiceImpl.class);	
 	
 	@Autowired
+	private UsuarioDao usuarioDao;
+	
+	@Autowired
 	private UsuarioService usuarioService;
 	
 	@Autowired
 	private ImovelDao imovelDao;
-	
-	@Autowired
-	private MensagemService mensagemService;
-	
+
 	@Autowired
 	private PlanousuarioService  planoUsuarioService;
 	
@@ -105,19 +103,19 @@ public class AdministracaoServiceImpl implements AdministracaoService {
 	private ImovelvisualizadoService imovelvisitadoService;
 	
 	@Autowired
-	private EstadosService estadosService;
+	private EstadosDao estadosDao;
 	
 	@Autowired
-	private CidadesService cidadesService;
+	private CidadesDao cidadesDao;
 	
 	@Autowired
-	private BairrosService bairrosService;
+	private BairrosDao bairrosDao;
 	
 	@Autowired
 	private MensagemAdminService mensagemAdminService;
 	
 	@Autowired
-	private  ItemMensagemAdminService itemMensagemAdminService;
+	private  ItemMensagemAdminDao itemMensagemAdminDao;
 	
 
 	public List<Usuario> consultaUsuarios(String valorBusca, UsuarioForm usuarioForm) {
@@ -148,7 +146,7 @@ public class AdministracaoServiceImpl implements AdministracaoService {
 	@Override
 	public void carregaInfoDadosUsuarioAdmin(UsuarioForm user, HttpSession session) {		
 		session.setAttribute(UsuarioInterface.USUARIO_SESSAO, user);
-		session.setAttribute(MensagemAdminService.QUANT_NOVAS_MENSAGENS_ADMIN, AppUtil.recuperarQuantidadeLista(itemMensagemAdminService.recuperarQuantidadesNovasMensagensEnviadasParaAdmin()));		
+		session.setAttribute(MensagemAdminService.QUANT_NOVAS_MENSAGENS_ADMIN, itemMensagemAdminDao.findQuantidadeMensagensAdminEnviadasParaAdmin());			
 	}
 
 
@@ -158,7 +156,7 @@ public class AdministracaoServiceImpl implements AdministracaoService {
 		if (tipoRelatorio.equals("totalPlano"))
 			form.setQuantTotal(planoUsuarioService.checarQuantTotalPlanosPorData(form));
 		else if (tipoRelatorio.equals("buscaPlanoUsuario")) {
-			List<Usuario> listaUsuario = usuarioService.buscarUsuarios(form);
+			List<Usuario> listaUsuario = usuarioDao.findUsuarios(form);
 			List<Planousuario> listaPlano = new ArrayList<Planousuario>();
 			form.setListaPlanoUsuario(new ArrayList<Planousuario>());
 			for (Usuario usuario: listaUsuario ){
@@ -205,13 +203,12 @@ public class AdministracaoServiceImpl implements AdministracaoService {
 	public void gerarRelatorioUsuarios(AdministracaoForm form, String tipoRelatorio) {
 		
 		if ( tipoRelatorio.equals("quantTotal"))
-			form.setQuantTotal(usuarioService.checarQuantidadeTotalUsuariosPorPeriodo(form));
-		else if ( tipoRelatorio.equals("acessoUsuario")){
-			List<Usuario> lista = usuarioService.checarUsuariosPorUltimoAcesso(form);
-			form.setQuantTotal(AppUtil.recuperarQuantidadeLista(lista));			
+			form.setQuantTotal(usuarioDao.findQuantidadeTotalUsuarioPorPeriodo(form));
+		else if ( tipoRelatorio.equals("acessoUsuario")){			
+			form.setQuantTotal(usuarioDao.findQuantidadeUsuariosByDataVisita(form));			
 		}
 		else if ( tipoRelatorio.equals("ultimoAcessoUsuarioPeriodo"))
-			form.setListaUsuarios(usuarioService.checarUsuariosPorUltimoAcesso(form));	
+			form.setListaUsuarios(usuarioDao.findUsuariosByDataVisita(form));	
 	}
 
 
@@ -223,7 +220,7 @@ public class AdministracaoServiceImpl implements AdministracaoService {
 		else if ( tipoRelatorio.equals("assinaturasVolFinanceiro"))
 			form.setListaRelatorioQuantAssinatura(servicoService.checarVolFinanceiroAssinaturasPorPeriodo(form));
 		else if ( tipoRelatorio.equals("buscaAssinaturasUsuario")){
-			List<Usuario> listaUsuario = usuarioService.buscarUsuarios(form);
+			List<Usuario> listaUsuario = usuarioDao.findUsuarios(form);
 			List<RelatorioQuantAssinatura> listaFinal = new ArrayList<RelatorioQuantAssinatura>(); 
 			for (Usuario usuario : listaUsuario){
 				listaFinal.addAll(servicoService.checarTotalAssinaturasPorUsuario(usuario.getId(), form ));
@@ -262,17 +259,17 @@ public class AdministracaoServiceImpl implements AdministracaoService {
 		List<FiltroRelatorioForm> lista = new ArrayList<FiltroRelatorioForm>();
 		if ( form.getIdEstado() > 0  ){
 			filtro.setNomeFiltro(MessageUtils.getMessage("lbl.estado"));
-			filtro.setValorFiltro(estadosService.rescuperarEstadosPorId(form.getIdEstado()).getNome() );
+			filtro.setValorFiltro(estadosDao.findEstadosById(form.getIdEstado()).getNome() );
 			lista.add(filtro);
 			if (form.getIdCidade() > 0 ){
 				filtro = new FiltroRelatorioForm();
 				filtro.setNomeFiltro(MessageUtils.getMessage("lbl.cidade"));
-				filtro.setValorFiltro(cidadesService.recuperarCidadesPorId(form.getIdCidade()).getNome());
+				filtro.setValorFiltro(cidadesDao.findCidadesById(form.getIdCidade()).getNome());
 				lista.add(filtro);
 				if (form.getIdBairro() > 0 ){
 					filtro = new FiltroRelatorioForm();
 					filtro.setNomeFiltro(MessageUtils.getMessage("lbl.bairro"));
-					filtro.setValorFiltro(bairrosService.recuperarBairrosPorId(form.getIdBairro()).getNome());
+					filtro.setValorFiltro(bairrosDao.findBairrosById(form.getIdBairro()).getNome());
 					lista.add(filtro);
 				}
 			}

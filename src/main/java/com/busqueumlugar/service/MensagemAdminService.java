@@ -13,7 +13,7 @@ public interface MensagemAdminService {
 	String QUANT_NOVAS_MENSAGENS_ADMIN = "quantNovasMensagensAdmin";
 	String LISTA_NOVAS_MENSAGENS_ADMIN = "listaNovasMensagensAdmin";
 
-	int checarQuantidadeNovasMensagensFromAdmin(Long idUsuario);
+	long checarQuantidadeNovasMensagensFromAdmin(Long idUsuario);
 
 	List<MensagemAdmin> recuperaTodasMensagensPorUsuario(Long idUsuario);
 

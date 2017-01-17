@@ -224,7 +224,7 @@ function mostrarModal(id){
 								<div class="panel-body">
 									<div class="col-lg-7 col-md-8 col-sm-6">
                                       	<div id="owl-demo" class="owl-carousel owl-theme">                                             
-	                                             <div class="item"><img class="responsive" src="${context}${imovelForm.imagemArquivo}" style="max-height:550px; height: 350px;"></div>                                            
+	                                             <div class="item"><img class="responsive" src="${context}${imovelForm.imagemArquivo}" style="max-height:550px; height: 385px;"></div>                                            
 	                                     </div>
 	                				</div>
 	                				
@@ -274,6 +274,11 @@ function mostrarModal(id){
                                                       <tr>
                                                           <td class="text-left"><spring:message code="lbl.data.cadastro.imovel" /></td>
                                                           <td class="text-right"><fmt:formatDate value='${imovelForm.dataCadastro}' pattern='dd/MM/yyyy'/></td>
+                                                       </tr>
+                                                       
+                                                       <tr>
+                                                           <td class="text-left"><spring:message code="lbl.codigo.identificacao.imovel.resum"/></td>
+                                                           <td class="text-right">${imovelForm.codigoIdentificacao}</td>
                                                        </tr>
                                                     
                                                 </tbody>

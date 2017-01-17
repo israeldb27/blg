@@ -374,7 +374,7 @@ function adicionarComparativo(id) {
 	                                </div><!-- /.pull-left -->
 	                                
 	                                <c:if test="${imovelFavoritoForm.isVisible() }">
-	                                	<div class="pull-right" style="padding-right:20px;">
+	                                	<div class="pull-right" style="padding-right:16px;">
 		                                    <form:form method="POST" id="imovelFavoritoPageForm" modelAttribute="imovelFavoritoForm" action="${urlImovelFavoritos}/filtrar" >
 		                                     	 <spring:message code="lbl.hint.opcao.paginacao" var="hintPaginacao"/>
 	                                             <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="form-control" title="${hintPaginacao}">

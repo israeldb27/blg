@@ -508,66 +508,8 @@
                                                 </div>
                                             </div><!-- /.form-group -->
                                                       
-                                        </div><!-- /.form-body -->    
-                                </div><!-- /.panel-body -->
-                            </div><!-- /.panel -->
-                            <!--/ End horizontal form -->
-                        </div>
-                        <!--/ FIM ABA CONTATO PESSOAL -->
-                        
-                        <!--/ INICIO ABA PERMISSOES -->
-                        <div class="col-md-12">
-                            <!-- Start horizontal form -->
-                            <div class="panel rounded shadow">
-                                <div class="panel-heading">  
-                                    <div class="pull-left">
-                                        <h3 class="panel-title"><spring:message code="lbl.permissoes.usuario"/> <code></code></h3>
-                                    </div>
-                                    <div class="pull-right">
-                                        <a href="#a" class="btn btn-sm"  onClick="mostrarModal(5);"><i class="fa fa-question" ></i></a>                                        
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div><!-- /.panel-heading -->
-                                <div class="panel-body no-padding">
-
-                                        <div class="form-body">
+                                        </div><!-- /.form-body --> 
                                         
-                                            <div class="form-group">
-                                                <label for="idPermBuscaUsuario" class="col-sm-3 control-label"><spring:message code="lbl.permissao.busca.usuario"/></label>
-                                                <div class="col-sm-7">
-                                                	<spring:message code="lbl.hint.usuario.habilitaBusca" var="hintHabilitaBusca"/>
-                                                     <form:select id="habilitaBusca" path="habilitaBusca" class="form-control" title="${hintHabilitaBusca}">
-														<form:option value="S"> <spring:message code="lbl.sim"/></form:option>
-														<form:option value="N"> <spring:message code="lbl.nao"/></form:option>														
-									                 </form:select>
-									                 <form:errors id="habilitaBusca" path="habilitaBusca" cssClass="errorEntrada"  />
-                                                </div>
-                                            </div><!-- /.form-group -->
-                                            
-                                            <div class="form-group">
-                                                <label for="habilitaDetalhesInfoUsuario" class="col-sm-3 control-label"><spring:message code="lbl.permissao.exibir.detalhes.usuario"/></label>
-                                                <div class="col-sm-7">
-                                                	<spring:message code="lbl.hint.usuario.habilitaDetalhesInfo" var="hintDetalhesInfo"/>
-                                                     <form:select id="habilitaDetalhesInfoUsuario" path="habilitaDetalhesInfoUsuario" class="form-control" title="${hintDetalhesInfo}">
-														<form:option value="S"> <spring:message code="lbl.sim"/></form:option>
-														<form:option value="N"> <spring:message code="lbl.nao"/></form:option>														
-									                 </form:select>
-									                 <form:errors id="habilitaDetalhesInfoUsuario" path="habilitaDetalhesInfoUsuario" cssClass="errorEntrada"  />
-                                                </div>
-                                            </div><!-- /.form-group -->
-                                            
-                                            <div class="form-group">
-                                                <label for="habilitaRecebeSeguidor" class="col-sm-3 control-label"><spring:message code="lbl.permissao.receber.seguidor"/></label>
-                                                <div class="col-sm-7">
-                                                	<spring:message code="lbl.hint.usuario.habilitaRecSeguidor" var="hintRecSeguidor"/>
-                                                     <form:select id="habilitaRecebeSeguidor" path="habilitaRecebeSeguidor" class="form-control" title="${hintRecSeguidor}">
-														<form:option value="S"> <spring:message code="lbl.sim"/></form:option>
-														<form:option value="N"> <spring:message code="lbl.nao"/></form:option>														
-									                 </form:select>
-									                 <form:errors id="habilitaRecebeSeguidor" path="habilitaRecebeSeguidor" cssClass="errorEntrada"  />
-                                                </div>
-                                            </div><!-- /.form-group -->
-                                        </div><!-- /.form-body -->  
                                         
                                         <div class="form-footer">  
                                             <div class="col-sm-offset-3">
@@ -578,9 +520,11 @@
                                            
                                 </div><!-- /.panel-body -->
                             </div><!-- /.panel -->
+                            <!--/ End horizontal form -->
                         </div>
-                        </c:if>
-                        <!--/ FIM ABA PERMISSOES -->
+                        <!--/ FIM ABA CONTATO PESSOAL -->
+                   
+                        </c:if>                   
                         </div><!-- /.row -->
                       </div>
                    </form:form> 

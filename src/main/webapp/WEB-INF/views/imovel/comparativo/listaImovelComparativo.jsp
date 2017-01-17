@@ -138,10 +138,10 @@
                 
                 <c:choose>
                 	<c:when test="${ empty listaMeusComparativos }">
-                		<div class="callout callout-warning" align="center">
-                			 </br></br>
-	                         <strong><spring:message code="msg.lista.comparativo.vazio"/></strong>                         
-	                     </div>
+                	<br>
+              	 		 <div class="alert alert-success" align="center" >
+                               <strong><spring:message code="msg.lista.comparativo.vazio"/></strong>   
+                          </div>	
                 	</c:when>
                 	
                 	<c:when test="${ not empty listaMeusComparativos }">

@@ -40,14 +40,12 @@ $(document).ready(function() {
 
                    <form:form id="usuarioForm" modelAttribute="usuarioForm" action="${urlUsuario}/cadastrarUsuario" class="form-horizontal mt-10">
                      <div class="row">
-                     		<c:if test="${msgSucesso != null }">
-			               		 <div class="panel panel-success">
-			                          <div class="panel-heading">
-			                              <h3 class="panel-title"><spring:message code="msg.cadastro.usuario.sucesso"/></h3>
-			                          </div><!-- /.panel-heading -->			                                                    
-			                      </div><!-- /.panel -->                      
-			                </c:if>	
-			                
+                     		 <c:if test="${msgSucesso != null }">
+                     	 		 <div class="alert alert-success">
+                                      <strong><spring:message code="msg.cadastro.usuario.sucesso"/></strong> 
+                                 </div>	                     	 
+			               </c:if>  
+                     	    
 			                <c:if test="${msgSucesso == null }">
                      		<!--/ INICIO ABA FOTO PRINCIPAL IMOVEL -->                                 
                    		

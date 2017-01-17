@@ -148,7 +148,7 @@ public class ImovelcomentarioServiceImpl implements ImovelcomentarioService {
 
 	@Override
 	public long checaQuantidadeNovoComentario(Long idUsuario) {
-		return dao.findQuantImoveisComentariosRecebidos(idUsuario, "novo");
+		return dao.findQuantImoveisComentariosRecebidos(idUsuario, StatusLeituraEnum.NOVO.getRotulo());
 	}
 
 	@Override

@@ -23,11 +23,14 @@ public enum RelatorioEnum implements Serializable, ICodigoDescricao {
 	imoveisMaisVisualizados(MessageUtils.getMessage("lbl.rel.title.imoveis.mais.visualizados")),	
 	imoveisMaisPropostados(MessageUtils.getMessage("lbl.rel.title.imoveis.mais.propostados")),	
 	imoveisMaisComentados(MessageUtils.getMessage("lbl.rel.title.imoveis.mais.comentados")),	
-	imoveisMaisAdotadosInteressados(MessageUtils.getMessage("lbl.rel.title.imoveis.mais.adotados")),	
-	imobiliariasMaisParceriasAceitas(MessageUtils.getMessage("lbl.rel.title.imobiliarias.mais.parcerias")),	
-	imobiliariaMaisIntermediacoesAceitas(MessageUtils.getMessage("lbl.rel.title.imobiliarias.mais.intermediacoes")),	
-	corretoresMaisParceriasAceitas(MessageUtils.getMessage("lbl.rel.title.corretores.mais.parcerias")),	
-	corretoresMaisIntermediacoesAceitas(MessageUtils.getMessage("lbl.rel.title.corretores.mais.intermediacoes")),	
+	imoveisMaisAdotadosInteressados(MessageUtils.getMessage("lbl.rel.title.imoveis.mais.adotados")),
+	
+	usuariosMaisParceriasAceitas(MessageUtils.getMessage("lbl.rel.title.usuarios.mais.parcerias")),	
+	usuariosMaisIntermediacoesAceitas(MessageUtils.getMessage("lbl.rel.title.usuarios.mais.intermediacoes")),
+	usuariosImoveisMaisVisualizados(MessageUtils.getMessage("lbl.rel.title.usuarios.mais.imoveis.visualizados")),
+	usuariosImoveisMaisFavoritos(MessageUtils.getMessage("lbl.rel.title.usuarios.mais.imoveis.favoritos")),
+	usuariosImoveisMaisPropostas(MessageUtils.getMessage("lbl.rel.title.usuarios.mais.imoveis.propostas")),
+	
 	quantImoveisPorLocalizacaoAcaoTipoImovel(MessageUtils.getMessage("lbl.rel.title.quant.imoveis.localizacao")),	
 	tipoImoveisMaisProcuradoPorLocalizacao(MessageUtils.getMessage("lbl.rel.title.tipo.imoveis.localizacao")),
 	variacaoPrecosPorTipoImovelPorLocalizacao(MessageUtils.getMessage("lbl.rel.title.variacao.preco.imoveis"));

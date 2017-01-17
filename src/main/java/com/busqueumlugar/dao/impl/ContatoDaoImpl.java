@@ -232,9 +232,9 @@ public class ContatoDaoImpl extends GenericDAOImpl<Contato, Long>  implements Co
 		Criteria crit = session().createCriteria(Contato.class);
 		crit.createCriteria("usuarioConvidado").add(Restrictions.eq("id", idUsuario));		
 		if (!StringUtils.isNullOrEmpty(status))
-			crit.add(Restrictions.eq("status", status));
-		else
-			crit.add(Restrictions.eq("status", ContatoStatusEnum.CONVIDADO.getRotulo()));
+			crit.add(Restrictions.eq("statusLeitura", status));
+		
+		crit.add(Restrictions.eq("status", ContatoStatusEnum.CONVIDADO.getRotulo()));
 		
 		crit.setProjection(Projections.rowCount());
 		return (long) crit.uniqueResult();

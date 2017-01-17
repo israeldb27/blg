@@ -38,13 +38,7 @@ public class NotificacaoServiceImpl implements NotificacaoService {
 	private NotificacaoDao dao;
 	
 	@Autowired
-	private UsuarioService usuarioService;
-	
-	@Autowired
-	private UsuarioDao usuarioDao;
-	
-	@Autowired
-	private ImovelService imovelService;
+	private UsuarioDao usuarioDao;	
 	
 	@Autowired
 	private ImovelDao imovelDao;

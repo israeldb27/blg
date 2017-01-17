@@ -24,6 +24,7 @@ import com.busqueumlugar.dao.EstadosDao;
 import com.busqueumlugar.dao.ParamservicoDao;
 import com.busqueumlugar.dao.PlanoDao;
 import com.busqueumlugar.dao.PlanousuarioDao;
+import com.busqueumlugar.dao.ServicoDao;
 import com.busqueumlugar.dao.UsuarioDao;
 import com.busqueumlugar.enumerador.AcaoNotificacaoEnum;
 import com.busqueumlugar.enumerador.PerfilUsuarioOpcaoEnum;
@@ -69,19 +70,10 @@ public class PlanousuarioServiceImpl implements PlanousuarioService{
 	private PlanousuarioDao dao;
 	
 	@Autowired
-	private PlanoService planoService;
-	
-	@Autowired
 	private PlanoDao planoDao;
 	
 	@Autowired
-	private ParamservicoService paramservicoService;
-	
-	@Autowired
 	private ParamservicoDao paramservicoDao;
-	
-	@Autowired
-	private UsuarioService usuarioService;
 	
 	@Autowired
 	private UsuarioDao usuarioDao;
@@ -90,7 +82,7 @@ public class PlanousuarioServiceImpl implements PlanousuarioService{
 	private NotificacaoService notificacaoService;
 	
 	@Autowired
-	private ServicoService servicoService;
+	private ServicoDao servicoDao;
 
 	public Planousuario recuperarPlanousuarioPorId(Long id) {
 		return dao.findPlanousuarioById(id);
@@ -180,11 +172,11 @@ public class PlanousuarioServiceImpl implements PlanousuarioService{
             servico.setStatusPgto(StatusPagtoOpcaoEnum.PAGO.getRotulo());        
             servico.setDataFimServico(cal.getTime());        
             //controller.edit(servico);
-            servicoService.atualizarServico(servico);
+            servicoDao.save(servico);
             
         }
-        usuarioService.editarUsuario(usuario);
-        servicoService.cadastrarServico(servico);
+        usuarioDao.save(usuario);
+        servicoDao.save(servico);
 	
 	}
 	
@@ -218,7 +210,7 @@ public class PlanousuarioServiceImpl implements PlanousuarioService{
         cal.add(Calendar.DAY_OF_MONTH, quantDias);
         servico.setDataPagto(dtAtual);     
         servico.setDataFimServico(cal.getTime());                    
-        servicoService.cadastrarServico(servico);
+        servicoDao.save(servico);
         
 	}
 	
@@ -262,10 +254,10 @@ public class PlanousuarioServiceImpl implements PlanousuarioService{
             //servico.setDataPagto(dtAtual);            
             servico.setStatusPgto(StatusPagtoOpcaoEnum.CONCEDIDO.getRotulo());        
             servico.setDataFimServico(cal.getTime());
-            servicoService.atualizarServico(servico);
+            servicoDao.save(servico);
         }
-        usuarioService.editarUsuario(usuario);
-        servicoService.cadastrarServico(servico);		
+        usuarioDao.save(usuario);
+        servicoDao.save(servico);		
 	}
 	
 	private void atualizarConcessaoServicoRelatorioPlano(Planousuario p,	Plano plano) {
@@ -296,7 +288,7 @@ public class PlanousuarioServiceImpl implements PlanousuarioService{
         cal.add(Calendar.DAY_OF_MONTH, quantDias);
         //servico.setDataPagto(dtAtual);     
         servico.setDataFimServico(cal.getTime());                    
-        servicoService.cadastrarServico(servico);
+        servicoDao.save(servico);
 		
 	}
 
@@ -320,7 +312,7 @@ public class PlanousuarioServiceImpl implements PlanousuarioService{
 			Object[] obj = null;
 			for (Iterator iter = lista.iterator();iter.hasNext();){
 				obj = (Object[]) iter.next();
-				usuario = usuarioService.recuperarUsuarioPorId(Long.parseLong(obj[0].toString()));
+				usuario = usuarioDao.findUsuario(Long.parseLong(obj[0].toString()));
 				rel = new RelatorioQuantPlano();
 				rel.setNomeUsuario(usuario.getNome());
 				rel.setNomePlano(obj[1].toString());
@@ -605,9 +597,8 @@ public class PlanousuarioServiceImpl implements PlanousuarioService{
 	public void revogarPlano(Long idUsuario, Long idPlanoSelecionado) {
 
 		Planousuario planoUsuario = dao.findPlanousuarioById(idPlanoSelecionado);
-		//Plano plano = planoService.recuperarPlanoPorId(planoUsuario.getIdPlano());
 		
-		List<Servico> listaServicos = servicoService.recuperarServicosPorIdPlanoUsuario(planoUsuario.getId());
+		List<Servico> listaServicos = servicoDao.findServicosByIdPlanoUsuario(planoUsuario.getId());
 		Usuario usuario = planoUsuario.getUsuario();
 		for (Servico servico : listaServicos){			
 	        
@@ -624,9 +615,9 @@ public class PlanousuarioServiceImpl implements PlanousuarioService{
 	            usuario.setQuantMaxIndicacoesImovelEmail(usuario.getQuantMaxIndicacoesImovelEmail() - planoUsuario.getPlano().getQuantEmailsPorImovel());
 	        }
 	      	        
-	        servicoService.excluirServico(servico.getId());
+	        servicoDao.delete(servico);
 		}			
-		usuarioService.editarUsuario(usuario);
+		usuarioDao.save(usuario);
 		planoUsuario.setStatus(StatusPagtoOpcaoEnum.REVOGADO.getRotulo());
 		dao.save(planoUsuario);
 	}
