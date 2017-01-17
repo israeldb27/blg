@@ -16,9 +16,36 @@
 		<org.aspectj-version>1.7.4</org.aspectj-version>
 		<org.slf4j-version>1.7.5</org.slf4j-version>
 		<hibernate.version>4.3.5.Final</hibernate.version>
+		<activemq.version>5.13.3</activemq.version>
 	</properties>
 
 	<dependencies>
+	
+		 <dependency>
+	      <groupId>org.springframework</groupId>
+	      <artifactId>spring-jms</artifactId>
+	      <version>${org.springframework-version}</version>
+	    </dependency>
+	    
+	    <dependency>
+	      <groupId>org.springframework</groupId>
+	      <artifactId>spring-core</artifactId>
+	      <version>4.3.0.RELEASE</version>
+	    </dependency>  
+	    
+	   	<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+	    
+	       <!-- ActiveMQ Artifacts -->
+		    <dependency>
+		      <groupId>org.apache.activemq</groupId>
+		      <artifactId>activemq-spring</artifactId>
+		      <version>${activemq.version}</version>
+		    </dependency>
+		
 	
 	  <!-- Spring Security -->
         <dependency>
@@ -37,12 +64,11 @@
             <version>${springsecurity.version}</version>
         </dependency>
 
- 	 <dependency>
+ 	 	<dependency>
 	        <groupId>com.google.code.gson</groupId>
 	        <artifactId>gson</artifactId>
 	        <version>2.1</version>
-	    </dependency>
-	    
+	    </dependency>	    
 		
 		<dependency>
 			<groupId>com.paypal.sdk</groupId>
@@ -65,8 +91,7 @@
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
 			<version>20140107</version>
-		</dependency>
-        
+		</dependency>        
         
         <dependency>
 			<groupId>commons-fileupload</groupId>
@@ -109,6 +134,16 @@
 			<artifactId>spring-aop</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
+		<dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.1.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.1.7</version>
+        </dependency>
 
 		<!-- Hibernate -->
 		<dependency>
