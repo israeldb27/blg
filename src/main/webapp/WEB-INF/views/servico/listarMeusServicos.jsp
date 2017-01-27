@@ -73,7 +73,7 @@ $(document).ready(function() {
                                         	
 	                                        <label for="idServicoSelecionado" class="col-sm-4 control-label"><spring:message code="lbl.servicos.disponiveis"/>:</label>
 	                                        <div class="col-sm-7">
-	                                            <form:select id="idServicoSelecionado" path="idServicoSelecionado" class="form-control">                                
+	                                            <form:select id="idServicoSelecionado" path="idServicoSelecionado" class="chosen-select" tabindex="-1" style="display: none;">                                
 													<form:option value="-1" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 													<form:options items="${servicoForm.listaServicosDisponiveis}" itemValue="id" itemLabel="labelServico"/>
 											  </form:select>

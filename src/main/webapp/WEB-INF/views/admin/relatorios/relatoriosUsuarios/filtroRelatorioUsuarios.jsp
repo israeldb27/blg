@@ -83,7 +83,7 @@ $(document).ready(function() {
                                         	<div class="form-group">
 	                                        	<label for="idEstado" class="col-sm-4 control-label"><spring:message code="lbl.estado"/> :</label>
 	                                        	<div class="col-sm-7">                                        	
-		                                            <form:select id="idEstado" path="idEstado" class="form-control" >                                
+		                                            <form:select id="idEstado" path="idEstado" class="chosen-select" tabindex="-1" style="display: none;" >                                
 														<form:option value="-1" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 														<form:options items="${administracaoForm.listaEstados}" itemValue="key" itemLabel="label"/>
 												  </form:select>
@@ -93,7 +93,7 @@ $(document).ready(function() {
 		                                    <div class="form-group">
 		                                        <label for="idCidade" class="col-sm-4 control-label"><spring:message code="lbl.cidade"/>:</label>
 		                                        <div class="col-sm-7">
-		                                            <form:select id="idCidade" path="idCidade" class="form-control">                                
+		                                            <form:select id="idCidade" path="idCidade" class="chosen-select" tabindex="-1" style="display: none;">                                
 														<form:option value="-1" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 														<form:options items="${administracaoForm.listaCidades}" itemValue="key" itemLabel="label"/>
 												  </form:select>
@@ -103,7 +103,7 @@ $(document).ready(function() {
 	                                        <div class="form-group">
 	                                            <label for="idBairro" class="col-sm-4 control-label"><spring:message code="lbl.bairro"/>:</label>
 		                                        <div class="col-sm-7">
-		                                            <form:select id="idBairro" path="idBairro" class="form-control">                                
+		                                            <form:select id="idBairro" path="idBairro" class="chosen-select" tabindex="-1" style="display: none;">                                
 														<form:option value="-1" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 														<form:options items="${administracaoForm.listaBairros}" itemValue="key" itemLabel="label"/>
 												  </form:select>
@@ -113,7 +113,7 @@ $(document).ready(function() {
 	                                       <div class="form-group">	                                       	
 	                                       		<label for="perfilUsuario" class="col-sm-4 control-label"><spring:message code="lbl.filtro.perfil.usuario"/>:</label>
 		                                       		<div class="col-sm-7">
-		                                       			<form:select id="perfilUsuario" path="perfilUsuario" class="form-control">                                
+		                                       			<form:select id="perfilUsuario" path="perfilUsuario" class="chosen-select" tabindex="-1" style="display: none;">                                
 									                       <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 														   <form:options items="${listaPerfilUsuario}" itemValue="identificador" itemLabel="rotulo" />
 									                    </form:select>

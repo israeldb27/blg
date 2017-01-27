@@ -88,7 +88,7 @@ $(document).ready(function() {
                                             <div class="form-group">
                                                 <label for="tipoParam" class="col-sm-3 control-label"><spring:message code="lbl.admin.param.iniciais.tipo"/></label>
                                                 <div class="col-sm-7">                                                    
-                                                    <form:select id="tipoParam" path="tipoParam" class="form-control">                                
+                                                    <form:select id="tipoParam" path="tipoParam" class="chosen-select" tabindex="-1" style="display: none;">                                
 															<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>   
 															<form:option value="N"> <spring:message code="lbl.admin.param.iniciais.tipo.numerico"/></form:option>
 															<form:option value="C"> <spring:message code="lbl.admin.param.iniciais.tipo.caractere"/></form:option>														
@@ -109,7 +109,7 @@ $(document).ready(function() {
                                             <div class="form-group">
                                                 <label for="valorHabilita" class="col-sm-3 control-label"><spring:message code="lbl.admin.param.iniciais.valor.habilita"/></label>
                                                 <div class="col-sm-7">                                                    
-                                                    <form:select id="valorHabilita" path="valorHabilita" class="form-control">                                
+                                                    <form:select id="valorHabilita" path="valorHabilita" class="chosen-select" tabindex="-1" style="display: none;">                                
 															<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>   
 															<form:option value="S"> <spring:message code="lbl.sim"/></form:option>
 															<form:option value="N"> <spring:message code="lbl.nao"/></form:option>														

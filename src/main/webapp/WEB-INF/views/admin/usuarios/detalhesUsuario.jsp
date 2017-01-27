@@ -796,7 +796,7 @@ function cancelarSuspensaoUsuario(){
 				                                        <label for="servicoSelecionado" class="col-sm-4 control-label"><spring:message code="lbl.servicos.disponiveis"/>:</label>
 					                                        <div class="col-sm-4">
 															  
-															  <select name="servicoSelecionado" id="servicoSelecionado" class="form-control">
+															  <select name="servicoSelecionado" id="servicoSelecionado" class="chosen-select" tabindex="-1" style="display: none;">
 															  			<option value="-1"><spring:message code="opcao.selecao.uma.opcao"/></option>
 															  	  <c:forEach var="servico" items="${usuarioForm.listaServicosDisponiveis}" >
 															  	  		<option value="${servico.valueServico}">${servico.labelServico}</option> 
@@ -842,7 +842,7 @@ function cancelarSuspensaoUsuario(){
 				                                        <label for="servicoSelecionado" class="col-sm-4 control-label"><spring:message code="lbl.modal.confirma.suspensao.usuario.tempo"/>:</label>
 					                                        <div class="col-sm-4">
 															  
-															  <select name="tempoSuspensao" id="tempoSuspensao" class="form-control">
+															  <select name="tempoSuspensao" id="tempoSuspensao" class="chosen-select" tabindex="-1" style="display: none;">
 															  		<option value=""><spring:message code="opcao.selecao.uma.opcao"/></option>
 																	<option value="1">1</option>
 																	<option value="7">7</option>

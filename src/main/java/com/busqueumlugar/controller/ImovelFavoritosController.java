@@ -24,6 +24,7 @@ import com.busqueumlugar.form.ImovelcomentarioForm;
 import com.busqueumlugar.form.ImovelfavoritosForm;
 import com.busqueumlugar.form.ImovelPropostasForm;
 import com.busqueumlugar.form.ImovelindicadoForm;
+import com.busqueumlugar.form.ImovelvisualizadoForm;
 import com.busqueumlugar.form.UsuarioForm;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Imovelfavoritos;
@@ -56,9 +57,48 @@ public class ImovelFavoritosController {
 	private EstadosService estadosService;	
 	
 	@Autowired
+	private CidadesService cidadesService;
+	
+	@Autowired
+	private BairrosService bairrosService;
+	
+	@Autowired
 	private UsuarioService usuarioService;
 	
 	private static final String DIR_PATH = "/imovel/listaFavoritos/";
+	
+	@RequestMapping(value = "/buscarCidades/{idEstado}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Select> populaCidadePorEstado(@PathVariable("idEstado") Integer idEstado, 
+    										  @ModelAttribute("imovelFavoritoForm") ImovelfavoritosForm form,	
+											  ModelMap map)  {       
+		try {		
+			form.setListaCidades(cidadesService.selecionarCidadesPorIdEstadoSelect(idEstado));
+	        return form.getListaCidades();
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelfavoritosForm -  populaCidadePorEstado");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return null;
+		}
+    }		
+	
+	@RequestMapping(value = "/buscarBairros/{idCidade}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Select> populaBairroPorEstado(@PathVariable("idCidade") Integer idCidade,
+    										  @ModelAttribute("imovelFavoritoForm") ImovelfavoritosForm form,	
+											  ModelMap map)  {
+        
+		try {			
+			form.setListaBairros(bairrosService.selecionarBairrosPorIdCidadeSelect(idCidade));
+	        return form.getListaBairros();
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelfavoritosForm -  populaBairroPorEstado");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return null;
+		}
+    }
 	
 	@RequestMapping(value = "/desmarcarCheck")	
 	public void desmarcarCheck(Long idImovelfavoritos,

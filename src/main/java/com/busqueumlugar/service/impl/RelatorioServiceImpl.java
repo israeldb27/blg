@@ -829,6 +829,20 @@ public class RelatorioServiceImpl implements RelatorioService {
 			}
 		}
 		
+		if ((form.getItem().equals(RelatorioEnum.usuariosMaisParceriasAceitas.getIdentificador())      ||
+		     form.getItem().equals(RelatorioEnum.usuariosMaisIntermediacoesAceitas.getIdentificador()) ||	
+		     form.getItem().equals(RelatorioEnum.usuariosImoveisMaisVisualizados.getIdentificador())   ||
+		     form.getItem().equals(RelatorioEnum.usuariosImoveisMaisFavoritos.getIdentificador())      ||
+		     form.getItem().equals(RelatorioEnum.usuariosImoveisMaisPropostas.getIdentificador())      ||
+			 form.getItem().equals(RelatorioEnum.usuariosMaisIntermediacoesAceitas.getIdentificador())))  {
+			
+			if ( StringUtils.isEmpty(form.getOpcaoFiltroContato())) {
+				result.rejectValue("opcaoFiltroContato", "msg.erro.campo.obrigatorio");
+	        	filtroValido = false;
+			}
+			
+		}
+		
 		if (! user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){
 			
 			if ((form.getItem().equals(RelatorioEnum.imoveisMaisAdotadosInteressados.getIdentificador()) ||
@@ -839,8 +853,12 @@ public class RelatorioServiceImpl implements RelatorioService {
 				if ( StringUtils.isEmpty(form.getOpcaoFiltroContato())) {
 					result.rejectValue("opcaoFiltroContato", "msg.erro.campo.obrigatorio");
 		        	filtroValido = false;
-				}				
+				}
 				
+				if ( StringUtils.isEmpty(form.getPerfilUsuario())) {
+					result.rejectValue("perfilUsuario", "msg.erro.campo.obrigatorio");
+		        	filtroValido = false;
+				}
 			}
 			
 			if ((form.getItem().equals(RelatorioEnum.sobreEstados.getIdentificador()) ||
@@ -863,27 +881,41 @@ public class RelatorioServiceImpl implements RelatorioService {
 				}
 			}
 			
-			if ((form.getItem().equals(RelatorioEnum.tipoImoveisMaisProcuradoPorLocalizacao.getIdentificador())   ||
-				 form.getItem().equals(RelatorioEnum.quantImoveisPorLocalizacaoAcaoTipoImovel.getIdentificador()) ||	
-			     form.getItem().equals(RelatorioEnum.variacaoPrecosPorTipoImovelPorLocalizacao.getIdentificador()) ) )  {
-				
-				if ( StringUtils.isEmpty(form.getOpcaoFiltroContato())) {
-					result.rejectValue("opcaoFiltroContato", "msg.erro.campo.obrigatorio");
-		        	filtroValido = false;
-				}	
-				
-				if (! (form.getItem().equals(RelatorioEnum.tipoImoveisMaisProcuradoPorLocalizacao.getIdentificador()))){
-					if ( StringUtils.isEmpty(form.getTipoImovel())) {
-						result.rejectValue("tipoImovel", "msg.erro.campo.obrigatorio");
-			        	filtroValido = false;
-					}
-				}
-			
+			if (form.getItem().equals(RelatorioEnum.tipoImoveisMaisProcuradoPorLocalizacao.getIdentificador())) {
 				
 				if ( StringUtils.isEmpty(form.getAcao())) {
 					result.rejectValue("acao", "msg.erro.campo.obrigatorio");
 		        	filtroValido = false;
 				}
+				
+				if ( StringUtils.isEmpty(form.getOpcaoFiltroContato())) {
+					result.rejectValue("opcaoFiltroContato", "msg.erro.campo.obrigatorio");
+		        	filtroValido = false;
+				}
+				
+				if ( StringUtils.isEmpty(form.getPerfilImovel())) {
+					result.rejectValue("perfilImovel", "msg.erro.campo.obrigatorio");
+		        	filtroValido = false;
+				}
+			}
+			
+			if ((form.getItem().equals(RelatorioEnum.quantImoveisPorLocalizacaoAcaoTipoImovel.getIdentificador()) ||	
+			     form.getItem().equals(RelatorioEnum.variacaoPrecosPorTipoImovelPorLocalizacao.getIdentificador()))) {				
+				
+				if ( StringUtils.isEmpty(form.getTipoImovel())) {
+					result.rejectValue("tipoImovel", "msg.erro.campo.obrigatorio");
+		        	filtroValido = false;
+				}
+				
+				if ( StringUtils.isEmpty(form.getAcao())) {
+					result.rejectValue("acao", "msg.erro.campo.obrigatorio");
+		        	filtroValido = false;
+				}
+				
+				if ( StringUtils.isEmpty(form.getPerfilImovel())) {
+					result.rejectValue("perfilImovel", "msg.erro.campo.obrigatorio");
+		        	filtroValido = false;
+				}				
 			}			
 			
 		}

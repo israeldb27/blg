@@ -104,14 +104,14 @@ $('#opcaoPaginacao').change(function () {
                                         	</br>
                                         	 <span class="label label-default"><spring:message code="lbl.filtro.perfil.usuario"/> </span>
                                         	 	<spring:message code="lbl.hint.usuario.perfil.usuario" var="hintPerfilUsuario"/>
-									             <form:select id="opcaoPerfilContatoAgruparUsuarios" path="opcaoPerfilContatoAgruparUsuarios" class="form-control" title="${hintPerfilUsuario}">                                
+									             <form:select id="opcaoPerfilContatoAgruparUsuarios" path="opcaoPerfilContatoAgruparUsuarios" class="chosen-select" tabindex="-1" style="display: none;" title="${hintPerfilUsuario}">                                
 														<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 											   			<form:options items="${listaPerfilUsuario}" itemValue="identificador" itemLabel="rotulo" />
 												  </form:select> 
                                             </br> </br>
                                         	<span class="label label-default"><spring:message code="lbl.relatorio.tipo.contato"/></span>
                                         		<spring:message code="lbl.hint.usuario.contatos.usuario" var="hintContatosUsuario"/>
-									            <form:select id="opcaoContatoAgruparUsuarios" path="opcaoContatoAgruparUsuarios" class="form-control" title="${hintContatosUsuario}">                                
+									            <form:select id="opcaoContatoAgruparUsuarios" path="opcaoContatoAgruparUsuarios" class="chosen-select" tabindex="-1" style="display: none;" title="${hintContatosUsuario}">                                
 													<form:option value="" disabled="true"><spring:message code="lbl.agrupar.por"/></form:option>                  											
 												    <form:options items="${listaTipoContato}" itemValue="identificador" itemLabel="rotulo" />
 											  </form:select>
@@ -138,7 +138,7 @@ $('#opcaoPaginacao').change(function () {
 		                                <div class="pull-right" >
 		                                	  <spring:message code="lbl.hint.tipo.agrupar" var="hintAgrupar"/>	 
 		                                      <form:form method="POST" id="modVisualizaListaInteresseForm" modelAttribute="imovelFavoritoForm" action="${urlImovelFavoritos}/modoVisualizar" >								                    
-								                         <form:select id="opcaoVisualizacaoListaInteresse" path="opcaoVisualizacao" class="form-control">
+								                         <form:select id="opcaoVisualizacaoListaInteresse" path="opcaoVisualizacao" class="chosen-select" tabindex="-1" style="display: none;">
 																<form:option value="" disabled="true"><spring:message code="lbl.agrupar.por"/></form:option>                  											
 																<form:option value="agruparUsuarios" ><spring:message code="lbl.agrupar.usuarios"/></form:option>   
 																<form:option value="todos" ><spring:message code="lbl.agrupar.todos"/></form:option> 
@@ -148,7 +148,7 @@ $('#opcaoPaginacao').change(function () {
 		                                <div class="pull-right" style="padding-right:10px;">
 		                                		<spring:message code="lbl.hint.tipo.ordenacao" var="hintOrdenar"/>
 		                                    	<form:form method="POST" id="usuariosListaInteresseForm" modelAttribute="imovelFavoritoForm" action="${urlImovelFavoritos}/ordenarAgrupar" >         		      	
-						                        	<form:select id="opcaoOrdenacao2" path="opcaoOrdenacao" class="form-control" title="${hintOrdenar}">                                
+						                        	<form:select id="opcaoOrdenacao2" path="opcaoOrdenacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintOrdenar}">                                
 								                        <form:option value="" disabled="true"><spring:message code="lbl.opcao.ordenar"/></form:option>
 								                        <form:option value="maiorDataCadastrado" ><spring:message code="lbl.opcao.ordenacao.usuario.cad.mais.recente"/></form:option>
 														<form:option value="menorDataCadastrado" ><spring:message code="lbl.opcao.ordenacao.usuario.cad.menos.recente"/></form:option>
@@ -161,7 +161,7 @@ $('#opcaoPaginacao').change(function () {
 		                                	<div class="pull-right" style="padding-right:20px;">
 			                                    <form:form method="POST" id="imovelFavoritoPageForm" modelAttribute="imovelFavoritoForm" action="${urlImovelFavoritos}/filtrarAgruparUsuarios" >
 			                                     	 <spring:message code="lbl.hint.opcao.paginacao" var="hintPaginacao"/>
-		                                             <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="form-control" title="${hintPaginacao}">
+		                                             <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintPaginacao}">
 		                                                 <form:option value="" disabled="true"><spring:message code="lbl.opcao.paginacao"/></form:option>
 		                                                 <form:options items="${imovelFavoritoForm.listaPaginas}" itemValue="key" itemLabel="label"/>	                                                    	                                                    
 		                                             </form:select>

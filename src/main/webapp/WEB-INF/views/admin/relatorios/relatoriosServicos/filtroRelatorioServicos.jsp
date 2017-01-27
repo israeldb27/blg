@@ -82,7 +82,7 @@ $(document).ready(function() {
 		                                    <div class="form-group">
 		                                    	<label for="status" class="col-sm-4 control-label"><spring:message code="lbl.status.servico"/>:</label>
 		                                    	<div class="col-sm-7">
-			                                    	<form:select id="status" path="status" class="form-control">                                
+			                                    	<form:select id="status" path="status" class="chosen-select" tabindex="-1" style="display: none;">                                
 															<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>   
 															<form:options items="${listaStatusServicoPlano}" itemValue="identificador" itemLabel="rotulo" />
 													</form:select>   

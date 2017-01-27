@@ -9,8 +9,8 @@
 <%@page import="com.busqueumlugar.enumerador.StatusImovelEnum"%>
 
 <spring:url value="/imovelFavoritos" var="urlImovelFavoritos"/>
-<spring:url value="/localidade/buscarCidades" var="urlBuscarCidades"/>
-<spring:url value="/localidade/buscarBairros" var="urlBuscarBairros"/>
+<spring:url value="/imovelFavoritos/buscarCidades" var="urlBuscarCidades"/>
+<spring:url value="/imovelFavoritos/buscarBairros" var="urlBuscarBairros"/>
 <spring:url value="/imovel" var="urlImovel"/>
 <spring:url value="/usuario" var="urlUsuario"/>
 
@@ -43,8 +43,9 @@ $('#idCidade').change(function () {
 	
 	
 function limpaComboLinha(comboLinha) {
-    $(comboLinha).empty();
-    $(comboLinha).append('<option value="-1" >' + "<spring:message code='opcao.selecao.uma.opcao'/>" + '</option>');        
+    $(comboLinha).empty();  
+    $(comboLinha).append('<option value="-1" >' + "<spring:message code='opcao.selecao.uma.opcao'/>" + '</option>');
+    $(comboLinha).trigger("chosen:updated");
 }
 
 	$('#opcaoOrdenacao2').change(function () {				
@@ -225,7 +226,7 @@ function confirmarExclusaoParametro(){
 											     
 										     	<span class="label label-default"><spring:message code="lbl.acao.imovel"/> </span>
 										     		<spring:message code="lbl.hint.imovel.acao.imovel" var="hintAcaoImovel"/>
-										              <form:select id="acao" path="acao" class="form-control" title="${hintAcaoImovel}">                                
+										              <form:select id="acao" path="acao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintAcaoImovel}">                                
 									                    <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 									                    <form:options items="${listaAcaoImovel}" itemValue="identificador" itemLabel="rotulo" />								                    
 									                </form:select>
@@ -234,7 +235,7 @@ function confirmarExclusaoParametro(){
 								           
 										        <span class="label label-default"><spring:message code="lbl.buscar.imovel.status.imovel"/> </span>
 										            <spring:message code="lbl.hint.imovel.perfil.imovel" var="hintPerfilImovel"/>
-											              <form:select id="perfilImovel" path="perfilImovel" class="form-control" title="${hintPerfilImovel}">                                
+											              <form:select id="perfilImovel" path="perfilImovel" class="chosen-select" tabindex="-1" style="display: none;" title="${hintPerfilImovel}">                                
 										                    	<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 										                    	<form:options items="${listaStatusImovel}" itemValue="identificador" itemLabel="rotulo" />								                    	   
 										                </form:select> 
@@ -274,7 +275,7 @@ function confirmarExclusaoParametro(){
 		                                    <div class="panel-body">
 		                                    	<span class="label label-default"><spring:message code="lbl.buscar.imovel.quartos.dormitorios"/> </span>
 		                                    	<spring:message code="lbl.hint.imovel.quant.quartos" var="hintQuantQuartos"/>
-										            <form:select id="quantQuartos" path="quantQuartos" class="form-control" title="${hintQuantQuartos}">                                
+										            <form:select id="quantQuartos" path="quantQuartos" class="chosen-select" tabindex="-1" style="display: none;" title="${hintQuantQuartos}">                                
 									                    <form:option value="0" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>	                        
 														<form:option value="1" >1</form:option>	                        
 														<form:option value="2" >2</form:option>
@@ -283,11 +284,11 @@ function confirmarExclusaoParametro(){
 														<form:option value="5" >5</form:option>
 														<form:option value="6" ><spring:message code="opcao.selecao.mais.seis"/></form:option>	                
 									                </form:select>
-									             <br>
+									              <br> <br>
 									         
 									         	<span class="label label-default"><spring:message code="lbl.buscar.imovel.garagem"/> </span>
 									         	<spring:message code="lbl.hint.imovel.quant.garagem" var="hintQuantGaragem"/>
-										             <form:select id="quantGaragem" path="quantGaragem" class="form-control" title="${hintQuantGaragem}">                                
+										             <form:select id="quantGaragem" path="quantGaragem" class="chosen-select" tabindex="-1" style="display: none;" title="${hintQuantGaragem}">                                
 									                    <form:option value="0" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 														<form:option value="1" >1</form:option>	                        
 														<form:option value="2" >2</form:option>
@@ -296,11 +297,11 @@ function confirmarExclusaoParametro(){
 														<form:option value="5" >5</form:option>
 														<form:option value="6" ><spring:message code="opcao.selecao.mais.seis"/></form:option>	    
 									                </form:select>
-									             <br>    
+									              <br> <br>   
 									         
 									        <span class="label label-default"><spring:message code="lbl.buscar.imovel.banheiros"/> </span>
 									        	<spring:message code="lbl.hint.imovel.quant.banheiros" var="hintQuantBanheiros"/>
-										             <form:select id="quantBanheiro" path="quantBanheiro" class="form-control" title="${hintQuantBanheiros}">                                
+										             <form:select id="quantBanheiro" path="quantBanheiro" class="chosen-select" tabindex="-1" style="display: none;" title="${hintQuantBanheiros}">                                
 									                    <form:option value="0" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 														<form:option value="1" >1</form:option>	                        
 														<form:option value="2" >2</form:option>
@@ -309,11 +310,11 @@ function confirmarExclusaoParametro(){
 														<form:option value="5" >5</form:option>
 														<form:option value="6" ><spring:message code="opcao.selecao.mais.seis"/></form:option>	    
 									                </form:select>
-									             <br>       
+									              <br> <br>       
 									             
 									         <span class="label label-default"><spring:message code="lbl.buscar.imovel.suites"/> </span>
 									         		<spring:message code="lbl.hint.imovel.quant.suites" var="hintQuantSuites"/>
-										            <form:select id="quantSuites" path="quantSuites" class="form-control" title="${hintQuantSuites}">                                
+										            <form:select id="quantSuites" path="quantSuites" class="chosen-select" tabindex="-1" style="display: none;" title="${hintQuantSuites}">                                
 									                    <form:option value="0" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 														<form:option value="1" >1</form:option>	                        
 														<form:option value="2" >2</form:option>
@@ -351,7 +352,7 @@ function confirmarExclusaoParametro(){
 	                                		<spring:message code="lbl.hint.tipo.agrupar" var="hintAgrupar"/>
 	                                        <form:form method="POST" id="modVisualizaUsuariosInteressadosForm" modelAttribute="imovelFavoritoForm" action="${urlImovelFavoritos}/modoVisualizar" >
 				                             		<form:hidden  path="tipoLista" value="usuariosInteressados" />
-				                                     <form:select id="opcaoVisualizacaoUsuariosInteressados" path="opcaoVisualizacao" class="form-control" title="${hintAgrupar}">
+				                                     <form:select id="opcaoVisualizacaoUsuariosInteressados" path="opcaoVisualizacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintAgrupar}">
 				                                         <form:option value="" disabled="true"><spring:message code="lbl.agrupar.por"/></form:option>                      											
 														 <form:option value="agruparUsuarios" ><spring:message code="lbl.agrupar.usuarios"/></form:option>   
 														 <form:option value="agruparImoveis" ><spring:message code="lbl.agrupar.imoveis"/></form:option>   
@@ -363,7 +364,7 @@ function confirmarExclusaoParametro(){
 	                                			<spring:message code="lbl.hint.tipo.ordenacao" var="hintOrdenar"/>
 	                                			<form:form method="POST" id="usuariosInteressadosForm" modelAttribute="imovelFavoritoForm" action="${urlImovelFavoritos}/ordenar" >
 						              		    <form:hidden  path="tipoLista" value="usuariosInteressados" />        
-						                        	<form:select id="opcaoOrdenacao2" path="opcaoOrdenacao" class="form-control" title="${hintOrdenar}">                                							                        
+						                        	<form:select id="opcaoOrdenacao2" path="opcaoOrdenacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintOrdenar}">                                							                        
 														<form:option value="" disabled="true"><spring:message code="lbl.opcao.ordenar"/></form:option>                      
 														 <form:option value="maiorDataInteresse" ><spring:message code="lbl.opcao.ordenacao.interesse.mais.recente"/></form:option>
 														 <form:option value="menorDataInteresse" ><spring:message code="lbl.opcao.ordenacao.interesse.menos.recente"/></form:option>
@@ -378,7 +379,7 @@ function confirmarExclusaoParametro(){
 	                                	<div class="pull-right" style="padding-right:20px;">
 		                                    <form:form method="POST" id="imovelFavoritoPageForm" modelAttribute="imovelFavoritoForm" action="${urlImovelFavoritos}/filtrar" >
 		                                     	 <spring:message code="lbl.hint.opcao.paginacao" var="hintPaginacao"/>
-	                                             <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="form-control" title="${hintPaginacao}">
+	                                             <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintPaginacao}">
 	                                                 <form:option value="" disabled="true"><spring:message code="lbl.opcao.paginacao"/></form:option>
 	                                                 <form:options items="${imovelFavoritoForm.listaPaginas}" itemValue="key" itemLabel="label"/>	                                                    	                                                    
 	                                             </form:select>

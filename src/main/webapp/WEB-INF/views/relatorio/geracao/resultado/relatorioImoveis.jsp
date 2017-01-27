@@ -106,7 +106,7 @@ function recuperaRelatorios(){
                                     <div class="panel-body col-md-9">
                                         <form action="#" class="tab-content form-horizontal">                                            
                                             <div class="tab-pane fade in active" id="tab2-2">
-                                            	<c:if test="${ ((not empty imoveisMaisVisualizados) || (not empty imoveisMaisAdotadosInteressados) || (not empty imoveisMaisComentados) || (not empty imoveisMaisPropostados)) }">
+                                            	<c:if test="${not empty relatorioImoveis}">
 				                            		 <h4 class="page-header"><spring:message code="lbl.relatorio.lista.imoveis"/></h4>
 		                                                <div class="form-group">
 		                                                    	<div class="table-responsive" style="margin-top: -1px;">
@@ -119,10 +119,8 @@ function recuperaRelatorios(){
 							                                                <th><spring:message code="lbl.relatorios.col.estado"/></th>					                                                
 							                                            </tr>
 							                                            </thead>
-							                                            <tbody>
-																		<c:choose>
-																			<c:when test="${(menu == 'imoveisMaisVisualizados')}">
-																				<c:forEach var="imovel" items="${imoveisMaisVisualizados}" varStatus="item">
+							                                            <tbody>																		
+																				<c:forEach var="imovel" items="${relatorioImoveis}" varStatus="item">
 																					<tr class="border-primary">					                                                
 																						<td>						                                                
 																							<a href="${urlImovel}/detalhesImovel/${imovel.id}"> <img src="${context}${imovel.imagemArquivo}" style="width: 100px; height: 80px; "/></a>						                                                    					                                                    
@@ -130,58 +128,15 @@ function recuperaRelatorios(){
 																						<td><a href="${urlImovel}/detalhesImovel/${imovel.id}"> ${imovel.titulo}</a></td>
 																						<td>${imovel.tipoImovelFmt}</td>
 																						<td>${imovel.estado}</td>					                                                					                                               
-																					</tr>					                                  
-																				</c:forEach>                                                      
-																			</c:when>
-																			
-																			<c:when test="${(menu == 'imoveisMaisAdotadosInteressados')}">
-																				<c:forEach var="imovel" items="${imoveisMaisAdotadosInteressados}" varStatus="item">
-																					<tr class="border-primary">					                                                
-																						<td>						                                                
-																							<a href="${urlImovel}/detalhesImovel/${imovel.id}"> <img src="${context}${imovel.imagemArquivo}" style="width: 100px; height: 80px; "/></a>						                                                    					                                                    
-																						</td>
-																						<td><a href="${urlImovel}/detalhesImovel/${imovel.id}"> ${imovel.titulo}</a></td>
-																						<td>${imovel.tipoImovelFmt}</td>
-																						<td>${imovel.estado}</td>					                                                					                                               
-																					</tr>					                                  
+																					</tr>
 																				</c:forEach>
-																			</c:when>
-																			
-																			<c:when test="${(menu == 'imoveisMaisComentados')}">
-																				<c:forEach var="imovel" items="${imoveisMaisComentados}" varStatus="item">
-																					<tr class="border-primary">					                                                
-																						<td>						                                                
-																							<a href="${urlImovel}/detalhesImovel/${imovel.id}"> <img src="${context}${imovel.imagemArquivo}" style="width: 100px; height: 80px; "/></a>						                                                    					                                                    
-																						</td>
-																						<td><a href="${urlImovel}/detalhesImovel/${imovel.id}"> ${imovel.titulo}</a></td>
-																						<td>${imovel.tipoImovelFmt}</td>
-																						<td>${imovel.estado}</td>					                                                					                                               
-																					</tr>					                                  
-																				</c:forEach>
-																			</c:when>
-																			
-																			<c:when test="${(menu == 'imoveisMaisPropostados')}">
-																				<c:forEach var="imovel" items="${imoveisMaisPropostados}" varStatus="item">
-																					<tr class="border-primary">					                                                
-																						<td>						                                                
-																							<a href="${urlImovel}/detalhesImovel/${imovel.id}"> <img src="${context}${imovel.imagemArquivo}" style="width: 100px; height: 80px; "/></a>						                                                    					                                                    
-																						</td>
-																						<td><a href="${urlImovel}/detalhesImovel/${imovel.id}"> ${imovel.titulo}</a></td>
-																						<td>${imovel.tipoImovelFmt}</td>
-																						<td>${imovel.estado}</td>					                                                					                                               
-																					</tr>					                                  
-																				</c:forEach>
-																			</c:when>
-																			
-																		</c:choose>	
-																		
 							                                            </tbody>
 							                                        </table>
 							                                    </div>       
 		                                                </div>                        
 				                            	</c:if>  
 				                            	
-				                            	<c:if test="${ ((empty imoveisMaisVisualizados) && (empty imoveisMaisAdotadosInteressados) && (empty imoveisMaisComentados) && (empty imoveisMaisPropostados)) }">
+				                            	<c:if test="${empty relatorioImoveis}">
 				                            		<div class="form-group">
                                                     	<div class="table-responsive" style="margin-top: -1px;">
                                                     		<spring:message code="msg.sem.registro.relatorio"/>

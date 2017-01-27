@@ -74,7 +74,7 @@ $(document).ready(function() {
 		                                    <div class="pull-right" >
 		                                    	<spring:message code="lbl.hint.usuario.perfil.contato" var="hintFiltrar"/> 
 		                                        <form:form method="POST" id="contatoFiltroForm" modelAttribute="contatoForm" action="${urlContato}/filtrarContato" >
-		                                        	<form:select id="opcaoFiltro1" path="opcaoFiltro" class="form-control" title="${hintFiltrar}">                                
+		                                        	<form:select id="opcaoFiltro1" path="opcaoFiltro" class="chosen-select" tabindex="-1" style="display: none;" title="${hintFiltrar}">                                
 									                        <form:option value="" disabled="true"><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 									                        <form:options items="${listaPerfilUsuario}" itemValue="identificador" itemLabel="rotulo" />
 															<form:option value="todos"><spring:message code="lbl.perfil.usuario.todos"/></form:option>

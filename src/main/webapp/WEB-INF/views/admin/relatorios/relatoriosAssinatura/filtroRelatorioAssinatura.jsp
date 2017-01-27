@@ -87,7 +87,7 @@ $(document).ready(function() {
 												<div class="form-group">
 													<label for="status" class="col-sm-4 control-label"><spring:message code="lbl.status.assinatura"/>:</label>
 													<div class="col-sm-7">
-														<form:select id="status" path="status" class="form-control">  
+														<form:select id="status" path="status" class="chosen-select" tabindex="-1" style="display: none;">  
 																<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 																<form:options items="${listaStatusPagto}" itemValue="identificador" itemLabel="rotulo" />														    
 														</form:select>    
@@ -99,7 +99,7 @@ $(document).ready(function() {
 												<div class="form-group">
 													<label for="status" class="col-sm-4 control-label"><spring:message code="lbl.status.assinatura"/>:</label>
 													<div class="col-sm-7">
-														<form:select id="status" path="status" class="form-control">                                
+														<form:select id="status" path="status" class="chosen-select" tabindex="-1" style="display: none;">                                
 																<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>   
 																<form:option value="assinaturaPadrao"> <spring:message code="lbl.status.assinatura.cliente"/></form:option>
 																<form:option value="assinaturaCorretor"> <spring:message code="lbl.status.assinatura.corretor"/></form:option>

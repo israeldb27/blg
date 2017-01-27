@@ -45,10 +45,11 @@ $(document).ready(function() {
 		$("#buscarUsuariosForm").submit();      
 	 });	
 
-    function limpaComboLinha(comboLinha) {
-        $(comboLinha).empty();
-        $(comboLinha).append('<option value="-1" >' + "<spring:message code='opcao.selecao.uma.opcao'/>" + '</option>');        
-    }
+   function limpaComboLinha(comboLinha) {
+	    $(comboLinha).empty();  
+	    $(comboLinha).append('<option value="-1" >' + "<spring:message code='opcao.selecao.uma.opcao'/>" + '</option>');
+	    $(comboLinha).trigger("chosen:updated");
+	}
 });	
 
 function recuperaCidades(){

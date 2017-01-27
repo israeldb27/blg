@@ -165,7 +165,7 @@
 												<div class="form-group">
 			                                    	<label  class="col-sm-4 control-label"><spring:message code="lbl.imovel.destaque.opcao"/>:</label>
 			                                    	<div class="col-sm-7">		                                		
-				                                		<form:select id="opcaoDestaque" path="opcaoDestaque" class="form-control">            
+				                                		<form:select id="opcaoDestaque" path="opcaoDestaque" class="chosen-select" tabindex="-1" style="display: none;">            
 															<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>                        
 															<form:option value="A" ><spring:message code="lbl.imovel.destaque.opcao.anuncio"/></form:option>                        
 															<form:option value="D" ><spring:message code="lbl.imovel.destaque.opcao.destaque"/></form:option>                        

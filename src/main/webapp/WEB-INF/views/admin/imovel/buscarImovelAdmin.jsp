@@ -198,14 +198,14 @@
 									     <br> <br>
 									     
 								     	<span class="label label-default"><spring:message code="lbl.acao.imovel"/> </span>
-								              <form:select id="acao" path="acao" class="form-control">                                
+								              <form:select id="acao" path="acao" class="chosen-select" tabindex="-1" style="display: none;">                                
 							                    <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 							                    <form:options items="${listaAcaoImovel}" itemValue="identificador" itemLabel="rotulo" />								                    
 							                </form:select>
 								        <br> <br>
 								           
 							            <span class="label label-default"><spring:message code="lbl.buscar.imovel.status.imovel"/> </span>
-								              <form:select id="perfilImovel" path="perfilImovel" class="form-control">                                
+								              <form:select id="perfilImovel" path="perfilImovel" class="chosen-select" tabindex="-1" style="display: none;">                                
 							                    	<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 							                    	<form:options items="${listaStatusImovel}" itemValue="identificador" itemLabel="rotulo" />								                    	   
 							                </form:select> 
@@ -222,7 +222,7 @@
                                     <br>                                    
                                     <div class="panel-body">
                                     	<span class="label label-default"><spring:message code="lbl.buscar.imovel.quartos.dormitorios"/> </span>
-								            <form:select id="qtdQuartos" path="qtdQuartos" class="form-control">                                
+								            <form:select id="qtdQuartos" path="qtdQuartos" class="chosen-select" tabindex="-1" style="display: none;">                                
 							                    <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>	                        
 												<form:option value="1" >1</form:option>	                        
 												<form:option value="2" >2</form:option>
@@ -234,7 +234,7 @@
 							             <br>
 							         
 							         <span class="label label-default"><spring:message code="lbl.buscar.imovel.garagem"/> </span>
-								             <form:select id="qtdGaragem" path="qtdGaragem" class="form-control">                                
+								             <form:select id="qtdGaragem" path="qtdGaragem" class="chosen-select" tabindex="-1" style="display: none;">                                
 							                    <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 												<form:option value="1" >1</form:option>	                        
 												<form:option value="2" >2</form:option>
@@ -246,7 +246,7 @@
 							             <br>    
 							         
 							        <span class="label label-default"><spring:message code="lbl.buscar.imovel.banheiros"/> </span>
-								             <form:select id="qtdBanheiro" path="qtdBanheiro" class="form-control">                                
+								             <form:select id="qtdBanheiro" path="qtdBanheiro" class="chosen-select" tabindex="-1" style="display: none;">                                
 							                    <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 												<form:option value="1" >1</form:option>	                        
 												<form:option value="2" >2</form:option>
@@ -258,7 +258,7 @@
 							             <br>       
 							             
 							         <span class="label label-default"><spring:message code="lbl.buscar.imovel.suites"/> </span>
-								            <form:select id="qtdSuites" path="qtdSuites" class="form-control">                                
+								            <form:select id="qtdSuites" path="qtdSuites" class="chosen-select" tabindex="-1" style="display: none;">                                
 							                    <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 												<form:option value="1" >1</form:option>	                        
 												<form:option value="2" >2</form:option>
@@ -279,7 +279,7 @@
                                     <br>                                    
                                     <div class="panel-body">
                                     	 <span class="label label-default"><spring:message code="lbl.buscar.imovel.dono.imovel"/> </span>
-								              <form:select id="perfilUsuario" path="perfilUsuario" class="form-control">                                
+								              <form:select id="perfilUsuario" path="perfilUsuario" class="chosen-select" tabindex="-1" style="display: none;">                                
 							                    	<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 													<form:options items="${listaPerfilUsuario}" itemValue="identificador" itemLabel="rotulo" />
 							                </form:select>  
@@ -287,7 +287,7 @@
 							             
 							         	<c:if test="${(usuario.perfil != 'P')}">
 								             <span class="label label-default">Parceria ou Intermediação </span>
-									             <form:select id="autorizacaoOutroUsuario" path="autorizacaoOutroUsuario" class="form-control">            
+									             <form:select id="autorizacaoOutroUsuario" path="autorizacaoOutroUsuario" class="chosen-select" tabindex="-1" style="display: none;">            
 													<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>                        
 													<form:option value="S" ><spring:message code="lbl.sim"/></form:option>                        
 													<form:option value="N" ><spring:message code="lbl.nao"/></form:option>                        
@@ -318,7 +318,7 @@
 	                                </div>
 	                                <div class="pull-right" >
 	                                      <form:form method="POST" id="imovelBuscarImoveisForm" modelAttribute="imovelForm" action="${urlAdmin}/ordenaBuscarImoveis" >							                        	
-						                        	<form:select id="opcaoOrdenacao" path="opcaoOrdenacao" class="form-control">                                
+						                        	<form:select id="opcaoOrdenacao" path="opcaoOrdenacao" class="chosen-select" tabindex="-1" style="display: none;">                                
 								                        <form:option value="" disabled="true"><spring:message code="lbl.opcao.ordenar"/></form:option>                      
 								                        <form:option value="maiorDataCadastrado" ><spring:message code="lbl.opcao.ordenacao.imovel.mais.recente"/></form:option>
 														<form:option value="menorDataCadastrado" ><spring:message code="lbl.opcao.ordenacao.imovel.menos.recente"/></form:option>
@@ -339,7 +339,7 @@
 		                                	<div class="pull-right" style="padding-right:20px;">
 			                                    <form:form method="POST" id="imovelBuscarImoveisPageForm" modelAttribute="imovelForm" action="${urlAdmin}/buscarImovel" >
 			                                     	 <spring:message code="lbl.hint.opcao.paginacao" var="hintPaginacao"/>
-		                                             <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="form-control" title="${hintPaginacao}">
+		                                             <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintPaginacao}">
 		                                                 <form:option value="" disabled="true"><spring:message code="lbl.opcao.paginacao"/></form:option>
 		                                                 <form:options items="${imovelForm.listaPaginas}" itemValue="key" itemLabel="label"/>	                                                    	                                                    
 		                                             </form:select>

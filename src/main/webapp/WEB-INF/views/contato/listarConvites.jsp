@@ -113,7 +113,7 @@
 			                                    <div class="pull-right">
 			                                    	<spring:message code="lbl.hint.tipo.ordenacao" var="hintOrdenar"/>
 			                                        <form:form method="POST" id="contatoOrdForm" modelAttribute="contatoForm" action="${urlContato}/ordenarConvites" >
-			                                        	<form:select id="opcaoOrdenacao1" path="opcaoOrdenacao" class="form-control" title="${hintOrdenar}">                                
+			                                        	<form:select id="opcaoOrdenacao1" path="opcaoOrdenacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintOrdenar}">                                
 										                        <form:option value="" disabled="true"><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 										                        <form:option value="maisRecente"><spring:message code="lbl.opcao.contato.mais.recente"/></form:option>
 																<form:option value="menosRecente"><spring:message code="lbl.opcao.contato.menos.recente"/></form:option>

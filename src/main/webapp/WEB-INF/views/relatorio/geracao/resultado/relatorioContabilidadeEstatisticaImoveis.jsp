@@ -172,7 +172,7 @@ function recuperaRelatorios(){
                                         <form action="#" class="tab-content form-horizontal">
                                             
                                             <div class="tab-pane fade in active" id="tab2-2">
-                                            	<c:if test="${ ((not empty quantImoveisPorLocalizacaoAcaoTipoImovel) || (not empty tipoImoveisMaisProcuradoPorLocalizacao) || (not empty variacaoPrecosPorTipoImovelPorLocalizacao)) }">
+                                            	<c:if test="${not empty relatorioContabilidadeEstatisticaImoveis}">
                                             		<h4 class="page-header"><spring:message code="lbl.relatorio.lista"/></h4>
 	                                                <div class="form-group">
 	                                                    	<div class="table-responsive" style="margin-top: -1px;">
@@ -180,8 +180,7 @@ function recuperaRelatorios(){
 						                                            <thead>
 						                                            <tr>
 						                                            	<th> </th>
-																		<c:choose>                		
-																			<c:when test="${(menu == 'quantImoveisPorLocalizacaoAcaoTipoImovel')}">
+																		
 																				<c:if test="${relatorioForm.idEstado > 0 }">	
 																					<th><spring:message code="lbl.estado"/></th>
 																					<c:if test="${relatorioForm.idCidade > 0 }">																						
@@ -194,45 +193,14 @@ function recuperaRelatorios(){
 																				<th><spring:message code="lbl.acao.imovel"/> </th> 
 																				<th><spring:message code="lbl.tipo.imovel"/></th>
 																				<th><spring:message code="lbl.rel.quantidade"/></th>
-																			</c:when>
-																			
-																			<c:when test="${(menu == 'tipoImoveisMaisProcuradoPorLocalizacao')}">
-																				<c:if test="${relatorioForm.idEstado > 0 }">	
-																					<th><spring:message code="lbl.estado"/></th>
-																					<c:if test="${relatorioForm.idCidade > 0 }">																						
-																						<th><spring:message code="lbl.cidade"/></th>																					
-																					</c:if>
-																					<c:if test="${relatorioForm.idBairro > 0 }">																							
-																						<th><spring:message code="lbl.bairro"/></th>																					
-																					</c:if>																					
-																				</c:if>																				
-																				<th><spring:message code="lbl.acao.imovel"/> </th> 
-																				<th><spring:message code="lbl.tipo.imovel"/></th>
-																				<th><spring:message code="lbl.rel.quantidade"/> </th> 
-																			</c:when>
-																																			
-																			<c:when test="${(menu == 'variacaoPrecosPorTipoImovelPorLocalizacao')}">
-																				<c:if test="${relatorioForm.idEstado > 0 }">	
-																					<th><spring:message code="lbl.estado"/></th>
-																					<c:if test="${relatorioForm.idCidade > 0 }">																						
-																						<th><spring:message code="lbl.cidade"/></th>																					
-																					</c:if>
-																					<c:if test="${relatorioForm.idBairro > 0 }">																							
-																						<th><spring:message code="lbl.bairro"/></th>																					
-																					</c:if>																					
-																				</c:if>	
-																				<th><spring:message code="lbl.acao.imovel"/> </th>
-																				<th><spring:message code="lbl.status.imovel"/> </th>
-																				<th><spring:message code="lbl.tipo.imovel"/> </th>
-																				<th><spring:message code="lbl.variacao.precos.imovel"/> </th>
-																			</c:when>
-																		</c:choose>																		 				                                                     
+																				<c:if test="${relatorioForm.item == 'variacaoPrecosPorTipoImovelPorLocalizacao'}">
+																					<th><spring:message code="lbl.variacao.precos.imovel"/> </th>
+																				</c:if>																																			 				                                                     
 						                                            </tr>
 						                                            </thead>
 						                                            <tbody>
-																	<c:choose>                		
-																		<c:when test="${(menu == 'quantImoveisPorLocalizacaoAcaoTipoImovel')}">
-																			<c:forEach var="relatorio" items="${quantImoveisPorLocalizacaoAcaoTipoImovel}" varStatus="item">
+																
+																			<c:forEach var="relatorio" items="${relatorioContabilidadeEstatisticaImoveis}" varStatus="item">
 																				<tr class="border-primary">					                                                
 																					<td></td>
 																					<c:if test="${relatorioForm.idEstado > 0 }">	
@@ -246,60 +214,19 @@ function recuperaRelatorios(){
 																					</c:if>
 																					<td>${relatorio.acaoFmt}</td>
 																					<td>${relatorio.tipoImovelFmt}</td>
-																					<td>${relatorio.quantidade}</td>						                                                						                                                				                                                					                                               
+																					<td>${relatorio.quantidade}</td>
+																					<c:if test="${relatorioForm.item == 'variacaoPrecosPorTipoImovelPorLocalizacao'}">
+																						<td><fmt:formatNumber value="${relatorio.variacaoPreco}" pattern="#,##0.00;-0"/> </td>	<th><spring:message code="lbl.variacao.precos.imovel"/> </th>
+																					</c:if>			                                                						                                                				                                                					                                               
 																				</tr>					                                  
 																			</c:forEach>
-																		</c:when>
-																		
-																		<c:when test="${(menu == 'tipoImoveisMaisProcuradoPorLocalizacao')}">
-																			<c:forEach var="relatorio" items="${tipoImoveisMaisProcuradoPorLocalizacao}" varStatus="item">
-																				<tr class="border-primary">					                                                
-																					<td></td>
-																					<c:if test="${relatorioForm.idEstado > 0 }">	
-																						<td>${relatorio.estado}</td>
-																						<c:if test="${relatorioForm.idCidade > 0 }">																							
-																							<td>${relatorio.cidade}</td>																					
-																						</c:if>
-																						<c:if test="${relatorioForm.idBairro > 0 }">																							
-																							<td>${relatorio.bairro}</td>																					
-																						</c:if>																					
-																					</c:if>
-																					<td>${relatorio.acaoFmt}</td>
-																					<td>${relatorio.tipoImovelFmt}</td>
-																					<td>${relatorio.quantidade}</td>						                                                						                                                				                                                					                                               
-																				</tr>					                                  
-																			</c:forEach>
-																		</c:when>
-																																			
-																		<c:when test="${(menu == 'variacaoPrecosPorTipoImovelPorLocalizacao')}">
-																			<c:forEach var="relatorio" items="${variacaoPrecosPorTipoImovelPorLocalizacao}" varStatus="item">
-																				<tr class="border-primary">					                                                
-																					<td> </td>
-																					<c:if test="${relatorioForm.idEstado > 0 }">	
-																						<td>${relatorio.estado}</td>
-																						<c:if test="${relatorioForm.idCidade > 0 }">																								
-																							<td>${relatorio.cidade}</td>																					
-																						</c:if>
-																						<c:if test="${relatorioForm.idBairro > 0 }">																							
-																							<td>${relatorio.bairro}</td>																					
-																						</c:if>																					
-																					</c:if>
-																					<td>${relatorio.acaoFmt} </td>
-																					<td>${relatorio.perfilImovelFmt} </td>
-																					<td>${relatorio.tipoImovelFmt} </td>	
-																					<td><fmt:formatNumber value="${relatorio.variacaoPreco}" pattern="#,##0.00;-0"/> </td>				                     									
-																				</tr>					                                  
-																			</c:forEach>
-																		</c:when>
-																	</c:choose>	
-																	
 						                                            </tbody>
 						                                        </table>
 						                                    </div>       
 	                                                </div>  
                                             	</c:if>
                                             	
-                                            	<c:if test="${ ((empty quantImoveisPorLocalizacaoAcaoTipoImovel) && (empty tipoImoveisMaisProcuradoPorLocalizacao) && (empty variacaoPrecosPorTipoImovelPorLocalizacao)) }">
+                                            	<c:if test="${empty relatorioContabilidadeEstatisticaImoveis}">
 				                            		<div class="form-group">
                                                     	<div class="table-responsive" style="margin-top: -1px;">
                                                     		<spring:message code="msg.sem.registro.relatorio"/>
@@ -310,7 +237,7 @@ function recuperaRelatorios(){
                                             </div>
                                             
                                             <div class="tab-pane fade inner-all" id="tab2-3">
-                                            	<c:if test="${ ((not empty quantImoveisPorLocalizacaoAcaoTipoImovel) || (not empty tipoImoveisMaisProcuradoPorLocalizacao) || (not empty variacaoPrecosPorTipoImovelPorLocalizacao)) }">
+                                            	<c:if test="${not empty relatorioContabilidadeEstatisticaImoveis}">
                                             		<div class="form-group">                                                    
 	                                                    <div class="col-sm-13">
 	                                                         <!-- Start bar chart -->
@@ -335,7 +262,7 @@ function recuperaRelatorios(){
                                             	</c:if>
                                             	
                                             	   
-	                                            <c:if test="${ ((empty quantImoveisPorLocalizacaoAcaoTipoImovel) && (empty tipoImoveisMaisProcuradoPorLocalizacao) && (empty variacaoPrecosPorTipoImovelPorLocalizacao)) }">
+	                                            <c:if test="${empty relatorioContabilidadeEstatisticaImoveis}">
 				                            		<div class="form-group">
                                                     	<div class="table-responsive" style="margin-top: -1px;">
                                                     		<spring:message code="msg.sem.registro.relatorio.grafico"/>

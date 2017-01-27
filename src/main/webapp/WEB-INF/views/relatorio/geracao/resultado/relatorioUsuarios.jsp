@@ -109,8 +109,9 @@ function recuperaRelatorios(){
                                         <form action="#" class="tab-content form-horizontal">
                                             
                                             <div class="tab-pane fade in active" id="tab2-2">
-                                            	<c:if test="${ ((not empty imobiliariaMaisIntermediacoesAceitas) || (not empty imobiliariasMaisParceriasAceitas)) }">
-                                            		<h4 class="page-header"><spring:message code="lbl.relatorio.lista.imobiliarias"/></h4>
+                                            	<c:if test="${not empty relatorioUsuarios}">
+                                            	                
+                                            		<h4 class="page-header"><spring:message code="lbl.relatorio.lista.usuarios"/></h4>
 	                                                <div class="form-group">
 	                                                    	<div class="table-responsive" style="margin-top: -1px;">
 						                                        <table class="table table-default">
@@ -121,11 +122,8 @@ function recuperaRelatorios(){
 						                                                <th><spring:message code="lbl.data.cadastro.usuario"/></th>     
 						                                            </tr>
 						                                            </thead>
-						                                            <tbody>
-																	
-																	<c:choose>
-																		<c:when test="${(menu == 'usuariosMaisIntermediacoesAceitas')}">
-																			<c:forEach var="usuarioRelatorio" items="${usuariosMaisIntermediacoesAceitas}" varStatus="item">
+						                                            <tbody>																	
+																			<c:forEach var="usuarioRelatorio" items="${relatorioUsuarios}" varStatus="item">
 																				<tr class="border-primary">					                                                
 																					<td>						                                                    
 																						<a href="${urlUsuario}/detalhesUsuario/${usuarioRelatorio.id}"><img src="${context}/${usuarioRelatorio.imagemArquivo}" style="width: 100px; height: 80px; " /></a> 
@@ -133,29 +131,14 @@ function recuperaRelatorios(){
 																					<td><a href="${urlUsuario}/detalhesUsuario/${usuarioRelatorio.id}">${usuarioRelatorio.nome}</a></td>
 																					<td><fmt:formatDate value='${usuarioRelatorio.dataCadastro}' pattern='dd/MM/yyyy'/></td>						                                                				                                                					                                               
 																				</tr>					                                  
-																			</c:forEach>
-																		</c:when>
-																		
-																		<c:when test="${(menu == 'usuariosMaisParceriasAceitas')}">
-																			<c:forEach var="usuarioRelatorio" items="${usuariosMaisParceriasAceitas}" varStatus="item">
-																				<tr class="border-primary">					                                                
-																					<td>						                                                    
-																						<a href="${urlUsuario}/detalhesUsuario/${usuarioRelatorio.id}"><img src="${context}/${usuarioRelatorio.imagemArquivo}" style="width: 100px; height: 80px; " /></a> 
-																					</td>						                                                
-																					<td><a href="${urlUsuario}/detalhesUsuario/${usuarioRelatorio.id}">${usuarioRelatorio.nome}</a></td>
-																					<td><fmt:formatDate value='${usuarioRelatorio.dataCadastro}' pattern='dd/MM/yyyy'/></td>						                                                				                                                					                                               
-																				</tr>					                                  
-																			</c:forEach>
-																		</c:when>
-																	</c:choose>	
-						                                            
+																			</c:forEach>						                                            
 						                                            </tbody>
 						                                        </table>
 						                                    </div>       
 	                                                </div> 
                                             	</c:if> 
                                             	
-                                            	<c:if test="${ ((empty usuariosMaisIntermediacoesAceitas) && (empty usuariosMaisParceriasAceitas)) }">
+                                            	<c:if test="${empty relatorioUsuarios}">
 				                            		<div class="form-group">
                                                     	<div class="table-responsive" style="margin-top: -1px;">
                                                     		<spring:message code="msg.sem.registro.relatorio"/>

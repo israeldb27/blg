@@ -87,7 +87,7 @@ function recuperaRelatorios(){
                                         <div class="form-group">
                                         	<label for="tipo" class="col-sm-4 control-label"><spring:message code="lbl.rel.tipo"/> :</label>
                                         	<div class="col-sm-7">
-											  <form:select id="tipo" path="tipo"  class="form-control">                                
+											  <form:select id="tipo" path="tipo"  class="chosen-select" tabindex="-1" style="display: none;">                                
 							                        <form:option value="" disabled="true" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>                          
 							                        <form:option value="B" ><spring:message code="lbl.rel.tipo.basico"/></form:option>
 													<form:option value="P" ><spring:message code="lbl.rel.tipo.premium"/></form:option>							                      	                        
@@ -99,7 +99,7 @@ function recuperaRelatorios(){
 	                                        
 	                                        <label for="nome" class="col-sm-4 control-label"><spring:message code="lbl.rel.nome"/>: </label>
 	                                        <div class="col-sm-7">  
-		                                            <form:select id="nome" path="id" class="form-control" >
+		                                            <form:select id="nome" path="id" class="chosen-select" tabindex="-1" style="display: none;" >
 								                 		  <form:option value="-1" disabled="true"><spring:message code="opcao.selecao.uma.opcao"/></form:option>                   			                 		
 								                 	</form:select>
 								                 	<form:errors id="id" path="id" cssClass="errorEntrada"  />		                  

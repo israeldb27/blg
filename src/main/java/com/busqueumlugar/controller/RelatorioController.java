@@ -372,44 +372,44 @@ public class RelatorioController {
     		        	map.addAttribute(form.getItem(), bairrosService.relatorioSobreBairros(form));    		        	
     		        }	
     		        else if ( form.getItem().equals("quantImoveisPorLocalizacaoAcaoTipoImovel") ) {
-    		        	map.addAttribute(form.getItem(), relatorioService.listarQuantidadeImoveisPorLocalAcaoTipoImovel(user.getId(), form));
-    		        	map.addAttribute("relatorioContabilidadeEstatistica", mapper.writeValueAsString(map.get(form.getItem())));
+    		        	map.addAttribute(form.getPath(), relatorioService.listarQuantidadeImoveisPorLocalAcaoTipoImovel(user.getId(), form));
+    		        	map.addAttribute(form.getItem(), mapper.writeValueAsString(map.get(form.getPath())));
     		        }
     		        else if ( form.getItem().equals("tipoImoveisMaisProcuradoPorLocalizacao") )	 {        
-    			        map.addAttribute(form.getItem(), relatorioService.listarTipoImoveisMaisProcuradosPorLocalizacao(user.getId(), form));
-    			        map.addAttribute("relatorioContabilidadeEstatistica", mapper.writeValueAsString(map.get(form.getItem())));
+    			        map.addAttribute(form.getPath(), relatorioService.listarTipoImoveisMaisProcuradosPorLocalizacao(user.getId(), form));
+    			        map.addAttribute(form.getItem(), mapper.writeValueAsString(map.get(form.getPath())));
     		        }    
     		        else if ( form.getItem().equals("variacaoPrecosPorTipoImovelPorLocalizacao") ) {
-    		            map.addAttribute(form.getItem(), relatorioService.recuperarVariacaoPrecoTipoImovel(user.getId(), form));
-    		            map.addAttribute("relatorioContabilidadeEstatistica", mapper.writeValueAsString(map.get(form.getItem())));
+    		            map.addAttribute(form.getPath(), relatorioService.recuperarVariacaoPrecoTipoImovel(user.getId(), form));
+    		            map.addAttribute(form.getItem(), mapper.writeValueAsString(map.get(form.getPath())));
     		        }    
     		    	if ( form.getItem().equals("imoveisMaisVisualizados") ) {			
-    		           	map.addAttribute(form.getItem(), imovelvisualizadoService.relatorioImoveisMaisVisitadosPorPeriodo(form));    		           	
+    		           	map.addAttribute(form.getPath(), imovelvisualizadoService.relatorioImoveisMaisVisitadosPorPeriodo(form));    		           	
     		    	}
     		        else if ( form.getItem().equals("imoveisMaisPropostados") ) {       	
-    		            map.addAttribute(form.getItem(), imovelPropostasService.relatorioImoveisMaisPropostadosPorPeriodo(form));
+    		            map.addAttribute(form.getPath(), imovelPropostasService.relatorioImoveisMaisPropostadosPorPeriodo(form));
     		        }    
     		        else if ( form.getItem().equals("imoveisMaisComentados") ) {       	
-    		            map.addAttribute(form.getItem(), imovelcomentarioService.relatorioImoveisMaisComentadosPorPeriodo(form));
+    		            map.addAttribute(form.getPath(), imovelcomentarioService.relatorioImoveisMaisComentadosPorPeriodo(form));
     		        }    
     		        else if ( form.getItem().equals("imoveisMaisAdotadosInteressados") ) {
-    		            map.addAttribute(form.getItem(), imovelFavoritosService.relatorioImoveisMaisAdotadosInteressadosPorPeriodo(form));
+    		            map.addAttribute(form.getPath(), imovelFavoritosService.relatorioImoveisMaisAdotadosInteressadosPorPeriodo(form));
     		        }
     		        // novo - 12/01/2015
     		        else if ( form.getItem().equals("usuariosMaisParceriasAceitas") ) {
-    		            map.addAttribute(form.getItem(), usuarioService.relatorioUsuarioMaisCompartilhamentosAceitos(form, TipoImovelCompartilhadoEnum.PARCERIA.getRotulo()));    		            
+    		            map.addAttribute(form.getPath(), usuarioService.relatorioUsuarioMaisCompartilhamentosAceitos(form, TipoImovelCompartilhadoEnum.PARCERIA.getRotulo()));    		            
     		        }    
     		        else if ( form.getItem().equals("usuariosMaisIntermediacoesAceitas") ) {
-    		            map.addAttribute(form.getItem(), usuarioService.relatorioUsuarioMaisCompartilhamentosAceitos(form, TipoImovelCompartilhadoEnum.INTERMEDIACAO.getRotulo()));    		            
+    		            map.addAttribute(form.getPath(), usuarioService.relatorioUsuarioMaisCompartilhamentosAceitos(form, TipoImovelCompartilhadoEnum.INTERMEDIACAO.getRotulo()));    		            
     		        } 
     		        else if ( form.getItem().equals("usuariosImoveisMaisVisualizados") ) {
-    		            map.addAttribute(form.getItem(), usuarioService.relatorioUsuariosImoveisMaisVisualizados(form));    		            
+    		            map.addAttribute(form.getPath(), usuarioService.relatorioUsuariosImoveisMaisVisualizados(form));    		            
     		        }
     		        else if ( form.getItem().equals("usuariosImoveisMaisFavoritos") ) {
-    		            map.addAttribute(form.getItem(), usuarioService.relatorioUsuariosImoveisMaisFavoritos(form));    		            
+    		            map.addAttribute(form.getPath(), usuarioService.relatorioUsuariosImoveisMaisFavoritos(form));    		            
     		        }
     		        else if ( form.getItem().equals("usuariosImoveisMaisPropostas") ) {
-    		            map.addAttribute(form.getItem(), usuarioService.relatorioUsuariosImoveisMaisPropostas(form));    		            
+    		            map.addAttribute(form.getPath(), usuarioService.relatorioUsuariosImoveisMaisPropostas(form));    		            
     		        } 
     		    	
     		    	map.addAttribute("filtrosUsados", relatorioService.checarFiltrosUtilizados(form));

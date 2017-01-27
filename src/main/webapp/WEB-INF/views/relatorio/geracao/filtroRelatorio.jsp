@@ -155,12 +155,12 @@ function recuperaRelatorios(){
                         </form:form> 
                         </div>
                         
-                        <div class="col-md-9" >
-                           
+                        <div class="col-md-12" >
+                        		                	
                             <div class="panel rounded shadow">
                                 <div class="panel-heading">
                                     <div class="pull-left">
-                                        <h3 class="panel-title"><spring:message code="lbl.filtro.geral"/></h3>
+                                        <h3 class="panel-title"><spring:message code="lbl.filtro.geral"/> </h3>
                                     </div><!-- /.pull-left -->
                                     <div class="pull-right">
                                         <a href="#a" class="btn btn-sm"  data-toggle="modal" data-target=".bs-modal-ajuda-informacoes" style=""><i class="fa fa-question" ></i></a>
@@ -235,7 +235,7 @@ function recuperaRelatorios(){
 														</div>
 														
 														<c:if test="${menu == 'sobreBairros'}">        	
-			                                       			<<div class="col-md-3">
+			                                       			<div class="col-md-3">
 																<span class="label label-default"><spring:message code="lbl.cidade"/> </span>
 																<form:select id="idCidade" path="idCidade" class="chosen-select" tabindex="-1" style="display: none;">                                
 																	<form:option value="-1" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
@@ -267,54 +267,206 @@ function recuperaRelatorios(){
 																<form:errors id="acao" path="acao" cssClass="errorEntrada"  />
 														    </div>	                                            
 	                                                </div>
-	                                     	</c:when>	                                     	
+	                                     	</c:when>	   
 	                                     	
-	                                     	<c:when test="${( (menu == 'imoveisMaisVisualizados') 				   || 
-											       			  (menu == 'imoveisMaisPropostados') 				   || 
-											       			  (menu == 'imoveisMaisComentados') 			       ||
-											       			  (menu == 'imoveisMaisAdotadosInteressados') 	       ||									       			  
-											       			  (menu == 'usuariosMaisParceriasAceitas') 	           ||
-											       			  (menu == 'usuariosMaisIntermediacoesAceitas')        ||
-											       			  (menu == 'usuariosImoveisMaisVisualizados')          ||
-											       			  (menu == 'usuariosImoveisMaisFavoritos')         	   ||											       			 
-											       			  (menu == 'quantImoveisPorLocalizacaoAcaoTipoImovel') || 								       				  
-										       				  (menu == 'tipoImoveisMaisProcuradoPorLocalizacao')   ||
-										       				  (menu == 'variacaoPrecosPorTipoImovelPorLocalizacao')) }">
+	                                     	<c:when test="${((menu == 'variacaoPrecosPorTipoImovelPorLocalizacao') ||
+                                                             (menu == 'quantImoveisPorLocalizacaoAcaoTipoImovel'))}">
+                                                    
+                                                    <div class="row">
+						       				   			 <div class="col-md-3">
+	                                                    	<span class="label label-default"><spring:message code="lbl.estado"/>  </span>
+	                                                    	<form:select id="idEstado" path="idEstado" class="chosen-select" tabindex="-1" style="display: none;" >                                
+																<form:option value="-1" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
+																<form:options items="${relatorioForm.listaEstados}" itemValue="key" itemLabel="label"/>
+														    </form:select>
+	                                                    </div>
+	                                                    
+	                                                    <div class="col-md-3">
+		                                                  	 <span class="label label-default"><spring:message code="lbl.tipo.imovel"/> </span>
+		                                                  	 <form:select id="tipoImovel" path="tipoImovel" class="chosen-select" tabindex="-1" style="display: none;" >                                
+											                        <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>	                        
+																	<form:options items="${listaTipoImovel}" itemValue="identificador" itemLabel="rotulo" />
+											                 </form:select>
+											                 <form:errors id="tipoImovel" path="tipoImovel" cssClass="errorEntrada"  />
+		                                                </div>
+		                                                
+		                                                <div class="col-md-3">
+	                                                         <span class="label label-default"><spring:message code="lbl.relatorio.data.inicio"/> </span>
+				                                        	 <form:input id="dataInicio" path="dataInicio" class="form-control" onKeyUp="mascaraData(this);"  maxlength="10"/>
+				                                			 <form:errors id="dataInicio" path="dataInicio" cssClass="errorEntrada"  />
+	                                                     </div>		                                                 
+			                                             
+						       				   		</div>
+						       				   		</br>
+						       				   		
+						       				   		<div class="row">
+						       				   			<div class="col-md-3">
+															<span class="label label-default"><spring:message code="lbl.cidade"/> </span>
+															<form:select id="idCidade" path="idCidade" class="chosen-select" tabindex="-1" style="display: none;">                                
+																<form:option value="-1" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
+																<form:options items="${relatorioForm.listaCidades}" itemValue="key" itemLabel="label"/>
+														    </form:select>
+													    </div>
+													    
+													    <div class="col-md-3">
+															<span class="label label-default"><spring:message code="lbl.status.imovel"/> </span>
+															<form:select id="perfilImovel" path="perfilImovel" class="chosen-select" tabindex="-1" style="display: none;">                                
+																<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>   
+																<form:options items="${listaStatusImovel}" itemValue="identificador" itemLabel="rotulo" />
+															</form:select> 			
+															<form:errors id="acao" path="acao" cssClass="errorEntrada"  />
+													    </div>
+													    
+													    <div class="col-md-3">			                                                    	
+	                                                    	<span class="label label-default"><spring:message code="lbl.relatorio.data.fim"/> </span>
+	                                                    	<form:input path="dataFim" class="form-control"  id="dataFim" onKeyUp="mascaraData(this);"  maxlength="10"/>
+				                                			<form:errors id="dataFim" path="dataFim" cssClass="errorEntrada"  />			
+		                                                </div>	
+						       				   		</div>
+						       				   		</br>
+						       				   		
+						       				   		<div class="row">
+						       				   			<div class="col-md-3">
+	                                                    	<span class="label label-default"><spring:message code="lbl.bairro"/> </span>
+	                                                    	<form:select id="idBairro" path="idBairro" class="chosen-select" tabindex="-1" style="display: none;">                                
+																	<form:option value="-1" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
+																	<form:options items="${relatorioForm.listaBairros}" itemValue="key" itemLabel="label"/>
+															 </form:select>
+	                                                    </div>	
+	                                                    
+	                                                    <div class="col-md-3">
+															<span class="label label-default"><spring:message code="lbl.acao.imovel"/> </span>
+															<form:select id="acao" path="acao" class="chosen-select" tabindex="-1" style="display: none;">                                
+															    <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
+																<form:options items="${listaAcaoImovel}" itemValue="identificador" itemLabel="rotulo" />
+															</form:select> 			
+															<form:errors id="acao" path="acao" cssClass="errorEntrada"  />
+														 </div>
+	                                                    
+	                                                    <div class="col-md-3">  
+	                                                    	<span class="label label-default"><spring:message code="lbl.relatorio.quant.registros"/> </span>
+	                                                    	<form:select id="quantMaxRegistrosResultado" path="quantMaxRegistrosResultado" class="chosen-select" tabindex="-1" style="display: none;">								                                		
+																<form:option value="10">10</form:option>
+																<form:option value="20">20</form:option>																		
+																<form:option value="30">30</form:option>																																	      
+											                </form:select>							                                			
+											                <form:errors id="quantMaxRegistrosResultado" path="quantMaxRegistrosResultado" cssClass="errorEntrada"  />
+			                                             </div>
+						       				   		</div>
+                                             
+                                            </c:when>  
+                                            
+                                            <c:when test="${(menu == 'tipoImoveisMaisProcuradoPorLocalizacao')}">                                  	
+	                                     	 	 <div class="row">
+						       				   			 <div class="col-md-3">
+	                                                    	<span class="label label-default"><spring:message code="lbl.estado"/>  </span>
+	                                                    	<form:select id="idEstado" path="idEstado" class="chosen-select" tabindex="-1" style="display: none;" >                                
+																<form:option value="-1" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
+																<form:options items="${relatorioForm.listaEstados}" itemValue="key" itemLabel="label"/>
+														    </form:select>
+	                                                    </div>
+	                                                    
+	                                                    <div class="col-md-3">
+	                                                    	<span class="label label-default"><spring:message code="lbl.status.imovel"/> </span>
+	                                                    	<form:select id="perfilImovel" path="perfilImovel" class="chosen-select" tabindex="-1" style="display: none;">                                
+																<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>   
+																<form:options items="${listaStatusImovel}" itemValue="identificador" itemLabel="rotulo" />
+															</form:select> 			
+											                <form:errors id="perfilImovel" path="perfilImovel" cssClass="errorEntrada"  />
+	                                                    </div>
+	                                                    
+	                                                    <div class="col-md-3">
+	                                                    	<span class="label label-default"><spring:message code="lbl.relatorio.tipo.contato"/> </span>
+	                                                    	<form:select id="opcaoFiltroContato" path="opcaoFiltroContato" class="chosen-select" tabindex="-1" style="display: none;">
+	                                                    		<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
+	                                                    		<form:options items="${listaTipoContato}" itemValue="identificador" itemLabel="rotulo" />										      
+											                </form:select>							                                			
+											                <form:errors id="opcaoFiltroContato" path="opcaoFiltroContato" cssClass="errorEntrada"  />
+			                                             </div>
+	                                                    
+		                                                <div class="col-md-3">
+	                                                         <span class="label label-default"><spring:message code="lbl.relatorio.data.inicio"/> </span>
+				                                        	 <form:input id="dataInicio" path="dataInicio" class="form-control" onKeyUp="mascaraData(this);"  maxlength="10"/>
+				                                			 <form:errors id="dataInicio" path="dataInicio" cssClass="errorEntrada"  />
+	                                                     </div>				                                             
+						       				   	  </div>
+						       				      </br>
+						       				      
+						       				      <div class="row">
+						       				      		<div class="col-md-3">
+															<span class="label label-default"><spring:message code="lbl.cidade"/> </span>
+															<form:select id="idCidade" path="idCidade" class="chosen-select" tabindex="-1" style="display: none;">                                
+																<form:option value="-1" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
+																<form:options items="${relatorioForm.listaCidades}" itemValue="key" itemLabel="label"/>
+														    </form:select>
+													    </div>
+													    
+													    <div class="col-md-3">
+															<span class="label label-default"><spring:message code="lbl.acao.imovel"/> </span>
+															<form:select id="acao" path="acao" class="chosen-select" tabindex="-1" style="display: none;">                                
+															    <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
+																<form:options items="${listaAcaoImovel}" itemValue="identificador" itemLabel="rotulo" />
+															</form:select> 			
+															<form:errors id="acao" path="acao" cssClass="errorEntrada"  />
+														 </div>
+														 
+														  <div class="col-md-3">
+			                                                  	<span class="label label-default"><spring:message code="lbl.perfil.usuario"/> </span>
+			                                                  	<form:select id="perfilUsuario" path="perfilUsuario" class="chosen-select" tabindex="-1" style="display: none;">                                
+																	<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>                       
+																	<form:options items="${listaPerfilUsuario}" itemValue="identificador" itemLabel="rotulo" />
+																 </form:select>	
+															     <form:errors id="perfilUsuario" path="perfilUsuario" cssClass="errorEntrada"  />
+			                                              </div>
+			                                              
+			                                              <div class="col-md-3">			                                                    	
+		                                                    	<span class="label label-default"><spring:message code="lbl.relatorio.data.fim"/> </span>
+		                                                    	<form:input path="dataFim" class="form-control"  id="dataFim" onKeyUp="mascaraData(this);"  maxlength="10"/>
+					                                			<form:errors id="dataFim" path="dataFim" cssClass="errorEntrada"  />			
+		                                                  </div>						       				      
+						       				        </div>
+						       				        </br>
+						       				        
+						       				        <div class="row">
+						       				        	<div class="col-md-3">
+	                                                    	<span class="label label-default"><spring:message code="lbl.bairro"/> </span>
+	                                                    	<form:select id="idBairro" path="idBairro" class="chosen-select" tabindex="-1" style="display: none;">                                
+																	<form:option value="-1" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
+																	<form:options items="${relatorioForm.listaBairros}" itemValue="key" itemLabel="label"/>
+															 </form:select>
+	                                                    </div>	
+	                                                    
+	                                                    <div class="col-md-3">  
+	                                                    	<span class="label label-default"><spring:message code="lbl.relatorio.quant.registros"/> </span>
+	                                                    	<form:select id="quantMaxRegistrosResultado" path="quantMaxRegistrosResultado" class="chosen-select" tabindex="-1" style="display: none;">								                                		
+																<form:option value="10">10</form:option>
+																<form:option value="20">20</form:option>																		
+																<form:option value="30">30</form:option>																																	      
+											                </form:select>							                                			
+											                <form:errors id="quantMaxRegistrosResultado" path="quantMaxRegistrosResultado" cssClass="errorEntrada"  />
+			                                             </div>
+						       				        </div>
+			                                
+			                                </c:when> 			                                        	
+	                                     	
+	                                     	 <c:when test="${((menu == 'imoveisMaisVisualizados') 				    || 
+											       			  (menu == 'imoveisMaisPropostados') 				    || 
+											       			  (menu == 'imoveisMaisComentados') 			        ||
+											       			  (menu == 'imoveisMaisAdotadosInteressados') 	        ||									       			  
+											       			  (menu == 'usuariosMaisParceriasAceitas') 	            ||
+											       			  (menu == 'usuariosMaisIntermediacoesAceitas')         ||
+											       			  (menu == 'usuariosImoveisMaisVisualizados')           ||
+											       			  (menu == 'usuariosImoveisMaisFavoritos'))}">
 										       				  
 										       		<div class="form-group no-margin">								       				   		
 								       				   		<div class="row">
 								       				   			 <div class="col-md-3">
-			                                                    	<span class="label label-default"><spring:message code="lbl.estado"/> </span>
+			                                                    	<span class="label label-default"><spring:message code="lbl.estado"/>  </span>
 			                                                    	<form:select id="idEstado" path="idEstado" class="chosen-select" tabindex="-1" style="display: none;" >                                
 																		<form:option value="-1" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 																		<form:options items="${relatorioForm.listaEstados}" itemValue="key" itemLabel="label"/>
 																    </form:select>
 			                                                    </div>
-			                                                    
-			                                                    <c:if test="${((menu != 'usuariosMaisParceriasAceitas') 	        ||
-															       			   (menu != 'usuariosMaisIntermediacoesAceitas')        ||
-															       			   (menu != 'usuariosImoveisMaisVisualizados')          ||
-															       			   (menu != 'usuariosImoveisMaisFavoritos')         	) } ">
-											       			  				   
-											       			  			<div class="col-md-3">
-					                                                    	<span class="label label-default"><spring:message code="lbl.tipo.imovel"/> </span>
-					                                                    	<form:select id="tipoImovel" path="tipoImovel" class="chosen-select" tabindex="-1" style="display: none;" >                                
-															                        <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>	                        
-																					<form:options items="${listaTipoImovel}" itemValue="identificador" itemLabel="rotulo" />
-															                 </form:select>
-															                 <form:errors id="tipoImovel" path="tipoImovel" cssClass="errorEntrada"  />
-					                                                    </div>		   
-			                                                    
-					                                                    <div class="col-md-3">
-					                                                    	<span class="label label-default"><spring:message code="lbl.perfil.usuario"/> </span>
-					                                                    	<form:select id="perfilUsuario" path="perfilUsuario" class="chosen-select" tabindex="-1" style="display: none;">                                
-																				<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>                       
-																				<form:options items="${listaPerfilUsuario}" itemValue="identificador" itemLabel="rotulo" />
-																			 </form:select>	
-																			 <form:errors id="perfilUsuario" path="perfilUsuario" cssClass="errorEntrada"  />
-					                                                    </div>
-					                                                    
-			                                                    </c:if> 	 
 			                                                    
 			                                                    <div class="col-md-3">
 			                                                    	<span class="label label-default"><spring:message code="lbl.relatorio.tipo.contato"/> </span>
@@ -342,54 +494,27 @@ function recuperaRelatorios(){
 																		<form:options items="${relatorioForm.listaCidades}" itemValue="key" itemLabel="label"/>
 																    </form:select>
 			                                                    </div>
-			                                                    
-			                                                         <c:if test="${((menu != 'usuariosMaisParceriasAceitas') 	        ||
-															       			        (menu != 'usuariosMaisIntermediacoesAceitas')       ||
-															       			        (menu != 'usuariosImoveisMaisVisualizados')         ||
-															       			        (menu != 'usuariosImoveisMaisFavoritos')         	) } ">
-												       			  				   
-												       			  		<div class="col-md-3">
-					                                                    	<span class="label label-default"><spring:message code="lbl.acao.imovel"/> </span>
-					                                                    	<form:select id="acao" path="acao" class="chosen-select" tabindex="-1" style="display: none;">                                
-															                    <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
-																				<form:options items="${listaAcaoImovel}" itemValue="identificador" itemLabel="rotulo" />
-															                </form:select> 			
-															                <form:errors id="acao" path="acao" cssClass="errorEntrada"  />
-					                                                    </div>		   
-											       			  				   
-											       			  			<div class="col-md-3">
-					                                                    	<span class="label label-default"><spring:message code="lbl.faixa.salarial"/> </span>
-					                                                    	<form:select id="faixaSalarial" path="faixaSalarial" class="chosen-select" tabindex="-1" style="display: none;">
-																					<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>   
-																					<form:options items="${listaFaixaSalarial}" itemValue="identificador" itemLabel="rotulo" />      
-														                	</form:select>	
-																			 <form:errors id="faixaSalarial" path="faixaSalarial" cssClass="errorEntrada"  />
-					                                                    </div>	  
-											       			  				   
-											       			  	     </c:if>
 											       			  	     
-											       			  	     
-											       			  	     <div class="col-md-3">
-				                                                        <span id="idLabelPerfil" class="label label-default"><spring:message code="lbl.filtro.perfil.usuario"/></span>
-						                                            	 <spring:message code="lbl.hint.usuario.perfil.usuario" var="hintPerfilUsuario"/>
-															             <form:select id="perfilUsuario" path="perfilUsuario" class="chosen-select" tabindex="-1" style="display: none;">                                
-													                       <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
-													                       	
-													                       	<c:choose>
-													                       		<c:when test="${((menu == 'usuariosImoveisMaisVisualizados')   ||
-																	       			             (menu == 'usuariosImoveisMaisFavoritos')) }">																	       			             
-																	       			     <form:options items="${listaPerfilUsuario}" itemValue="identificador" itemLabel="rotulo" />        
-																	     		</c:when> 
-																	     		
-																	     		<c:when test="${((menu == 'usuariosMaisIntermediacoesAceitas') ||
-																	     		                 (menu == 'usuariosMaisParceriasAceitas')) }">																	       			             
-																	       			     <form:options items="${listaPerfilUsuarioSemComum}" itemValue="identificador" itemLabel="rotulo" />        
-																	     		</c:when>  	
-																	     
-													                        </c:choose>	
-													                    </form:select>
-				                                                     </div>	
-														       	
+										       			  	     <div class="col-md-3">
+			                                                        <span id="idLabelPerfil" class="label label-default"><spring:message code="lbl.filtro.perfil.usuario"/></span>
+					                                            	 <spring:message code="lbl.hint.usuario.perfil.usuario" var="hintPerfilUsuario"/>
+														             <form:select id="perfilUsuario" path="perfilUsuario" class="chosen-select" tabindex="-1" style="display: none;">                                
+												                       <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
+												                       	
+												                       	<c:choose>
+												                       		<c:when test="${((menu == 'usuariosImoveisMaisVisualizados')   ||
+																       			             (menu == 'usuariosImoveisMaisFavoritos')) }">																	       			             
+																       			     <form:options items="${listaPerfilUsuario}" itemValue="identificador" itemLabel="rotulo" />        
+																     		</c:when> 
+																     		
+																     		<c:when test="${((menu == 'usuariosMaisIntermediacoesAceitas') ||
+																     		                 (menu == 'usuariosMaisParceriasAceitas')) }">																	       			             
+																       			     <form:options items="${listaPerfilUsuarioSemComum}" itemValue="identificador" itemLabel="rotulo" />        
+																     		</c:when>  	
+																     
+												                        </c:choose>	
+												                    </form:select>
+			                                                     </div>															       	
 															  
 															   <div class="col-md-3">			                                                    	
 				                                                    	<span class="label label-default"><spring:message code="lbl.relatorio.data.fim"/> </span>
@@ -408,32 +533,7 @@ function recuperaRelatorios(){
 																			<form:options items="${relatorioForm.listaBairros}" itemValue="key" itemLabel="label"/>
 																	 </form:select>
 			                                                    </div>					                                                    
-			                                                    
-		                                                             <c:if test="${((menu != 'usuariosMaisParceriasAceitas') 	        ||
-															       			        (menu != 'usuariosMaisIntermediacoesAceitas')       ||
-															       			        (menu != 'usuariosImoveisMaisVisualizados')         ||
-															       			        (menu != 'usuariosImoveisMaisFavoritos')         	) } ">
-												       			  				   
-												       			  	<div class="col-md-3">
-				                                                    	<span class="label label-default"><spring:message code="lbl.status.imovel"/> </span>
-				                                                    	<form:select id="perfilImovel" path="perfilImovel" class="chosen-select" tabindex="-1" style="display: none;">                                
-																			<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>   
-																			<form:options items="${listaStatusImovel}" itemValue="identificador" itemLabel="rotulo" />
-																		</form:select> 			
-														                <form:errors id="perfilImovel" path="perfilImovel" cssClass="errorEntrada"  />
-				                                                    </div>
-												       			  												       			  	
-											       			  		<div class="col-md-3">
-				                                                    	<span class="label label-default"><spring:message code="lbl.sexo"/> </span>
-				                                                    	<form:select id="sexo" path="sexo" class="chosen-select" tabindex="-1" style="display: none;">                                
-																			<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>                       
-																			<form:option value="M"><spring:message code="lbl.sexo.masculino"/></form:option>                       
-																			<form:option value="F"><spring:message code="lbl.sexo.feminino"/></form:option>
-																		 </form:select>	
-																		 <form:errors id="sexo" path="sexo" cssClass="errorEntrada"  />
-				                                                    </div>											       			  				   
-											       			  	</c:if>	
-											       			  	
+			                                                    											       			  	
 											       			  	 <div class="col-md-3">  
 			                                                    	<span class="label label-default"><spring:message code="lbl.relatorio.quant.registros"/> </span>
 			                                                    	<form:select id="quantMaxRegistrosResultado" path="quantMaxRegistrosResultado" class="chosen-select" tabindex="-1" style="display: none;">								                                		

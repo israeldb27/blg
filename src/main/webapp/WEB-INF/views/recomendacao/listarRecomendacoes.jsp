@@ -114,7 +114,7 @@
 			                                    </div>
 			                                    <div class="pull-right">
 			                                        <form:form method="POST" id="recomendacaoForm" modelAttribute="recomendacaoForm" action="${urlRecomendacao}/ordenarRecomendacao" >
-			                                        	<form:select id="opcaoOrdenacao1" path="opcaoOrdenacao" class="form-control">                                
+			                                        	<form:select id="opcaoOrdenacao1" path="opcaoOrdenacao" class="chosen-select" tabindex="-1" style="display: none;">                                
 										                        <form:option value="" disabled="true"><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 										                        <form:option value="maisRecente"><spring:message code="lbl.opcao.recomendacao.mais.recente"/></form:option>
 																<form:option value="menosRecente"><spring:message code="lbl.opcao.recomendacao.menos.recente"/></form:option>

@@ -82,7 +82,7 @@
 			                                           <div class="form-group">    
 				                                            <label for="idInfoServicoPagamentoSelecionada" class="col-sm-4 control-label"><spring:message code="lbl.assinaturas.disponiveis"/>:</label>
 					                                        <div class="col-sm-5">
-					                                            <form:select id="idInfoServicoPagamentoSelecionada" path="idInfoServicoPagamentoSelecionada" class="form-control">										                
+					                                            <form:select id="idInfoServicoPagamentoSelecionada" path="idInfoServicoPagamentoSelecionada" class="chosen-select" tabindex="-1" style="display: none;">										                
 														                <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 														                <form:options items="${servicoForm.listaInfoServicoPagamento}" itemValue="id" itemLabel="labelDuracao"/>
 														         </form:select>
@@ -92,7 +92,7 @@
 			                                          <div class="form-group">    
 				                                            <label for="idFormapagamentoSelecionada" class="col-sm-4 control-label"><spring:message code="lbl.servico.plano.forma.pagto"/>:</label>
 					                                        <div class="col-sm-5">
-					                                            <form:select id="idFormapagamentoSelecionada" path="idFormapagamentoSelecionada" class="form-control">
+					                                            <form:select id="idFormapagamentoSelecionada" path="idFormapagamentoSelecionada" class="chosen-select" tabindex="-1" style="display: none;">
 														                <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 														                <form:options items="${servicoForm.listaOpcoesFormaPagamento}" itemValue="id" itemLabel="label"/>
 														         </form:select>

@@ -191,7 +191,7 @@ function enviarConvite(id) {
                                     <div class="panel-body">
                                         <div class="form-group no-margin">
                                         	 <span class="label label-default"><spring:message code="lbl.opcao.tipo.busca.usuario"/></span>
-												 <form:select id="opcaoTipoBuscaUsuarios" path="opcaoTipoBuscaUsuarios" class="form-control">
+												 <form:select id="opcaoTipoBuscaUsuarios" path="opcaoTipoBuscaUsuarios" class="chosen-select" tabindex="-1" style="display: none;">
 													<form:option value="infoPessoais" ><spring:message code="lbl.opcao.tipo.busca.usuario.dados.usuario"/></form:option>                        
 													<form:option value="infoPreferenciais" ><spring:message code="lbl.opcao.tipo.busca.usuario.preferencias.imoveis.usuario"/></form:option>                        
 												 </form:select> 
@@ -216,7 +216,7 @@ function enviarConvite(id) {
                                             </br> </br>
                                             
                                             <span id="idLabelPerfil" class="label label-default"><spring:message code="lbl.filtro.perfil.usuario"/></span>
-									            <form:select id="perfil" path="perfil" class="form-control">                                
+									            <form:select id="perfil" path="perfil" class="chosen-select" tabindex="-1" style="display: none;">                                
 							                       <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 												   <form:options items="${listaPerfilUsuario}" itemValue="identificador" itemLabel="rotulo" />
 							                  </form:select>
@@ -247,7 +247,7 @@ function enviarConvite(id) {
 	                                </div>
 	                                <div class="pull-right" >
 	                                     <form:form method="POST" id="buscarUsuariosForm" modelAttribute="usuarioForm" action="${urlAdmin}/ordenarBuscarUsuarios" >         		      	
-					                        	<form:select id="opcaoOrdenacao" path="opcaoOrdenacao" class="form-control">                                
+					                        	<form:select id="opcaoOrdenacao" path="opcaoOrdenacao" class="chosen-select" tabindex="-1" style="display: none;">                                
 							                        <form:option value="" disabled="true"><spring:message code="lbl.opcao.ordenar"/></form:option>
 							                        <form:option value="maiorDataCadastrado" ><spring:message code="lbl.opcao.ordenacao.usuario.cad.mais.recente"/></form:option>
 													<form:option value="menorDataCadastrado" ><spring:message code="lbl.opcao.ordenacao.usuario.cad.menos.recente"/></form:option>
@@ -260,7 +260,7 @@ function enviarConvite(id) {
 	                                	<div class="pull-right" style="padding-right:10px;">
 		                                    <form:form method="POST" id="buscarUsuariosPageForm" modelAttribute="usuarioForm" action="${urlAdmin}/buscarUsuarios" >
 		                                     	<spring:message code="lbl.hint.tipo.ordenacao" var="hintOrdenacao"/>
-		                                                <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="form-control" title="${hintPaginacao}">
+		                                                <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintPaginacao}">
 		                                                    <form:option value="" disabled="true"><spring:message code="lbl.opcao.paginacao"/></form:option>
 		                                                    <form:options items="${usuarioForm.listaPaginas}" itemValue="key" itemLabel="label"/>	                                                    	                                                    
 		                                              </form:select>

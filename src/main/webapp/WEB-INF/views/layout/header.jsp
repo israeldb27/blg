@@ -477,8 +477,7 @@ function adicionarComparativo(id) {
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <span class="meta">                                    
                                     <span class="avatar"><img src="${context}${usuario.imagemArquivo}" style="width: 35px; height: 35px; " class="img-circle" alt="admin"/></span>
-                                    <span class="text hidden-xs hidden-sm text-muted">${usuario.nome}</span>
-                                    <span class="caret"></span>
+                                    <span class="text hidden-xs hidden-sm text-muted">${usuario.nome}</span>                                    
                                 </span>
                             </a>
                             <!-- Start dropdown menu -->
@@ -500,8 +499,7 @@ function adicionarComparativo(id) {
                           <li class="dropdown navbar-profile">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <span class="meta">
-                                    <span class="avatar"><spring:message code="lbl.title.ajuda"/></span>
-                                    <span class="caret"></span>
+                                    <span class="avatar"><spring:message code="lbl.title.ajuda"/></span>                                
                                 </span>
                             </a>
                             <!-- Start dropdown menu -->

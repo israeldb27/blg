@@ -40,10 +40,11 @@ $(document).ready(function() {
 		recuperaBairros();		
 	 });
 	
-    function limpaComboLinha(comboLinha) {
-        $(comboLinha).empty();
-        $(comboLinha).append('<option value="-1" >' + "<spring:message code='opcao.selecao.uma.opcao'/>" + '</option>');        
-    }
+	function limpaComboLinha(comboLinha) {
+	    $(comboLinha).empty();  
+	    $(comboLinha).append('<option value="-1" >' + "<spring:message code='opcao.selecao.uma.opcao'/>" + '</option>');
+	    $(comboLinha).trigger("chosen:updated");
+	}
 });	
 
 function recuperaCidades(){
@@ -147,7 +148,7 @@ function confirmarExclusaoPrefImoveis(){
 						       				   			<div class="col-md-3">	                                                      
 				                                			 <span class="label label-default"><spring:message code="lbl.estado"/> </span>
 				                                			 <spring:message code="lbl.hint.imovel.estado" var="hintEstado"/>
-					                                            <form:select id="idEstado" path="idEstado" class="form-control" title="${hintEstado}">                                
+					                                            <form:select id="idEstado" path="idEstado" class="chosen-select" tabindex="-1" style="display: none;" title="${hintEstado}">                                
 																	<form:option value="-1" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 																	<form:options items="${preferenciaLocalidadeForm.listaEstados}" itemValue="key" itemLabel="label"/>
 															  </form:select>
@@ -157,7 +158,7 @@ function confirmarExclusaoPrefImoveis(){
 	                                                     <div class="col-md-3">
 															<span class="label label-default"><spring:message code="lbl.tipo.imovel"/> </span>
 															<spring:message code="lbl.hint.imovel.tipo.imovel" var="hintTipoImovel"/>
-				                                            <form:select id="tipoImovel" path="tipoImovel" class="form-control" title="${hintTipoImovel}">                                
+				                                            <form:select id="tipoImovel" path="tipoImovel" class="chosen-select" tabindex="-1" style="display: none;" title="${hintTipoImovel}">                                
 											                        <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>	                        
 																	<form:options items="${listaTipoImovel}" itemValue="identificador" itemLabel="rotulo" />
 											                 </form:select> 
@@ -183,7 +184,7 @@ function confirmarExclusaoPrefImoveis(){
 														<div class="col-md-3">
 															<span class="label label-default"><spring:message code="lbl.cidade"/> </span>
 															<spring:message code="lbl.hint.imovel.cidade" var="hintCidade"/>
-				                                            <form:select id="idCidade" path="idCidade" class="form-control" title="${hintCidade}">                                
+				                                            <form:select id="idCidade" path="idCidade" class="chosen-select" tabindex="-1" style="display: none;" title="${hintCidade}">                                
 																<form:option value="-1" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 																<form:options items="${preferenciaLocalidadeForm.listaCidades}" itemValue="key" itemLabel="label"/>
 														    </form:select>																  
@@ -192,7 +193,7 @@ function confirmarExclusaoPrefImoveis(){
 														  <div class="col-md-3">
 															<span class="label label-default"><spring:message code="lbl.acao.imovel"/> </span>
 	                                        				<spring:message code="lbl.hint.imovel.acao.imovel" var="hintAcaoImovel"/>
-				                                            <form:select id="acao" path="acao" class="form-control" title="${hintAcaoImovel}">                                
+				                                            <form:select id="acao" path="acao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintAcaoImovel}">                                
 											                    <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 																<form:options items="${listaAcaoImovel}" itemValue="identificador" itemLabel="rotulo" />
 											                </form:select>
@@ -212,7 +213,7 @@ function confirmarExclusaoPrefImoveis(){
 														 <div class="col-md-3">
 															<span class="label label-default"><spring:message code="lbl.bairro"/> </span>
 															<spring:message code="lbl.hint.imovel.bairro" var="hintBairro"/>
-				                                            <form:select id="idBairro" path="idBairro" class="form-control" title="${hintBairro}">                                
+				                                            <form:select id="idBairro" path="idBairro" class="chosen-select" tabindex="-1" style="display: none;" title="${hintBairro}">                                
 																<form:option value="-1" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 																<form:options items="${preferenciaLocalidadeForm.listaBairros}" itemValue="key" itemLabel="label"/>
 														    </form:select>															
@@ -221,7 +222,7 @@ function confirmarExclusaoPrefImoveis(){
 														 <div class="col-md-3">
 															<span class="label label-default"><spring:message code="lbl.status.imovel"/> </span>
 															<spring:message code="lbl.hint.imovel.perfil.imovel" var="hintPerfilImovel"/>
-				                                             <form:select id="perfilImovel" path="perfilImovel" class="form-control" title="${hintPerfilImovel}">                                
+				                                             <form:select id="perfilImovel" path="perfilImovel" class="chosen-select" tabindex="-1" style="display: none;" title="${hintPerfilImovel}">                                
 											                    	<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 											                    	<form:options items="${listaStatusImovel}" itemValue="identificador" itemLabel="rotulo" />								                    	   
 											                </form:select> 														
@@ -230,7 +231,7 @@ function confirmarExclusaoPrefImoveis(){
 														 <div class="col-md-3">
 															<span class="label label-default"><spring:message code="lbl.banheiros"/> </span>
 															<spring:message code="lbl.hint.pref.imovel.quant.banheiros" var="hintBanheiros"/>
-															<form:input id="quantBanheiro" path="quantBanheiro" class="form-control" title="${hintBanheiros}"/>				                                             
+															<form:input id="quantBanheiro" path="quantBanheiro" class="chosen-select" tabindex="-1" style="display: none;" title="${hintBanheiros}"/>				                                             
 														 </div>														
 													</div>
 											</div>          
