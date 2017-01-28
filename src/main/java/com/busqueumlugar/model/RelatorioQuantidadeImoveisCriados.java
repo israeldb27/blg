@@ -1,11 +1,14 @@
 package com.busqueumlugar.model;
 
+import java.io.Serializable;
+
 import com.busqueumlugar.enumerador.AcaoImovelEnum;
 import com.busqueumlugar.enumerador.StatusImovelEnum;
 import com.busqueumlugar.enumerador.TipoImovelEnum;
 import com.mysql.jdbc.StringUtils;
 
-public class RelatorioQuantidadeImoveisCriados {
+public class RelatorioQuantidadeImoveisCriados implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String acao = "";
     private String tipoImovel = "";

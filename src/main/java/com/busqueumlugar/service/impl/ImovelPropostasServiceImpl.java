@@ -350,7 +350,7 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 			}
 		}
 		else if ( form.getTipoLista().equals("propostasLancadas")){
-			// lista dos IdImovel cujo usuario sessao tenha enviado para algum imóvel do sistema
+			// lista dos IdImovel cujo usuario sessao tenha enviado para algum imovel do sistema
 			List lista = dao.filterFindImoveisPropostasEnviadasByIdUsuarioDistinct(idUsuario,  form);
 			Object[] obj = null;
 			Imovel imovel = null;
@@ -383,7 +383,7 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 			}
 		}
 		else if ( form.getTipoLista().equals("propostasLancadas")){
-			// lista dos IdImovel cujo usuario sessao tenha enviado para algum imóvel do sistema
+			// lista dos IdImovel cujo usuario sessao tenha enviado para algum imovel do sistema
 			List lista = dao.findImoveisPropostasLancadasByIdUsuarioDistinct(idUsuario, form);
 			Object[] obj = null;
 			Imovel imovel = null;
@@ -409,7 +409,7 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 			for (Iterator iter = lista.iterator();iter.hasNext();){
 				obj = (Object[]) iter.next(); //[0] - usuarioRecep, [1] - usuarioEmissor, [2] - quantidade (count)				
 				usuario = usuarioDao.findUsuario(Long.parseLong(obj[0].toString()));
-				usuario.setQuantPropostas(Integer.parseInt(obj[1].toString())); // quantidade de Propostas que o usuário enviou para os imóveis do usuario sessao								
+				usuario.setQuantPropostas(Integer.parseInt(obj[1].toString())); // quantidade de Propostas que o usuario enviou para os imoveis do usuario sessao								
 				listaFinal.add(usuario);
 			}			
 		}
@@ -421,7 +421,7 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 			for (Iterator iter = lista.iterator();iter.hasNext();){
 				obj = (Object[]) iter.next(); //[0] - usuarioRecep,  [1] - quantidade (count)				
 				usuario = usuarioDao.findUsuario(Long.parseLong(obj[0].toString()));
-				usuario.setQuantPropostas(Integer.parseInt(obj[1].toString())); // quantidade de Propostas que o usuário enviou para os imóveis do usuario sessao
+				usuario.setQuantPropostas(Integer.parseInt(obj[1].toString())); // quantidade de Propostas que o usuario enviou para os imoveis do usuario sessao
 				usuario.setQuantImovelVisitado(Integer.parseInt(obj[1].toString()));
 				usuario.setQuantTotalContatos(contatoDao.findQuantidadeTotalContatosByIdUsuarioByStatus(usuario.getId(), ContatoStatusEnum.OK.getRotulo()));
 				usuario.setQuantTotalRecomendacoes(recomendacaoDao.findQuantidadeRecomendacoesByUsuarioByStatusByStatusLeitura(usuario.getId(), RecomendacaoStatusEnum.ACEITO.getRotulo(), null));

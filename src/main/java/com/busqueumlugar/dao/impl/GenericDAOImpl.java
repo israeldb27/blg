@@ -7,6 +7,8 @@ import com.busqueumlugar.dao.GenericDAO;
 
 
 
+
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -35,7 +37,7 @@ public abstract class GenericDAOImpl<T, Type extends Serializable>  implements  
         return  this.sessionFactory.openSession();
     }
 	
-	public GenericDAOImpl(Class persistentClass){
+	public GenericDAOImpl(Class<T> persistentClass){
 		super();
 		this.persistentClass = persistentClass;
 	}
@@ -97,7 +99,8 @@ public abstract class GenericDAOImpl<T, Type extends Serializable>  implements  
 	    	 	ss = this.sessionFactory.openSession();	    	 	
 	    	 	Criteria criteria = ss.createCriteria(persistentClass);
 	         	criteria.add(Restrictions.eq("id", id));
-	         	T entity = (T) criteria.uniqueResult();
+	         	@SuppressWarnings("unchecked")
+				T entity = (T) criteria.uniqueResult();
 	         	ss.delete(entity);
 	         	ss.flush();
 	       }

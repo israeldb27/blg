@@ -42,6 +42,7 @@ public class ImovelComparativoController {
 	public String goListarImoveisComparativos(HttpSession session, ModelMap map){
 		
 		try {
+			@SuppressWarnings("unchecked")
 			List<Long> lista = (List<Long>)session.getAttribute(ImovelService.LISTA_IMOVEL_COMPARATIVO);
 			if ( ! CollectionUtils.isEmpty(lista)  ){
 				List<Imovel> listaImovel = imovelService.carregaListaImoveisComparativos(lista);
@@ -58,6 +59,7 @@ public class ImovelComparativoController {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/excluirImovelComparativo/{idImovel}", method = RequestMethod.GET)
 	@ResponseBody
 	public String excluirImovelComparativo(@PathVariable("idImovel") Long idImovel,
@@ -87,6 +89,7 @@ public class ImovelComparativoController {
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/adicionarImovelComparativo/{idImovel}",  method = RequestMethod.GET)
 	@ResponseBody 
 	public String adicionarImovelComparativo(@PathVariable Long idImovel, 

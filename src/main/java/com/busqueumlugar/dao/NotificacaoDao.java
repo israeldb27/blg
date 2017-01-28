@@ -10,7 +10,7 @@ public interface NotificacaoDao extends GenericDAO<Notificacao, Long> {
 
 	Notificacao findNotificacaoById(Long id);
 	
-	List findQuantNovasNotificacoes(Long idUsuario);
+	List<?> findQuantNovasNotificacoes(Long idUsuario);
 	
 	List<Notificacao> findNotificacoesByIdUsuario(Long idUsuario, NotificacaoForm form);
 	

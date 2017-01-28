@@ -2,26 +2,20 @@ package com.busqueumlugar.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.OneToMany;
+
 import javax.persistence.Table;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+
 import javax.persistence.Column;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import com.busqueumlugar.enumerador.PerfilUsuarioEnum;
-import com.busqueumlugar.enumerador.PerfilUsuarioNormalEnum;
 import com.busqueumlugar.util.AppUtil;
 import com.mysql.jdbc.StringUtils;
 
@@ -29,6 +23,11 @@ import com.mysql.jdbc.StringUtils;
 @Table(name = "usuario")
 public class Usuario implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1102689137761823434L;
+
 	@Id
     @GeneratedValue
     @Column(name = "id")

@@ -28,6 +28,11 @@ import com.busqueumlugar.util.DateUtil;
 @Table(name = "imovel")
 public class Imovel  implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8060663211437968571L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;        
@@ -91,7 +96,7 @@ public class Imovel  implements Serializable{
     private int idBairro;
     
     @Column(name = "acao")
-    private String acao;  // indica se é aluguel ou compra      
+    private String acao;  // indica se  aluguel ou compra      
     
     @Column(name = "contadorObservacao")
     private int contadorObservacao;
@@ -230,7 +235,7 @@ public class Imovel  implements Serializable{
     private long quantNovosImovelIntermediacao;
     
     @Transient
-    private double valorMetroQuadrado; // este campo é usado no comparativo imoveis. é um campo derivado ( valor imovel / area m2)
+    private double valorMetroQuadrado; // este campo eh usado no comparativo imoveis. um campo derivado ( valor imovel / area m2)
     
     @Transient
     private String tipoImovelFmt = "";

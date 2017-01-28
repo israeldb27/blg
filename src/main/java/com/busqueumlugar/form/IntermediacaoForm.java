@@ -18,7 +18,7 @@ public class IntermediacaoForm extends BaseForm{
     private String descricao;
     private String statusLeitura;    
     private String descricaoCompartilhamento;
-    private String tipoImovelCompartilhado; // {I - intermediação ; P - parceria }
+    private String tipoImovelCompartilhado; // {I - intermediacao ; P - parceria }
     
     private int idEstado;
     private int idCidade;

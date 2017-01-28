@@ -1011,7 +1011,7 @@ public class IntermediacaoDaoImpl extends GenericDAOImpl<Intermediacao, Long>  i
 			
 			Criteria critUsuario1 = crit1.createCriteria("usuarioDonoImovel");
 			if (! StringUtils.isNullOrEmpty(form.getOpcaoContatoAgruparUsuarios()) && (! form.getOpcaoContatoAgruparUsuarios().equals(TipoContatoOpcaoEnum.TODOS_USUARIOS.getRotulo())) ){		
-				List listaIds = null;
+				List<?> listaIds = null;
 				if (form.getOpcaoContatoAgruparUsuarios().equals(TipoContatoOpcaoEnum.MEUS_CONTATOS.getRotulo())){
 					listaIds = contatoDao.filterListaIds(idUsuarioSessao, form.getOpcaoPerfilContatoAgruparUsuarios());
 				}
@@ -1048,7 +1048,7 @@ public class IntermediacaoDaoImpl extends GenericDAOImpl<Intermediacao, Long>  i
 		    }
 		}
 		crit1.add(Restrictions.eq("status", status));		
-		List list1 = crit1.list();		
+		List<?> list1 = crit1.list();		
 		
 		Criteria crit2 = session().createCriteria(Intermediacao.class);
 		ProjectionList projList2 = Projections.projectionList();		
@@ -1062,7 +1062,7 @@ public class IntermediacaoDaoImpl extends GenericDAOImpl<Intermediacao, Long>  i
 			
 			Criteria critUsuario2 = crit1.createCriteria("usuarioDonoImovel");
 			if (! StringUtils.isNullOrEmpty(form.getOpcaoContatoAgruparUsuarios()) && (! form.getOpcaoContatoAgruparUsuarios().equals(TipoContatoOpcaoEnum.TODOS_USUARIOS.getRotulo())) ){		
-				List listaIds = null;
+				List<?> listaIds = null;
 				if (form.getOpcaoContatoAgruparUsuarios().equals(TipoContatoOpcaoEnum.MEUS_CONTATOS.getRotulo())){
 					listaIds = contatoDao.filterListaIds(idUsuarioSessao, form.getOpcaoPerfilContatoAgruparUsuarios());
 				}
@@ -1099,10 +1099,10 @@ public class IntermediacaoDaoImpl extends GenericDAOImpl<Intermediacao, Long>  i
 		    }
 		}
 		crit2.add(Restrictions.eq("status", status));
-		List list2 = crit2.list();
+		List<?> list2 = crit2.list();
 		
-		List lista = new ArrayList();		
-		List listaFinal =  new ArrayList();
+		List<Object> lista = new ArrayList<Object>();		
+		List<Object> listaFinal =  new ArrayList<Object>();
 		
 		if (!CollectionUtils.isEmpty(list1))
 			lista.addAll(list1);
@@ -1146,7 +1146,7 @@ public class IntermediacaoDaoImpl extends GenericDAOImpl<Intermediacao, Long>  i
 			Criteria critUsuario = crit.createCriteria("usuarioSolicitante");
 			
 			if (! StringUtils.isNullOrEmpty(form.getOpcaoContatoAgruparUsuarios()) && (! form.getOpcaoContatoAgruparUsuarios().equals(TipoContatoOpcaoEnum.TODOS_USUARIOS.getRotulo())) ){		
-				List listaIds = null;
+				List<?> listaIds = null;
 				if (form.getOpcaoContatoAgruparUsuarios().equals(TipoContatoOpcaoEnum.MEUS_CONTATOS.getRotulo())){
 					listaIds = contatoDao.filterListaIds(idUsuarioSessao, form.getOpcaoPerfilContatoAgruparUsuarios());
 				}

@@ -1,7 +1,6 @@
 package com.busqueumlugar.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -12,23 +11,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+
 import javax.persistence.Column;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-
-import com.busqueumlugar.enumerador.AcaoImovelEnum;
-import com.busqueumlugar.enumerador.TipoImovelEnum;
-import com.busqueumlugar.util.AppUtil;
-import com.mysql.jdbc.StringUtils;
 
 @Entity
 @Table(name = "imovelindicado")

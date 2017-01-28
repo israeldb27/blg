@@ -1,6 +1,9 @@
 package com.busqueumlugar.model;
 
-public class RelatorioQuantAssinatura {
+import java.io.Serializable;
+
+public class RelatorioQuantAssinatura implements Serializable {
+    private static final long serialVersionUID = 1L;
     
     private String tipoAssinatura = "";
     private double valorFinanceiro = 0d;

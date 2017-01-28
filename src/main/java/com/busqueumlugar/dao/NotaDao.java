@@ -14,11 +14,11 @@ public interface NotaDao extends GenericDAO<Nota, Long> {
 
 	List<Nota> filterNotasByIdUsuario(Long idUsuario, NotaForm form);
 
-	List<Nota> findNotasContatosByListaIdsUsuario(List listaIdsContatos, NotaForm form);
+	List<Nota> findNotasContatosByListaIdsUsuario(List<?> listaIdsContatos, NotaForm form);
 	
-	List<Nota> findNotasContatosByListaIdsUsuarioQuant(List listaIdsContatos, NotaForm form, int quant);
+	List<Nota> findNotasContatosByListaIdsUsuarioQuant(List<?> listaIdsContatos, NotaForm form, int quant);
 
-	List<Nota> filterNotasByListaIdsUsuario(List listaIdsContatos, NotaForm form);
+	List<Nota> filterNotasByListaIdsUsuario(List<?> listaIdsContatos, NotaForm form);
 
 	Nota findNotaByUsuarioByIndex(List<Long> listaIds, int index);
 	

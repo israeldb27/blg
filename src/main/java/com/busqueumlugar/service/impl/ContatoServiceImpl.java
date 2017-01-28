@@ -332,16 +332,16 @@ public class ContatoServiceImpl implements ContatoService {
 	@Override
 	public String checarTipoContato(Long idUsuario, Long idUsuarioSessao) {
 
-		// checando se já existe algum contato enviado
+		// checando se ja existe algum contato enviado
 		Contato contatoOK = dao.findAnyContatoByStatus(idUsuario, idUsuarioSessao, ContatoStatusEnum.OK.getRotulo());
 		if ( contatoOK != null )
 			return "O";
 		else {
-			// checando se algum convite já foi enviado
+			// checando se algum convite ja foi enviado
 			Contato contatoSol = dao.findAnyContatoByStatus(idUsuario, idUsuarioSessao, ContatoStatusEnum.CONVIDADO.getRotulo());
 			if (contatoSol != null )
 				return "C";
-			else // nenhum contato foi formado ou foi enviado
+			else  
 				return "N";
 		}		
 	}

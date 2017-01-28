@@ -5,7 +5,6 @@
 package com.busqueumlugar.model;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,10 +40,10 @@ public class Plano implements Serializable {
     private Integer duracaoPlano;
     
     @Column(name = "habilitaCompartilhamento")
-    private String habilitaCompartilhamento; // indica se o usuário pode ou nao enviar solicitação de compartilhamento
+    private String habilitaCompartilhamento; // indica se o usuario pode ou nao enviar solicitacao de compartilhamento
     
     @Column(name = "quantEnvioSolCompart")
-    private Integer quantEnvioSolCompart; // indica o limite maximo de solicitacoes de compartilhamento que um usuário pode enviar
+    private Integer quantEnvioSolCompart; // indica o limite maximo de solicitacoes de compartilhamento que um usuario pode enviar
     
     @Column(name = "quantCadastroImoveis")
     private Integer quantCadastroImoveis; 

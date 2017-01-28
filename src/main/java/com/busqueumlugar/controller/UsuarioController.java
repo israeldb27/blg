@@ -167,7 +167,7 @@ public class UsuarioController {
 		
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
-			//a recomendacao é enviada para o usuario e o usuario recomendado deve ainda aprová-lo
+			//a recomendacao e enviada para o usuario e o usuario recomendado deve ainda aprova-lo
 			recomendacaoService.cadastrarRecomendacao(form.getId(), user.getId(), novaRecomendacao);
 			form.setListaRecomendacoes(recomendacaoService.recuperarRecomendacoesPorIdUsuarioRecomendado(form.getId()) ); 
 			map.addAttribute("usuarioForm", form );		
@@ -734,11 +734,11 @@ public class UsuarioController {
 	    				if (( ! user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) ) || ( user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) && (user.getDataUltimoAcesso() != null ))) {
 	        				usuarioService.carregarDadosInfoUsuario(user, session, true);        				
 	        				//usuarioService.tratarTelaInicial(user, session, map);
-	        				usuarioService.prepararParaCarregarTimeLine(user, session, map); // preparar configuraçoes para carregar a Timeline do sistema
+	        				usuarioService.prepararParaCarregarTimeLine(user, session, map); // preparar configuracoes para carregar a Timeline do sistema
 	        				log.info("Acesso concedido: " + new DateUtil().getStrDate());
 	        				return "main";
 	        			}
-	        			else { // se o usuario cliente está acessando primeira vez entao ele deverá ser adicionado na tela de preferencias 
+	        			else { // se o usuario cliente esta acessando primeira vez entao ele devera ser adicionado na tela de preferencias 
 	        				if ( ( user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) && (user.getDataUltimoAcesso() == null )) ) {
 	        					log.info("Primeiro Acesso concedido: " + new DateUtil().getStrDate());
 	        					return "forward:/preferencia/inicioCadastroUsuarioPreferenciaImoveis/" + user.getId();

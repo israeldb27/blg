@@ -599,7 +599,7 @@ public class ImovelServiceImpl implements ImovelService{
 				
 		// fim - validacao informacoes basicas
 		
-		// inicio - validacao caracteristicas imóvel
+		// inicio - validacao caracteristicas imovel
 		
 		if ( StringUtils.isEmpty(form.getPerfilImovel())){
 			result.rejectValue("perfilImovel", "msg.erro.campo.obrigatorio");
@@ -610,9 +610,9 @@ public class ImovelServiceImpl implements ImovelService{
 			result.rejectValue("area", "msg.erro.campo.obrigatorio");
 			filtroValido = true;                   
 		}
-		// fim - validacao caracteristicas imóvel
+		// fim - validacao caracteristicas imovel
 		
-		// inicio - validacao permissões
+		// inicio - validacao permissoes
 		if ( StringUtils.isEmpty(form.getDestaque())){
 			result.rejectValue("destaque", "msg.erro.campo.obrigatorio");
 			filtroValido = true;                   
@@ -647,7 +647,7 @@ public class ImovelServiceImpl implements ImovelService{
 			result.rejectValue("acessoVisualizacao", "msg.erro.campo.obrigatorio");
 			filtroValido = true;                   
 		}		
-		// fim - validacao permissões
+		// fim - validacao permissoes
 		
 		return filtroValido;
 	}
@@ -711,7 +711,7 @@ public class ImovelServiceImpl implements ImovelService{
 				
 		// fim - validacao informacoes basicas
 		
-		// inicio - validacao caracteristicas imóvel
+		// inicio - validacao caracteristicas imovel
 		
 		if ( StringUtils.isEmpty(form.getPerfilImovel())){
 			result.rejectValue("perfilImovel", "msg.erro.campo.obrigatorio");
@@ -722,9 +722,9 @@ public class ImovelServiceImpl implements ImovelService{
 			result.rejectValue("area", "msg.erro.campo.obrigatorio");
 			filtroValido = true;                   
 		}
-		// fim - validacao caracteristicas imóvel
+		// fim - validacao caracteristicas imovel
 		
-		// inicio - validacao permissões
+		// inicio - validacao permissoes
 		if ( StringUtils.isEmpty(form.getDestaque())){
 			result.rejectValue("destaque", "msg.erro.campo.obrigatorio");
 			filtroValido = true;                   
@@ -759,7 +759,7 @@ public class ImovelServiceImpl implements ImovelService{
 			result.rejectValue("acessoVisualizacao", "msg.erro.campo.obrigatorio");
 			filtroValido = true;                   
 		}		
-		// fim - validacao permissões
+		// fim - validacao permissoes
 		
 		return filtroValido;
 	}

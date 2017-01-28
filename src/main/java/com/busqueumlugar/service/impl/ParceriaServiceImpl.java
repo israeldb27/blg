@@ -498,7 +498,7 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
 			
 		}
 		else if ( form.getTipoLista().equals("parceriaMinhasSol")){
-			// lista dos IdImovel cujo usuario sessao tenha enviado solicitação parceria de um imovel 
+			// lista dos IdImovel cujo usuario sessao tenha enviado solicitacao parceria de um imovel 
 			lista = dao.findParceriasMinhasSolicitacoesByStatusByIdUsuarioDistinct(idUsuarioSessao, StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo(),   form);
 		}
 		
@@ -529,7 +529,7 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
 			lista = dao.findUsuariosParceriaByStatusByIdDonoImovel(idUsuarioSessao, StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo(),   form);			
 		}
 		else if ( form.getTipoLista().equals("parceriaMinhasSol")){
-			// lista dos IdUsuario que recebeu solicitação de  parceria com o usuario sessao
+			// lista dos IdUsuario que recebeu solicitacao de  parceria com o usuario sessao
 			lista = dao.findUsuariosImoveisCompartilhadosByStatusByIdUsuario(idUsuarioSessao, StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo(),   form);			
 		}
 		

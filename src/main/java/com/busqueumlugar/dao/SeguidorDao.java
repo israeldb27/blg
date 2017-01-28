@@ -14,15 +14,15 @@ public interface SeguidorDao extends GenericDAO<Seguidor, Long>{
 
 	List<Seguidor> findSeguidoresByIdUsuarioSeguido(Long idUsuario);
 
-	List findIdsSeguidoresByIdUsuario(Long idUsuario);
+	List<?> findIdsSeguidoresByIdUsuario(Long idUsuario);
 
-	List filterListaIdsUsuariosSeguindo(RelatorioForm form);
+	List<?> filterListaIdsUsuariosSeguindo(RelatorioForm form);
 	
-	List filterListaIdsUsuariosSeguindo(Long idUsuario, String perfilUsuario);
+	List<?> filterListaIdsUsuariosSeguindo(Long idUsuario, String perfilUsuario);
 
 	long findQuantSeguidoresByIdUsuarioSeguido(Long idUsuario);
 
-	List filterListaIdsUsuariosSeguidores(RelatorioForm form);
+	List<?> filterListaIdsUsuariosSeguidores(RelatorioForm form);
 	
-	List filterListaIdsUsuariosSeguidores(Long idUsuario, String perfilUsuario);
+	List<?> filterListaIdsUsuariosSeguidores(Long idUsuario, String perfilUsuario);
 }

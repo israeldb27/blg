@@ -428,7 +428,7 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
 		if ( usuariosSelecionados.length > usuario.getQuantMaxIndicacoesImovel())
 			return MessageUtils.getMessage("msg.erro.indicacoes.quant.usuarios.selecionados");
 		
-		/*if ( msg.equals("")){ // checando se algum usuario selecionado já recebeu a indicação do imovel anteriormente
+		/*if ( msg.equals("")){ // checando se algum usuario selecionado ja recebeu a indicacao do imovel anteriormente
 			String idUsuarioSel = null;
 			Usuario usuarioSel = null;  
 			StringBuffer msgRet = new StringBuffer(MessageUtils.getMessage("msg.erro.indicacoes.usuarios.selecionados.indicacao.anterior"));

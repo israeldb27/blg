@@ -13,6 +13,6 @@ public interface EstadosDao extends GenericDAO<Estados, Long> {
 	
 	List<Estados> findEstadosPorIdEstado(int idEstado);
 	
-	List relatorioSobreEstados(RelatorioForm form);
+	List<Object> relatorioSobreEstados(RelatorioForm form);
 	
 }

@@ -81,9 +81,9 @@ public class UsuarioForm extends BaseForm {
     private int quantMaxFotosPorImovel; // indica quantidade maxima de fotos de imoveis que o usuario pode cadastrar
     private int quantMaxIndicacoesImovel; // indica quantidade maxima indicacoes de imoveis que o usuario pode realizar    
     private int quantMaxIndicacoesImovelEmail; // indica quantidade maxima indicacoes por email de imoveis que o usuario pode realizar    
-    private int pontosNegociacaoImovel; // indica a quantidade de negociações com sucesso que um corretor ou imobiliaria realizaram
+    private int pontosNegociacaoImovel; // indica a quantidade de negociacao com sucesso que um corretor ou imobiliaria realizaram
 
-    private String habilitaEnvioSolParceria;    // habilita para o usuario enviar solicitações de parceria para imoveis do sistema
+    private String habilitaEnvioSolParceria;    // habilita para o usuario enviar solicitacoes de parceria para imoveis do sistema
     private String habilitaEnvioMensagens;  // habilita usuario para enviar mensagens para outros usuarios do sistema    
     private String habilitaRecebeSeguidor;
     
@@ -93,8 +93,8 @@ public class UsuarioForm extends BaseForm {
     private String passwordIndex = "";
     private String ativado;
     
-    private int quantUsuarioAprovServico; // indica a quantidade de usuários que aprovaram o servico do corretor ou imobiliaria
-    private int quantUsuarioDesaprovServico; // indica a quantidade de usuários que desaprovaram o servico do corretor ou imobiliaria
+    private int quantUsuarioAprovServico; // indica a quantidade de usuarios que aprovaram o servico do corretor ou imobiliaria
+    private int quantUsuarioDesaprovServico; // indica a quantidade de usuarios que desaprovaram o servico do corretor ou imobiliaria
     
     private List<Select> listaEstados;
     private List<Select> listaCidades;

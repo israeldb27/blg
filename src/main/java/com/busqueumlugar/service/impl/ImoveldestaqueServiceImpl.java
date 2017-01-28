@@ -133,7 +133,7 @@ public class ImoveldestaqueServiceImpl implements ImoveldestaqueService {
 				}
 			}
 			
-			if (! erro){ // checar se imóvel já foi cadastrado como anuncio no período informado
+			if (! erro){ 
 				Imoveldestaque imoveldestaque = dao.findImovelAnuncioByData(DateUtil.formataDataBanco(dataInicio.replaceAll("-","/")), 
 																		    DateUtil.formataDataBanco(dataFim.replaceAll("-","/")), 
 																		    form.getId());

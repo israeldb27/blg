@@ -785,7 +785,7 @@ public class RelatorioServiceImpl implements RelatorioService {
 		
 		boolean filtroValido = true;
 		
-		// validação campos Data Inicio e Data Fim são para todos os relatorios
+		// validacaoo campos Data Inicio e Data Fim sao para todos os relatorios
 		boolean isValidoDataInicio = true;
 		if ( StringUtils.isEmpty(form.getDataInicio())) {
 			result.rejectValue("dataInicio", "opcao.periodo.obrigatorio");

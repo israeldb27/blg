@@ -334,8 +334,7 @@ public class AdministracaoServiceImpl implements AdministracaoService {
 		
 		boolean filtroValido = true;
 		
-		if ( tipoRelatorio.equals("relatorioUsuario") || tipoRelatorio.equals("relatorioImovel")) {
-			// validação campos Data Inicio e Data Fim são para todos os relatorios
+		if ( tipoRelatorio.equals("relatorioUsuario") || tipoRelatorio.equals("relatorioImovel")) {		
 			boolean isValidoDataInicio = true;
 			if ( StringUtils.isEmpty(form.getDataInicio())) {
 				result.rejectValue("dataInicio", "opcao.periodo.obrigatorio");

@@ -379,7 +379,7 @@ public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
 	public List<Imovel> agruparImoveis(Long idUsuario, ImovelfavoritosForm form) {
 		List<Imovel> listaFinal = new ArrayList<Imovel>();
 		if ( form.getTipoLista().equals("usuariosInteressados")){
-			// lista dos IdImovel cujo usuario sessao tenha recebido uma sinalização de interesse por parte de outro usuario do sistema
+			// lista dos IdImovel cujo usuario sessao tenha recebido uma sinalizacao de interesse por parte de outro usuario do sistema
 			List lista = dao.findImoveisFavoritosUsuariosInteressadosByIdUsuarioDistinct(idUsuario, form);
 			Object[] obj = null;
 			Long idImovel = null;
@@ -407,11 +407,11 @@ public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
 		List<Usuario> listaFinal = new ArrayList<Usuario>();
 		List lista = null;
 		if ( form.getTipoLista().equals("usuariosInteressados")){
-			// lista dos IdUsuario que sinalizou interesse em algum imóvel do usuario sessao
+			// lista dos IdUsuario que sinalizou interesse em algum imovel do usuario sessao
 			lista = dao.findUsuariosImoveisFavoritosUsuariosInteressadosByIdUsuario(idUsuarioSessao, form);						
 		}
 		else {
-			// lista dos IdUsuario que o usuario sessao sinalizou algum interesse em algum imóvel de outros usuarios da aplicacao
+			// lista dos IdUsuario que o usuario sessao sinalizou algum interesse em algum imovel de outros usuarios da aplicacao
 			lista = dao.findUsuariosImoveisFavoritosImoveisMeuInteresseByIdUsuario(idUsuarioSessao, form);
 		}
 		
@@ -420,7 +420,7 @@ public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
 		for (Iterator iter = lista.iterator();iter.hasNext();){
 			obj = (Object[]) iter.next(); //[0] - usuarioRecep, [1] - usuarioEmissor, [2] - quantidade (count)				
 			usuario = usuarioDao.findUsuario(Long.parseLong(obj[0].toString()));
-			usuario.setQuantImovelFavoritos(Integer.parseInt(obj[1].toString())); // quantidade de Propostas que o usuário enviou para os imóveis do usuario sessao
+			usuario.setQuantImovelFavoritos(Integer.parseInt(obj[1].toString())); // quantidade de Propostas que o usuario enviou para os imoveis do usuario sessao
 			usuario.setQuantImovelVisitado(Integer.parseInt(obj[1].toString()));
 			usuario.setQuantTotalContatos(contatoDao.findQuantidadeTotalContatosByIdUsuarioByStatus(usuario.getId(), ContatoStatusEnum.OK.getRotulo()));
 			usuario.setQuantTotalRecomendacoes(recomendacaoDao.findQuantidadeRecomendacoesByUsuarioByStatusByStatusLeitura(usuario.getId(), RecomendacaoStatusEnum.ACEITO.getRotulo(), null));

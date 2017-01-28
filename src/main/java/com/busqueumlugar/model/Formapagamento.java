@@ -7,7 +7,6 @@ package com.busqueumlugar.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +28,12 @@ import com.busqueumlugar.util.DateUtil;
 @Table(name = "formapagamento")    
 public class Formapagamento implements Serializable {
     
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1615733004632098605L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)    
     @Column(name = "id")
     private Long id;    

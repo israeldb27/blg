@@ -138,7 +138,7 @@ public class ImovelForm extends BaseForm{
 	private Intermediacao intermediacaoEnviada = null;
 	private String novaSolIntermediacao = "";
 	private String novaSolParceria = "";
-	private Parceria parceriaEnviada; // este campo é usado para checar se o usuario enviou ou nao uma solicitacao de parceria
+	private Parceria parceriaEnviada; // este campo  usado para checar se o usuario enviou ou nao uma solicitacao de parceria
 	
 	private Usuario usuarioIntermediador = null;
 	

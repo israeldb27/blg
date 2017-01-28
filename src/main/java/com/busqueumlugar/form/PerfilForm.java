@@ -74,7 +74,7 @@ public class PerfilForm {
     private int quantIntermediacoesSucesso = 0;
     private int quantParceriasSucesso = 0;
     
-    // este campo indica se o usuario poderá aprovar ou desaprovar o servviço do corretor ou imobiliaria
+    // este campo indica se o usuario podera aprovar ou desaprovar o servvico do corretor ou imobiliaria
     // o usuario poderia aprovar ou desaprovar desde que tenha fechado negocio imovel com o corretor ou imobiliaria
     private String habilitaAprovarUsuarioServico = ""; 
     private int quantUsuarioAprovServico = 0; 

@@ -41,6 +41,7 @@ public class SeguidorDaoImpl extends GenericDAOImpl<Seguidor, Long>  implements 
 		return (Seguidor)crit.uniqueResult();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Seguidor> findSeguidoresByIdUsuarioSeguido(Long idUsuario) {
 		Criteria crit = session().createCriteria(Seguidor.class);
@@ -49,7 +50,7 @@ public class SeguidorDaoImpl extends GenericDAOImpl<Seguidor, Long>  implements 
 	}
 
 	@Override
-	public List findIdsSeguidoresByIdUsuario(Long idUsuario) {
+	public List<?> findIdsSeguidoresByIdUsuario(Long idUsuario) {
 		Criteria crit = session().createCriteria(Seguidor.class);
 		crit.createCriteria("usuarioSeguido").add(Restrictions.eq("id", idUsuario));
 		crit.setProjection(Projections.property("usuario.id"));				
@@ -57,7 +58,7 @@ public class SeguidorDaoImpl extends GenericDAOImpl<Seguidor, Long>  implements 
 	}
 
 	@Override
-	public List filterListaIdsUsuariosSeguindo(RelatorioForm form) { //  lista todos os Ids dos Usuarios que estao me seguindo
+	public List<?> filterListaIdsUsuariosSeguindo(RelatorioForm form) { //  lista todos os Ids dos Usuarios que estao me seguindo
 		Criteria crit = session().createCriteria(Seguidor.class);
 		crit.createCriteria("usuarioSeguido").add(Restrictions.eq("id", form.getUsuarioSessao().getId()));
 		
@@ -76,7 +77,7 @@ public class SeguidorDaoImpl extends GenericDAOImpl<Seguidor, Long>  implements 
 	}
 	
 	@Override
-	public List filterListaIdsUsuariosSeguindo(Long idUsuario , String perfilUsuario) { //  lista todos os Ids dos Usuarios que estao me seguindo
+	public List<?> filterListaIdsUsuariosSeguindo(Long idUsuario , String perfilUsuario) { //  lista todos os Ids dos Usuarios que estao me seguindo
 		Criteria crit = session().createCriteria(Seguidor.class);
 		Criteria critUsuario = crit.createCriteria("usuarioSeguido");
 		critUsuario.add(Restrictions.eq("id", idUsuario));
@@ -97,7 +98,7 @@ public class SeguidorDaoImpl extends GenericDAOImpl<Seguidor, Long>  implements 
 	}
 
 	@Override
-	public List filterListaIdsUsuariosSeguidores(RelatorioForm form) {
+	public List<?> filterListaIdsUsuariosSeguidores(RelatorioForm form) {
 		Criteria crit = session().createCriteria(Seguidor.class);
 		crit.createCriteria("usuario").add(Restrictions.eq("id", form.getUsuarioSessao().getId()));
 		
@@ -116,7 +117,7 @@ public class SeguidorDaoImpl extends GenericDAOImpl<Seguidor, Long>  implements 
 	}
 	
 	@Override
-	public List filterListaIdsUsuariosSeguidores(Long idUsuario, String perfilUsuario) {
+	public List<?> filterListaIdsUsuariosSeguidores(Long idUsuario, String perfilUsuario) {
 		Criteria crit = session().createCriteria(Seguidor.class);        
         Criteria critUsuario = crit.createCriteria("usuario");
 		critUsuario.add(Restrictions.eq("id", idUsuario));

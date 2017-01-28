@@ -44,7 +44,7 @@ public class NotificacaoDaoImpl extends GenericDAOImpl<Notificacao, Long>  imple
 
 
 	@Override
-	public List findQuantNovasNotificacoes(Long idUsuario) {
+	public List<?> findQuantNovasNotificacoes(Long idUsuario) {
 		Criteria crit = session().createCriteria(Notificacao.class);
 		ProjectionList projList = Projections.projectionList();
 		projList.add(Projections.count("id"));
@@ -55,6 +55,7 @@ public class NotificacaoDaoImpl extends GenericDAOImpl<Notificacao, Long>  imple
 	}
 
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Notificacao> findNotificacoesByIdUsuario(Long idUsuario, NotificacaoForm form) {
 		Criteria crit = session().createCriteria(Notificacao.class);
@@ -65,18 +66,22 @@ public class NotificacaoDaoImpl extends GenericDAOImpl<Notificacao, Long>  imple
 	        crit.setMaxResults(form.getQuantMaxRegistrosPerPage());
 	        form.setListaPaginas(AppUtil.carregarQuantidadePaginas(form.getQuantRegistros(), form.getQuantMaxRegistrosPerPage()));
 		}        
-		return crit.addOrder(Order.desc("dataNotificacao")).list();		
+		crit.addOrder(Order.desc("dataNotificacao"));	
+		return (List<Notificacao>)crit.list();		
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Notificacao> findNotificacoesByIdUsuarioByStatusLeitura(Long idUsuario, String status) {
 		Criteria crit = session().createCriteria(Notificacao.class);
 		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));
 		crit.add(Restrictions.eq("statusLeitura", status));
-		return crit.addOrder(Order.desc("dataNotificacao")).list();	
+		crit.addOrder(Order.desc("dataNotificacao"));	
+		return (List<Notificacao>)crit.list();
 	}
 
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Notificacao> findNotificacoesByIdUsuarioByStatus(Long idUsuario, String status) {
 		Criteria crit = session().createCriteria(Notificacao.class);
@@ -86,16 +91,18 @@ public class NotificacaoDaoImpl extends GenericDAOImpl<Notificacao, Long>  imple
 		crit.add(Restrictions.eq("statusLeitura", status));
 		crit.setProjection(projList);
 		crit.addOrder(Order.desc("dataNotificacao"));
-		return crit.list();
+		return (List<Notificacao>)crit.list();
 	}
 
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Notificacao> filterNotificacoesByIdUsuario(Long idUsuario, NotificacaoForm form) {
 		Criteria crit = session().createCriteria(Notificacao.class);
 		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));
 		crit.add(Restrictions.eq("acao", form.getOpcaoFiltro()));
-		return crit.addOrder(Order.desc("dataNotificacao")).list();		
+		crit.addOrder(Order.desc("dataNotificacao"));	
+		return (List<Notificacao>)crit.list();
 	}
 
 

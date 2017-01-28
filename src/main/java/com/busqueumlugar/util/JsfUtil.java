@@ -58,15 +58,15 @@ public class JsfUtil {
      public static String emailPattern = "^[a-zA-Z][\\w\\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\\w\\.-]*[a-zA-Z0-9]\\.[a-zA-Z][a-zA-Z\\.]*[a-zA-Z]$";
      
       /* 
- * as contas de CPF e CNPJ são baseadas no número de ordem do dígito na string 
- * os arrays baixo armazenam a ordem para cada dígito 
+ * as contas de CPF e CNPJ sao baseadas no numero de ordem do digito na string 
+ * os arrays baixo armazenam a ordem para cada digito 
  */ 
      private static final int[] pesosCPF = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2}; 
      private static final int[] pesosCNPJ = {6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2}; 
      
      
  /* 
-  * rotina genérica para calcular qual o dígito verificador 
+  * rotina genehrica para calcular qual o digito verificador 
   * @PARAM str   string que contem o CPF ou CNPJ 
   * @PARAM peso  array dos pesos, podem ser pesoCPF ou pesoCNPJ 
   */ 
@@ -85,7 +85,7 @@ public class JsfUtil {
   
 /* 
  * @PARAM cpf no formato 99999999999 ou 999.999.999-99 
- * @RETURN volta true se o CPF é válido 
+ * @RETURN volta true se o CPF eh valido 
  */ 
  public static boolean isValidoCPF(String cpf) { 
    if (cpf==null) {  
@@ -95,15 +95,15 @@ public class JsfUtil {
    cpf.replace(".",""); 
    cpf.replace("-",""); 
    if (cpf.length()!=11) { 
-       return false; // sai se não tem o tamanho esperado 
+       return false; // sai se nao tem o tamanho esperado 
    } 
 
    // passo 1 - calcula somente para a string sem o digito verificador 
    Integer digito1 = calcularDigitoVerificador(cpf.substring(0,9), pesosCPF);  
-   // passo 2 - calculo novamente com o dígito obtido no passo 1 
+   // passo 2 - calculo novamente com o digito obtido no passo 1 
    Integer digito2 = calcularDigitoVerificador(cpf.substring(0,9) + digito1,
                                                pesosCPF); 
-   // retorna indicando se o CPF fornecido é igual o CPF com os 
+   // retorna indicando se o CPF fornecido eh igual o CPF com os 
    // digitos verificadores calculados  
    return cpf.equals(cpf.substring(0,9) + digito1.toString() +
                      digito2.toString()); 
@@ -112,7 +112,7 @@ public class JsfUtil {
  
   /* 
  * @PARAM cnpj no formato 99999999999999 ou 99.999.999/9999-99 
- * @RETURN volta true se o CNPJ é válido 
+ * @RETURN volta true se o CNPJ eh valido 
  */ 
  public static boolean isValidoCNPJ(String cnpj) { 
    if (cnpj==null) { 
@@ -128,7 +128,7 @@ public class JsfUtil {
    } 
    // passo 1 - calcula somente para a string sem o digito verificador 
    Integer digito1 = calcularDigitoVerificador(cnpj.substring(0,12), pesosCNPJ); 
-   // passo 2 - calculo novamente com o dígito obtido no passo 1 
+   // passo 2 - calculo novamente com o digito obtido no passo 1 
    Integer digito2 = calcularDigitoVerificador(cnpj.substring(0,12) + digito1,
                                                pesosCNPJ); 
    return cnpj.equals(cnpj.substring(0,12) + digito1.toString() +

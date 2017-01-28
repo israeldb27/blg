@@ -125,7 +125,7 @@ public class ServicoDaoImpl extends GenericDAOImpl<Servico, Long> implements Ser
 	}
 
 	@Override
-	public List findUsuariosVolFinanceiroServico(AdministracaoForm form) {		
+	public List<?> findUsuariosVolFinanceiroServico(AdministracaoForm form) {		
 		
 		Criteria crit = session().createCriteria(Servico.class);			
 		if ( form.getStatus().equals(StatusPagtoOpcaoEnum.SOLICITADO.getRotulo())){
@@ -218,22 +218,25 @@ public class ServicoDaoImpl extends GenericDAOImpl<Servico, Long> implements Ser
 	}
 
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Servico> findServicosByIdUsuarioByAssocPlano(Long idUsuario, String assocPlano) {		
 		Criteria crit = session().createCriteria(Servico.class);
 		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));
 		crit.add(Restrictions.eq("associadoPlano", assocPlano));
-		return crit.list();
+		return (List<Servico>)crit.list();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Servico> findServicosByIdUsuarioByTipoServico(Long idUsuario, String tipoServico) {
 		Criteria crit = session().createCriteria(Servico.class);
 		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));
 		crit.add(Restrictions.eq("tipoServico", tipoServico));
-		return crit.list();
+		return (List<Servico>)crit.list();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Servico> findServicosByPeriodoByTipoServico(AdministracaoForm form, String tipoServico) {
 		
@@ -274,7 +277,7 @@ public class ServicoDaoImpl extends GenericDAOImpl<Servico, Long> implements Ser
 	}
 	
 	@Override
-	public List findTotalServicosPorPeriodo(AdministracaoForm form) {
+	public List<?> findTotalServicosPorPeriodo(AdministracaoForm form) {
 
 		Criteria crit = session().createCriteria(Servico.class);
 		
@@ -309,7 +312,7 @@ public class ServicoDaoImpl extends GenericDAOImpl<Servico, Long> implements Ser
 	
 	
 	@Override
-	public List findVolumeFinanceiroServicos(AdministracaoForm form) {
+	public List<?> findVolumeFinanceiroServicos(AdministracaoForm form) {
 
 		Criteria crit = session().createCriteria(Servico.class);
 		crit.add(Restrictions.eq("statusPgto", form.getStatus()));
@@ -363,6 +366,7 @@ public class ServicoDaoImpl extends GenericDAOImpl<Servico, Long> implements Ser
 		return (Date)crit.uniqueResult();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Servico> findServicoByIdUsuarioByStatus(Long idUsuario,	String status) {		
 		Criteria crit = session().createCriteria(Servico.class);
@@ -403,6 +407,7 @@ public class ServicoDaoImpl extends GenericDAOImpl<Servico, Long> implements Ser
 		return (Servico) crit.uniqueResult();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Servico> findServicosByIdPlanoUsuario(Long idPlanoUsuario) {
 		Criteria crit = session().createCriteria(Servico.class);

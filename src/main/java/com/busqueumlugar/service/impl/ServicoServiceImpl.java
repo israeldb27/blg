@@ -527,7 +527,7 @@ public class ServicoServiceImpl implements ServicoService {
 	}
 
 	
-	// esta validacao só envolve servicos que solicitem Tempo de um serviço como Relatorio e nao quantidade como Adicionar Imoveis 
+	// esta validacao so envolve servicos que solicitem Tempo de um servico como Relatorio e nao quantidade como Adicionar Imoveis 
 	public String validarSolicitacaoServico(long idParamServico, long idUsuario, Date dtCorrente) {		
 		// checando se existe um periodo contrato no periodo        
         Servico servico = null;
@@ -540,7 +540,7 @@ public class ServicoServiceImpl implements ServicoService {
         	servico = dao.findServicoByIdParamServicoByIdUsuarioByStatusByTipoServico(idParamServico, idUsuario, StatusPagtoOpcaoEnum.SOLICITADO.getRotulo(), TipoParamServicoOpcaoEnum.TIPO_PARAM_SERVICO_USUARIO.getRotulo());            
             if ( servico != null)            	
             	return MessageUtils.getMessage("msg.erro.servico.sol.anteriormente");
-            else { // checando se o servico está aguardando pagamento
+            else { // checando se o servico esta aguardando pagamento
             	servico = dao.findServicoByIdParamServicoByIdUsuarioByStatusByTipoServico(idParamServico, idUsuario, StatusPagtoOpcaoEnum.AGUARDANDO.getRotulo(), TipoParamServicoOpcaoEnum.TIPO_PARAM_SERVICO_USUARIO.getRotulo());
             	if ( servico != null )            		
             		return MessageUtils.getMessage("msg.erro.servico.aguarde.pagto");
@@ -850,7 +850,7 @@ public class ServicoServiceImpl implements ServicoService {
         servico.setParamServico(paramservicoDao.findParamservicoPorNome(frm.getAcao()));        
         servico.setValorServico(frm.getValorServico());
         servico.setTempoDuracao(frm.getTempoDuracao());
-        servico.setTipoServico(TipoParamServicoOpcaoEnum.TIPO_PARAM_SERVICO_USUARIO.getRotulo()); // checar ainda se para Relatorio Ã© este o tipo de servico
+        servico.setTipoServico(TipoParamServicoOpcaoEnum.TIPO_PARAM_SERVICO_USUARIO.getRotulo()); // checar ainda se para Relatorio eh este o tipo de servico
         servico.setAssociadoPlano("N");
         dao.save(servico);		
 	}
@@ -897,7 +897,7 @@ public class ServicoServiceImpl implements ServicoService {
         servico.setParamServico(paramservicoDao.findParamservicoPorNome(frm.getAcao()));        
         servico.setValorServico(frm.getValorServico());
         servico.setTempoDuracao(frm.getTempoDuracao());
-        servico.setTipoServico(TipoParamServicoOpcaoEnum.TIPO_PARAM_SERVICO_USUARIO.getRotulo()); // checar ainda se para Relatorio Ã© este o tipo de servico
+        servico.setTipoServico(TipoParamServicoOpcaoEnum.TIPO_PARAM_SERVICO_USUARIO.getRotulo()); // checar ainda se para Relatorio eh este o tipo de servico
         servico.setAssociadoPlano("N");
         dao.save(servico);		
 	}

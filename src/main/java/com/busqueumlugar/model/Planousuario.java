@@ -1,10 +1,8 @@
 package com.busqueumlugar.model;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.Date;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,8 +15,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-
-import com.busqueumlugar.enumerador.PerfilUsuarioEnum;
 import com.busqueumlugar.enumerador.StatusPagtoEnum;
 
 

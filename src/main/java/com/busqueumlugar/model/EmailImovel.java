@@ -8,7 +8,11 @@ import java.io.Serializable;
  */
 public class EmailImovel implements Serializable {
     
-    private String textoEmail;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String textoEmail;
     private String assunto;
     private String to;
     private String acao;

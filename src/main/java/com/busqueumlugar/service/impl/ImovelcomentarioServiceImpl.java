@@ -456,7 +456,7 @@ public class ImovelcomentarioServiceImpl implements ImovelcomentarioService {
 			}
 		}
 		else if ( form.getTipoLista().equals("meusComentarios")){
-			// lista dos IdImovel cujo usuario sessao tenha enviado algum comentario de algum imóvel do sistema
+			// lista dos IdImovel cujo usuario sessao tenha enviado algum comentario de algum imovel do sistema
 			List lista = dao.findMeusComentariosByIdUsuarioDistinct(idUsuario);
 			Object[] obj = null;
 			Long idImovel = null;

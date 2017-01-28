@@ -4,7 +4,11 @@ import java.io.Serializable;
 
 public class Select implements Serializable, Comparable<Select> {
 
-    private String key;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5814157408622686292L;
+	private String key;
     private String label;
 
     public Select(String key, String label) {

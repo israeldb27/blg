@@ -6,7 +6,6 @@ import com.busqueumlugar.model.Usuario;
 public class MensagemAdminForm extends BaseForm{
 
 	private Long id;       
-	// {D - duvida, R - reclamacao, S- sugestao, O - outro} - {N -notificação, A - aviso}
     private String tipoMensagem;    
     private String titulo;
     private String descricaoUltimaMensagem;    

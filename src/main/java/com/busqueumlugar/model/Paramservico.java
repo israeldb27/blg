@@ -7,19 +7,15 @@ package com.busqueumlugar.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import com.busqueumlugar.util.DateUtil;
 
@@ -54,7 +50,7 @@ public class Paramservico implements Serializable {
     private String tipoParamServico;
     
     @Column(name = "cobranca")
-    private String cobranca;   // indica se o servico será cobrado ou não    
+    private String cobranca;   // indica se o servico sera cobrado ou nao    
     
     @Transient
     private String dataCriacaoFmt;

@@ -56,6 +56,7 @@ public class NotaDaoImpl extends GenericDAOImpl<Nota, Long>  implements NotaDao 
 		return rows;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Nota> filterNotasByIdUsuario(Long idUsuario, NotaForm form) {
 		Criteria crit = session().createCriteria(Nota.class);
@@ -83,11 +84,12 @@ public class NotaDaoImpl extends GenericDAOImpl<Nota, Long>  implements NotaDao 
 	        crit.setMaxResults(form.getQuantMaxRegistrosPerPage());
 	        form.setListaPaginas(AppUtil.carregarQuantidadePaginas(form.getQuantRegistros(), form.getQuantMaxRegistrosPerPage()));
 		}   
-		return crit.list();	
+		return (List<Nota>)crit.list();	
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Nota> findNotasContatosByListaIdsUsuarioQuant(List listaIdsContatos, NotaForm form, int quant) {
+	public List<Nota> findNotasContatosByListaIdsUsuarioQuant(List<?> listaIdsContatos, NotaForm form, int quant) {
 		Criteria crit = session().createCriteria(Nota.class);
 		crit.createCriteria("usuario").add(Restrictions.in("id", listaIdsContatos));
 		crit.setMaxResults(quant);
@@ -97,13 +99,14 @@ public class NotaDaoImpl extends GenericDAOImpl<Nota, Long>  implements NotaDao 
 	        crit.setMaxResults(form.getQuantMaxRegistrosPerPage());
 	        form.setListaPaginas(AppUtil.carregarQuantidadePaginas(form.getQuantRegistros(), form.getQuantMaxRegistrosPerPage()));
 		}
-		return crit.list();	
+		return (List<Nota>)crit.list();
 	}
 	
 	
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Nota> findNotasContatosByListaIdsUsuario(List listaIdsContatos, NotaForm form) {
+	public List<Nota> findNotasContatosByListaIdsUsuario(List<?> listaIdsContatos, NotaForm form) {
 		Criteria crit = session().createCriteria(Nota.class);
 		crit.createCriteria("usuario").add(Restrictions.in("id", listaIdsContatos));
 		
@@ -129,11 +132,12 @@ public class NotaDaoImpl extends GenericDAOImpl<Nota, Long>  implements NotaDao 
 	        crit.setMaxResults(form.getQuantMaxRegistrosPerPage());
 	        form.setListaPaginas(AppUtil.carregarQuantidadePaginas(form.getQuantRegistros(), form.getQuantMaxRegistrosPerPage()));
 		}
-		return crit.list();	
+		return (List<Nota>)crit.list();	
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Nota> filterNotasByListaIdsUsuario(List listaIdsContatos, NotaForm form) {
+	public List<Nota> filterNotasByListaIdsUsuario(List<?> listaIdsContatos, NotaForm form) {
 		Criteria crit = session().createCriteria(Nota.class);
 		crit.createCriteria("usuario").add(Restrictions.in("id", listaIdsContatos));	
 		crit.add(Restrictions.eq("acao", form.getOpcaoFiltro()));
@@ -144,7 +148,7 @@ public class NotaDaoImpl extends GenericDAOImpl<Nota, Long>  implements NotaDao 
 	        crit.setMaxResults(form.getQuantMaxRegistrosPerPage());
 	        form.setListaPaginas(AppUtil.carregarQuantidadePaginas(form.getQuantRegistros(), form.getQuantMaxRegistrosPerPage()));
 		}
-		return crit.list();	
+		return (List<Nota>)crit.list();
 	}
 
 	@Override

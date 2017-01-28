@@ -4,38 +4,34 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Date;
 
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
+
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Basic;
+
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
+
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+
 import javax.persistence.Column;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-
-import com.busqueumlugar.enumerador.AcaoImovelEnum;
-import com.busqueumlugar.enumerador.StatusImovelEnum;
-import com.busqueumlugar.enumerador.TipoImovelEnum;
 import com.mysql.jdbc.StringUtils;
 
 @Entity
 @Table(name = "imovelcomentario")
 public class Imovelcomentario  implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1443360936641949085L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")

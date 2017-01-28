@@ -1,6 +1,9 @@
 package com.busqueumlugar.model;
 
-public class RelatorioQuantPlano {
+import java.io.Serializable;
+
+public class RelatorioQuantPlano implements Serializable {
+    private static final long serialVersionUID = 1L;
     
     private String nomePlano = "";
     private String nomeUsuario = "";

@@ -35,34 +35,38 @@ public class MensagemAdminDaoImpl extends GenericDAOImpl<MensagemAdmin, Long> im
 				.add(Restrictions.eq("id", id)).uniqueResult();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<MensagemAdmin> findMensagemAdminByIdUsuario(Long idUsuario) {		
 		Criteria crit = session().createCriteria(MensagemAdmin.class);
 		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));
 		crit.addOrder(Order.desc("dataUltimaMensagem"));	
-		return crit.list();				
+		return (List<MensagemAdmin>)crit.list();				
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<MensagemAdmin> findAllMensagensAdminOrderByDataMensagem() {		
 		Criteria crit = session().createCriteria(MensagemAdmin.class);
 		crit.addOrder(Order.desc("dataUltimaMensagem")); 
-		return crit.list();	
+		return (List<MensagemAdmin>)crit.list();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<MensagemAdmin> findAllMensagensAdminOrderByDataMensagemByTipoMensagem(String tipoMensagem) {
 		Criteria crit = session().createCriteria(MensagemAdmin.class);
 		crit.add(Restrictions.eq("tipoMensagem", tipoMensagem));
 		crit.addOrder(Order.desc("dataUltimaMensagem"));			
-		return crit.list();
+		return (List<MensagemAdmin>)crit.list();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<MensagemAdmin> findAllMensagensNovasAdminOrderByDataMensagemBYQuant(int quant) {
 		Criteria crit = session().createCriteria(MensagemAdmin.class);
 		crit.addOrder(Order.desc("dataUltimaMensagem")); 
-		return crit.list();	
+		return (List<MensagemAdmin>)crit.list();	
 	}
 
 }

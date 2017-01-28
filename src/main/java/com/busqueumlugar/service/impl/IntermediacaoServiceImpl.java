@@ -520,7 +520,7 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
 			lista = dao.findUsuariosParceriaByStatusByIdDonoImovel(idUsuarioSessao, StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo(), form);			
 		}
 		else if ( form.getTipoLista().equals("intermediacaoMinhasSol")){
-			// lista dos IdUsuario que recebeu solicitação de  intermediacao com o usuario sessao
+			// lista dos IdUsuario que recebeu solicitacao de  intermediacao com o usuario sessao
 			lista = dao.findUsuariosParceriaByStatusByIdUsuario(idUsuarioSessao, StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo(), form);			
 		}
 		

@@ -53,7 +53,7 @@ public class EstadosDaoImpl extends GenericDAOImpl<Estados, Long> implements Est
 	}
 
 	@Override
-	public List relatorioSobreEstados(RelatorioForm form) {
+	public List<Object> relatorioSobreEstados(RelatorioForm form) {
 		
 		Criteria crit = session().createCriteria(Imovel.class);
 		

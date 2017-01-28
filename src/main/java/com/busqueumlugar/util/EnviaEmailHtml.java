@@ -88,7 +88,7 @@ public class EnviaEmailHtml implements Serializable {
 	    
 	    texto.append("							<h4 style=\"letter-spacing: 1px; color: #000;\">" + this.getTexto() + "</h4> ");
 	    
-	    //texto.append("							<p style=\"color: #999;\">Importante: Desconsidere este email se você já obteve anteriormente a informação sobre o alerta deste email.</p> ");
+	    //texto.append("							<p style=\"color: #999;\">Importante: Desconsidere este email se voce ja obteve anteriormente a informacao sobre o alerta deste email.</p> ");
 	    texto.append("							<p style=\"color: #999;\">" + MessageUtils.getMessage("msg.email.aviso.importante") + "</p> ");
 	    
 	    texto.append("							<div style=\"margin: 2em; color: #000;\"> ");
@@ -96,7 +96,7 @@ public class EnviaEmailHtml implements Serializable {
 	    texto.append("								</div> ");
 	    
 	    texto.append("								<br> <br> <br>");
-	    texto.append("								<p>— The <a href=\"www.gigsplash.com\">GigSplash</a> Team.</p> ");
+	    texto.append("								<p></p> ");
 	    texto.append("							</div> ");
 	    texto.append("						<center> ");
 	    texto.append("		        	</center></center> ");

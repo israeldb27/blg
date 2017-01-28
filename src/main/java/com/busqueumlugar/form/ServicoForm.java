@@ -25,7 +25,7 @@ public class ServicoForm extends BaseForm {
     private Date dataPagto;    
     private String statusPgto;    
     private long idUsuario;
-    private String acao; // indica se está se realizando , por exemplo, um cadastro de imovel
+    private String acao; // indica se esta se realizando , por exemplo, um cadastro de imovel
     private Date dataSolicitacao;
     private Date dataAguardandoPagto;
     private String opcaoValorPagto;
@@ -39,7 +39,7 @@ public class ServicoForm extends BaseForm {
     private Date dataFimServico;
     private String opcaoTempoPagto;
     private String idSimulaServico = "";
-    private String opcaoQuantFoto = ""; // este campo indica a quantidade fotos selecionado e é usado apenas no servico Adicionar Fotos
+    private String opcaoQuantFoto = ""; // este campo indica a quantidade fotos selecionado e usado apenas no servico Adicionar Fotos
     private int quantFoto;    
     private long idInfoServico;    
     private String formaPagtoSelecionado = "";

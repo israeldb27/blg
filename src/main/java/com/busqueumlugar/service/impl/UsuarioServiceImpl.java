@@ -582,7 +582,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 				
 		// fim - validacao senha
 		
-		// inicio - validacao permiss√µes
+		// inicio - validacao 
 /*		if ( StringUtils.isEmpty(form.getHabilitaBusca())){
 			result.rejectValue("habilitaBusca", "msg.erro.campo.obrigatorio");
 			filtroValido = true;                   
@@ -592,7 +592,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 			result.rejectValue("habilitaDetalhesInfoUsuario", "msg.erro.campo.obrigatorio");
 			filtroValido = true;                   
 		}
-		// fim - validacao permiss√µes
+		// fim - validacao
 		*/
 		return filtroValido;
 	}	
@@ -740,7 +740,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		}		*/
 		// fim - validacao senha
 		
-		// inicio - validacao permiss√µes
+		// inicio - validacao 
 		if ( StringUtils.isEmpty(form.getHabilitaBusca())){
 			result.rejectValue("habilitaBusca", "msg.erro.campo.obrigatorio");
 			filtroValido = true;                   
@@ -750,7 +750,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 			result.rejectValue("habilitaDetalhesInfoUsuario", "msg.erro.campo.obrigatorio");
 			filtroValido = true;                   
 		}
-		// fim - validacao permiss√µes
+		// fim - validacao 
 		
 		return filtroValido;
 	}
@@ -897,18 +897,18 @@ public class UsuarioServiceImpl implements UsuarioService{
 	                }
 	            }
 	            
-	            // validando se existe jÔøΩ um usuario com o cpf ou cnpj informado
+	            // validando se existe ja um usuario com o cpf ou cnpj informado
 	            if ( msg.equals("")){                
 	                usuario = dao.findUsuarioByCampo(frm, "cnpj");                
 	                if ( usuario != null ){
 	                     if ( frm.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) || frm.getPerfil().equals(PerfilUsuarioOpcaoEnum.CORRETOR.getRotulo()) )
 	                    	 msg = MessageUtils.getMessage("msg.erro.cpf.existente");    
-	                     else 
+	                     else  
 	                    	 msg = MessageUtils.getMessage("msg.erro.cnpj.existente");
 	                }                
 	            }
 	            
-	            // para o caso corretor verficar se jÔøΩ existem alguem com o creci informado
+	            // para o caso corretor verficar se jaexistem alguem com o creci informado
 	            if ( msg.equals("")){
 	                if ( frm.getPerfil().equals(PerfilUsuarioOpcaoEnum.CORRETOR.getRotulo()) ){
 	                    usuario = dao.findUsuarioByCampo(frm, "creci");
@@ -966,7 +966,7 @@ public class UsuarioServiceImpl implements UsuarioService{
                 }
             }
             
-            // validando se existe jÔøΩ um usuario com o cpf ou cnpj informado
+            // validando se existe ja um usuario com o cpf ou cnpj informado
             if ( msg.equals("")){                
                 usuario = dao.findUsuarioByCampo(frm, "cpf");                
                 if ( usuario != null && ! usuario.getId().equals(frm.getId())) {
@@ -1234,7 +1234,7 @@ public class UsuarioServiceImpl implements UsuarioService{
         if ( ! frm.getPassword().equals(frm.getConfirmaPassword()))        	
         	return MessageUtils.getMessage("msg.usuario.campo.confirma.password.conferem");
         
-        // acrescentar depois outras regras para formaÔøΩÔøΩo de senha         
+        // acrescentar depois outras regras para formacao de senha         
         
         if ( frm.getPassword().length() < 8 || frm.getPassword().length() > 10)            	
         	return MessageUtils.getMessage("msg.usuario.campo.password.tamanho.minimo.maximo");             
@@ -1325,7 +1325,7 @@ public class UsuarioServiceImpl implements UsuarioService{
             }
             
             if (! frm.getPerfil().equals("-1") ){
-                // validando se existe jÔøΩ um usuario com o cpf ou cnpj informado                         
+                // validando se existe ja um usuario com o cpf ou cnpj informado                         
                 Usuario usuario = dao.findUsuarioByCampo(frm, "cpf");                
                 if ( usuario != null ){
                     if ( frm.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) || frm.getPerfil().equals(PerfilUsuarioOpcaoEnum.CORRETOR.getRotulo()) )                       
@@ -1722,12 +1722,12 @@ public class UsuarioServiceImpl implements UsuarioService{
 	@Override
 	public void tratarTelaInicial(UsuarioForm user, HttpSession session, ModelMap map) {
 		/*
-		* Obs.: A sugest√£o de imoveis e/ou usu√°rios devem ser no m√°ximo de 4 registros (por enquanto).
+		* Obs.: A sugestao de imoveis e/ou usuarios devem ser no maximo de 4 registros (por enquanto).
 		*
-		* Obs.: Se , por exemplo, no perfil Cliente se recuperar apenas 1 im√≥vel de acordo com a preferencia de im√≥veis do usu√°rio ent√£o
-		*       completar a lista com outros 3 im√≥veis sugerindo-o aleatoriamente 
+		* Obs.: Se , por exemplo, no perfil Cliente se recuperar apenas 1 imovel de acordo com a preferencia de imoveis do usuario entao
+		*       completar a lista com outros 3 imoveis sugerindo-o aleatoriamente 
 		*
-		* Obs.: Estes im√≥veis sugeridos n√£o podem pertencer ao usu√°rio. E os usu√°rios sugeridos n√£o podem ser contato do usu√°rio.
+		* Obs.: Estes imoveis sugeridos nao podem pertencer ao usuario. E os usuarios sugeridos nao podem ser contato do usuario.
 		*/
 		
 		if ( user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){
@@ -1774,7 +1774,6 @@ public class UsuarioServiceImpl implements UsuarioService{
 		
 		if (user.getDataValidadeAcesso().compareTo(new Date()) < 0)
 			return "N";
-			//msg = "UsuÔøΩrio possui data de validade de acesso expirada";
 		
 	    return "";
 	}
@@ -2148,8 +2147,8 @@ public class UsuarioServiceImpl implements UsuarioService{
 			listaIds.addAll(listaIdsUsuariosSeguindo);		
 		
 		/**
-		 * Utilizar uma Hashtable para tambÈm carregar os Ids dos usuarios e para cada entrada na Hashtable carrega 
-		 * a respectiva "Index Posicao" que ser· usado para carregar um imÛvel do usu·rio e minimizar a repetiÁ„o na exibiÁ„o de imÛveis 
+		 * Utilizar uma Hashtable para tambem carregar os Ids dos usuarios e para cada entrada na Hashtable carrega 
+		 * a respectiva "Index Posicao" que sera usado para carregar um imovel do usuario e minimizar a repeticao na exibicao de imoveis 
 		 *   
 		 */
 		session.setAttribute(TimelineService.LISTA_IDS_USUARIOS, listaIds);
@@ -2167,7 +2166,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		session.setAttribute(TimelineService.ID_INDEX_IMOVEL_ALEATORIAMENTE, 0);
 		session.setAttribute(TimelineService.ID_INDEX_SUGESTAO_USUARIO, 0);
 		session.setAttribute(TimelineService.ID_INDEX_NOTA, 0);
-		// carregar a quantidade de imÛveis anuncios do dia
+		// carregar a quantidade de imoveis anuncios do dia
 		session.setAttribute(TimelineService.QUANT_ANUNCIO_IMOVEL, imovelDestaqueService.checarQuantidadeImoveisAnuncioNoDia());
 		session.setAttribute(TimelineService.ID_ULTIMO_ANUNCIO_IMOVEL, 0);
 	}
@@ -2184,11 +2183,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 			// 	independente do perfil, carregar a TimeLine de acordo com a regra selecionada
 		
 				/**		  
-				 * Por default, exibir sempre no primeiro registro um ImÛvel An˙ncio (se houver). Exibindo primeiramente o anuncio com maior relev‚ncia e/ou mais recente
+				 * Por default, exibir sempre no primeiro registro um Imovel Anuncio (se houver). Exibindo primeiramente o anuncio com maior relevancia e/ou mais recente
 				 */
 				
 				/***
-				 * Talvez separar cada regra por mÈtodo para reunir o ImÛvel ou lista de ImÛveis para depois montar a TimeLine	
+				 * Talvez separar cada regra por metodo para reunir o Imovel ou lista de Imoveis para depois montar a TimeLine	
 				 */
 				
 				List<Imovel> listaFinal = new ArrayList<Imovel>();
@@ -2202,7 +2201,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 				
 				if (! user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){ // Inicio Timeline para Corretores e Imobiliaris 
 					int regra = (int)session.getAttribute(TimelineService.ULTIMA_REGRA_TIMELINE);			
-					if ( regra == 0 ){ // usuario acabou de se logar no sistema ent„o primeiro registro na timeline ser· um An˙ncio (se houver)	-- Teoricamente vai ser um anuncio de grande Importancia			
+					if ( regra == 0 ){ // usuario acabou de se logar no sistema entao primeiro registro na timeline sera um Anuncio (se houver)	-- Teoricamente vai ser um anuncio de grande Importancia			
 						Imovel imovel = this.regraTimeLineRecuperarImovelAnuncio(session);
 						if ( imovel != null )
 							listaFinal.add(imovel);
@@ -2216,54 +2215,54 @@ public class UsuarioServiceImpl implements UsuarioService{
 						Random r = new Random();
 						int regraSel = 0;				
 						List<Long> listaIds = (List<Long>)session.getAttribute(TimelineService.LISTA_IDS_USUARIOS);
-						if (! CollectionUtils.isEmpty(listaIds)){ // para o caso de o usuario ainda n„o ter nenhum contato ou usuarios seguindo
+						if (! CollectionUtils.isEmpty(listaIds)){ // para o caso de o usuario ainda nao ter nenhum contato ou usuarios seguindo
 							
 							while ( (AppUtil.recuperarQuantidadeLista(listaFinal) < 4)){
 								
 								regraSel = r.nextInt(18) + 1;								
 								
-								if ( ( regraSel >= 1 ) && ( regraSel <= 5 )) { // Exibir imÛveis de seus contatos e usu·rios que esteja seguindo
+								if ( ( regraSel >= 1 ) && ( regraSel <= 5 )) { // Exibir imoveis de seus contatos e usuarios que esteja seguindo
 									List<Imovel> lista = this.regraTimeLineRecuperarImoveisCompartilhadosIdsUsuarios(session, "N");
 									if (! CollectionUtils.isEmpty(lista))
 										listaFinal.addAll(lista);
 								}
-								else if ( ( regraSel >= 6 ) && ( regraSel <= 8 )) { // Exibir imÛveis de seus contatos e /ou usuario que esteja seguindo que deseje ser intermediado ou queira parceria
+								else if ( ( regraSel >= 6 ) && ( regraSel <= 8 )) { // Exibir imoveis de seus contatos e /ou usuario que esteja seguindo que deseje ser intermediado ou queira parceria
 									List<Imovel> lista = this.regraTimeLineRecuperarImoveisCompartilhadosIdsUsuarios(session, "S");
 									if (! CollectionUtils.isEmpty(lista))
 										listaFinal.addAll(lista);
 								}
-								else if ( ( regraSel >= 9 ) && ( regraSel <= 11 )) { // Exibir Notas de seus contatos e usu·rios que esteja seguindo
+								else if ( ( regraSel >= 9 ) && ( regraSel <= 11 )) { // Exibir Notas de seus contatos e usuarios que esteja seguindo
 									notaTimeLine = this.regraTimeLineRecuperarNota(user, session);
 									if ( notaTimeLine != null ){
 										isNotaExiste = true;
 										break;
 									}
 								}
-								else if ( ( regraSel >= 12 ) && ( regraSel <= 14 )) { // Exibir uma preferencia de imÛvel de algum contato e/ou usu·rio que esteja seguindo
+								else if ( ( regraSel >= 12 ) && ( regraSel <= 14 )) { // Exibir uma preferencia de imovel de algum contato e/ou usuario que esteja seguindo
 									prefLocalidadeTimeline = this.regraTimelineRecuperarPreferenciaLocalidadeUsuario(listaIds, session, false);
 									if ( prefLocalidadeTimeline != null ){
 										isPrefLocalidadeExiste = true;
 										break;
 									}	
 								}
-								else if ( ( regraSel >= 15 ) && ( regraSel <= 16 )) { // Exibir uma anuncio imÛvel  
+								else if ( ( regraSel >= 15 ) && ( regraSel <= 16 )) { // Exibir uma anuncio imovel  
 									Imovel imovel = this.regraTimeLineRecuperarImovelAnuncio(session);
 									if ( imovel != null)
 										listaFinal.add(imovel);									
 								}
-								else if ( ( regraSel >= 17 ) && ( regraSel <= 18 )) { // Exibir aleatoriamente uma preferencia de imÛvel de algum usu·rio da plataforma  
+								else if ( ( regraSel >= 17 ) && ( regraSel <= 18 )) { // Exibir aleatoriamente uma preferencia de imovel de algum usuario da plataforma  
 									prefLocalidadeTimeline = this.regraTimelineRecuperarPreferenciaLocalidadeUsuario(listaIds, session, true);
 									if ( prefLocalidadeTimeline != null ){
 										isPrefLocalidadeExiste = true;
 										break;
 									}
 								}
-								else if ( ( regraSel == 19) ) { // Exibir aleatoriamente algum imÛvel da plataforma  
+								else if ( ( regraSel == 19) ) { // Exibir aleatoriamente algum imovel da plataforma  
 									List<Imovel> lista = this.regraTimeLineRecuperarImoveisAleatoriamente(listaIds, session);
 									if (! CollectionUtils.isEmpty(lista))
 										listaFinal.addAll(lista);
 								}	
-								else if ( ( regraSel == 20 )  ) { // Sugerir algum usu·rio para formalizar contato ou para seguir
+								else if ( ( regraSel == 20 )  ) { // Sugerir algum usuario para formalizar contato ou para seguir
 									usuarioTimeline = this.regraTimelineRecuperarSugestaoUsuario(listaIds, user, session);
 									if ( usuarioTimeline != null){
 										isUsuarioTimeLine = true;
@@ -2276,19 +2275,19 @@ public class UsuarioServiceImpl implements UsuarioService{
 								while ( (AppUtil.recuperarQuantidadeLista(listaFinal) < 4)  ){
 								
 									regraSel = r.nextInt(11) + 1;									
-									if (( regraSel >= 1 ) && ( regraSel <= 5 )) { // Exibir aleatoriamente algum imÛvel que deseje ser intermediado ou queira alguma parceria
+									if (( regraSel >= 1 ) && ( regraSel <= 5 )) { // Exibir aleatoriamente algum imovel que deseje ser intermediado ou queira alguma parceria
 										List<Imovel> lista = this.regraTimeLineRecuperarImoveisCompartilhadosSemContato(user, session, "S");
 										if (! CollectionUtils.isEmpty(lista))
 											listaFinal.addAll(lista);
 									}
-									else if (( regraSel >= 6 ) && ( regraSel <= 8 )) { // Exibir aleatoriamente algum usu·rio e sua respectiva preferencia de imÛvel
+									else if (( regraSel >= 6 ) && ( regraSel <= 8 )) { // Exibir aleatoriamente algum usuario e sua respectiva preferencia de imovel
 										prefLocalidadeTimeline = this.regraTimelineRecuperarPreferenciaLocalidadeUsuario(session);
 										if ( prefLocalidadeTimeline != null ){
 											isPrefLocalidadeExiste = true;
 											break;
 										}
 									}
-									else if ( ( regraSel >= 9 ) && ( regraSel <= 10 ) ) { // Sugerir algum usu·rio para formalizar contato ou para seguir
+									else if ( ( regraSel >= 9 ) && ( regraSel <= 10 ) ) { // Sugerir algum usuario para formalizar contato ou para seguir
 										//usuarioTimeline = dao.findUsuario(124l);
 										usuarioTimeline = this.regraTimelineRecuperarSugestaoUsuario(null, user, session);
 										if ( usuarioTimeline != null){
@@ -2296,7 +2295,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 											break;
 										}
 									}						
-									else if ( ( regraSel >= 11 ) && ( regraSel <= 12 ) ) { // Exibir an˙ncio de imÛvel
+									else if ( ( regraSel >= 11 ) && ( regraSel <= 12 ) ) { // Exibir anuncio de imovel
 										Imovel imovel = this.regraTimeLineRecuperarImovelAnuncio(session);
 										if ( imovel != null )
 											listaFinal.add(imovel);								
@@ -2348,7 +2347,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 				
 				else if (user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){ // Inicio Timeline para corretores
 					int regra = (int)session.getAttribute(TimelineService.ULTIMA_REGRA_TIMELINE);			
-					if ( regra == 0 ){ // usuario acabou de se logar no sistema ent„o primeiro registro na timeline ser· um An˙ncio (se houver)	-- Teoricamente vai ser um anuncio de grande Importancia			
+					if ( regra == 0 ){ // usuario acabou de se logar no sistema entao primeiro registro na timeline sera um Anuncio (se houver)	-- Teoricamente vai ser um anuncio de grande Importancia			
 						Imovel imovel = this.regraTimeLineRecuperarImovelAnuncio(session);
 						if ( imovel != null )
 							listaFinal.add(imovel);
@@ -2357,17 +2356,17 @@ public class UsuarioServiceImpl implements UsuarioService{
 						session.setAttribute(TimelineService.ULTIMA_REGRA_TIMELINE, regra);
 					}
 					
-					if ( regra == 1 ){ // poder· nao ser exibido um novo anuncio de imÛvel consecutivo 
+					if ( regra == 1 ){ // podera nao ser exibido um novo anuncio de imovel consecutivo 
 				
 						Random r = new Random();
 						int regraSel = 0;				
 						List<Long> listaIds = (List<Long>)session.getAttribute(TimelineService.LISTA_IDS_USUARIOS);
-						if ( CollectionUtils.isEmpty(listaIds)){ // para o caso de o usuario ainda n„o ter nenhum contato ou usuarios seguindo
+						if ( CollectionUtils.isEmpty(listaIds)){ // para o caso de o usuario ainda nao ter nenhum contato ou usuarios seguindo
 							
 							while ( (AppUtil.recuperarQuantidadeLista(listaFinal) < 4)){
 								regraSel = r.nextInt(8) + 1;
 								
-								if ( ( regraSel >= 1 ) && ( regraSel <= 5 )) { // Recuperar ImÛveis de acordo com a Preferencia de ImÛveis
+								if ( ( regraSel >= 1 ) && ( regraSel <= 5 )) { // Recuperar Imoveis de acordo com a Preferencia de Imoveis
 									List<Imovel> lista = this.regraTimeLineRecuperarImoveisPreferencia(user, session);
 									if (! CollectionUtils.isEmpty(lista))
 										listaFinal.addAll(lista);
@@ -2377,12 +2376,12 @@ public class UsuarioServiceImpl implements UsuarioService{
 									if (! CollectionUtils.isEmpty(lista))
 										listaFinal.addAll(lista);
 								}
-								else if ( ( regraSel >= 8 ) && ( regraSel <= 9 )) { // Exibir um anucio imÛvel
+								else if ( ( regraSel >= 8 ) && ( regraSel <= 9 )) { // Exibir um anucio imovel
 									Imovel imovel = this.regraTimeLineRecuperarImovelAnuncio(session);
 									if ( imovel != null)
 										listaFinal.add(imovel);
 								}
-								else if ( ( regraSel >= 10 ) || ( regraSel <= 11 )) { // Exibir uma indicaÁ„o de usu·rio  
+								else if ( ( regraSel >= 10 ) || ( regraSel <= 11 )) { // Exibir uma indicacao de usuario  
 									usuarioTimeline = dao.findUsuario(124l);
 									if ( usuarioTimeline != null){
 										isUsuarioTimeLine = true;
@@ -2397,17 +2396,17 @@ public class UsuarioServiceImpl implements UsuarioService{
 								
 								regraSel = r.nextInt(12) + 1;
 								
-								if ( ( regraSel >= 1 ) && ( regraSel <= 5 )) { // exibir algum imovel de um contato ou de um usu·rio que esteja seguindo
+								if ( ( regraSel >= 1 ) && ( regraSel <= 5 )) { // exibir algum imovel de um contato ou de um usuario que esteja seguindo
 									List<Imovel> lista = this.regraTimeLineRecuperarImoveisIdsUsuarios(session);
 									if (! CollectionUtils.isEmpty(lista))
 										listaFinal.addAll(lista);
 								}
-								else if ( ( regraSel >= 6 ) && ( regraSel <= 8 )) { // Recuperar ImÛveis de acordo com a Preferencia de ImÛveis
+								else if ( ( regraSel >= 6 ) && ( regraSel <= 8 )) { // Recuperar Imoveis de acordo com a Preferencia de Imoveis
 									List<Imovel> lista = this.regraTimeLineRecuperarImoveisPreferencia(user, session);
 									if (! CollectionUtils.isEmpty(lista))
 										listaFinal.addAll(lista);
 								}
-								else if ( ( regraSel >= 9 ) && ( regraSel <= 10 )) { // Exibir ImÛvel An˙ncio
+								else if ( ( regraSel >= 9 ) && ( regraSel <= 10 )) { // Exibir Imovel Anuncio
 									Imovel imovel = this.regraTimeLineRecuperarImovelAnuncio(session);
 									if ( imovel != null )
 										listaFinal.add(imovel);
@@ -2541,7 +2540,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		List<Long> listaIds = (List<Long>)session.getAttribute(TimelineService.LISTA_IDS_USUARIOS); 
 		if ( ! CollectionUtils.isEmpty(listaIds)) {
 			int index = (int)session.getAttribute(TimelineService.ULTIMO_INDEX_IDS_USUARIO);					
-			List<Imovel> listaImovel = imovelService.recuperarImovelPorIdsUsuarioPorPosicao(listaIds, index); // o parametro informado È index para o setFirstResult no Hibernate 
+			List<Imovel> listaImovel = imovelService.recuperarImovelPorIdsUsuarioPorPosicao(listaIds, index); // o parametro informado e index para o setFirstResult no Hibernate 
 			int quant = AppUtil.recuperarQuantidadeLista(listaImovel);
 			session.setAttribute(TimelineService.ULTIMO_INDEX_IDS_USUARIO, index + quant);
 			return listaImovel;
@@ -2550,19 +2549,19 @@ public class UsuarioServiceImpl implements UsuarioService{
 			return null;
 	}
 	
-	public List<Imovel> regraTimeLineRecuperarImoveisCompartilhadosIdsUsuarios(HttpSession session, String aceitaCompartilhado){ // o parametro aceitaCompartilhado filtra se o Imovel È compartilhado ou nao
+	public List<Imovel> regraTimeLineRecuperarImoveisCompartilhadosIdsUsuarios(HttpSession session, String aceitaCompartilhado){ // o parametro aceitaCompartilhado filtra se o Imovel e compartilhado ou nao
 		List<Long> listaIds = (List<Long>)session.getAttribute(TimelineService.LISTA_IDS_USUARIOS); 
 		if ( ! CollectionUtils.isEmpty(listaIds)) {			
 			if ( aceitaCompartilhado.equals("S")){
 				int index = (int)session.getAttribute(TimelineService.ULTIMO_INDEX_IDS_USUARIO_COMPARTILHADO);					
-				List<Imovel> listaImovel = imovelService.recuperarImovelPorIdsUsuarioPorPosicaoPorAceitaCompartilhado(listaIds, index, aceitaCompartilhado); // o parametro informado È index para o setFirstResult no Hibernate 
+				List<Imovel> listaImovel = imovelService.recuperarImovelPorIdsUsuarioPorPosicaoPorAceitaCompartilhado(listaIds, index, aceitaCompartilhado); // o parametro informado e index para o setFirstResult no Hibernate 
 				int quant = AppUtil.recuperarQuantidadeLista(listaImovel);
 				session.setAttribute(TimelineService.ULTIMO_INDEX_IDS_USUARIO_COMPARTILHADO, index + quant);
 				return listaImovel;
 			}
 			else {
 				int index = (int)session.getAttribute(TimelineService.ULTIMO_INDEX_IDS_USUARIO);					
-				List<Imovel> listaImovel = imovelService.recuperarImovelPorIdsUsuarioPorPosicao(listaIds, index); // o parametro informado È index para o setFirstResult no Hibernate 
+				List<Imovel> listaImovel = imovelService.recuperarImovelPorIdsUsuarioPorPosicao(listaIds, index); // o parametro informado e index para o setFirstResult no Hibernate 
 				int quant = AppUtil.recuperarQuantidadeLista(listaImovel);
 				session.setAttribute(TimelineService.ULTIMO_INDEX_IDS_USUARIO, index + quant);
 				return listaImovel;
@@ -2573,18 +2572,18 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 	
 	
-	public List<Imovel> regraTimeLineRecuperarImoveisCompartilhadosSemContato(UsuarioForm user, HttpSession session, String aceitaCompartilhado){ // o parametro aceitaCompartilhado filtra se o Imovel È compartilhado ou nao		 
+	public List<Imovel> regraTimeLineRecuperarImoveisCompartilhadosSemContato(UsuarioForm user, HttpSession session, String aceitaCompartilhado){ // o parametro aceitaCompartilhado filtra se o Imovel e compartilhado ou nao		 
 				
 			if ( aceitaCompartilhado.equals("S")){
 				int index = (int)session.getAttribute(TimelineService.ULTIMO_INDEX_IDS_USUARIO_COMPARTILHADO);					
-				List<Imovel> listaImovel = imovelService.recuperarImovelPorIdsUsuarioPorPosicaoPorAceitaCompartilhado(user.getId(), index, aceitaCompartilhado); // o parametro informado È index para o setFirstResult no Hibernate 
+				List<Imovel> listaImovel = imovelService.recuperarImovelPorIdsUsuarioPorPosicaoPorAceitaCompartilhado(user.getId(), index, aceitaCompartilhado); // o parametro informado e index para o setFirstResult no Hibernate 
 				int quant = AppUtil.recuperarQuantidadeLista(listaImovel);
 				session.setAttribute(TimelineService.ULTIMO_INDEX_IDS_USUARIO_COMPARTILHADO, index + quant);
 				return listaImovel;
 			}
 			else {
 				int index = (int)session.getAttribute(TimelineService.ULTIMO_INDEX_IDS_USUARIO);					
-				List<Imovel> listaImovel = imovelService.recuperarImovelPorIdsUsuarioPorPosicao(user.getId(), index); // o parametro informado È index para o setFirstResult no Hibernate 
+				List<Imovel> listaImovel = imovelService.recuperarImovelPorIdsUsuarioPorPosicao(user.getId(), index); // o parametro informado e index para o setFirstResult no Hibernate 
 				int quant = AppUtil.recuperarQuantidadeLista(listaImovel);
 				session.setAttribute(TimelineService.ULTIMO_INDEX_IDS_USUARIO, index + quant);
 				return listaImovel;

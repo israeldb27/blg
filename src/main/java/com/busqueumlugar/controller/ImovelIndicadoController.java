@@ -246,7 +246,7 @@ public class ImovelIndicadoController {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			String msgRetorno = imovelIndicadoservice.validarIndicavaoImovel(idImovel, idUsuario);
 			if ( msgRetorno.equals("")){
-				// checar se o usuÃ¡rio ultrapassou ou nao o seu limite de indicacoes de imoveis
+				// checar se o usuario ultrapassou ou nao o seu limite de indicacoes de imoveis
 				boolean ultrapassou = imovelIndicadoservice.checarPermissaoIndicarImoveis(user.getId(), 1);
 				map.addAttribute("imovel", imovelService.recuperarImovelPorid(idImovel));
 				if ( ! ultrapassou ){
@@ -296,7 +296,7 @@ public class ImovelIndicadoController {
 			  								ModelMap map){		
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
-			// validar se usuario ultrapassou o limite de indicações
+			// validar se usuario ultrapassou o limite de indicacoes
 			String msg = imovelIndicadoservice.validarIndicavaoImovelUsuariosSelecionados(form, user.getId());
 			if ( msg.equals("")){
 				imovelIndicadoservice.cadastrarIndicacaoSelecionados(form, user.getId());			

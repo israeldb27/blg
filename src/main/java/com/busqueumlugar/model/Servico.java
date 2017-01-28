@@ -3,12 +3,10 @@ package com.busqueumlugar.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,9 +15,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import com.busqueumlugar.enumerador.PerfilUsuarioEnum;
 import com.busqueumlugar.enumerador.StatusPagtoEnum;
-import com.mysql.jdbc.StringUtils;
 
 @Entity
 @Table(name = "servico")
@@ -70,10 +66,10 @@ public class Servico implements Serializable {
     private Date dataFimServico;
     
     @Column(name = "opcaoTempoPagto")
-    private String opcaoTempoPagto; // indica se é 1 dia, 1 semana, 1 mes ou 1 ano    
+    private String opcaoTempoPagto; // indica se eh 1 dia, 1 semana, 1 mes ou 1 ano    
     
     @Column(name = "quantFoto")
-    private int quantFoto; // este campo indica a quantidade de fotos selecionado é usado apenas pelo servico Adicionar Fotos    
+    private int quantFoto; // este campo indica a quantidade de fotos selecionado eh usado apenas pelo servico Adicionar Fotos    
         
     @Column(name = "tempoDuracao")
     private int tempoDuracao;    
