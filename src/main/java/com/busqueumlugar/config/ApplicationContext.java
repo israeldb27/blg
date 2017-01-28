@@ -26,7 +26,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
             "classpath:hibernate.properties"            
         })
 @ComponentScan(value = "com.busqueumlugar")
-@Import(value = { LoginSecurityConfig.class })
 public class ApplicationContext
 {
 

@@ -41,7 +41,6 @@ import org.springframework.http.converter.json.GsonHttpMessageConverter;
 {
     "com.busqueumlugar"
 })
-@Import(value = { LoginSecurityConfig.class })
 public class WebApplicationContext extends WebMvcConfigurerAdapter
 {
 

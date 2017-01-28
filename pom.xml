@@ -11,12 +11,10 @@
 
 	<properties>
 		<java-version>1.7</java-version>
-		<org.springframework-version>4.1.5.RELEASE</org.springframework-version>
-		<springsecurity.version>4.0.4.RELEASE</springsecurity.version>
+		<org.springframework-version>4.1.5.RELEASE</org.springframework-version>	
 		<org.aspectj-version>1.7.4</org.aspectj-version>
 		<org.slf4j-version>1.7.5</org.slf4j-version>
 		<hibernate.version>4.3.5.Final</hibernate.version>
-		<activemq.version>5.13.3</activemq.version>
 	</properties>
 
 	<dependencies>
@@ -38,31 +36,6 @@
 			<artifactId>spring-orm</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-	    
-	       <!-- ActiveMQ Artifacts -->
-		    <dependency>
-		      <groupId>org.apache.activemq</groupId>
-		      <artifactId>activemq-spring</artifactId>
-		      <version>${activemq.version}</version>
-		    </dependency>
-		
-	
-	  <!-- Spring Security -->
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
-            <version>${springsecurity.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-            <version>${springsecurity.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-taglibs</artifactId>
-            <version>${springsecurity.version}</version>
-        </dependency>
 
  	 	<dependency>
 	        <groupId>com.google.code.gson</groupId>
@@ -315,6 +288,27 @@
 					<showDeprecation>true</showDeprecation>
 				</configuration>
 			</plugin>
+			<plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-dependency-plugin</artifactId>
+	            <version>2.3</version>
+	            <executions>
+	                <execution>
+	                    <phase>package</phase>
+	                    <goals><goal>copy</goal></goals>
+	                    <configuration>
+	                        <artifactItems>
+	                            <artifactItem>
+	                                <groupId>com.github.jsimone</groupId>
+	                                <artifactId>webapp-runner</artifactId>
+	                                <version>8.0.30.2</version>
+	                                <destFileName>webapp-runner.jar</destFileName>
+	                            </artifactItem>
+	                        </artifactItems>
+	                    </configuration>
+	                </execution>
+	            </executions>
+	        </plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
