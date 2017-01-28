@@ -27,7 +27,6 @@ import com.busqueumlugar.form.AdministracaoForm;
 import com.busqueumlugar.form.ImovelForm;
 import com.busqueumlugar.form.ImovelvisualizadoForm;
 import com.busqueumlugar.form.RelatorioForm;
-import com.busqueumlugar.messaging.MessageSender;
 import com.busqueumlugar.model.EmailImovel;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Imovelvisualizado;
@@ -57,10 +56,6 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 	
 	@Autowired
 	private RecomendacaoDao recomendacaoDao;
-	
-	@Autowired
-	private  MessageSender messageSender;
-
 	
 	
 	public Imovelvisualizado recuperarImovelvisitadoPorId(Long id) {

@@ -85,7 +85,6 @@ import com.busqueumlugar.form.NotaForm;
 import com.busqueumlugar.form.RelatorioForm;
 import com.busqueumlugar.form.ServicoForm;
 import com.busqueumlugar.form.UsuarioForm;
-import com.busqueumlugar.messaging.MessageSender;
 import com.busqueumlugar.model.*;
 import com.busqueumlugar.enumerador.AcaoNotificacaoEnum;
 import com.busqueumlugar.enumerador.ContatoStatusEnum;
@@ -204,10 +203,6 @@ public class UsuarioServiceImpl implements UsuarioService{
 	
 	@Autowired
 	private ServletContext context;	
-	
-	
-	 @Autowired
-	 private  MessageSender messageSender;
 	
 	
 	@Override
@@ -2104,8 +2099,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	public boolean validarBuscarUsuarios(UsuarioForm form, BindingResult result) {
 		Usuario usuario = new Usuario();
 		usuario.setLogin("Israel Teste");
-		 messageSender.sendMessage(usuario);
-
+	
 		boolean possuiErro = false;
 		if (! StringUtils.isEmpty(form.getOpcaoTipoBuscaUsuarios())){
 			
