@@ -18,7 +18,7 @@ import com.busqueumlugar.enumerador.TipoImovelEnum;
 
 @Entity
 @Table(name = "imovelvisualizado")
-public class Imovelvisualizado implements Serializable{
+public class Imovelvisualizado extends BaseEntity implements Serializable{
 	
 	private static final long serialVersionUID = -2920980377862522966L;
 

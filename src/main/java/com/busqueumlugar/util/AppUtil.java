@@ -15,18 +15,23 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.CharUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.busqueumlugar.form.ImovelForm;
 import com.busqueumlugar.model.Cidades;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Usuario;
+import com.busqueumlugar.service.ImovelService;
+
 
 public class AppUtil {
 	
@@ -97,7 +102,9 @@ public class AppUtil {
 		if (imovel != null && imovel.getFotoPrincipal() != null && imovel.getFotoPrincipal().length > 0 ){
         String idImovel =  imovel.getId().toString();
         String titulo = "imovel";
-        String nomeArquivo = "/img/" + titulo + idImovel + ".jpg";  
+        String r = Integer.valueOf((int) (Math.random() * 50)).toString();
+        String ctx = context.getContextPath();
+        String nomeArquivo =  "/img/" + titulo + idImovel + ".jpg";  
 		try {
 			//
 			InputStream in = AppUtil.class.getResourceAsStream(nomeArquivo);
@@ -122,9 +129,9 @@ public class AppUtil {
 		if (imovel != null && imovel.getFotoPrincipal() != null && imovel.getFotoPrincipal().length > 0 ){
         String idImovel =  imovel.getId().toString();
         String titulo = "imovel";
-        String nomeArquivo = "/img/" + titulo + idImovel + ".jpg";  
+        String r = Integer.valueOf((int) (Math.random() * 50)).toString();
+        String nomeArquivo = "/img/" + titulo + idImovel +".jpg";      
 		try {
-			//
 			InputStream in = AppUtil.class.getResourceAsStream(nomeArquivo);
 			File f = new File(nomeArquivo);
 			FileUtils.writeByteArrayToFile(f, imovel.getFotoPrincipal());			
@@ -145,13 +152,12 @@ public class AppUtil {
 	public static String carregaFotoPrincipalUsuario(Usuario usuario) {	
 		
 		if  ( usuario != null && usuario.getFotoPrincipal() != null ){
-			
 			String login = usuario.getLogin();
-	        String idUsuario = usuario.getId().toString();            
-	        String nomeArquivo = "/img/" + login + idUsuario + ".jpg";
-	        FileOutputStream out;
+	        String idUsuario = usuario.getId().toString();  
+	        String r = Integer.valueOf((int) (Math.random() * 50)).toString();
+	        String nomeArquivo =  "/img/" + login + idUsuario + ".jpg";
+	        FileOutputStream out;	      
 			try {
-				
 				InputStream in = AppUtil.class.getResourceAsStream(nomeArquivo);
 				File f = new File(nomeArquivo);
 				FileUtils.writeByteArrayToFile(f, usuario.getFotoPrincipal());

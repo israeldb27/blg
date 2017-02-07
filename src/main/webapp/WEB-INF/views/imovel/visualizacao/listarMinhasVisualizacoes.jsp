@@ -364,7 +364,7 @@ function retirarInteresse(id) {
 		                                <spring:message code="lbl.hint.tipo.agrupar" var="hintAgrupar"/>
 		                                     <form:form method="POST" id="modVisualizaImoveisVisitadosForm" modelAttribute="imovelvisualizadoForm" action="${urlImovelVisualizado}/modoVisualizar" >
 					                             <form:hidden  path="tipoLista" value="imoveisVisitados" />
-				                                     <form:select id="opcaoVisualizacaoImoveisVisitados" path="opcaoVisualizacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintAgrupar}">				                                         	
+				                                     <form:select id="opcaoVisualizacaoImoveisVisitados" path="opcaoVisualizacao" class="form-control" title="${hintAgrupar}">				                                         	
 				                                         <form:option value="" disabled="true"><spring:message code="lbl.agrupar.por"/></form:option>                                         
 				                                         <form:option value="agruparUsuarios" label="Agrupar Usuários"/>
 				                                         <form:option value="todos" label="Todos"/>
@@ -375,7 +375,7 @@ function retirarInteresse(id) {
 		                                <spring:message code="lbl.hint.tipo.ordenacao" var="hintOrdenar"/>
 		                                    <form:form method="POST" id="imoveisVisitadosForm" modelAttribute="imovelvisualizadoForm" action="${urlImovelVisualizado}/ordenar" >
 				              				  <form:hidden path="tipoLista" value="imoveisVisitados"/>									              
-						                        	<form:select id="opcaoOrdenacao2" path="opcaoOrdenacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintOrdenar}">                                
+						                        	<form:select id="opcaoOrdenacao2" path="opcaoOrdenacao" class="form-control" title="${hintOrdenar}">                                
 								                        <form:option value="" disabled="true"><spring:message code="lbl.opcao.ordenar"/></form:option>					                        
 								                        <form:option value="maiorDataVisita"> <spring:message code="lbl.opcao.ordenacao.visualizacao.mais.recente"/></form:option>
 														<form:option value="menorDataVisita"> <spring:message code="lbl.opcao.ordenacao.visualizacao.menos.recente"/></form:option>
@@ -391,7 +391,7 @@ function retirarInteresse(id) {
 		                                	<div class="pull-right" style="padding-right:20px;">
 			                                    <form:form method="POST" id="imoveisVisitadosPageForm" modelAttribute="imovelvisualizadoForm" action="${urlImovelVisualizado}/paginarFiltrar" >
 			                                     		<spring:message code="lbl.hint.opcao.paginacao" var="hintPaginacao"/>
-		                                                <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintPaginacao}">
+		                                                <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="form-control" title="${hintPaginacao}">
 		                                                    <form:option value="" disabled="true"><spring:message code="lbl.opcao.paginacao"/></form:option>
 		                                                    <form:options items="${imovelvisualizadoForm.listaPaginas}" itemValue="key" itemLabel="label"/>	                                                    	                                                    
 		                                              </form:select>

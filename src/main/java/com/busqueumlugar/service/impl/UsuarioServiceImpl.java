@@ -1,6 +1,10 @@
 package com.busqueumlugar.service.impl;
 
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -85,6 +89,7 @@ import com.busqueumlugar.form.NotaForm;
 import com.busqueumlugar.form.RelatorioForm;
 import com.busqueumlugar.form.ServicoForm;
 import com.busqueumlugar.form.UsuarioForm;
+import com.busqueumlugar.messaging.MessageSender;
 import com.busqueumlugar.model.*;
 import com.busqueumlugar.enumerador.AcaoNotificacaoEnum;
 import com.busqueumlugar.enumerador.ContatoStatusEnum;
@@ -205,6 +210,10 @@ public class UsuarioServiceImpl implements UsuarioService{
 	private ServletContext context;	
 	
 	
+	 @Autowired
+	 private  MessageSender messageSender;
+	
+	
 	@Override
 	public boolean validarLoginPassword(UsuarioForm form) {
 		Usuario usuario = dao.findUsuarioByCampo(form, "loginPassword");
@@ -257,7 +266,8 @@ public class UsuarioServiceImpl implements UsuarioService{
         if ( usuario != null) {            
             //usuario.setDataUltimoAcesso(new Date());
             dao.save(usuario);
-            BeanUtils.copyProperties(usuario, usuarioForm);
+            usuario.setImagemUsuario(this.carregaFotoPrincipalUsuario(usuario));
+            BeanUtils.copyProperties(usuario, usuarioForm);            
         }                
         return usuarioForm;
 	}
@@ -988,6 +998,7 @@ public class UsuarioServiceImpl implements UsuarioService{
                 listaUsuario = preferenciaLocalidadeDao.findPreferencialocalidadeSemDuplicidadeUsuario(frm);
                 if (! CollectionUtils.isEmpty(listaUsuario)){
                     for (Usuario user : listaUsuario){
+                    	user.setImagemUsuario(this.carregaFotoPrincipalUsuario(user));
                         user.setIsContato(contatoService.checarTipoContato(user.getId(), idUsuarioSessao));
                         if ( user.getIsContato().equals("N")) {
                         	user.setIsSeguindo(seguidorService.checarUsuarioEstaSeguindo(idUsuarioSessao, user.getId()));                        	
@@ -1016,6 +1027,7 @@ public class UsuarioServiceImpl implements UsuarioService{
             if ( ! CollectionUtils.isEmpty(listaUsuario)){
             	if (! usuarioSessao.getPerfil().equals(PerfilUsuarioOpcaoEnum.ADMIN.getRotulo())){
             		for (Usuario user :  listaUsuario ){
+            			user.setImagemUsuario(this.carregaFotoPrincipalUsuario(user));
         			    user.setIsContato(contatoService.checarTipoContato(user.getId(), idUsuarioSessao));
                         if ( user.getIsContato().equals("N")) {
                         	user.setIsSeguindo(seguidorService.checarUsuarioEstaSeguindo(idUsuarioSessao, user.getId()));                        	
@@ -2099,7 +2111,8 @@ public class UsuarioServiceImpl implements UsuarioService{
 	public boolean validarBuscarUsuarios(UsuarioForm form, BindingResult result) {
 		Usuario usuario = new Usuario();
 		usuario.setLogin("Israel Teste");
-	
+		// messageSender.sendMessage(usuario);
+
 		boolean possuiErro = false;
 		if (! StringUtils.isEmpty(form.getOpcaoTipoBuscaUsuarios())){
 			
@@ -2636,7 +2649,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		 buf.append(" <div class='timeline-item last-timeline'> ");
 		 buf.append(" 		<div class='timeline-badge'>  ");  
 		 buf.append("			<a href='" + context.getContextPath() + "/usuario/detalhesUsuario/"+ nota.getUsuario().getId() +"' > ");
-		 buf.append("    		<img class='timeline-badge-userpic' src='" + context.getContextPath() + nota.getUsuario().getImagemArquivo() + "' style='width: 72px; height: 72px; ' />  ");
+		 buf.append("    		<img class='timeline-badge-userpic' src='" + context.getContextPath() + this.carregaFotoPrincipalUsuario(nota.getUsuario()) + "' style='width: 72px; height: 72px; ' />  ");
 		 buf.append(" 			</a>");
 		 buf.append("		</div>  ");
 		 buf.append("	<div class='timeline-body'>   ");
@@ -2665,10 +2678,10 @@ public class UsuarioServiceImpl implements UsuarioService{
 		 buf.append("              <div class='pull-left'> ");
 		 buf.append("                     <span class='fa fa-stack fa-2x'> ");		 
 	     if ( nota.getAcao().equals(NotaAcaoEnum.PREFERENCIA.getRotulo()) || nota.getAcao().equals(NotaAcaoEnum.USUARIO.getRotulo()) || nota.getAcao().equals(NotaAcaoEnum.PESSOAL.getRotulo()) ) {	 
-			 buf.append("                       <img class='img-circle img-bordered-success' src='" + context.getContextPath() + nota.getUsuario().getImagemArquivo()  +  "' style='width: 60px; height: 60px; ' alt='admin'/> ");
+			 buf.append("                       <img class='img-circle img-bordered-success' src='" + context.getContextPath() + this.carregaFotoPrincipalUsuario(nota.getUsuario())   +  "' style='width: 60px; height: 60px; ' alt='admin'/> ");
 		 }
 		 else if ( nota.getAcao().equals(NotaAcaoEnum.IMOVEL.getRotulo()) || nota.getAcao().equals(NotaAcaoEnum.PARCERIA.getRotulo()) ) {
-			 buf.append("                       <img src='" + context.getContextPath() + nota.getImovel().getImagemArquivo()  +  "' style='width: 60px; height: 60px; ' alt='admin'/> ");
+			 buf.append("                       <img src='" + context.getContextPath() + imovelService.carregaFotoPrincipalImovel(nota.getImovel()) +  "' style='width: 60px; height: 60px; ' alt='admin'/> ");
 		 }		 						                                                                                           	                              
 		 buf.append("                     </span>  ");
 		 buf.append("              </div><!-- /.pull-left -->  ");
@@ -2720,7 +2733,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		   buf.append("<div class='timeline-item last-timeline'>");
 		   buf.append("   <div class='timeline-badge'> ");
 		   buf.append("			<a href='" + context.getContextPath() + "/usuario/detalhesUsuario/"+ imovel.getUsuario().getId() +"' > ");
-		   buf.append("    			<img class='timeline-badge-userpic' src='" + context.getContextPath() + imovel.getUsuario().getImagemArquivo() + "' style='width: 72px; height: 72px; ' />  ");
+		   buf.append("    			<img class='timeline-badge-userpic' src='" + context.getContextPath() + this.carregaFotoPrincipalUsuario(imovel.getUsuario()) + "' style='width: 72px; height: 72px; ' />  ");
 		   buf.append(" 		</a>");
 		   buf.append("   </div> ");
 		   buf.append("   <div class='timeline-body'> ");
@@ -2743,7 +2756,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		   buf.append("                                        <div class='media-left'> ");
 		   buf.append("                                            <a href='" + context.getContextPath() + "/imovel/detalhesImovel/" +  imovel.getId() + "' > ");
 		   buf.append("                                               <span class='meta-provider' style='font-size:13px;'>"+ imovel.getAcaoFmt() + " <br><strong>  R$ " + AppUtil.formataMoedaString(imovel.getValorImovel()) + " </strong></span><br> ");
-		   buf.append("                                                <img src='" + context.getContextPath() + imovel.getImagemArquivo() + "' class='img-responsive' style='width: 230px; height: 290px; alt='admin'/> ");
+		   buf.append("                                                <img src='" + context.getContextPath() + imovelService.carregaFotoPrincipalImovel(imovel) + "' class='img-responsive' style='width: 230px; height: 290px; alt='admin'/> ");
 		   buf.append("                                            </a> ");
 		   buf.append("                                        </div> ");
 		   buf.append("                              <div class='media-body'> ");
@@ -2817,7 +2830,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		buf.append("	  <div class='timeline-item last-timeline'> ");
 		buf.append("          <div class='timeline-badge'> ");
 		buf.append("                  <a href='"+  context.getContextPath() + "/usuario/detalhesUsuario/"+ usuario.getId()  + "' >");
-	    buf.append("				  		<img class='timeline-badge-userpic' src='"+ context.getContextPath() + usuario.getImagemArquivo() +"' style='width: 90px; height: 90px; ' /> &nbsp; ");
+	    buf.append("				  		<img class='timeline-badge-userpic' src='"+ context.getContextPath() + this.carregaFotoPrincipalUsuario(usuario) +"' style='width: 90px; height: 90px; ' /> &nbsp; ");
 	    buf.append("				  </a> ");                                                          
 	    buf.append("      	  </div> ");
 	    buf.append("      <div class='timeline-body'> ");    
@@ -2926,7 +2939,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		buf.append("	  <div class='timeline-item last-timeline'> ");
 		buf.append("          <div class='timeline-badge'> ");
 		buf.append("                  <a href='"+  context.getContextPath() + "/usuario/detalhesUsuario/"+ pref.getUsuario().getId()  + "' >");
-	    buf.append("				  		<img class='timeline-badge-userpic' src='"+ context.getContextPath() + pref.getUsuario().getImagemArquivo() +"' style='width: 90px; height: 90px; ' /> &nbsp; ");
+	    buf.append("				  		<img class='timeline-badge-userpic' src='"+ context.getContextPath() + this.carregaFotoPrincipalUsuario(pref.getUsuario()) +"' style='width: 90px; height: 90px; ' /> &nbsp; ");
 	    buf.append("				  </a> ");                                                          
 	    buf.append("      	  </div> ");
 	    buf.append("      <div class='timeline-body'> ");    
@@ -3305,5 +3318,60 @@ public class UsuarioServiceImpl implements UsuarioService{
         }
         return listaUsuarioFinal;
 	}	
+	
+   @Override
+   public String carregaFotoPrincipalUsuario(Usuario usuario) {	
+		
+		if  ( usuario != null && usuario.getFotoPrincipal() != null ){
+			
+			String login = usuario.getLogin();
+	        String idUsuario = usuario.getId().toString();            
+	        String nomeArquivo = "/img/" + login + idUsuario + ".jpg";
+			
+			try {
+				String arquivo = context.getRealPath(nomeArquivo);
+	            FileOutputStream out;
+				out = new FileOutputStream(arquivo);
+				out.write(usuario.getFotoPrincipal());
+	            File f = new File(arquivo);
+	            InputStream in = new FileInputStream(f);                            
+	            return nomeArquivo;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+		else
+			return null;
+	}
+
+
+    @Override
+	public String carregaFotoPrincipalUsuario(UsuarioForm usuario) {	
+		
+		if  ( usuario != null && usuario.getFotoPrincipal() != null ){
+			
+			String login = usuario.getLogin();
+	        String idUsuario = usuario.getId().toString();            
+	        String nomeArquivo = "/img/" + login + idUsuario + ".jpg";
+			
+			try {
+				String arquivo = context.getRealPath(nomeArquivo);
+	            FileOutputStream out;
+				out = new FileOutputStream(arquivo);
+				out.write(usuario.getFotoPrincipal());
+	            File f = new File(arquivo);
+	            InputStream in = new FileInputStream(f);                            
+	            return nomeArquivo;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+		else
+			return null;
+	}
 
 }

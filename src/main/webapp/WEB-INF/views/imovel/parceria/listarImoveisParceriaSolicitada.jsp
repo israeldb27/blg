@@ -356,7 +356,7 @@
 	                                <div class="pull-right" >
 	                                		<spring:message code="lbl.hint.tipo.agrupar" var="hintAgrupar"/>
 	                                      	<form:form method="POST" id="modVisualizaListaParceriaForm" modelAttribute="parceriaForm" action="${urlParceria}/modoVisualizarParceria" >		                             		
-			                                     <form:select id="opcaoVisualizacaoListaParceria" path="opcaoVisualizacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintAgrupar}">
+			                                     <form:select id="opcaoVisualizacaoListaParceria" path="opcaoVisualizacao" class="form-control" title="${hintAgrupar}">
 			                                         <form:option value="" disabled="true"><spring:message code="lbl.agrupar.por"/></form:option>                      											
 													 <form:option value="agruparUsuarios" ><spring:message code="lbl.agrupar.usuarios"/></form:option>												 
 													 <form:option value="todos" ><spring:message code="lbl.agrupar.todos"/></form:option> 
@@ -367,7 +367,7 @@
 	                                			<spring:message code="lbl.hint.tipo.ordenacao" var="hintOrdenar"/>
 	                                    		<form:form method="POST" id="parceriaMinhasSolForm" modelAttribute="parceriaForm" action="${urlParceria}/ordenarParceria" >
 														  <form:hidden  path="tipoLista" value="parceriaSolRecebida" />
-										                  <form:select id="opcaoOrdenacao3" path="opcaoOrdenacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintOrdenar}">                                 
+										                  <form:select id="opcaoOrdenacao3" path="opcaoOrdenacao" class="form-control" title="${hintOrdenar}">                                 
 										                        <form:option value="" disabled="true"><spring:message code="lbl.opcao.ordenar"/></form:option>             
 																 <form:option value="maiorDataSolicitacao" ><spring:message code="lbl.opcao.ordenacao.imovel.sol.mais.recente"/></form:option>
 																 <form:option value="menorDataSolicitacao" ><spring:message code="lbl.opcao.ordenacao.imovel.sol.menos.recente"/></form:option>
@@ -383,7 +383,7 @@
 		                                	<div class="pull-right" style="padding-right:20px;">
 			                                    <form:form method="POST" id="parceriaPageForm" modelAttribute="parceriaForm" action="${urlImovel}/filtrarParceria" >
 			                                     	 <spring:message code="lbl.hint.opcao.paginacao" var="hintPaginacao"/>
-		                                             <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintPaginacao}">
+		                                             <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="form-control" title="${hintPaginacao}">
 		                                                 <form:option value="" disabled="true"><spring:message code="lbl.opcao.paginacao"/></form:option>
 		                                                 <form:options items="${parceriaForm.listaPaginas}" itemValue="key" itemLabel="label"/>	                                                    	                                                    
 		                                             </form:select>

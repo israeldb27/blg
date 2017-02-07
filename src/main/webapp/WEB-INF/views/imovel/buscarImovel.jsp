@@ -409,7 +409,7 @@
 	                                <div class="pull-right" >
 	                                     <form:form method="POST" id="imovelBuscarImoveisForm" modelAttribute="imovelForm" action="${urlImovel}/ordenaBuscarImoveis" >
 	                                     	<spring:message code="lbl.hint.tipo.ordenacao" var="hintOrdenacao"/>
-	                                                <form:select id="opcaoOrdenacao" path="opcaoOrdenacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintOrdenacao}">
+	                                                <form:select id="opcaoOrdenacao" path="opcaoOrdenacao" class="form-control" title="${hintOrdenacao}">
 	                                                    <form:option value="" disabled="true"><spring:message code="lbl.opcao.ordenar"/></form:option>
 	                                                    <form:option value="maiorDataCadastrado" ><spring:message code="lbl.opcao.ordenacao.imovel.mais.recente"/></form:option>
 	                                                    <form:option value="menorDataCadastrado" ><spring:message code="lbl.opcao.ordenacao.imovel.menos.recente"/></form:option>
@@ -433,7 +433,7 @@
 	                                	<div class="pull-right" style="padding-right:10px;">
 		                                    <form:form method="POST" id="imovelBuscarImoveisPageForm" modelAttribute="imovelForm" action="${urlImovel}/paginarBuscarImovel" >
 		                                     	 <spring:message code="lbl.hint.opcao.paginacao" var="hintPaginacao"/>
-	                                             <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintPaginacao}">
+	                                             <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="form-control" title="${hintPaginacao}">
 	                                                 <form:option value="" disabled="true"><spring:message code="lbl.opcao.paginacao"/></form:option>
 	                                                 <form:options items="${imovelForm.listaPaginas}" itemValue="key" itemLabel="label"/>	                                                    	                                                    
 	                                             </form:select>
@@ -452,7 +452,7 @@
 	                                                   <span class="meta-provider ${imovel.classePorAcao}" style="font-size:19px;">${imovel.acaoFmt} <br>
 	                                                   							<strong>  R$<fmt:formatNumber value="${imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
 	                                                   </span><br>                                                   
-	                                                    <img src="${context}${imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 275px; alt="admin"/>
+	                                                    <img src="${context}${imovel.imagemImovel}" class="img-responsive" style="width: 260px; height: 275px; alt="admin"/>
 	                                                </a>
 	                                            </div>
 	                                            <div class="media-body">

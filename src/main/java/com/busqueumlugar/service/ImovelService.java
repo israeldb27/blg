@@ -146,5 +146,11 @@ public interface ImovelService {
 	List<Imovel> recuperarImovelPorIdsUsuarioPorPosicao(Long idUsuario, int index);
 
 	String validarPrepararImovel(Long idImovel, UsuarioForm user);
+	
+	String carregaFotoPrincipalImovel(Imovel imovel) ;
+	 
+	String carregaFotoPrincipalImovelByIdImovel(Long idPrincipalImovel);
+	
+	String pathArquivo(String arquivo);
 		
 }

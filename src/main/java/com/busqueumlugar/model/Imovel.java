@@ -12,25 +12,26 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
 import javax.persistence.Column;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.servlet.ServletContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.busqueumlugar.enumerador.AcaoImovelEnum;
 import com.busqueumlugar.enumerador.StatusImovelEnum;
 import com.busqueumlugar.enumerador.TipoImovelEnum;
+import com.busqueumlugar.service.EstadosService;
+import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.DateUtil;
 
 @Entity
 @Table(name = "imovel")
-public class Imovel  implements Serializable{
+public class Imovel extends BaseEntity implements Serializable{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8060663211437968571L;
 
 	@Id
@@ -179,10 +180,7 @@ public class Imovel  implements Serializable{
         
     @Column(name = "acessoVisualizacao")
     private String acessoVisualizacao;  // {T - todos, N - ninguem, C - apenas os meus contatos}
-  
-    @Transient
-    private String imagemArquivo = "";   
-    
+      
     @Transient
     private Date dataInteresse;
     
@@ -257,7 +255,8 @@ public class Imovel  implements Serializable{
 	
 	@Transient
 	private String perfilUsuario = "";
-    
+
+  
     
     public double getValorMetroQuadrado() {
 		return (this.valorImovel.doubleValue() / this.area );
@@ -535,19 +534,13 @@ public class Imovel  implements Serializable{
     /**
      * @return the imagemArquivo
      */
-    public String getImagemArquivo() {
+   /* public String getImagemArquivo() {
     	if ( this != null && this.id != null)
     		return AppUtil.carregaFotoPrincipalImovel(this);
     	else
     		return imagemArquivo;
-    }
-
-    /**
-     * @param imagemArquivo the imagemArquivo to set
-     */
-    public void setImagemArquivo(String imagemArquivo) {
-    	this.imagemArquivo = imagemArquivo;
-    }
+    }*/
+    
 
     /**
      * @return the autorizacaoOutroUsuario

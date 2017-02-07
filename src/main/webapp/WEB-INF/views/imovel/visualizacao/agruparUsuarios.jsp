@@ -163,7 +163,7 @@ function adicionarInteresse(id) {
 				                            </div>
 			                                <div class="pull-right" >
 			                                      		<form:form method="POST" id="modVisualizaImoveisVisitadosForm" modelAttribute="imovelvisualizadoForm" action="${urlImovelVisualizado}/modoVisualizar" >					                             
-							                                     <form:select id="opcaoVisualizacaoImoveisVisitados" path="opcaoVisualizacao" class="chosen-select" tabindex="-1" style="display: none;">				                                         	
+							                                     <form:select id="opcaoVisualizacaoImoveisVisitados" path="opcaoVisualizacao" class="form-control">				                                         	
 							                                         <form:option value="" disabled="true"><spring:message code="lbl.agrupar.por"/></form:option>
 							                                         <c:if test="${imovelvisualizadoForm.tipoLista == 'meusImoveisVisitados'}">
 							                                         	<form:option value="agruparImoveis"><spring:message code="lbl.agrupar.imoveis"/></form:option>
@@ -175,7 +175,7 @@ function adicionarInteresse(id) {
 			                                </div><!-- /.pull-right -->
 			                                <div class="pull-right" style="padding-right:10px;">
 			                                    		<form:form method="POST" id="imoveisVisitadosForm" modelAttribute="imovelvisualizadoForm" action="${urlImovelVisualizado}/ordenarAgrupar" >         		      	
-									                        	<form:select id="opcaoOrdenacao2" path="opcaoOrdenacao" class="chosen-select" tabindex="-1" style="display: none;">                                
+									                        	<form:select id="opcaoOrdenacao2" path="opcaoOrdenacao" class="form-control">                                
 											                        <form:option value="" disabled="true"><spring:message code="lbl.opcao.ordenar"/></form:option>
 											                        <form:option value="maiorDataCadastrado" ><spring:message code="lbl.opcao.ordenacao.usuario.cad.mais.recente"/></form:option>
 																	<form:option value="menorDataCadastrado" ><spring:message code="lbl.opcao.ordenacao.usuario.cad.menos.recente"/></form:option>
@@ -189,7 +189,7 @@ function adicionarInteresse(id) {
 			                                	<div class="pull-right" style="padding-right:20px;">
 				                                    <form:form method="POST" id="imoveisVisitadosPageForm" modelAttribute="imovelvisualizadoForm" action="${urlImovelVisualizado}/filtrarAgruparUsuarios" >
 				                                     		<spring:message code="lbl.hint.opcao.paginacao" var="hintPaginacao"/>
-			                                                <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintPaginacao}">
+			                                                <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="form-control" title="${hintPaginacao}">
 			                                                    <form:option value="" disabled="true"><spring:message code="lbl.opcao.paginacao"/></form:option>
 			                                                    <form:options items="${imovelvisualizadoForm.listaPaginas}" itemValue="key" itemLabel="label"/>	                                                    	                                                    
 			                                              </form:select>

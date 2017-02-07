@@ -27,10 +27,12 @@ import com.busqueumlugar.form.AdministracaoForm;
 import com.busqueumlugar.form.ImovelForm;
 import com.busqueumlugar.form.ImovelvisualizadoForm;
 import com.busqueumlugar.form.RelatorioForm;
+import com.busqueumlugar.messaging.MessageSender;
 import com.busqueumlugar.model.EmailImovel;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Imovelvisualizado;
 import com.busqueumlugar.model.Usuario;
+import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.ImovelvisualizadoService;
 import com.busqueumlugar.util.DateUtil;
 
@@ -46,6 +48,9 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 	private ImovelDao imovelDao;
 	
 	@Autowired
+	private ImovelService imovelService;
+	
+	@Autowired
 	private UsuarioDao usuarioDao;
 	
 	@Autowired
@@ -56,6 +61,10 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 	
 	@Autowired
 	private RecomendacaoDao recomendacaoDao;
+	
+	@Autowired
+	private  MessageSender messageSender;
+
 	
 	
 	public Imovelvisualizado recuperarImovelvisitadoPorId(Long id) {
@@ -170,7 +179,14 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 
 	
 	public List<Imovelvisualizado> recuperarUsuariosVisitantesPorImovel(Long idUsuario, ImovelvisualizadoForm form) {
-		return dao.findImoveisvisitadosByIdDonoImovel(idUsuario, form);
+		List<Imovelvisualizado> lista = dao.findImoveisvisitadosByIdDonoImovel(idUsuario, form);
+		List<Imovelvisualizado> listaFinal = new ArrayList<Imovelvisualizado>();
+		for (Imovelvisualizado imovelvisualizado : lista){
+			imovelvisualizado.setImagemImovel(imovelService.carregaFotoPrincipalImovel(imovelvisualizado.getImovel()));
+			listaFinal.add(imovelvisualizado);			
+		}
+		
+		return listaFinal;
 	}
 
 	
@@ -291,7 +307,13 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 
 	@Override
 	public List<Imovelvisualizado> recuperarImoveisVisitadorPorIdUsuario(Long idUsuario, ImovelvisualizadoForm form) {
-		return dao.findImoveisvisitadosByIdUsuario(idUsuario, form);
+		List<Imovelvisualizado> lista = dao.findImoveisvisitadosByIdUsuario(idUsuario, form);
+		List<Imovelvisualizado> listaFinal = new ArrayList<Imovelvisualizado>();
+		for (Imovelvisualizado imovelvisualizado : lista){
+			imovelvisualizado.setImagemImovel(imovelService.carregaFotoPrincipalImovel(imovelvisualizado.getImovel()));
+			listaFinal.add(imovelvisualizado);			
+		}		
+		return listaFinal;
 	}
 
 

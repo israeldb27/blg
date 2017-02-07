@@ -321,7 +321,7 @@ function desmarcarCheck(id) {
 	                                	<spring:message code="lbl.hint.tipo.agrupar" var="hintAgrupar"/>
 	                                     <form:form method="POST" id="modVisualizaImoveisVisitadosForm" modelAttribute="imovelvisualizadoForm" action="${urlImovelVisualizado}/modoVisualizar" >
 				                             <form:hidden  path="tipoLista" value="meusImoveisVisitados" />
-			                                     <form:select id="opcaoVisualizacaoImoveisVisitados" path="opcaoVisualizacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintAgrupar}">
+			                                     <form:select id="opcaoVisualizacaoImoveisVisitados" path="opcaoVisualizacao" class="form-control" title="${hintAgrupar}">
 			                                         <form:option value="" disabled="true"><spring:message code="lbl.agrupar.por"/></form:option>
 			                                         <form:option value="agruparUsuarios"><spring:message code="lbl.agrupar.usuarios"/></form:option>
 			                                         <form:option value="agruparImoveis"><spring:message code="lbl.agrupar.imoveis"/></form:option>				                                         
@@ -333,7 +333,7 @@ function desmarcarCheck(id) {
 	                                	<spring:message code="lbl.hint.tipo.ordenacao" var="hintOrdenar"/>
 	                                    <form:form method="POST" id="imoveisVisitadosForm" modelAttribute="imovelvisualizadoForm" action="${urlImovelVisualizado}/ordenar" >
 			              				  <form:hidden path="tipoLista" value="meusImoveisVisitados"/>									              
-					                        	<form:select id="opcaoOrdenacao2" path="opcaoOrdenacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintOrdenar}">                                
+					                        	<form:select id="opcaoOrdenacao2" path="opcaoOrdenacao" class="form-control" title="${hintOrdenar}">                                
 							                        <form:option value="" disabled="true"><spring:message code="lbl.opcao.ordenar"/></form:option>					                        
 							                        <form:option value="maiorDataVisita"> <spring:message code="lbl.opcao.ordenacao.visualizacao.mais.recente"/></form:option>
 													<form:option value="menorDataVisita"> <spring:message code="lbl.opcao.ordenacao.visualizacao.menos.recente"/></form:option>
@@ -349,7 +349,7 @@ function desmarcarCheck(id) {
 	                                	<div class="pull-right" style="padding-right:20px;">
 		                                    <form:form method="POST" id="imoveisVisitadosPageForm" modelAttribute="imovelvisualizadoForm" action="${urlImovelVisualizado}/paginarFiltrar" >
 		                                     		<spring:message code="lbl.hint.opcao.paginacao" var="hintPaginacao"/>
-	                                                <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintPaginacao}">
+	                                                <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="form-control" title="${hintPaginacao}">
 	                                                    <form:option value="" disabled="true"><spring:message code="lbl.opcao.paginacao"/></form:option>
 	                                                    <form:options items="${imovelvisualizadoForm.listaPaginas}" itemValue="key" itemLabel="label"/>	                                                    	                                                    
 	                                              </form:select>
@@ -367,7 +367,7 @@ function desmarcarCheck(id) {
 	                                                   <span class="meta-provider" style="font-size:19px;">${imovelVisualiza.imovel.acaoFmt} <br>
 	                                                   							<strong>  R$<fmt:formatNumber value="${imovelVisualiza.imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
 	                                                   </span><br>                                                   
-	                                                    <img src="${context}${imovelVisualiza.imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 240px; alt="admin"/>
+	                                                    <img src="${context}${imovelVisualiza.imagemArquivo}" class="img-responsive" style="width: 260px; height: 240px; alt="admin"/>
 	                                                </a>
 	                                            </div>
 	                                            <div class="media-body">

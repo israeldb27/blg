@@ -46,7 +46,7 @@
                 <div class="sidebar-content">
                     <div class="media">
                         <a class="pull-left has-notif avatar" href="${urlUsuario}/detalhesUsuario/${usuario.id}">
-                            <img src="${context}${usuario.imagemArquivo}" style="width: 50px; height: 50px; " alt="admin"/>
+                            <img src="${context}${usuario.imagemUsuario}" style="width: 50px; height: 50px; " alt="admin"/>
                             <i class="online"></i>                            
                         </a>
                         <div class="media-body">

@@ -17,7 +17,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "nota")
-public class Nota implements Serializable {
+public class Nota extends BaseEntity implements Serializable {
 	
     private static final long serialVersionUID = 1L;
     

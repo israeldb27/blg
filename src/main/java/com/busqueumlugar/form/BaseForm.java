@@ -6,6 +6,8 @@ import com.busqueumlugar.util.Select;
 
 public class BaseForm {
 	
+	private String imagemImovel = "";
+	private String imagemUsuario = "";
 	private int pageNumber = 0; // campo usado para realizar paginacao
 	private String opcaoPaginacao = "";
 	private int quantRegistros = 0;
@@ -53,6 +55,18 @@ public class BaseForm {
 	}
 	public void setVisible(boolean isVisible) {
 		this.isVisible = isVisible;
+	}
+	public String getImagemImovel() {
+		return imagemImovel;
+	}
+	public void setImagemImovel(String imagemImovel) {
+		this.imagemImovel = imagemImovel;
+	}
+	public String getImagemUsuario() {
+		return imagemUsuario;
+	}
+	public void setImagemUsuario(String imagemUsuario) {
+		this.imagemUsuario = imagemUsuario;
 	}
 
 }

@@ -607,7 +607,7 @@
                                 <div class="pull-right" >
                                 	  <spring:message code="lbl.hint.tipo.ordenacao" var="hintOrdenar"/>	
                                       <form:form method="POST" id="imoveisPerfilUsuario" modelAttribute="imovelForm" action="${urlImovel}/ordenarImoveisPerfilUsuario" >							                        	
-					                        	<form:select id="opcaoOrdenacao" path="opcaoOrdenacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintOrdenar}">                                
+					                        	<form:select id="opcaoOrdenacao" path="opcaoOrdenacao" class="form-control" title="${hintOrdenar}">                                
 							                        <form:option value="" disabled="true"><spring:message code="lbl.opcao.ordenar"/></form:option>                      
 							                        <form:option value="maiorDataCadastrado" ><spring:message code="lbl.opcao.ordenacao.imovel.mais.recente"/></form:option>
 													<form:option value="menorDataCadastrado" ><spring:message code="lbl.opcao.ordenacao.imovel.mais.recente"/></form:option>
@@ -629,7 +629,7 @@
 	                                	<div class="pull-right" style="padding-right:20px;">
 		                                    <form:form method="POST" id="meusImoveisPageForm" modelAttribute="imovelForm" action="${urlImovel}/filtrarImoveisPerfilUsuario" >
 		                                     	 <spring:message code="lbl.hint.opcao.paginacao" var="hintPaginacao"/>
-	                                             <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintPaginacao}">
+	                                             <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="form-control" title="${hintPaginacao}">
 	                                                 <form:option value="" disabled="true"><spring:message code="lbl.opcao.paginacao"/></form:option>
 	                                                 <form:options items="${imovelForm.listaPaginas}" itemValue="key" itemLabel="label"/>	                                                    	                                                    
 	                                             </form:select>

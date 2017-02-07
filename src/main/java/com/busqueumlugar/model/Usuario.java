@@ -21,7 +21,7 @@ import com.mysql.jdbc.StringUtils;
 
 @Entity
 @Table(name = "usuario")
-public class Usuario implements Serializable {
+public class Usuario extends BaseEntity implements Serializable {
 	
 	/**
 	 * 
@@ -160,9 +160,6 @@ public class Usuario implements Serializable {
 	
 	@Column(name = "motivoSuspensao")
     private String motivoSuspensao; 
-    
-    @Transient
-    private String imagemArquivo = "";
     
     @Transient
     private int quantNegociacoesSucesso;
@@ -603,17 +600,6 @@ public class Usuario implements Serializable {
 
 	public void setHabilitaEnvioMensagens(String habilitaEnvioMensagens) {
 		this.habilitaEnvioMensagens = habilitaEnvioMensagens;
-	}
-
-	public String getImagemArquivo() {
-		if ( this != null && this.id != null)
-			return AppUtil.carregaFotoPrincipalUsuario(this);
-		else
-			return imagemArquivo;
-	}
-
-	public void setImagemArquivo(String imagemArquivo) {
-		this.imagemArquivo = imagemArquivo;
 	}
 
 	public int getQuantNegociacoesSucesso() {

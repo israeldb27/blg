@@ -369,7 +369,7 @@ function cancelarSeguirUsuario(id) {
 	                                        <div id="idUsuarioBusca" class="media rounded shadow no-overflow">
 	                                            <div class="media-left">
 	                                                <a href="${urlUsuario}/detalhesUsuario/${usuarioBusca.id}" >                                                                                                     
-	                                                    <img src="${context}${usuarioBusca.imagemArquivo}" class="img-responsive" style="width: 260px; height: 225px; alt="admin"/>
+	                                                    <img src="${context}${usuarioBusca.imagemUsuario}" class="img-responsive" style="width: 260px; height: 225px; alt="admin"/>
 	                                                </a>
 	                                            </div>
 	                                            <div class="media-body">

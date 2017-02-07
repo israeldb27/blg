@@ -64,7 +64,7 @@ public class ImovelForm extends BaseForm{
     private String perfilUsuario = "";
     
     private String descricaoFoto = "";    
-    private String imagemArquivo = "";    
+   // private String imagemArquivo = "";    
     private String entradaImagemArquivo;
 	private String mensagemRetorno = "";    
     private int quantMaxFotos;
@@ -711,23 +711,6 @@ public class ImovelForm extends BaseForm{
      */
     public void setDescricaoFoto(String descricaoFoto) {
         this.descricaoFoto = descricaoFoto;
-    }
-
-    /**
-     * @return the imagemArquivo
-     */
-    public String getImagemArquivo() {
-    	if ( this != null && this.id != null)
-    		return AppUtil.carregaFotoPrincipalImovel(this);
-    	else
-    		return imagemArquivo;
-    }
-
-    /**
-     * @param imagemArquivo the imagemArquivo to set
-     */
-    public void setImagemArquivo(String imagemArquivo) {
-    	this.imagemArquivo = imagemArquivo;
     }
 
     /**

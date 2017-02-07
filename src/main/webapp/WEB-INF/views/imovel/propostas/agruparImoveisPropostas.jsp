@@ -317,7 +317,7 @@ function recuperaBairros(){
 	                                <div class="pull-right" >
 	                                		<spring:message code="lbl.hint.tipo.agrupar" var="hintAgrupar"/>
 	                                       <form:form method="POST" id="modoVisualizarPropostasForm" modelAttribute="imovelPropostaForm" action="${urlImovelPropostas}/modoVisualizar"  >						              		  	
-						                    	<form:select id="opcaoVisualizacaoPropostas" path="opcaoVisualizacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintAgrupar}">                                
+						                    	<form:select id="opcaoVisualizacaoPropostas" path="opcaoVisualizacao" class="form-control" title="${hintAgrupar}">                                
 							                         <form:option value="" disabled="true"><spring:message code="lbl.agrupar.por"/></form:option>                      											
 													  <form:option value="agruparImoveis" ><spring:message code="lbl.agrupar.imoveis"/></form:option>   
 													  <form:option value="agruparUsuarios" ><spring:message code="lbl.agrupar.usuarios"/></form:option>   
@@ -328,7 +328,7 @@ function recuperaBairros(){
 	                                <div class="pull-right" style="padding-right:10px;">
 	                                	 <spring:message code="lbl.hint.tipo.ordenacao" var="hintOrdenar"/>
 		                                 <form:form method="POST" id="propostasForm" modelAttribute="imovelPropostaForm" action="${urlImovelPropostas}/ordenarAgrupar" >						              		   								               
-					                        	<form:select id="opcaoOrdenacao2" path="opcaoOrdenacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintOrdenar}">  
+					                        	<form:select id="opcaoOrdenacao2" path="opcaoOrdenacao" class="form-control" title="${hintOrdenar}">  
 													<form:option value="" disabled="true"><spring:message code="lbl.opcao.ordenar"/></form:option>
 							                        <form:option value="maiorDataCadastrado" ><spring:message code="lbl.opcao.ordenacao.imovel.mais.recente"/></form:option>
 													<form:option value="menorDataCadastrado" ><spring:message code="lbl.opcao.ordenacao.imovel.menos.recente"/></form:option>
@@ -343,7 +343,7 @@ function recuperaBairros(){
 		                                <div class="pull-right" style="padding-right:20px;">
 		                                    <form:form method="POST" id="propostasPageForm" modelAttribute="imovelPropostaForm" action="${urlImovelPropostas}/filtrarAgruparImoveis" >
 		                                     		<spring:message code="lbl.hint.opcao.paginacao" var="hintPaginacao"/>
-		                                               <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintPaginacao}">
+		                                               <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="form-control" title="${hintPaginacao}">
 		                                                   <form:option value="" disabled="true"><spring:message code="lbl.opcao.paginacao"/></form:option>
 		                                                   <form:options items="${imovelPropostaForm.listaPaginas}" itemValue="key" itemLabel="label"/>	                                                    	                                                    
 		                                             </form:select>
