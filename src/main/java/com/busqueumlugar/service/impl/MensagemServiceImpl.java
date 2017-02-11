@@ -179,12 +179,12 @@ public class MensagemServiceImpl implements MensagemService {
             if ( msg.getUsuarioDe().getId().longValue() == idUsuario.longValue()){
                 msgForm.setLoginExibicao(msg.getUsuarioPara().getNome());
                 msgForm.setIdUsuarioExibicao((msg.getUsuarioPara().getId()));
-                msgForm.setImagemUsuario(msg.getUsuarioPara().getImagemUsuario());
+                msgForm.setImagemUsuario(msg.getUsuarioPara().getImagemArquivo());
             }
             else if ( msg.getUsuarioPara().getId() == idUsuario.longValue()){
                 msgForm.setLoginExibicao(msg.getUsuarioDe().getNome());
                 msgForm.setIdUsuarioExibicao((msg.getUsuarioDe().getId()));
-                msgForm.setImagemUsuario(msg.getUsuarioDe().getImagemUsuario());
+                msgForm.setImagemUsuario(msg.getUsuarioDe().getImagemArquivo());
             }
          
             listaFinal.add(msgForm);
@@ -213,12 +213,12 @@ public class MensagemServiceImpl implements MensagemService {
             if ( msg.getUsuarioDe().getId().longValue() == idUsuario.longValue()){
                 msgForm.setLoginExibicao(msg.getUsuarioPara().getNome());
                 msgForm.setIdUsuarioExibicao((msg.getUsuarioPara().getId()));
-                msgForm.setImagemUsuario(msg.getUsuarioPara().getImagemUsuario());
+                msgForm.setImagemUsuario(msg.getUsuarioPara().getImagemArquivo());
             }
             else if ( msg.getUsuarioPara().getId() == idUsuario.longValue()){
                 msgForm.setLoginExibicao(msg.getUsuarioDe().getNome());
                 msgForm.setIdUsuarioExibicao((msg.getUsuarioDe().getId()));
-                msgForm.setImagemUsuario(msg.getUsuarioDe().getImagemUsuario());
+                msgForm.setImagemUsuario(msg.getUsuarioDe().getImagemArquivo());
             }
          
             listaFinal.add(msgForm);

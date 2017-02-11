@@ -77,6 +77,12 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
 	
 	@Autowired
 	private NotificacaoService notificacaoService;
+	
+	@Autowired
+	private ImovelService imovelService;
+	
+	@Autowired
+	private UsuarioService usuarioService;
 
 
 	
@@ -101,13 +107,25 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
 	
 	@Override
 	public List<Intermediacao> recuperarMinhasSolicitacoesIntermediacoes(Long idUsuarioSolicitante, IntermediacaoForm form) {
-        return dao.findIntermediacaoByIdUsuarioSolicitanteByStatus(idUsuarioSolicitante, StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo(), form);
+		List<Intermediacao> lista = dao.findIntermediacaoByIdUsuarioSolicitanteByStatus(idUsuarioSolicitante, StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo(), form);
+		List<Intermediacao> listaFinal = new ArrayList<Intermediacao>();
+		for (Intermediacao intermediacao : lista){
+			intermediacao.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(intermediacao.getImovel()));
+			listaFinal.add(intermediacao);
+		}		
+        return listaFinal;
 	}
 
 	
 	@Override
 	public List<Intermediacao> recuperarSolicitacoesIntermediacoesRecebidas(Long idDonoImovel, IntermediacaoForm form) {
-        return dao.findIntermediacaoByIdDonoImovelByStatus(idDonoImovel, StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo(), form);
+		List<Intermediacao> lista = dao.findIntermediacaoByIdDonoImovelByStatus(idDonoImovel, StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo(), form);
+		List<Intermediacao> listaFinal = new ArrayList<Intermediacao>();
+		for (Intermediacao intermediacao : lista){
+			intermediacao.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(intermediacao.getImovel()));
+			listaFinal.add(intermediacao);
+		}		
+        return listaFinal;
 	}
 
 	
@@ -213,8 +231,9 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
 	public Intermediacao recuperarImovelIntermediadoSelecionadoPorIdImovel(Long idImovel) {		
 		List<Intermediacao> lista = dao.findIntermediacaoByIdImovelByStatus(idImovel, StatusImovelCompartilhadoEnum.ACEITA.getRotulo());
 		if ( ! CollectionUtils.isEmpty(lista) ){
-        	Intermediacao imovel = (Intermediacao) lista.get(0);        	
-            return imovel;
+        	Intermediacao intermediacao = (Intermediacao) lista.get(0); 
+        	intermediacao.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(intermediacao.getImovel()));
+            return intermediacao;
         }    
         else
            return null;
@@ -255,7 +274,8 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
         for (Iterator iter = lista.iterator();iter.hasNext();){
             id = iter.next().toString();
             if ( ! listaId.contains(id)) {
-            	intermediacao = recuperarImovelIntermediadoSelecionadoPorIdImovel(Long.parseLong(id));									
+            	intermediacao = recuperarImovelIntermediadoSelecionadoPorIdImovel(Long.parseLong(id));			
+            	intermediacao.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(intermediacao.getImovel()));
                 listaFinal.add(intermediacao);    
             }            
         }
@@ -458,19 +478,27 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
 
 
 	@Override
-	public List<Intermediacao> filtrarIntermediacao(Long idUsuario, IntermediacaoForm form) {		
+	public List<Intermediacao> filtrarIntermediacao(Long idUsuario, IntermediacaoForm form) {
+		List<Intermediacao> listaFinal = new ArrayList<Intermediacao>();
+		List<Intermediacao> lista = new ArrayList<Intermediacao>();
 		if ( form.getTipoLista().equals("intermediacaoSolRecebida")){
-			return dao.filterSolIntermediacao(idUsuario, form);		
+			lista = dao.filterSolIntermediacao(idUsuario, form);
 		}	
 		else if ( form.getTipoLista().equals("intermediacaoMinhasSol")) {
-			return dao.filterMinhasSolIntermediacao(idUsuario, form);			 
+			lista = dao.filterMinhasSolIntermediacao(idUsuario, form);
 		}	
-		else if ( form.getTipoLista().equals("intermediacaoAceita")) {			
-			return dao.filterIntermediacaoAceitas(idUsuario,  form);				
+		else if ( form.getTipoLista().equals("intermediacaoAceita")) {
+			lista = dao.filterIntermediacaoAceitas(idUsuario,  form);	
 		}	
-		else
-			return null;
+		
+		for (Intermediacao intermediacao : lista){
+			intermediacao.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(intermediacao.getImovel()));
+			listaFinal.add(intermediacao);
+		}		
+        return listaFinal;	
+		
 	}
+	
 	
 	
 	@Override
@@ -500,6 +528,7 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
 			imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));
 			imovel.setQuantImovelIntermediacao(Integer.parseInt(obj[1].toString()));
 			imovel.setQuantNovosImovelIntermediacao(dao.findQuantidadeNovosImoveisCompartilhados(Long.parseLong(obj[0].toString())));
+			imovel.setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovel));
 			listaFinal.add(imovel);
 		}
 		
@@ -535,6 +564,7 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
 			usuario.setQuantTotalRecomendacoes(recomendacaoDao.findQuantidadeRecomendacoesByUsuarioByStatusByStatusLeitura(usuario.getId(), RecomendacaoStatusEnum.ACEITO.getRotulo(), null));
 			usuario.setQuantTotalImoveis(imovelDao.findQuantMeusImoveis(usuario.getId()));
 			usuario.setQuantTotalSeguidores(seguidorDao.findQuantSeguidoresByIdUsuarioSeguido(usuario.getId()));
+			usuario.setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(usuario));
 			listaFinal.add(usuario);
 		}
 		
@@ -601,7 +631,8 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
 				obj = (Object[]) iter.next();			
 				imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));
 				imovel.setQuantImovelParceria(Integer.parseInt(obj[1].toString()));
-				imovel.setQuantNovosImovelParceria(dao.findQuantidadeNovosImoveisCompartilhados(Long.parseLong(obj[0].toString())));				
+				imovel.setQuantNovosImovelParceria(dao.findQuantidadeNovosImoveisCompartilhados(Long.parseLong(obj[0].toString())));	
+				imovel.setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovel));
 				listaFinal.add(imovel);
 			}			
 			return listaFinal;

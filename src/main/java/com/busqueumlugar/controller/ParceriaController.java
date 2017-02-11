@@ -60,7 +60,6 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaController.cla
 	
 	private static final String DIR_PATH_PARCERIA = "/imovel/parceria/";
 
-
 	
 	@RequestMapping(value = "/buscarCidadesParceria/{idEstado}", method = RequestMethod.GET)
     @ResponseBody

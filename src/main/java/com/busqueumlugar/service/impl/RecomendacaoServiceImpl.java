@@ -1,5 +1,6 @@
 package com.busqueumlugar.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,10 +32,15 @@ public class RecomendacaoServiceImpl implements RecomendacaoService {
 	@Autowired
 	private UsuarioDao usuarioDao;
 	
+	@Autowired
+	private UsuarioService usuarioService;
+	
 
 	@Override
 	public Recomendacao recuperarRecomendacaoPorId(Long idRecomendacao) {
-		return dao.findRecomendacaoById(idRecomendacao);
+		Recomendacao recomendacao = dao.findRecomendacaoById(idRecomendacao);
+		recomendacao.getUsuario().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(recomendacao.getUsuario()));;
+		return recomendacao;
 	}
 
 	@Override
@@ -80,8 +86,14 @@ public class RecomendacaoServiceImpl implements RecomendacaoService {
 	}
 
 	@Override
-	public List<Recomendacao> recuperarRecomendacoesPorIdUsuarioRecomendadoPorStatus(Long idUsuarioRecomendado, String status) {		
-		return dao.findListRecomendacaoByIdUsuarioByStatus(idUsuarioRecomendado, status);		
+	public List<Recomendacao> recuperarRecomendacoesPorIdUsuarioRecomendadoPorStatus(Long idUsuarioRecomendado, String status) {	
+		List<Recomendacao> lista = dao.findListRecomendacaoByIdUsuarioByStatus(idUsuarioRecomendado, status); 
+		List<Recomendacao> listaFinal = new ArrayList<Recomendacao>();		
+		for (Recomendacao recomendacao : lista){
+			recomendacao.getUsuario().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(recomendacao.getUsuario()));
+			listaFinal.add(recomendacao);
+		}
+		return listaFinal;		
 	}
 
 	@Override

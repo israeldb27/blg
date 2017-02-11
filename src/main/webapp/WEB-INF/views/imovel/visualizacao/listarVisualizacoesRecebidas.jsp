@@ -367,7 +367,7 @@ function desmarcarCheck(id) {
 	                                                   <span class="meta-provider" style="font-size:19px;">${imovelVisualiza.imovel.acaoFmt} <br>
 	                                                   							<strong>  R$<fmt:formatNumber value="${imovelVisualiza.imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
 	                                                   </span><br>                                                   
-	                                                    <img src="${context}${imovelVisualiza.imagemArquivo}" class="img-responsive" style="width: 260px; height: 240px; alt="admin"/>
+	                                                    <img src="${context}${imovelVisualiza.imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 240px; alt="admin"/>
 	                                                </a>
 	                                            </div>
 	                                            <div class="media-body">

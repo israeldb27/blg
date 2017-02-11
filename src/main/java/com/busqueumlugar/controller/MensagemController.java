@@ -1,8 +1,6 @@
 package com.busqueumlugar.controller;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,15 +20,12 @@ import org.springframework.validation.BindingResult;
 
 import com.busqueumlugar.form.MensagemForm;
 import com.busqueumlugar.form.UsuarioForm;
-import com.busqueumlugar.model.Imovelindicado;
-import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.InfoservicoService;
 import com.busqueumlugar.service.MensagemService;
 import com.busqueumlugar.service.ParamservicoService;
 import com.busqueumlugar.service.ServicoService;
 import com.busqueumlugar.service.UsuarioService;
-import com.busqueumlugar.util.ParametrosUtils;
 import com.busqueumlugar.util.UsuarioInterface;
 import com.paypal.api.payments.Payment;
 
@@ -59,8 +54,7 @@ public class MensagemController {
 	
 	private static final String DIR_PATH = "/mensagem/";
 	private static final String DIR_PATH_COBRANCA_SERVICO = "/mensagem/cobranca/";
-	private static final String TIPO_VISUALIZACAO = "mensagem";
-	
+
 
 	@RequestMapping(value = "/desmarcarCheck")	
 	public void desmarcarCheck(Long idMensagem, HttpServletResponse response, HttpSession session){

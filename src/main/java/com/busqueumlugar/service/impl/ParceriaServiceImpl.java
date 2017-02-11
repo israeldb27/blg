@@ -35,9 +35,11 @@ import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Parceria;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.ContatoService;
+import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.NotaService;
 import com.busqueumlugar.service.NotificacaoService;
 import com.busqueumlugar.service.ParceriaService;
+import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.MessageUtils;
 import com.mysql.jdbc.StringUtils;
@@ -73,7 +75,12 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
 	
 	@Autowired
 	private ContatoService contatoService;
+	
+	@Autowired
+	private ImovelService imovelService;
 
+	@Autowired
+	private UsuarioService usuarioService;
 
 	
 	public Parceria recuperarParceriaId(Long id) {
@@ -96,13 +103,25 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
 
 	
 	@Override
-	public List<Parceria> recuperarMinhasSolicitacoesParcerias(Long idUsuarioSolicitante, ParceriaForm form) {
-        return dao.findParceriaByIdUsuarioSolicitanteByStatus(idUsuarioSolicitante, StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo(),   form);
+	public List<Parceria> recuperarMinhasSolicitacoesParcerias(Long idUsuarioSolicitante, ParceriaForm form) {		
+		List<Parceria> lista = dao.findParceriaByIdUsuarioSolicitanteByStatus(idUsuarioSolicitante, StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo(),   form);
+		List<Parceria> listaFinal = new ArrayList<Parceria>();
+		for (Parceria parceria : lista){
+			parceria.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(parceria.getImovel()));
+            listaFinal.add(parceria); 
+		}		
+        return listaFinal;
 	}
 	
 	@Override
 	public List<Parceria> recuperarSolicitacoesParceriasRecebidas(Long idDonoImovel, ParceriaForm form) {
-        return dao.findParceriaByIdDonoImovelByStatus(idDonoImovel, StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo(),   form);
+		List<Parceria> lista = dao.findParceriaByIdDonoImovelByStatus(idDonoImovel, StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo(),   form);
+		List<Parceria> listaFinal = new ArrayList<Parceria>();
+		for (Parceria parceria : lista){
+			parceria.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(parceria.getImovel()));
+            listaFinal.add(parceria); 
+		}		
+        return listaFinal;
 	}
 
 	
@@ -201,8 +220,8 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
 	public Parceria  recuperarImovelParceriaSelecionadoPorIdImovel(Long idImovel) {		
 		List<Parceria> lista = dao.findParceriaByIdImovelByStatus(idImovel, StatusImovelCompartilhadoEnum.ACEITA.getRotulo());
 		if ( ! CollectionUtils.isEmpty(lista) ){
-        	Parceria imovel = (Parceria) lista.get(0);        	
-            return imovel;
+        	Parceria parceria = (Parceria) lista.get(0);        	
+            return parceria;
         }    
         else
            return null;
@@ -243,7 +262,8 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
         for (Iterator iter = lista.iterator();iter.hasNext();){
             id = iter.next().toString();
             if ( ! listaId.contains(id)) {
-            	parceria = recuperarImovelParceriaSelecionadoPorIdImovel(Long.parseLong(id));									
+            	parceria = recuperarImovelParceriaSelecionadoPorIdImovel(Long.parseLong(id));	
+            	parceria.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(parceria.getImovel()));
                 listaFinal.add(parceria);    
             }            
         }
@@ -416,8 +436,14 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
 
 	
 	@Override
-	public List<Parceria> recuperarUsuarioParceiroPorIdImovel(Long idImovel, String status) {		
-		return dao.findParceriaByIdImovelByStatus(idImovel, status);
+	public List<Parceria> recuperarUsuarioParceiroPorIdImovel(Long idImovel, String status) {			
+		List<Parceria> lista = dao.findParceriaByIdImovelByStatus(idImovel, status);
+		List<Parceria> listaFinal = new ArrayList<Parceria>();
+		for (Parceria parceria : lista){
+			parceria.getUsuarioSolicitante().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(parceria.getUsuarioSolicitante()) );
+            listaFinal.add(parceria); 
+		}		
+        return listaFinal;
 	}
 
 	
@@ -452,16 +478,27 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
 		List<Parceria> lista = null;		
 		Imovel imovel = null;
 		if ( form.getTipoLista().equals("parceriaSolRecebida")){
-			return dao.filterSolParceria(idUsuario, form);			
+			lista = dao.filterSolParceria(idUsuario, form);
+			for (Parceria parceria : lista){
+				parceria.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(parceria.getImovel()));
+	            listaFinal.add(parceria); 
+			}			
+			return 	listaFinal;
 		}	
 		else if ( form.getTipoLista().equals("parceriaMinhasSol")) {
-			return dao.filterMinhasSolParceria(idUsuario, form);
+			lista = dao.filterMinhasSolParceria(idUsuario, form);
+			for (Parceria parceria : lista){
+				
+	            listaFinal.add(parceria); 
+			}			
+			return 	listaFinal;
 		}	
 		else if ( form.getTipoLista().equals("parceriaAceita")) {
 			lista = dao.filterParceriaAceitas(idUsuario, form );
 			TreeSet listaId = new TreeSet();
 			for (Parceria parceria : lista){
-				 if (! listaId.contains(parceria.getImovel().getId())){
+				 if (! listaId.contains(parceria.getImovel().getId())){		
+					 parceria.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(parceria.getImovel()));
 					 listaFinal.add(parceria);
 					 listaId.add(parceria.getImovel().getId());
 				 }				
@@ -508,7 +545,8 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
 			obj = (Object[]) iter.next();			
 			imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));
 			imovel.setQuantImovelParceria(Integer.parseInt(obj[1].toString()));
-			imovel.setQuantNovosImovelParceria(dao.findQuantidadeNovosParcerias(Long.parseLong(obj[0].toString())));			
+			imovel.setQuantNovosImovelParceria(dao.findQuantidadeNovosParcerias(Long.parseLong(obj[0].toString())));	
+			imovel.setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovel));
 			listaFinal.add(imovel);
 		}
 		
@@ -544,6 +582,7 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
 			usuario.setQuantTotalRecomendacoes(recomendacaoDao.findQuantidadeRecomendacoesByUsuarioByStatusByStatusLeitura(usuario.getId(), RecomendacaoStatusEnum.ACEITO.getRotulo(), null));
 			usuario.setQuantTotalImoveis(imovelDao.findQuantMeusImoveis(usuario.getId()));
 			usuario.setQuantTotalSeguidores(seguidorDao.findQuantSeguidoresByIdUsuarioSeguido(usuario.getId()));
+			usuario.setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(usuario));
 			listaFinal.add(usuario);
 		}
 		
@@ -611,7 +650,8 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
 				obj = (Object[]) iter.next();			
 				imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));
 				imovel.setQuantImovelParceria(Integer.parseInt(obj[1].toString()));
-				imovel.setQuantNovosImovelParceria(dao.findQuantidadeNovosParcerias(Long.parseLong(obj[0].toString())));				
+				imovel.setQuantNovosImovelParceria(dao.findQuantidadeNovosParcerias(Long.parseLong(obj[0].toString())));
+				imovel.setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovel));
 				listaFinal.add(imovel);
 			}			
 			return listaFinal;

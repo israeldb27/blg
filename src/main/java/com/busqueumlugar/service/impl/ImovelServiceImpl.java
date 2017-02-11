@@ -124,12 +124,10 @@ public class ImovelServiceImpl implements ImovelService{
 	private ServletContext context;	
 
 	
-	public Imovel recuperarImovelPorid(Long idImovel) {		
-		return dao.findImovelById(idImovel);
-	}
-	
-	public Imovel recuperarImovelPorIdImovel(Long idImovel) {		
-		return dao.findImovelById(idImovel);
+	public Imovel recuperarImovelPorid(Long idImovel) {	
+		Imovel imovel = dao.findImovelById(idImovel);
+		imovel.setImagemArquivo(this.carregaFotoPrincipalImovel(imovel));
+		return imovel;
 	}
 	
 	@Transactional
@@ -195,7 +193,7 @@ public class ImovelServiceImpl implements ImovelService{
 		List<Imovel> listaFinal = new ArrayList();
 		if ( ! CollectionUtils.isEmpty(listaImovel) ){			
 			for (Imovel imovel : listaImovel){
-				imovel.setImagemImovel(this.carregaFotoPrincipalImovel(imovel));
+				imovel.setImagemArquivo(this.carregaFotoPrincipalImovel(imovel));
 				imovel.setInteressadoImovel(imovelFavoritosService.checarUsuarioEstaInteressadoImovel(idUsuario, imovel.getId()));
 				listaFinal.add(imovel);
 			}
@@ -230,7 +228,7 @@ public class ImovelServiceImpl implements ImovelService{
 		List<Imovel> lista = dao.findImovelByUsuario(idUsuario, form);
 		List<Imovel> listaFinal = new ArrayList<Imovel>();
 		for (Imovel imovel : lista){
-			imovel.setImagemImovel(this.carregaFotoPrincipalImovel(imovel));
+			imovel.setImagemArquivo(this.carregaFotoPrincipalImovel(imovel));
 			listaFinal.add(imovel);
 		}
         return listaFinal;
@@ -797,7 +795,8 @@ public class ImovelServiceImpl implements ImovelService{
 
 	@Override
 	public void preparaDetalhesImovelForm(Long idImovel, ImovelForm form, UsuarioForm usuarioSessao) {
-		Imovel imovel = dao.findImovelById(idImovel);		
+		Imovel imovel = dao.findImovelById(idImovel);	
+		imovel.setImagemArquivo(this.carregaFotoPrincipalImovel(imovel));
 		BeanUtils.copyProperties(imovel, form);			
 		form.setListaFotos(imovelfotosService.recuperarFotosImovel(imovel.getId()));		
 		form.setListaComentario(imovelcomentarioDao.findImovelcomentariosByIdImovel(idImovel, null));

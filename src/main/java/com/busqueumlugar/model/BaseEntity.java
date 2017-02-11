@@ -4,28 +4,18 @@ import javax.persistence.Transient;
 
 public class BaseEntity {
 	
-	@Transient
-	private String imagemImovel = "";
 	
 	@Transient
-	private String imagemUsuario = "";
+	private String imagemArquivo = "";
 
-	public String getImagemImovel() {
-		return imagemImovel;
+
+	public String getImagemArquivo() {
+		return imagemArquivo;
 	}
 
-	public void setImagemImovel(String imagemImovel) {
-		this.imagemImovel = imagemImovel;
+	public void setImagemArquivo(String imagemArquivo) {
+		this.imagemArquivo = imagemArquivo;
 	}
-
-	public String getImagemUsuario() {
-		return imagemUsuario;
-	}
-
-	public void setImagemUsuario(String imagemUsuario) {
-		this.imagemUsuario = imagemUsuario;
-	}
-
 
 
 }

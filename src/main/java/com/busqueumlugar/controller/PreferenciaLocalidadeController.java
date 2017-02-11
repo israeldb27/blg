@@ -7,9 +7,9 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.validation.BindingResult;
 
-import com.busqueumlugar.form.ImovelForm;
-import com.busqueumlugar.form.ImovelcomentarioForm;
 import com.busqueumlugar.form.PreferencialocalidadeForm;
-import com.busqueumlugar.form.RelatorioForm;
 import com.busqueumlugar.form.UsuarioForm;
 import com.busqueumlugar.model.Preferencialocalidade;
 import com.busqueumlugar.service.BairrosService;
@@ -162,7 +159,7 @@ public class PreferenciaLocalidadeController {
 								 HttpSession session){
 		try {
 			List<Preferencialocalidade> lista = prefLocalidadeService.listarPreferenciaPorUsuario(form.getIdUsuario());
-			if (( lista == null ) || ( lista != null && lista.size() == 0 )){
+			if ( CollectionUtils.isEmpty(lista) ){
 				map.addAttribute("preferenciaLocalidadeForm", form);
 				map.addAttribute("msgErro", "S");
 		    	return DIR_PATH_CADASTRO_USUARIO + "inicioCadastrarPreferencias";

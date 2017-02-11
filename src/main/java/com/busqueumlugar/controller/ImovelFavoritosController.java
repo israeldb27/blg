@@ -20,15 +20,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.busqueumlugar.form.ImovelcomentarioForm;
 import com.busqueumlugar.form.ImovelfavoritosForm;
-import com.busqueumlugar.form.ImovelPropostasForm;
-import com.busqueumlugar.form.ImovelindicadoForm;
-import com.busqueumlugar.form.ImovelvisualizadoForm;
+
 import com.busqueumlugar.form.UsuarioForm;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Imovelfavoritos;
-import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.BairrosService;
 import com.busqueumlugar.service.CidadesService;
 import com.busqueumlugar.service.EstadosService;
@@ -36,7 +32,6 @@ import com.busqueumlugar.service.ImovelFavoritosService;
 import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.AppUtil;
-import com.busqueumlugar.util.ParametrosUtils;
 import com.busqueumlugar.util.Select;
 import com.busqueumlugar.util.UsuarioInterface;
 

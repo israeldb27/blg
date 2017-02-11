@@ -36,8 +36,6 @@ public interface ImovelService {
 	String PATH_ERRO_IMOVEL = "/mensagemErro";
 	String PATH_ERRO_GERAL  = "/mensagemErro";
 	
-	Imovel recuperarImovelPorIdImovel(Long idImovel);
-	
 	Imovel recuperarImovelPorid(Long idImovel);
 	
 	void atualizarStatusNegociacaoImovelCliente(Long idImovel, String novoStatus);

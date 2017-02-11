@@ -55,6 +55,11 @@ public class ContatoServiceImpl implements ContatoService {
 	
 	@Autowired
 	private ImovelindicadoService imovelIndicadoService; 
+	
+	@Autowired
+	private UsuarioService usuarioService; 
+	
+	
 
 
 	public Contato recuperarContatoPorId(Long id) {
@@ -111,6 +116,7 @@ public class ContatoServiceImpl implements ContatoService {
                 else
                 	usuario.setIndicadoImovel(imovelIndicadoService.checarUsuarioIndicacaoImovel(usuario.getId(), idImovel));
                 
+                usuario.setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(usuario));
                 listaTodosContatos.add(usuario);            
             }        
         }
@@ -431,8 +437,17 @@ public class ContatoServiceImpl implements ContatoService {
 	}
 
 	@Override
-	public List<Contato> filtrarRecuperacaoConvidadosParaIndicacao(	Long idUsuario, ImovelindicadoForm form) {	    
-        return dao.findContatosByIndicacao(idUsuario, form);
+	public List<Contato> filtrarRecuperacaoConvidadosParaIndicacao(	Long idUsuario, ImovelindicadoForm form) {	  
+		List<Contato> lista = dao.findContatosByIndicacao(idUsuario, form);
+		List<Contato> listaFinal =  new ArrayList<Contato>();		
+		for (Contato contato : lista){
+			if ( contato.getUsuarioConvidado().getId().longValue() != idUsuario.longValue()){
+				contato.getUsuarioConvidado().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(contato.getUsuarioConvidado()));			
+			}
+			else
+				contato.getUsuarioHost().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(contato.getUsuarioHost()));					
+		}
+        return listaFinal;
 	}
 
 }

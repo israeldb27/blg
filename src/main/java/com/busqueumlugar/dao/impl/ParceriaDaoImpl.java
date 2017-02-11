@@ -417,8 +417,7 @@ public class ParceriaDaoImpl extends GenericDAOImpl<Parceria, Long>  implements 
             	crit.addOrder(Order.desc("dataAceitacao"));
             else if (form.getOpcaoOrdenacao().equals("menorDataAceitacao"))
             	crit.addOrder(Order.asc("dataAceitacao"));	    	
-	    }
-		
+	    }		
 		
 		form.setQuantRegistros(AppUtil.recuperarQuantidadeLista(crit.list()));
 		if ( form.isVisible()){

@@ -18,12 +18,15 @@ import com.busqueumlugar.dao.NotaDao;
 import com.busqueumlugar.dao.PreferencialocalidadeDao;
 import com.busqueumlugar.dao.UsuarioDao;
 import com.busqueumlugar.enumerador.ContatoStatusEnum;
+import com.busqueumlugar.enumerador.NotaAcaoEnum;
 import com.busqueumlugar.form.NotaForm;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Nota;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.ContatoService;
+import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.NotaService;
+import com.busqueumlugar.service.UsuarioService;
 
 @Service
 public class NotaServiceImpl implements NotaService {
@@ -41,6 +44,12 @@ public class NotaServiceImpl implements NotaService {
 	
 	@Autowired
 	private UsuarioDao usuarioDao;
+	
+	@Autowired
+	private ImovelService imovelService;
+	
+	@Autowired
+	private UsuarioService usuarioService;
 	
 	@Autowired
 	private PreferencialocalidadeDao prefLocalDao;
@@ -93,28 +102,25 @@ public class NotaServiceImpl implements NotaService {
 	}
 
 	
-	public List<Nota> listarTodasNotasPorPerfil(Long idUsuario,	NotaForm form) {
-        return dao.filterNotasByIdUsuario(idUsuario, form);
+	public List<Nota> listarTodasNotasPorPerfil(Long idUsuario,	NotaForm form) {		
+        return carregaListaNota(dao.filterNotasByIdUsuario(idUsuario, form));
 	}
 
 	
-	public List<Nota> recuperarNotasContatosUsuario(Long idUsuario, NotaForm form) {
-        List<Nota> listaNotasContatos = new ArrayList<Nota>();
+	public List<Nota> recuperarNotasContatosUsuario(Long idUsuario, NotaForm form) {            
         List listaIds = contatoDao.findIdsUsuariosContatosByIdUsuarioByStatus(idUsuario, ContatoStatusEnum.OK.getRotulo());
         if (! CollectionUtils.isEmpty(listaIds) ){
-        	listaNotasContatos = dao.findNotasContatosByListaIdsUsuario(listaIds, form);
+        	return carregaListaNota(dao.findNotasContatosByListaIdsUsuario(listaIds, form));
         }   
-        return listaNotasContatos;
+        return null;
 	}
 	
-	public List<Nota> recuperarNotasContatosUsuario(Long idUsuario, int quant) {
-        List<Nota> listaNotasContatos = new ArrayList<Nota>();        
+	public List<Nota> recuperarNotasContatosUsuario(Long idUsuario, int quant) {             
         List listaIds = contatoDao.findIdsUsuariosContatosByIdUsuarioByStatus(idUsuario, ContatoStatusEnum.OK.getRotulo());
-        if (! CollectionUtils.isEmpty(listaIds) ){
-        	listaNotasContatos = dao.findNotasContatosByListaIdsUsuarioQuant(listaIds, new NotaForm(), quant);
-        }
-     
-        return listaNotasContatos;
+        if (! CollectionUtils.isEmpty(listaIds) ){        
+        	return carregaListaNota(dao.findNotasContatosByListaIdsUsuarioQuant(listaIds, new NotaForm(), quant));
+        }     
+        return null;
 	}
 	
 	@Transactional
@@ -143,9 +149,13 @@ public class NotaServiceImpl implements NotaService {
 			 else {
 				 lista = filtrarNotasContatos(idUsuario, form);
 			 }	
-		 }	 
+		 }	
+		 
+		 if (! CollectionUtils.isEmpty(lista)){
+			 return carregaListaNota(lista);
+		 }
 
-		return lista;
+		return null;
 	}
 	
 
@@ -156,9 +166,13 @@ public class NotaServiceImpl implements NotaService {
 		if ( form.getOpcaoFiltro().equals("todos"))
 			lista = dao.filterNotasByIdUsuario(idUsuario, form);
 		else 
-			lista = dao.filterNotasByIdUsuario(idUsuario, form);		
+			lista = dao.filterNotasByIdUsuario(idUsuario, form);	
 		
-		return lista;
+		if (! CollectionUtils.isEmpty(lista)){
+			 return carregaListaNota(lista);
+		 }
+		
+		return null;
 	}
 
 
@@ -177,20 +191,56 @@ public class NotaServiceImpl implements NotaService {
         else {
         	if (! CollectionUtils.isEmpty(listaIdsContatos))
         		listaNotasContatos = dao.filterNotasByListaIdsUsuario(listaIdsContatos, form);
-        }       
+        }    
         
-        return listaNotasContatos;
+        if (! CollectionUtils.isEmpty(listaNotasContatos)){
+			 return carregaListaNota(listaNotasContatos);
+		 }
+		
+		return null;
 	}
 
 
 	private List<Nota> filtrarListaTodasNotasPorPerfil(Long idUsuario, NotaForm form) {
-        return dao.filterNotasByIdUsuario(idUsuario, form);
+        return carregaListaNota(dao.filterNotasByIdUsuario(idUsuario, form));
 	}
 
 
 	@Override
 	public Nota recuperarNotaByUsuarioByIndex(List<Long> listaIds, int index) {
-		return dao.findNotaByUsuarioByIndex( listaIds, index);
+		Nota nota = dao.findNotaByUsuarioByIndex( listaIds, index);
+		if ( NotaAcaoEnum.IMOVEL.getRotulo().equals(nota.getAcao()) ||
+		     NotaAcaoEnum.INTERMEDIACAO.getRotulo().equals(nota.getAcao())	||
+		     NotaAcaoEnum.PARCERIA.getRotulo().equals(nota.getAcao())){
+			nota.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(nota.getImovel()));
+		}
+		else if ( NotaAcaoEnum.USUARIO.getRotulo().equals(nota.getAcao()) || 
+				  NotaAcaoEnum.PREFERENCIA.getRotulo().equals(nota.getAcao())	||
+				  NotaAcaoEnum.PESSOAL.getRotulo().equals(nota.getAcao())){
+			nota.getUsuario().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(nota.getUsuario()));				
+		}
+		return nota;
+	}
+	
+	private List<Nota> carregaListaNota(List<Nota> lista){
+		List<Nota> listaFinal = new ArrayList<Nota>();
+		if (! CollectionUtils.isEmpty(lista)){
+			for (Nota nota : lista){
+				if ( NotaAcaoEnum.IMOVEL.getRotulo().equals(nota.getAcao()) ||
+				     NotaAcaoEnum.INTERMEDIACAO.getRotulo().equals(nota.getAcao())	||
+				     NotaAcaoEnum.PARCERIA.getRotulo().equals(nota.getAcao())){
+					nota.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(nota.getImovel()));
+				}
+				else if ( NotaAcaoEnum.USUARIO.getRotulo().equals(nota.getAcao()) || 
+						  NotaAcaoEnum.PREFERENCIA.getRotulo().equals(nota.getAcao())	||
+						  NotaAcaoEnum.PESSOAL.getRotulo().equals(nota.getAcao())){
+					nota.getUsuario().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(nota.getUsuario()));				
+				}
+				listaFinal.add(nota);
+			}
+		}		
+		
+		return listaFinal;
 	}
 
 

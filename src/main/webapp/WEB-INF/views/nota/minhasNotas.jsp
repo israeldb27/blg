@@ -156,11 +156,11 @@
 						                                         <span class="fa fa-stack fa-2x">
 						                                         	<c:choose>
 						                                         		<c:when test="${((nota.acao == 'R') || (nota.acao == 'U') || (nota.acao == 'E'))}">
-						                                         			<img class="img-circle img-bordered-success" src="${context}${nota.usuario.imagemArquivo}" style="width: 60px; height: 60px; " alt="admin"/>
+						                                         			<img class="img-circle img-bordered-success" src="${context}${nota.imagemUsuario}" style="width: 60px; height: 60px; " alt="admin"/>
 						                                         		</c:when>
 						                                         		
 						                                         		<c:when test="${((nota.acao == 'I') || (nota.acao == 'P')) }">
-						                                         			<img src="${context}/${nota.imovel.imagemArquivo}" style="width: 60px; height: 60px; " alt="admin"/>
+						                                         			<img src="${context}/${nota.imagemImovel}" style="width: 60px; height: 60px; " alt="admin"/>
 						                                         		</c:when>
 						                                         	</c:choose>						                                         	
 						                                         </span>

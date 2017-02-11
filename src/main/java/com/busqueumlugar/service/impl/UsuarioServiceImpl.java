@@ -189,6 +189,9 @@ public class UsuarioServiceImpl implements UsuarioService{
 	private ServicoService servicoService;
 	
 	@Autowired
+	private UsuarioService usuarioService;
+	
+	@Autowired
 	private PlanousuarioDao planousuarioDao;
 	
 	@Autowired
@@ -266,7 +269,7 @@ public class UsuarioServiceImpl implements UsuarioService{
         if ( usuario != null) {            
             //usuario.setDataUltimoAcesso(new Date());
             dao.save(usuario);
-            usuario.setImagemUsuario(this.carregaFotoPrincipalUsuario(usuario));
+            usuario.setImagemArquivo(this.carregaFotoPrincipalUsuario(usuario));
             BeanUtils.copyProperties(usuario, usuarioForm);            
         }                
         return usuarioForm;
@@ -275,7 +278,9 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	
 	public Usuario recuperarUsuarioPorId(Long idUsuario) {
-		return dao.findUsuario(idUsuario);
+		Usuario usuario = dao.findUsuario(idUsuario);
+		usuario.setImagemArquivo(this.carregaFotoPrincipalUsuario(usuario));
+		return usuario;
 	}
 
 
@@ -998,7 +1003,7 @@ public class UsuarioServiceImpl implements UsuarioService{
                 listaUsuario = preferenciaLocalidadeDao.findPreferencialocalidadeSemDuplicidadeUsuario(frm);
                 if (! CollectionUtils.isEmpty(listaUsuario)){
                     for (Usuario user : listaUsuario){
-                    	user.setImagemUsuario(this.carregaFotoPrincipalUsuario(user));
+                    	user.setImagemArquivo(this.carregaFotoPrincipalUsuario(user));
                         user.setIsContato(contatoService.checarTipoContato(user.getId(), idUsuarioSessao));
                         if ( user.getIsContato().equals("N")) {
                         	user.setIsSeguindo(seguidorService.checarUsuarioEstaSeguindo(idUsuarioSessao, user.getId()));                        	
@@ -1027,7 +1032,7 @@ public class UsuarioServiceImpl implements UsuarioService{
             if ( ! CollectionUtils.isEmpty(listaUsuario)){
             	if (! usuarioSessao.getPerfil().equals(PerfilUsuarioOpcaoEnum.ADMIN.getRotulo())){
             		for (Usuario user :  listaUsuario ){
-            			user.setImagemUsuario(this.carregaFotoPrincipalUsuario(user));
+            			user.setImagemArquivo(this.carregaFotoPrincipalUsuario(user));
         			    user.setIsContato(contatoService.checarTipoContato(user.getId(), idUsuarioSessao));
                         if ( user.getIsContato().equals("N")) {
                         	user.setIsSeguindo(seguidorService.checarUsuarioEstaSeguindo(idUsuarioSessao, user.getId()));                        	
@@ -1580,6 +1585,7 @@ public class UsuarioServiceImpl implements UsuarioService{
                 obj = (Object[]) iter.next();
                 usuario = recuperarUsuarioPorId(Long.parseLong(obj[0].toString()));                
                 usuario.setQuantCompartilhamentoAceitos(Integer.parseInt(obj[1].toString()));
+                usuario.setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(usuario));
                 listaUsuarioFinal.add(usuario);
             }
         }
@@ -3277,6 +3283,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	                obj = (Object[]) iter.next();
 	                usuario = recuperarUsuarioPorId(Long.parseLong(obj[0].toString()));                
 	                usuario.setQuantImovelVisitado(Integer.parseInt(obj[1].toString()));
+	                usuario.setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(usuario));
 	                listaUsuarioFinal.add(usuario);
 	            }
 	        }
@@ -3295,6 +3302,7 @@ public class UsuarioServiceImpl implements UsuarioService{
                 obj = (Object[]) iter.next();
                 usuario = recuperarUsuarioPorId(Long.parseLong(obj[0].toString()));                
                 usuario.setQuantImovelFavoritos(Integer.parseInt(obj[1].toString()));
+                usuario.setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(usuario));
                 listaUsuarioFinal.add(usuario);
             }
         }
@@ -3313,6 +3321,7 @@ public class UsuarioServiceImpl implements UsuarioService{
                 obj = (Object[]) iter.next();
                 usuario = recuperarUsuarioPorId(Long.parseLong(obj[0].toString()));                
                 usuario.setQuantImovelFavoritos(Integer.parseInt(obj[1].toString()));
+                usuario.setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(usuario));
                 listaUsuarioFinal.add(usuario);
             }
         }

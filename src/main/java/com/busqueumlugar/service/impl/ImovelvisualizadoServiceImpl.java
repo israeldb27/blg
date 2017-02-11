@@ -34,6 +34,7 @@ import com.busqueumlugar.model.Imovelvisualizado;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.ImovelvisualizadoService;
+import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.DateUtil;
 
 @Service
@@ -49,6 +50,9 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 	
 	@Autowired
 	private ImovelService imovelService;
+	
+	@Autowired
+	private UsuarioService usuarioService; 
 	
 	@Autowired
 	private UsuarioDao usuarioDao;
@@ -81,6 +85,7 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
                     Object[] obj = (Object[]) iter.next();
                     imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));                    
                     imovel.setQuantidade(Integer.parseInt(obj[1].toString()));
+                    imovel.setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovel));
                     listaFinal.add(imovel);
                 }
             }
@@ -182,7 +187,8 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 		List<Imovelvisualizado> lista = dao.findImoveisvisitadosByIdDonoImovel(idUsuario, form);
 		List<Imovelvisualizado> listaFinal = new ArrayList<Imovelvisualizado>();
 		for (Imovelvisualizado imovelvisualizado : lista){
-			imovelvisualizado.setImagemImovel(imovelService.carregaFotoPrincipalImovel(imovelvisualizado.getImovel()));
+			imovelvisualizado.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovelvisualizado.getImovel()));
+			imovelvisualizado.getUsuario().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(imovelvisualizado.getUsuario()));
 			listaFinal.add(imovelvisualizado);			
 		}
 		
@@ -217,14 +223,21 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 	}
 	
 	public List<Imovelvisualizado> recuperarUsuariosVisitantesPorIdImovel(Long idImovel) {
-		return dao.findImoveisVisitadosPorIdImovel(idImovel);
+		
+		List<Imovelvisualizado> lista = dao.findImoveisVisitadosPorIdImovel(idImovel);
+		List<Imovelvisualizado> listaFinal = new ArrayList<Imovelvisualizado>();
+		for (Imovelvisualizado imovelvisualizado : lista){			
+			imovelvisualizado.getUsuario().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(imovelvisualizado.getUsuario()));
+			listaFinal.add(imovelvisualizado);			
+		}		
+		return listaFinal;
 	}
 
 	
 	public List<Imovel> checarImoveisMaisAcessadosPorPeriodo(Date dataInicio, Date dataFim, int quantImoveis) {		
 		List lista = dao.filterImovelVisitadoPorDataPorQuantImoveis(dataInicio, dataFim, quantImoveis);
         List<Imovel> listaFinal = new ArrayList<Imovel>();
-        if ( lista != null && lista.size() > 0 ){
+        if ( !CollectionUtils.isEmpty(lista) ){
             Imovel imovel = null;       
             for (Iterator iter = lista.iterator();iter.hasNext();){                
                 Object[] obj = (Object[]) iter.next();
@@ -310,7 +323,7 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 		List<Imovelvisualizado> lista = dao.findImoveisvisitadosByIdUsuario(idUsuario, form);
 		List<Imovelvisualizado> listaFinal = new ArrayList<Imovelvisualizado>();
 		for (Imovelvisualizado imovelvisualizado : lista){
-			imovelvisualizado.setImagemImovel(imovelService.carregaFotoPrincipalImovel(imovelvisualizado.getImovel()));
+			imovelvisualizado.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovelvisualizado.getImovel()));
 			listaFinal.add(imovelvisualizado);			
 		}		
 		return listaFinal;
@@ -355,6 +368,7 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 				imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));
 				imovel.setQuantImoveisVisitados(Integer.parseInt(obj[1].toString()));
 				imovel.setQuantNovosImoveisVisitados(dao.findQuantidadeImoveisVisitadosPorImovelPorStatus(Long.parseLong(obj[0].toString()), StatusLeituraEnum.NOVO.getRotulo()));				
+				imovel.setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovel));
 				listaFinal.add(imovel);
 			}
 		}				
@@ -375,6 +389,7 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 				imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));
 				imovel.setQuantImoveisVisitados(Integer.parseInt(obj[1].toString()));
 				imovel.setQuantNovosImoveisVisitados(dao.findQuantidadeImoveisVisitadosPorImovelPorStatus(Long.parseLong(obj[0].toString()), StatusLeituraEnum.NOVO.getRotulo()));				
+				imovel.setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovel));
 				listaFinal.add(imovel);
 			}
 		}				
@@ -408,6 +423,7 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 			usuario.setQuantTotalRecomendacoes(recomendacaoDao.findQuantidadeRecomendacoesByUsuarioByStatusByStatusLeitura(usuario.getId(), RecomendacaoStatusEnum.ACEITO.getRotulo(), null));
 			usuario.setQuantTotalImoveis(imovelDao.findQuantMeusImoveis(usuario.getId()));
 			usuario.setQuantTotalSeguidores(seguidorDao.findQuantSeguidoresByIdUsuarioSeguido(usuario.getId()));
+			usuario.setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(usuario));
 			listaFinal.add(usuario);
 		}
 		
@@ -417,19 +433,43 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 
 	@Override
 	public List<Imovelvisualizado> recuperarImoveisVisitadosPorUsuario(Long idUsuarioSessao, Long idUsuario) {
-		return dao.findImoveisvisitadosByIdUsuarioByIdDonoImovel(idUsuarioSessao, idUsuario);
+		List<Imovelvisualizado> lista = dao.findImoveisvisitadosByIdUsuarioByIdDonoImovel(idUsuarioSessao, idUsuario);
+		List<Imovelvisualizado> listaFinal = new ArrayList<Imovelvisualizado>();
+		for (Imovelvisualizado imovelVisualizado : lista){
+			imovelVisualizado.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovelVisualizado.getImovel()));
+			listaFinal.add(imovelVisualizado);
+		}
+		
+		return listaFinal;
 	}
 
 
 	@Override
 	public List<Imovelvisualizado> filtrarUsuariosVisitantes(Long idUsuario, ImovelvisualizadoForm form) {
-		return dao.filterUsuariosVisitantes(idUsuario, form );
+		
+		List<Imovelvisualizado> lista = dao.filterUsuariosVisitantes(idUsuario, form );
+		List<Imovelvisualizado> listaFinal = new ArrayList<Imovelvisualizado>();
+		for (Imovelvisualizado imovelvisualizado : lista){
+			imovelvisualizado.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovelvisualizado.getImovel()));
+			imovelvisualizado.getUsuario().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(imovelvisualizado.getUsuario()));
+			listaFinal.add(imovelvisualizado);			
+		}
+		
+		return listaFinal;
 	}
 
 
 	@Override
 	public List<Imovelvisualizado> filtrarImoveisVisitados(Long idUsuario, ImovelvisualizadoForm form) {
-		return dao.filterImoveisVisitados(idUsuario, form );
+		List<Imovelvisualizado> lista = dao.filterImoveisVisitados(idUsuario, form );
+		List<Imovelvisualizado> listaFinal = new ArrayList<Imovelvisualizado>();
+		for (Imovelvisualizado imovelvisualizado : lista){
+			imovelvisualizado.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovelvisualizado.getImovel()));
+			imovelvisualizado.getUsuario().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(imovelvisualizado.getUsuario()));
+			listaFinal.add(imovelvisualizado);			
+		}
+		
+		return listaFinal;
 	}
 
 	@Override

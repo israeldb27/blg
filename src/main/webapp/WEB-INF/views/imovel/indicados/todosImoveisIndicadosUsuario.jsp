@@ -59,7 +59,7 @@ $(document).ready(function() {
 		                                <div class="inner-all">
 		                                    <ul class="list-unstyled">
 		                                        <li class="text-center">	
-													<a href="${urlUsuario}/detalhesUsuario/${usuarioIndicado.id}" ><img class="img-circle img-bordered-primary" src="${context}/${usuarioIndicado.imagemArquivo}" style="width: 200px; height: 200px; "></a>		                                            
+													<a href="${urlUsuario}/detalhesUsuario/${usuarioIndicado.id}" ><img class="img-circle img-bordered-primary" src="${context}${usuarioIndicado.imagemArquivo}" style="width: 200px; height: 200px; "></a>		                                            
 		                                        </li>
 		                                        <li class="text-center">
 		                                            <h4 class="text-capitalize"><a href="${urlUsuario}/detalhesUsuario/${usuarioIndicado.id}" >${usuarioIndicado.nome}</a></h4>

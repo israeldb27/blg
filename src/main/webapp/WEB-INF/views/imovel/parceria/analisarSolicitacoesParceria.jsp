@@ -28,7 +28,6 @@ $(document).ready(function() {
 
 });	
 
-
 function prepararModalConfirmaExclusao(id, idImovel){
 	$("#modIdParametro").val(id);
 	$("#modIdImovel").val(idImovel);	
@@ -174,7 +173,7 @@ function confirmarExclusaoSolParceriaAnaliseSol(){
 			                                                            <tr class="border-primary">
 			                                                                <td> 
 																				<a href="${urlUsuario}/detalhesUsuario/${parceriaSelecionada.usuarioSolicitante.id}" >
-																					<img src="${context}/${parceriaSelecionada.usuarioSolicitante.imagemArquivo}" style="width: 35px; height: 35px; " />
+																					<img src="${context}${parceriaSelecionada.usuarioSolicitante.imagemArquivo}" style="width: 35px; height: 35px; " />
 																				</a>
 			                                                                </td>
 			                                                                <td class="text-center"><b><a href="${urlUsuario}/detalhesUsuario/${parceriaSelecionada.usuarioSolicitante.id}" >
