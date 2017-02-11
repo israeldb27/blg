@@ -54,7 +54,7 @@ public class ApplicationContext
 	{
 		BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource.setUrl("jdbc:mysql://localhost:3306/home");
+		dataSource.setUrl("jdbc:mysql://localhost:3306/home2");
 		//dataSource.setUrl("jdbc:mysql://162.243.62.122:3306/home");		
 		//dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/home");		
 		dataSource.setUsername("root");
