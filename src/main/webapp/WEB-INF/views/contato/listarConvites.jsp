@@ -138,7 +138,7 @@
 		                                    				<div class="media rounded shadow no-overflow">
 					                                            <div class="media-left">
 					                                                <a href="${urlUsuario}/detalhesUsuario/${usuarioContato.usuarioConvidado.id}" >                                                                                                     
-					                                                    <img src="${context}${usuarioContato.usuarioConvidado.imagemArquivo}" class="img-responsive" style="width: 260px; height: 195px; alt="admin"/>
+					                                                    <img src="${context}${usuarioContato.usuarioConvidado.imagemArquivo}" class="media-object img-circle" style="width: 260px; height: 195px;" />
 					                                                </a>
 					                                            </div>
 					                                            <div class="media-body">

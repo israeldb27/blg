@@ -404,7 +404,7 @@
                                                    <span class="meta-provider ${imovel.classePorAcao}" style="font-size:19px;">${imovel.acaoFmt} <br>
                                                    							<strong>  R$<fmt:formatNumber value="${imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
                                                    </span><br>                                                   
-                                                    <img src="${context}${imovel.imagemImovel}" class="img-responsive" style="width: 270px; height: 355px;  alt="admin"/>
+                                                    <img src="${context}${imovel.imagemArquivo}" class="img-responsive" style="width: 270px; height: 355px;  alt="admin"/>
                                                 </a>
                                             </div>
                                             <div class="media-body">

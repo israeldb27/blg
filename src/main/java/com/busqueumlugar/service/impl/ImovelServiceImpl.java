@@ -284,7 +284,7 @@ public class ImovelServiceImpl implements ImovelService{
       //  dao.save(imovel);
         dao.update(imovel);
         BeanUtils.copyProperties(imovel, frm );
-        frm.setImagemImovel(this.carregaFotoPrincipalImovel(imovel));
+        frm.setImagemArquivo(this.carregaFotoPrincipalImovel(imovel));
         return frm;
 	}
 
@@ -407,7 +407,8 @@ public class ImovelServiceImpl implements ImovelService{
 	@Override
 	public ImovelForm carregaGaleriaFotosImovel(Long idImovel, boolean carregaFotoPrincipal) {
 		ImovelForm frm = new ImovelForm(); 
-		Imovel imovel = dao.findImovelById(idImovel);		
+		Imovel imovel = dao.findImovelById(idImovel);
+		imovel.setImagemArquivo(this.carregaFotoPrincipalImovel(imovel));
 		BeanUtils.copyProperties(imovel, frm);
 		frm.setListaImovelFotos(imovelfotosService.recuperarFotosImovel(idImovel));		
 		return frm;
@@ -535,7 +536,7 @@ public class ImovelServiceImpl implements ImovelService{
 		if ( form.getValorIptu()!= null && form.getValorIptu().longValue() > 0d) 
 	        form.setValorIptuFmt(AppUtil.formataMoedaString(form.getValorIptu()));
 	
-		form.setImagemImovel(this.carregaFotoPrincipalImovel(imovel));
+		form.setImagemArquivo(this.carregaFotoPrincipalImovel(imovel));
 		form.setListaEstados(estadosService.listarTodosEstadosSelect());
 		form.setListaCidades(cidadesService.selecionarCidadesPorIdEstadoSelect(form.getIdEstado()));
 		form.setListaBairros(bairrosService.selecionarBairrosPorIdCidadeSelect(form.getIdCidade()));

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.ServletContext;
 
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.busqueumlugar.dao.ImovelfotosDao;
@@ -45,12 +47,11 @@ public class ImovelfotosServiceImpl implements ImovelfotosService {
 	public Imovelfotos recuperarImovelfotosPorId(Long id) {
 		return dao.findImovelfotosById(id);
 	}
-
 	
 	public List<Imovelfotos> recuperarFotosImovel(Long idImovel) {		
 		List<Imovelfotos> lista = dao.findImovelfotosByIdImovel(idImovel);
         List<Imovelfotos>  listaFinal = new ArrayList();
-        if ( lista != null ){
+        if (! CollectionUtils.isEmpty(lista)){
         	for (Imovelfotos imovel : lista){             
                 imovel.setImagemArquivo(this.carregaImovelFoto(imovel));            
                 listaFinal.add(imovel);
@@ -65,6 +66,7 @@ public class ImovelfotosServiceImpl implements ImovelfotosService {
 		 if (imovel != null && imovel.getImg() != null){
             String idImovel =  imovel.getId().toString();
             String titulo = "imovelFoto";
+            Random r = new Random();
             String nomeArquivo = "/img/" + titulo + idImovel + ".jpg";            
           
 			try {
@@ -83,6 +85,7 @@ public class ImovelfotosServiceImpl implements ImovelfotosService {
 		}
 		else
 			return null;
+
 	}
 
 	

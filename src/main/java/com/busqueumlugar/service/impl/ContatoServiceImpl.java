@@ -91,11 +91,37 @@ public class ContatoServiceImpl implements ContatoService {
 
 	
 	public List<Contato> recuperarConvites(Long idUsuario) {
-        return dao.findConvites(idUsuario);
+		List<Contato> lista =  dao.findConvites(idUsuario);
+		List<Contato> listaFinal = new ArrayList<Contato>();
+		for (Contato contato : lista){
+			if ( idUsuario.longValue() != contato.getUsuarioConvidado().getId().longValue()){
+				contato.getUsuarioConvidado().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(contato.getUsuarioConvidado()));
+			}
+			else			
+				contato.getUsuarioHost().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(contato.getUsuarioHost()));
+			
+			listaFinal.add(contato);
+		}		
+		
+        return listaFinal;
 	}
 	
 	public List<Contato> recuperarConvidados(Long idUsuario, ContatoForm form) {	
-        return dao.findContatos(idUsuario, form);
+		
+		List<Contato> lista = dao.findContatos(idUsuario, form);
+		List<Contato> listaFinal = new ArrayList<Contato>();
+		if (! CollectionUtils.isEmpty(lista)){        	
+            for (Contato contato : lista){    
+                if ( contato.getUsuarioConvidado().getId().longValue() != idUsuario.longValue())
+                	contato.getUsuarioConvidado().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(contato.getUsuarioConvidado()));                 
+                else if ( contato.getUsuarioHost().getId().longValue() != idUsuario.longValue())
+                	contato.getUsuarioHost().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(contato.getUsuarioHost()));                    
+               
+                listaFinal.add(contato);            
+            }        
+        }
+		
+        return listaFinal;
 	}
 	
 	public List<Usuario> recuperarConvidadosIndicacaoImovel(Long idUsuario, Long idImovel , ImovelindicadoForm form) {		
@@ -125,7 +151,20 @@ public class ContatoServiceImpl implements ContatoService {
 	}
 	
 	public List<Contato> recuperarConvidadosHabilitados(Long idUsuario, ContatoForm form) {
-        return dao.findContatos(idUsuario, form);
+		List<Contato> lista = dao.findContatos(idUsuario, form);
+		List<Contato> listaFinal = new ArrayList<Contato>();
+		if (! CollectionUtils.isEmpty(lista)){        	
+            for (Contato contato : lista){    
+                if ( contato.getUsuarioConvidado().getId().longValue() != idUsuario.longValue())
+                	contato.getUsuarioConvidado().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(contato.getUsuarioConvidado()));                 
+                else if ( contato.getUsuarioHost().getId().longValue() != idUsuario.longValue())
+                	contato.getUsuarioHost().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(contato.getUsuarioHost()));                    
+               
+                listaFinal.add(contato);            
+            }        
+        }
+		
+        return listaFinal;
 	}
 
 	
@@ -370,6 +409,7 @@ public class ContatoServiceImpl implements ContatoService {
                 usuario.setStatusLeitura(contato.getStatusLeitura());
                 usuario.setIdContatoConvite(contato.getId());
                 usuario.setDataConvite(contato.getDataConvite());
+                usuario.setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(usuario));
                 listaHost.add(usuario);            
             }
         }
@@ -389,6 +429,7 @@ public class ContatoServiceImpl implements ContatoService {
             usuario.setStatusLeitura(contato.getStatusLeitura());            
             usuario.setIdContatoConvite(contato.getId());
             usuario.setDataConvite(contato.getDataConvite());
+            usuario.setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(usuario));
             listaHost.add(usuario);
 		}
 		

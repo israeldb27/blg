@@ -188,8 +188,6 @@ public class UsuarioServiceImpl implements UsuarioService{
 	@Autowired
 	private ServicoService servicoService;
 	
-	@Autowired
-	private UsuarioService usuarioService;
 	
 	@Autowired
 	private PlanousuarioDao planousuarioDao;
@@ -1585,7 +1583,7 @@ public class UsuarioServiceImpl implements UsuarioService{
                 obj = (Object[]) iter.next();
                 usuario = recuperarUsuarioPorId(Long.parseLong(obj[0].toString()));                
                 usuario.setQuantCompartilhamentoAceitos(Integer.parseInt(obj[1].toString()));
-                usuario.setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(usuario));
+                usuario.setImagemArquivo(this.carregaFotoPrincipalUsuario(usuario));
                 listaUsuarioFinal.add(usuario);
             }
         }
@@ -1817,6 +1815,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	@Override
 	public UsuarioForm prepararDetalhesUsuarioForm(Long idUsuario, Long idUsuarioSessao) {
 		Usuario usuario = dao.findUsuario(idUsuario);
+		usuario.setImagemArquivo(this.carregaFotoPrincipalUsuario(usuario));
 		UsuarioForm form = new UsuarioForm();		
 		BeanUtils.copyProperties(usuario, form);
 		
@@ -1836,6 +1835,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		if ( ! CollectionUtils.isEmpty(listaImoveisUsuario) ){			
 			for (Imovel imovel : listaImoveisUsuario){
 				imovel.setInteressadoImovel(imovelFavoritosService.checarUsuarioEstaInteressadoImovel(idUsuario, imovel.getId()));
+				imovel.setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovel));
 				listaImoveisFinal.add(imovel);
 			}
 			form.setListaImoveisUsuario(listaImoveisFinal);
@@ -3283,7 +3283,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	                obj = (Object[]) iter.next();
 	                usuario = recuperarUsuarioPorId(Long.parseLong(obj[0].toString()));                
 	                usuario.setQuantImovelVisitado(Integer.parseInt(obj[1].toString()));
-	                usuario.setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(usuario));
+	                usuario.setImagemArquivo(this.carregaFotoPrincipalUsuario(usuario));
 	                listaUsuarioFinal.add(usuario);
 	            }
 	        }
@@ -3302,7 +3302,7 @@ public class UsuarioServiceImpl implements UsuarioService{
                 obj = (Object[]) iter.next();
                 usuario = recuperarUsuarioPorId(Long.parseLong(obj[0].toString()));                
                 usuario.setQuantImovelFavoritos(Integer.parseInt(obj[1].toString()));
-                usuario.setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(usuario));
+                usuario.setImagemArquivo(this.carregaFotoPrincipalUsuario(usuario));
                 listaUsuarioFinal.add(usuario);
             }
         }
@@ -3321,7 +3321,7 @@ public class UsuarioServiceImpl implements UsuarioService{
                 obj = (Object[]) iter.next();
                 usuario = recuperarUsuarioPorId(Long.parseLong(obj[0].toString()));                
                 usuario.setQuantImovelFavoritos(Integer.parseInt(obj[1].toString()));
-                usuario.setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(usuario));
+                usuario.setImagemArquivo(this.carregaFotoPrincipalUsuario(usuario));
                 listaUsuarioFinal.add(usuario);
             }
         }
@@ -3334,8 +3334,9 @@ public class UsuarioServiceImpl implements UsuarioService{
 		if  ( usuario != null && usuario.getFotoPrincipal() != null ){
 			
 			String login = usuario.getLogin();
-	        String idUsuario = usuario.getId().toString();            
-	        String nomeArquivo = "/img/" + login + idUsuario + ".jpg";
+	        String idUsuario = usuario.getId().toString();  
+	        Random r = new Random();
+	        String nomeArquivo = "/img/" + login + idUsuario + r.nextInt(1000) +".jpg";
 			
 			try {
 				String arquivo = context.getRealPath(nomeArquivo);
@@ -3362,8 +3363,9 @@ public class UsuarioServiceImpl implements UsuarioService{
 		if  ( usuario != null && usuario.getFotoPrincipal() != null ){
 			
 			String login = usuario.getLogin();
-	        String idUsuario = usuario.getId().toString();            
-	        String nomeArquivo = "/img/" + login + idUsuario + ".jpg";
+	        String idUsuario = usuario.getId().toString();        
+	        Random r = new Random();
+	        String nomeArquivo = "/img/" + login + idUsuario + r.nextInt(1000) +".jpg";
 			
 			try {
 				String arquivo = context.getRealPath(nomeArquivo);

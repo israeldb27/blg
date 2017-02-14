@@ -123,13 +123,13 @@
 					                                         	<c:choose>
 					                                         		<c:when test="${((nota.acao == 'P') || (nota.acao == 'R') || (nota.acao == 'U') || (nota.acao == 'E'))}">
 					                                         			<a href="#" onClick="carregaDetalhesUsuario(${nota.usuario.id})" >                                         	
-						                                              		<img class="img-circle img-bordered-success" src="${context}${nota.imagemUsuario}" style="width: 60px; height: 60px; " alt="admin"/>
+						                                              		<img class="img-circle img-bordered-success" src="${context}${nota.usuario.imagemArquivo}" style="width: 60px; height: 60px; " />
 						                                              	</a>	
 					                                         		</c:when>
 					                                         		
 					                                         		<c:when test="${(nota.acao == 'I')}">
 					                                         			<a href="#" onClick="carregaDetalhesImovel(${nota.imovel.id})" >
-						                                            		<img src="${context}${nota.imagemImovel}" style="width: 60px; height: 60px; " alt="admin"/>
+						                                            		<img src="${context}${nota.imovel.imagemArquivo}" style="width: 60px; height: 60px; " alt="admin"/>
 						                                            	</a>	
 					                                         		</c:when>
 					                                         	</c:choose>					                                         	                                               	 

@@ -1,5 +1,6 @@
 package com.busqueumlugar.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,9 +10,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.busqueumlugar.dao.SeguidorDao;
 import com.busqueumlugar.dao.UsuarioDao;
 import com.busqueumlugar.enumerador.StatusLeituraEnum;
+import com.busqueumlugar.model.Recomendacao;
 import com.busqueumlugar.model.Seguidor;
 import com.busqueumlugar.service.SeguidorService;
 import com.busqueumlugar.service.UsuarioService;
@@ -26,6 +29,9 @@ public class SeguidorServiceImpl implements SeguidorService {
 	
 	@Autowired
 	private UsuarioDao usuarioDao;
+	
+	@Autowired
+	private UsuarioService usuarioService;
 	
 	@Override
 	public Seguidor recuperarSeguidorPorId(Long id) {
@@ -64,8 +70,14 @@ public class SeguidorServiceImpl implements SeguidorService {
 	}
 
 	@Override
-	public List<Seguidor> recuperarSeguidoresPorIdUsuarioSeguido(Long idUsuario) {		
-		return dao.findSeguidoresByIdUsuarioSeguido(idUsuario);
+	public List<Seguidor> recuperarSeguidoresPorIdUsuarioSeguido(Long idUsuario) {	
+		List<Seguidor> lista = dao.findSeguidoresByIdUsuarioSeguido(idUsuario);
+		List<Seguidor> listaFinal = new ArrayList<Seguidor>();		
+		for (Seguidor seguidor : lista){
+			seguidor.getUsuario().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(seguidor.getUsuario()));
+			listaFinal.add(seguidor);
+		}
+		return listaFinal;	
 	}
 
 	@Override

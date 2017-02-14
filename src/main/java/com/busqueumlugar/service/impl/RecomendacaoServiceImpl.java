@@ -44,8 +44,14 @@ public class RecomendacaoServiceImpl implements RecomendacaoService {
 	}
 
 	@Override
-	public List<Recomendacao> recuperarRecomendacoesPorIdUsuarioRecomendado(Long idUsuario) {		
-		return dao.findListRecomendacaoByIdUsuario(idUsuario);
+	public List<Recomendacao> recuperarRecomendacoesPorIdUsuarioRecomendado(Long idUsuario) {	
+		List<Recomendacao> lista = dao.findListRecomendacaoByIdUsuario(idUsuario);
+		List<Recomendacao> listaFinal = new ArrayList<Recomendacao>();		
+		for (Recomendacao recomendacao : lista){
+			recomendacao.getUsuario().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(recomendacao.getUsuario()));
+			listaFinal.add(recomendacao);
+		}
+		return listaFinal;	
 	}
 
 	@Override

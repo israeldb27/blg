@@ -497,55 +497,56 @@ function cancelarSuspensaoUsuario(){
 			                                </div><!-- /.panel-heading -->
 			                                <div class="panel-body panel panel-info rounded shadow">
 			                                    <c:if test="${ not empty usuarioForm.listaNotasUsuario }">
-													  <c:forEach var="nota" items="${usuario.listaNotasUsuario}"> 		                                	
+													  <c:forEach var="nota" items="${usuarioForm.listaNotasUsuario}"> 		                                	
 														<div class="media inner-all">
 							                                  <div class="pull-left">
 							                                         <span class="fa fa-stack fa-2x">
-							                                         	<c:if test="${((nota.acao == 'parceria') || (nota.acao == 'preferencia') || (nota.acao == 'usuario') )}">                                         	
-							                                              	<img class="img-circle img-bordered-success" src="${context}/${nota.imagemUsuario}" style="width: 60px; height: 60px; " alt="admin"/>
-							                                            </c:if>                                               	 
-							                                            <c:if test="${(nota.acao == 'imovel')}">
-							                                            	<img src="${context}/${nota.imagemImovel}" style="width: 60px; height: 60px; " alt="admin"/>
-							                                            </c:if>
+							                                      
+							                                         	<c:choose>
+							                                         		<c:when test="${((nota.acao == 'P') || (nota.acao == 'R') || (nota.acao == 'U') || (nota.acao == 'E'))}">
+							                                         			<a href="#" onClick="carregaDetalhesUsuario(${nota.usuario.id})" >                                         	
+								                                              		<img class="img-circle img-bordered-success" src="${context}${nota.usuario.imagemArquivo}" style="width: 60px; height: 60px; " alt="admin"/>
+								                                              	</a>	
+							                                         		</c:when>
+							                                         		
+							                                         		<c:when test="${(nota.acao == 'I')}">
+							                                         			<a href="#" onClick="carregaDetalhesImovel(${nota.imovel.id})" >
+								                                            		<img src="${context}${nota.imovel.imagemArquivo}" style="width: 60px; height: 60px; " alt="admin"/>
+								                                            	</a>	
+							                                         		</c:when>
+							                                         	</c:choose>	
 							                                         </span>
 							                                  </div><!-- /.pull-left -->
 							                                  <div class="media-body">
-																  <c:choose>
-																		<c:when test="${nota.acao == 'parceria'}">
-																			<a href="${urlAdmin}/detalhesImovel/${imovel.id} class="h4"><spring:message code="lbl.nota.parceria"/></a>												    			    	
-																		</c:when>	
-																		
-																		<c:when test="${nota.acao == 'preferencia'}">
-																			<a href="#" class="h4"><spring:message code="lbl.nota.preferencia"/></a>
-																		</c:when>	
-																		
-																		<c:when test="${nota.acao == 'usuario'}">
-																			<a href="${urlAdmin}/detalhesUsuario/${usuarioBusca.id}" class="h4"><spring:message code="lbl.nota.info.usuario"/></a>
-																		</c:when>	
-																		
-																		<c:when test="${nota.acao == 'imovel'}">
-																			<a href="${urlAdmin}/detalhesImovel/${imovel.id} class="h4"><spring:message code="lbl.nota.imovel"/></a>
-																		</c:when>	
-																		
-																  </c:choose>
-
-																	<c:choose>
-																		<c:when test="${nota.acao == 'parceria'}">
-																			<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao} <a href="${urlImovel}/detalhesImovel/${nota.idImovel}" ><strong>${nota.tituloImovel} </strong></a></small>
-																		</c:when>
-																		
-																		<c:when test="${nota.acao == 'imovel'}">
-																			<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao} <a href="${urlImovel}/detalhesImovel/${nota.idImovel}" ><strong>${nota.tituloImovel} </strong></a></small>
-																		</c:when>
-																		
-																		<c:when test="${nota.acao == 'usuario'}">
-																			<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao} <a href="${urlUsuario}/detalhesUsuario/${nota.idUsuario}" ><strong>${nota.nomeUsuario} </strong></a></small>
-																		</c:when>												    
-																		<c:when test="${nota.acao == 'preferencia'}">
-																			<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao}</small>
-																		</c:when>
-																		
-																	</c:choose>																  
+							                                  	  <c:when test="${nota.acao == 'P'}">
+																    	<a href="#" class="h4"><spring:message code="lbl.nota.parceria"/></a>
+																    	
+																    	<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao} <a href="#" onClick="carregaDetalhesImovel(${nota.imovel.id})" ><strong>${nota.imovel.titulo} </strong></a></small>		
+																    </c:when>
+																    
+																    <c:when test="${nota.acao == 'R'}">
+																    	<a href="#" class="h4"><spring:message code="lbl.nota.preferencia"/></a>
+																    	
+																    	<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao}</small>
+																    </c:when>
+																    
+																    <c:when test="${nota.acao == 'U'}">
+																    	<a href="#" class="h4"><spring:message code="lbl.nota.info.usuario"/></a>
+																    	
+																    	<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao} <a href="#" onClick="carregaDetalhesUsuario(${nota.usuario.id})"><strong>${nota.usuario.nome} </strong></a></small>
+																    </c:when>
+																    
+																    <c:when test="${nota.acao == 'E'}">
+																    	<a href="#" class="h4"><spring:message code="lbl.nota.pessoal"/></a>
+																    	
+																    	<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao} </small>
+																    </c:when>
+																    
+																    <c:when test="${nota.acao == 'I'}">
+																    	<a href="#"  class="h4"><spring:message code="lbl.nota.imovel"/></a>
+																    	
+																    	<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao} <a href="#" onClick="carregaDetalhesImovel(${nota.imovel.id})" ><strong>${nota.imovel.titulo} </strong></a></small>
+																    </c:when> 												  
 							                                      
 							                                      <em class="text-xs text-muted"><spring:message code="lbl.data.nota"/> <span class="text-danger"><fmt:formatDate value='${nota.dataNota}' pattern='dd/MM/yyyy'/></span></em>
 							                                  </div><!-- /.media-body -->

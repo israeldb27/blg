@@ -50,12 +50,7 @@ function preparaExclusaoFoto(idFoto, idImovel){
             	 <!-- Start header content -->
                 <div class="header-content">
                     <h2><i class="fa fa-pencil"></i><spring:message code="lbl.title.aba.alterar.galeria.fotos.imovel"/> </h2>                                                                        
-					
-					<!-- Start header modal Ajuda - funcionalidade -->
-						<c:import url="../../ajuda/headerMenuModal.jsp"></c:import>																				
-					<!-- End header  modal Ajuda - funcionalidade -->
-					
-                </div><!-- /.header-content -->                
+	            </div><!-- /.header-content -->                
                 
                 <!-- Start body content -->
                 <div class="body-content animated fadeIn">
@@ -80,7 +75,7 @@ function preparaExclusaoFoto(idFoto, idImovel){
                                               <div align="center">
                                                   <ul class="list-unstyled">
 				                                        <li class="text-center">				                                        
-				                                            <img class="img-circle img-bordered-primary" src="${context}/${imovelForm.imagemArquivo}" style="width: 200px; height: 200px; " alt="Tol Lee">
+				                                            <img class="img-circle img-bordered-primary" src="${context}${imovelForm.imagemArquivo}" style="width: 200px; height: 200px; " alt="Tol Lee">
 				                                        </li>
 				                                   </ul>     	
                                               </div>
@@ -180,7 +175,7 @@ function preparaExclusaoFoto(idFoto, idImovel){
 						                                               	</td>
 						                                                <td class="text-center"><fmt:formatDate value='${imovel.dataCadastro}' pattern='dd/MM/yyyy'/></td>
 						                                                <td class="text-center">                                                    
-						                                                    <a href="#" onClick="preparaExclusaoFoto(${imovel.id}, ${imovel.idImovel});" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" data-original-title="Excluir"><i class="fa fa-times"></i></a>
+						                                                    <a href="#" onClick="preparaExclusaoFoto(${imovel.id}, ${imovel.imovel.id});" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" data-original-title="Excluir"><i class="fa fa-times"></i></a>
 						                                                </td>
 						                                            </tr>
 					                                            </c:forEach>				                                            

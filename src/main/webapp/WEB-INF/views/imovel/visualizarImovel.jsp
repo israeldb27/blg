@@ -459,14 +459,14 @@ function prepararModalGaleriaFotos(){
 									<br>
                                     <div class="pull-right">
                                     	<a href="#a" onClick="prepararModalGaleriaFotos()" style="font-size:x-large;" class="meta-action"><i class="fa fa-file-image-o" style="color:gray" title="<spring:message code="lbl.title.link.alterar.galeria.foto.imovel"/>"></i><font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.title.link.alterar.galeria.foto.imovel"/> </font></a>
-                                    	&nbsp;&nbsp;&nbsp;&nbsp;  
+                                    	&nbsp;&nbsp;&nbsp;&nbsp;                                     	 
                                     	<c:choose>
-                                    		<c:when test="${(imovelForm.interessadoImovel == 'N')}">
+                                    		<c:when test="${((imovelForm.interessadoImovel == 'N') && (imovelForm.usuarioDonoImovel.id != usuario.id))}">
                                     			<a href="#a" id="idMeInteressei" onClick="adicionarInteresse(${imovelForm.id})" style="font-size:x-large;" class="meta-action"><i class="fa fa-star-o" style="color:gray" title="<spring:message code="lbl.me.interessei"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.me.interessei"/> </font></a> 
                                             	<a href="#a" id="idInteressado" onClick="retirarInteresse(${imovelForm.id})" style="font-size:x-large;display:none;" class="meta-action"><i class="fa fa-star" style="color:gray" title="<spring:message code="lbl.interessado"/>"></i><font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.interessado"/> </font></a> 
                                     		</c:when>
                                     		
-                                    		<c:when test="${imovelForm.interessadoImovel == 'S'}">
+                                    		<c:when test="${((imovelForm.interessadoImovel == 'S') && (imovelForm.usuarioDonoImovel.id == usuario.id))}">
                                     			<a href="#a" id="idMeInteressei" onClick="adicionarInteresse(${imovelForm.id})" style="font-size:x-large;display:none;" class="meta-action"><i class="fa fa-star-o" style="color:gray" title="<spring:message code="lbl.me.interessei"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.me.interessei"/> </font></a></a>
                                             	<a href="#a" id="idInteressado" onClick="retirarInteresse(${imovelForm.id})" style="font-size:x-large;" class="meta-action"><i class="fa fa-star" style="color:gray" title="<spring:message code="lbl.interessado"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.interessado"/> </font> </a>
                                     		</c:when>
@@ -964,7 +964,7 @@ function prepararModalGaleriaFotos(){
                           <!-- /.END Visitas -->  
                           
                           <!-- /.START Usuarios Interessados-->	
-							<c:if test="${imovelForm.idUsuario == usuario.id}">	
+							<c:if test="${imovelForm.usuarioDonoImovel.id == usuario.id}">	
 							  <div class="panel rounded shadow">	
 								<div class="panel-heading">                                   
                                       <h3 class="panel-title">
@@ -1000,12 +1000,12 @@ function prepararModalGaleriaFotos(){
 		                                            <c:forEach var="imovelFavorito" items="${imovelForm.listaUsuariosInteressados}">
 		                                               <tr>
 		                                               	  <td class="text-center">
-																<a href="${urlUsuario}/detalhesUsuario/${imovelFavorito.idUsuario}">
-																	<img src="${context}/${imovelFavorito.imagemUsuario}" style="width: 60px; height: 50px; " />	                				
+																<a href="${urlUsuario}/detalhesUsuario/${imovelFavorito.usuario.id}">
+																	<img src="${context}/${imovelFavorito.usuario.imagemArquivo}" style="width: 60px; height: 50px; " />	                				
 																</a> 
 														  </td>	
-		                                                  <td><small><a href="${urlUsuario}/detalhesUsuario/${imovelFavorito.idUsuario}">
-																		${imovelFavorito.nomeUsuarioInteressado}	                				
+		                                                  <td><small><a href="${urlUsuario}/detalhesUsuario/${imovelFavorito.usuario.id}">
+																		${imovelFavorito.usuario.nome}	                				
 																	</a> 
 															  </small>
 														  </td>
