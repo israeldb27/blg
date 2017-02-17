@@ -68,9 +68,7 @@ public class Usuario extends BaseEntity implements Serializable {
       
     @Column(name = "bairro")
     private String bairro;
-    
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="E-mail inv�lido")//if the field contains email address consider using this annotation to enforce field validation
-    
+  
     @Column(name = "email")
     private String email;    
     
@@ -93,7 +91,7 @@ public class Usuario extends BaseEntity implements Serializable {
     
     @Column(name = "dataUltimoAcesso")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dataUltimoAcesso; // este campo � atualizado quando usuario se loga no sistema    
+    private Date dataUltimoAcesso; 
     
     @Column(name = "dataCadastro")
     @Temporal(TemporalType.TIMESTAMP)
@@ -110,10 +108,10 @@ public class Usuario extends BaseEntity implements Serializable {
     private int pontosNegociacaoImovel;    
         
     @Column(name = "quantUsuarioAprovServico")
-    private int quantUsuarioAprovServico; // indica a quantidade de usu�rios que aprovaram o servico do corretor ou imobiliaria    
+    private int quantUsuarioAprovServico;    
         
     @Column(name = "quantUsuarioDesaprovServico")
-    private int quantUsuarioDesaprovServico; // indica a quantidade de usu�rios que desaprovaram o servico do corretor ou imobiliaria
+    private int quantUsuarioDesaprovServico; 
     
     @Column(name = "codigoIdentificacao")
     private String codigoIdentificacao; 
@@ -122,10 +120,10 @@ public class Usuario extends BaseEntity implements Serializable {
     private String ativado;
         
     @Column(name = "habilitaBusca")
-    private String habilitaBusca;  // permite usuario definir se ele quer aparecer no resultado da busca de usuarios e na lista de contato de um usu�rio quando  um terceiro for visualiz�-lo
+    private String habilitaBusca;  
         
     @Column(name = "habilitaDetalhesInfoUsuario")
-    private String habilitaDetalhesInfoUsuario; // permite usu�rio definir se ele deseja ou n�o que os detalhes de suas informa��es sejam exibidos quando seu perfil for visualizado.   
+    private String habilitaDetalhesInfoUsuario;    
     
     @Column(name = "quantCadastroImoveis", nullable = true)
     private int quantCadastroImoveis ; // indica quantidade maxima de imoveis que o usuario pode cadastrar

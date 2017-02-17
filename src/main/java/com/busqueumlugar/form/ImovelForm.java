@@ -80,7 +80,7 @@ public class ImovelForm extends BaseForm{
     private String autorizaComentario = "";
     private String nomeFinanciadora = "";
     private String opcaoServicosImovel = "";    
-    private String interessadoImovel = "N"; // este campo � usado para indicar se o usu�rio j� se interessou pelo im�vel sendo analisado    
+    private String interessadoImovel = "N";     
     
     private int quantQuartos = 0;      
     private int quantGaragem = 0;      
@@ -102,7 +102,7 @@ public class ImovelForm extends BaseForm{
     private Double latitude;    
     private Double longitude;
     private String center;
-    //private MapModel simpleModel; // este campo � usado para o google maps
+    
     private String habilitaInfoDonoImovel = "";
     private String habilitaFotosImovel = "";
     private String habilitaMapaImovel = "";
@@ -120,7 +120,7 @@ public class ImovelForm extends BaseForm{
     
     private MultipartFile fileImovel;
     
-    // inicio campos usados para o Detalhes Im�vel
+    // inicio campos usados para o Detalhes Imovel
     private List<ImovelPropostas> listaPropostas;
     private List<Imovelcomentario> listaComentario;
     private List<Parceria> listaParceria;

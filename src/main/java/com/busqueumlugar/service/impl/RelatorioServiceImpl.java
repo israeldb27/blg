@@ -325,7 +325,7 @@ public class RelatorioServiceImpl implements RelatorioService {
 	
 	public String validarAdicionarPerfilRelatorio(RelatorioForm frm) {		
 		
-        // checar se o perfil selecionado est� vazio ou n�o
+        // checar se o perfil selecionado estA vazio ou nAo
         if (( frm.getPerfilSelecionado() == null ) || 
             ( frm.getPerfilSelecionado() != null && frm.getPerfilSelecionado().equals("")))
             return MessageUtils.getMessage("msg.erro.selecionar.relatorio.obrigatorio");                    
@@ -345,7 +345,7 @@ public class RelatorioServiceImpl implements RelatorioService {
 	
 	public String validarCadastroNovoRelatorioSistema(RelatorioForm frm) {		
 		
-        // checar se o tipo relatorio est� vazio ou n�o
+        // checar se o tipo relatorio esta vazio ou nao
         if (StringUtils.isEmpty(frm.getTipo()))
            return MessageUtils.getMessage("msg.erro.selecionar.tipo.relatorio.obrigatorio");
                    
@@ -396,7 +396,7 @@ public class RelatorioServiceImpl implements RelatorioService {
         
         String cobrarAssinatura = parametrosIniciaisService.findParametroInicialPorNome("cobrarAssinatura");
         if ( cobrarAssinatura.equals("S")){
-        	// checando se o parametro para o servico est� marcando ou nao gratuidade
+        	// checando se o parametro para o servico esta marcando ou nao gratuidade
             if ( perfil.equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()))
                 cobrado = paramservicoService.checarServicoCobrado(ServicoValueEnum.RELATORIO_PADRAO.getRotulo());
             else if ( perfil.equals(PerfilUsuarioOpcaoEnum.CORRETOR.getRotulo()))
@@ -404,7 +404,7 @@ public class RelatorioServiceImpl implements RelatorioService {
             else if ( perfil.equals(PerfilUsuarioOpcaoEnum.IMOBILIARIA.getRotulo()))
                 cobrado = paramservicoService.checarServicoCobrado(ServicoValueEnum.RELATORIO_IMOBILIARIA.getRotulo());       
             
-            // mesmo se o parametro indicar para cobrar, checar se est� no periodo de gratuidade do usuario
+            // mesmo se o parametro indicar para cobrar, checar se esta no periodo de gratuidade do usuario
             if ( cobrado ){
                 DateUtil dtCadastro = new DateUtil();
                 dtCadastro.setTime(dataCadastroUsuario);
@@ -414,7 +414,7 @@ public class RelatorioServiceImpl implements RelatorioService {
                     cobrado = false;
             }        
             
-            if ( cobrado ){ // se o servico � cobrado entao checar se o usu�rio pagou pelo servico para usar no periodo corrente
+            if ( cobrado ){ // se o servico eh cobrado entao checar se o usuario pagou pelo servico para usar no periodo corrente
                 if ( perfil.equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()))
                     servico = servicoDao.findServicoRelatorioByIdUsuario(idUsuario,ServicoValueEnum.RELATORIO_PADRAO.getRotulo(), dtAtual.getTime());
                 else if ( perfil.equals(PerfilUsuarioOpcaoEnum.CORRETOR.getRotulo()))

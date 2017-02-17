@@ -57,8 +57,7 @@ public class Imovelindicado implements Serializable {
     private String emailImovelIndicado;
     
     @Transient
-    private String interessadoImovel = ""; // este campo � usado para indicar se o usu�rio est� interessado ou nao no imovel
-  
+    private String interessadoImovel = "";   
     
 	public String getInteressadoImovel() {
 		return interessadoImovel;

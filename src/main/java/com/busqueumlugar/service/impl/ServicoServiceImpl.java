@@ -154,7 +154,7 @@ public class ServicoServiceImpl implements ServicoService {
         servico.setAssociadoPlano("N");
         dao.save(servico);
         
-        // atualizando status do usuario sinalizando que ele havia feito uma solicita��o de assinatura
+        // atualizando status do usuario sinalizando que ele havia feito uma solicitacao de assinatura
         usuarioService.atualizarStatusUsuario(servico.getUsuario().getId(), "assinaturaSolicitada");
 	}
 
@@ -253,7 +253,7 @@ public class ServicoServiceImpl implements ServicoService {
 
 	
 	public boolean checarPossuiServicoPago(Long idUsuario, String descServico) {		
-		//checando se o servico est� sendo cobrado
+		//checando se o servico esta sendo cobrado
         boolean cobrado = paramservicoService.checarServicoCobrado(descServico);
         if ( cobrado){
             DateUtil dtAtual = new DateUtil();
@@ -648,7 +648,7 @@ public class ServicoServiceImpl implements ServicoService {
         }
         else if ( descServico.equals(ServicoValueEnum.RELATORIOS.getRotulo())){
             DateUtil dtAtual = new DateUtil();                
-            int quantDias = plano.getDuracaoPlano() * 30 ; // duracao do plano est� em meses
+            int quantDias = plano.getDuracaoPlano() * 30 ; // duracao do plano esta em meses
             Calendar cal = Calendar.getInstance(); 
             cal.setTime(new Date()); 
             cal.add(Calendar.DAY_OF_MONTH, quantDias);
@@ -746,7 +746,7 @@ public class ServicoServiceImpl implements ServicoService {
          servico.setAssociadoPlano("S");            
         
          DateUtil dtAtual = new DateUtil();                
-         int quantDias = plano.getDuracaoPlano() * 30 ; // duracao do plano est� em meses
+         int quantDias = plano.getDuracaoPlano() * 30 ; // duracao do plano esta em meses
          Calendar cal = Calendar.getInstance(); 
          cal.setTime(new Date()); 
          cal.add(Calendar.DAY_OF_MONTH, quantDias);

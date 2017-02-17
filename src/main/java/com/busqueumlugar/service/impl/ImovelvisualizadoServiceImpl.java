@@ -153,7 +153,7 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 	public void adicionarVisitaImovel(Long idImovel, Long idUsuario) {
 		Imovel imovel = imovelDao.findImovelById(idImovel);
 		if (! imovel.getUsuario().getId().equals(idUsuario)){
-			//checar se este im�vel j� foi visitado anteriormente
+			//checar se este imovel ja foi visitado anteriormente
 	        Imovelvisualizado imovelVisitadoAntes = dao.findImovelVisitadoPorUsuarioPorImovel(idUsuario, idImovel);
 	        if ( imovelVisitadoAntes == null ){
 	            Imovelvisualizado imovelvisitado = new Imovelvisualizado();   
