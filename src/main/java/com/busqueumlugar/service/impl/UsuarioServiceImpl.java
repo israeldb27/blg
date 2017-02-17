@@ -944,11 +944,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		String msg = "";
         Usuario usuario = null;
         if ( frm != null){            
-            /*if ( ! frm.getPassword().equals(frm.getConfirmaPassword()))
-                msg = "Os campos password e confirma password n�o conferem";
-            else
-                usuario = dao.findUsuarioByLogin(frm.getLogin());*/
-            
+                   
             if ( msg.equals("")){                
                 if ( usuario != null) {                    
                     if (! usuario.getId().equals(frm.getId()))

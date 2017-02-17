@@ -47,7 +47,7 @@ public class Imovelvisualizado extends BaseEntity implements Serializable{
     private Usuario usuarioDonoImovel;
     
     @Transient
-    private String interessadoImovel = ""; // este campo eh usado para indicar se o usu�rio est� interessado ou nao no imovel
+    private String interessadoImovel = ""; // este campo eh usado para indicar se o usuario esta interessado ou nao no imovel
     
 
     public String getInteressadoImovel() {

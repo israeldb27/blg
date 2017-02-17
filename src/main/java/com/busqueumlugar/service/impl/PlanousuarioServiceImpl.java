@@ -106,7 +106,7 @@ public class PlanousuarioServiceImpl implements PlanousuarioService{
 	public void simulaRetornoPagtoPlano(Long idPlanoUsuario) {	
 		Planousuario p = dao.findPlanousuarioById(idPlanoUsuario);
         
-        int quantDias = p.getPlano().getDuracaoPlano() * 30 ; // duracao do plano est� em meses
+        int quantDias = p.getPlano().getDuracaoPlano() * 30 ; // duracao do plano esta em meses
         Calendar cal = Calendar.getInstance(); 
         cal.setTime(new Date()); 
         cal.add(Calendar.DAY_OF_MONTH, quantDias);         
@@ -164,7 +164,7 @@ public class PlanousuarioServiceImpl implements PlanousuarioService{
         }
         else if ( descServico.equals(ServicoValueEnum.RELATORIOS.getRotulo())){
             Date dtAtual = new Date();                
-            int quantDias = plano.getDuracaoPlano() * 30 ; // duracao do plano est� em meses
+            int quantDias = plano.getDuracaoPlano() * 30 ; // duracao do plano esta em meses
             Calendar cal = Calendar.getInstance(); 
             cal.setTime(new Date()); 
             cal.add(Calendar.DAY_OF_MONTH, quantDias);
@@ -204,7 +204,7 @@ public class PlanousuarioServiceImpl implements PlanousuarioService{
         servico.setAssociadoPlano("S");            
        
         Date dtAtual = new Date();                
-        int quantDias = plano.getDuracaoPlano() * 30 ; // duracao do plano est� em meses
+        int quantDias = plano.getDuracaoPlano() * 30 ; // duracao do plano esta em meses
         Calendar cal = Calendar.getInstance(); 
         cal.setTime(new Date()); 
         cal.add(Calendar.DAY_OF_MONTH, quantDias);
@@ -247,7 +247,7 @@ public class PlanousuarioServiceImpl implements PlanousuarioService{
         }
         else if ( descServico.equals(ServicoValueEnum.RELATORIOS.getRotulo())){
             //Date dtAtual = new Date();                
-            int quantDias = plano.getDuracaoPlano() * 30 ; // duracao do plano est� em meses
+            int quantDias = plano.getDuracaoPlano() * 30 ; // duracao do plano esta em meses
             Calendar cal = Calendar.getInstance(); 
             cal.setTime(new Date()); 
             cal.add(Calendar.DAY_OF_MONTH, quantDias);
@@ -282,7 +282,7 @@ public class PlanousuarioServiceImpl implements PlanousuarioService{
         servico.setAssociadoPlano("S");            
        
         //Date dtAtual = new Date();                
-        int quantDias = plano.getDuracaoPlano() * 30 ; // duracao do plano est� em meses
+        int quantDias = plano.getDuracaoPlano() * 30 ; // duracao do plano esta em meses
         Calendar cal = Calendar.getInstance(); 
         cal.setTime(new Date()); 
         cal.add(Calendar.DAY_OF_MONTH, quantDias);
@@ -576,7 +576,7 @@ public class PlanousuarioServiceImpl implements PlanousuarioService{
         p.setValorPlano(p.getPlano().getValorPlano());
         dao.save(p);        
         
-        int quantDias = p.getPlano().getDuracaoPlano() * 30 ; // duracao do plano est� em meses
+        int quantDias = p.getPlano().getDuracaoPlano() * 30 ; // duracao do plano esta em meses
         Calendar cal = Calendar.getInstance(); 
         cal.setTime(new Date()); 
         cal.add(Calendar.DAY_OF_MONTH, quantDias);         

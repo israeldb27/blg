@@ -208,19 +208,12 @@ public class ImovelcomentarioServiceImpl implements ImovelcomentarioService {
                 
         Usuario usuarioDonoImovel = imovel.getUsuario();
         // assunto        
-        email.setAssunto("Coment�rio sobre um de seus im�veis - BusqueUmLugar.com.br");
+ 
         // para
         email.setTo(usuarioDonoImovel.getEmail());
         
         // Texto do Email
-        texto.append("Um usu�rio lan�ou um coment�rio sobre um de seus im�veis. Segue abaixo: " + "\n");
-        texto.append("T�tulo im�vel: " + imovel.getTitulo() + "\n");
-        texto.append("Tipo Im�vel: " + imovel.getTipoImovel() + "\n");
-        texto.append("Estado: " + imovel.getEstado() + "\n");
-        texto.append("Cidade: " + imovel.getCidade() + "\n");
-        texto.append("Bairro: " + imovel.getBairro() + "\n");
-        texto.append("Data coment�rio: " + new DateUtil().getStrDate() + "\n");
-        email.setTextoEmail(texto.toString());      
+       
         
         email.setAcao("comentarioImovel");
         return email;

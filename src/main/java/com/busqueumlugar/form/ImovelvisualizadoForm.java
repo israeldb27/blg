@@ -55,7 +55,7 @@ public class ImovelvisualizadoForm extends BaseForm{
     private String opcaoPerfilContatoAgruparUsuarios;
     private boolean temFiltroPerfilContatoAgruparUsuarios;
     
-    private String interessadoImovel = ""; // este campo eh usado para indicar se o usu�rio est� interessado ou nao no imovel
+    private String interessadoImovel = ""; // este campo eh usado para indicar se o usuario esta interessado ou nao no imovel
     
     private String valorMin;
 	private String valorMax;

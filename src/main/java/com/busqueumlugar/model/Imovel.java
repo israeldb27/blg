@@ -188,7 +188,7 @@ public class Imovel extends BaseEntity implements Serializable{
     private int quantidade = 0;
   
 	@Transient
-    private String interessadoImovel = ""; // este campo � usado para indicar se o usu�rio est� interessado ou nao no imovel
+    private String interessadoImovel = ""; // este campo eh usado para indicar se o usuario estA interessado ou nao no imovel
         
 	@Transient
     private long quantPropostas;

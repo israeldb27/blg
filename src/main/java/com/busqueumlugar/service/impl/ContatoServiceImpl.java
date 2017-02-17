@@ -248,7 +248,7 @@ public class ContatoServiceImpl implements ContatoService {
     	    return MessageUtils.getMessage("msg.erro.enviar.convite.usuario.desativado");      
                     
 
-        // checando se j� existe um contato com o usuario                        
+        // checando se ja existe um contato com o usuario                        
         if (( dao.findContatosByStatus(userSession.getId(), usuarioConvidado.getId(), ContatoStatusEnum.OK.getRotulo()) != null ) ||
             ( dao.findContatosByStatus(usuarioConvidado.getId(), userSession.getId(), ContatoStatusEnum.OK.getRotulo()) != null )){
             return MessageUtils.getMessage("msg.erro.enviar.convite.contato.feito");                               
@@ -269,7 +269,7 @@ public class ContatoServiceImpl implements ContatoService {
         if ( userSession.getId().equals(idUsuarioConvidado))
         	return MessageUtils.getMessage("msg.erro.enviar.convite.si.mesmo");
 
-        // checando se j� existe um contato com o usuario                        
+        // checando se ja existe um contato com o usuario                        
         if (( dao.findContatosByStatus(userSession.getId(), idUsuarioConvidado, ContatoStatusEnum.OK.getRotulo()) != null ) ||
             ( dao.findContatosByStatus(idUsuarioConvidado, userSession.getId(), ContatoStatusEnum.OK.getRotulo()) != null )){
         	return MessageUtils.getMessage("msg.erro.enviar.convite.contato.feito");           	 

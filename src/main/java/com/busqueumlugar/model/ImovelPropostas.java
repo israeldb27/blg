@@ -60,7 +60,7 @@ public class ImovelPropostas implements Serializable {
     private String status; // nova, lida 
     
     @Transient
-    private String interessadoImovel = ""; // este campo � usado para indicar se o usu�rio est� interessado ou nao no imovel	
+    private String interessadoImovel = ""; // este campo eh usado para indicar se o usuario esta interessado ou nao no imovel	
     
 	public String getInteressadoImovel() {
 		return interessadoImovel;
