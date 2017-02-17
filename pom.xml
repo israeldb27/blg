@@ -10,7 +10,7 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<java-version>1.7</java-version>
+		<java-version>1.8</java-version>
 		<org.springframework-version>4.1.5.RELEASE</org.springframework-version>
 		<springsecurity.version>4.0.4.RELEASE</springsecurity.version>
 		<org.aspectj-version>1.7.4</org.aspectj-version>
