@@ -152,11 +152,18 @@
 		</script>
 		
         <c:import url="../../layout/cadastroUsuario/head-layout.jsp"></c:import>
-
+	<%@ include file="/WEB-INF/views/layout/head-login.jsp"%>
     <!--/ END HEAD -->
    
-    <body>
-
+    <body class="home">
+    
+	<div class="all">
+		<div class="header">
+		    <div class="content">
+			<h1 class="logo">Busque um Lugar</h1>
+		    </div>
+		</div>
+    	</div>
         <!-- INICIO - Cadastro Usuario -->
             
             <!-- Start header content -->
