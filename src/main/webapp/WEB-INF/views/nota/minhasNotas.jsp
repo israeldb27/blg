@@ -120,6 +120,21 @@
 								</div><!-- /.panel-heading -->
 
 								<div class="panel-body" style="background: #eeeeef">
+									<div class="panel-body no-padding">
+										<form action="#">
+											<div class="form-body">
+												<div class="form-group">
+													<textarea class="form-control" rows="5"></textarea>
+												</div><!-- /.form-group -->
+											</div>
+											<div class="form-footer">
+												<div align="center">
+													<button type="submit" class="btn btn-primary">Escrever Nota</button>
+												</div>
+												<div class="clearfix"></div>
+											</div><!-- /.form-footer -->
+										</form>
+									</div>
 									<div class="profile-body">
 										<div class="timeline">
 											<div class="timeline-item">
