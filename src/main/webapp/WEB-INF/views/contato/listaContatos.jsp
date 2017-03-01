@@ -106,8 +106,8 @@ $(document).ready(function() {
 				                                    	<c:choose>
 				                                    		<c:when test="${usuarioContato.usuarioConvidado.id == usuario.id}">
 				                                    			<li class="text-center">				                                        
-						                                        	<a href="${urlUsuario}/detalhesUsuario/${usuarioContato.usuarioHost.id}" >
-						                                            	<img class="img-circle img-bordered-success" src="${context}${usuarioContato.usuarioHost.imagemArquivo}" style="width: 100px; height: 100px; ">
+						                                        	<a href="${urlUsuario}/detalhesUsuario/${usuarioContato.usuarioHost.id}" > 
+						                                            	<img class="img-circle img-bordered-success" src="data:image/jpeg;base64,${usuarioContato.usuarioHost.imagemArquivo}" style="width: 100px; height: 100px; ">
 						                                            </a>	
 						                                        </li>
 						                                        <li class="text-center">
@@ -121,7 +121,7 @@ $(document).ready(function() {
 				                                    		<c:when test="${usuarioContato.usuarioHost.id == usuario.id}">
 				                                    			<li class="text-center">				                                        
 						                                        	<a href="${urlUsuario}/detalhesUsuario/${usuarioContato.usuarioConvidado.id}" >
-						                                            	<img class="img-circle img-bordered-success" src="${context}${usuarioContato.usuarioConvidado.imagemArquivo}" style="width: 100px; height: 100px; ">
+						                                            	<img class="img-circle img-bordered-success" src="data:image/jpeg;base64,${usuarioContato.usuarioConvidado.imagemArquivo}" style="width: 100px; height: 100px; ">
 						                                            </a>	
 						                                        </li>
 						                                        <li class="text-center">

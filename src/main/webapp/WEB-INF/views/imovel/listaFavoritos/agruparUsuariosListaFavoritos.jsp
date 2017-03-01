@@ -175,13 +175,13 @@ $('#opcaoPaginacao').change(function () {
 		                                        <div class="media rounded shadow no-overflow">
 		                                            <div class="media-left">
 		                                                <a href="${urlUsuario}/detalhesUsuario/${usuarioInteresse.id}" >                                                                                                     
-		                                                    <img src="${context}${usuarioInteresse.imagemArquivo}" class="img-responsive" style="width: 260px; height: 215px; alt="admin"/>
+		                                                    <img src="data:image/jpeg;base64,${usuarioInteresse.imagemArquivo}" class="img-responsive" style="width: 260px; height: 215px; alt="admin"/>
 		                                                </a>
 		                                            </div>
 		                                            <div class="media-body">
 		                                                <span class="label pull-right" style="background-color: #03A9F4; font-size: 12px">${usuarioInteresse.perfilFmt}</span>
 		                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlUsuario}/detalhesUsuario/${usuarioInteresse.id}" style="color : #03A9F4;">${usuarioInteresse.nome}</a></h4>
-		                                                <h5 class="media-heading" style="margin-bottom:12px;"><i class="fa fa-map-marker"></i> ${usuarioInteresse.cidade} - ${usuarioInteresse.uf}   </h1>
+		                                                <h5 class="media-he ding" style="margin-bottom:12px;"><i class="fa fa-map-marker"></i> ${usuarioInteresse.cidade} - ${usuarioInteresse.uf}   </h1>
 		                                                
 		                                                <div class="col-md-5" >  
 		                                                	<div class="media-body" >

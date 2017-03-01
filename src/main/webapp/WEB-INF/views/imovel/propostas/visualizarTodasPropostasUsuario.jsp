@@ -174,7 +174,7 @@ $(document).ready(function() {
 			                                            <tr>
 			                                                <td class="text-center">	 
 																<a href="${urlImovel}/detalhesImovel/${imovelProposta.imovel.id}" >
-																	<img src="${context}/${imovelProposta.imovel.imagemArquivo}" style="width: 60px; height: 50px; " />	                				
+																	<img src="data:image/jpeg;base64,${imovelProposta.imovel.imagemArquivo}" style="width: 60px; height: 50px; " />	                				
 																</a>
 			                                                </td>			                                                
 			                                                <td class="text-center">

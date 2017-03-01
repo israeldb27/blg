@@ -48,16 +48,8 @@ public class ImovelfotosServiceImpl implements ImovelfotosService {
 		return dao.findImovelfotosById(id);
 	}
 	
-	public List<Imovelfotos> recuperarFotosImovel(Long idImovel) {		
-		List<Imovelfotos> lista = dao.findImovelfotosByIdImovel(idImovel);
-        List<Imovelfotos>  listaFinal = new ArrayList();
-        if (! CollectionUtils.isEmpty(lista)){
-        	for (Imovelfotos imovel : lista){             
-                imovel.setImagemArquivo(this.carregaImovelFoto(imovel));            
-                listaFinal.add(imovel);
-            }
-        }        
-        return listaFinal;
+	public List<Imovelfotos> recuperarFotosImovel(Long idImovel) {
+        return dao.findImovelfotosByIdImovel(idImovel);
 	}
 
 	
@@ -114,8 +106,9 @@ public class ImovelfotosServiceImpl implements ImovelfotosService {
 	
 	@Transactional
 	public void excluirFoto(Long idImovelFoto) {
-		Imovelfotos imovelFoto = dao.findImovelfotosById(idImovelFoto);
-		dao.delete(imovelFoto);
+	//	Imovelfotos imovelFoto = dao.findImovelfotosById(idImovelFoto);
+		
+		dao.delete(Imovelfotos.class , idImovelFoto);
 	}
 
 

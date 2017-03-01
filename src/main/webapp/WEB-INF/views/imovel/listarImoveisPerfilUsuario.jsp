@@ -303,7 +303,7 @@
 										<div class="col-lg-6 col-md-6 col-sm-6"> 
 	                                        <div id="owl-demo" class="owl-carousel owl-theme">    
 	                                        	<a href="${urlUsuario}/detalhesUsuario/${usuarioForm.id}" >  
-	                                        		<img class="img-circle" src="${context}/${usuarioForm.imagemArquivo}" style="margin-left:350px; width: 240px; height: 240px; ">
+	                                        		<img class="img-circle" src="data:image/jpeg;base64,${usuarioForm.imagemArquivo}" style="margin-left:350px; width: 240px; height: 240px; ">
 	                                        	</a>                                            	                                            	                                                                                        
 	                                        </div>
 	                                    </div>
@@ -652,7 +652,7 @@
                                                    <span class="meta-provider ${imovel.classePorAcao}" style="font-size:19px;">${imovel.acaoFmt} <br>
                                                    							<strong>  R$<fmt:formatNumber value="${imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
                                                    </span><br>                                                   
-                                                    <img src="${context}${imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 245px; alt="admin"/>
+                                                    <img src="data:image/jpeg;base64,${imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 245px; alt="admin"/>
                                                 </a>
                                             </div>
                                             <div class="media-body">                                            	

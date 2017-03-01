@@ -18,11 +18,14 @@ $(document).ready(function() {
 
 });	
 
-function preparaExclusaoFoto(idFoto, idImovel){
-	
+function preparaExclusaoFoto(idFoto, idImovel){	
 	$("#myModal").modal("show");
 	$("#idFotoImovel").val(idFoto);
 	$("#idImovel").val(idImovel);
+}
+
+function preparaInclusaoFoto(){	
+	$("#modalIncluirFoto").modal("show");
 }
 
 </script>
@@ -75,127 +78,102 @@ function preparaExclusaoFoto(idFoto, idImovel){
                                               <div align="center">
                                                   <ul class="list-unstyled">
 				                                        <li class="text-center">				                                        
-				                                            <img class="img-circle img-bordered-primary" src="${context}${imovelForm.imagemArquivo}" style="width: 200px; height: 200px; " alt="Tol Lee">
+				                                            <img class="img-circle img-bordered-primary" src="data:image/jpeg;base64,${imovelForm.imagemArquivo}" style="width: 200px; height: 200px; " alt="Tol Lee">
 				                                        </li>
 				                                   </ul>     	
                                               </div>
                                           </div><!-- /.form-group -->
                                       </div>
+                                      
+                                        <div class="pull-left">		
+	                                         <button onClick="preparaInclusaoFoto();" class="btn btn-primary" data-role="add">
+	                                                    <span class="glyphicon glyphicon-plus"></span> Adicionar Foto Galeria
+	                                         </button>	
+										</div><!-- /.pull-left -->    
                                </div>
                            </div>
                        </div>              
                    </div>
                    
-                   <div class="row"> 
-                   		 <c:if test="${msgErro != null }">
-		               		 <div class="panel panel-danger">
-		                          <div class="panel-heading">
-		                              <h3 class="panel-title">${msgErro}</h3>
-		                          </div><!-- /.panel-heading -->		                          
-		                      </div><!-- /.panel -->                      
-		                </c:if>	
-		                
-		                <c:if test="${msgSucesso != null }">
-			               		 <div class="panel panel-success">
-			                          <div class="panel-heading">
-			                              <h3 class="panel-title"><spring:message code="msg.sucesso.add.foto.imovel.galeria"/></h3>
-			                          </div><!-- /.panel-heading -->			                                                    
-			                      </div><!-- /.panel -->                      
-			             </c:if> 		
-                   	   <div class="col-xs-5 col-sm-4">
-                            <!-- Start horizontal form -->
-                            <div class="panel rounded shadow">
-                                <div class="panel-heading">  
-                                    <div class="pull-left">
-                                        <h3 class="panel-title"><spring:message code="lbl.title.aba.galeria.foto.imovel.selecao.fotos"/> <code></code></h3>
-                                    </div>
-                                    <div class="pull-right">
-                                        
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div><!-- /.panel-heading -->
-                                <div class="panel-body no-padding">
-                                      <div class="form-body">                                      	   	
-                                      
-											<form:form id="imovelForm" modelAttribute="imovelForm" action="${urlImovel}/incluirFotoGaleriaImovel" class="form-horizontal mt-10" enctype="multipart/form-data" method="POST">
-												<form:hidden path="id" value="${imovelForm.id}"/>
-												<div class="form-group">
-	                                                <label class="control-label"></label>
-	                                                <div class="fileinput fileinput-new" data-provides="fileinput">
-	                                                    <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>
-	                                                    <div>
-	                                                        <span class="btn btn-info btn-file"><span class="fileinput-new">Selecionar Foto</span><span class="fileinput-exists">Selecionar Foto</span>	                                                        
-	                                                        <input type="text" name="name"/>
-															<input type="file" name="file"/>
-	                                                        
-	                                                        </span>
-	                                                        <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Remover</a>
-	                                                    </div>
-	                                                </div>
-	                                            </div><!-- /.form-group -->
-	                                            
-	                                            <button type="submit" class="btn btn-primary btn-block"><spring:message code="lbl.btn.incluir.foto"/></button>    
-											</form:form>
-
-                                      </div>
-                               </div>
-                           </div>
-                       </div>	                		                               
-                    
-                   	   <div class="col-lg-8 col-md-9 col-sm-9">
-                            <!-- Start horizontal form -->
-                            <div class="panel rounded shadow">
-                                <div class="panel-heading">  
-                                    <div class="pull-left">
-                                        <h3 class="panel-title"><spring:message code="lbl.title.aba.galeria.foto.imovel.nova"/> <code></code></h3>
-                                    </div>
-                                    <div class="pull-right">
-                                        
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div><!-- /.panel-heading -->
-                                <div class="panel-body no-padding">
-                                      <div class="form-body">                                      
-											
-											  <div class="table-responsive" style="margin-top: -1px;">
-												  <c:if test="${ not empty imovelForm.listaImovelFotos }">
-				                                        <table class="table table-striped table-primary">
-				                                            <thead>
-				                                            <tr>
-				                                                <th class="text-center">Foto</th>
-				                                                <th class="text-center">Data Cadastro</th>                                                                                                
-				                                                <th class="text-center" style="width: 12%;"></th>
+                   <div class="row">
+                   		<div class="col-md-12"> 
+	                   		<c:choose>
+	                        		<c:when test="${ empty imovelForm.listaImovelFotos }">
+	                        			<div class="callout callout-warning">
+		                                    <strong><spring:message code="lbl.rel.nenhum.registro"/></strong>                                    
+		                                </div>
+	                        		</c:when>
+	                        		
+	                        		<c:when test="${not empty imovelForm.listaImovelFotos }">
+	                        			 <div class="table-responsive" style="margin-top: -1px;">
+	                        			 		<table class="table table-striped table-primary">
+		                                            <thead>
+		                                            <tr>
+		                                                <th class="text-center">Foto</th>
+		                                                <th class="text-center">Data Cadastro</th>                                                                                                
+		                                                <th class="text-center" style="width: 12%;"></th>
+		                                            </tr>
+		                                            </thead>
+		                                            <tbody>				                                            
+			                                            <c:forEach var="imovel" items="${imovelForm.listaImovelFotos}" >
+				                                            <tr>						                                             
+				                                                <td class="text-center">
+				                                                	<img class="img-circle img-bordered-primary" src="data:image/jpeg;base64,${imovel.imagemArquivo}" style="width: 80px; height: 80px; " alt="Tol Lee">
+				                                               	</td>
+				                                                <td class="text-center"><fmt:formatDate value='${imovel.dataCadastro}' pattern='dd/MM/yyyy'/></td>
+				                                                <td class="text-center">                                                    
+				                                                    <a href="#" onClick="preparaExclusaoFoto(${imovel.id}, ${imovel.imovel.id});" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" data-original-title="Excluir"><i class="fa fa-times"></i></a>
+				                                                </td>
 				                                            </tr>
-				                                            </thead>
-				                                            <tbody>				                                            
-					                                            <c:forEach var="imovel" items="${imovelForm.listaImovelFotos}" >
-						                                            <tr>						                                             
-						                                                <td class="text-center">
-						                                                	<img class="img-circle img-bordered-primary" src="${context}${imovel.imagemArquivo}" style="width: 80px; height: 80px; " alt="Tol Lee">
-						                                               	</td>
-						                                                <td class="text-center"><fmt:formatDate value='${imovel.dataCadastro}' pattern='dd/MM/yyyy'/></td>
-						                                                <td class="text-center">                                                    
-						                                                    <a href="#" onClick="preparaExclusaoFoto(${imovel.id}, ${imovel.imovel.id});" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" data-original-title="Excluir"><i class="fa fa-times"></i></a>
-						                                                </td>
-						                                            </tr>
-					                                            </c:forEach>				                                            
-				                                            </tbody>
-				                                        </table>
-			                                        </c:if>
-			                                        <c:if test="${ empty imovelForm.listaImovelFotos }">
-			                                        	Nenhuma foto cadastrado
-			                                        </c:if>
-		                                    </div><!-- /.table-responsive -->
-                                      </div>
-                               </div>
-                           </div>
-                       </div>	
-                		                               
-                    </div><!-- /.row -->
+			                                            </c:forEach>				                                            
+		                                            </tbody>
+		                                        </table>	                        			 
+	                        			 </div>
+	                        		</c:when>
+	                        		
+	                        </c:choose>
+                        </div>                   
+                   </div>
+                   
                     
                 </div><!-- /.body-content -->
          
             </section><!-- /#page-content -->
+            
+            <!-- Start optional size modal element - item 1 -->
+            <div id="modalIncluirFoto" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <form:form id="imovelForm" modelAttribute="imovelForm" action="${urlImovel}/incluirFotoGaleriaImovel" class="form-horizontal mt-5" enctype="multipart/form-data" >
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title"><div id="msgModal"  ></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                            	
+                                    <label class="control-label"></label>
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px; margin-left: 330px;"></div>
+                                        <div style="margin-left: 330px;">
+                                            <span class="btn btn-info btn-file"><span class="fileinput-new"><spring:message code="lbl.selecionar.foto.imovel"/></span><span class="fileinput-exists"><spring:message code="lbl.selecionar.foto.imovel"/></span>	                                                        
+                                            <input type="text" name="name" id="name"/>
+											<input type="file" name="file" id="file" />                                            
+                                            </span>
+                                            <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput"><spring:message code="lbl.remover.foto.imovel"/></a>
+                                        </div>
+                                    </div>
+                                
+                              </div><!-- /.form-group -->	
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success" ><spring:message code="lbl.btn.adicionar.geral"/></button> 
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.btn.fechar.geral"/></button>                                                                                  
+                        </div>
+						 </form:form>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
             
             <form name="imovelForm" class="form-horizontal form-bordered" role="form" action="${urlImovel}/excluirFotoGaleriaModal">
             <input type="hidden" id="idFotoImovel" readonly="readonly" name="idFotoImovel">

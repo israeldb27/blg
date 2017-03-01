@@ -56,23 +56,15 @@ public class NotificacaoServiceImpl implements NotificacaoService {
 	public List<Notificacao> recuperarNotificacaoPorIdSelecionada(Long idNotificacao) {
 		Notificacao notificacao = dao.findNotificacaoById(idNotificacao);	
 		List<Notificacao> lista = new ArrayList<Notificacao>();
-		if ( notificacao.getTipoNotificacao().equals(TipoNotificacaoEnum.CONVITE)){
-			notificacao.getUsuarioConvite().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(notificacao.getUsuarioConvite()));
-			lista.add(notificacao);
-		}
-		else if ( notificacao.getTipoNotificacao().equals(TipoNotificacaoEnum.IMOVEL)){
-			notificacao.getUsuario().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(notificacao.getUsuario()));
-			lista.add(notificacao);
-		}
-		else
-			lista.add(notificacao);
+		if ( notificacao != null )		
+			lista.add(notificacao);		
 
 		return lista; 
 	}
 
 
 	public List<Notificacao> recuperarMinhasNotificacoes(Long idUsuario, NotificacaoForm form) {
-		return carregarNotificacoes(dao.findNotificacoesByIdUsuario(idUsuario, form));
+		return dao.findNotificacoesByIdUsuario(idUsuario, form);
 	}
 
 
@@ -153,13 +145,13 @@ public class NotificacaoServiceImpl implements NotificacaoService {
 	}
 	
 	public List<Notificacao> recuperarListaNotificacoesNovas(Long idUsuario) {				
-		return carregarNotificacoes(dao.findNotificacoesByIdUsuarioByStatusLeitura(idUsuario, StatusLeituraEnum.NOVO.getRotulo()));
+		return dao.findNotificacoesByIdUsuarioByStatusLeitura(idUsuario, StatusLeituraEnum.NOVO.getRotulo());
 	}
 
 
 	
 	public List<Notificacao> ordenarNotificacoes(Long idUsuario, NotificacaoForm form) {		
-        return carregarNotificacoes(dao.findNotificacoesByIdUsuario(idUsuario, form));
+        return dao.findNotificacoesByIdUsuario(idUsuario, form);
 	}
 
 
@@ -194,22 +186,5 @@ public class NotificacaoServiceImpl implements NotificacaoService {
 	public void atualizarStatusLeituraNotificacaoByIdUsuario(Long idUsuario) {
 		dao.atualizarStatusLeituraNotificacaoByIdUsuario(idUsuario);
 		
-	}
-	
-	private List<Notificacao> carregarNotificacoes(List<Notificacao> lista) {		
-		List<Notificacao> listaFinal = new ArrayList<Notificacao>();
-		for (Notificacao notificacao : lista){
-			if ( notificacao.getTipoNotificacao().equals(TipoNotificacaoEnum.CONVITE)){
-				notificacao.getUsuarioConvite().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(notificacao.getUsuarioConvite()));
-				listaFinal.add(notificacao);
-			}
-			else if ( notificacao.getTipoNotificacao().equals(TipoNotificacaoEnum.IMOVEL)){
-				notificacao.getUsuario().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(notificacao.getUsuario()));
-				listaFinal.add(notificacao);
-			}
-			else
-				listaFinal.add(notificacao);
-		}		
-		return listaFinal;			
 	}
 }

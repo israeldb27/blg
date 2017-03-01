@@ -23,6 +23,7 @@ import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.DateUtil;
 import com.busqueumlugar.util.Select;
 import com.busqueumlugar.enumerador.AcaoImovelEnum;
+import com.paypal.base.codec.binary.Base64;
 
 public class ImovelForm extends BaseForm{
 	
@@ -304,6 +305,17 @@ public class ImovelForm extends BaseForm{
 	public void setEntradaImagemArquivo(String entradaImagemArquivo) {
 		this.entradaImagemArquivo = entradaImagemArquivo;
 	}
+	
+    /**
+     * @return the imagemArquivo
+     */
+    public String getImagemArquivo() {
+    	if ( this != null && this.getFotoPrincipal() != null)
+    		return Base64.encodeBase64String(this.getFotoPrincipal());
+    	else
+    		return "";
+    }
+    
     
     public List<Select> getListaEstados() {
 		return listaEstados;

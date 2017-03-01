@@ -409,7 +409,7 @@ function retirarInteresse(id) {
 		                                                   <span class="meta-provider" style="font-size:19px;">${imovelVisitado.imovel.acaoFmt} <br>
 		                                                   							<strong>  R$<fmt:formatNumber value="${imovelVisitado.imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
 		                                                   </span><br>                                                   
-		                                                    <img src="${context}${imovelVisitado.imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 240px; alt="admin"/>
+		                                                    <img src="data:image/jpeg;base64,${imovelVisitado.imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 240px; alt="admin"/>
 		                                                </a>
 		                                            </div>
 		                                            <div class="media-body">

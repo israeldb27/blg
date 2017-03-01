@@ -159,7 +159,41 @@ function mostrarModal(id){
                 <div class="body-content animated fadeIn">
 
                    <form:form id="usuarioForm" modelAttribute="usuarioForm" action="${urlUsuario}/editarUsuario" class="form-horizontal mt-10">
-                     <div class="row"> 	
+                     <div class="row">
+                     	
+                     	<!--/ INICIO ABA FOTO PRINCIPAL -->
+                     	<div class="col-md-12">
+                            <!-- Start horizontal form -->
+                            <div class="panel rounded shadow">
+                                <div class="panel-heading">  
+                                    <div class="pull-left">
+                                        <h3 class="panel-title"><spring:message code="lbl.title.aba.alterar.foto.perfil.atual"/> <code></code></h3>
+                                    </div>
+                                    <div class="pull-right">
+                                        <button class="btn btn-sm" data-action="collapse" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Collapse"><i class="fa fa-angle-up"></i></button>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div><!-- /.panel-heading -->
+                                <div class="panel-body no-padding">
+                                      <div class="form-body">
+                                      	<div class="form-group">                                              
+                                              <div class="col-sm-12" align="center">
+                                                  <ul class="list-unstyled">
+				                                        <li class="text-center">	
+				                                            <a href="#aboutModal" data-toggle="modal" data-target="#idModalItem"> <img class="img-circle img-bordered-primary" src="data:image/jpeg;base64,${usuarioForm.imagemArquivo}" style="width: 200px; height: 200px; " alt="Foto Principal"> </a>
+				                                        </li>
+				                                        <li class="text-center">
+				                                        	<br>
+				                                        	<em>click my face for more</em> 
+				                                        </li>
+				                                   </ul>     	
+                                              </div>
+                                          </div><!-- /.form-group -->
+                                      </div>
+                               </div>
+                           </div>
+                       </div>  
+                       <!--/ FIM ABA FOTO PRINCIPAL -->	
                      	
                     	<!--/ INICIO ABA INFORMACOES BASICAS -->
                     	<div class="col-md-12">
@@ -478,6 +512,41 @@ function mostrarModal(id){
 				<!-- Start content modal Ajuda - funcionalidade -->
 					<c:import url="../ajuda/contentMenuModal.jsp"></c:import>																				
 				<!-- End content  modal Ajuda - funcionalidade -->
+				
+			 <!-- Start optional size modal element - item 1 -->
+            <div id="idModalItem" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <form:form id="usuarioForm" modelAttribute="usuarioForm" action="${urlUsuario}/editarFotoPrincipal" class="form-horizontal mt-5" enctype="multipart/form-data" >
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title"><div id="msgModal"  ></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                            	
+                                    <label class="control-label"></label>
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px; margin-left: 330px;"></div>
+                                        <div style="margin-left: 330px;">
+                                            <span class="btn btn-info btn-file"><span class="fileinput-new"><spring:message code="lbl.selecionar.foto.imovel"/></span><span class="fileinput-exists"><spring:message code="lbl.selecionar.foto.imovel"/></span>	                                                        
+                                            <input type="text" name="name" id="name"/>
+											<input type="file" name="file" id="file" />                                            
+                                            </span>
+                                            <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput"><spring:message code="lbl.remover.foto.imovel"/></a>
+                                        </div>
+                                    </div>
+                                
+                              </div><!-- /.form-group -->	
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success" ><spring:message code="lbl.btn.editar.geral"/></button> 
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.btn.fechar.geral"/></button>                                                                                  
+                        </div>
+						 </form:form>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
 				
 			
 			<!-- Start optional size modal element - item 1 -->

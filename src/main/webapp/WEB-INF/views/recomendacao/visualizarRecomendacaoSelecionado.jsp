@@ -134,8 +134,8 @@
                                         <div class="media rounded shadow no-overflow">
                                             <div class="media-left">
                                                 <a href="${urlUsuario}/detalhesUsuario/${recomendacaoSelecionada.usuario.id}" >                                                                                                     
-                                                    <img src="${context}${recomendacaoSelecionada.usuario.imagemArquivo}" class="img-responsive" style="width: 260px; height: 195px; alt="admin"/>
-                                                </a>
+                                                    <img src="data:image/jpeg;base64,${recomendacaoSelecionada.usuario.imagemArquivo}" class="img-responsive" style="width: 260px; height: 195px; alt="admin"/>
+                                                </a>  
                                             </div>
                                             <div class="media-body">
                                                 <span class="label pull-right" style="background-color: #03A9F4; font-size: 12px">${recomendacaoSelecionada.usuario.perfilFmt}</span>

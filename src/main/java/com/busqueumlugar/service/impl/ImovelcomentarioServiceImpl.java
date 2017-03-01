@@ -60,8 +60,7 @@ public class ImovelcomentarioServiceImpl implements ImovelcomentarioService {
             for (Iterator iter = lista.iterator();iter.hasNext();){                
                 Object[] obj = (Object[]) iter.next();
                 imovel = imovelService.recuperarImovelPorid(Long.parseLong(obj[0].toString()));                
-                imovel.setQuantidade(Integer.parseInt(obj[1].toString()));
-                imovel.setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovel));
+                imovel.setQuantidade(Integer.parseInt(obj[1].toString())); 
                 listaFinal.add(imovel);
             }
         }              

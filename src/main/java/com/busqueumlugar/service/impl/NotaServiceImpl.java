@@ -103,14 +103,14 @@ public class NotaServiceImpl implements NotaService {
 
 	
 	public List<Nota> listarTodasNotasPorPerfil(Long idUsuario,	NotaForm form) {		
-        return carregaListaNota(dao.filterNotasByIdUsuario(idUsuario, form));
+        return dao.filterNotasByIdUsuario(idUsuario, form);
 	}
 
 	
 	public List<Nota> recuperarNotasContatosUsuario(Long idUsuario, NotaForm form) {            
         List listaIds = contatoDao.findIdsUsuariosContatosByIdUsuarioByStatus(idUsuario, ContatoStatusEnum.OK.getRotulo());
         if (! CollectionUtils.isEmpty(listaIds) ){
-        	return carregaListaNota(dao.findNotasContatosByListaIdsUsuario(listaIds, form));
+        	return dao.findNotasContatosByListaIdsUsuario(listaIds, form);
         }   
         return null;
 	}
@@ -118,7 +118,7 @@ public class NotaServiceImpl implements NotaService {
 	public List<Nota> recuperarNotasContatosUsuario(Long idUsuario, int quant) {             
         List listaIds = contatoDao.findIdsUsuariosContatosByIdUsuarioByStatus(idUsuario, ContatoStatusEnum.OK.getRotulo());
         if (! CollectionUtils.isEmpty(listaIds) ){        
-        	return carregaListaNota(dao.findNotasContatosByListaIdsUsuarioQuant(listaIds, new NotaForm(), quant));
+        	return dao.findNotasContatosByListaIdsUsuarioQuant(listaIds, new NotaForm(), quant);
         }     
         return null;
 	}
@@ -152,7 +152,7 @@ public class NotaServiceImpl implements NotaService {
 		 }	
 		 
 		 if (! CollectionUtils.isEmpty(lista)){
-			 return carregaListaNota(lista);
+			 return lista;
 		 }
 
 		return null;
@@ -169,7 +169,7 @@ public class NotaServiceImpl implements NotaService {
 			lista = dao.filterNotasByIdUsuario(idUsuario, form);	
 		
 		if (! CollectionUtils.isEmpty(lista)){
-			 return carregaListaNota(lista);
+			 return lista;
 		 }
 		
 		return null;
@@ -192,55 +192,19 @@ public class NotaServiceImpl implements NotaService {
         	if (! CollectionUtils.isEmpty(listaIdsContatos))
         		listaNotasContatos = dao.filterNotasByListaIdsUsuario(listaIdsContatos, form);
         }    
-        
-        if (! CollectionUtils.isEmpty(listaNotasContatos)){
-			 return carregaListaNota(listaNotasContatos);
-		 }
 		
-		return null;
+		return listaNotasContatos;
 	}
 
 
 	private List<Nota> filtrarListaTodasNotasPorPerfil(Long idUsuario, NotaForm form) {
-        return carregaListaNota(dao.filterNotasByIdUsuario(idUsuario, form));
+        return dao.filterNotasByIdUsuario(idUsuario, form);
 	}
 
 
 	@Override
 	public Nota recuperarNotaByUsuarioByIndex(List<Long> listaIds, int index) {
-		Nota nota = dao.findNotaByUsuarioByIndex( listaIds, index);
-		if ( NotaAcaoEnum.IMOVEL.getRotulo().equals(nota.getAcao()) ||
-		     NotaAcaoEnum.INTERMEDIACAO.getRotulo().equals(nota.getAcao())	||
-		     NotaAcaoEnum.PARCERIA.getRotulo().equals(nota.getAcao())){
-			nota.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(nota.getImovel()));
-		}
-		else if ( NotaAcaoEnum.USUARIO.getRotulo().equals(nota.getAcao()) || 
-				  NotaAcaoEnum.PREFERENCIA.getRotulo().equals(nota.getAcao())	||
-				  NotaAcaoEnum.PESSOAL.getRotulo().equals(nota.getAcao())){
-			nota.getUsuario().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(nota.getUsuario()));				
-		}
-		return nota;
-	}
-	
-	private List<Nota> carregaListaNota(List<Nota> lista){
-		List<Nota> listaFinal = new ArrayList<Nota>();
-		if (! CollectionUtils.isEmpty(lista)){
-			for (Nota nota : lista){
-				if ( NotaAcaoEnum.IMOVEL.getRotulo().equals(nota.getAcao()) ||
-				     NotaAcaoEnum.INTERMEDIACAO.getRotulo().equals(nota.getAcao())	||
-				     NotaAcaoEnum.PARCERIA.getRotulo().equals(nota.getAcao())){
-					nota.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(nota.getImovel()));
-				}
-				else if ( NotaAcaoEnum.USUARIO.getRotulo().equals(nota.getAcao()) || 
-						  NotaAcaoEnum.PREFERENCIA.getRotulo().equals(nota.getAcao())	||
-						  NotaAcaoEnum.PESSOAL.getRotulo().equals(nota.getAcao())){
-					nota.getUsuario().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(nota.getUsuario()));				
-				}
-				listaFinal.add(nota);
-			}
-		}		
-		
-		return listaFinal;
+		return dao.findNotaByUsuarioByIndex( listaIds, index);
 	}
 
 

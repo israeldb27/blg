@@ -7,9 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-
 import javax.persistence.Table;
-
 import javax.persistence.Column;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -18,14 +16,12 @@ import javax.persistence.Transient;
 import com.busqueumlugar.enumerador.PerfilUsuarioEnum;
 import com.busqueumlugar.util.AppUtil;
 import com.mysql.jdbc.StringUtils;
+import com.paypal.base.codec.binary.Base64;
 
 @Entity
 @Table(name = "usuario")
 public class Usuario extends BaseEntity implements Serializable {
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -1102689137761823434L;
 
 	@Id
@@ -739,6 +735,16 @@ public class Usuario extends BaseEntity implements Serializable {
 	public void setQuantTotalImoveis(long quantTotalImoveis) {
 		this.quantTotalImoveis = quantTotalImoveis;
 	}
+	
+    /**
+     * @return the imagemArquivo
+     */
+    public String getImagemArquivo() {
+    	if ( this != null && this.getFotoPrincipal() != null)
+    		return Base64.encodeBase64String(this.getFotoPrincipal());
+    	else
+    		return "";
+    }
 	
 	
 }

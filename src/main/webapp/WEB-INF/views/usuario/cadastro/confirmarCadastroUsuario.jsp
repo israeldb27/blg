@@ -68,7 +68,7 @@ $(document).ready(function() {
 												<div class="form-group">
 		                                               <ul class="list-unstyled">
 					                                        <li class="text-center">				                                        
-					                                            <img class="img-circle img-bordered-primary" src="${context}${usuarioForm.imagemArquivo}" style="width: 200px; height: 200px; " alt="Foto Principal">
+					                                            <img class="img-circle img-bordered-primary" src="data:image/jpeg;base64,${usuarioForm.imagemArquivo}" style="width: 200px; height: 200px; " alt="Foto Principal">
 					                                        </li>
 					                                   </ul>  
 		                                        </div><!-- /.form-group -->

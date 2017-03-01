@@ -57,7 +57,7 @@ $(document).ready(function() {
 		                                <div class="inner-all">
 		                                    <ul class="list-unstyled">
 		                                        <li class="text-center">
-													<a href="${urlImovel}/detalhesImovel/${imovel.id}" ><img class="img-circle img-bordered-primary" src="${context}${imovel.imagemArquivo}" style="width: 200px; height: 200px; "></a>		                                            
+													<a href="${urlImovel}/detalhesImovel/${imovel.id}" ><img class="img-circle img-bordered-primary" src="data:image/jpeg;base64,${imovel.imagemArquivo}"  style="width: 200px; height: 200px; "></a>		                                            
 		                                        </li>
 		                                        <li class="text-center">
 		                                            <h4 class="text-capitalize"> <a href="${urlImovel}/detalhesImovel/${imovel.id}" >${imovel.titulo}</a></h4>
@@ -172,7 +172,7 @@ $(document).ready(function() {
 		                                            <c:forEach var="imovelIndicado" items="${listaTodasIndicacoesUsuario}" >
 			                                            <tr>
 			                                                <td class="text-center">	
-																<a href="${urlUsuario}/detalhesUsuario/${imovelIndicado.usuario.id}" ><img src="${context}/${imovelIndicado.usuario.imagemArquivo}" style="width: 60px; height: 50px; " /></a>									                     			                				
+																<a href="${urlUsuario}/detalhesUsuario/${imovelIndicado.usuario.id}" ><img src="data:image/jpeg;base64,${imovelIndicado.usuario.imagemArquivo}" style="width: 60px; height: 50px; " /></a>									                     			                				
 			                                                </td>			                                                
 			                                                <td class="text-center"><a href="${urlUsuario}/detalhesUsuario/${imovelIndicado.usuario.id}" >${imovelIndicado.usuario.nome}</a> </td>
 			                                                <td class="text-center"><fmt:formatDate value='${imovelIndicado.dataIndicacao}' pattern='dd/MM/yyyy'/></td>			                                                			                                                			                                              	                                            

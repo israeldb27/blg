@@ -43,7 +43,6 @@
     			limpaComboLinha(comboFilha);
     			recuperaBairros();		
     		 });    		
-
     		$('#opcaoOrdenacao').change(function () {				
     			$("#meusImoveisForm").submit();      
     		 });
@@ -79,14 +78,12 @@
     	    		$('#lblCRECI').hide();	
     			}
     		 });
-
     		function limpaComboLinha(comboLinha) {
     		    $(comboLinha).empty();  
     		    $(comboLinha).append('<option value="-1" >' + "<spring:message code='opcao.selecao.uma.opcao'/>" + '</option>');
     		    $(comboLinha).trigger("chosen:updated");
     		}
     	});	
-
     	
     	function recuperaCidades(){
     	    var parametro1 = $("#idEstado").val();
@@ -105,7 +102,6 @@
                 }
             });    	   
     	}
-
     	function recuperaBairros(){   
     	    var parametro1 = $("#idCidade").val();
     	    $.ajax({
@@ -152,11 +148,18 @@
 		</script>
 		
         <c:import url="../../layout/cadastroUsuario/head-layout.jsp"></c:import>
-
+	<%@ include file="/WEB-INF/views/layout/head-login.jsp"%>
     <!--/ END HEAD -->
    
-    <body>
-
+    <body class="home">
+    
+	<div class="all">
+		<div class="header">
+		    <div class="content">
+			<h1 class="logo">Busque um Lugar</h1>
+		    </div>
+		</div>
+    	</div>
         <!-- INICIO - Cadastro Usuario -->
             
             <!-- Start header content -->

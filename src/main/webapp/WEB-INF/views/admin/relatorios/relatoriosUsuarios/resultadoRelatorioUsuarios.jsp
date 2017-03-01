@@ -148,7 +148,7 @@ function recuperaRelatorios(){
 																		<c:forEach var="usuario" items="${administracaoForm.listaUsuarios}" varStatus="item">
 																			<tr class="border-primary">					                                                
 																				<td>
-																					<a href="${urlAdmin}/detalhesUsuario/${usuario.id}" > <img src="${context}/${usuario.imagemArquivo}" style="width: 100px; height: 80px; " alt="admin"/></a>						                                                    					                                                    
+																					<a href="${urlAdmin}/detalhesUsuario/${usuario.id}" > <img src="data:image/jpeg;base64,${usuario.imagemArquivo}"  style="width: 100px; height: 80px; " alt="admin"/></a>						                                                    					                                                    
 																				</td>
 																				<td><a href="${urlAdmin}/detalhesUsuario/${usuario.id}" > ${usuario.nome} </a></td>
 																				<td>${usuario.perfilFmt}</td>																					

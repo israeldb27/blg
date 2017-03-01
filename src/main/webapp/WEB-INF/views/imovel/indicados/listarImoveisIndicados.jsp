@@ -406,7 +406,7 @@ function desmarcarCheck(id) {
 	                                                   <span class="meta-provider" style="font-size:19px;">${imovelIndicado.imovel.acaoFmt} <br>
 	                                                   							<strong>  R$<fmt:formatNumber value="${imovelIndicado.imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
 	                                                   </span><br>                                                   
-	                                                    <img src="${context}${imovelIndicado.imovel.imagemArquivo}" class="img-responsive" style="width: 240px; height: 245px; alt="admin"/>
+	                                                    <img src="data:image/jpeg;base64,${imovelIndicado.imovel.imagemArquivo}" class="img-responsive" style="width: 240px; height: 245px; alt="admin"/>
 	                                                </a>
 	                                            </div>
 	                                            <div class="media-body">
@@ -424,7 +424,7 @@ function desmarcarCheck(id) {
 	                                                 		
 	                                                 		<em class="text-sm text-muted" ><font style="font-size:13px; font-style: normal;"><spring:message code="lbl.usuario.indicador" />: </font><span class="text-success"></span></em> </br>
 				                                            <a href="${urlUsuario}/detalhesUsuario/${imovelIndicado.usuarioIndicador.id}">
-				                                            	<img src="${context}${imovelIndicado.usuarioIndicador.imagemArquivo}" class="img-responsive" style="width: 60px; height: 65px; alt="admin"/>
+				                                            	<img src="data:image/jpeg;base64,${imovelIndicado.usuarioIndicador.imagemArquivo}" class="img-responsive" style="width: 60px; height: 65px; alt="admin"/>
 				                                            </a>			                                            
 				                                        </div>
 	                                                  

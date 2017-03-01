@@ -204,7 +204,7 @@ function adicionarInteresse(id) {
 			                                        <div class="media rounded shadow no-overflow">
 			                                            <div class="media-left">
 			                                                <a href="${urlUsuario}/detalhesUsuario/${usuarioVisita.id}" >                                                                                                     
-			                                                    <img src="${context}${usuarioVisita.imagemArquivo}" class="img-responsive" style="width: 260px; height: 215px; alt="admin"/>
+			                                                    <img src="data:image/jpeg;base64,${usuarioVisita.imagemArquivo}" class="img-responsive" style="width: 260px; height: 215px; alt="admin"/>
 			                                                </a>
 			                                            </div>
 			                                            <div class="media-body">

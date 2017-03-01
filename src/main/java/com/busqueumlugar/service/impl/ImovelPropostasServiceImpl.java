@@ -87,7 +87,6 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
                  Object[] obj = (Object[]) iter.next();
                  imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));                 
                  imovel.setQuantidade(Integer.parseInt(obj[1].toString()));
-                 imovel.setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovel));
                  listaFinal.add(imovel);
              }
          }   
@@ -147,54 +146,23 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 	}
 
 	@Override
-	public List<ImovelPropostas> recuperarPropostasLancadasPorUsuario(Long idUsuario, ImovelPropostasForm form) {
-		List<ImovelPropostas> lista = dao.findImoveisPropostasLancadasByIdUsuario(idUsuario, form);
-		List<ImovelPropostas> listaFinal = new ArrayList<ImovelPropostas>();
-		for (ImovelPropostas imovelPropostas : lista){
-			imovelPropostas.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovelPropostas.getImovel()));
-			listaFinal.add(imovelPropostas);
-		}
-		
-        return listaFinal;         
+	public List<ImovelPropostas> recuperarPropostasLancadasPorUsuario(Long idUsuario, ImovelPropostasForm form) {		
+        return dao.findImoveisPropostasLancadasByIdUsuario(idUsuario, form);         
 	}
 
 	@Override
 	public List<ImovelPropostas> recuperarPropostasImovel(Long idImovel) {
-		List<ImovelPropostas> lista = dao.findImovelPropostaByIdImovel(idImovel);
-		List<ImovelPropostas> listaFinal = new ArrayList<ImovelPropostas>();
-		for (ImovelPropostas imovelPropostas : lista){
-			imovelPropostas.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovelPropostas.getImovel()));
-			imovelPropostas.getUsuarioLancador().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(imovelPropostas.getUsuarioLancador()));
-			listaFinal.add(imovelPropostas);
-		}
-		
-        return listaFinal;
+        return dao.findImovelPropostaByIdImovel(idImovel);
 	}
 
 	@Override
-	public List<ImovelPropostas> recuperarPropostasImovelPorUsuario(Long idUsuario,	Long idImovel) {
-		List<ImovelPropostas> lista = dao.findImoveisPropostasLancadasByIdUsuarioByIdImovel(idUsuario, idImovel);	
-		List<ImovelPropostas> listaFinal = new ArrayList<ImovelPropostas>();
-		for (ImovelPropostas imovelPropostas : lista){
-			imovelPropostas.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovelPropostas.getImovel()));
-			imovelPropostas.getUsuarioLancador().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(imovelPropostas.getUsuarioLancador()));
-			listaFinal.add(imovelPropostas);
-		}
-		
-        return listaFinal;			   
+	public List<ImovelPropostas> recuperarPropostasImovelPorUsuario(Long idUsuario,	Long idImovel) {		
+        return dao.findImoveisPropostasLancadasByIdUsuarioByIdImovel(idUsuario, idImovel);				   
 	}
 
 	@Override
-	public List<ImovelPropostas> recuperarPropostasRecebidasPorUsuario(Long idUsuario, ImovelPropostasForm form) {		
-		List<ImovelPropostas> lista = dao.findImoveisPropostasRecebidasByIdUsuario(idUsuario, form);
-		List<ImovelPropostas> listaFinal = new ArrayList<ImovelPropostas>();
-		for (ImovelPropostas imovelPropostas : lista){
-			imovelPropostas.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovelPropostas.getImovel()));
-			imovelPropostas.getUsuarioLancador().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(imovelPropostas.getUsuarioLancador()));
-			listaFinal.add(imovelPropostas);
-		}
-		
-        return listaFinal;
+	public List<ImovelPropostas> recuperarPropostasRecebidasPorUsuario(Long idUsuario, ImovelPropostasForm form) {
+        return dao.findImoveisPropostasRecebidasByIdUsuario(idUsuario, form);
 	}
 
 	@Override
@@ -357,27 +325,12 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 
 	@Override
 	public List<ImovelPropostas> filterPropostasRecebidas(Long idUsuario,  ImovelPropostasForm form) {
-		List<ImovelPropostas> lista = dao.filterPropostasRecebidas(idUsuario, form);
-		List<ImovelPropostas> listaFinal = new ArrayList<ImovelPropostas>();
-		for (ImovelPropostas imovelPropostas : lista){
-			imovelPropostas.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovelPropostas.getImovel()));
-			imovelPropostas.getUsuarioLancador().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(imovelPropostas.getUsuarioLancador()));
-			listaFinal.add(imovelPropostas);
-		}
-		
-        return listaFinal;
+        return dao.filterPropostasRecebidas(idUsuario, form);
 	}
 
 	@Override
 	public List<ImovelPropostas> filterPropostasEnviadas(Long idUsuario, ImovelPropostasForm form) {	
-		List<ImovelPropostas> lista = dao.filterPropostasEnviadas(idUsuario, form);
-		List<ImovelPropostas> listaFinal = new ArrayList<ImovelPropostas>();
-		for (ImovelPropostas imovelPropostas : lista){
-			imovelPropostas.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovelPropostas.getImovel()));
-			listaFinal.add(imovelPropostas);
-		}
-		
-        return listaFinal;
+        return dao.filterPropostasEnviadas(idUsuario, form);
 	}
 	
 	@Override
@@ -399,7 +352,6 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 				imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));				
 				imovel.setQuantPropostas(Integer.parseInt(obj[1].toString()));
 				imovel.setQuantNovasPropostas(dao.findQuantidadeNovasPropostasRecebidas(Long.parseLong(obj[0].toString())));
-				imovel.setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovel));
 				listaFinal.add(imovel);
 			}
 		}
@@ -412,7 +364,6 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 				obj = (Object[]) iter.next();
 				imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));				
 				imovel.setQuantPropostas(Integer.parseInt(obj[1].toString()));	
-				imovel.setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovel));
 				listaFinal.add(imovel);
 			}
 		}		
@@ -434,7 +385,6 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 				imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));				
 				imovel.setQuantPropostas(Integer.parseInt(obj[1].toString()));
 				imovel.setQuantNovasPropostas(dao.findQuantidadeNovasPropostasRecebidas(Long.parseLong(obj[0].toString())));
-				imovel.setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovel));
 				listaFinal.add(imovel);
 			}
 		}
@@ -447,7 +397,6 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 				obj = (Object[]) iter.next();
 				imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));				
 				imovel.setQuantPropostas(Integer.parseInt(obj[1].toString()));	
-				imovel.setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovel));
 				listaFinal.add(imovel);
 			}
 		}		
@@ -467,7 +416,6 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 				obj = (Object[]) iter.next(); //[0] - usuarioRecep, [1] - usuarioEmissor, [2] - quantidade (count)				
 				usuario = usuarioDao.findUsuario(Long.parseLong(obj[0].toString()));
 				usuario.setQuantPropostas(Integer.parseInt(obj[1].toString())); // quantidade de Propostas que o usuario enviou para os imoveis do usuario sessao								
-				usuario.setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(usuario));
 				listaFinal.add(usuario);
 			}			
 		}
@@ -485,7 +433,6 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 				usuario.setQuantTotalRecomendacoes(recomendacaoDao.findQuantidadeRecomendacoesByUsuarioByStatusByStatusLeitura(usuario.getId(), RecomendacaoStatusEnum.ACEITO.getRotulo(), null));
 				usuario.setQuantTotalImoveis(imovelDao.findQuantMeusImoveis(usuario.getId()));
 				usuario.setQuantTotalSeguidores(seguidorDao.findQuantSeguidoresByIdUsuarioSeguido(usuario.getId()));	
-				usuario.setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(usuario));
 				listaFinal.add(usuario);
 			}
 		}
@@ -495,14 +442,7 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 
 	@Override
 	public List<ImovelPropostas> recuperarUsuarioPropostasImovelUsuarioSessaoRecebidas(Long idUsuario, Long idUsuarioSessao) {		
-		List<ImovelPropostas> lista = dao.findImovelPropostasByIdUsuarioByIdUsuarioSessaoRecebidas(idUsuario, idUsuarioSessao);
-		List<ImovelPropostas> listaFinal = new ArrayList<ImovelPropostas>();
-		for (ImovelPropostas imovelPropostas : lista){
-			imovelPropostas.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovelPropostas.getImovel()));
-			listaFinal.add(imovelPropostas);
-		}
-		
-        return listaFinal;
+        return dao.findImovelPropostasByIdUsuarioByIdUsuarioSessaoRecebidas(idUsuario, idUsuarioSessao);
 	}
 	
 

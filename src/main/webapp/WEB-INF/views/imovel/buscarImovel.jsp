@@ -452,8 +452,9 @@
 	                                                   <span class="meta-provider ${imovel.classePorAcao}" style="font-size:19px;">${imovel.acaoFmt} <br>
 	                                                   							<strong>  R$<fmt:formatNumber value="${imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
 	                                                   </span><br>                                                   
-	                                                    <img src="${context}${imovel.imagemImovel}" class="img-responsive" style="width: 260px; height: 275px; alt="admin"/>
-	                                                </a>
+	                                                   
+	                                                    <img src="data:image/jpeg;base64,${imovel.imagemArquivo}" style="width: 270px; height: 355px; "  />	                                           
+	                                                </a>	
 	                                            </div>
 	                                            <div class="media-body">
 	                                                <span class="label pull-right" style="background-color: #03A9F4; font-size: 12px">${imovel.tipoImovelFmt}</span>

@@ -79,7 +79,6 @@ public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
                 Object[] obj = (Object[]) iter.next();
                 imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));                
                 imovel.setQuantidade(Integer.parseInt(obj[1].toString()));
-                imovel.setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovel));
                 listaFinal.add(imovel);
             }
         }
@@ -88,14 +87,7 @@ public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
 
 	@Override
 	public List<Imovelfavoritos> listarImoveisPorUsuario(Long idUsuario, ImovelfavoritosForm form) {
-        
-		List<Imovelfavoritos> lista = dao.findImovelFavoritosByUsuario(idUsuario, form);
-		List<Imovelfavoritos> listaFinal = new ArrayList<Imovelfavoritos>();
-		for (Imovelfavoritos imovelfavoritos : lista){
-			imovelfavoritos.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovelfavoritos.getImovel()));
-			listaFinal.add(imovelfavoritos);
-		}
-		return listaFinal;
+		return dao.findImovelFavoritosByUsuario(idUsuario, form);
 	}
 
 	@Override
@@ -147,14 +139,7 @@ public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
 
 	@Override
 	public List<Imovelfavoritos> listarUsuariosInteressadosMeusImoveis(Long idUsuario, ImovelfavoritosForm form) {
-		List<Imovelfavoritos> lista = dao.findUsuariosInteressadosByIdDonoImovel(idUsuario, form);
-		List<Imovelfavoritos> listaFinal = new ArrayList<Imovelfavoritos>();
-		for (Imovelfavoritos imovelfavoritos : lista){
-			imovelfavoritos.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovelfavoritos.getImovel()));
-			imovelfavoritos.getUsuario().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(imovelfavoritos.getUsuario()));
-			listaFinal.add(imovelfavoritos);
-		}
-		return listaFinal;
+		return dao.findUsuariosInteressadosByIdDonoImovel(idUsuario, form);
 	}
 
 	@Override
@@ -227,14 +212,8 @@ public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
 	}
 
 	@Override
-	public List<Imovelfavoritos> recuperarUsuariosInteressadosPorIdImovel(Long idImovel) {		      
-		List<Imovelfavoritos> lista = dao.findUsuariosInteressadosPorIdImovel(idImovel);
-		List<Imovelfavoritos> listaFinal = new ArrayList<Imovelfavoritos>();
-		for (Imovelfavoritos imovelfavoritos : lista){
-			imovelfavoritos.getUsuario().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(imovelfavoritos.getUsuario()));			
-			listaFinal.add(imovelfavoritos);
-		}
-		return listaFinal;
+	public List<Imovelfavoritos> recuperarUsuariosInteressadosPorIdImovel(Long idImovel) {	  
+		return dao.findUsuariosInteressadosPorIdImovel(idImovel);
 	}
 
 	@Override
@@ -344,26 +323,13 @@ public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
 
 	@Override
 	public List<Imovelfavoritos> filtrarImoveisInteresse(Long idUsuario, ImovelfavoritosForm form) {
-		List<Imovelfavoritos> lista = dao.filterImoveisInteresse(idUsuario, form);
-		List<Imovelfavoritos> listaFinal = new ArrayList<Imovelfavoritos>();
-		for (Imovelfavoritos imovelfavoritos : lista){
-			imovelfavoritos.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovelfavoritos.getImovel()));
-			imovelfavoritos.getUsuario().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(imovelfavoritos.getUsuario()));
-			listaFinal.add(imovelfavoritos);
-		}
-		return listaFinal;
+		return dao.filterImoveisInteresse(idUsuario, form);
 	}
 
 
 	@Override
 	public List<Imovelfavoritos> filtrarUsuariosInteressado(Long idUsuario, ImovelfavoritosForm form) {
-		List<Imovelfavoritos> lista = dao.filterUsuariosInteressados(idUsuario, form);
-		List<Imovelfavoritos> listaFinal = new ArrayList<Imovelfavoritos>();
-		for (Imovelfavoritos imovelfavoritos : lista){
-			imovelfavoritos.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovelfavoritos.getImovel()));
-			listaFinal.add(imovelfavoritos);
-		}
-		return listaFinal;	
+		return dao.filterUsuariosInteressados(idUsuario, form);	
 	}
 	
 	@Override
@@ -384,7 +350,6 @@ public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
 				imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));
 				imovel.setQuantImoveisFavoritos(Integer.parseInt(obj[1].toString()));
 				imovel.setQuantNovosImoveisFavoritos(dao.findQuantidadeNovosUsuariosInteressados(Long.parseLong(obj[0].toString())));
-				imovel.setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovel));
 				listaFinal.add(imovel);
 			}
         }
@@ -437,7 +402,6 @@ public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
 				imovel = imovelDao.findImovelById(idImovel);
 				imovel.setQuantImoveisFavoritos(quantUsuariosInteressados);
 				imovel.setQuantNovosImoveisFavoritos(quantNovosUsuariosInteressados);
-				imovel.setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovel));
 				listaFinal.add(imovel);
 			}
 		}
@@ -470,7 +434,6 @@ public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
 			usuario.setQuantTotalRecomendacoes(recomendacaoDao.findQuantidadeRecomendacoesByUsuarioByStatusByStatusLeitura(usuario.getId(), RecomendacaoStatusEnum.ACEITO.getRotulo(), null));
 			usuario.setQuantTotalImoveis(imovelDao.findQuantMeusImoveis(usuario.getId()));
 			usuario.setQuantTotalSeguidores(seguidorDao.findQuantSeguidoresByIdUsuarioSeguido(usuario.getId()));
-			usuario.setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(usuario));
 			listaFinal.add(usuario);
 		}
 		return listaFinal;
@@ -486,8 +449,7 @@ public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		for (Iterator iter = lista.iterator();iter.hasNext();){
 			obj = (Object[]) iter.next(); 
-			imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));	
-			imovel.setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovel));
+			imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));
 			try {
 				imovel.setDataInteresse(df.parse(obj[1].toString()));
 			} catch (ParseException e) {				

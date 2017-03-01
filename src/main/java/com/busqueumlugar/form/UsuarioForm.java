@@ -23,6 +23,7 @@ import com.busqueumlugar.model.Servico;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.util.Select;
 import com.mysql.jdbc.StringUtils;
+import com.paypal.base.codec.binary.Base64;
 
 public class UsuarioForm extends BaseForm {
     
@@ -605,12 +606,6 @@ public class UsuarioForm extends BaseForm {
         this.fotoPrincipal = fotoPrincipal;
     }
 
-    /**
-     * @return the imagemArquivo
-     */
-    public String getImagemArquivo() {
-        return imagemArquivo;
-    }
 
     /**
      * @param imagemArquivo the imagemArquivo to set
@@ -1322,4 +1317,14 @@ public class UsuarioForm extends BaseForm {
 	public void setCpfCnpjEsqueceuSenha(String cpfCnpjEsqueceuSenha) {
 		this.cpfCnpjEsqueceuSenha = cpfCnpjEsqueceuSenha;
 	}    
+	
+    /**
+     * @return the imagemArquivo
+     */
+    public String getImagemArquivo() {
+    	if ( this != null && this.getFotoPrincipal() != null)
+    		return Base64.encodeBase64String(this.getFotoPrincipal());
+    	else
+    		return "";
+    }
 }

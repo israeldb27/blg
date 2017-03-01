@@ -288,7 +288,7 @@ div#map_container{
 									<div class="pull-left">
 										<div class="col-lg-6 col-md-6 col-sm-6"> 
 	                                        <div id="owl-demo" class="owl-carousel owl-theme">                                             
-	                                            <img class="img-circle" src="${context}/${usuarioForm.imagemArquivo}" style="margin-left:350px; width: 240px; height: 240px; ">	                                            	                                            	                                                                                        
+	                                            <img class="img-circle"   src="data:image/jpeg;base64,${usuarioForm.imagemArquivo}" style="margin-left:350px; width: 240px; height: 240px; ">	                                            	                                            	                                                                                        
 	                                        </div>
 	                                    </div>
                                     </div>

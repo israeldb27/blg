@@ -290,6 +290,25 @@ public class ImovelIndicadoController {
     }
 	
 	
+	@RequestMapping(value = "/selecionarContatosPorPerfil", method = RequestMethod.POST)
+    public String selecionarContatosPorPerfil(@ModelAttribute("imovelIndicadoForm") ImovelindicadoForm form,
+			  								  HttpSession session,	
+			  								  ModelMap map){		
+		try {
+			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
+			
+			form = imovelIndicadoservice.selecionarUsuariosIndicadosPorPerfil(form);
+			map.addAttribute("imovel", imovelService.recuperarImovelPorid(form.getIdImovel()));
+			map.addAttribute("imovelIndicadoForm", form);		
+			return DIR_PATH + "indicarImovel";
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelIndicadoController -  indicarImovelSelecionados");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");			
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+    }
+	
 	@RequestMapping(value = "/indicarImovelSelecionados", method = RequestMethod.POST)
     public String indicarImovelSelecionados(@ModelAttribute("imovelIndicadoForm") ImovelindicadoForm form,
 			  								HttpSession session,	

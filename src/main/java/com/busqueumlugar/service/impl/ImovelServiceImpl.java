@@ -4,7 +4,9 @@ package com.busqueumlugar.service.impl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -14,6 +16,7 @@ import java.util.List;
 import java.util.Random;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +63,7 @@ import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.DateUtil;
 import com.busqueumlugar.util.MessageUtils;
+import com.paypal.base.codec.binary.Base64;
 
 @Service
 public class ImovelServiceImpl implements ImovelService{
@@ -122,12 +126,13 @@ public class ImovelServiceImpl implements ImovelService{
 	
 	@Autowired
 	private ServletContext context;	
+	
+	@Autowired
+	private ServletRequest request;	
 
 	
 	public Imovel recuperarImovelPorid(Long idImovel) {	
-		Imovel imovel = dao.findImovelById(idImovel);
-		imovel.setImagemArquivo(this.carregaFotoPrincipalImovel(imovel));
-		return imovel;
+		return dao.findImovelById(idImovel);
 	}
 	
 	@Transactional
@@ -193,7 +198,6 @@ public class ImovelServiceImpl implements ImovelService{
 		List<Imovel> listaFinal = new ArrayList();
 		if ( ! CollectionUtils.isEmpty(listaImovel) ){			
 			for (Imovel imovel : listaImovel){
-				imovel.setImagemArquivo(this.carregaFotoPrincipalImovel(imovel));
 				imovel.setInteressadoImovel(imovelFavoritosService.checarUsuarioEstaInteressadoImovel(idUsuario, imovel.getId()));
 				listaFinal.add(imovel);
 			}
@@ -225,13 +229,14 @@ public class ImovelServiceImpl implements ImovelService{
 	}
 
 	public List<Imovel> listarMeusImoveis(Long idUsuario, ImovelForm form) {
-		List<Imovel> lista = dao.findImovelByUsuario(idUsuario, form);
+		/*List<Imovel> lista = dao.findImovelByUsuario(idUsuario, form);
 		List<Imovel> listaFinal = new ArrayList<Imovel>();
 		for (Imovel imovel : lista){
 			imovel.setImagemArquivo(this.carregaFotoPrincipalImovel(imovel));
 			listaFinal.add(imovel);
 		}
-        return listaFinal;
+        return listaFinal;*/
+		return dao.findImovelByUsuario(idUsuario, form);
 	}
 
 	public List<Imovel> listarMeusImoveis(Long idUsuario) {
@@ -284,7 +289,6 @@ public class ImovelServiceImpl implements ImovelService{
       //  dao.save(imovel);
         dao.update(imovel);
         BeanUtils.copyProperties(imovel, frm );
-        frm.setImagemArquivo(this.carregaFotoPrincipalImovel(imovel));
         return frm;
 	}
 
@@ -408,7 +412,6 @@ public class ImovelServiceImpl implements ImovelService{
 	public ImovelForm carregaGaleriaFotosImovel(Long idImovel, boolean carregaFotoPrincipal) {
 		ImovelForm frm = new ImovelForm(); 
 		Imovel imovel = dao.findImovelById(idImovel);
-		imovel.setImagemArquivo(this.carregaFotoPrincipalImovel(imovel));
 		BeanUtils.copyProperties(imovel, frm);
 		frm.setListaImovelFotos(imovelfotosService.recuperarFotosImovel(idImovel));		
 		return frm;
@@ -536,7 +539,6 @@ public class ImovelServiceImpl implements ImovelService{
 		if ( form.getValorIptu()!= null && form.getValorIptu().longValue() > 0d) 
 	        form.setValorIptuFmt(AppUtil.formataMoedaString(form.getValorIptu()));
 	
-		form.setImagemArquivo(this.carregaFotoPrincipalImovel(imovel));
 		form.setListaEstados(estadosService.listarTodosEstadosSelect());
 		form.setListaCidades(cidadesService.selecionarCidadesPorIdEstadoSelect(form.getIdEstado()));
 		form.setListaBairros(bairrosService.selecionarBairrosPorIdCidadeSelect(form.getIdCidade()));
@@ -797,7 +799,6 @@ public class ImovelServiceImpl implements ImovelService{
 	@Override
 	public void preparaDetalhesImovelForm(Long idImovel, ImovelForm form, UsuarioForm usuarioSessao) {
 		Imovel imovel = dao.findImovelById(idImovel);	
-		imovel.setImagemArquivo(this.carregaFotoPrincipalImovel(imovel));
 		BeanUtils.copyProperties(imovel, form);			
 		form.setListaFotos(imovelfotosService.recuperarFotosImovel(imovel.getId()));		
 		form.setListaComentario(imovelcomentarioDao.findImovelcomentariosByIdImovel(idImovel, null));
@@ -1007,7 +1008,7 @@ public class ImovelServiceImpl implements ImovelService{
 		   StringBuffer buf = new StringBuffer("");
 		   buf.append("<div class='timeline-item last-timeline'>");
 		   buf.append("   <div class='timeline-badge'> ");
-		   buf.append("       <img class='timeline-badge-userpic' src='" + context.getContextPath() + usuarioService.carregaFotoPrincipalUsuario(imovel1.getUsuario()) + "' style='width: 72px; height: 72px; ' /> ");
+		   buf.append("       <img class='timeline-badge-userpic' src='data:image/jpeg;base64," + imovel1.getImagemArquivo() + "' style='width: 72px; height: 72px; ' /> ");
 		   buf.append("   </div> ");
 		   buf.append("   <div class='timeline-body'> ");
 		   buf.append("      <div class='timeline-body-head'> ");
@@ -1027,7 +1028,7 @@ public class ImovelServiceImpl implements ImovelService{
 		   buf.append("                                        <div class='media-left'> ");
 		   buf.append("                                            <a href='/imovel/detalhesImovel/13' > ");
 		   buf.append("                                               <span class='meta-provider' style='font-size:15px;'>Venda <br><strong>  R$ 560000</strong></span><br> ");
-		   buf.append("                                                <img src='" + context.getContextPath() + this.carregaFotoPrincipalImovel(imovel1) + "' class='img-responsive' style='width: 200px; height: 190px; alt='admin'/> ");
+		   buf.append("                                                <img src='data:image/jpeg;base64," + imovel1.getImagemArquivo() + "' class='img-responsive' style='width: 200px; height: 190px; alt='admin'/> ");
 		   buf.append("                                            </a> ");
 		   buf.append("                                        </div> ");
 		   buf.append("                              <div class='media-body'> ");
@@ -1115,66 +1116,5 @@ public class ImovelServiceImpl implements ImovelService{
 		
 		return msg;
 	}
-	
-	public String carregaFotoPrincipalImovel(Imovel imovel)  {	
-		
-		if (imovel != null && imovel.getFotoPrincipal() != null && imovel.getFotoPrincipal().length > 0 ){
-        String idImovel =  imovel.getId().toString();
-        String titulo = "imovel";
-        Random r = new Random();
-        String nomeArquivo = "/img/" + titulo + idImovel + r.nextInt(1000) +".jpg";        
-      
-		try {
-			String arquivo = context.getRealPath(nomeArquivo);
-            FileOutputStream out;
-			out = new FileOutputStream(arquivo);
-			out.write(imovel.getFotoPrincipal());
-            File f = new File(arquivo);
-            InputStream in = new FileInputStream(f);                            
-            return nomeArquivo;
-		} catch (Exception e){
-			e.printStackTrace();
-		}
-         
-		return null;	
-	}
-	else
-		return null;
-}
-
-
-
-public String carregaFotoPrincipalImovelByIdImovel(Long idPrincipalImovel) {
-	Imovel imovel = dao.findImovelById(idPrincipalImovel);
-	if (imovel != null && imovel.getFotoPrincipal() != null && imovel.getFotoPrincipal().length > 0 ){
-		String idImovel =  imovel.getId().toString();
-        String titulo = "imovel";      
-        Random r = new Random();
-        String nomeArquivo = "/img/" + titulo + idImovel + r.nextInt(1000) +".jpg";       
-         
-        try {
-			String arquivo = context.getRealPath(nomeArquivo);
-            FileOutputStream out;
-			out = new FileOutputStream(arquivo);
-			out.write(imovel.getFotoPrincipal());
-            File f = new File(arquivo);
-            InputStream in = new FileInputStream(f);                            
-            return nomeArquivo;
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return null;
-	}
-	else
-		return null;
-    
-}
-
-	public String pathArquivo(String arquivo){
-		return context.getRealPath(arquivo);
-	}
-
 
 }

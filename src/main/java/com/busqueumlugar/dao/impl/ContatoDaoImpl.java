@@ -329,8 +329,9 @@ public class ContatoDaoImpl extends GenericDAOImpl<Contato, Long>  implements Co
 		Criterion usuarioConvidado = Restrictions.eq("usuarioConvidado.id", idUsuario); 
 		LogicalExpression orExp = Restrictions.or(usuarioHost,usuarioConvidado); 
 		crit.add(orExp);
-		if ( StringUtils.isNullOrEmpty(form.getOpcaoFiltro()))
-			crit.add(Restrictions.eq("status", form.getOpcaoFiltro()));
+		if (! StringUtils.isNullOrEmpty(form.getOpcaoFiltro()))
+			crit.add(Restrictions.eq("perfilContato", form.getOpcaoFiltro()));
+		
 		crit.add(Restrictions.eq("status", ContatoStatusEnum.OK.getRotulo()));
 		return (List<Contato>) crit.list();
 	}	

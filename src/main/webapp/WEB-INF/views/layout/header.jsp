@@ -34,7 +34,6 @@ $(document).ready(function() {
 	});
 });
 
-
 function pesquisarTudo(){ 
 
 	var parametro1=document.getElementById("valorPesquisa");
@@ -87,8 +86,7 @@ function adicionarComparativo(id) {
 
                     </div><!-- /.navbar-header -->
                     <!--/ End navbar header -->
-
-                    <!-- Start offcanvas right: This menu will take position at the top of template header (mobile only). Make sure that only #header have the `position: relative`, or it may cause unwanted behavior -->
+                   
                     <div class="navbar-minimize-mobile right">
                         <i class="fa fa-cog"></i>
                     </div>
@@ -166,7 +164,7 @@ function adicionarComparativo(id) {
                                     	<c:if test="${!empty sessionScope.listaConviteRecebidos}">
                                     		<c:forEach var="usuario" items="${sessionScope.listaConviteRecebidos}">                                    		
 	                                    		<a href="${urlContato}/visualizarConvite/${usuario.id}" class="media">
-		                                            <div class="pull-left"><img src="${context}${usuario.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
+		                                            <div class="pull-left"><img src="data:image/jpeg;base64,${usuario.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
 		                                            <div class="media-body">
 		                                                <span class="media-heading">${usuario.nome}</span>
 		                                                <span class="media-text">${usuario.perfilFmt}</span>		                                                		                                                
@@ -215,7 +213,7 @@ function adicionarComparativo(id) {
                                     		<c:forEach var="recomendacao" items="${sessionScope.listaRecomendacoes}">
                                     			<a href="${urlRecomendacao}/visualizarRecomendacaoSelecionado/${recomendacao.id}" class="media">
                                     			
-		                                            <div class="pull-left"><img src="${context}${recomendacao.imagemUsuario}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
+		                                            <div class="pull-left"><img src="data:image/jpeg;base64,${recomendacao.usuario.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
 		                                            <div class="media-body">
 		                                                <span class="media-heading">${recomendacao.usuario.nome}  </span>
 		                                                <span class="media-text">${recomendacao.descricao}</span>		                                                		                                                
@@ -262,9 +260,9 @@ function adicionarComparativo(id) {
                                     	<c:if test="${!empty sessionScope.listaMensagens}">
                                     		<c:forEach var="mensagem" items="${sessionScope.listaMensagens}">
                                     			<c:choose>
-                                    				<c:when test="${mensagem.usuarioDe.id == usuario.id}">
+                                    				<c:when test="${mensagem.usuarioDe.id == usuario.id}"> 
                                     					<a href="${urlMensagem}/maisMensagens/${mensagem.usuarioPara.id}" class="media">
-                                    						<div class="pull-left"><img src="${context}/${mensagem.usuarioPara.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
+                                    						<div class="pull-left"><img src="data:image/jpeg;base64,${mensagem.usuarioPara.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
                                     						<div class="media-body">
 				                                                <span class="media-heading"> ${mensagem.usuarioPara.nome} </span>
 				                                                <span class="media-text">${mensagem.descricao}</span>		                                                		                                                
@@ -275,7 +273,7 @@ function adicionarComparativo(id) {
                                     				
                                     				<c:when test="${mensagem.usuarioPara.id == usuario.id}">
                                     					<a href="${urlMensagem}/maisMensagens/${mensagem.usuarioDe.id}" class="media">
-                                    						<div class="pull-left"><img src="${context}/${mensagem.usuarioDe.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
+                                    						<div class="pull-left"><img src="data:image/jpeg;base64,${mensagem.usuarioDe.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
                                     						<div class="media-body">
 				                                                <span class="media-heading"> ${mensagem.usuarioDe.nome} </span>
 				                                                <span class="media-text">${mensagem.descricao}</span>		                                                		                                                
@@ -323,10 +321,10 @@ function adicionarComparativo(id) {
 									<!-- aparecerÃ¡ apenas novas NotificaÃ§Ãµes no pop-up-->
 										<c:if test="${!empty sessionScope.listaNovasNotificacoes}">
                                     		<c:forEach var="notificacao" items="${sessionScope.listaNovasNotificacoes}">
-												<c:choose>
+												<c:choose> 
 													<c:when test="${notificacao.tipoNotificacao == 'C' }"> <!--notificacao de convite aceito, disponibilizar link para ver detalhes do usuÃ¡rio -->
 														<a href="${urlNotificacao}/selecionarNotificacao/${notificacao.id}" class="media">
-															<div class="pull-left"><img src="${context}/${notificacao.usuarioConvite.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
+															<div class="pull-left"><img src="data:image/jpeg;base64,${notificacao.usuarioConvite.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
 															<div class="media-body">
 																<span class="media-heading"> ${notificacao.descricao}</span>
 																<span class="media-text"></span>		                                                		                                                
@@ -337,7 +335,7 @@ function adicionarComparativo(id) {
 													
 													<c:when test="${notificacao.tipoNotificacao == 'I' }">
 														<a href="${urlNotificacao}/selecionarNotificacao/${notificacao.id}" class="media">
-															<div class="pull-left"><img src="${context}/${notificacao.imagemUsuario}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
+															<div class="pull-left"><img src="data:image/jpeg;base64,${notificacao.usuario.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
 															<div class="media-body">
 																<span class="media-heading"> ${notificacao.descricao}</span>
 																<span class="media-text"></span>		                                                		                                                
@@ -348,7 +346,7 @@ function adicionarComparativo(id) {
 													
 													<c:when test="${notificacao.tipoNotificacao == 'U' }">
 														<a href="${urlNotificacao}/selecionarNotificacao/${notificacao.id}" class="media">
-															<div class="pull-left"><img src="${context}/${notificacao.imagemUsuario}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
+															<div class="pull-left"><img src="data:image/jpeg;base64,${notificacao.usuario.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
 															<div class="media-body">
 																<span class="media-heading"> ${notificacao.descricao}</span>
 																<span class="media-text"></span>		                                                		                                                
@@ -476,7 +474,7 @@ function adicionarComparativo(id) {
                         <li class="dropdown navbar-profile">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <span class="meta">                                    
-                                    <span class="avatar"><img src="${context}${usuario.imagemArquivo}" style="width: 35px; height: 35px; " class="img-circle" alt="admin"/></span>
+                                    <span class="avatar"><img src="data:image/jpeg;base64,${usuario.imagemArquivo}" style="width: 35px; height: 35px; " class="img-circle" alt="admin"/></span>
                                     <span class="text hidden-xs hidden-sm text-muted">${usuario.nome}</span>                                    
                                 </span>
                             </a>
@@ -486,7 +484,6 @@ function adicionarComparativo(id) {
                                 <li><a href="${urlUsuario}/detalhesUsuario/${usuario.id}"><i class="fa fa-user"></i><spring:message code="lbl.title.link.perfil"/></a></li>
                                 <li><a href="${urlUsuario}/prepararEdicaoUsuario"><i class="fa fa-user"></i><spring:message code="lbl.title.aba.editar.perfil"/></a></li>
                                 <li><a href="${urlUsuario}/prepararEditarSenha"><i class="fa fa-user"></i><spring:message code="lbl.title.aba.editar.senha"/></a></li>
-                                <li><a href="${urlUsuario}/prepararAlterarFotoUsuario"><i class="fa fa-user"></i><spring:message code="lbl.title.aba.alterar.foto.perfil"/></a></li>
                                 <li><a href="${urlUsuario}/prepararIndicarAmigo"><i class="fa fa-user"></i><spring:message code="lbl.title.aba.indicar.amigo"/></a></li>                                                                                                
                                 <li class="divider"></li>
                                 <li><a href="${urlUsuario}/logout"><i class="fa fa-sign-out"></i><spring:message code="lbl.title.logout"/></a></li>  

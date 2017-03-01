@@ -126,7 +126,7 @@ function recuperaRelatorios(){
 																			<c:forEach var="usuarioRelatorio" items="${relatorioUsuarios}" varStatus="item">
 																				<tr class="border-primary">					                                                
 																					<td>						                                                    
-																						<a href="${urlUsuario}/detalhesUsuario/${usuarioRelatorio.id}"><img src="${context}/${usuarioRelatorio.imagemArquivo}" style="width: 100px; height: 80px; " /></a> 
+																						<a href="${urlUsuario}/detalhesUsuario/${usuarioRelatorio.id}"><img src="data:image/jpeg;base64,${usuarioRelatorio.imagemArquivo} style="width: 100px; height: 80px; " /></a> 
 																					</td>						                                                
 																					<td><a href="${urlUsuario}/detalhesUsuario/${usuarioRelatorio.id}">${usuarioRelatorio.nome}</a></td>
 																					<td><fmt:formatDate value='${usuarioRelatorio.dataCadastro}' pattern='dd/MM/yyyy'/></td>						                                                				                                                					                                               

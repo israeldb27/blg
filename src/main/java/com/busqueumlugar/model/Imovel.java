@@ -27,6 +27,7 @@ import com.busqueumlugar.service.EstadosService;
 import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.DateUtil;
+import com.paypal.base.codec.binary.Base64;
 
 @Entity
 @Table(name = "imovel")
@@ -534,12 +535,12 @@ public class Imovel extends BaseEntity implements Serializable{
     /**
      * @return the imagemArquivo
      */
-   /* public String getImagemArquivo() {
-    	if ( this != null && this.id != null)
-    		return AppUtil.carregaFotoPrincipalImovel(this);
+    public String getImagemArquivo() {
+    	if ( this != null && this.getFotoPrincipal() != null)
+    		return Base64.encodeBase64String(this.getFotoPrincipal());
     	else
-    		return imagemArquivo;
-    }*/
+    		return "";
+    }
     
 
     /**

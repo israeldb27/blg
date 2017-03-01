@@ -125,8 +125,8 @@
                                     <div class="media-list">
 										<c:forEach var="mensagem" items="${listaMensagens}">							
 										
-	                                        <a href="#" class="media">
-	                                            <div class="pull-left"><img src="${context}/${mensagem.usuarioDe.imagemArquivo}" class="media-object img-circle" alt="..."/></div>
+	                                        <a href="#" class="media"> 
+	                                            <div class="pull-left"><img src="data:image/jpeg;base64,${mensagem.usuarioDe.imagemArquivo}" class="media-object img-circle" alt="..."/></div>
 	                                            <div class="media-body">
 	                                                <span class="media-heading">${mensagem.usuarioDe.nome}</span>
 	                                                <span class="media-text">${mensagem.descricao} </span>

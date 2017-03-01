@@ -397,7 +397,7 @@ function confirmarExclusaoParametro(){
 	                                                   <span class="meta-provider" style="font-size:19px;">${imovelFavoritos.imovel.acaoFmt} <br>
 	                                                   							<strong>  R$<fmt:formatNumber value="${imovelFavoritos.imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
 	                                                   </span><br>                                                   
-	                                                    <img src="${context}${imovelFavoritos.imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 250px; alt="admin"/>
+	                                                    <img src="data:image/jpeg;base64,${imovelFavoritos.imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 250px; alt="admin"/>
 	                                                </a>
 	                                            </div>
 	                                            <div class="media-body">
@@ -413,7 +413,7 @@ function confirmarExclusaoParametro(){
 				                                            <br> <br>			                                            
 				                                            <em class="text-sm text-muted" ><font style="font-size:13px; font-style: normal;"><spring:message code="lbl.nome.usuario.interessado" />: </font><span class="text-success"></span></em> </br>
 				                                            <a href="${urlUsuario}/detalhesUsuario/${imovelFavoritos.usuario.id}">
-				                                            	<img src="${context}${imovelFavoritos.usuario.imagemArquivo}" class="img-responsive" style="width: 60px; height: 65px; alt="admin"/>
+				                                            	<img src="data:image/jpeg;base64,${imovelFavoritos.usuario.imagemArquivo}" class="img-responsive" style="width: 60px; height: 65px; alt="admin"/>
 				                                            </a>				                                            			                                            
 				                                        </div>
 	                                              	                                                 

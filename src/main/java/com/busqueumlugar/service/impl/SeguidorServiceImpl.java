@@ -71,13 +71,7 @@ public class SeguidorServiceImpl implements SeguidorService {
 
 	@Override
 	public List<Seguidor> recuperarSeguidoresPorIdUsuarioSeguido(Long idUsuario) {	
-		List<Seguidor> lista = dao.findSeguidoresByIdUsuarioSeguido(idUsuario);
-		List<Seguidor> listaFinal = new ArrayList<Seguidor>();		
-		for (Seguidor seguidor : lista){
-			seguidor.getUsuario().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(seguidor.getUsuario()));
-			listaFinal.add(seguidor);
-		}
-		return listaFinal;	
+		return dao.findSeguidoresByIdUsuarioSeguido(idUsuario);	
 	}
 
 	@Override

@@ -395,7 +395,7 @@ function adicionarComparativo(id) {
 	                                                   <span class="meta-provider" style="font-size:19px;">${imovelFavoritos.imovel.acaoFmt} <br>
 	                                                   							<strong>  R$<fmt:formatNumber value="${imovelFavoritos.imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
 	                                                   </span><br>                                                   
-	                                                    <img src="${context}${imovelFavoritos.imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 215px; alt="admin"/>
+	                                                    <img src="data:image/jpeg;base64,${imovelFavoritos.imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 215px; alt="admin"/>
 	                                                </a>
 	                                            </div>
 	                                            <div class="media-body">

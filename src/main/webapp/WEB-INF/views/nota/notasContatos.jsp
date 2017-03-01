@@ -72,7 +72,7 @@
                         <div class="col-lg-9 col-md-11 col-sm-9"> 
                         	<div class="panel rounded shadow">                         
                            	    	
-                                		<div class="panel-heading">
+                                		<div class="panel-heading" style="background: #eeeeef; border-style: none;">
 			                                    <div class="pull-left">
 			                                             <form:form method="POST" id="notaFiltroForm" modelAttribute="notaForm" action="${urlNota}/filtrarNotasContatos" >							                        	
 										                        	<form:select id="opcaoFiltro1" path="opcaoFiltro" class="form-control">                                
@@ -113,77 +113,103 @@
 			                                    
 			                                    <div class="clearfix"></div>
 			                                </div><!-- /.panel-heading -->
-			                                <div class="panel-body no-padding">
-			                          <c:choose>
-                                		<c:when test="${ not empty listaNotasContato }">
-                                			<c:forEach var="nota" items="${listaNotasContato}"> 		                                	
-												<div class="media inner-all">
-					                                  <div class="pull-left">
-					                                         <span class="fa fa-stack fa-2x">
-					                                         	<c:choose>
-					                                         		<c:when test="${((nota.acao == 'P') || (nota.acao == 'R') || (nota.acao == 'U') || (nota.acao == 'E'))}">
-					                                         			<a href="#" onClick="carregaDetalhesUsuario(${nota.usuario.id})" >                                         	
-						                                              		<img class="img-circle img-bordered-success" src="${context}${nota.usuario.imagemArquivo}" style="width: 60px; height: 60px; " />
-						                                              	</a>	
-					                                         		</c:when>
-					                                         		
-					                                         		<c:when test="${(nota.acao == 'I')}">
-					                                         			<a href="#" onClick="carregaDetalhesImovel(${nota.imovel.id})" >
-						                                            		<img src="${context}${nota.imovel.imagemArquivo}" style="width: 60px; height: 60px; " alt="admin"/>
-						                                            	</a>	
-					                                         		</c:when>
-					                                         	</c:choose>					                                         	                                               	 
-					                                         </span>
-					                                  </div><!-- /.pull-left -->
-					                                  <div class="media-body">
-					                                  	  <c:choose>
-														    <c:when test="${nota.acao == 'P'}">
-														    	<a href="#" class="h4"><spring:message code="lbl.nota.parceria"/></a>
-														    	
-														    	<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao} <a href="#" onClick="carregaDetalhesImovel(${nota.imovel.id})" ><strong>${nota.imovel.titulo} </strong></a></small>		
-														    </c:when>
-														    
-														    <c:when test="${nota.acao == 'R'}">
-														    	<a href="#" class="h4"><spring:message code="lbl.nota.preferencia"/></a>
-														    	
-														    	<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao}</small>
-														    </c:when>
-														    
-														    <c:when test="${nota.acao == 'U'}">
-														    	<a href="#" class="h4"><spring:message code="lbl.nota.info.usuario"/></a>
-														    	
-														    	<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao} <a href="#" onClick="carregaDetalhesUsuario(${nota.usuario.id})"><strong>${nota.usuario.nome} </strong></a></small>
-														    </c:when>
-														    
-														    <c:when test="${nota.acao == 'E'}">
-														    	<a href="#" class="h4"><spring:message code="lbl.nota.pessoal"/></a>
-														    	
-														    	<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao} </small>
-														    </c:when>
-														    
-														    <c:when test="${nota.acao == 'I'}">
-														    	<a href="#"  class="h4"><spring:message code="lbl.nota.imovel"/></a>
-														    	
-														    	<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao} <a href="#" onClick="carregaDetalhesImovel(${nota.imovel.id})" ><strong>${nota.imovel.titulo} </strong></a></small>
-														    </c:when>
-														    
-														  </c:choose>  			      
-					                                      
-					                                      <em class="text-xs text-muted"><spring:message code="lbl.data.nota"/> <span class="text-danger"><fmt:formatDate value='${nota.dataNota}' pattern='dd/MM/yyyy'/></span></em>
-					                                  </div><!-- /.media-body -->
-					                              </div><!-- /.media -->
-			                              		  <div class="line"></div>
-			                              	  </c:forEach>	
-                                		</c:when>
-                                		
-                                		<c:when test="${ empty listaNotasContato }">
-                                			 <div class="callout callout-warning">
-			                                    <strong><spring:message code="lbl.nenhuma.nota"/></strong>			                                    
-			                                </div>   
-                                		</c:when>                                		
-                                	</c:choose>
+			                                <div class="panel-body" style="background: #eeeeef">
+			                         				<div class="profile-body">
+														<c:choose>
+				                                			<c:when test="${not empty listaNotasContato}">
+				                                				<div class="timeline">
+				                                					<c:forEach var="nota" items="${listaNotasContato}"> 
+				                                						<div class="timeline-item last-timeline">
+																			<div class="timeline-badge">
+																				  <c:choose>
+										                                         		<c:when test="${((nota.acao == 'R') || (nota.acao == 'U') || (nota.acao == 'E'))}">
+										                                         			<img class="timeline-badge-userpic" src="data:image/jpeg;base64,${nota.usuario.imagemArquivo}" style="width: 80px; height: 90px; " >
+										                                         		</c:when>
+										                                         		
+										                                         		<c:when test="${((nota.acao == 'I') || (nota.acao == 'P')) }">					                                         			
+										                                         			<img  class="timeline-badge-userpic" src="data:image/jpeg;base64,${nota.imovel.imagemArquivo}" style="width: 80px; height: 90px; " >
+										                                         		</c:when>
+										                                         	</c:choose>	
+																			</div>
+																			<div class="timeline-body">
+																				<div class="timeline-body-arrow">
+																				</div>
+																				
+																				<c:choose>
+																					    <c:when test="${nota.acao == 'P'}">
+																					    	<div class="timeline-body-head">
+																								<div class="timeline-body-head-caption">
+																									<a href="#" onClick="carregaDetalhesImovel(${nota.imovel.id})" class="timeline-body-title font-blue-madison"><spring:message code="lbl.nota.parceria"/></a>
+																									<span class="timeline-body-time font-grey-cascade"> </span>
+																								</div>
+																							</div>
+																							<div class="timeline-body-content">
+																								<p>
+																									<small class="block text-muted"><label><strong style="font-size: 13px;"> <spring:message code="lbl.descricao.nota"/>: </strong></label>  ${nota.descricao} <a href="${urlImovel}/detalhesImovel/${nota.imovel.id}" ><strong>${nota.imovel.titulo} </strong></a></small>
+																								</p>
+																							</div>																					    													    			    	
+																					    </c:when>
+																					    
+																					    <c:when test="${nota.acao == 'R'}">																					    	
+																					    	<div class="timeline-body-head">
+																								<div class="timeline-body-head-caption">
+																									<a href="#" class="timeline-body-title font-blue-madison"><spring:message code="lbl.nota.preferencia"/></a>
+																									<span class="timeline-body-time font-grey-cascade"> </span>
+																								</div>
+																							</div>
+																							<div class="timeline-body-content">
+																								<p>
+																									<small class="block text-muted"><label><strong style="font-size: 13px;"> <spring:message code="lbl.descricao.nota"/>: </strong></label>  ${nota.descricao}</small>
+																								</p>
+																							</div>	
+																					    </c:when>
+																					    
+																					    <c:when test="${((nota.acao == 'U') || (nota.acao == 'E'))}">																					    	
+																					    	<div class="timeline-body-head">
+																								<div class="timeline-body-head-caption">
+																									<a href="${urlUsuario}/detalhesUsuario/${nota.usuario.id}"  class="timeline-body-title font-blue-madison"><spring:message code="lbl.nota.info.usuario"/></a>
+																									<span class="timeline-body-time font-grey-cascade"> </span>
+																								</div>
+																							</div>
+																							<div class="timeline-body-content">
+																								<p>
+																									<small class="block text-muted"><label><strong style="font-size: 13px;"> <spring:message code="lbl.descricao.nota"/>: </strong></label>  ${nota.descricao}</small>
+																								</p>
+																							</div>																    	
+																					    	
+																					    </c:when>
+																					    
+																					    <c:when test="${nota.acao == 'I'}">																					    	
+																					    	<div class="timeline-body-head">
+																								<div class="timeline-body-head-caption">
+																									<a href="#" onClick="carregaDetalhesImovel(${nota.imovel.id})" class="timeline-body-title font-blue-madison"><spring:message code="lbl.nota.imovel"/></a>
+																									<span class="timeline-body-time font-grey-cascade"> </span>
+																								</div>
+																							</div>
+																							<div class="timeline-body-content">
+																								<p>
+																									<small class="block text-muted"><label><strong style="font-size: 13px;"> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao} <a href="${urlImovel}/detalhesImovel/${nota.imovel.id}" ><strong>${nota.imovel.titulo} </strong></a></small>
+																								</p>
+																							</div>
+																					    </c:when>															    
+																			  </c:choose>
+																					<em class="text-xs text-muted"><spring:message code="lbl.data.nota"/> <span class="text-danger"><fmt:formatDate value='${nota.dataNota}' pattern='dd/MM/yyyy'/></span></em> 
+																			</div>
+																		</div>
+				                                					</c:forEach>								
+																</div>
+				                                			</c:when>
+				                                			
+				                                			<c:when test="${ empty listaNotasContato }">
+					                                			 <div class="callout callout-warning">
+								                                    <strong><spring:message code="lbl.nenhuma.nota"/></strong>			                                    
+								                                </div>                                		
+					                                		</c:when>
+					                                		
+				                                		</c:choose>		
+													</div>
                                 	            
-                                </div><!-- /.panel-body -->                       
+                                			</div><!-- /.panel-body -->                       
                             </div>                                                                      
                         </div>    
                               

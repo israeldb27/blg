@@ -120,13 +120,7 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
 
 	@Override
 	public List<Imovelindicado> listarImovelIndicado(Long idUsuario, ImovelindicadoForm form) {
-		List<Imovelindicado> lista = dao.findImoveisPorUsuario(idUsuario, form);
-		List<Imovelindicado> listaFinal = new ArrayList<Imovelindicado>();
-		for (Imovelindicado imovelindicado : lista){
-			imovelindicado.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovelindicado.getImovel()));
-			listaFinal.add(imovelindicado);
-		}
-		return listaFinal;
+		return dao.findImoveisPorUsuario(idUsuario, form);
 	}
 
 	@Override
@@ -141,14 +135,7 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
 
 	@Override
 	public List<Imovelindicado> listarImoveisIndicacoes(Long idUsuario, ImovelindicadoForm form) {	
-		List<Imovelindicado> lista = dao.findImoveisIndicacoesPorUsuario(idUsuario, form);
-		List<Imovelindicado> listaFinal = new ArrayList<Imovelindicado>();
-		for (Imovelindicado imovelindicado : lista){
-			imovelindicado.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovelindicado.getImovel()));
-			imovelindicado.getUsuario().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(imovelindicado.getUsuario()));
-			listaFinal.add(imovelindicado);
-		}
-		return listaFinal;
+		return dao.findImoveisIndicacoesPorUsuario(idUsuario, form);
 	}
 
 	@Override
@@ -279,7 +266,6 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
 
     @Override
     public List<Imovelindicado> filtrar(String tipoFiltro, Long idUsuario, ImovelindicadoForm form){
-    	List<Imovelindicado> listaFinal  = new ArrayList<Imovelindicado>();
     	List<Imovelindicado> lista  = new ArrayList<Imovelindicado>();
     	
     	if ( form.getTipoLista().equals("indicacoes")){
@@ -289,12 +275,7 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
     		lista = dao.filterImoveisIndicados(idUsuario, form);    		
     	}
 
-		for (Imovelindicado imovelindicado : lista){
-			imovelindicado.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovelindicado.getImovel()));
-			imovelindicado.getUsuario().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(imovelindicado.getUsuario()));
-			listaFinal.add(imovelindicado);
-		}
-		return listaFinal;       
+		return lista;       
     }
 	
 	@Override
@@ -320,7 +301,6 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
     			usuario.setQuantTotalRecomendacoes(recomendacaoDao.findQuantidadeRecomendacoesByUsuarioByStatusByStatusLeitura(usuario.getId(), RecomendacaoStatusEnum.ACEITO.getRotulo(), null));
     			usuario.setQuantTotalImoveis(imovelDao.findQuantMeusImoveis(usuario.getId()));
     			usuario.setQuantTotalSeguidores(seguidorDao.findQuantSeguidoresByIdUsuarioSeguido(usuario.getId()));
-    			usuario.setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(usuario));
             	listaUsuario.add(usuario);
             }
     	}
@@ -338,7 +318,6 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
     			usuario.setQuantTotalRecomendacoes(recomendacaoDao.findQuantidadeRecomendacoesByUsuarioByStatusByStatusLeitura(usuario.getId(), RecomendacaoStatusEnum.ACEITO.getRotulo(), null));
     			usuario.setQuantTotalImoveis(imovelDao.findQuantMeusImoveis(usuario.getId()));
     			usuario.setQuantTotalSeguidores(seguidorDao.findQuantSeguidoresByIdUsuarioSeguido(usuario.getId()));
-    			usuario.setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(usuario));
             	listaUsuario.add(usuario);
             }
     	}
@@ -385,7 +364,6 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
 				imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));				
 				imovel.setQuantImoveisIndicados(Integer.parseInt(obj[1].toString()));
 				imovel.setQuantNovosImoveisIndicados(dao.findQuantidadeNovosImoveisIndicacoes(Long.parseLong(obj[0].toString())));
-				imovel.setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovel));
 				listaFinal.add(imovel);
 			}
 		}
@@ -405,7 +383,6 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
 				imovel = imovelDao.findImovelById(Long.parseLong(obj[0].toString()));				
 				imovel.setQuantImoveisIndicados(Integer.parseInt(obj[1].toString()));
 				imovel.setQuantNovosImoveisIndicados(dao.findQuantidadeNovosImoveisIndicacoes(Long.parseLong(obj[0].toString())));
-				imovel.setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovel));
 				listaFinal.add(imovel);
 			}
         }
@@ -418,25 +395,13 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
 	}
 	
 	@Override
-	public List<Imovelindicado> recuperarSolicitacoesIndicacoesPorImovelPorUsuario(Long idImovel, Long idUsuario) {		
-		List<Imovelindicado> lista = dao.findImoveisIndicadosByIdImovelPorIdUsuarioIndicador(idImovel, idUsuario);
-		List<Imovelindicado> listaFinal = new ArrayList<Imovelindicado>();
-		for (Imovelindicado imovelindicado : lista){
-			imovelindicado.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovelindicado.getImovel()));
-			listaFinal.add(imovelindicado);
-		}
-		return listaFinal;
+	public List<Imovelindicado> recuperarSolicitacoesIndicacoesPorImovelPorUsuario(Long idImovel, Long idUsuario) {	
+		return dao.findImoveisIndicadosByIdImovelPorIdUsuarioIndicador(idImovel, idUsuario);
 	}
 
 	@Override
-	public List<Imovelindicado> recuperarSolicitacoesIndicadosParaMimPorIdUsuario(Long idUsuarioSessao, Long idUsuario) {	
-		List<Imovelindicado> lista = dao.findImoveisIndicadosParaMimByIdUsuarioSessaoByIdUsuario(idUsuarioSessao, idUsuario);
-		List<Imovelindicado> listaFinal = new ArrayList<Imovelindicado>();
-		for (Imovelindicado imovelindicado : lista){
-			imovelindicado.getImovel().setImagemArquivo(imovelService.carregaFotoPrincipalImovel(imovelindicado.getImovel()));
-			listaFinal.add(imovelindicado);
-		}
-		return listaFinal;
+	public List<Imovelindicado> recuperarSolicitacoesIndicadosParaMimPorIdUsuario(Long idUsuarioSessao, Long idUsuario) {
+		return dao.findImoveisIndicadosParaMimByIdUsuarioSessaoByIdUsuario(idUsuarioSessao, idUsuario);
 	}
 
 	@Override
@@ -512,6 +477,24 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
 	@Transactional
 	public void atualizarStatusImoveisIndicadosSolRecebidas(Long idUsuario) {
 		dao.updateStatusLeituraByIdUsuarioIndicado(idUsuario);
+	}
+
+	@Override
+	public ImovelindicadoForm  selecionarUsuariosIndicadosPorPerfil(ImovelindicadoForm form) {
+		
+		if (! CollectionUtils.isEmpty(form.getListaTodosContatos())){
+			String[] idsSelecionados = new String[form.getListaTodosContatos().size()];
+			int i = 0;
+			for (Usuario usuario : form.getListaTodosContatos()){
+				if ( usuario.getPerfil().equals(form.getOpcaoFiltroPerfil()) || form.getOpcaoFiltroPerfil().equals("T")){
+					idsSelecionados[i] = usuario.getId().toString();
+					i++;
+				}	
+			}
+			if (idsSelecionados.length > 0 )
+				form.setIdUsuariosSelecionados(idsSelecionados);
+		}
+		return form;
 	}
 
 

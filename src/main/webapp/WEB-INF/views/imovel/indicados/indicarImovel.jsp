@@ -6,6 +6,8 @@
 
 <spring:url value="/imovelIndicado" var="urlImovelIndicado"/>
 <c:set var="context" value="<%= request.getContextPath()%>"/>
+<%@page import="com.busqueumlugar.enumerador.PerfilUsuarioNormalEnum"%>
+<c:set var="listaPerfilUsuario" value="<%= PerfilUsuarioNormalEnum.values() %>"/>
 
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
 
@@ -17,6 +19,10 @@
 
 $(document).ready(function() {
 	$("#idMsgSelIndicacao").hide();
+	
+	$('#opcaoFiltroPerfil').change(function () {				
+		$("#imovelIndicadoSelPerfilForm").submit();      
+	 });  
 });	
 
 function indicarImovel(idUsuario, idImovel) {    	
@@ -79,7 +85,7 @@ function indicarImovel(idUsuario, idImovel) {
 		                                <div class="inner-all">
 		                                    <ul class="list-unstyled">
 		                                        <li class="text-center">		                                        
-		                                            <img class="img-circle img-bordered-primary" src="${context}${imovel.imagemArquivo}" style="width: 200px; height: 200px; ">
+		                                            <img class="img-circle img-bordered-primary" src="data:image/jpeg;base64,${imovel.imagemArquivo}"  style="width: 200px; height: 200px; ">
 		                                        </li>
 		                                        <li class="text-center">
 		                                            <h4 class="text-capitalize">${imovel.titulo}</h4>
@@ -180,18 +186,12 @@ function indicarImovel(idUsuario, idImovel) {
                                        <div class="tab-content">
                                            <div class="tab-pane fade in active" id="tab4-1">
                                            		 
-                                           		 <div class="form-group">
-	                                                <label for="endereco" class="col-sm-3 control-label">Email</label>
-	                                                <div class="col-sm-4">                                                    
-	                                                    <form:input  id="emailIndicado" path="emailIndicado" class="form-control"/>
-	                                                </div>
-	                                            </div><!-- /.form-group -->
-	                                             
-	                                             <div class="form-footer">  
-						                              <div class="col-sm-offset-3">
-						                                  <button type="submit" class="btn btn-success"> Enviar Email</button>
-						                              </div>
-						                          </div><!-- /.form-footer -->   	                                            
+                                           		 <div class="input-group">
+                                                        <input type="text" class="form-control input-sm" id="to" placeholder="Digite o email aqui">
+                                                        <div class="input-group-btn">
+                                                            <button type="button" class="btn btn-primary btn-stroke" style="font-size: 11px;"> <i class="fa fa-envelope-o"></i> &nbsp; Indicar por Email </button>
+                                                        </div>
+                                                    </div> 	                                            
                                            </div>
                                        </div>
                                      </form:form>  
@@ -204,23 +204,18 @@ function indicarImovel(idUsuario, idImovel) {
 				                          <div class="panel-heading">
 				                              <h3 class="panel-title"><spring:message code="msg.erro.indicacoes.quant.usuarios.selecionados"/></h3>
 				                          </div><!-- /.panel-heading -->		                          
-				                      </div><!-- /.panel -->  
+				                      </div><!-- /.panel -->  	                      	   
 	                      	   
-	                      	   
-	                      	   		<c:if test="${msgErro != null }">
-					               		 <div class="panel panel-danger">
-					                          <div class="panel-heading">
-					                              <h3 class="panel-title">${msgErro}</h3>
-					                          </div><!-- /.panel-heading -->		                          
-					                      </div><!-- /.panel -->                      
+	                      	   		<c:if test="${msgErro != null }"> 
+					                       <div class="callout callout-danger">
+				                             <strong>${msgErro}</strong>
+				                          </div>                    
 					                </c:if>
 					                
 					                <c:if test="${ultrapassouLimiteIndicacoes != null }">
-					               		 <div class="panel panel-danger">
-					                          <div class="panel-heading">
-					                              <h3 class="panel-title">${ultrapassouLimiteIndicacoes}</h3>
-					                          </div><!-- /.panel-heading -->		                          
-					                      </div><!-- /.panel -->                      
+					                	 <div class="callout callout-danger">
+				                             <strong>${ultrapassouLimiteIndicacoes}</strong>
+				                         </div>						                      
 					                </c:if>
 					                	
 					                <c:choose>
@@ -231,14 +226,20 @@ function indicarImovel(idUsuario, idImovel) {
 					                                    		<h3 class="panel-title"><spring:message code="lbl.title.aba.indicar.contatos.usuario"/></h3>
 					                                    </div>
 					                                    <div class="pull-right">
-					                                    		<a href="#a" class="btn btn-sm"  data-toggle="modal" data-target=".bs-modal-ajuda-informacoes" style=""><i class="fa fa-question" ></i></a>                                        
+					                                    	<form:form method="POST" id="imovelIndicadoSelPerfilForm" modelAttribute="imovelIndicadoForm" action="${urlImovelIndicado}/selecionarContatosPorPerfil" >
+					                                    		<form:select id="opcaoFiltroPerfil" path="opcaoFiltroPerfil" class="form-control"  >                                
+												                    <form:option value="" ><spring:message code="lbl.opcao.selecione.perfil.indicacao"/></form:option>
+												   					<form:options items="${listaPerfilUsuario}" itemValue="identificador" itemLabel="rotulo" /> 
+												   					<form:option value="T" ><spring:message code="lbl.perfil.usuario.todos"/></form:option>   
+												                </form:select>    
+												             </form:form>                                    
 					                                    </div>
 					                                    <div class="clearfix"></div>
 					                                </div><!-- /.panel-heading -->
 					                                <div class="panel-body no-padding">		                                
 					                                	
 					                                			<div class="table-responsive" style="margin-top: -1px;">
-							                                        <table class="table table-striped table-primary">
+							                                        <table class="table table-striped table-info">
 							                                            <thead>		                                            
 							                                            	<tr>
 							                                            		<th class="text-center"></th>		                                                
@@ -251,7 +252,7 @@ function indicarImovel(idUsuario, idImovel) {
 							                                            <tbody>
 							                                           <form:form method="POST" id="imovelIndicadoForm" modelAttribute="imovelIndicadoForm" action="${urlImovelIndicado}/indicarImovelSelecionados" >
 							                                            <div class="section colm colm2 spacer-b5">
-														                      <button type="submit" class="button btn-primary"><spring:message code="lbl.lista.usuarios.indicados"/></button>
+														                      
 														                  </div>
 								                                            <c:forEach var="usuarioContato" items="${imovelIndicadoForm.listaTodosContatos}" >			                                            
 									                                            <tr>
@@ -262,18 +263,18 @@ function indicarImovel(idUsuario, idImovel) {
 									                                            		<td> </td>
 									                                            	</c:if>
 									                                                <td class="text-center">	                                                    
-															                     		<img src="${context}/${usuarioContato.imagemArquivo}" style="width: 60px; height: 50px; " />	                				
+															                     		<img src="data:image/jpeg;base64,${usuarioContato.imagemArquivo}" style="width: 60px; height: 50px; " />	                				
 									                                                </td>			                                                
 									                                                <td class="text-center">${usuarioContato.nome}</td>
 									                                                <td class="text-center">${usuarioContato.perfilFmt} </td>
 																					<td>
 																						<c:if test="${usuarioContato.indicadoImovel == 'N'}">
-																							<button type="button" id="idNaoIndicado_${usuarioContato.id}" class="btn btn-sm btn-primary btn-xs btn-push" onClick="indicarImovel(${usuarioContato.id}, ${imovel.id})" ><i class="fa fa-eye"></i> Indicar</button>
+																							<a href="#a" id="idNaoIndicado_${usuarioContato.id}" class="meta-action" onClick="indicarImovel(${usuarioContato.id}, ${imovel.id})" ><i class="fa fa-share-alt" style="color:gray"></i> Indicar</a>
 														              					
-														              						<button type="button"  style="display: none;"  id="idIndicado_${usuarioContato.id}" class="btn btn-sm btn-primary btn-xs btn-push" ><i class="fa fa-eye"></i> Indicado </button>
+														              						<a href="#a" style="display: none;"  id="idIndicado_${usuarioContato.id}" class="meta-action" ><i class="fa fa-share-alt" style="color:gray"></i> Indicado </button>
 																						</c:if>
 																						<c:if test="${usuarioContato.indicadoImovel == 'S'}">
-																							<button type="button" class="btn btn-sm btn-primary btn-xs btn-push" ><i class="fa fa-eye"></i> Indicado </button>
+																							<a href="#a" class="meta-action" ><i class="fa fa-share-alt" style="color:gray"></i> Indicado </button>
 																						</c:if>
 														              					
 														              				</td>			            			                                                			                                              	                                            
@@ -288,11 +289,9 @@ function indicarImovel(idUsuario, idImovel) {
 	                                		</c:when>
 	                                		
 	                                		<c:when test = "${empty imovelIndicadoForm.listaTodosContatos}">
-	                                			<div class="panel">
-				                    						<div class="alert alert-primary">
-							                                      <strong><spring:message code="lbl.nenhum.contato.indicar.imovel"/></strong> 
-							                                 </div>             				
-						                            </div> 
+	                                			<div class="callout callout-warning">
+				                                    <strong><spring:message code="lbl.nenhum.contato.indicar.imovel"/></strong>
+				                                </div>
 	                                		</c:when>		                                		
 		                            </c:choose>    	
 		                       </div>		  

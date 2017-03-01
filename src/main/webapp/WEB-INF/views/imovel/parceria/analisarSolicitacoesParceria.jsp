@@ -90,7 +90,7 @@ function confirmarExclusaoSolParceriaAnaliseSol(){
 		                                    <ul class="list-unstyled">
 		                                        <li class="text-center">
 													<a href="${urlImovel}/detalhesImovel/${imovel.id}" >
-														<img class="img-circle img-bordered-primary" src="${context}${imovel.imagemArquivo}" style="width: 100px; height: 100px; " alt="Tol Lee">
+														<img class="img-circle img-bordered-primary" src="data:image/jpeg;base64,${imovel.imagemArquivo}" style="width: 100px; height: 100px; " alt="Tol Lee">
 													</a>
 		                                        </li>
 		                                        <li class="text-center">
@@ -173,7 +173,7 @@ function confirmarExclusaoSolParceriaAnaliseSol(){
 			                                                            <tr class="border-primary">
 			                                                                <td> 
 																				<a href="${urlUsuario}/detalhesUsuario/${parceriaSelecionada.usuarioSolicitante.id}" >
-																					<img src="${context}${parceriaSelecionada.usuarioSolicitante.imagemArquivo}" style="width: 35px; height: 35px; " />
+																					<img src="data:image/jpeg;base64,${parceriaSelecionada.usuarioSolicitante.imagemArquivo}" style="width: 35px; height: 35px; " />
 																				</a>
 			                                                                </td>
 			                                                                <td class="text-center"><b><a href="${urlUsuario}/detalhesUsuario/${parceriaSelecionada.usuarioSolicitante.id}" >

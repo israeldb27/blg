@@ -93,8 +93,8 @@
                                     	<c:if test="${ not empty listaMinhasMensagens }">
 											<c:forEach var="mensagem" items="${listaMinhasMensagens}">											
 											        <a href="${urlMensagemAdmin}/visualizarMaisMensagem/${mensagem.id}" class="media">
-											                                        
-		                                            <div class="pull-left"><img src="${context}/${mensagem.usuario.imagemArquivo}" class="media-object img-circle" alt="..."/> </div>
+											                                          
+		                                            <div class="pull-left"><img src="data:image/jpeg;base64,${mensagem.usuario.imagemArquivo}" class="media-object img-circle" alt="..."/> </div>
 		                                            <div class="media-body">		                                            	
 		                                                <span class="media-heading"> ${mensagem.tipoMensagemFmt}	</span>		                                    
 		                                                <span class="media-text">${mensagem.descricaoUltimaMensagem} </span>

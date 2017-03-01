@@ -169,7 +169,7 @@
 			                                    		<tr>
 				                                            <td class="text-center">
 				                                            	<a href="${urlImovel}/detalhesImovel/${imovel.id}" >
-				                                            		<img src="${context}${imovel.imagemArquivo}" style="width: 80px; height: 60px; " />
+				                                            		<img src="data:image/jpeg;base64,${imovel.imagemArquivo}"  style="width: 80px; height: 60px; " />
 				                                            	</a>
 				                                            </td>	                                            
 				                                            <td class="text-center">${imovel.tipoImovelFmt} </td>

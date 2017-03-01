@@ -128,8 +128,8 @@
 	                                        	<c:if test="${mensagem.remetenteAdmin == 'S'}">
 	                                        		<div class="pull-left"></div>
 	                                        	</c:if>
-	                                        	<c:if test="${mensagem.remetenteAdmin == 'N'}">
-	                                        		<div class="pull-left"><img src="${context}/${mensagem.usuario.imagemArquivo}" class="media-object img-circle" alt="..."/></div>
+	                                        	<c:if test="${mensagem.remetenteAdmin == 'N'}"> 
+	                                        		<div class="pull-left"><img src="data:image/jpeg;base64,${mensagem.usuario.imagemArquivo}" class="media-object img-circle" alt="..."/></div>
 	                                        	</c:if>	                                            
 	                                            <div class="media-body">
 	                                                <span class="media-heading">

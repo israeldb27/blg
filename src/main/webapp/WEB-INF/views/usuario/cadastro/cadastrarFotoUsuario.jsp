@@ -69,7 +69,7 @@ $(document).ready(function() {
                                               <div class="col-sm-7">
                                                   <ul class="list-unstyled">
 				                                        <li class="text-center">				                                        
-				                                            <img class="img-circle img-bordered-primary" src="${context}/${usuarioForm.imagemArquivo}" style="width: 200px; height: 200px; " alt="Tol Lee">
+				                                            <img class="img-circle img-bordered-primary" src="data:image/jpeg;base64,${usuarioForm.imagemArquivo}" style="width: 200px; height: 200px; " alt="Tol Lee">
 				                                        </li>
 				                                   </ul>     	
                                               </div>

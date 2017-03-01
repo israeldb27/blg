@@ -167,7 +167,7 @@ $(document).ready(function() {
 		                                            <c:forEach var="imovelVisita" items="${listaTodasVisitasUsuario}" >
 			                                            <tr>
 			                                                <td class="text-center">	
-																<a href="${urlImovel}/detalhesImovel/${imovelVisita.imovel.id}" ><img src="${context}${imovelVisita.imovel.imagemArquivo}" style="width: 60px; height: 50px; " /></a>										                     			                				
+																<a href="${urlImovel}/detalhesImovel/${imovelVisita.imovel.id}" ><img src="data:image/jpeg;base64,${imovelVisita.imovel.imagemArquivo}" style="width: 60px; height: 50px; " /></a>										                     			                				
 			                                                </td>			                                                
 			                                                <td class="text-center"> <a href="${urlImovel}/detalhesImovel/${imovelVisita.imovel.id}" >${imovelVisita.imovel.titulo}</a> </td>
 	                                            			 <td class="text-center"> ${imovelVisita.imovel.tipoImovelFmt} </td>

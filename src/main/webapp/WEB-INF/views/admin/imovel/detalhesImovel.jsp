@@ -224,7 +224,7 @@ function mostrarModal(id){
 								<div class="panel-body">
 									<div class="col-lg-7 col-md-8 col-sm-6">
                                       	<div id="owl-demo" class="owl-carousel owl-theme">                                             
-	                                             <div class="item"><img class="responsive" src="${context}${imovelForm.imagemArquivo}" style="max-height:550px; height: 385px;"></div>                                            
+	                                             <div class="item"><img class="responsive" src="data:image/jpeg;base64,${imovelForm.imagemArquivo}"  style="max-height:550px; height: 385px;"></div>                                            
 	                                     </div>
 	                				</div>
 	                				
@@ -511,8 +511,8 @@ function mostrarModal(id){
 				                                         <tbody>		                                            
 				                                               <c:forEach var="imovel" items="${imovelForm.listaIntermediacao}">
 																	<tr>
-																		<td class="text-center">
-																			<img src="${context}/${imovel.usuarioSolicitante.imagemArquivo}" style="width: 60px; height: 50px;"  class="img-responsive img-thumbnail"/>
+																		<td class="text-center">  
+																			<img src="data:image/jpeg;base64,${imovel.usuarioSolicitante.imagemArquivo}" style="width: 60px; height: 50px;"  class="img-responsive img-thumbnail"/>
 																		</td>								                                            
 																		<td><small>${imovel.usuarioSolicitante.nome}</small></td>								                                          
 																		<td><small><fmt:formatDate value='${imovel.dataSolicitacao}' pattern='dd/MM/yyyy'/></small></td>

@@ -73,6 +73,7 @@
         <script src="${context}/assets/admin/js/demo.js"></script>
         <script src="${context}/assets/admin/js/pages/blankon.form.element.js"></script>
         <script src="${context}/assets/admin/js/pages/blankon.faq.js"></script>
+        <script src="${context}/assets/admin/js/pages/blankon.special.js"></script>
         
         <!--/ END PAGE LEVEL SCRIPTS -->
         <!--/ END JAVASCRIPT SECTION -->

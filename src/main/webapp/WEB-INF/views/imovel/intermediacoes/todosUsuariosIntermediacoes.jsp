@@ -62,7 +62,7 @@
 		                                    <ul class="list-unstyled">
 		                                        <li class="text-center">
 													<a href="${urlImovel}/detalhesImovel/${imovel.id}" >
-														<img class="img-circle img-bordered-primary" src="${context}${imovel.imagemArquivo}" style="width: 200px; height: 200px; ">
+														<img class="img-circle img-bordered-primary" src="data:image/jpeg;base64,${imovel.imagemArquivo}" style="width: 200px; height: 200px; ">
 													</a>
 		                                        </li>
 		                                        <li class="text-center">
@@ -175,7 +175,7 @@
 			                                            <tr>
 			                                                <td class="text-center">	
 																<a href="${urlUsuario}/detalhesUsuario/${imovelIntermediacao.idUsuarioSolicitante}" >
-																	<img src="${context}/${imovelIntermediacao.imagemUsuarioSolicitante}" style="width: 60px; height: 50px; " />	                				
+																	<img src="data:image/jpeg;base64,${usuario.imagemArquivo}" style="width: 60px; height: 50px; " />	                				
 																</a>
 			                                                </td>			                                                
 			                                                <td class="text-center">

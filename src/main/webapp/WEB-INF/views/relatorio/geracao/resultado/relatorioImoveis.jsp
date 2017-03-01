@@ -123,7 +123,7 @@ function recuperaRelatorios(){
 																				<c:forEach var="imovel" items="${relatorioImoveis}" varStatus="item">
 																					<tr class="border-primary">					                                                
 																						<td>						                                                
-																							<a href="${urlImovel}/detalhesImovel/${imovel.id}"> <img src="${context}${imovel.imagemArquivo}" style="width: 100px; height: 80px; "/></a>						                                                    					                                                    
+																							<a href="${urlImovel}/detalhesImovel/${imovel.id}"> <img src="data:image/jpeg;base64,${imovel.imagemArquivo} style="width: 100px; height: 80px; "/></a>						                                                    					                                                    
 																						</td>
 																						<td><a href="${urlImovel}/detalhesImovel/${imovel.id}"> ${imovel.titulo}</a></td>
 																						<td>${imovel.tipoImovelFmt}</td>

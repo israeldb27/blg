@@ -145,10 +145,5 @@ public interface ImovelService {
 
 	String validarPrepararImovel(Long idImovel, UsuarioForm user);
 	
-	String carregaFotoPrincipalImovel(Imovel imovel) ;
-	 
-	String carregaFotoPrincipalImovelByIdImovel(Long idPrincipalImovel);
-	
-	String pathArquivo(String arquivo);
 		
 }

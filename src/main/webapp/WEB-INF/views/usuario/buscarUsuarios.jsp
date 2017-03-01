@@ -9,6 +9,7 @@
 
 <c:set var="context" value="<%= request.getContextPath()%>"/>
 
+
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
 
 <spring:url value="/imovel" var="urlImovel"/>
@@ -369,12 +370,12 @@ function cancelarSeguirUsuario(id) {
 	                                        <div id="idUsuarioBusca" class="media rounded shadow no-overflow">
 	                                            <div class="media-left">
 	                                                <a href="${urlUsuario}/detalhesUsuario/${usuarioBusca.id}" >                                                                                                     
-	                                                    <img src="${context}${usuarioBusca.imagemArquivo}" class="img-responsive" style="width: 260px; height: 225px; alt="admin"/>
+	                                                    <img src="data:image/jpeg;base64,${usuarioBusca.imagemArquivo}" class="img-responsive" style="width: 260px; height: 225px;" alt="admin"/>
 	                                                </a>
 	                                            </div>
 	                                            <div class="media-body">
 	                                                <span class="label pull-right" style="background-color: #03A9F4; font-size: 12px">${usuarioBusca.perfilFmt}</span>
-	                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlUsuario}/detalhesUsuario/${usuarioBusca.id}" style="color : #03A9F4;">${usuarioBusca.nome}</a></h4>
+	                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlUsuario}/detalhesUsuario/${usuarioBusca.id}" style="color : #03A9F4;">${localAddr} - ${usuarioBusca.nome}</a></h4>
 	                                                <h5 class="media-heading" style="margin-bottom:12px;"><i class="fa fa-map-marker"></i> ${usuarioBusca.cidade} - ${usuarioBusca.uf}   </h1>
 	                                                
 	                                                <div class="col-md-3" > 

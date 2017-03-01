@@ -139,9 +139,9 @@
 													<div class="blog-item rounded shadow">
 			 	                    					<div class="row">
 			 		                    					 <div class="col-md-2 col-sm-3 col-xs-6"> 						                            
-			 						                              <p class="inner-all no-margin">
+			 						                              <p class="inner-all no-margin"> 
 			 						                              	   <a href="${urlUsuario}/detalhesUsuario/${notificacao.usuarioConvite.id}" >
-			 						                              	   		<img src="${context}/${notificacao.usuarioConvite.imagemArquivo}" style="width: 120px; height: 100px; "  class="media-object img-circle img-bordered-success" alt="..."/>
+			 						                              	   		<img src="data:image/jpeg;base64,${notificacao.usuarioConvite.imagemArquivo}" style="width: 120px; height: 100px; "  class="media-object img-circle img-bordered-success" alt="..."/>
 			 						                              	   </a>	 
 			 						                              </p>
 			 						                     	</div>
@@ -178,7 +178,7 @@
 						                                	<div class="col-md-2 col-sm-3 col-xs-6">						                            
 							                                    <p class="inner-all no-margin">							                                    
 						                                    		<a href="${urlUsuario}/detalhesUsuario/${notificacao.usuarioConvite.id}">
-						                                    			<img src="${context}/${notificacao.usuario.imagemArquivo}" style="width: 120px; height: 100px; "  class="media-object img-circle img-bordered-success" alt="..."/>
+						                                    			<img src="data:image/jpeg;base64,${notificacao.usuarioConvite.imagemArquivo}" style="width: 120px; height: 100px; "  class="media-object img-circle img-bordered-success" alt="..."/>
 						                                    		</a>						                                        
 							                                    </p>
 									                           

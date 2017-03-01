@@ -1049,8 +1049,8 @@ public class ImovelController {
 		
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
-			if ( file != null && ! file.isEmpty())
-				form.setFotoPrincipal(file.getBytes());
+		/*	if ( file != null && ! file.isEmpty())
+				form.setFotoPrincipal(file.getBytes());  */
 			
 			boolean possuiErro = imovelService.validarDadosEdicaoImovel(form, result);
 			if ( ! possuiErro ) {				
@@ -1076,6 +1076,32 @@ public class ImovelController {
 		
 		return DIR_PATH_EDICAO + "editarImovel";
 	}	
+	
+	@RequestMapping(value = "/editarFotoPrincipal", method = RequestMethod.POST)	
+	public String editarFotoPrincipal(@ModelAttribute("imovelForm") ImovelForm form, 
+									  @RequestParam("name") String name,
+									  @RequestParam("file") MultipartFile file,
+									  BindingResult result,
+			 				   HttpSession session,
+							   ModelMap map){
+		
+		try {
+			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
+			if ( file != null && ! file.isEmpty())
+				form.setFotoPrincipal(file.getBytes());	
+			
+				imovelService.atualizarImovel(form, user);
+				map.addAttribute("imovelForm", form);				
+				
+			} catch (Exception e) {
+				log.error("Erro metodo - ImovelController -  editarImovel");
+				log.error("Mensagem Erro: " + e.getMessage());
+				map.addAttribute("mensagemErroGeral", "S");
+				return ImovelService.PATH_ERRO_GERAL;
+			}
+		
+		return DIR_PATH_EDICAO + "editarImovel";
+	}
 
 	
 	@RequestMapping(value = "/editarFotoPrincipalImovel", method = RequestMethod.GET)

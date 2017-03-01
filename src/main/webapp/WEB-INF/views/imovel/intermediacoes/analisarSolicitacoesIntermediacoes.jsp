@@ -91,7 +91,7 @@ function confirmarExclusaoSolIntermediacaoAnaliseSol(){
 		                                    <ul class="list-unstyled">
 		                                        <li class="text-center">
 													<a href="${urlImovel}/detalhesImovel/${imovel.id}" >
-														<img class="img-circle img-bordered-primary" src="${context}${imovel.imagemArquivo}" style="width: 100px; height: 100px; " alt="Tol Lee">													
+														<img class="img-circle img-bordered-primary" src="data:image/jpeg;base64,${imovel.imagemArquivo}" style="width: 100px; height: 100px; " alt="Tol Lee">													
 													</a>
 		                                        </li>
 		                                         <li class="text-center">

@@ -57,7 +57,7 @@ $(document).ready(function() {
 		                                <div class="inner-all">
 		                                    <ul class="list-unstyled">
 		                                        <li class="text-center">	
-													<a href="${urlUsuario}/detalhesUsuario/${usuarioParceria.id}" ><img class="img-circle img-bordered-primary" src="${context}${usuarioParceria.imagemArquivo}" style="width: 200px; height: 200px; "></a>		                                            
+													<a href="${urlUsuario}/detalhesUsuario/${usuarioParceria.id}" ><img class="img-circle img-bordered-primary" src="data:image/jpeg;base64,${usuarioParceria.imagemArquivo}" style="width: 200px; height: 200px; "></a>		                                            
 		                                        </li>
 		                                        <li class="text-center">
 		                                            <h4 class="text-capitalize"><a href="${urlUsuario}/detalhesUsuario/${usuarioParceria.id}" >${usuarioParceria.nome}</a></h4>
@@ -159,7 +159,7 @@ $(document).ready(function() {
 		                                            <c:forEach var="imovelParceria" items="${listaTodosImoveisParcerias}" >
 			                                            <tr>
 			                                                <td class="text-center">
-																<a href="${urlImovel}/detalhesImovel/${imovelParceria.imovel.id}" ><img src="${context}${imovelParceria.imovel.imagemArquivo}" style="width: 60px; height: 50px; " />	</a>									                     		                				
+																<a href="${urlImovel}/detalhesImovel/${imovelParceria.imovel.id}" ><img src="data:image/jpeg;base64,${imovelParceria.imovel.imagemArquivo}" style="width: 60px; height: 50px; " />	</a>									                     		                				
 			                                                </td>			                                                
 			                                                <td class="text-center"><a href="${urlImovel}/detalhesImovel/${imovelParceria.imovel.id}" > ${imovelParceria.imovel.titulo}	</a> </td>
 	                                            			 <td class="text-center"> ${imovelParceria.imovel.tipoImovelFmt} </td>													        	                     		

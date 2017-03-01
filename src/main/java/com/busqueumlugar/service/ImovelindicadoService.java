@@ -81,6 +81,8 @@ public interface ImovelindicadoService {
 
 	List<Imovelindicado> recuperarSolicitacoesIndicacoesPorImovelPorUsuario(Long idImovel, Long idUsuario);
 
-	void atualizarStatusImoveisIndicadosSolRecebidas(Long idUsuario);	
+	void atualizarStatusImoveisIndicadosSolRecebidas(Long idUsuario);
+
+	ImovelindicadoForm selecionarUsuariosIndicadosPorPerfil(ImovelindicadoForm form);
 	
 }

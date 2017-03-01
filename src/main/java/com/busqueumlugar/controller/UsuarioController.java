@@ -597,48 +597,6 @@ public class UsuarioController {
 	}
 	
 	
-	@RequestMapping(value = "/prepararAlterarFotoUsuario", method = RequestMethod.GET)
-	public String prepararAlterarFotoUsuario(HttpSession session,
-										     ModelMap map){
-		
-		try {
-			UsuarioForm form = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);		
-	    	map.addAttribute("usuarioForm", form);
-			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "alterarFotoUsuario");
-			return DIR_PATH + "alterarFotoUsuario";
-		} catch (Exception e) {
-			log.error("Erro metodo - UsuarioController -  prepararAlterarFotoUsuario");
-			log.error("Mensagem Erro: " + e.getMessage());
-			map.addAttribute("mensagemErroGeral", "S");
-			return ImovelService.PATH_ERRO_GERAL;
-		}		 
-	}
-	
-	@RequestMapping(value = "/alterarFoto", method=RequestMethod.POST)	
-	public String alterarFoto(@ModelAttribute("usuarioForm") UsuarioForm form,
-							  @RequestParam("name") String name,
-							  @RequestParam("file") MultipartFile file,
-							  ModelMap map, 
-							  HttpSession session){
-		
-		try {
-			if (!file.isEmpty()) {	                      
-                form.setFotoPrincipal(file.getBytes());
-                form = usuarioService.alterarFotoUsuario(form);
-                map.addAttribute("usuarioForm", form );
-                session.setAttribute(UsuarioInterface.USUARIO_SESSAO, form);                
-                map.addAttribute("msgSucesso", "S" );
-        		return DIR_PATH + "alterarFotoUsuario";	          
-	        } 		
-			return null;
-		} catch (Exception e) {
-			log.error("Erro metodo - UsuarioController -  alterarFoto");
-			log.error("Mensagem Erro: " + e.getMessage());
-			map.addAttribute("mensagemErroGeral", "S");
-			return ImovelService.PATH_ERRO_GERAL;
-		}		
-	}
-	
 	@RequestMapping(value = "/prepararEdicaoUsuario", method = RequestMethod.GET)
 	public String prepararEdicaoUsuario(HttpSession session,
 										ModelMap map){
@@ -675,6 +633,29 @@ public class UsuarioController {
 				map.addAttribute("msgErro", "S");			
 			
 			 map.addAttribute("usuarioForm", form);
+			 return DIR_PATH+ "editarUsuario";
+		} catch (Exception e) {
+			log.error("Erro metodo - UsuarioController -  editarUsuario");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+	}
+	
+	@RequestMapping(value = "/editarFotoPrincipal", method = RequestMethod.POST)
+	public String editarFotoPrincipal(@ModelAttribute("usuarioForm") UsuarioForm form,
+									  @RequestParam("name") String name,
+									  @RequestParam("file") MultipartFile file,
+									  ModelMap map, 
+									  HttpSession session){									 	
+		try {
+			if (!file.isEmpty()) {	                      
+                form.setFotoPrincipal(file.getBytes());
+                form = usuarioService.alterarFotoUsuario(form);
+                map.addAttribute("usuarioForm", form );
+                session.setAttribute(UsuarioInterface.USUARIO_SESSAO, form); 
+	        } 			
+
 			 return DIR_PATH+ "editarUsuario";
 		} catch (Exception e) {
 			log.error("Erro metodo - UsuarioController -  editarUsuario");

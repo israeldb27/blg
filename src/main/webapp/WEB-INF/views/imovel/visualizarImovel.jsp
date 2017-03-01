@@ -5,6 +5,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:set var="context" value="<%= request.getContextPath()%>"/>
+
+
 <c:set var="contextURL" value="<%= request.getRequestURL().toString()%>"/>
 
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
@@ -473,7 +475,7 @@ function prepararModalGaleriaFotos(){
                                     	</c:choose>  
  										 &nbsp;&nbsp;&nbsp;&nbsp;
                                         <a href="#a" onClick="adicionarComparar(${imovelForm.id})" style="font-size:x-large;" class="meta-action"><i class="fa fa-eye" style="color:gray" title="<spring:message code="lbl.title.link.comparar"/>"></i><font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.title.link.comparar"/> </font></a>&nbsp;&nbsp;&nbsp;&nbsp; 
-                                        <a href="${urlImovelIndicado}/selecionarParaIndicarImovel/${imovelForm.id}" style="font-size:x-large;" lass="meta-action"><i class="fa fa-share-alt" style="color:gray" title="<spring:message code="lbl.acao.sugerir"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.acao.sugerir"/> </font></a>
+                                        <a href="${urlImovelIndicado}/selecionarParaIndicarImovel/${imovelForm.id}" style="font-size:x-large;" class="meta-action"><i class="fa fa-share-alt" style="color:gray" title="<spring:message code="lbl.acao.sugerir"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.acao.sugerir"/> </font></a>
                                     </div>
                                     
                                     <br> <br>
@@ -483,7 +485,7 @@ function prepararModalGaleriaFotos(){
 								<div class="panel-body">
 									<div class="col-lg-7 col-md-8 col-sm-6">
                                       	<div id="owl-demo" class="owl-carousel owl-theme">                                             
-	                                             <div class="item"><img class="responsive" src="${context}${imovelForm.imagemArquivo}" style="max-height:395px; height: 500px;"></div>                                            
+	                                             <div class="item"><img class="responsive" src="data:image/jpeg;base64,${imovelForm.imagemArquivo}"  style="max-height:395px; height: 500px;"></div>                                            
 	                                     </div>
 	                				</div>
 	                				
@@ -941,11 +943,11 @@ function prepararModalGaleriaFotos(){
 		                                            <c:forEach var="imovelVisita" items="${imovelForm.listaVisita}">
 		                                               <tr>
 		                                               	  <td class="text-center">
-																<a href="${urlUsuario}/detalhesUsuario/${imovelVisita.idUsuario}">
-																	<img src="${context}/${imovelVisita.imagemUsuario}" style="width: 60px; height: 50px; " />	                				
+																<a href="${urlUsuario}/detalhesUsuario/${imovelVisita.usuario.id}">
+																	<img src="data:image/jpeg;base64,${imovelVisita.usuario.imagemArquivo}" style="width: 60px; height: 50px; " />	                				
 																</a> 
 														  </td>	
-		                                                  <td><small><a href="${urlUsuario}/detalhesUsuario/${imovelVisita.idUsuario}">
+		                                                  <td><small><a href="${urlUsuario}/detalhesUsuario/${imovelVisita.id}">
 																		${imovelVisita.nomeVisitante}	                				
 																	</a>  
 															  </small>
@@ -1001,7 +1003,7 @@ function prepararModalGaleriaFotos(){
 		                                               <tr>
 		                                               	  <td class="text-center">
 																<a href="${urlUsuario}/detalhesUsuario/${imovelFavorito.usuario.id}">
-																	<img src="${context}/${imovelFavorito.usuario.imagemArquivo}" style="width: 60px; height: 50px; " />	                				
+																	<img src="data:image/jpeg;base64,${imovelFavorito.usuario.imagemArquivo}" style="width: 60px; height: 50px; " />	                				
 																</a> 
 														  </td>	
 		                                                  <td><small><a href="${urlUsuario}/detalhesUsuario/${imovelFavorito.usuario.id}">
@@ -1046,7 +1048,7 @@ function prepararModalGaleriaFotos(){
 													<li class="media">
 			                                            <div class="media-left">
 			                                                <a href="#">
-			                                                    <img class="media-object thumbnail" src="${context}${imovel.imovel.imagemArquivo}" style="width: 50px; height: 60px;"  />
+			                                                    <img class="media-object thumbnail" src="data:image/jpeg;base64,${imovel.usuarioComentario.imagemArquivo}" style="width: 50px; height: 60px;"  />
 			                                                </a>
 			                                            </div>
 			                                            <div class="media-body">
@@ -1112,8 +1114,8 @@ function prepararModalGaleriaFotos(){
 									    <div class="inner-all">
 	                                        <ul class="list-unstyled">
 	                                            <li class="text-center">
-	                                            	<a href="${urlUsuario}/detalhesUsuario/${imovelForm.usuarioDonoImovel.id}">
-														<img data-no-retina="" class="img-square img-bordered-black" src="${context}${imovelForm.usuarioDonoImovel.imagemArquivo}" style="width: 90px;  ">	                				
+	                                            	<a href="${urlUsuario}/detalhesUsuario/${imovelForm.usuarioDonoImovel.id}">  
+														<img data-no-retina="" class="img-square img-bordered-black" src="data:image/jpeg;base64,${imovelForm.usuarioDonoImovel.imagemArquivo}" style="width: 90px;  ">	                				
 													</a>
 	                                            </li>
 	                                            <li class="text-center">
@@ -1174,9 +1176,9 @@ function prepararModalGaleriaFotos(){
 									</div>
 									<div class="panel-body">
 									    <div class="inner-all">
-	                                        <ul class="list-unstyled">
+	                                        <ul class="list-unstyled">  
 	                                            <li class="text-center">
-	                                                <img data-no-retina="" class="img-square img-bordered-black" src="${context}${imovelForm.usuarioIntermediador.imagemArquivo}" style="width: 90px;  ">
+	                                                <img data-no-retina="" class="img-square img-bordered-black" src="data:image/jpeg;base64,${imovelForm.usuarioIntermediador.imagemArquivo}" style="width: 90px;  ">
 	                                            </li>
 	                                            <li class="text-center">
 	                                                <h4 class="text-capitalize">${imovelForm.usuarioIntermediador.nome}</h4>
@@ -1209,7 +1211,7 @@ function prepararModalGaleriaFotos(){
                                         <c:forEach var="imovelFavorito" items="${imovelForm.listaUsuariosInteressados}">
                                             <div class="media inner-all no-margin">
                                                 <div class="pull-left">
-                                                    <img src="${context}${imovelFavorito.imagemUsuario}" style="width: 90px;">
+                                                    <img src="data:image/jpeg;base64,${imovelFavorito.usuario.imagemArquivo}"style="width: 90px;" />
                                                 </div><!-- /.pull-left -->
                                                 <div class="media-body">
                                                     <a href="${urlUsuario}/detalhesUsuario/${imovelFavorito.idUsuario}" class="h4">${imovelFavorito.nomeUsuarioInteressado}</a>
@@ -1488,13 +1490,13 @@ function prepararModalGaleriaFotos(){
 														          <c:forEach var="foto" items="${imovelForm.listaFotos}" varStatus="passo">		                                     
 														               <c:if test="${passo.count == 1}">
 																           <li> <a id="carousel-selector-${((passo.count) - 1)}"  class="selected">
-																            <img class="responsive" src="${context}${foto.imagemArquivo}" style="width: 80px; height: 60px;" >		            
-																          </a></li>
+																            <img class="responsive" src="data:image/jpeg;base64,${foto.imagemArquivo}" style="width: 80px; height: 60px;" >		            
+																          </a></li>  
 														               </c:if>
 														              
 														              <c:if test="${passo.count > 1}">
 															              <li> <a id="carousel-selector-${((passo.count) - 1)}">
-																            <img class="responsive" src="${context}${foto.imagemArquivo}" style="width: 80px; height: 60px;" >
+																            <img class="responsive" src="data:image/jpeg;base64,${foto.imagemArquivo}" style="width: 80px; height: 60px;" >
 																            
 																          </a></li>
 														              </c:if>
@@ -1512,13 +1514,13 @@ function prepararModalGaleriaFotos(){
 												                        	 <c:forEach var="foto" items="${imovelForm.listaFotos}" varStatus="passo" >                                   
 												                                   <c:if test="${passo.count == 1}">
 												                                   		<div class="active item" data-slide-number="${((passo.count) - 1)}">
-															                               <img class="responsive" src="${context}${foto.imagemArquivo}" style="width: 1200px; height: 380px;" >
+															                               <img class="responsive" src="data:image/jpeg;base64,${foto.imagemArquivo}" style="width: 1200px; height: 380px;" >
 															                            </div>
 												                                   </c:if>
 												                                  
 												                                  <c:if test="${passo.count > 1}">
 													                                  	<div class="item" data-slide-number="${((passo.count) - 1)}">
-															                               <img class="responsive" src="${context}${foto.imagemArquivo}" style="width: 1200px; height: 380px;" >
+															                               <img class="responsive" src="data:image/jpeg;base64,${foto.imagemArquivo}" style="width: 1200px; height: 380px;" >
 															                            </div>
 												                                  </c:if>
 												                                  

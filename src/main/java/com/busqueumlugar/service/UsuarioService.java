@@ -180,9 +180,5 @@ public interface UsuarioService {
 	List<Usuario> relatorioUsuariosImoveisMaisFavoritos(RelatorioForm form);
 
 	List<Usuario> relatorioUsuariosImoveisMaisPropostas(RelatorioForm form);
-	
-	String carregaFotoPrincipalUsuario(Usuario usuario);
-	
-	String carregaFotoPrincipalUsuario(UsuarioForm usuario);
 }
 

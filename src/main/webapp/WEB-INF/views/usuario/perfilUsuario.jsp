@@ -70,7 +70,7 @@ $(document).ready(function() {
 		                                <div class="inner-all">
 		                                    <ul class="list-unstyled">
 		                                        <li class="text-center">		                                        
-		                                            <img class="img-circle img-bordered-primary" src="${context}${usuario.imagemArquivo}" style="width: 100px; height: 100px; " alt="Tol Lee">
+		                                            <img class="img-circle img-bordered-primary" src="data:image/jpeg;base64,${usuario.imagemArquivo}"  style="width: 100px; height: 100px; " alt="Tol Lee">
 		                                        </li>
 		                                        <li class="text-center">
 		                                            <h4 class="text-capitalize">${usuario.nome}</h4>
@@ -336,7 +336,7 @@ $(document).ready(function() {
 															<div class="media inner-all mt-10">
 							                                   <div class="media-left">
 							                                        <a href="#">                                            
-							                                            <img src="${context}${imovel.imagemArquivo}" style="width: 230px; height: 150px; " alt="admin"/>	                                            
+							                                            <img src="data:image/jpeg;base64,${imovel.imagemArquivo}" style="width: 230px; height: 150px; " alt="admin"/>	                                            
 							                                        </a>
 							                                    </div>
 							                                  <div class="media-body">
@@ -396,7 +396,7 @@ $(document).ready(function() {
 															<div class="media inner-all mt-10">
 							                                   <div class="media-left">
 							                                        <a href="#">                                            
-							                                            <img src="${context}${imovel.imagemArquivo}" style="width: 230px; height: 150px; " alt="admin"/>	                                            
+							                                            <img src="data:image/jpeg;base64,${imovel.imagemArquivo}" style="width: 230px; height: 150px; " alt="admin"/>	                                            
 							                                        </a>
 							                                    </div>
 							                                  <div class="media-body">
@@ -443,7 +443,7 @@ $(document).ready(function() {
 								                                    </div><!-- /.ribbon-wrapper -->
 								                                    <ul class="inner-all list-unstyled">
 								                                        <li class="text-center">
-								                                            <img class="img-circle img-bordered-success" src="${context}/${usuarioContato.imagemArquivo}" style="width: 100px; height: 100px; ">
+								                                            <img class="img-circle img-bordered-success" src="data:image/jpeg;base64,${usuarioContato.imagemArquivo}"  style="width: 100px; height: 100px; ">
 								                                        </li>
 								                                        <li class="text-center">
 								                                            <h4 class="text-capitalize">${usuarioContato.nome}</h4>
@@ -484,10 +484,10 @@ $(document).ready(function() {
 							                                  <div class="pull-left">
 							                                         <span class="fa fa-stack fa-2x">
 							                                         	<c:if test="${((nota.acao == 'parceria') || (nota.acao == 'preferencia') || (nota.acao == 'usuario') )}">                                         	
-							                                              	<img class="img-circle img-bordered-success" src="${context}/${nota.usuario.imagemArquivo}" style="width: 60px; height: 60px; " alt="admin"/>
+							                                              	<img class="img-circle img-bordered-success" src="data:image/jpeg;base64,${nota.usuario.imagemArquivo}"  style="width: 60px; height: 60px; " alt="admin"/>
 							                                            </c:if>                                               	 
 							                                            <c:if test="${(nota.acao == 'imovel')}">
-							                                            	<img src="${context}/${nota.imovel.imagemArquivo}" style="width: 60px; height: 60px; " alt="admin"/>
+							                                            	<img src="data:image/jpeg;base64,${imovel.imagemArquivo}" style="width: 60px; height: 60px; " alt="admin"/>
 							                                            </c:if>
 							                                         </span>
 							                                  </div><!-- /.pull-left -->

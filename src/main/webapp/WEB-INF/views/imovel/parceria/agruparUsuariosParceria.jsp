@@ -186,7 +186,7 @@ $('#opcaoPaginacao').change(function () {
                                         <div class="media rounded shadow no-overflow">
                                             <div class="media-left">
                                                 <a href="${urlUsuario}/detalhesUsuario/${usuarioParceria.id}" >                                                                                                     
-                                                    <img src="${context}${usuarioParceria.imagemArquivo}" class="img-responsive" style="width: 260px; height: 195px; alt="admin"/>
+                                                    <img src="data:image/jpeg;base64,${usuarioParceria.imagemArquivo}" class="img-responsive" style="width: 260px; height: 195px; alt="admin"/>
                                                 </a>
                                             </div>
                                             <div class="media-body">

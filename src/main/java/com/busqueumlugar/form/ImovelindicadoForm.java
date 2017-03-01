@@ -37,6 +37,7 @@ public class ImovelindicadoForm extends BaseForm{
     private String opcaoFiltro = "";
     private String tipoLista = "";
     private String opcaoVisualizacao = "";
+    private String opcaoFiltroPerfil = "";
     
     private List<Usuario> listaUsuariosContatos;
     private String emailIndicado = "";
@@ -357,5 +358,11 @@ public class ImovelindicadoForm extends BaseForm{
 	}
 	public void setPerfilImovel(String perfilImovel) {
 		this.perfilImovel = perfilImovel;
+	}
+	public String getOpcaoFiltroPerfil() {
+		return opcaoFiltroPerfil;
+	}
+	public void setOpcaoFiltroPerfil(String opcaoFiltroPerfil) {
+		this.opcaoFiltroPerfil = opcaoFiltroPerfil;
 	}	
 }

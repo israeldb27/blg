@@ -366,7 +366,7 @@ function recuperaBairros(){
 	                                                   <span class="meta-provider" style="font-size:19px;">${imovelIndicado.imovel.acaoFmt} <br>
 	                                                   							<strong>  R$<fmt:formatNumber value="${imovelIndicado.imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
 	                                                   </span><br>                                                   
-	                                                    <img src="${context}${imovelIndicado.imovel.imagemArquivo}" class="img-responsive" style="width: 240px; height: 270px; alt="admin"/>
+	                                                    <img src="data:image/jpeg;base64,${imovelIndicado.imovel.imagemArquivo}"  class="img-responsive" style="width: 240px; height: 270px; alt="admin"/>
 	                                                </a>
 	                                            </div>
 	                                            <div class="media-body">
@@ -385,7 +385,7 @@ function recuperaBairros(){
 	                                                 		
 	                                                 		<em class="text-sm text-muted" ><font style="font-size:13px; font-style: normal;"><spring:message code="lbl.usuario.indicado" />: </font><span class="text-success"></span></em> </br>
 				                                            <a href="${urlUsuario}/detalhesUsuario/${imovelIndicado.usuario.id}">
-				                                            	<img src="${context}${imovelIndicado.usuario.imagemArquivo}" class="img-responsive" style="width: 60px; height: 65px; alt="admin"/>
+				                                            	<img src="data:image/jpeg;base64,${imovelIndicado.usuario.imagemArquivo}" class="img-responsive" style="width: 60px; height: 65px; alt="admin"/>
 				                                            </a>
 	                                                 					                                            
 				                                        </div>	                                     

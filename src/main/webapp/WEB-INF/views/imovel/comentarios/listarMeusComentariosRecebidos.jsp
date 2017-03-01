@@ -291,7 +291,7 @@ function adicionarComparativo(id) {
 		                                                   <span class="meta-provider" style="font-size:19px;">${imovelComentario.imovel.acaoFmt} <br>
 		                                                   							<strong>  R$<fmt:formatNumber value="${imovelComentario.imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
 		                                                   </span><br>                                                   
-		                                                    <img src="${context}${imovelComentario.imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 225px; alt="admin"/>
+		                                                      <img src="data:image/jpeg;base64,${imovelComentario.imovel.imagemArquivo}"  class="img-responsive" style="width: 260px; height: 225px; alt="admin"/>
 		                                                </a>
 		                                            </div>
 		                                            <div class="media-body">
@@ -305,7 +305,7 @@ function adicionarComparativo(id) {
 		                                                 			<br> <br>                                       
 						                                            <em class="text-sm text-muted" ><font style="font-size:13px; font-style: normal;"><spring:message code="lbl.usuario.comentario" />: </font><span class="text-success"></span></em> </br>
 						                                            <a href="${urlUsuario}/detalhesUsuario/${imovelComentario.usuarioComentario.id}">
-						                                            	<img src="${context}${imovelComentario.usuarioComentario.imagemArquivo}" class="img-responsive" style="width: 60px; height: 65px; alt="admin"/>
+						                                            	<img src="data:image/jpeg;base64,${imovelComentario.usuarioComentario.imagemArquivo}" class="img-responsive" style="width: 60px; height: 65px; alt="admin"/>
 						                                            </a>	                                            
 					                                        </div>		                                              		
 		                                                                                                   

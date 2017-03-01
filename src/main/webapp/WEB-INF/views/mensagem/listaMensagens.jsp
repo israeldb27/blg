@@ -73,17 +73,14 @@
 			                                    <div class="clearfix"></div>
 			                                </div><!-- /.panel-heading -->
 			                                <div class="panel-body no-padding">
-			                                
-			                                
-			                                
 			
 			                                    <!-- Start list message -->
 			                                    <div class="media-list">                                    	
 													<c:forEach var="mensagem" items="${listaMinhasMensagens}">
 														<c:choose>
-															<c:when test="${mensagem.usuarioDe.id == usuario.id}">
+															<c:when test="${mensagem.usuarioDe.id == usuario.id}">  
 																<a href="${urlMensagem}/maisMensagens/${mensagem.usuarioPara.id}" class="media">														
-																	<div class="pull-left"> <img src="${context}${mensagem.usuarioPara.imagemArquivo}" class="media-object img-circle" alt="..."/> </div>
+																	<div class="pull-left"> <img src="data:image/jpeg;base64,${mensagem.usuarioPara.imagemArquivo}" class="media-object img-circle" alt="..."/> </div>
 							                                            <div class="media-body">
 							                                                <span class="media-heading"> ${mensagem.usuarioPara.nome} </span>
 																			                    	    
@@ -104,7 +101,7 @@
 															
 															<c:when test="${mensagem.usuarioPara.id == usuario.id}">
 																<a href="${urlMensagem}/maisMensagens/${mensagem.usuarioDe.id}" class="media">
-																	 <div class="pull-left"><img src="${context}${mensagem.usuarioDe.imagemArquivo}" class="media-object img-circle" alt="..."/></div>
+																	 <div class="pull-left"><img src="data:image/jpeg;base64,${mensagem.usuarioDe.imagemArquivo}" class="media-object img-circle" alt="..."/></div>
 							                                            <div class="media-body">
 							                                                <span class="media-heading"> ${mensagem.usuarioDe.nome} </span>
 																			                    	    

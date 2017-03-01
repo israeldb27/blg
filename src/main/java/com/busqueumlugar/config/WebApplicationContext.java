@@ -2,9 +2,16 @@ package com.busqueumlugar.config;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+
+import javax.sql.DataSource;
 
 import ml.rugal.sshcommon.springmvc.method.annotation.FormModelMethodArgumentResolver;
 
+import org.apache.commons.dbcp.BasicDataSource;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -27,6 +34,8 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
+import org.springframework.orm.hibernate4.HibernateTransactionManager;
+import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 
 @Configuration
 @EnableWebMvc
@@ -35,15 +44,33 @@ import org.springframework.http.converter.json.GsonHttpMessageConverter;
             "classpath:messages_pt_BR.properties",
             "classpath:messages.properties",
             "classpath:messages_en_EN.properties",
+            "classpath:jdbc.properties",
+            "classpath:hibernate.properties", 
             "classpath:sdk_config.properties"            
         })
 @ComponentScan(basePackages =
 {
     "com.busqueumlugar"
 })
-@Import(value = { LoginSecurityConfig.class,MessagingConfiguration.class,MessagingListnerConfiguration.class })
+
 public class WebApplicationContext extends WebMvcConfigurerAdapter
 {
+	    public static final String hibernate_connection_autocommit = "hibernate.connection.autocommit";
+
+	    public static final String hibernate_format_sql = "hibernate.format_sql";
+
+	    public static final String hibernate_hbm2ddl_auto = "hibernate.hbm2ddl.auto";
+
+	    public static final String hibernate_show_sql = "hibernate.show_sql";
+
+	    public static final String hibernate_current_session_context_class = "hibernate.current_session_context_class";
+
+	    public static final String hibernate_dialect = "hibernate.dialect";
+
+	    public static final String package_to_scan = "com.busqueumlugar.model";
+	    
+	    @Autowired
+	    private Environment env;
 
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer)
@@ -114,4 +141,82 @@ public class WebApplicationContext extends WebMvcConfigurerAdapter
  		source.setBasename("messages");
  		return source;
  	}
+ 	
+
+ 	//<editor-fold defaultstate="collapsed" desc="HikariCP Datasoure Configuration" >
+  @Bean(destroyMethod = "close")
+ 	    @Autowired
+ 	    public DataSource dataSource()
+ 		{
+ 			BasicDataSource dataSource = new BasicDataSource();
+ 			dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+ 			dataSource.setUrl("jdbc:mysql://localhost:3306/home");		
+ 			dataSource.setUsername("root");
+ 			dataSource.setPassword("admin");
+ 			return dataSource;
+ 		}
+ 	
+ 	    
+ /*   @Bean(destroyMethod = "close")
+ 	    @Autowired
+ 	    public DataSource dataSource()
+ 		{
+ 			BasicDataSource dataSource = new BasicDataSource();
+ 			dataSource.setDriverClassName("com.mysql.jdbc.Driver"); 	
+ 			dataSource.setUrl("jdbc:mysql://138.197.3.199:3306/home");		
+ 			dataSource.setUsername("root");
+ 			dataSource.setPassword("Israel814245!"); 			
+ 			return dataSource;
+ 		}
+ 	 */
+ 	 
+ 	//</editor-fold>
+
+ 	//<editor-fold defaultstate="collapsed" desc="Hibernate Session factory configuration">
+ 	    @Bean
+ 	    @Autowired
+ 	    public LocalSessionFactoryBean sessionFactory(DataSource datasouce)
+ 	    {
+ 	        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+ 	        sessionFactory.setDataSource(datasouce);
+ 	        sessionFactory.setPackagesToScan(package_to_scan);
+ 	        sessionFactory.setHibernateProperties(hibernateProperties());        
+ 	        return sessionFactory;
+ 	    }
+ 	    
+ 	    /*@Bean
+ 	    @Autowired
+ 	    public SessionFactory sessionFactory(){
+ 			LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
+ 			sessionFactoryBean.setDataSource(dataSource());
+ 			sessionFactoryBean.setPackagesToScan(package_to_scan);
+ 			sessionFactoryBean.setHibernateProperties(hibernateProperties());
+ 			return (SessionFactory) sessionFactoryBean;		
+ 		}*/
+ 	    
+ 	    private Properties hibernateProperties()
+ 	    {
+ 	        Properties hibernateProperties = new Properties();
+ 	        hibernateProperties.put(hibernate_dialect, env.getProperty(hibernate_dialect));
+ 	        hibernateProperties
+ 	                .put(hibernate_current_session_context_class, env.getProperty(hibernate_current_session_context_class));
+ 	        hibernateProperties.put(hibernate_connection_autocommit, env.getProperty(hibernate_connection_autocommit));
+ 	        hibernateProperties.put(hibernate_format_sql, env.getProperty(hibernate_format_sql));
+ 	        hibernateProperties.put(hibernate_hbm2ddl_auto, env.getProperty(hibernate_hbm2ddl_auto));
+ 	        hibernateProperties.put(hibernate_show_sql, env.getProperty(hibernate_show_sql));
+// 	        hibernateProperties.put(hibernate_connection_provider_class, env.getProperty(hibernate_connection_provider_class));
+ 	        return hibernateProperties;
+
+ 	    }
+ 	//</editor-fold>
+
+ 	//<editor-fold defaultstate="collapsed" desc="Hibernate transaction manager">
+ 	    @Bean
+ 	    @Autowired
+ 	    public HibernateTransactionManager transactionManager(SessionFactory sessionFactory)
+ 	    {
+ 	    	HibernateTransactionManager txManager = new HibernateTransactionManager(sessionFactory);
+ 	        return txManager;
+ 	    }
+ 	//</editor-fold>
 }

@@ -136,9 +136,9 @@
 			                                    	<c:choose>
 			                                    		<c:when test="${usuarioContato.usuarioConvidado.id != usuario.id }">
 		                                    				<div class="media rounded shadow no-overflow">
-					                                            <div class="media-left">
+					                                            <div class="media-left"> 
 					                                                <a href="${urlUsuario}/detalhesUsuario/${usuarioContato.usuarioConvidado.id}" >                                                                                                     
-					                                                    <img src="${context}${usuarioContato.usuarioConvidado.imagemArquivo}" class="media-object img-circle" style="width: 260px; height: 195px;" />
+					                                                    <img src="data:image/jpeg;base64,${usuarioContato.usuarioConvidado.imagemArquivo}" class="media-object img-circle" style="width: 260px; height: 195px;" />
 					                                                </a>
 					                                            </div>
 					                                            <div class="media-body">
@@ -190,7 +190,7 @@
 															<div class="media rounded shadow no-overflow">
 					                                            <div class="media-left">
 					                                                <a href="${urlUsuario}/detalhesUsuario/${usuarioContato.usuarioHost.id}" >                                                                                                     
-					                                                    <img src="${context}${usuarioContato.usuarioHost.imagemArquivo}" class="img-responsive" style="width: 260px; height: 195px; alt="admin"/>
+					                                                    <img src="data:image/jpeg;base64,${usuarioContato.usuarioHost.imagemArquivo}" class="img-responsive" style="width: 260px; height: 195px; alt="admin"/>
 					                                                </a>
 					                                            </div>
 					                                            <div class="media-body">

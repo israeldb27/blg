@@ -72,7 +72,7 @@
 		                                    <ul class="list-unstyled">
 		                                        <li class="text-center">
 		                                        
-		                                            <img class="img-circle img-bordered-primary" src="${context}/${imovelForm.imagemArquivo}" style="width: 100px; height: 100px; " alt="Tol Lee">
+		                                            <img class="img-circle img-bordered-primary" src="data:image/jpeg;base64,${imovelForm.imagemArquivo}" style="width: 100px; height: 100px; " alt="Tol Lee">
 		                                        </li>
 		                                        <li class="text-center">
 		                                            <h4 class="text-capitalize">${imovelForm.titulo}</h4>

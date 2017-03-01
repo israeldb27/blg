@@ -7,7 +7,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -18,9 +17,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.codehaus.jackson.map.deser.ValueInstantiators.Base;
+
+import com.paypal.base.codec.binary.Base64;
+
 @Entity
 @Table(name = "imovelfotos")
-public class Imovelfotos implements Serializable{
+public class Imovelfotos extends BaseEntity implements Serializable{
 
 	private static final long serialVersionUID = 8702630257544784742L;
 
@@ -46,10 +49,8 @@ public class Imovelfotos implements Serializable{
     private Date dataCadastro;
     
     @Transient
-    private String nomeArquivo;
+    private String nomeArquivo;	
 	
-	@Transient
-    private String imagemArquivo;
 
     public Imovelfotos() {
     }
@@ -113,22 +114,7 @@ public class Imovelfotos implements Serializable{
         return "br.app.imovelfotos.Imovelfotos[ id=" + id + " ]";
     }
 	
-	
-	/**
-     * @return the imagemArquivo
-     */
-    public String getImagemArquivo() {
-        return imagemArquivo;
-    }
 
-    /**
-     * @param imagemArquivo the imagemArquivo to set
-     */
-    public void setImagemArquivo(String imagemArquivo) {
-        this.imagemArquivo = imagemArquivo;
-    }
-	
-	
     /**
      * @return the nomeArquivo
      */
@@ -163,5 +149,14 @@ public class Imovelfotos implements Serializable{
 
 	public void setImovel(Imovel imovel) {
 		this.imovel = imovel;
+	}
+	
+	public String getImagemArquivo(){
+		
+		if ( this != null && this.getImg() != null)
+    		return Base64.encodeBase64String(this.getImg());
+    	else
+    		return "";
+		
 	}
 }

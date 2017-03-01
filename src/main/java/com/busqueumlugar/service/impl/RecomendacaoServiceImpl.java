@@ -38,20 +38,12 @@ public class RecomendacaoServiceImpl implements RecomendacaoService {
 
 	@Override
 	public Recomendacao recuperarRecomendacaoPorId(Long idRecomendacao) {
-		Recomendacao recomendacao = dao.findRecomendacaoById(idRecomendacao);
-		recomendacao.getUsuario().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(recomendacao.getUsuario()));;
-		return recomendacao;
+		return dao.findRecomendacaoById(idRecomendacao);
 	}
 
 	@Override
 	public List<Recomendacao> recuperarRecomendacoesPorIdUsuarioRecomendado(Long idUsuario) {	
-		List<Recomendacao> lista = dao.findListRecomendacaoByIdUsuario(idUsuario);
-		List<Recomendacao> listaFinal = new ArrayList<Recomendacao>();		
-		for (Recomendacao recomendacao : lista){
-			recomendacao.getUsuario().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(recomendacao.getUsuario()));
-			listaFinal.add(recomendacao);
-		}
-		return listaFinal;	
+		return dao.findListRecomendacaoByIdUsuario(idUsuario);
 	}
 
 	@Override
@@ -93,13 +85,7 @@ public class RecomendacaoServiceImpl implements RecomendacaoService {
 
 	@Override
 	public List<Recomendacao> recuperarRecomendacoesPorIdUsuarioRecomendadoPorStatus(Long idUsuarioRecomendado, String status) {	
-		List<Recomendacao> lista = dao.findListRecomendacaoByIdUsuarioByStatus(idUsuarioRecomendado, status); 
-		List<Recomendacao> listaFinal = new ArrayList<Recomendacao>();		
-		for (Recomendacao recomendacao : lista){
-			recomendacao.getUsuario().setImagemArquivo(usuarioService.carregaFotoPrincipalUsuario(recomendacao.getUsuario()));
-			listaFinal.add(recomendacao);
-		}
-		return listaFinal;		
+		return dao.findListRecomendacaoByIdUsuarioByStatus(idUsuarioRecomendado, status); 		
 	}
 
 	@Override

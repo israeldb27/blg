@@ -379,7 +379,7 @@ function mostrarModal(id){
 									<div class="pull-left">
 										<div class="col-lg-6 col-md-6 col-sm-6"> 
 	                                        <div id="owl-demo" class="owl-carousel owl-theme">                                             
-	                                            <img class="img-circle" src="${context}/${usuarioForm.imagemArquivo}" style="margin-left:30px; width: 240px; height: 240px; ">	                                            	                                            	                                                                                        
+	                                            <img class="img-circle"  src="data:image/jpeg;base64,${usuarioForm.imagemArquivo}" style="margin-left:30px; width: 240px; height: 240px; ">	                                            	                                            	                                                                                        
 	                                        </div>
 	                                    </div>
                                     </div>
@@ -509,7 +509,7 @@ function mostrarModal(id){
 					                                                   <span class="meta-provider ${imovel.classePorAcao}" style="font-size:19px;">${imovel.acaoFmt} <br>
 					                                                   							<strong>  R$<fmt:formatNumber value="${imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
 					                                                   </span><br>                                                   
-					                                                    <img src="${context}${imovel.imagemArquivo}" class="img-responsive" style="width: 270px; height: 300px; alt="admin"/>
+					                                                    <img src="data:image/jpeg;base64,${imovel.imagemArquivo}"  class="img-responsive" style="width: 270px; height: 300px; alt="admin"/>
 					                                                </a>
 					                                            </div>
 					                                            <div class="media-body">
@@ -606,71 +606,101 @@ function mostrarModal(id){
                                     	
                                     </h3>
                                    		&nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.total.notas"/> </strong>: (${usuarioForm.quantTotalNotas}) </label>
-                                   	
                                 </div><!-- /.panel-heading -->
                                 
-                                <c:choose>
-                                	<c:when test="${ empty usuarioForm.listaNotasUsuario }">
-                                		<div class="panel-body panel panel-scrollable rounded shadow" style="height: 120px;">
-				                                 <div class="media-list list-search">
-				                                 	<div class="callout callout-warning">
-					                                    <strong><spring:message code="lbl.nenhuma.nota"/></strong>				                                    
-					                                </div>   
-				                                </div>
-		                                    <br/>
-		                                </div>
-                                	</c:when>
-                                	<c:when test="${not empty usuarioForm.listaNotasUsuario }">
-                                		<div class="panel-body panel panel-info rounded shadow">
-                                    
-										  <c:forEach var="nota" items="${usuarioForm.listaNotasUsuario}"> 		                                	
-													<div class="media inner-all">
-						                                  <div class="pull-left">
-						                                         <span class="fa fa-stack fa-2x">
-						                                         	<c:if test="${((nota.acao == 'P') || (nota.acao == 'preferencia') || (nota.acao == 'usuario') )}">                                         	
-						                                              	<img class="img-circle img-bordered-success" src="${context}/${nota.usuario.imagemArquivo}" style="width: 60px; height: 60px; " alt="admin"/>
-						                                            </c:if>                                               	 
-						                                            <c:if test="${(nota.acao == 'imovel')}">
-						                                            	<img src="${context}${nota.imovel.imagemArquivo}" style="width: 60px; height: 60px; " alt="admin"/>
-						                                            </c:if>
-						                                         </span>
-						                                  </div><!-- /.pull-left -->
-						                                  <div class="media-body">
-						                                  	<c:choose>
-														    <c:when test="${nota.acao == 'P'}">
-														    	<a href="${urlImovel}/detalhesImovel/${nota.imovel.id}" class="h4"><spring:message code="lbl.nota.parceria"/></a>
-														    	
-														    	<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao} <a href="${urlImovel}/detalhesImovel/${nota.imovel.id}" ><strong>${nota.imovel.titulo} </strong></a></small>												    			    	
-														    </c:when>
-														    
-														    <c:when test="${nota.acao == 'R'}">
-														    	<a href="#" class="h4"><spring:message code="lbl.nota.preferencia"/></a>
-														    	
-														    	<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao}</small>
-														    </c:when>
-														    
-														    <c:when test="${nota.acao == 'U'}">
-														    	<a href="${urlUsuario}/meuPerfil" class="h4"><spring:message code="lbl.nota.info.usuario"/></a>
-														    	
-														    	<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao} </small>
-														    </c:when>
-														    
-														    <c:when test="${nota.acao == 'I'}">
-														    	<a href="${urlImovel}/detalhesImovel/${nota.imovel.id}" class="h4"><spring:message code="lbl.nota.imovel"/></a>
-														    	
-														    	<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao} <a href="${urlImovel}/detalhesImovel/${nota.imovel.id}" ><strong>${nota.imovel.titulo} </strong></a></small>
-														    </c:when>
-														    
-														  </c:choose>  
-					                                  	  
-					                                      <em class="text-xs text-muted"><spring:message code="lbl.data.nota"/> <span class="text-danger"><fmt:formatDate value='${nota.dataNota}' pattern='dd/MM/yyyy'/></span></em>
-						                                  </div><!-- /.media-body -->
-						                              </div><!-- /.media -->
-				                              		  <div class="line"></div>
-				                              	  </c:forEach>
-		                                	</div><!-- /.panel-body -->
-                                	</c:when>
-                                </c:choose>       
+                               			<c:choose>
+                                			<c:when test="${not empty usuarioForm.listaNotasUsuario}">
+                                				<div class="timeline">
+                                					<c:forEach var="nota" items="${usuarioForm.listaNotasUsuario}"> 
+                                						<div class="timeline-item last-timeline">
+															<div class="timeline-badge">
+																  <c:choose>
+						                                         		<c:when test="${((nota.acao == 'R') || (nota.acao == 'U') || (nota.acao == 'E'))}">
+						                                         			<img class="timeline-badge-userpic" src="data:image/jpeg;base64,${nota.usuario.imagemArquivo}" style="width: 80px; height: 90px; " >
+						                                         		</c:when>
+						                                         		
+						                                         		<c:when test="${((nota.acao == 'I') || (nota.acao == 'P')) }">					                                         			
+						                                         			<img  class="timeline-badge-userpic" src="data:image/jpeg;base64,${nota.imovel.imagemArquivo}" style="width: 80px; height: 90px; " >
+						                                         		</c:when>
+						                                         	</c:choose>	
+															</div>
+															<div class="timeline-body">
+																<div class="timeline-body-arrow">
+																</div>
+																
+																<c:choose>
+																	    <c:when test="${nota.acao == 'P'}">
+																	    	<div class="timeline-body-head">
+																				<div class="timeline-body-head-caption">
+																					<a href="#" onClick="carregaDetalhesImovel(${nota.imovel.id})" class="timeline-body-title font-blue-madison"><spring:message code="lbl.nota.parceria"/></a>
+																					<span class="timeline-body-time font-grey-cascade"> </span>
+																				</div>
+																			</div>
+																			<div class="timeline-body-content">
+																				<p>
+																					<small class="block text-muted"><label><strong style="font-size: 13px;"> <spring:message code="lbl.descricao.nota"/>: </strong> </label>  ${nota.descricao} <a href="${urlImovel}/detalhesImovel/${nota.imovel.id}" ><strong>${nota.imovel.titulo} </strong></a></small>
+																				</p>
+																			</div>																	    													    			    	
+																	    </c:when>
+																	    
+																	    <c:when test="${nota.acao == 'R'}">																	    	
+																	    	<div class="timeline-body-head">
+																				<div class="timeline-body-head-caption">
+																					<a href="#" class="timeline-body-title font-blue-madison"><spring:message code="lbl.nota.preferencia"/></a>
+																					<span class="timeline-body-time font-grey-cascade"> </span>
+																				</div>
+																			</div>
+																			<div class="timeline-body-content">
+																				<p>
+																					<small class="block text-muted"><label> <strong style="font-size: 13px;"><spring:message code="lbl.descricao.nota"/>: </strong> </label>  ${nota.descricao}</small>
+																				</p>
+																			</div>
+																	    </c:when>
+																	    
+																	    <c:when test="${((nota.acao == 'U') || (nota.acao == 'E'))}">
+																	    	
+																	    	<div class="timeline-body-head">
+																				<div class="timeline-body-head-caption">
+																					<a href="${urlUsuario}/detalhesUsuario/${nota.usuario.id}"  class="timeline-body-title font-blue-madison"><spring:message code="lbl.nota.info.usuario"/></a>
+																					<span class="timeline-body-time font-grey-cascade"> </span>
+																				</div>
+																			</div>
+																			<div class="timeline-body-content">
+																				<p>
+																					<small class="block text-muted"><label><strong style="font-size: 13px;"> <spring:message code="lbl.descricao.nota"/>: </strong></label>  ${nota.descricao}</small>
+																				</p>
+																			</div>
+																	    </c:when>
+																	    
+																	    <c:when test="${nota.acao == 'I'}">																	    	
+																	    	<div class="timeline-body-head">
+																				<div class="timeline-body-head-caption">
+																					<a href="#" onClick="carregaDetalhesImovel(${nota.imovel.id})" class="timeline-body-title font-blue-madison"><spring:message code="lbl.nota.imovel"/></a>
+																					<span class="timeline-body-time font-grey-cascade"> </span>
+																				</div>
+																			</div>
+																			<div class="timeline-body-content">
+																				<p>
+																					<small class="block text-muted"><label> <strong style="font-size: 13px;"><spring:message code="lbl.descricao.nota"/>: <strong> </label>  ${nota.descricao} <a href="${urlImovel}/detalhesImovel/${nota.imovel.id}" > ${nota.imovel.titulo} </strong></a></small>
+																				</p>																				
+																			</div>	
+																	    </c:when>												    
+															  </c:choose> 
+															  <em class="text-xs text-muted"><strong style="font-size: 13px;"><spring:message code="lbl.data.nota" />: </strong> <span class="text-danger"><fmt:formatDate value='${nota.dataNota}' pattern='dd/MM/yyyy'/></span></em> 
+															</div>
+														</div>
+                                					</c:forEach>								
+												</div>
+                                			</c:when>
+                                			
+                                			<c:when test="${ empty usuarioForm.listaNotasUsuario }">
+	                                			 <div class="callout callout-warning">
+				                                    <strong><spring:message code="lbl.nenhuma.nota"/></strong>			                                    
+				                                </div>                                		
+	                                		</c:when>
+	                                		
+                                		</c:choose>		                                
+                                      
                             </div><!-- /.panel -->
  						
  						<!-- /.END Notas Usuario -->  						
@@ -765,8 +795,8 @@ function mostrarModal(id){
 								                                    	<c:choose>
 								                                    		<c:when test="${contato.usuarioHost.id != usuarioForm.id}">
 								                                    				<li class="text-center">
-											                                        	<a href="${urlUsuario}/detalhesUsuario/${contato.usuarioHost.id}">
-											                                            	<img class="img-circle img-bordered-success" src="${context}${contato.usuarioHost.imagemArquivo}" style="width: 100px; height: 130px; ">
+											                                        	<a href="${urlUsuario}/detalhesUsuario/${contato.usuarioHost.id}"> 
+											                                            	<img class="img-circle img-bordered-success" src="data:image/jpeg;base64,${contato.usuarioHost.imagemArquivo}" style="width: 100px; height: 130px; ">
 											                                            </a>	
 											                                        </li>
 											                                        <li class="text-center">
@@ -782,7 +812,7 @@ function mostrarModal(id){
 								                                    		<c:when test="${contato.usuarioConvidado.id != usuarioForm.id}">
 								                                    			<li class="text-center">
 										                                        	<a href="${urlUsuario}/detalhesUsuario/${contato.usuarioConvidado.id}">
-										                                            	<img class="img-circle img-bordered-success" src="${context}${contato.usuarioConvidado.imagemArquivo}" style="width: 100px; height: 130px; ">
+										                                            	<img class="img-circle img-bordered-success" src="data:image/jpeg;base64,${contato.usuarioConvidado.imagemArquivo}"  style="width: 100px; height: 130px; ">
 										                                            </a>	
 										                                        </li>
 										                                        <li class="text-center">
@@ -844,8 +874,8 @@ function mostrarModal(id){
 								                                <div class="panel-body" style="height: 220px;">						                                   
 								                                    <ul class="">
 								                                        <li class="text-center">
-								                                        	<a href="${urlUsuario}/detalhesUsuario/${usuarioSeguidor.usuario.id}">
-								                                            	<img class="img-circle img-bordered-success" src="${context}${usuarioSeguidor.usuario.imagemArquivo}" style="width: 100px; height: 130px; ">
+								                                        	<a href="${urlUsuario}/detalhesUsuario/${usuarioSeguidor.usuario.id}">  
+								                                            	<img class="img-circle img-bordered-success" src="data:image/jpeg;base64,${usuarioSeguidor.usuario.imagemArquivo}" style="width: 100px; height: 130px; ">
 								                                            </a>	
 								                                        </li>
 								                                        <li class="text-center">
@@ -920,7 +950,7 @@ function mostrarModal(id){
 			                                            	<c:when test="${(recomendacao.isStatusAceito())}">
 			                                            		<div class="media-left">
 					                                                <a href="#">
-					                                                    <img class="media-object thumbnail" src="${context}${recomendacao.usuario.imagemArquivo}" style="width: 50px; height: 60px;"  />
+					                                                    <img class="media-object thumbnail" src="data:image/jpeg;base64,${recomendacao.usuario.imagemArquivo}"  style="width: 50px; height: 60px;"  />
 					                                                </a>
 					                                            </div>
 			                                            		<div class="media-body">		                                            			
@@ -933,7 +963,7 @@ function mostrarModal(id){
 			                                            	<c:when test="${((recomendacao.isStatusEnviado()) && (recomendacao.usuarioRecomendado.id == usuario.id))}">
 			                                            		<div class="media-left">
 					                                                <a href="#">
-					                                                    <img class="media-object thumbnail" src="${context}${recomendacao.usuario.imagemArquivo}" style="width: 50px; height: 60px;"  />
+					                                                    <img class="media-object thumbnail" src="data:image/jpeg;base64,${recomendacao.usuario.imagemArquivo}" style="width: 50px; height: 60px;"  />
 					                                                </a>
 					                                            </div>
 			                                            		<div class="media-body">	
