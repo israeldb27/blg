@@ -272,7 +272,7 @@ div#map_container{
                                             <br>		
                                             	<spring:message code="lbl.hint.aplicar.filtro" var="hintBtnFiltro"/>									  
 												  <div class="pull-right">
-													<button type="submit" class="btn btn-sm btn-primary btn-lg btn-expand" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
+													<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
 												  </div><!-- /.pull-right -->            												   
 												<br>
                                             
@@ -307,7 +307,7 @@ div#map_container{
 							                </form:select> 
 							             <br>
 						             	  <div class="pull-right">
-												<button type="submit" class="btn btn-sm btn-primary btn-lg btn-expand" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
+												<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
 											  </div><!-- /.pull-right -->            												   
 											<br>
 						
@@ -329,7 +329,7 @@ div#map_container{
 	                                	  
 	                                      <br>
 						             	  <div class="pull-right">
-												<button type="submit" class="btn btn-sm btn-primary btn-lg btn-expand" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
+												<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
 											  </div><!-- /.pull-right -->            												   
 											<br>		
                                 	 </div> 	
@@ -391,7 +391,7 @@ div#map_container{
 							                </form:select>														
 									 <br>
 									  <div class="pull-right">
-										<button type="submit" class="btn btn-sm btn-primary btn-lg btn-expand" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
+										<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
 									  </div><!-- /.pull-right -->            												   
 									  <br>
                                     </div>
@@ -419,7 +419,7 @@ div#map_container{
 								             <br>  
 							             </c:if> 
 							             <div class="pull-right">
-											<button type="submit" class="btn btn-sm btn-primary btn-lg btn-expand" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
+											<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
 										  </div><!-- /.pull-right -->            												   
 										  <br>
                                     </div>

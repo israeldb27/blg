@@ -149,7 +149,7 @@ var BlankonChartFlot = function () {
             if($('#flot-pie-chart').length){
                 var piedata = [
                     { label: "Series 1", data: [[1,40]], color: '#37BC9B'},
-                    { label: "Series 2", data: [[1,20]], color: '#8CC152'},
+                    { label: "Series 2", data: [[1,20]], color: '#000000'},
                     { label: "Series 3", data: [[1,50]], color: '#00B1E1'},
                     { label: "Series 4", data: [[1,90]], color: '#E9573F'},
                     { label: "Series 5", data: [[1,80]], color: '#906094'}

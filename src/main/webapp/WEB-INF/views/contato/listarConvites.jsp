@@ -142,8 +142,8 @@
 					                                                </a>
 					                                            </div>
 					                                            <div class="media-body">
-					                                                <span class="label pull-right" style="background-color: #03A9F4; font-size: 12px">${usuarioContato.usuarioConvidado.perfilFmt}</span>
-					                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlUsuario}/detalhesUsuario/${usuarioContato.usuarioConvidado.id}" style="color : #03A9F4;">${usuarioContato.usuarioConvidado.nome}</a></h4>
+					                                                <span class="label pull-right" style="background-color: #9d2428; font-size: 12px">${usuarioContato.usuarioConvidado.perfilFmt}</span>
+					                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlUsuario}/detalhesUsuario/${usuarioContato.usuarioConvidado.id}" style="color : #9d2428;">${usuarioContato.usuarioConvidado.nome}</a></h4>
 					                                                <h5 class="media-heading" style="margin-bottom:12px;"><i class="fa fa-map-marker"></i> ${usuarioContato.usuarioConvidado.cidade} - ${usuarioContato.usuarioConvidado.uf}   </h1>
 					                                                
 					                                                <div class="col-md-5" > 
@@ -194,8 +194,8 @@
 					                                                </a>
 					                                            </div>
 					                                            <div class="media-body">
-					                                                <span class="label pull-right" style="background-color: #03A9F4; font-size: 12px">${usuarioContato.usuarioHost.perfilFmt}</span>
-					                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlUsuario}/detalhesUsuario/${usuarioContato.usuarioHost.id}" style="color : #03A9F4;">${usuarioContato.usuarioHost.nome}</a></h4>
+					                                                <span class="label pull-right" style="background-color: #9d2428; font-size: 12px">${usuarioContato.usuarioHost.perfilFmt}</span>
+					                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlUsuario}/detalhesUsuario/${usuarioContato.usuarioHost.id}" style="color : #9d2428;">${usuarioContato.usuarioHost.nome}</a></h4>
 					                                                <h5 class="media-heading" style="margin-bottom:12px;"><i class="fa fa-map-marker"></i> ${usuarioContato.usuarioHost.cidade} - ${usuarioContato.usuarioHost.uf}   </h1>
 					                                                
 					                                                <div class="col-md-5" > 

@@ -8,6 +8,7 @@ import java.util.List;
 
 
 
+
 import javax.persistence.Column;
 
 import com.busqueumlugar.enumerador.AcaoImovelEnum;
@@ -21,6 +22,7 @@ public class PreferencialocalidadeForm extends BaseForm{
     private int idBairro = 0;
     private long idUsuario;
     private String nomeEstado = "";
+    private String siglaEstado = "";
     private String nomeCidade = "";
     private String nomeBairro = "";
     private String tipoImovel = "";
@@ -164,5 +166,11 @@ public class PreferencialocalidadeForm extends BaseForm{
 	}
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+	public String getSiglaEstado() {
+		return siglaEstado;
+	}
+	public void setSiglaEstado(String siglaEstado) {
+		this.siglaEstado = siglaEstado;
 	}
 }

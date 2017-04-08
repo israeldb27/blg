@@ -236,7 +236,7 @@
  * C3JS CHART
  * ======================================================================== */
 .c3-region.success {
-  background-color: #8cc152;
+  background-color: #000000;
 }
 .c3-region.warning {
   background-color: #f6bb42;
@@ -615,7 +615,7 @@ input.rounded + .bootstrap-tagsinput .tag {
   background-color: #2a2a2a !important;
 }
 .event-success {
-  background-color: #8cc152 !important;
+  background-color: #000000 !important;
 }
 .event-special {
   background-color: #906094 !important;
@@ -697,7 +697,7 @@ input.rounded + .bootstrap-tagsinput .tag {
   color: white;
 }
 .day-highlight.dh-event-success {
-  background-color: #8cc152 !important;
+  background-color: #000000 !important;
   border: none;
 }
 .day-highlight.dh-event-success:hover {
@@ -788,37 +788,37 @@ input.rounded + .bootstrap-tagsinput .tag {
 .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary,
 .bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-primary,
 .bootstrap-switch .bootstrap-switch-label.bootstrap-switch-primary {
-  background: #00b1e1;
+  background: #9d2428;
   color: white;
-  border: 1px solid #00b1e1;
+  border: 1px solid #9d2428;
 }
 .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary + .bootstrap-switch-label,
 .bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-primary + .bootstrap-switch-label,
 .bootstrap-switch .bootstrap-switch-label.bootstrap-switch-primary + .bootstrap-switch-label {
-  border: 1px solid #00b1e1;
+  border: 1px solid #9d2428;
 }
 .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary + .bootstrap-switch-label + .bootstrap-switch-handle-off,
 .bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-primary + .bootstrap-switch-label + .bootstrap-switch-handle-off,
 .bootstrap-switch .bootstrap-switch-label.bootstrap-switch-primary + .bootstrap-switch-label + .bootstrap-switch-handle-off {
-  border: 1px solid #00b1e1;
+  border: 1px solid #9d2428;
   border-left: none;
 }
 .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-success,
 .bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-success,
 .bootstrap-switch .bootstrap-switch-label.bootstrap-switch-success {
-  background: #8cc152;
+  background: #000000;
   color: white;
-  border: 1px solid #8cc152;
+  border: 1px solid #000000;
 }
 .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-success + .bootstrap-switch-label,
 .bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-success + .bootstrap-switch-label,
 .bootstrap-switch .bootstrap-switch-label.bootstrap-switch-success + .bootstrap-switch-label {
-  border: 1px solid #8cc152;
+  border: 1px solid #000000;
 }
 .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-success + .bootstrap-switch-label + .bootstrap-switch-handle-off,
 .bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-success + .bootstrap-switch-label + .bootstrap-switch-handle-off,
 .bootstrap-switch .bootstrap-switch-label.bootstrap-switch-success + .bootstrap-switch-label + .bootstrap-switch-handle-off {
-  border: 1px solid #8cc152;
+  border: 1px solid #000000;
   border-left: none;
 }
 .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-info,
@@ -1378,21 +1378,21 @@ input.rounded + .bootstrap-tagsinput .tag {
   background-color: #00c5fb !important;
 }
 .slider-primary .irs-slider {
-  background-color: #00b1e1 !important;
+  background-color: #9d2428 !important;
 }
 .slider-primary #irs-active-slider,
 .slider-primary .irs-slider:hover {
-  background-color: #00b1e1 !important;
+  background-color: #9d2428 !important;
 }
 .slider-primary .irs-from,
 .slider-primary .irs-to,
 .slider-primary .irs-single {
-  background-color: #00b1e1 !important;
+  background-color: #9d2428 !important;
 }
 .slider-primary .irs-from:after,
 .slider-primary .irs-to:after,
 .slider-primary .irs-single:after {
-  border-top-color: #00b1e1 !important;
+  border-top-color: #9d2428 !important;
 }
 .slider-primary.circle .irs-slider {
   top: 21px;
@@ -1410,28 +1410,28 @@ input.rounded + .bootstrap-tagsinput .tag {
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   border-radius: 50%;
-  border: 4px solid #00b1e1;
+  border: 4px solid #9d2428;
   margin-left: -3px;
 }
 .slider-success .irs-diapason {
   background-color: #98c865 !important;
 }
 .slider-success .irs-slider {
-  background-color: #8cc152 !important;
+  background-color: #000000 !important;
 }
 .slider-success #irs-active-slider,
 .slider-success .irs-slider:hover {
-  background-color: #8cc152 !important;
+  background-color: #000000 !important;
 }
 .slider-success .irs-from,
 .slider-success .irs-to,
 .slider-success .irs-single {
-  background-color: #8cc152 !important;
+  background-color: #000000 !important;
 }
 .slider-success .irs-from:after,
 .slider-success .irs-to:after,
 .slider-success .irs-single:after {
-  border-top-color: #8cc152 !important;
+  border-top-color: #000000 !important;
 }
 .slider-success.circle .irs-slider {
   top: 21px;
@@ -1449,7 +1449,7 @@ input.rounded + .bootstrap-tagsinput .tag {
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   border-radius: 50%;
-  border: 4px solid #8cc152;
+  border: 4px solid #000000;
   margin-left: -3px;
 }
 .slider-info .irs-diapason {

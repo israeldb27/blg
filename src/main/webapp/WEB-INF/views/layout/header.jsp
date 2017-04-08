@@ -496,12 +496,12 @@ function adicionarComparativo(id) {
                           <li class="dropdown navbar-profile">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <span class="meta">
-                                    <span class="avatar"><spring:message code="lbl.title.ajuda"/></span>                                
+                                    <span class="avatar"><strong><spring:message code="lbl.title.ajuda"/></strong></span>                                
                                 </span>
                             </a>
                             <!-- Start dropdown menu -->
                             <ul class="dropdown-menu animated flipInX">
-                                <li class="dropdown-header"><spring:message code="lbl.title.ajuda"/></li>
+                                <li class="dropdown-header"><strong><spring:message code="lbl.title.ajuda"/></strong></li>
                                 <li><a href="${urlAjuda}/conhecendoFuncionalidades"><i class="fa fa-question"></i><spring:message code="lbl.title.link.ajuda.conhecendo.funcionalidades"/></a></li>
                                 <li><a href="${urlAjuda}/faq"><i class="fa fa-question"></i><spring:message code="lbl.title.link.ajuda.faq"/></a></li>
                                 <!-- <li><a href="${urlAjuda}/sobre"><i class="fa fa-question"></i><spring:message code="lbl.title.link.ajuda.sobre"/></a></li>  -->

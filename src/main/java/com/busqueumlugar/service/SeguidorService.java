@@ -17,6 +17,8 @@ public interface SeguidorService {
 	List<Seguidor> recuperarSeguidoresPorIdUsuarioSeguido(Long idUsuario);
 
 	List recuperarIdsSeguidores(Long idUsuario);
+	
+	List recuperarIdsSeguindo(Long idUsuario);
 
 	long checarQuantidadeSeguidores(Long idUsuario);
 

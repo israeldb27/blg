@@ -76,7 +76,7 @@
 			                        					<div class="pull-left">
 			                                    
 					                                        <form:form method="POST" id="notificacaoFiltroForm" modelAttribute="notificacaoForm" action="${urlNotificacao}/filtrarNotificacoes" >
-					                                        	<form:select id="opcaoFiltro1" path="opcaoFiltro" class="chosen-select" tabindex="-1" style="display: none;">                                
+					                                        	<form:select id="opcaoFiltro1" path="opcaoFiltro" class="form-control" >                                
 												                        <form:option value="" disabled="true"><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 												                        <c:if test="${usuario.perfil == 'P'}">
 												                        <form:option value="intermediacao"><spring:message code="lbl.notificacao.filtro.intermediacao"/></form:option>
@@ -94,7 +94,7 @@
 					                                    </div>
 					                                    <div class="pull-right">
 					                                        <form:form method="POST" id="notificacaoOrdForm" modelAttribute="notificacaoForm" action="${urlNotificacao}/ordenarMinhasNotificacoes" >
-					                                        	<form:select id="opcaoOrdenacao1" path="opcaoOrdenacao" class="chosen-select" tabindex="-1" style="display: none;">                                
+					                                        	<form:select id="opcaoOrdenacao1" path="opcaoOrdenacao" class="form-control" >                                
 												                        <form:option value="" disabled="true"><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 												                        <form:option value="maiorDataNotificacao"><spring:message code="lbl.notificacao.ordenacao.mais.recente"/></form:option>
 																		<form:option value="menorDataNotificacao"><spring:message code="lbl.notificacao.ordenacao.menos.recente"/></form:option>
@@ -106,7 +106,7 @@
 						                                     <div class="pull-right" style="padding-right:20px;">
 							                                    <form:form method="POST" id="notificacaoPageForm" modelAttribute="notificacaoForm" action="${urlNotificacao}/paginarMinhasNotificacoes" >
 							                                     		<spring:message code="lbl.hint.opcao.paginacao" var="hintPaginacao"/>
-						                                                <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintPaginacao}">
+						                                                <form:select id="opcaoPaginacao" path="opcaoPaginacao" class="form-control" title="${hintPaginacao}">
 						                                                    <form:option value="" disabled="true"><spring:message code="lbl.opcao.paginacao"/></form:option>
 						                                                    <form:options items="${notificacaoForm.listaPaginas}" itemValue="key" itemLabel="label"/>	                                                    	                                                    
 						                                              </form:select>

@@ -108,8 +108,8 @@
 					                                                </a>
 					                                            </div>
 															  <div class="media-body"> 
-																  <span class="label pull-right" style="background-color: #03A9F4; font-size: 12px">${imovel.tipoImovelFmt}</span>
-		                                                		  <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlImovel}/detalhesImovel/${imovel.id}" style="color : #03A9F4;">${imovel.titulo}</a></h4>
+																  <span class="label pull-right" style="background-color: #9d2428; font-size: 12px">${imovel.tipoImovelFmt}</span>
+		                                                		  <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlImovel}/detalhesImovel/${imovel.id}" style="color : #9d2428;">${imovel.titulo}</a></h4>
 		                                                		  <h5 class="media-heading" style="margin-bottom:12px;"><i class="fa fa-map-marker"></i> ${imovel.endereco} - ${imovel.bairro} - ${imovel.cidade} -${imovel.uf} </h1>
 																  
 																  <div class="col-md-5" >  	                                                
@@ -185,8 +185,8 @@
 				                                            </div>
 				                                            
 														  <div class="media-body">
-															  <span class="label pull-right" style="background-color: #03A9F4; font-size: 12px">${usuarioBusca.perfilFmt}</span>
-		                                                	  <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlUsuario}/detalhesUsuario/${usuarioBusca.id}" style="color : #03A9F4;">${usuarioBusca.nome}</a></h4>
+															  <span class="label pull-right" style="background-color: #9d2428; font-size: 12px">${usuarioBusca.perfilFmt}</span>
+		                                                	  <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlUsuario}/detalhesUsuario/${usuarioBusca.id}" style="color : #9d2428;">${usuarioBusca.nome}</a></h4>
 		                                                	  <h5 class="media-heading" style="margin-bottom:12px;"><i class="fa fa-map-marker"></i> ${usuarioBusca.cidade} - ${usuarioBusca.uf}   </h1>
 															  
 															  <div class="col-md-3" > 

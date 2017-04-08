@@ -118,7 +118,7 @@ $(document).ready(function() {
                                           
                                           	  <div class="pull-right">
                                           	  		<spring:message code="lbl.hint.aplicar.filtro" var="hintFiltrar"/>
-													<button type="submit" class="btn btn-sm btn-primary btn-lg btn-expand" title="${hintFiltrar}"> <spring:message code="lbl.filtrar.geral"/></button>
+													<button type="submit" class="button btn-primary" title="${hintFiltrar}"> <spring:message code="lbl.filtrar.geral"/></button>
 												  </div><!-- /.pull-right -->            												   
 												<br>
                                             
@@ -180,8 +180,8 @@ $(document).ready(function() {
 		                                                </a>
 		                                            </div>
 		                                            <div class="media-body">
-		                                                <span class="label pull-right" style="background-color: #03A9F4; font-size: 12px">${usuarioProposta.perfilFmt}</span>
-		                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlUsuario}/detalhesUsuario/${usuarioProposta.id}" style="color : #03A9F4;">${usuarioProposta.nome}</a></h4>
+		                                                <span class="label pull-right" style="background-color: #9d2428; font-size: 12px">${usuarioProposta.perfilFmt}</span>
+		                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlUsuario}/detalhesUsuario/${usuarioProposta.id}" style="color : #9d2428;">${usuarioProposta.nome}</a></h4>
 		                                                <h5 class="media-heading" style="margin-bottom:12px;"><i class="fa fa-map-marker"></i> ${usuarioProposta.cidade} - ${usuarioProposta.uf}   </h1>
 		                                                
 		                                                <div class="col-md-5" >  

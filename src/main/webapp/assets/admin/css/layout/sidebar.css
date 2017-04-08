@@ -393,7 +393,7 @@
   color: #d0d0d0;
 }
 .sidebar-menu > li.submenu.active > ul > li.submenu.active > ul > li.active a:before {
-  color: #03A9F4;
+  color: #9d2428;
 }
 .sidebar-menu > li.submenu.active > ul > li.submenu.active > ul > li a {
   color: #777777;
@@ -838,7 +838,7 @@
 .sidebar-primary.sidebar-box .sidebar-menu > li > ul:after,
 .sidebar-primary.sidebar-rounded .sidebar-menu > li > ul:after,
 .sidebar-primary.sidebar-circle .sidebar-menu > li > ul:after {
-  border-left: 2px solid #00b1e1 !important;
+  border-left: 2px solid #9d2428 !important;
 }
 .sidebar-primary.sidebar-box .sidebar-menu > li > ul > li:after,
 .sidebar-primary.sidebar-rounded .sidebar-menu > li > ul > li:after,
@@ -855,9 +855,9 @@
   -ms-transition: all 0.5s ease-in-out 0s;
   -o-transition: all 0.5s ease-in-out 0s;
   transition: all 0.5s ease-in-out 0s;
-  -webkit-box-shadow: 0 0 0 2px #00b1e1;
-  -moz-box-shadow: 0 0 0 2px #00b1e1;
-  box-shadow: 0 0 0 2px #00b1e1;
+  -webkit-box-shadow: 0 0 0 2px #9d2428;
+  -moz-box-shadow: 0 0 0 2px #9d2428;
+  box-shadow: 0 0 0 2px #9d2428;
 }
 .sidebar-primary.sidebar-box .sidebar-menu > li > ul > li a:before,
 .sidebar-primary.sidebar-rounded .sidebar-menu > li > ul > li a:before,
@@ -990,7 +990,7 @@
 .sidebar-success.sidebar-box .sidebar-menu > li > ul:after,
 .sidebar-success.sidebar-rounded .sidebar-menu > li > ul:after,
 .sidebar-success.sidebar-circle .sidebar-menu > li > ul:after {
-  border-left: 2px solid #8cc152 !important;
+  border-left: 2px solid #000000 !important;
 }
 .sidebar-success.sidebar-box .sidebar-menu > li > ul > li:after,
 .sidebar-success.sidebar-rounded .sidebar-menu > li > ul > li:after,
@@ -1007,9 +1007,9 @@
   -ms-transition: all 0.5s ease-in-out 0s;
   -o-transition: all 0.5s ease-in-out 0s;
   transition: all 0.5s ease-in-out 0s;
-  -webkit-box-shadow: 0 0 0 2px #8cc152;
-  -moz-box-shadow: 0 0 0 2px #8cc152;
-  box-shadow: 0 0 0 2px #8cc152;
+  -webkit-box-shadow: 0 0 0 2px #000000;
+  -moz-box-shadow: 0 0 0 2px #000000;
+  box-shadow: 0 0 0 2px #000000;
 }
 .sidebar-success.sidebar-box .sidebar-menu > li > ul > li a:before,
 .sidebar-success.sidebar-rounded .sidebar-menu > li > ul > li a:before,

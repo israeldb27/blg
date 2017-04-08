@@ -1256,7 +1256,7 @@ body.page-footer-fixed #page-content .footer-content {
   border: 1px solid #2a2a2a;
 }
 .navbar-primary {
-  background-color: #00b1e1;
+  background-color: #9d2428;
   color: #ffffff;
 }
 .navbar-primary:before {
@@ -1332,18 +1332,18 @@ body.page-footer-fixed #page-content .footer-content {
   color: #ffffff;
 }
 .navbar-primary .navbar-form input {
-  border: 1px solid #00b1e1 !important;
+  border: 1px solid #9d2428 !important;
 }
 .navbar-primary .navbar-form input:focus,
 .navbar-primary .navbar-form input:active {
-  border: 1px solid #00b1e1 !important;
+  border: 1px solid #9d2428 !important;
 }
 .navbar-primary .navbar-form .form-group .btn {
-  background-color: #00b1e1;
-  border: 1px solid #00b1e1;
+  background-color: #9d2428;
+  border: 1px solid #9d2428;
 }
 .navbar-success {
-  background-color: #8cc152;
+  background-color: #000000;
   color: #ffffff;
 }
 .navbar-success:before {
@@ -1419,15 +1419,15 @@ body.page-footer-fixed #page-content .footer-content {
   color: #ffffff;
 }
 .navbar-success .navbar-form input {
-  border: 1px solid #8cc152 !important;
+  border: 1px solid #000000 !important;
 }
 .navbar-success .navbar-form input:focus,
 .navbar-success .navbar-form input:active {
-  border: 1px solid #8cc152 !important;
+  border: 1px solid #000000 !important;
 }
 .navbar-success .navbar-form .form-group .btn {
-  background-color: #8cc152;
-  border: 1px solid #8cc152;
+  background-color: #000000;
+  border: 1px solid #000000;
 }
 .navbar-info {
   background-color: #63d3e9;
@@ -2255,7 +2255,7 @@ body.page-footer-fixed #page-content .footer-content {
   color: #d0d0d0;
 }
 .sidebar-menu > li.submenu.active > ul > li.submenu.active > ul > li.active a:before {
-  color: #03A9F4;
+  color: #9d2428;
 }
 .sidebar-menu > li.submenu.active > ul > li.submenu.active > ul > li a {
   color: #777777;
@@ -2700,7 +2700,7 @@ body.page-footer-fixed #page-content .footer-content {
 .sidebar-primary.sidebar-box .sidebar-menu > li > ul:after,
 .sidebar-primary.sidebar-rounded .sidebar-menu > li > ul:after,
 .sidebar-primary.sidebar-circle .sidebar-menu > li > ul:after {
-  border-left: 2px solid #00b1e1 !important;
+  border-left: 2px solid #9d2428 !important;
 }
 .sidebar-primary.sidebar-box .sidebar-menu > li > ul > li:after,
 .sidebar-primary.sidebar-rounded .sidebar-menu > li > ul > li:after,
@@ -2717,9 +2717,9 @@ body.page-footer-fixed #page-content .footer-content {
   -ms-transition: all 0.5s ease-in-out 0s;
   -o-transition: all 0.5s ease-in-out 0s;
   transition: all 0.5s ease-in-out 0s;
-  -webkit-box-shadow: 0 0 0 2px #00b1e1;
-  -moz-box-shadow: 0 0 0 2px #00b1e1;
-  box-shadow: 0 0 0 2px #00b1e1;
+  -webkit-box-shadow: 0 0 0 2px #9d2428;
+  -moz-box-shadow: 0 0 0 2px #9d2428;
+  box-shadow: 0 0 0 2px #9d2428;
 }
 .sidebar-primary.sidebar-box .sidebar-menu > li > ul > li a:before,
 .sidebar-primary.sidebar-rounded .sidebar-menu > li > ul > li a:before,
@@ -2852,7 +2852,7 @@ body.page-footer-fixed #page-content .footer-content {
 .sidebar-success.sidebar-box .sidebar-menu > li > ul:after,
 .sidebar-success.sidebar-rounded .sidebar-menu > li > ul:after,
 .sidebar-success.sidebar-circle .sidebar-menu > li > ul:after {
-  border-left: 2px solid #8cc152 !important;
+  border-left: 2px solid #000000 !important;
 }
 .sidebar-success.sidebar-box .sidebar-menu > li > ul > li:after,
 .sidebar-success.sidebar-rounded .sidebar-menu > li > ul > li:after,
@@ -2869,9 +2869,9 @@ body.page-footer-fixed #page-content .footer-content {
   -ms-transition: all 0.5s ease-in-out 0s;
   -o-transition: all 0.5s ease-in-out 0s;
   transition: all 0.5s ease-in-out 0s;
-  -webkit-box-shadow: 0 0 0 2px #8cc152;
-  -moz-box-shadow: 0 0 0 2px #8cc152;
-  box-shadow: 0 0 0 2px #8cc152;
+  -webkit-box-shadow: 0 0 0 2px #000000
+  -moz-box-shadow: 0 0 0 2px #000000
+  box-shadow: 0 0 0 2px #000000
 }
 .sidebar-success.sidebar-box .sidebar-menu > li > ul > li a:before,
 .sidebar-success.sidebar-rounded .sidebar-menu > li > ul > li a:before,

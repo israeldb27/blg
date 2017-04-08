@@ -638,35 +638,17 @@ public class ImovelServiceImpl implements ImovelService{
 			filtroValido = true;                   
 		}
 		
-		if ( StringUtils.isEmpty(form.getHabilitaInfoDonoImovel())){
-			result.rejectValue("habilitaInfoDonoImovel", "msg.erro.campo.obrigatorio");
-			filtroValido = true;                   
-		}
-		
-		if ( StringUtils.isEmpty(form.getAutorizacaoPropostas())){
-			result.rejectValue("autorizacaoPropostas", "msg.erro.campo.obrigatorio");
-			filtroValido = true;                   
-		}
-		
-		if ( StringUtils.isEmpty(form.getAutorizaComentario())){
-			result.rejectValue("autorizaComentario", "msg.erro.campo.obrigatorio");
-			filtroValido = true;                   
-		}
-		
 		if ( StringUtils.isEmpty(form.getAceitaFinanciamento())){
 			result.rejectValue("aceitaFinanciamento", "msg.erro.campo.obrigatorio");
 			filtroValido = true;                   
 		}
-		
-		if ( StringUtils.isEmpty(form.getHabilitaBusca())){
-			result.rejectValue("habilitaBusca", "msg.erro.campo.obrigatorio");
+
+		if ( StringUtils.isEmpty(form.getAutorizacaoOutroUsuario())){
+			result.rejectValue("autorizacaoOutroUsuario", "msg.erro.campo.obrigatorio");
 			filtroValido = true;                   
 		}
 		
-		if ( StringUtils.isEmpty(form.getAcessoVisualizacao())){
-			result.rejectValue("acessoVisualizacao", "msg.erro.campo.obrigatorio");
-			filtroValido = true;                   
-		}		
+		
 		// fim - validacao permissoes
 		
 		return filtroValido;
@@ -803,7 +785,7 @@ public class ImovelServiceImpl implements ImovelService{
 		form.setListaFotos(imovelfotosService.recuperarFotosImovel(imovel.getId()));		
 		form.setListaComentario(imovelcomentarioDao.findImovelcomentariosByIdImovel(idImovel, null));
 		
-		if (usuarioSessao.getId().equals(form.getIdUsuario())){
+		if (usuarioSessao.getId().equals(imovel.getUsuario().getId())){
 			form.setListaPropostas(imovelPropostasDao.findImovelPropostaByIdImovel(idImovel));
 			form.setListaComentario(imovelcomentarioDao.findImovelcomentariosByIdImovel(idImovel, null));
 			form.setListaUsuariosInteressados(imovelFavoritosService.recuperarUsuariosInteressadosPorIdImovel(idImovel));

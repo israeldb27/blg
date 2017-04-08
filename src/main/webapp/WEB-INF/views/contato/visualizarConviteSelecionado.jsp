@@ -89,8 +89,8 @@
 		                                                </a>
 		                                            </div>
 		                                            <div class="media-body">
-		                                                <span class="label pull-right" style="background-color: #03A9F4; font-size: 12px">${usuarioContato.perfilFmt}</span>
-		                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlUsuario}/detalhesUsuario/${usuarioContato.id}" style="color : #03A9F4;">${usuarioContato.nome}</a></h4>
+		                                                <span class="label pull-right" style="background-color: #9d2428; font-size: 12px">${usuarioContato.perfilFmt}</span>
+		                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlUsuario}/detalhesUsuario/${usuarioContato.id}" style="color : #9d2428;">${usuarioContato.nome}</a></h4>
 		                                                <h5 class="media-heading" style="margin-bottom:12px;"><i class="fa fa-map-marker"></i> ${usuarioContato.cidade} - ${usuarioContato.uf}   </h1>
 		                                                
 		                                                <div class="col-md-5" >     

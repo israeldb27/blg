@@ -712,19 +712,18 @@ public class UsuarioController {
 	    		}
 	    		else {
 	    			if ( user.getStatusUsuario().equals(StatusUsuarioEnum.CRIADO.getRotulo()) || user.getStatusUsuario().equals(StatusUsuarioEnum.LIBERADO.getRotulo())){
-	    				if (( ! user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) ) || ( user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) && (user.getDataUltimoAcesso() != null ))) {
-	        				usuarioService.carregarDadosInfoUsuario(user, session, true);        				
-	        				//usuarioService.tratarTelaInicial(user, session, map);
+	    				
+	    				if ( ( user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) && (user.getDataUltimoAcesso() == null )) ) {
+        					log.info("Primeiro Acesso concedido: " + new DateUtil().getStrDate());
+        					return "forward:/preferencia/inicioCadastroUsuarioPreferenciaImoveis/" + user.getId();
+        				}
+	    				else{
+	    					usuarioService.carregarDadosInfoUsuario(user, session, true); 
 	        				usuarioService.prepararParaCarregarTimeLine(user, session, map); // preparar configuracoes para carregar a Timeline do sistema
 	        				log.info("Acesso concedido: " + new DateUtil().getStrDate());
 	        				return "main";
-	        			}
-	        			else { // se o usuario cliente esta acessando primeira vez entao ele devera ser adicionado na tela de preferencias 
-	        				if ( ( user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) && (user.getDataUltimoAcesso() == null )) ) {
-	        					log.info("Primeiro Acesso concedido: " + new DateUtil().getStrDate());
-	        					return "forward:/preferencia/inicioCadastroUsuarioPreferenciaImoveis/" + user.getId();
-	        				}	
-	        			}
+	    				}	    			
+	    				
 	    			}
 	    			else if ( user.getStatusUsuario().equals(StatusUsuarioEnum.SUSPENSO.getRotulo())){
 	    				map.addAttribute("msgError", "Voce esta com acesso suspenso");
@@ -737,15 +736,16 @@ public class UsuarioController {
 	    	else {  
 	    		map.addAttribute("msgError", MessageUtils.getMessage("msg.erro.submit.login"));
 	    		log.info("Acesso negado: " + new DateUtil().getStrDate());
+	    		usuarioForm.setPassword("");
 	    		map.addAttribute("usuarioForm", usuarioForm);
-	    		return "home";
+	    		return "acessoInvalido";
 	    	}
 			return null;
 		} catch (Exception e) {
 			log.error("Erro metodo - UsuarioController -  submitLogin");
 			log.error("Mensagem Erro: " + e.getMessage());
 			map.addAttribute("mensagemErroGeral", "S");
-			return ImovelService.PATH_ERRO_GERAL;
+			return "exceptionLogin";
 		} 
     }
 	
@@ -761,6 +761,19 @@ public class UsuarioController {
 			log.error("Mensagem Erro: " + e.getMessage());
 			map.addAttribute("mensagemErroGeral", "S");			
 			return new ModelAndView(ImovelService.PATH_ERRO_GERAL);
+		}
+	}
+	
+	@RequestMapping(value = "/telaInicial")
+    public ModelAndView telaInicial(HttpSession session, ModelMap map) {
+		
+		try {
+			session.invalidate();	    		
+			return new ModelAndView("home"); 		
+		} catch (Exception e) {
+			log.error("Erro metodo - UsuarioController -  telaInicial");
+			log.error("Mensagem Erro: " + e.getMessage());		
+			return new ModelAndView("exceptionLogin"); 
 		}
 	}
 	

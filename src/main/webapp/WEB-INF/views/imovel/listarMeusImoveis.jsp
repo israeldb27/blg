@@ -172,7 +172,7 @@
                                             <br>											  
 												  <div class="pull-right">
 												    <spring:message code="lbl.hint.aplicar.filtro" var="hintBtnFiltro"/>
-													<button type="submit" class="btn btn-sm btn-primary btn-lg btn-expand" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
+													<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
 												  </div><!-- /.pull-right -->            												   
 												<br>
                                             
@@ -208,7 +208,7 @@
 							             <br>
 						             	  <div class="pull-right">
 						             	  		<spring:message code="lbl.hint.aplicar.filtro" var="hintBtnFiltro"/>
-												<button type="submit" class="btn btn-sm btn-primary btn-lg btn-expand" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
+												<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
 											  </div><!-- /.pull-right -->            												   
 											<br>						
                                     </div><!-- /.panel-body -->
@@ -229,7 +229,7 @@
 	                                	  
 	                                      <br>
 						             	  <div class="pull-right">
-												<button type="submit" class="btn btn-sm btn-primary btn-lg btn-expand" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
+												<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
 											  </div><!-- /.pull-right -->            												   
 											<br>		
                                 	 </div>
@@ -290,7 +290,7 @@
 							                </form:select>														
 									 <br>
 									  <div class="pull-right">
-										<button type="submit" class="btn btn-sm btn-primary btn-lg btn-expand" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
+										<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
 									  </div><!-- /.pull-right -->            												   
 									  <br>
                                     </div>
@@ -318,7 +318,7 @@
 								             <br>  
 							             </c:if> 
 							             <div class="pull-right">
-											<button type="submit" class="btn btn-sm btn-primary btn-lg btn-expand" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
+											<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
 										  </div><!-- /.pull-right -->            												   
 										  <br>
                                     </div>
@@ -338,7 +338,7 @@
 		                                	  
 		                                      <br>
 							             	  <div class="pull-right">
-													<button type="submit" class="btn btn-sm btn-primary btn-lg btn-expand" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
+													<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
 												  </div><!-- /.pull-right -->            												   
 												<br>		
 	                                	 </div>
@@ -408,8 +408,8 @@
                                                 </a>
                                             </div>
                                             <div class="media-body">
-                                                <span class="label pull-right" style="background-color: #03A9F4; font-size: 12px">${imovel.tipoImovelFmt}</span>
-                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlImovel}/detalhesImovel/${imovel.id}" style="color : #03A9F4;">${imovel.titulo}</a></h4>
+                                                <span class="label pull-right" style="background-color: #9d2428; font-size: 12px">${imovel.tipoImovelFmt}</span>
+                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlImovel}/detalhesImovel/${imovel.id}">${imovel.titulo}</a></h4>
                                                 <h5 class="media-heading" style="margin-bottom:12px;"><i class="fa fa-map-marker"></i> ${imovel.endereco} - ${imovel.bairro} - ${imovel.cidade} -${imovel.uf} </h5>
                                         		
                                         		<br>

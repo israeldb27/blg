@@ -104,10 +104,10 @@
   border-top: 15px solid #e9573f;
 }
 .mini-stat-type-2.border-success {
-  border-top: 15px solid #8cc152;
+  border-top: 15px solid #000000;
 }
 .mini-stat-type-2.border-primary {
-  border-top: 15px solid #00b1e1;
+  border-top: 15px solid #9d2428;
 }
 .mini-stat-type-2.border-lilac {
   border-top: 15px solid #906094;
@@ -298,14 +298,14 @@
 }
 #blog-list .blog-quote .quote-primary a {
   color: #fff;
-  background-color: #00b1e1;
+  background-color: #9d2428;
 }
 #blog-list .blog-quote .quote-primary a:hover {
   background-color: #009dc8;
 }
 #blog-list .blog-quote .quote-success a {
   color: #fff;
-  background-color: #8cc152;
+  background-color: #000000;
 }
 #blog-list .blog-quote .quote-success a:hover {
   background-color: #7fb842;
@@ -536,14 +536,14 @@
 }
 .blog-quote .quote-primary a {
   color: #fff;
-  background-color: #00b1e1;
+  background-color: #9d2428;
 }
 .blog-quote .quote-primary a:hover {
   background-color: #009dc8;
 }
 .blog-quote .quote-success a {
   color: #fff;
-  background-color: #8cc152;
+  background-color: #000000;
 }
 .blog-quote .quote-success a:hover {
   background-color: #7fb842;
@@ -675,7 +675,7 @@
 .blog-tags a {
   margin-left: 20px;
   padding: 0 10px 0 12px;
-  background: #00b1e1;
+  background: #9d2428;
   color: #fff;
   text-decoration: none;
   -moz-border-radius-bottomright: 4px;
@@ -693,7 +693,7 @@
   left: -12px;
   width: 0;
   height: 0;
-  border-color: transparent #00b1e1 transparent transparent;
+  border-color: transparent #9d2428 transparent transparent;
   border-style: solid;
   border-width: 12px 12px 12px 0;
 }
@@ -728,7 +728,7 @@
 }
 .blog-twitter .blog-twitter-list:hover {
   background-color: #e1e1e1;
-  border-right: solid 2px #8cc152;
+  border-right: solid 2px #000000;
 }
 .blog-twitter .blog-twitter-list a {
   color: #4d90fe;
@@ -1042,7 +1042,7 @@ ul.days li span {
 }
 .weather-full-info .today-status i {
   font-size: 30px;
-  color: #03A9F4;
+  color: #9d2428;
 }
 @media (max-width: 600px) {
   .weather-full-info .today-status {

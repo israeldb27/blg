@@ -138,8 +138,8 @@
                                                 </a>  
                                             </div>
                                             <div class="media-body">
-                                                <span class="label pull-right" style="background-color: #03A9F4; font-size: 12px">${recomendacaoSelecionada.usuario.perfilFmt}</span>
-                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlUsuario}/detalhesUsuario/${recomendacaoSelecionada.usuario.id}" style="color : #03A9F4;">${recomendacaoSelecionada.usuario.nome}</a></h4>
+                                                <span class="label pull-right" style="background-color: #9d2428; font-size: 12px">${recomendacaoSelecionada.usuario.perfilFmt}</span>
+                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlUsuario}/detalhesUsuario/${recomendacaoSelecionada.usuario.id}" style="color : #9d2428;">${recomendacaoSelecionada.usuario.nome}</a></h4>
                                                 <span class="media-text"><strong><spring:message code="lbl.descricao.recomendacao" />:  </strong> <font style="font-style: italic;"> ${recomendacaoSelecionada.descricao} </font></span>	
                                                 
                                                 <div class="col-md-5" >     
@@ -168,15 +168,15 @@
                                                    </c:if> 
 	                                                
 	                                               <div id="idMsgAceitarRecomendacao_${recomendacaoSelecionada.id}"  class="panel panel-success" style="display: none;">
-							                          <div class="panel-heading">
-							                              <h3 class="panel-title"><spring:message code="msg.recomendacao.aceita"/></h3>
-							                          </div><!-- /.panel-heading -->		                          
+							                            <div class="alert alert-success">
+			                                                <strong><spring:message code="msg.recomendacao.aceita"/></strong> 
+			                                            </div>		                          
 									               </div><!-- /.panel -->                      
 									                
 								               	   <div id="idMsgRecusarRecomendacao_${recomendacaoSelecionada.id}" class="panel panel-danger" style="display: none;">
-								                          <div class="panel-heading">
-								                              <h3 class="panel-title"><spring:message code="msg.recomendacao.recusado"/></h3>
-								                          </div><!-- /.panel-heading -->			                                                    
+								                           <div class="alert alert-danger">
+					                                            <strong><spring:message code="msg.recomendacao.recusado"/></strong> 
+					                                       </div>			                                                    
 								                   </div><!-- /.panel -->   
                                                     
                                                 </div>

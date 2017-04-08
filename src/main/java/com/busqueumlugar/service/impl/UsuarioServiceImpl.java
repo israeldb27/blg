@@ -1,10 +1,5 @@
 package com.busqueumlugar.service.impl;
 
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -20,11 +15,8 @@ import java.util.List;
 import java.util.Random;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang3.CharSequenceUtils;
-import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.mail.EmailException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,8 +42,6 @@ import com.busqueumlugar.service.MensagemService;
 import com.busqueumlugar.service.NotaService;
 import com.busqueumlugar.service.NotificacaoService;
 import com.busqueumlugar.service.ParametrosIniciaisService;
-import com.busqueumlugar.service.PlanoService;
-import com.busqueumlugar.service.PlanousuarioService;
 import com.busqueumlugar.service.RecomendacaoService;
 import com.busqueumlugar.service.SeguidorService;
 import com.busqueumlugar.service.ServicoService;
@@ -265,7 +255,6 @@ public class UsuarioServiceImpl implements UsuarioService{
         
         UsuarioForm usuarioForm = new UsuarioForm();
         if ( usuario != null) {            
-            //usuario.setDataUltimoAcesso(new Date());
             dao.save(usuario);
             BeanUtils.copyProperties(usuario, usuarioForm);            
         }                
@@ -340,12 +329,12 @@ public class UsuarioServiceImpl implements UsuarioService{
 												0l);
         
         // 
-        EnviaEmailHtml enviaEmail = new EnviaEmailHtml();
+       /* EnviaEmailHtml enviaEmail = new EnviaEmailHtml();
         enviaEmail.setSubject(MessageUtils.getMessage("msg.email.subject.confirmacao.cadastro.usuario"));
         enviaEmail.setTo(frm.getEmail());
         enviaEmail.setTexto(MessageUtils.getMessage("msg.email.texto.confirmacao.cadastro.usuario") + "<link> ");		            	
         enviaEmail.enviaEmail(enviaEmail.getEmail());        
-        
+        */
         return frm;
 	}
 
@@ -456,7 +445,18 @@ public class UsuarioServiceImpl implements UsuarioService{
 				else if ( ! JsfUtil.isValidoCPF(form.getCpf())){
 					result.rejectValue("cpf", "msg.erro.cpf.invalido");
 					filtroValido = true;
-				}		
+				}
+				
+				if ( StringUtils.isEmpty(form.getSexo())){
+					result.rejectValue("sexo", "msg.erro.campo.obrigatorio");
+					filtroValido = true;                   
+				}
+				
+				if ( StringUtils.isEmpty(form.getFaixaSalarial())){
+					result.rejectValue("faixaSalarial", "msg.erro.campo.obrigatorio");
+					filtroValido = true;                   
+				}
+				
 			}
 			else if ( form.getPerfil().equals(PerfilUsuarioOpcaoEnum.IMOBILIARIA.getRotulo())){
 				if ( StringUtils.isEmpty(form.getCnpj())){
@@ -553,7 +553,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		
 		if ( StringUtils.isEmpty(form.getConfirmaPassword())) {
 			result.rejectValue("confirmaPassword", "msg.erro.campo.obrigatorio");
-			filtroValido = false;
+			filtroValido = true;
 			isVazio = true;
 		}
 		
@@ -561,27 +561,27 @@ public class UsuarioServiceImpl implements UsuarioService{
 			
 			if ( !org.apache.commons.lang3.StringUtils.isAlphanumeric(form.getPassword())){				
 				result.rejectValue("password", "msg.erro.senha.caractere.alfanumerico");
-				filtroValido = false;
+				filtroValido = true;
 			}
 			
 			if ( ! org.apache.commons.lang3.StringUtils.isAlphanumeric(form.getConfirmaPassword())){				
 				result.rejectValue("confirmaPassword", "msg.erro.senha.caractere.alfanumerico");
-				filtroValido = false;
+				filtroValido = true;
 			}
 			
 			if ( form.getPassword().length() < 6 ){
 				result.rejectValue("password", "msg.erro.senha.tamanho.minimo");
-				filtroValido = false;
+				filtroValido = true;
 			}
 			
 			if ( form.getConfirmaPassword().length() < 6 ){
 				result.rejectValue("confirmaPassword", "msg.erro.senha.tamanho.minimo");
-				filtroValido = false;
+				filtroValido = true;
 			}			
 			
 			if (! form.getPassword().equals(form.getConfirmaPassword())){
 				result.rejectValue("confirmaPassword", "msg.erro.nova.senha.confirma.senha.esquece");
-				filtroValido = false;
+				filtroValido = true;
 			}					
 		}
 				
@@ -2112,7 +2112,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 			
 			if (form.getOpcaoTipoBuscaUsuarios().equals("infoPessoais")){
 				if ( form.getIdEstado() < 0 ){
-					result.rejectValue("idEstadoPessoal", "msg.erro.campo.obrigatorio");
+					result.rejectValue("idEstado", "msg.erro.campo.obrigatorio");
 					possuiErro = true;
 				}
 			}
@@ -2120,7 +2120,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 					boolean isEmtpy = StringUtils.isEmpty(form.getTipoImovel()) && StringUtils.isEmpty(form.getAcao());
 					boolean isSemSelecao = form.getTipoImovel().equals("-1") && form.getAcao().equals("-1");
 					if ( form.getIdEstado() < 0 ) {
-						result.rejectValue("idEstadoPessoal", "msg.erro.campo.obrigatorio");
+						result.rejectValue("idEstado", "msg.erro.campo.obrigatorio");
 						possuiErro = true;
 					}
 			}			
@@ -2221,7 +2221,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 							while ( (AppUtil.recuperarQuantidadeLista(listaFinal) < 4)){
 								
 								regraSel = r.nextInt(18) + 1;								
-								
+																
 								if ( ( regraSel >= 1 ) && ( regraSel <= 5 )) { // Exibir imoveis de seus contatos e usuarios que esteja seguindo
 									List<Imovel> lista = this.regraTimeLineRecuperarImoveisCompartilhadosIdsUsuarios(session, "N");
 									if (! CollectionUtils.isEmpty(lista))
@@ -2396,7 +2396,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 							while ( (AppUtil.recuperarQuantidadeLista(listaFinal) < 4) || (isNotaExiste) ){
 								
 								regraSel = r.nextInt(12) + 1;
-								
+														
 								if ( ( regraSel >= 1 ) && ( regraSel <= 5 )) { // exibir algum imovel de um contato ou de um usuario que esteja seguindo
 									List<Imovel> lista = this.regraTimeLineRecuperarImoveisIdsUsuarios(session);
 									if (! CollectionUtils.isEmpty(lista))
@@ -2643,7 +2643,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		 buf.append(" <div class='timeline-item last-timeline'> ");
 		 buf.append(" 		<div class='timeline-badge'>  ");  
 		 buf.append("			<a href='" + context.getContextPath() + "/usuario/detalhesUsuario/"+ nota.getUsuario().getId() +"' > ");
-		 buf.append("    		<img class='timeline-badge-userpic' src='data:image/jpeg;base64," + nota.getUsuario().getImagemArquivo() + "' style='width: 72px; height: 72px; ' />  ");
+		 buf.append("    			<img class='timeline-badge-userpic' src='data:image/jpeg;base64," + nota.getUsuario().getImagemArquivo() + "' style='width: 72px; height: 72px; ' />  ");
 		 buf.append(" 			</a>");
 		 buf.append("		</div>  ");
 		 buf.append("	<div class='timeline-body'>   ");
@@ -2652,63 +2652,36 @@ public class UsuarioServiceImpl implements UsuarioService{
 		 buf.append("    <div class='timeline-body-head'>  ");
 		 buf.append("        <div class='timeline-body-head-caption'>   ");
 		 buf.append("            <a href='" + context.getContextPath() + "/usuario/detalhesUsuario/" + nota.getUsuario().getId()  +"' class='timeline-body-title font-blue-madison'>" + nota.getUsuario().getNome() + " : </a>  ");
-		 buf.append("            <span class='timeline-body-time font-grey-cascade'>" + MessageUtils.getMessage("lbl.nota.timeline")  + " </span>  ");
+		 buf.append("            <span class='timeline-body-time font-grey-cascade' style='font-style: italic;' >" + MessageUtils.getMessage("lbl.nota.timeline")  + " </span>  ");
 		 buf.append("        </div>  ");
-		 buf.append("        <div class='timeline-body-head-actions'>  ");
-		 buf.append("            <div class='btn-group'> ");
-		 buf.append("                <button class='btn btn-circle green-haze btn-sm dropdown-toggle' type='button' data-toggle='dropdown' data-hover='dropdown' data-close-others='true'> ");
-		 buf.append("                     <i class='fa fa-angle-down'></i> ");
-		 buf.append("                </button> ");
-		 buf.append("                <ul class='dropdown-menu pull-right' role='menu'> ");
-		 buf.append("                    <li>  ");
-		 buf.append("                        <a href='javascript:void(0);'>Pin to top</a>  ");
-		 buf.append("                    </li>  ");
-		 buf.append("                </ul> ");
-		 buf.append("            </div> ");
-		 buf.append("        </div> ");
 		 buf.append("    </div> ");
 		 buf.append("     <div class='timeline-body-content'> ");                                              
-		 buf.append("        <div class='media inner-all'> ");
-		 buf.append("              <div class='pull-left'> ");
-		 buf.append("                     <span class='fa fa-stack fa-2x'> ");		 
-	     if ( nota.getAcao().equals(NotaAcaoEnum.PREFERENCIA.getRotulo()) || nota.getAcao().equals(NotaAcaoEnum.USUARIO.getRotulo()) || nota.getAcao().equals(NotaAcaoEnum.PESSOAL.getRotulo()) ) {	 
-			 buf.append("                       <img class='img-circle img-bordered-success' src='data:image/jpeg;base64," + nota.getUsuario().getImagemArquivo() + "' style='width: 60px; height: 60px; ' alt='admin'/> ");
-		 }
-		 else if ( nota.getAcao().equals(NotaAcaoEnum.IMOVEL.getRotulo()) || nota.getAcao().equals(NotaAcaoEnum.PARCERIA.getRotulo()) ) {
-			 buf.append("                       <img src='data:image/jpeg;base64," + nota.getImovel().getImagemArquivo() + "' style='width: 60px; height: 60px; ' alt='admin'/> ");
-		 }		 						                                                                                           	                              
-		 buf.append("                     </span>  ");
-		 buf.append("              </div><!-- /.pull-left -->  ");
+		 buf.append("        <div class='media inner-all'> ");		
 		 buf.append("              <div class='media-body'>  ");
 		 
-		 if ( nota.getAcao().equals(NotaAcaoEnum.PARCERIA.getRotulo())) {
-			 buf.append("					<a href='#'a class='h4'>" + MessageUtils.getMessage("lbl.nota.parceria") + "</a> ");												    			    	
+		 if ( nota.getAcao().equals(NotaAcaoEnum.PARCERIA.getRotulo())) {														    			    	
 			 buf.append(" ");					  
-			 buf.append("					<small class='block text-muted'><label><strong style='font-size: 13px;'>" + MessageUtils.getMessage("lbl.descricao.nota") + ": </strong></label> " + nota.getDescricao() +" <a href='" + context.getContextPath() + "/imovel/detalhesImovel/ "+ nota.getImovel().getId() + "' ><strong> " + nota.getImovel().getTitulo()  +" </strong></a></small> ");
+			 buf.append("					<small class='block text-muted'> " + nota.getDescricao() +" <a href='" + context.getContextPath() + "/imovel/detalhesImovel/ "+ nota.getImovel().getId() + "' ><strong> " + nota.getImovel().getTitulo()  +" </strong></a></small> ");
 		 }
-		 else if ( nota.getAcao().equals(NotaAcaoEnum.PREFERENCIA.getRotulo())) {
-			 buf.append("					<a href='#'a class='h4'>" + MessageUtils.getMessage("lbl.nota.preferencia") + "</a> ");												    			    	
+		 else if ( nota.getAcao().equals(NotaAcaoEnum.PREFERENCIA.getRotulo())) {											    			    	
 			 buf.append(" ");					  
-			 buf.append("					<small class='block text-muted'><label><strong style='font-size: 13px;'>" + MessageUtils.getMessage("lbl.descricao.nota") + ": </strong></label> " + nota.getDescricao() +" </small> ");	
+			 buf.append("					<small class='block text-muted'>" + MessageUtils.getMessage("lbl.notas.contato.add.preferencia.p1")  + " <a href='" + context.getContextPath() + "/usuario/detalhesUsuario/ "+ nota.getUsuario().getId() + "' ><strong> " + nota.getUsuario().getNome()  + " </strong></a>" +  MessageUtils.getMessage("lbl.notas.contato.add.preferencia.p2") + "</small> ");	
 		 }
-		 else if ( nota.getAcao().equals(NotaAcaoEnum.USUARIO.getRotulo())) {
-			 buf.append("					<a href='#'a class='h4'>" + MessageUtils.getMessage("lbl.nota.info.usuario") + "</a> ");												    			    	
+		 else if ( nota.getAcao().equals(NotaAcaoEnum.USUARIO.getRotulo())) {											    			    	
 			 buf.append(" ");					  
-			 buf.append("					<small class='block text-muted'><label><strong style='font-size: 13px;'>" + MessageUtils.getMessage("lbl.descricao.nota") + ": </strong></label> " + nota.getDescricao() +" </small> ");
+			 buf.append("					<small class='block text-muted'>" + MessageUtils.getMessage("lbl.notas.contato.informacoes.usuario.p1")  + " <a href='" + context.getContextPath() + "/usuario/detalhesUsuario/ "+ nota.getUsuario().getId() + "' ><strong> " + nota.getUsuario().getNome()  + " </strong></a>" +  MessageUtils.getMessage("lbl.notas.contato.informacoes.usuario.p2") + "</small> ");
 		 }
-		 else if ( nota.getAcao().equals(NotaAcaoEnum.PESSOAL.getRotulo())) {
-			 buf.append("					<a href='#'a class='h4'>" + MessageUtils.getMessage("lbl.nota.pessoal") + "</a> ");												    			    	
+		 else if ( nota.getAcao().equals(NotaAcaoEnum.PESSOAL.getRotulo())) {														    			    	
 			 buf.append(" ");					  
-			 buf.append("					<small class='block text-muted'><label><strong style='font-size: 13px;'>" + MessageUtils.getMessage("lbl.descricao.nota") + ": </strong></label> " + nota.getDescricao() +" </small> ");
+			 buf.append("					<small class='block text-muted'> " + nota.getDescricao() +" </small> ");
 		 }
-		 else if ( nota.getAcao().equals(NotaAcaoEnum.IMOVEL.getRotulo())) {
-			 buf.append("					<a href='#a' class='h4'>" + MessageUtils.getMessage("lbl.nota.imovel") + "</a> ");												    			    	
+		 else if ( nota.getAcao().equals(NotaAcaoEnum.IMOVEL.getRotulo())) {											    			    	
 			 buf.append(" ");					  
-			 buf.append("					<small class='block text-muted'><label><strong style='font-size: 13px;'>" + MessageUtils.getMessage("lbl.descricao.nota") + ": </strong></label> " + nota.getDescricao() +" <a href='" + context.getContextPath() + "/imovel/detalhesImovel/ "+ nota.getImovel().getId() + "' ><strong> " + nota.getImovel().getTitulo()  + " </strong></a></small> ");
+			 buf.append("					<small class='block text-muted'>" + MessageUtils.getMessage("lbl.notas.contato.informacoes.imovel.p1")  + " <a href='" + context.getContextPath() + "/imovel/detalhesImovel/ "+ nota.getImovel().getId() + "' ><strong> " + nota.getImovel().getTitulo()  + " </strong></a>" +  MessageUtils.getMessage("lbl.notas.contato.informacoes.imovel.p2") + " <a href='" + context.getContextPath() + "/usuario/detalhesUsuario/ "+ nota.getUsuario().getId() + "' ><strong> " + nota.getUsuario().getNome()  + " </strong></a></small> ");
 		 }
 		 															
-		 buf.append(" ");              	  
-		 buf.append("                   <em class='text-xs text-muted'><spring:message code='lbl.data.nota'/> <span class='text-danger'> " + DateUtil.formataData(nota.getDataNota()) + "</span></em> ");
+		 buf.append(" </br> ");              	  
+		 buf.append("                   <em class='text-xs text-muted'> " + MessageUtils.getMessage("lbl.data.nota") + ": <span class='text-danger'> " + DateUtil.formataData(nota.getDataNota()) + "</span></em> ");
 		 buf.append("              </div><!-- /.media-body -->  ");
 		 buf.append("          </div><!-- /.media --> ");
 		 buf.append("    	</div> ");
@@ -2736,7 +2709,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		   buf.append("      <div class='timeline-body-head'> ");
 		   buf.append("           <div class='timeline-body-head-caption'> ");
 		   buf.append("               <a href='" + context.getContextPath() + "/usuario/detalhesUsuario/"+ imovel.getUsuario().getId() +"' class='timeline-body-title font-blue-madison'>" + imovel.getUsuario().getNome() + ": </a> ");		   
-		   buf.append("               <span class='timeline-body-time font-grey-cascade'>" +  MessageUtils.getMessage("lbl.imovel.timeline")  +"</span> ");   
+		   buf.append("               <span class='timeline-body-time font-grey-cascade' style='font-style: italic;'>" +  MessageUtils.getMessage("lbl.imovel.timeline")  +"</span> ");   
 		   buf.append("           </div> ");
 		   buf.append("      </div> ");
 		   buf.append("       <div class='timeline-body-content'> ");
@@ -2750,18 +2723,14 @@ public class UsuarioServiceImpl implements UsuarioService{
 		   buf.append("                                        <div class='media-left'> ");
 		   buf.append("                                            <a href='" + context.getContextPath() + "/imovel/detalhesImovel/" +  imovel.getId() + "' > ");
 		   buf.append("                                               <span class='meta-provider' style='font-size:13px;'>"+ imovel.getAcaoFmt() + " <br><strong>  R$ " + AppUtil.formataMoedaString(imovel.getValorImovel()) + " </strong></span><br> ");
-		  // buf.append("                                                <img src='" + context.getContextPath() + imovelService.carregaFotoPrincipalImovel(imovel) + "' class='img-responsive' style='width: 230px; height: 290px; alt='admin'/> ");
 		   buf.append("                                                <img src='data:image/jpeg;base64," + imovel.getImagemArquivo() + "' class='img-responsive' style='width: 230px; height: 290px; alt='admin'/> ");
 		   buf.append("                                            </a> ");
 		   buf.append("                                        </div> ");
 		   buf.append("                              <div class='media-body'> ");
-		   buf.append("                                           <span class='label pull-right' style='background-color: #03A9F4; font-size: 12px'>Casa</span></br> ");		   
-		   buf.append("                                            <h4 class='media-heading' style='margin-bottom:20px;'><a href='" + context.getContextPath() + "/imovel/detalhesImovel/" +  imovel.getId() + "' style='color : #03A9F4;'>"+ imovel.getTitulo() + "</a></h4> ");
+		   buf.append("                                           <span class='label pull-right' style='background-color: #9d2428; font-size: 12px'>Casa</span></br> ");		   
+		   buf.append("                                            <h4 class='media-heading' style='margin-bottom:20px;'><a href='" + context.getContextPath() + "/imovel/detalhesImovel/" +  imovel.getId() + "' style='color : #9d2428;'>"+ imovel.getTitulo() + "</a></h4> ");
 		   buf.append("                                            <h5 class='media-heading' style='margin-bottom:12px;'><i class='fa fa-map-marker'></i> " + imovel.getEndereco() + " - " + imovel.getBairro()  + " - " +  imovel.getCidade() + " - " + imovel.getUf() + " </h1> ");
-		   buf.append("                                 <div class='col-md-5' > ");
-		/*   buf.append("                                               <div class='media-body' > ");
-		   buf.append("                                                <em class='text-xs text-muted'> <font style='font-size:13px; font-style: normal;'><spring:message code='lbl.data.cadastro.imovel' />: </font><span class='text-success'><font style='font-size:11px; font-style: normal;'><fmt:formatDate value='${imovel.dataCadastro}' pattern='dd/MM/yyyy'/></font></span></em> ");
-		   buf.append("                                             </div> ");  */
+		   buf.append("                                 <div class='col-md-5' > ");		
 		   buf.append("                                           </div> ");
 		   buf.append("                                            <div class='col-md-7'> ");
 		   buf.append("                                               <table class='table table-condensed'> ");
@@ -2848,8 +2817,8 @@ public class UsuarioServiceImpl implements UsuarioService{
 	    buf.append("     </p> ");                             
 	    buf.append("     <div class='media'> ");     
 	    buf.append("     <div class='media-body'> ");                                           
-	    buf.append("          <span class='label pull-right' style='background-color: #03A9F4; font-size: 12px; margin-top: 25px; '>" + usuario.getPerfilFmt() + "</span></br> ");
-	    buf.append("			   <h4 class='media-heading' style='margin-bottom:20px;'><a href='"+  context.getContextPath() + "/usuario/detalhesUsuario/"+ usuario.getId()  +"' style='color : #03A9F4;'>"+ usuario.getNome()  +"</a></h4> ");
+	    buf.append("          <span class='label pull-right' style='background-color: #9d2428; font-size: 12px; margin-top: 25px; '>" + usuario.getPerfilFmt() + "</span></br> ");
+	    buf.append("			   <h4 class='media-heading' style='margin-bottom:20px;'><a href='"+  context.getContextPath() + "/usuario/detalhesUsuario/"+ usuario.getId()  +"' style='color : #9d2428;'>"+ usuario.getNome()  +"</a></h4> ");
 	    buf.append("			   <h5 class='media-heading' style='margin-bottom:12px;'><i class='fa fa-map-marker'></i> "+ usuario.getUf() + " - "+ usuario.getCidade() + "</h1> ");                                 
 	    buf.append("			   <div class='col-md-5' > ");  	                                                
 	    buf.append("					<div class='media-body' > ");
@@ -2949,83 +2918,35 @@ public class UsuarioServiceImpl implements UsuarioService{
 	    buf.append("               </div> ");
 	    buf.append("          </div> ");
 	    buf.append("      </div> ");	    
-	    buf.append("      <div class='timeline-body-content'> ");                                                    
-	    buf.append("	 <p align='left' > ");
-	    buf.append("	    <br> ");
-	    buf.append("     	<strong> " + MessageUtils.getMessage("lbl.sobre.mim") + " : </strong> <br> "); 
-	    buf.append("        	 <font size='2'> " + pref.getUsuario().getDescSobreMim() +  " </font> ");
-	    buf.append("     </p> ");                             
+	    buf.append("     <div class='timeline-body-content'> "); 
 	    buf.append("     <div class='media'> ");     
-	    buf.append("     <div class='media-body'> ");                                           
-	    buf.append("          <span class='label pull-right' style='background-color: #03A9F4; font-size: 12px; margin-top: 25px; '>" + pref.getUsuario().getPerfilFmt() + "</span></br> ");
-	    buf.append("			   <h4 class='media-heading' style='margin-bottom:20px;'><a href='"+  context.getContextPath() + "/usuario/detalhesUsuario/"+ pref.getUsuario().getId()  +"' style='color : #03A9F4;'>"+ pref.getUsuario().getNome()  +"</a></h4> ");
-	    buf.append("			   <h5 class='media-heading' style='margin-bottom:12px;'><i class='fa fa-map-marker'></i> "+ pref.getUsuario().getUf() + " - "+ pref.getUsuario().getCidade() + "</h1> ");                                 
-	    buf.append("			   <div class='col-md-5' > ");  	                                                
-	    buf.append("					<div class='media-body' > ");
-	    buf.append("						 <em class='text-xs text-muted'> <font style='font-size:13px; font-style: normal;'>" + MessageUtils.getMessage("lbl.data.cadastro.usuario") + " : </font><span class='text-success'><font style='font-size:11px; font-style: normal;'> " + DateUtil.formataData(pref.getUsuario().getDataCadastro()) + "</font></span></em> ");
-	    buf.append("					</div> ");                                                 
-	    buf.append("			    <br/> <br/> <br/> "); 											                                          
-	    buf.append("			   </div> ");                                 
-	    buf.append("		  <div class='col-md-7'> ");
-	    buf.append("			    <table class='table table-condensed'> ");
-	    buf.append("                      <tbody style='font-size: 13px;'> ");
+	    buf.append("     <div class='media-body'> "); 
+	    buf.append("		  <div class='col-md-13'> ");
+	    buf.append("			    <table class='table table-striped'> ");
+	    buf.append("                      <tbody style='font-size: 15px;'> ");
 	    buf.append("                        <tr> ");    
-	    buf.append("                            <td class='text-left'>" + MessageUtils.getMessage("lbl.tipo.imovel") + "</td> ");
-	    buf.append("                            <td class='text-right'>" + pref.getTipoImovelFmt() + "</td> ");
+	    buf.append("                            <td class='text-left'> <strong>" + MessageUtils.getMessage("lbl.tipo.imovel") + "</strong></td> ");
+	    buf.append("                            <td class='text-left'> <strong>" + MessageUtils.getMessage("lbl.acao.imovel") + "</strong></td> ");
+	    if ( ! StringUtils.isEmpty(pref.getPerfilImovel() ) )
+	    	buf.append("                            <td class='text-left'> <strong>" + MessageUtils.getMessage("lbl.buscar.imovel.status.imovel") + "</strong></td> ");	    
+	    buf.append("                            <td class='text-left'> <strong>" + MessageUtils.getMessage("lbl.estado") + "</strong></td> ");
+	    if ( pref.getIdCidade() > 0 )
+	    	buf.append("                            <td class='text-left'><strong>" + MessageUtils.getMessage("lbl.cidade") + "</strong></td> ");
+	    if ( pref.getIdBairro() > 0 )
+	    	buf.append("                            <td class='text-left'><strong>" + MessageUtils.getMessage("lbl.bairro") + "</strong></td> ");
 	    buf.append("                        </tr> ");
 	    
-	    buf.append("                        <tr> ");
-	    buf.append("                            <td class='text-left'>" + MessageUtils.getMessage("lbl.acao.imovel") + "</td> ");
-	    buf.append("                            <td class='text-right'>" + pref.getAcaoFmt() + "</td> ");
-	    buf.append("                        </tr> ");
-	    
-	    if ( ! StringUtils.isEmpty(pref.getPerfilImovel() ) ){
-	    	buf.append("                        <tr> ");
-		    buf.append("                            <td class='text-left'>" + MessageUtils.getMessage("lbl.buscar.imovel.status.imovel") + "</td> ");
-		    buf.append("                            <td class='text-right'>" + pref.getPerfilImovelFmt() + "</td> ");
-		    buf.append("                        </tr> ");
-	    }	    
-	    
-	    buf.append("                        <tr> ");
-	    buf.append("                            <td class='text-left'>" + MessageUtils.getMessage("lbl.estado") + "</td> ");
-	    buf.append("                            <td class='text-right'>" + pref.getNomeEstado() + "</td> ");
-	    buf.append("                        </tr> ");
-	    
-	    if ( pref.getIdCidade() > 0 ){
-	    	buf.append("                        <tr> ");
-		    buf.append("                            <td class='text-left'>" + MessageUtils.getMessage("lbl.cidade") + "</td> ");
-		    buf.append("                            <td class='text-right'>" + pref.getNomeCidade() + "</td> ");
-		    buf.append("                        </tr> ");
-	    }	    
-	    
-	    if ( pref.getIdBairro() > 0 ){
-	    	buf.append("                        <tr> ");
-		    buf.append("                            <td class='text-left'>" + MessageUtils.getMessage("lbl.bairro") + "</td> ");
-		    buf.append("                            <td class='text-right'>" + pref.getNomeBairro() + "</td> ");
-		    buf.append("                        </tr> ");
-	    }	    
-	    
-	    if ( pref.getQuantQuartos() > 0 ){
-	    	buf.append("                        <tr> ");
-		    buf.append("                            <td class='text-left'>" + MessageUtils.getMessage("lbl.quartos.dormitorios.resum") + "</td> ");
-		    buf.append("                            <td class='text-right'>" + pref.getQuantQuartos() + "</td> ");
-		    buf.append("                        </tr> ");
-	    }
-	    
-	    if ( pref.getQuantGaragem() > 0 ){
-	    	buf.append("                        <tr> ");
-		    buf.append("                            <td class='text-left'>" + MessageUtils.getMessage("lbl.vagas.garagem.resum") + "</td> ");
-		    buf.append("                            <td class='text-right'>" + pref.getQuantGaragem() + "</td> ");
-		    buf.append("                        </tr> ");
-	    }
-	    
-	    if ( pref.getQuantBanheiro() > 0 ){
-	    	buf.append("                        <tr> ");
-		    buf.append("                            <td class='text-left'>" + MessageUtils.getMessage("lbl.banheiros") + "</td> ");
-		    buf.append("                            <td class='text-right'>" + pref.getQuantBanheiro() + "</td> ");
-		    buf.append("                        </tr> ");
-	    }
-	    	 	                                                       
+	    buf.append("                        <tr> "); 
+	    buf.append("                            <td class='text-left' style='font-size: 12px;'>" + pref.getTipoImovelFmt() + "</td> ");
+	    buf.append("                            <td class='text-left' style='font-size: 12px;'>" + pref.getAcaoFmt() + "</td> ");
+	    if ( ! StringUtils.isEmpty(pref.getPerfilImovel() ) )	 
+		    buf.append("                            <td class='text-left' style='font-size: 12px;'>" + pref.getPerfilImovelFmt() + "</td> ");
+	    buf.append("                            	<td class='text-left' style='font-size: 12px;'>" + pref.getSiglaEstado() + "</td> ");
+	    if ( pref.getIdCidade() > 0 )
+	    	buf.append("                            <td class='text-left' style='font-size: 12px;'>" + pref.getNomeCidade() + "</td> ");	
+	    if ( pref.getIdBairro() > 0 )
+	    	buf.append("                            <td class='text-left' style='font-size: 12px;'>" + pref.getNomeBairro() + "</td> ");	
+	    buf.append("                        </tr> ");	    	 	                                                       
 	    buf.append("                      </tbody> ");
 	    buf.append("                </table> ");
 	    buf.append("           </div> ");

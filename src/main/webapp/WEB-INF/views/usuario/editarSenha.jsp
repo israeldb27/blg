@@ -94,23 +94,9 @@ function enviarConvite(id) {
 function mostrarModal(id){
 	
 	if (id == 0){
-		$('#msgModal').html("Escolha uma foto de exibição para a sua conta");
-	}
-	else if ( id == 1){
-		$('#msgModal').html("Repasse suas informações básicas");
-	}
-	else if ( id == 2){
-		$('#msgModal').html("Informe o seu password");
-	}
-	else if ( id == 3){
-		$('#msgModal').html("Repasse informações de sua localização");
-	}
-	else if ( id == 4){
-		$('#msgModal').html("Repasse suas informações de contato");
-	}
-	else if ( id == 5){
-		$('#msgModal').html("Selecione suas permissões sobre sua conta");
-	}
+		$('#msgModal').html("<spring:message code='lbl.modal.descricao.imovel'/>");
+		$('#msgModalFuncionalidade').html("<spring:message code='lbl.descricao.imovel'/>");
+	}	
 	
 	$("#idModalItem").modal("show");
 }
@@ -161,7 +147,7 @@ function mostrarModal(id){
 	                            <div class="panel rounded shadow">
 	                                <div class="panel-heading">  
 	                                    <div class="pull-left">
-	                                        <h3 class="panel-title"><spring:message code="lbl.password"/>  <code></code></h3>
+	                                        <h3 class="panel-title"><spring:message code="lbl.title.form.esqueceu.senha"/>  <code></code></h3>
 	                                    </div>
 	                                    <div class="pull-right">
 	                                        <a href="#a" class="btn btn-sm"  onClick="mostrarModal(2);"><i class="fa fa-question" ></i></a>                                        

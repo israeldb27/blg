@@ -26,6 +26,7 @@ import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.ContatoService;
 import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.NotaService;
+import com.busqueumlugar.service.SeguidorService;
 import com.busqueumlugar.service.UsuarioService;
 
 @Service
@@ -50,6 +51,9 @@ public class NotaServiceImpl implements NotaService {
 	
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	@Autowired
+	private SeguidorService seguidorService;
 	
 	@Autowired
 	private PreferencialocalidadeDao prefLocalDao;
@@ -108,9 +112,21 @@ public class NotaServiceImpl implements NotaService {
 
 	
 	public List<Nota> recuperarNotasContatosUsuario(Long idUsuario, NotaForm form) {            
-        List listaIds = contatoDao.findIdsUsuariosContatosByIdUsuarioByStatus(idUsuario, ContatoStatusEnum.OK.getRotulo());
-        if (! CollectionUtils.isEmpty(listaIds) ){
-        	return dao.findNotasContatosByListaIdsUsuario(listaIds, form);
+        List listaIdsContato = contatoDao.findIdsUsuariosContatosByIdUsuarioByStatus(idUsuario, ContatoStatusEnum.OK.getRotulo());
+        List listaIdsSeguidores =  seguidorService.recuperarIdsSeguindo(idUsuario);
+        List listaIdsFinal = null;
+        if ((! CollectionUtils.isEmpty(listaIdsContato) || (! CollectionUtils.isEmpty(listaIdsSeguidores)))){ 
+        	listaIdsFinal = new ArrayList<Long>();
+        	
+        	if (! CollectionUtils.isEmpty(listaIdsContato) )
+        		listaIdsFinal.addAll(listaIdsContato);
+        	
+        	if (! CollectionUtils.isEmpty(listaIdsSeguidores) )
+        		listaIdsFinal.addAll(listaIdsSeguidores);        		
+        }
+        
+        if (! CollectionUtils.isEmpty(listaIdsFinal) ){
+        	return dao.findNotasContatosByListaIdsUsuario(listaIdsFinal, form);
         }   
         return null;
 	}

@@ -178,9 +178,13 @@ public class PreferenciaLocalidadeController {
 	
 	@RequestMapping(value = "/adicionarPreferenciaInicioCadastroUsuario", method = RequestMethod.POST)
 	public String adicionarPreferenciaInicioCadUsuario(@ModelAttribute("preferenciaLocalidadeForm") PreferencialocalidadeForm form,
+													   BindingResult result,
 													   ModelMap map){		
 		try {
-			prefLocalidadeService.adicionarPreferencia(form.getIdUsuario(), form);
+			boolean possuiErro = prefLocalidadeService.validarAdicionarPreferenciaCadUsuario(form, result);
+			if (!possuiErro)
+				prefLocalidadeService.adicionarPreferencia(form.getIdUsuario(), form);			
+			
 			map.addAttribute("listaPreferenciaImoveis", prefLocalidadeService.listarPreferenciaPorUsuario(form.getIdUsuario()));
 			map.addAttribute("preferenciaLocalidadeForm", form);
 			return DIR_PATH_CADASTRO_USUARIO + "inicioCadastrarPreferencias"; 

@@ -155,7 +155,7 @@
   border-radius: 0px 0px 3px 3px;
 }
 .panel-primary .panel-heading {
-  background-color: #00b1e1;
+  background-color: #9d2428;
   border: 1px solid #00addc;
   color: white;
 }
@@ -167,14 +167,14 @@
   color: white;
 }
 .panel-bg-primary .panel-body {
-  background-color: #00b1e1;
+  background-color: #9d2428;
   color: white;
 }
 .panel-bg-primary .panel-body .text-muted {
   color: #f2f2f2;
 }
 .panel-success .panel-heading {
-  background-color: #8cc152;
+  background-color: #000000;
   border: 1px solid #8ac04e;
   color: white;
 }
@@ -186,7 +186,7 @@
   color: white;
 }
 .panel-bg-success .panel-body {
-  background-color: #8cc152;
+  background-color: #000000;
   color: white;
 }
 .panel-bg-success .panel-body .text-muted {
@@ -336,7 +336,7 @@
   background: #F7F7F7;
 }
 .panel-tab .panel-heading ul li.active a i {
-  color: #03A9F4;
+  color: #9d2428;
 }
 .panel-tab .panel-heading ul li a {
   width: auto;
@@ -362,7 +362,7 @@
   background-color: transparent;
 }
 .panel-tab .panel-heading ul li a:hover i {
-  color: #03A9F4;
+  color: #9d2428;
 }
 .panel-tab .panel-heading ul li a > i,
 .panel-tab .panel-heading ul li a > span {

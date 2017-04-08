@@ -125,7 +125,7 @@ var BlankonChartMorris = function () {
                         {label: "Safari", value: 20},
                         {label: "Internet Explorer", value: 10}
                     ],
-                    colors: ['#E9573F','#F6BB42','#906094','#00B1E1','#8CC152'],
+                    colors: ['#E9573F','#F6BB42','#906094','#00B1E1','#000000'],
                     resize: true
                 });
             }

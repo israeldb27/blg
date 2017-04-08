@@ -192,7 +192,7 @@ function desmarcarCheck(id) {
 		                                            <br>											  
 		                                            	<spring:message code="lbl.hint.aplicar.filtro" var="hintBtnFiltro"/>
 														  <div class="pull-right">
-															<button type="submit" class="btn btn-sm btn-primary btn-lg btn-expand" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
+															<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
 														  </div><!-- /.pull-right --> 
 		                                            <br>		                                        
 		                                    </div><!-- /.panel -->
@@ -228,7 +228,7 @@ function desmarcarCheck(id) {
 										      
 										      <spring:message code="lbl.hint.aplicar.filtro" var="hintBtnFiltro"/>
 								             	  <div class="pull-right">
-														<button type="submit" class="btn btn-sm btn-primary btn-lg btn-expand" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
+														<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
 											  </div><!-- /.pull-right -->            												   
 													
 		                                    </div><!-- /.panel-body -->
@@ -249,7 +249,7 @@ function desmarcarCheck(id) {
 			                                	  
 			                                      <br>
 								             	  <div class="pull-right">
-														<button type="submit" class="btn btn-sm btn-primary btn-lg btn-expand" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
+														<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
 													  </div><!-- /.pull-right -->            												   
 													<br>		
 		                                	 </div> 
@@ -311,7 +311,7 @@ function desmarcarCheck(id) {
 									                </form:select>														
 											 <br>
 											  <div class="pull-right">
-												<button type="submit" class="btn btn-sm btn-primary btn-lg btn-expand" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
+												<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
 											  </div><!-- /.pull-right -->            												   
 											  <br>
 		                                    </div>
@@ -389,8 +389,8 @@ function desmarcarCheck(id) {
 		                                                </a>
 		                                            </div>
 		                                            <div class="media-body">
-		                                                <span class="label pull-right" style="background-color: #03A9F4; font-size: 12px">${imovelProposta.imovel.tipoImovelFmt}</span>
-		                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlImovel}/detalhesImovel/${imovelProposta.imovel.id}" style="color : #03A9F4;">${imovelProposta.imovel.titulo}</a></h4>
+		                                                <span class="label pull-right" style="background-color: #9d2428; font-size: 12px">${imovelProposta.imovel.tipoImovelFmt}</span>
+		                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlImovel}/detalhesImovel/${imovelProposta.imovel.id}" style="color : #9d2428;">${imovelProposta.imovel.titulo}</a></h4>
 		                                                <h5 class="media-heading" style="margin-bottom:12px;"><i class="fa fa-map-marker"></i> ${imovelProposta.imovel.endereco} - ${imovelProposta.imovel.bairro} - ${imovelProposta.imovel.cidade} -${imovelProposta.imovel.uf} </h5>
 		                                                
 		                                                <div class="col-md-5" >                                                    

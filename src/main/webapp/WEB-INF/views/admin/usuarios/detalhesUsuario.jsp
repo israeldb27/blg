@@ -518,7 +518,8 @@ function cancelarSuspensaoUsuario(){
 							                                         </span>
 							                                  </div><!-- /.pull-left -->
 							                                  <div class="media-body">
-							                                  	  <c:when test="${nota.acao == 'P'}">
+							                                  	<c:choose>
+							                                  		<c:when test="${nota.acao == 'P'}">
 																    	<a href="#" class="h4"><spring:message code="lbl.nota.parceria"/></a>
 																    	
 																    	<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao} <a href="#" onClick="carregaDetalhesImovel(${nota.imovel.id})" ><strong>${nota.imovel.titulo} </strong></a></small>		
@@ -539,14 +540,16 @@ function cancelarSuspensaoUsuario(){
 																    <c:when test="${nota.acao == 'E'}">
 																    	<a href="#" class="h4"><spring:message code="lbl.nota.pessoal"/></a>
 																    	
-																    	<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao} </small>
+																    	<small class="block text-muted"><label> <spring:message code="lbl.nota.escreveu.nota"/>: </label>  ${nota.descricao} </small>
 																    </c:when>
 																    
 																    <c:when test="${nota.acao == 'I'}">
 																    	<a href="#"  class="h4"><spring:message code="lbl.nota.imovel"/></a>
 																    	
 																    	<small class="block text-muted"><label> <spring:message code="lbl.descricao.nota"/>: </label>  ${nota.descricao} <a href="#" onClick="carregaDetalhesImovel(${nota.imovel.id})" ><strong>${nota.imovel.titulo} </strong></a></small>
-																    </c:when> 												  
+																    </c:when>
+							                                  	</c:choose>
+							                                  	   												  
 							                                      
 							                                      <em class="text-xs text-muted"><spring:message code="lbl.data.nota"/> <span class="text-danger"><fmt:formatDate value='${nota.dataNota}' pattern='dd/MM/yyyy'/></span></em>
 							                                  </div><!-- /.media-body -->

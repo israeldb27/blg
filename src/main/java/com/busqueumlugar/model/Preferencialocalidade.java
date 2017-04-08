@@ -50,8 +50,11 @@ public class Preferencialocalidade implements Serializable {
     @JoinColumn(name="idUsuario")    
     private Usuario usuario;   
     
+    @Column(name = "siglaEstado")
+    private String siglaEstado; 
+    
     @Column(name = "nomeEstado")
-    private String nomeEstado;    
+    private String nomeEstado;      
             
     @Column(name = "nomeCidade")
     private String nomeCidade;    
@@ -344,6 +347,14 @@ public class Preferencialocalidade implements Serializable {
 
 	public void setDataCadastro(Date dataCadastro) {
 		this.dataCadastro = dataCadastro;
+	}
+
+	public String getSiglaEstado() {
+		return siglaEstado;
+	}
+
+	public void setSiglaEstado(String siglaEstado) {
+		this.siglaEstado = siglaEstado;
 	}
     
 }

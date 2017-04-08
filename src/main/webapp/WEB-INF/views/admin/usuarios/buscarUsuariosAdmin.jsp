@@ -223,7 +223,7 @@ function enviarConvite(id) {
 									     	<br>
 									     	 									  
 											  <div class="pull-right">
-												<button type="submit" class="btn btn-sm btn-primary btn-lg btn-expand" > <spring:message code="lbl.filtrar.geral"/></button>
+												<button type="submit" class="button btn-primary" > <spring:message code="lbl.filtrar.geral"/></button>
 											  </div><!-- /.pull-right -->            												   
 											<br>
                                             
@@ -278,8 +278,8 @@ function enviarConvite(id) {
 	                                                </a>
 	                                            </div>
 	                                            <div class="media-body">
-	                                                <span class="label pull-right" style="background-color: #03A9F4; font-size: 12px">${usuarioBusca.perfilFmt}</span>
-	                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlAdmin}/detalhesUsuarioAdmin/${usuarioBusca.id}" style="color : #03A9F4;">${usuarioBusca.nome}</a></h4>
+	                                                <span class="label pull-right" style="background-color: #9d2428; font-size: 12px">${usuarioBusca.perfilFmt}</span>
+	                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlAdmin}/detalhesUsuarioAdmin/${usuarioBusca.id}" style="color : #9d2428;">${usuarioBusca.nome}</a></h4>
 	                                                <h5 class="media-heading" style="margin-bottom:12px;"><i class="fa fa-map-marker"></i> ${usuarioBusca.cidade} - ${usuarioBusca.uf}   </h1>
 	                                                
 	                                                <div class="col-md-5" >     

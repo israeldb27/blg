@@ -56,6 +56,14 @@ public class SeguidorDaoImpl extends GenericDAOImpl<Seguidor, Long>  implements 
 		crit.setProjection(Projections.property("usuario.id"));				
 		return crit.list();
 	}
+	
+	@Override
+	public List<?> findIdsSeguindoByIdUsuario(Long idUsuario) {
+		Criteria crit = session().createCriteria(Seguidor.class);
+		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));
+		crit.setProjection(Projections.property("usuarioSeguido.id"));				
+		return crit.list();
+	}
 
 	@Override
 	public List<?> filterListaIdsUsuariosSeguindo(RelatorioForm form) { //  lista todos os Ids dos Usuarios que estao me seguindo

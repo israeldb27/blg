@@ -39,22 +39,22 @@
   content: "\f005";
 }
 .rating-primary .star:hover:before {
-  color: #00b1e1 !important;
+  color: #9d2428 !important;
 }
 .rating-primary .star.active:before {
-  color: #00b1e1 !important;
+  color: #9d2428 !important;
 }
 .rating-primary .star.active ~ .star:before {
-  color: #00b1e1 !important;
+  color: #9d2428 !important;
 }
 .rating-success .star:hover:before {
-  color: #8cc152 !important;
+  color: #000000 !important;
 }
 .rating-success .star.active:before {
-  color: #8cc152 !important;
+  color: #000000 !important;
 }
 .rating-success .star.active ~ .star:before {
-  color: #8cc152 !important;
+  color: #000000 !important;
 }
 .rating-info .star:hover:before {
   color: #63d3e9 !important;

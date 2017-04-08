@@ -50,38 +50,30 @@
 
     	
     	function mostrarModal(id) {    		
-    		if (id == 0){
-    			$('#msgModal').html("Descrição resumida sobre o imóvel");
-    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.descricao.imovel'/>");
-    		}
-    		else if ( id == 1){
-    			$('#msgModal').html("Repasse suas informações básicas");
-    		}
-    		else if ( id == 2){
-    			$('#msgModal').html("Informe o seu password");
-    		}
-    		else if ( id == 3){
-    			$('#msgModal').html("Repasse informações de sua localização");
-    		}
-    		else if ( id == 4){
-    			$('#msgModal').html("Repasse suas informações de contato");
-    		}
-    		else if ( id == 5){
-    			$('#msgModal').html("Selecione suas permissões sobre sua conta");
-    		}
+    		if (id == 0){ 
+    			$('#msgModal').html("<spring:message code='msg.descricao.funcionalidade.esqueceu.senha'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.link.esqueceu.senha'/>");
+    		}    
     		
     		$("#idModalItem").modal("show");
     	}
     	
 		</script>
 		
-        <c:import url="../../layout/cadastroUsuario/head-layout.jsp"></c:import>
+        <c:import url="../../layout/cadastroUsuario/head-layout.jsp"></c:import>          
+	<%@ include file="/WEB-INF/views/layout/head-login.jsp"%>
 
     <!--/ END HEAD -->
    
-    <body>
-
-        <!-- INICIO - Cadastro Usuario -->
+    <body class="home">
+    
+    <div class="all">
+		<div class="header">
+		    <div class="content">
+			<h1 class="logo"><spring:message code="lbl.title.busque.um.lugar"/></h1>
+		    </div>
+		</div>
+    	</div>
             
             <!-- Start header content -->
                 <div class="header-content">
@@ -103,7 +95,7 @@
 		               </c:if>	
                     	
 						<!--/ INICIO ABA INFORMAR EMAIL -->
-                        <div class="col-md-12">
+                        <div class="col-md-6 col-md-offset-3">
                             <!-- Start horizontal form -->
                             <div class="panel rounded shadow">
 	                                <div class="panel-heading">  
@@ -121,7 +113,7 @@
 	                                        
 	                                			<div class="form-group">
 	                                                <label for="emailEsqueceu" class="col-sm-3 control-label"><spring:message code="lbl.email"/> </label>
-	                                                <div class="col-sm-4">                       
+	                                                <div class="col-sm-5">                       
 	                                                    <form:input id="emailEsqueceu" path="emailEsqueceu" class="form-control" />
 	                                                    <form:errors id="emailEsqueceu" path="emailEsqueceu" cssClass="errorEntrada"  />
 	                                                </div>
@@ -129,7 +121,7 @@
 	                                            
 	                                            <div class="form-group">
 	                                                <label for="cpfCnpjEsqueceuSenha" class="col-sm-3 control-label"><spring:message code="lbl.cpf.cnpj.esqueceu.senha"/> </label>
-	                                                <div class="col-sm-4">                       
+	                                                <div class="col-sm-5">                       
 	                                                    <form:input id="cpfCnpjEsqueceuSenha"  path="cpfCnpjEsqueceuSenha" class="form-control" />
 	                                                    <form:errors id="cpfCnpjEsqueceuSenha" path="cpfCnpjEsqueceuSenha" cssClass="errorEntrada"  />
 	                                                </div>
@@ -140,7 +132,7 @@
 	                                		<div class="form-footer">  
 				                              <div class="col-sm-offset-3">                              	
 				                              	<spring:message code="lbl.hint.confirmar.geral" var="hintConfirmaDados"/>
-				                                  <button type="submit" class="btn btn-success" title="${hintConfirmaDados}"><spring:message code="lbl.btn.confirmar.dados.geral"/></button>
+				                                  <button type="submit" class="btn btn-primary btn-block" style="width: 30%;" title="${hintConfirmaDados}"><spring:message code="lbl.btn.confirmar.dados.geral"/></button>
 				                              </div>
 				                          </div><!-- /.form-footer -->
 	                            	</div><!-- /.panel -->

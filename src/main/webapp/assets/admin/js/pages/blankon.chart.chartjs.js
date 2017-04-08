@@ -52,7 +52,7 @@ var BlankonChartChartJS = function () {
                     },
                     {
                         value : 70,
-                        color : "#8CC152"
+                        color : "#000000"
                     },
                     {
                         value : 50,
@@ -109,7 +109,7 @@ var BlankonChartChartJS = function () {
                 var pieData = [
                     {
                         value: 30,
-                        color:"#8CC152"
+                        color:"#000000"
                     },
                     {
                         value : 40,

@@ -103,9 +103,7 @@
             <!--/ END SIDEBAR LEFT -->
 
             <!-- START @PAGE CONTENT -->
-            <section id="page-content">
-            
-            	<!-- Inicio - Meus Favoritos -->
+            <section id="page-content">           
             
             	 <!-- Start header content --> 
                 <div class="header-content">                    
@@ -442,20 +440,12 @@
                         </div><!-- /.row -->
                        </form:form> 
                        </c:if>
-                       <c:if test="${msgSucesso != null }">
-                       		 <div class="panel panel-success">
-		                          <div class="panel-heading">
-		                              <h3 class="panel-title"><spring:message code="msg.cadastro.imovel.sucesso"/></h3>
-		                          </div><!-- /.panel-heading -->
-		                          <div class="panel rounded shadow">
-		                          		<div class="panel-body">
-				                          	<div align="center" class="inner-all">
-				                          		
-				                            </div>                           
-				                          </div><!-- /.panel-body -->
-		                          </div>		                          
-		                      </div><!-- /.panel --> 
-                       </c:if>
+                       
+                        <c:if test="${msgSucesso != null }">
+                    	 		<div class="alert alert-success">
+                                     <strong><spring:message code="msg.cadastro.imovel.sucesso"/></strong> 
+                                </div>	                     	 
+		                 </c:if> 
                             
                 </div><!-- /.body-content -->
                 <!--/ End body content -->

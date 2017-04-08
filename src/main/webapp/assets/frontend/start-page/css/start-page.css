@@ -153,11 +153,11 @@ p {
   border-radius: 20px;
   font-weight: 400;
   padding: 9px 25px;
-  background-color: #03A9F4;
+  background-color: #9d2428;
   text-decoration: none;
 }
 #banner .action:hover {
-  background-color: #71a117;
+  background-color: #000000;
 }
 #banner.banner-view {
   color: #FFF;
@@ -249,7 +249,7 @@ p {
 }
 #top-reasons i,
 #top-reasons span {
-  color: #03A9F4;
+  color: #9d2428;
   display: block;
 }
 #top-reasons span {
@@ -282,7 +282,7 @@ p {
 }
 #blankon-versions i,
 #blankon-versions span {
-  color: #03A9F4;
+  color: #9d2428;
   display: block;
 }
 #blankon-versions span {
@@ -325,7 +325,7 @@ p {
   margin-bottom: 40px;
 }
 #features i {
-  color: #03A9F4;
+  color: #9d2428;
   cursor: default;
 }
 #features .media .pull-left {
@@ -392,7 +392,7 @@ p {
   height: 400px;
 }
 #supported-resolutions .panel .panel-heading {
-  background-color: #03A9F4;
+  background-color: #9d2428;
   color: white;
 }
 #supported-resolutions .panel .panel-heading .panel-title {
@@ -437,11 +437,11 @@ p {
   display: none;
 }
 #supported-resolutions .panel .panel-body > ul > li a {
-  color: #03A9F4;
+  color: #9d2428;
 }
 #supported-resolutions .panel .panel-body > ul > li i {
   font-size: 15px;
-  color: #03A9F4;
+  color: #9d2428;
 }
 /* ========================================================================
  * LAYOUT / SUMMARY
@@ -489,13 +489,13 @@ p {
   color: #e9573f;
 }
 .fg-blue {
-  color: #00b1e1;
+  color: #9d2428;
 }
 .fg-yellow {
   color: #f6bb42;
 }
 .fg-green {
-  color: #8cc152;
+  color: #000000;
 }
 /* ========================================================================
  * COMPONENT / MISC / LOADING ANIMATION
@@ -555,7 +555,7 @@ p {
   transition: all 0.5s ease-in-out 0s;
 }
 #back-top:hover {
-  background: #03A9F4;
+  background: #9d2428;
   box-shadow: 0 0 0 6px #a9e33a;
 }
 #back-top i {
@@ -837,7 +837,7 @@ p {
   height: 5px !important;
   top: 0;
   left: 0;
-  background-color: #03A9F4;
+  background-color: #9d2428;
 }
 #jprePercentage {
   color: #424242;

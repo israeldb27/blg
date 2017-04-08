@@ -73,6 +73,7 @@ public class PreferencialocalidadeServiceImpl implements PreferencialocalidadeSe
 		BeanUtils.copyProperties(form, local);
         local.setUsuario(usuarioDao.findUsuario(idUsuario));
         Estados estado = estadosDao.findEstadosById(form.getIdEstado());
+        local.setSiglaEstado(estado.getUf());
         local.setEstado(estado.getUf());
         local.setNomeEstado(estado.getNome());        
         
@@ -175,6 +176,45 @@ public class PreferencialocalidadeServiceImpl implements PreferencialocalidadeSe
 			return MessageUtils.getMessage("msg.erro.limite.minimo.pref.imoveis");
 		else
 			return null;
+	}
+
+
+	@Override
+	public boolean validarAdicionarPreferenciaCadUsuario(PreferencialocalidadeForm form, BindingResult result) {
+		
+		boolean filtroValido = false;
+		
+		if ( form.getIdEstado() == -1 ) {
+			result.rejectValue("idEstado", "msg.erro.campo.obrigatorio");
+			filtroValido = true;                   
+	    }
+		 
+		if ( form.getIdCidade() == -1 ) {
+		   result.rejectValue("idCidade", "msg.erro.campo.obrigatorio");
+		   filtroValido = true;                   
+		}
+		
+		if ( form.getIdBairro() == -1 ) {
+		   result.rejectValue("idBairro", "msg.erro.campo.obrigatorio");
+		   filtroValido = true;                   
+		}
+		
+		if ( StringUtils.isEmpty(form.getTipoImovel())){
+			result.rejectValue("tipoImovel", "msg.erro.campo.obrigatorio");
+			filtroValido = true;                   
+		}
+		
+		if ( StringUtils.isEmpty(form.getAcao())){
+			result.rejectValue("acao", "msg.erro.campo.obrigatorio");
+			filtroValido = true;                   
+		}
+		
+		if ( StringUtils.isEmpty(form.getPerfilImovel())){
+			result.rejectValue("perfilImovel", "msg.erro.campo.obrigatorio");
+			filtroValido = true;                   
+		}
+	
+		return filtroValido;
 	}
 	
 }

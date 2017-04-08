@@ -47,28 +47,44 @@ $(document).ready(function() {
 	}
 });	
 
+
+
 function recuperaCidades(){
     var parametro1 = $("#idEstado").val();
-    $.get("${urlBuscarCidades}/"+parametro1, function(data){
-        jQuery.each(data, function(key, value) {
-            if(value.label == null){            	
-                return;
-            }            
-            $("#idCidade").append("<option value='"+value.key+"'>"+value.label+"</option>");
-        });
-    });
+    $.ajax({
+        type: 'GET',
+        url: '${urlBuscarCidades}/' + parametro1,
+        dataType: 'json',
+        success: function(json){
+            var options = "";
+            $.each(json, function(key, value){
+               $("#idCidade").append("<option value='"+value.key+"'>"+value.label+"</option>");
+            });
+            $('#idCidade').trigger("chosen:updated");
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+        }
+    });    	   
 }
 
 
-function recuperaBairros(){
+function recuperaBairros(){   
     var parametro1 = $("#idCidade").val();
-    $.get("${urlBuscarBairros}/"+parametro1, function(data){
-        jQuery.each(data, function(key, value) {
-            if(value.label == null){            	
-                return;
-            }            
-            $("#idBairro").append("<option value='"+value.key+"'>"+value.label+"</option>");
-        });
+    $.ajax({
+        type: 'GET',
+        url: '${urlBuscarBairros}/' + parametro1,
+        dataType: 'json',
+        success: function(json){
+            var options = "";
+            $.each(json, function(key, value){
+            	$("#idBairro").append("<option value='"+value.key+"'>"+value.label+"</option>");
+            });
+          $('#idBairro').trigger("chosen:updated");
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+        }
     });
 }
 
@@ -281,7 +297,7 @@ function confirmarExclusaoPrefImoveis(){
                                 
                                 <div class="panel-body no-padding">
                                     <div class="table-responsive" style="margin-top: -1px;">
-                                        <table class="table table-striped table-primary">
+                                        <table class="table table-striped">
                                             <thead>
                                             <tr>
                                                 <th class="text-center"><spring:message code="lbl.tipo.imovel"/></th>
@@ -300,16 +316,16 @@ function confirmarExclusaoPrefImoveis(){
                                             <tbody>
                                             <c:forEach var="pref" items="${listaPreferenciaImoveis}" >
 	                                            <tr>
-	                                                <td class="text-center">${pref.tipoImovelFmt}  </td>
-	                                                <td class="text-center">${pref.acaoFmt}</td>
-	                                                <td class="text-center">${pref.perfilImovelFmt}</td>
-	                                                <td class="text-center">${pref.estado}</td>
-	                                                <td class="text-center">${pref.nomeCidade}</td>
-	                                                <td class="text-center">${pref.nomeBairro}</td>													
-													<td class="text-center">${pref.quantQuartos}</td>
-													<td class="text-center">${pref.quantGaragem}</td>
-													<td class="text-center">${pref.quantBanheiro}</td>
-													<td class="text-center">${pref.quantSuites}</td>													
+	                                                <td class="text-center" style="font-size: 13px;">${pref.tipoImovelFmt}  </td>
+	                                                <td class="text-center" style="font-size: 13px;">${pref.acaoFmt}</td>
+	                                                <td class="text-center" style="font-size: 13px;">${pref.perfilImovelFmt}</td>
+	                                                <td class="text-center" style="font-size: 13px;">${pref.estado}</td>
+	                                                <td class="text-center" style="font-size: 13px;">${pref.nomeCidade}</td>
+	                                                <td class="text-center" style="font-size: 13px;">${pref.nomeBairro}</td>													
+													<td class="text-center" style="font-size: 13px;">${pref.quantQuartos}</td>
+													<td class="text-center" style="font-size: 13px;">${pref.quantGaragem}</td>
+													<td class="text-center" style="font-size: 13px;">${pref.quantBanheiro}</td>
+													<td class="text-center" style="font-size: 13px;">${pref.quantSuites}</td>													
 	                                                <td class="text-center">                                                    
 	                                                    <a href="#" onClick="prepararModalConfirmaExclusao(${pref.id})" class="btn btn-danger btn-xs" title="Excluir"><i class="fa fa-times"></i></a>
 	                                                </td>

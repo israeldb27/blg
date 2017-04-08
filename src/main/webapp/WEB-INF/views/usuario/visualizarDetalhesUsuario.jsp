@@ -219,7 +219,8 @@ function aceitarRecomendacao(id) {
          success: function(data){	        	 
         	 if ( data == 'ok') {
         		 $("#idAceitaRecomendacao_"+id).hide();  
-        		 $("#idRecusaRecomendacao_"+id).hide();	        		 
+        		 $("#idRecusaRecomendacao_"+id).hide();	
+        		 $("#spanRecomendacao_"+id).hide();	
      	    	 $("#idMsgAceitarRecomendacao_"+id).show();
         	 }
         	 else  {
@@ -238,7 +239,8 @@ function recusarRecomendacao(id) {
          success: function(data){	        	 
         	 if ( data == 'ok') {
         		 $("#idAceitaRecomendacao_"+id).hide();  
-        		 $("#idRecusaRecomendacao_"+id).hide();	        		 
+        		 $("#idRecusaRecomendacao_"+id).hide();	
+        		 $("#spanRecomendacao_"+id).hide();	        		 
      	    	 $("#idMsgRecusarRecomendacao_"+id).show();
         	 }
         	 else  {
@@ -513,8 +515,8 @@ function mostrarModal(id){
 					                                                </a>
 					                                            </div>
 					                                            <div class="media-body">
-					                                                <span class="label pull-right" style="background-color: #03A9F4; font-size: 12px">${imovel.tipoImovelFmt}</span>			                                                 
-					                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlImovel}/detalhesImovel/${imovel.id}" style="color : #03A9F4;">${imovel.titulo}</a></h4>
+					                                                <span class="label pull-right" style="background-color: #9d2428; font-size: 12px">${imovel.tipoImovelFmt}</span>			                                                 
+					                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlImovel}/detalhesImovel/${imovel.id}" style="color : #9d2428;">${imovel.titulo}</a></h4>
 					                                                <h5 class="media-heading" style="margin-bottom:12px;"><i class="fa fa-map-marker"></i> ${imovel.endereco} - ${imovel.bairro} - ${imovel.cidade} -${imovel.uf} </h1>
 					                                                
 					                                                  <div class="col-md-5" >  	                                                
@@ -602,13 +604,13 @@ function mostrarModal(id){
                               			<div class="pull-right">
                               				<a href="#a" class="btn btn-sm" onClick="mostrarModal(1);" style=""><i style="" class="fa fa-question" ></i></a>
                               			</div>
-                              			<br>
-                                    	
+                              			<br>                                    	
                                     </h3>
                                    		&nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.total.notas"/> </strong>: (${usuarioForm.quantTotalNotas}) </label>
                                 </div><!-- /.panel-heading -->
                                 
-                               			<c:choose>
+                                <div class="profile-body">
+										<c:choose>
                                 			<c:when test="${not empty usuarioForm.listaNotasUsuario}">
                                 				<div class="timeline">
                                 					<c:forEach var="nota" items="${usuarioForm.listaNotasUsuario}"> 
@@ -638,12 +640,14 @@ function mostrarModal(id){
 																			</div>
 																			<div class="timeline-body-content">
 																				<p>
-																					<small class="block text-muted"><label><strong style="font-size: 13px;"> <spring:message code="lbl.descricao.nota"/>: </strong> </label>  ${nota.descricao} <a href="${urlImovel}/detalhesImovel/${nota.imovel.id}" ><strong>${nota.imovel.titulo} </strong></a></small>
+																					<small class="block text-muted"><label><strong style="font-size: 13px;">  <spring:message code="lbl.descricao.nota"/>: </strong></label>  ${nota.descricao} <a href="${urlImovel}/detalhesImovel/${nota.imovel.id}" ><strong>${nota.imovel.titulo} </strong></a></small>
 																				</p>
-																			</div>																	    													    			    	
+																			</div>
+																	    													    			    	
 																	    </c:when>
 																	    
-																	    <c:when test="${nota.acao == 'R'}">																	    	
+																	    <c:when test="${nota.acao == 'R'}">
+																	    	
 																	    	<div class="timeline-body-head">
 																				<div class="timeline-body-head-caption">
 																					<a href="#" class="timeline-body-title font-blue-madison"><spring:message code="lbl.nota.preferencia"/></a>
@@ -652,27 +656,42 @@ function mostrarModal(id){
 																			</div>
 																			<div class="timeline-body-content">
 																				<p>
-																					<small class="block text-muted"><label> <strong style="font-size: 13px;"><spring:message code="lbl.descricao.nota"/>: </strong> </label>  ${nota.descricao}</small>
+																					<small class="block text-muted"><label><strong style="font-size: 13px;">  <spring:message code="lbl.descricao.nota"/>: </strong> </label>  ${nota.descricao}</small>
 																				</p>
-																			</div>
+																			</div>																	    	
+																	    	
 																	    </c:when>
 																	    
-																	    <c:when test="${((nota.acao == 'U') || (nota.acao == 'E'))}">
-																	    	
+																	    <c:when test="${(nota.acao == 'U')}">																	    	
 																	    	<div class="timeline-body-head">
 																				<div class="timeline-body-head-caption">
-																					<a href="${urlUsuario}/detalhesUsuario/${nota.usuario.id}"  class="timeline-body-title font-blue-madison"><spring:message code="lbl.nota.info.usuario"/></a>
+																					<a href="${urlUsuario}/detalhesUsuario/${usuario.id}"  class="timeline-body-title font-blue-madison"><spring:message code="lbl.nota.info.usuario"/></a>
 																					<span class="timeline-body-time font-grey-cascade"> </span>
 																				</div>
 																			</div>
 																			<div class="timeline-body-content">
 																				<p>
-																					<small class="block text-muted"><label><strong style="font-size: 13px;"> <spring:message code="lbl.descricao.nota"/>: </strong></label>  ${nota.descricao}</small>
-																				</p>
+																					<small class="block text-muted"><label><strong style="font-size: 13px;">  <spring:message code="lbl.descricao.nota"/>: </strong></label>  ${nota.descricao}</small>
+																				</p>																				
 																			</div>
 																	    </c:when>
 																	    
-																	    <c:when test="${nota.acao == 'I'}">																	    	
+																	      <c:when test="${(nota.acao == 'E')}">																	    	
+																	    	<div class="timeline-body-head">
+																				<div class="timeline-body-head-caption">
+																					<a href="${urlUsuario}/detalhesUsuario/${usuario.id}"  class="timeline-body-title font-blue-madison"> ${nota.usuario.nome}</a>
+																					<span class="timeline-body-time font-grey-cascade"> </span>
+																				</div>
+																			</div>
+																			<div class="timeline-body-content">
+																				<p>
+																					<small class="block text-muted"><label><strong style="font-size: 13px;">  <spring:message code="lbl.nota.escreveu.nota"/>: </strong></label>  ${nota.descricao}</small>
+																				</p>																				
+																			</div>
+																	    </c:when>
+																	    
+																	    <c:when test="${nota.acao == 'I'}">
+																	    	
 																	    	<div class="timeline-body-head">
 																				<div class="timeline-body-head-caption">
 																					<a href="#" onClick="carregaDetalhesImovel(${nota.imovel.id})" class="timeline-body-title font-blue-madison"><spring:message code="lbl.nota.imovel"/></a>
@@ -681,12 +700,12 @@ function mostrarModal(id){
 																			</div>
 																			<div class="timeline-body-content">
 																				<p>
-																					<small class="block text-muted"><label> <strong style="font-size: 13px;"><spring:message code="lbl.descricao.nota"/>: <strong> </label>  ${nota.descricao} <a href="${urlImovel}/detalhesImovel/${nota.imovel.id}" > ${nota.imovel.titulo} </strong></a></small>
-																				</p>																				
+																					<small class="block text-muted"><label><strong style="font-size: 13px;">  <spring:message code="lbl.descricao.nota"/>: </strong></label>  ${nota.descricao} <a href="${urlImovel}/detalhesImovel/${nota.imovel.id}" ><strong>${nota.imovel.titulo} </strong></a></small>
+																				</p>
 																			</div>	
-																	    </c:when>												    
-															  </c:choose> 
-															  <em class="text-xs text-muted"><strong style="font-size: 13px;"><spring:message code="lbl.data.nota" />: </strong> <span class="text-danger"><fmt:formatDate value='${nota.dataNota}' pattern='dd/MM/yyyy'/></span></em> 
+																	    </c:when>															    
+															  </c:choose>  
+															     <em class="text-xs text-muted"><strong style="font-size: 13px;"> <spring:message code="lbl.data.nota"/>: </strong> <span class="text-danger"><fmt:formatDate value='${nota.dataNota}' pattern='dd/MM/yyyy'/></span></em>
 															</div>
 														</div>
                                 					</c:forEach>								
@@ -699,9 +718,11 @@ function mostrarModal(id){
 				                                </div>                                		
 	                                		</c:when>
 	                                		
-                                		</c:choose>		                                
+                                		</c:choose>		
+									</div>
+                                                            
                                       
-                            </div><!-- /.panel -->
+                         </div><!-- /.panel -->
  						
  						<!-- /.END Notas Usuario -->  						
  						
@@ -739,11 +760,11 @@ function mostrarModal(id){
 					                                            <tbody>
 					                                            <c:forEach var="pref" items="${usuarioForm.listaPreferenciaImoveis}" >
 						                                            <tr>
-						                                                <td class="text-center"> ${pref.tipoImovelFmt}</td>
-						                                                <td class="text-center">${pref.acaoFmt}</td>
-						                                                <td class="text-center">${pref.nomeEstado}</td>
-						                                                <td class="text-center">${pref.nomeCidade}</td>
-						                                                <td class="text-center">${pref.nomeBairro}</td>			                                              
+						                                                <td class="text-center" style="font-size: 13px;"> ${pref.tipoImovelFmt}</td>
+						                                                <td class="text-center" style="font-size: 13px;">${pref.acaoFmt}</td>
+						                                                <td class="text-center" style="font-size: 13px;">${pref.siglaEstado}</td>
+						                                                <td class="text-center" style="font-size: 13px;">${pref.nomeCidade}</td>
+						                                                <td class="text-center" style="font-size: 13px;">${pref.nomeBairro}</td>			                                              
 						                                            </tr>
 					                                            </c:forEach>
 					                                            </tbody>
@@ -936,11 +957,11 @@ function mostrarModal(id){
 			                                            	<c:when test="${((recomendacao.isStatusEnviado()) && (recomendacao.usuario.id == usuario.id))}">
 			                                            		<div class="media-left">
 					                                                <a href="#">
-					                                                    <img class="media-object thumbnail" src="${context}${recomendacao.usuario.imagemArquivo}" style="width: 50px; height: 60px;"  />
+					                                                    <img class="media-object thumbnail" src="data:image/jpeg;base64,${recomendacao.usuario.imagemArquivo}" style="width: 50px; height: 60px;"  />
 					                                                </a>
 					                                            </div>
 			                                            		<div class="media-body">
-			                                            			<span class="label pull-right" style="background-color: #03A9F4; font-size: 12px">Aguardando Aprovação</span>
+			                                            			<span class="label pull-right" style="background-color: #9d2428; font-size: 12px">Aguardando Aprovação</span>
 					                                                <h4>${recomendacao.usuario.nome}</h4>
 					                                                <small class="text-muted"><fmt:formatDate value='${recomendacao.dataResposta}' pattern='dd/MM/yyyy HH:mm:ss'/></small>
 					                                                <p>${recomendacao.descricao}</p>
@@ -967,7 +988,7 @@ function mostrarModal(id){
 					                                                </a>
 					                                            </div>
 			                                            		<div class="media-body">	
-			                                            			<span class="label pull-right" style="background-color: #03A9F4; font-size: 12px">Aguardando Minha Aprovação</span>	                                            			
+			                                            			<span id="spanRecomendacao_${recomendacao.id}" class="label pull-right" style="background-color: #9d2428; font-size: 12px">Aguardando Minha Aprovação</span>	                                            			
 					                                                <h4>${recomendacao.usuario.nome}</h4>
 					                                                <small class="text-muted"><fmt:formatDate value='${recomendacao.dataResposta}' pattern='dd/MM/yyyy HH:mm:ss'/></small>
 					                                                <p>${recomendacao.descricao}</p>
@@ -979,16 +1000,16 @@ function mostrarModal(id){
 					                                                <a href="#a" onClick="recusarRecomendacao(${recomendacao.id})" id="idRecusaRecomendacao_${recomendacao.id}" style="font-size:x-large; "  class="dropdown-toggle my-tooltip" data-toggle="tooltip" data-placement="right"  data-original-title="${mensagemRecusarRecomendacao}" ><i class="fa fa-times"></i></a>
 					                                                
 					                                                
-					                                                <div id="idMsgAceitarRecomendacao_${recomendacao.id}"  class="panel panel-success" style="display: none;">
-												                          <div class="panel-heading">
-												                              <h3 class="panel-title"><spring:message code="msg.recomendacao.aceita"/></h3>
-												                          </div><!-- /.panel-heading -->		                          
+					                                                <div id="idMsgAceitarRecomendacao_${recomendacao.id}"  class="panel panel-success" style="display: none;">												                   
+												                          <div class="alert alert-success">
+								                                                <strong><spring:message code="msg.recomendacao.aceita"/></strong> 
+								                                           </div>	                          
 													                </div><!-- /.panel -->                      
 													                
 												               		 <div id="idMsgRecusarRecomendacao_${recomendacao.id}" class="panel panel-danger" style="display: none;">
-												                          <div class="panel-heading">
-												                              <h3 class="panel-title"><spring:message code="msg.recomendacao.recusado"/></h3>
-												                          </div><!-- /.panel-heading -->			                                                    
+												               		 	   <div class="alert alert-danger">
+								                                                <strong><spring:message code="msg.recomendacao.recusado"/></strong> 
+								                                            </div>												                   			                                                    
 												                      </div><!-- /.panel -->   
 					                                            </div>
 			                                            	</c:when>
@@ -998,18 +1019,21 @@ function mostrarModal(id){
 												</c:forEach>
 		                                    </ul>
 		                                    <br/>
-		
-		                                    <ul class="media-list comment-list">
-		                                        <li class="media">                                                                                        
-		                                            <div class="mb-20"></div>
-		                                            <form class="form-horizontal mb-20" role="form">	
-			                                            <div class="form-group">
-			                                               <input type="button" class="btn btn-primary" onClick="prepararModalAddRecomendacao();" value='<spring:message code="btn.modal.adicionar.recomendacao"/> '>
-			                                            </div>
-					                                      
-		                                            </form>
-		                                        </li>
-		                                    </ul>
+											
+											<c:if test="${usuarioForm.id != usuario.id}">
+												 <ul class="media-list comment-list">
+				                                        <li class="media">                                                                                        
+				                                            <div class="mb-20"></div>
+				                                            <form class="form-horizontal mb-20" role="form">	
+					                                            <div class="form-group">
+					                                               <input type="button" class="btn btn-primary" onClick="prepararModalAddRecomendacao();" value='<spring:message code="btn.modal.adicionar.recomendacao"/> '>
+					                                            </div>
+							                                      
+				                                            </form>
+				                                        </li>
+				                                    </ul>
+											</c:if>	
+		                                    
 		                                </div>	
                                 	</c:when>
                                 	

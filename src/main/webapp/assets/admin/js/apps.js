@@ -599,7 +599,7 @@ var BlankonApp = function(){
         handleSparkline: function () {
             if($('.sparklines').length){
                 $('.average').sparkline('html',{type: 'bar', barColor: '#37BC9B', height: '30px'});
-                $('.traffic').sparkline('html',{type: 'bar', barColor: '#8CC152', height: '30px'});
+                $('.traffic').sparkline('html',{type: 'bar', barColor: '#000000', height: '30px'});
                 $('.disk').sparkline('html',{type: 'bar', barColor: '#E9573F', height: '30px'});
                 $('.cpu').sparkline('html',{type: 'bar', barColor: '#F6BB42', height: '30px'});
             }

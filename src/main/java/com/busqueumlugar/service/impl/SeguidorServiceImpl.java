@@ -78,6 +78,11 @@ public class SeguidorServiceImpl implements SeguidorService {
 	public List recuperarIdsSeguidores(Long idUsuario) {
 		return dao.findIdsSeguidoresByIdUsuario(idUsuario);
 	}
+	
+	@Override
+	public List recuperarIdsSeguindo(Long idUsuario) {
+		return dao.findIdsSeguindoByIdUsuario(idUsuario);
+	}
 
 	@Override
 	public long checarQuantidadeSeguidores(Long idUsuario) {

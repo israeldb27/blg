@@ -560,7 +560,7 @@
   border: 1px solid #2a2a2a;
 }
 .navbar-primary {
-  background-color: #00b1e1;
+  background-color: #9d2428;
   color: #ffffff;
 }
 .navbar-primary:before {
@@ -636,18 +636,18 @@
   color: #ffffff;
 }
 .navbar-primary .navbar-form input {
-  border: 1px solid #00b1e1 !important;
+  border: 1px solid #9d2428 !important;
 }
 .navbar-primary .navbar-form input:focus,
 .navbar-primary .navbar-form input:active {
-  border: 1px solid #00b1e1 !important;
+  border: 1px solid #9d2428 !important;
 }
 .navbar-primary .navbar-form .form-group .btn {
-  background-color: #00b1e1;
-  border: 1px solid #00b1e1;
+  background-color: #9d2428;
+  border: 1px solid #9d2428;
 }
 .navbar-success {
-  background-color: #8cc152;
+  background-color: #000000;
   color: #ffffff;
 }
 .navbar-success:before {
@@ -723,15 +723,15 @@
   color: #ffffff;
 }
 .navbar-success .navbar-form input {
-  border: 1px solid #8cc152 !important;
+  border: 1px solid #000000 !important;
 }
 .navbar-success .navbar-form input:focus,
 .navbar-success .navbar-form input:active {
-  border: 1px solid #8cc152 !important;
+  border: 1px solid #000000 !important;
 }
 .navbar-success .navbar-form .form-group .btn {
-  background-color: #8cc152;
-  border: 1px solid #8cc152;
+  background-color: #000000;
+  border: 1px solid #000000;
 }
 .navbar-info {
   background-color: #63d3e9;

@@ -109,11 +109,11 @@
   box-shadow: 0 0 3px rgba(238, 238, 238, 0.5) !important;
 }
 .ribbon-primary {
-  background-color: #00b1e1 !important;
+  background-color: #9d2428 !important;
 }
 .ribbon-primary:before,
 .ribbon-primary:after {
-  border-top: 2px solid #00b1e1 !important;
+  border-top: 2px solid #9d2428 !important;
 }
 .ribbon-primary.transparent {
   background-color: rgba(0, 177, 225, 0.4) !important;
@@ -128,11 +128,11 @@
   box-shadow: 0 0 3px rgba(0, 177, 225, 0.5) !important;
 }
 .ribbon-success {
-  background-color: #8cc152 !important;
+  background-color: #000000 !important;
 }
 .ribbon-success:before,
 .ribbon-success:after {
-  border-top: 2px solid #8cc152 !important;
+  border-top: 2px solid #000000 !important;
 }
 .ribbon-success.transparent {
   background-color: rgba(140, 193, 82, 0.4) !important;

@@ -22,11 +22,48 @@
     	<script type="text/javascript">
     	$(document).ready(function() {
     		
-    		$('#cpf').hide();
-    		$('#lblCPF').hide();	
-    		$('#lblCNPJ').hide();
-    		$('#creci').hide();	
-    		$('#lblCRECI').hide();	
+    		var perfilSel = document.getElementById("perfil").value; 
+    		
+    		if ( perfilSel == ''){
+    			$('#cpf').hide();
+        		$('#lblCPF').hide();	
+        		$('#lblCNPJ').hide();
+        		$('#creci').hide();	
+        		$('#lblCRECI').hide();	
+        		$('#lblSexo').hide();
+        		$('#lblFaixaSalarial').hide();
+        		$('#lblDataNascimento').hide();        		
+    		}
+    		else if ( perfilSel == 'P' ){
+				$('#cpf').show();
+				$('#lblCPF').show();			
+				$('#lblCNPJ').hide();
+				$('#creci').hide();
+				$('#lblCRECI').hide();	
+				$('#lblSexo').show();
+	    		$('#lblFaixaSalarial').show();
+	    		$('#lblDataNascimento').show();
+			}
+			else if (perfilSel == 'C'){
+				$('#cpf').show();
+				$('#lblCPF').show();			
+				$('#lblCNPJ').hide();
+				$('#creci').show();
+				$('#lblCRECI').show();
+				$('#lblSexo').show();
+	    		$('#lblFaixaSalarial').show();
+	    		$('#lblDataNascimento').show();
+			}
+			else if (perfilSel == 'I'){
+				$('#cpf').hide();
+				$('#lblCPF').hide();			
+				$('#lblCNPJ').show();
+				$('#creci').hide();
+				$('#lblCRECI').hide();		
+				$('#lblSexo').hide();
+	    		$('#lblFaixaSalarial').hide();
+	    		$('#lblDataNascimento').hide();
+			}		
     		
     		$('#idEstado').change(function () {    			
     	        var comboPai = '#idEstado';
@@ -54,7 +91,10 @@
     				$('#lblCPF').show();			
     				$('#lblCNPJ').hide();
     				$('#creci').hide();
-    				$('#lblCRECI').hide();			
+    				$('#lblCRECI').hide();	
+    				$('#lblSexo').show();
+    	    		$('#lblFaixaSalarial').show();
+    	    		$('#lblDataNascimento').show();
     			}
     			else if (perfil == 'C'){
     				$('#cpf').show();
@@ -62,13 +102,19 @@
     				$('#lblCNPJ').hide();
     				$('#creci').show();
     				$('#lblCRECI').show();
+    				$('#lblSexo').show();
+    	    		$('#lblFaixaSalarial').show();
+    	    		$('#lblDataNascimento').show();
     			}
     			else if (perfil == 'I'){
     				$('#cpf').hide();
     				$('#lblCPF').hide();			
     				$('#lblCNPJ').show();
     				$('#creci').hide();
-    				$('#lblCRECI').hide();			
+    				$('#lblCRECI').hide();		
+    				$('#lblSexo').hide();
+    	    		$('#lblFaixaSalarial').hide();
+    	    		$('#lblDataNascimento').hide();
     			}
     			else{
     				$('#cpf').hide();
@@ -76,6 +122,7 @@
     	    		$('#lblCNPJ').hide();
     	    		$('#creci').hide();	
     	    		$('#lblCRECI').hide();	
+    	    		$('#lblDataNascimento').hide();
     			}
     		 });
     		function limpaComboLinha(comboLinha) {
@@ -123,23 +170,28 @@
     	function mostrarModal(id){
     		
     		if (id == 0){    			
-    			$('#msgModal').html("Escolha uma foto de exibição para a sua conta");
-    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.descricao.imovel'/>");
+    			$('#msgModal').html("<spring:message code='msg.aba.foto.principal.usuario'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.aba.alterar.foto.usuario.principal'/>");
     		}
-    		else if ( id == 1){
-    			$('#msgModal').html("Repasse suas informações básicas");
+    		else if ( id == 1){        			
+    			$('#msgModal').html("<spring:message code='msg.aba.informacoes.basicas.usuario'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.cad.informacoes.basicas'/>");
     		}
-    		else if ( id == 2){
-    			$('#msgModal').html("Informe o seu password");
+    		else if ( id == 2){  
+    			$('#msgModal').html("<spring:message code='msg.aba.informacoes.password.usuario'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.password'/>");
     		}
     		else if ( id == 3){
-    			$('#msgModal').html("Repasse informações de sua localização");
+    			$('#msgModal').html("<spring:message code='msg.aba.informacoes.localizacao.usuario'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.localizacao.usuario'/>");
     		}
     		else if ( id == 4){
-    			$('#msgModal').html("Repasse suas informações de contato");
+    			$('#msgModal').html("<spring:message code='msg.aba.informacoes.localizacao.contato'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.contato.pessoal'/>");
     		}
     		else if ( id == 5){
-    			$('#msgModal').html("Selecione suas permissões sobre sua conta");
+    			$('#msgModal').html("<spring:message code='msg.aba.informacoes.permissoes.usuario'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.permissao.busca.usuario'/>");
     		}
     		
     		$("#idModalItem").modal("show");
@@ -154,9 +206,9 @@
     <body class="home">
     
 	<div class="all">
-		<div class="header">
+		<div class="header">   
 		    <div class="content">
-			<h1 class="logo">Busque um Lugar</h1>
+			<h1 class="logo"><spring:message code="lbl.title.busque.um.lugar"/></h1>
 		    </div>
 		</div>
     	</div>
@@ -174,22 +226,18 @@
                    <form:form id="usuarioForm" modelAttribute="usuarioForm" action="${urlUsuario}/avancarCadastro" class="form-horizontal mt-10" enctype="multipart/form-data">
                      	
                      <div class="row"> 	
-                     	<c:if test="${msgErro != null }">
-		               		 <div class="panel panel-danger">
-		                          <div class="panel-heading">
-		                              <h3 class="panel-title"><spring:message code="msg.cadastro.usuario.erro"/></h3>
-		                          </div><!-- /.panel-heading -->		                          
-		                      </div><!-- /.panel -->                      
-		                </c:if>	
-		                
-		                <c:if test="${msgSucesso != null }">
-			               		 <div class="panel panel-success">
-			                          <div class="panel-heading">
-			                              <h3 class="panel-title"><spring:message code="msg.cadastro.usuario.sucesso"/></h3>
-			                          </div><!-- /.panel-heading -->			                                                    
-			                      </div><!-- /.panel -->                      
-			                </c:if>	
-			                
+                     
+                     	 <c:if test="${msgErro != null }">
+		               		 <div class="alert alert-danger">
+		                            <strong><spring:message code="msg.cadastro.usuario.erro"/></strong> 
+		                      </div>         
+		                 </c:if>	
+		                 
+		                 <c:if test="${msgSucesso != null }">
+                    	 		<div class="alert alert-success">
+                                     <strong><spring:message code="msg.cadastro.usuario.sucesso"/></strong> 
+                                </div>	                     	 
+		                 </c:if> 
 		                
                      	<!--/ INICIO ABA FOTO PRINCIPAL IMOVEL -->                                 
          					<c:if test="${msgSucesso == null }"> 	          		
@@ -279,7 +327,7 @@
                                             </div><!-- /.form-group -->
                                             
                                             
-                                            <div class="form-group">
+                                            <div id="lblSexo" class="form-group">
                                                 <label for=sexo class="col-sm-3 control-label"><spring:message code="lbl.sexo"/></label>
                                                 <div class="col-sm-7">   
                                                 	<spring:message code="lbl.hint.usuario.sexo" var="hintSexo"/>                                                 
@@ -292,7 +340,7 @@
                                                 </div>
                                             </div><!-- /.form-group -->
                                             
-                                            <div class="form-group">
+                                            <div id="lblFaixaSalarial" class="form-group">
                                                 <label for=faixaSalarial class="col-sm-3 control-label"><spring:message code="lbl.faixa.salarial"/></label>
                                                 <div class="col-sm-7">
                                                 	<spring:message code="lbl.hint.usuario.faixa.salarial" var="hintFaixaSalarial"/>                                                    
@@ -307,11 +355,11 @@
 														<form:option value="7"><spring:message code="lbl.faixa.salarial.7"/></form:option>
 														<form:option value="8"><spring:message code="lbl.faixa.salarial.8"/></form:option>														
 													 </form:select>	
-													 <form:errors id="sexo" path="sexo" cssClass="errorEntrada"  />
+													 <form:errors id="faixaSalarial" path="faixaSalarial" cssClass="errorEntrada"  />
                                                 </div>
                                             </div><!-- /.form-group -->
                                             
-                                            <div class="form-group">
+                                            <div id="lblDataNascimento" class="form-group">
                                                 <label for=diaNascimento class="col-sm-3 control-label"><spring:message code="lbl.data.nascimento"/></label>
                                                 <div class="col-sm-7">
                                                 		<spring:message code="lbl.hint.usuario.data.nascimento" var="hintDataNascimento"/>

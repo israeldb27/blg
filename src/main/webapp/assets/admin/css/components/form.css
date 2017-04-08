@@ -67,19 +67,19 @@ form .form-group.has-feedback button.form-control-feedback:before {
   top: 8px;
 }
 form .form-group.has-primary .control-label {
-  color: #00b1e1;
+  color: #9d2428;
 }
 form .form-group.has-primary .form-control {
-  border-color: #00b1e1;
+  border-color: #9d2428;
 }
 form .form-group.has-primary .form-control:focus {
   border-color: #0089ae !important;
 }
 form .form-group.has-primary .form-control-feedback {
-  color: #00b1e1;
+  color: #9d2428;
 }
 form .form-group.has-primary .help-inline {
-  color: #00b1e1;
+  color: #9d2428;
 }
 form .form-group.has-info .control-label {
   color: #63d3e9;
@@ -97,19 +97,19 @@ form .form-group.has-info .help-inline {
   color: #63d3e9;
 }
 form .form-group.has-success .control-label {
-  color: #8cc152;
+  color: #000000;
 }
 form .form-group.has-success .form-control {
-  border-color: #8cc152;
+  border-color: #000000;
 }
 form .form-group.has-success .form-control:focus {
   border-color: #72a53b !important;
 }
 form .form-group.has-success .form-control-feedback {
-  color: #8cc152;
+  color: #000000;
 }
 form .form-group.has-success .help-inline {
-  color: #8cc152;
+  color: #000000;
 }
 form .form-group.has-warning .control-label {
   color: #f6bb42;
@@ -155,7 +155,7 @@ form .form-group.form-group-divider {
   margin-bottom: 0px;
 }
 form .form-group.form-group-divider .form-inner {
-  border-left: 5px solid #71a117;
+  border-left: 5px solid #000000;
   padding-left: 15px;
   padding-top: 15px;
   padding-bottom: 15px;
@@ -375,19 +375,19 @@ form .help-inline {
   opacity: .5;
 }
 .ckbox-primary input[type=checkbox]:checked + label::after {
-  border-color: #00b1e1;
-  background-color: #00b1e1;
+  border-color: #9d2428;
+  background-color: #9d2428;
 }
 .ckbox-primary input[type=checkbox][disabled]:checked + label::after {
-  border-color: #00b1e1;
+  border-color: #9d2428;
   opacity: .5;
 }
 .ckbox-success input[type=checkbox]:checked + label::after {
-  border-color: #8cc152;
-  background-color: #8cc152;
+  border-color: #000000;
+  background-color: #000000;
 }
 .ckbox-success input[type=checkbox][disabled]:checked + label::after {
-  border-color: #8cc152;
+  border-color: #000000;
   opacity: .5;
 }
 .ckbox-info input[type=checkbox]:checked + label::after {
@@ -439,19 +439,19 @@ form .help-inline {
   opacity: .5;
 }
 .rdio-primary input[type=radio]:checked + label::after {
-  border-color: #00b1e1;
-  background-color: #00b1e1;
+  border-color: #9d2428;
+  background-color: #9d2428;
 }
 .rdio-primary input[type=radio][disabled]:checked + label::after {
-  border-color: #00b1e1;
+  border-color: #9d2428;
   opacity: .5;
 }
 .rdio-success input[type=radio]:checked + label::after {
-  border-color: #8cc152;
-  background-color: #8cc152;
+  border-color: #000000;
+  background-color: #000000;
 }
 .rdio-success input[type=radio][disabled]:checked + label::after {
-  border-color: #8cc152;
+  border-color: #000000;
   opacity: .5;
 }
 .rdio-info input[type=radio]:checked + label::after {

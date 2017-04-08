@@ -263,12 +263,13 @@ public class ImovelController {
 				
 	}
 	
-	@RequestMapping(value = "/excluirFotoGaleria/{idImovelFoto}/{idImovel}")	
-	public String excluirFotoGaleria(@PathVariable("idImovelFoto") Long idImovelFoto,
-									 @PathVariable("idImovel") Long idImovel,
+	@RequestMapping(value = "/excluirFotoGaleria")	
+	public String excluirFotoGaleria(HttpServletRequest request,
 									 ModelMap map){
 		
 		try {
+			Long idImovelFoto = Long.valueOf(request.getParameter("idFotoImovel").toString());
+			Long idImovel = Long.valueOf(request.getParameter("idImovel").toString());
 			imovelfotosService.excluirFoto(idImovelFoto);
 			ImovelForm form = imovelService.carregaGaleriaFotosImovel(idImovel, true);
 			map.addAttribute("imovelForm", form );

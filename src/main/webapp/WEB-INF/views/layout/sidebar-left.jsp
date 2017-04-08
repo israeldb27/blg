@@ -51,7 +51,7 @@
                         </a>
                         <div class="media-body">
                             <h4 class="media-heading">
-								<span><a href="${urlUsuario}/detalhesUsuario/${usuario.id}"> ${usuario.nome} </a> </span>
+								<span><a href="${urlUsuario}/detalhesUsuario/${usuario.id}"><strong> ${usuario.nome} </strong></a> </span>
 							</h4>    
 							<small>${usuario.perfilFmt} </small>
                         </div>

@@ -19,20 +19,20 @@
   color: #eeeeee;
 }
 .badge-primary {
-  background-color: #00b1e1;
+  background-color: #9d2428;
 }
 .badge-primary.badge-stroke {
   background-color: transparent;
-  border: 1px solid #00b1e1;
-  color: #00b1e1;
+  border: 1px solid #9d2428;
+  color: #9d2428;
 }
 .badge-success {
-  background-color: #8cc152;
+  background-color: #000000;
 }
 .badge-success.badge-stroke {
   background-color: transparent;
-  border: 1px solid #8cc152;
-  color: #8cc152;
+  border: 1px solid #000000;
+  color: #000000;
 }
 .badge-info {
   background-color: #63d3e9;

@@ -28,7 +28,7 @@ var BlankonVectorMap = function () {
                     enableZoom: true,
                     showTooltip: true,
                     values: sample_data,
-                    scaleColors: ['#03A9F4', '#8CC152'],
+                    scaleColors: ['#03A9F4', '#000000'],
                     normalizeFunction: 'polynomial'
                 });
             }
@@ -135,7 +135,7 @@ var BlankonVectorMap = function () {
                     enableZoom: true,
                     showTooltip: true,
                     values: sample_data,
-                    scaleColors: ['#03A9F4', '#8CC152'],
+                    scaleColors: ['#03A9F4', '#000000'],
                     normalizeFunction: 'polynomial'
                 });
                 $('#europe-map').vectorMap({

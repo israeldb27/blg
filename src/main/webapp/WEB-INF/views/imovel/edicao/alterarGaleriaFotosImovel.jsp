@@ -97,7 +97,8 @@ function preparaInclusaoFoto(){
                    
                    <div class="row">
                    		<div class="col-md-12"> 
-	                   		<c:choose>
+                   		    <div class="panel-body">
+                   		    	<c:choose>
 	                        		<c:when test="${ empty imovelForm.listaImovelFotos }">
 	                        			<div class="callout callout-warning">
 		                                    <strong><spring:message code="lbl.rel.nenhum.registro"/></strong>                                    
@@ -132,6 +133,8 @@ function preparaInclusaoFoto(){
 	                        		</c:when>
 	                        		
 	                        </c:choose>
+                   		    </div>
+	                   		
                         </div>                   
                    </div>
                    

@@ -146,7 +146,7 @@
 						                                    <p class="inner-all no-margin">
 						                                    	<c:if test="${((notificacao.acao == 'intermediacao') || (notificacao.acao == 'parceria')) }">
 						                                    		<a href="${urlUsuario}/detalhesUsuario/${notificacao.imovel.id}">
-						                                    			<img src="${context}/${notificacao.imagemArquivo}" style="width: 120px; height: 100px; "  class="media-object img-circle img-bordered-success" alt="..."/>
+						                                    			<img src="${context}/${notificacao.imagemArquivo}" style="width: 120px; height: 100px; " class="media-object img-circle img-bordered-success" alt="..."/>
 						                                    		</a>	
 						                                    	</c:if>						                                    					                                        
 						                                    </p>

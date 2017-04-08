@@ -6,7 +6,6 @@
 
 <c:set var="context" value="<%= request.getContextPath()%>"/>
 
-
 <c:set var="contextURL" value="<%= request.getRequestURL().toString()%>"/>
 
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
@@ -684,7 +683,7 @@ function prepararModalGaleriaFotos(){
                                 </div>
                                 <div class="panel-body">
                                 	<c:choose>
-                                		<c:when test="${  empty imovelForm.listaPropostas }">
+                                		<c:when test="${empty imovelForm.listaPropostas }">
                                 			<c:choose>	
                                 				<c:when test="${imovelForm.usuarioDonoImovel.id == usuario.id}">
                                 					<div class="callout callout-warning">
@@ -716,10 +715,10 @@ function prepararModalGaleriaFotos(){
 		                                         <tbody>
 		                                            <c:forEach var="imovel" items="${imovelForm.listaPropostas}">
 		                                               <tr>
-		                                                  <td><small><fmt:formatDate value='${imovel.dataCadastro}' pattern='dd/MM/yyyy'/></small></td>
-		                                                  <td ><small>R$<fmt:formatNumber value="${imovel.valorProposta}" pattern="#,##0.00;-0"/></small></td>
-		                                                  <td><small>${imovel.observacao}</small></td>
-		                                                  <td class="text-center">
+		                                                  <td style="font-size: 13px;"><small><fmt:formatDate value='${imovel.dataCadastro}' pattern='dd/MM/yyyy'/></small></td>
+		                                                  <td style="font-size: 13px;"><small>R$<fmt:formatNumber value="${imovel.valorProposta}" pattern="#,##0.00;-0"/></small></td>
+		                                                  <td style="font-size: 13px;"><small>${imovel.observacao}</small></td>
+		                                                  <td class="text-center" >
 		                                                     <a href="#" onClick="prepararModalConfirmaExclusaoProposta(${imovel.id});" data-toggle="tooltip" data-placement="top" title="" data-original-title="delete"><i class="fa fa-trash-o"></i></a>
 		                                                  </td>
 		                                               </tr>
@@ -795,8 +794,8 @@ function prepararModalGaleriaFotos(){
 				
 				                                         <tbody>		                                            
 				                                               <tr>
-				                                                  <td ><small><fmt:formatDate value='${imovelForm.intermediacaoEnviada.dataSolicitacao}' pattern='dd/MM/yyyy'/></small></td>
-				                                                  <td><small>${imovelForm.intermediacaoEnviada.descricaoCompartilhamento} </small> </td>
+				                                                  <td style="font-size: 13px;"><small><fmt:formatDate value='${imovelForm.intermediacaoEnviada.dataSolicitacao}' pattern='dd/MM/yyyy'/></small></td>
+				                                                  <td style="font-size: 13px;"><small>${imovelForm.intermediacaoEnviada.descricaoCompartilhamento} </small> </td>
 				                                               </tr>		                                            
 				                                         </tbody>
 				                                      </table>
@@ -882,8 +881,8 @@ function prepararModalGaleriaFotos(){
 				
 				                                         <tbody>		                                            
 				                                               <tr>
-				                                                  <td ><small><fmt:formatDate value='${imovelForm.parceriaEnviada.dataSolicitacao}' pattern='dd/MM/yyyy'/></small></td>
-				                                                  <td><small>${imovelForm.parceriaEnviada.descricaoCompartilhamento} </small> </td>
+				                                                  <td style="font-size: 13px;"><small><fmt:formatDate value='${imovelForm.parceriaEnviada.dataSolicitacao}' pattern='dd/MM/yyyy'/></small></td>
+				                                                  <td style="font-size: 13px;"><small>${imovelForm.parceriaEnviada.descricaoCompartilhamento} </small> </td>
 				                                               </tr>		                                            
 				                                         </tbody>
 				                                      </table>
@@ -947,7 +946,7 @@ function prepararModalGaleriaFotos(){
 																	<img src="data:image/jpeg;base64,${imovelVisita.usuario.imagemArquivo}" style="width: 60px; height: 50px; " />	                				
 																</a> 
 														  </td>	
-		                                                  <td><small><a href="${urlUsuario}/detalhesUsuario/${imovelVisita.id}">
+		                                                  <td style="font-size: 13px;"><small><a href="${urlUsuario}/detalhesUsuario/${imovelVisita.id}">
 																		${imovelVisita.nomeVisitante}	                				
 																	</a>  
 															  </small>
@@ -1006,12 +1005,12 @@ function prepararModalGaleriaFotos(){
 																	<img src="data:image/jpeg;base64,${imovelFavorito.usuario.imagemArquivo}" style="width: 60px; height: 50px; " />	                				
 																</a> 
 														  </td>	
-		                                                  <td><small><a href="${urlUsuario}/detalhesUsuario/${imovelFavorito.usuario.id}">
+		                                                  <td style="font-size: 13px;"><small><a href="${urlUsuario}/detalhesUsuario/${imovelFavorito.usuario.id}">
 																		${imovelFavorito.usuario.nome}	                				
 																	</a> 
 															  </small>
 														  </td>
-		                                                  <td ><small><fmt:formatDate value='${imovelFavorito.dataInteresse}' pattern='dd/MM/yyyy'/></small></td>
+		                                                  <td style="font-size: 13px;"><small><fmt:formatDate value='${imovelFavorito.dataInteresse}' pattern='dd/MM/yyyy'/></small></td>
 		                                               </tr>
 		                                            </c:forEach>
 		                                         </tbody>

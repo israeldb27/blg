@@ -40,7 +40,7 @@
   font-weight: 300;
 }
 .resume-category .resume-category-title .icon-plus {
-  background-color: #8cc152;
+  background-color: #000000;
 }
 .resume-category .resume-post {
   padding: 22px 0 19px;
@@ -49,7 +49,7 @@
 .resume-category .resume-post .resume-post-body {
   border-width: 0 0 0 2px;
   border-style: solid;
-  border-color: #8cc152;
+  border-color: #000000;
   padding-left: 15px;
 }
 .resume-category .resume-post .resume-post-body .resume-post-date {
@@ -122,7 +122,7 @@
   width: 0%;
   left: 0px;
   top: 0px;
-  background: #8cc152;
+  background: #000000;
 }
 .resume-sidebar .skill-row .skill-data .skill-percent {
   color: #848484;

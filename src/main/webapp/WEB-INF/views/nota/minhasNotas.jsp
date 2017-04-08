@@ -35,7 +35,7 @@
     		 });
 			
 			$('#opcaoPaginacao').change(function () {				
-				$("#propostasRecebidasPageForm").submit();      
+				$("#notaOrdenacaoPageForm").submit();      
 			 });
 		});
 		
@@ -105,16 +105,18 @@
 											</form:select>
 										</form:form>
 									</div><!-- /.pull-right -->
-
-									<div class="pull-right" style="padding-right:20px;">
-										<form:form method="POST" id="notaOrdenacaoPageForm" modelAttribute="notaForm" action="${urlNota}/filtrarMinhasNotas" >
-											<spring:message code="lbl.hint.opcao.paginacao" var="hintPaginacao"/>
-											<form:select id="opcaoPaginacao" path="opcaoPaginacao" class="form-control" title="${hintPaginacao}">
-												<form:option value="" disabled="true"><spring:message code="lbl.opcao.paginacao"/></form:option>
-												<form:options items="${imovelPropostaForm.listaPaginas}" itemValue="key" itemLabel="label"/>
-											</form:select>
-										</form:form>
-									</div><!-- /.pull-left -->
+									
+									<c:if test="${notaForm.isVisible() }">
+										<div class="pull-right" style="padding-right:20px;">
+											<form:form method="POST" id="notaOrdenacaoPageForm" modelAttribute="notaForm" action="${urlNota}/filtrarMinhasNotas" >
+												<spring:message code="lbl.hint.opcao.paginacao" var="hintPaginacao"/>
+												<form:select id="opcaoPaginacao" path="opcaoPaginacao" class="form-control" title="${hintPaginacao}">
+													<form:option value="" disabled="true"><spring:message code="lbl.opcao.paginacao"/></form:option>
+													<form:options items="${notaForm.listaPaginas}" itemValue="key" itemLabel="label"/>
+												</form:select>
+											</form:form>
+										</div><!-- /.pull-right -->
+									</c:if>
 
 									<div class="clearfix"></div>
 								</div><!-- /.panel-heading -->
@@ -143,82 +145,42 @@
                                 					<c:forEach var="nota" items="${listaMinhasNotas}"> 
                                 						<div class="timeline-item last-timeline">
 															<div class="timeline-badge">
-																  <c:choose>
-						                                         		<c:when test="${((nota.acao == 'R') || (nota.acao == 'U') || (nota.acao == 'E'))}">
-						                                         			<img class="timeline-badge-userpic" src="data:image/jpeg;base64,${nota.usuario.imagemArquivo}" style="width: 80px; height: 90px; " >
-						                                         		</c:when>
-						                                         		
-						                                         		<c:when test="${((nota.acao == 'I') || (nota.acao == 'P')) }">					                                         			
-						                                         			<img  class="timeline-badge-userpic" src="data:image/jpeg;base64,${nota.imovel.imagemArquivo}" style="width: 80px; height: 90px; " >
-						                                         		</c:when>
-						                                         	</c:choose>	
+																  <img class="timeline-badge-userpic" src="data:image/jpeg;base64,${nota.usuario.imagemArquivo}" style="width: 80px; height: 90px; " >
 															</div>
 															<div class="timeline-body">
 																<div class="timeline-body-arrow">
 																</div>
 																
-																<c:choose>
-																	    <c:when test="${nota.acao == 'P'}">
-																	    	<div class="timeline-body-head">
-																				<div class="timeline-body-head-caption">
-																					<a href="#" onClick="carregaDetalhesImovel(${nota.imovel.id})" class="timeline-body-title font-blue-madison"><spring:message code="lbl.nota.parceria"/></a>
-																					<span class="timeline-body-time font-grey-cascade"> </span>
-																				</div>
-																			</div>
-																			<div class="timeline-body-content">
-																				<p>
-																					<small class="block text-muted"><label><strong style="font-size: 13px;">  <spring:message code="lbl.descricao.nota"/>: </strong></label>  ${nota.descricao} <a href="${urlImovel}/detalhesImovel/${nota.imovel.id}" ><strong>${nota.imovel.titulo} </strong></a></small>
-																				</p>
-																			</div>
-																	    													    			    	
-																	    </c:when>
-																	    
-																	    <c:when test="${nota.acao == 'R'}">
-																	    	
-																	    	<div class="timeline-body-head">
-																				<div class="timeline-body-head-caption">
-																					<a href="#" class="timeline-body-title font-blue-madison"><spring:message code="lbl.nota.preferencia"/></a>
-																					<span class="timeline-body-time font-grey-cascade"> </span>
-																				</div>
-																			</div>
-																			<div class="timeline-body-content">
-																				<p>
-																					<small class="block text-muted"><label><strong style="font-size: 13px;">  <spring:message code="lbl.descricao.nota"/>: </strong> </label>  ${nota.descricao}</small>
-																				</p>
-																			</div>																	    	
-																	    	
-																	    </c:when>
-																	    
-																	    <c:when test="${((nota.acao == 'U') || (nota.acao == 'E'))}">																	    	
-																	    	<div class="timeline-body-head">
-																				<div class="timeline-body-head-caption">
-																					<a href="${urlUsuario}/detalhesUsuario/${usuario.id}"  class="timeline-body-title font-blue-madison"><spring:message code="lbl.nota.info.usuario"/></a>
-																					<span class="timeline-body-time font-grey-cascade"> </span>
-																				</div>
-																			</div>
-																			<div class="timeline-body-content">
-																				<p>
-																					<small class="block text-muted"><label><strong style="font-size: 13px;">  <spring:message code="lbl.descricao.nota"/>: </strong></label>  ${nota.descricao}</small>
-																				</p>																				
-																			</div>
-																	    </c:when>
-																	    
-																	    <c:when test="${nota.acao == 'I'}">
-																	    	
-																	    	<div class="timeline-body-head">
-																				<div class="timeline-body-head-caption">
-																					<a href="#" onClick="carregaDetalhesImovel(${nota.imovel.id})" class="timeline-body-title font-blue-madison"><spring:message code="lbl.nota.imovel"/></a>
-																					<span class="timeline-body-time font-grey-cascade"> </span>
-																				</div>
-																			</div>
-																			<div class="timeline-body-content">
-																				<p>
-																					<small class="block text-muted"><label><strong style="font-size: 13px;">  <spring:message code="lbl.descricao.nota"/>: </strong></label>  ${nota.descricao} <a href="${urlImovel}/detalhesImovel/${nota.imovel.id}" ><strong>${nota.imovel.titulo} </strong></a></small>
-																				</p>
-																			</div>	
-																	    </c:when>															    
-															  </c:choose>  
-															     <em class="text-xs text-muted"><strong style="font-size: 13px;"> <spring:message code="lbl.data.nota"/>: </strong> <span class="text-danger"><fmt:formatDate value='${nota.dataNota}' pattern='dd/MM/yyyy'/></span></em>
+																<div class="timeline-body-head">
+																	<div class="timeline-body-head-caption">
+																		<a href="${urlUsuario}/detalhesUsuario/${usuario.id}"  class="timeline-body-title font-blue-madison"> ${nota.usuario.nome}</a>
+																		<span class="timeline-body-time font-grey-cascade"> </span>
+																	</div>
+																</div>
+																<div class="timeline-body-content">
+																	<p>
+																		<c:choose>
+																			<c:when test="${nota.acao == 'E'}">
+																				<small class="block text-muted"> ${nota.descricao}</small>
+																			</c:when>
+																			
+																			<c:when test="${nota.acao == 'I'}">
+																				<small class="block text-muted"> <spring:message code="lbl.minha.nota.informacoes.imovel.p1"/> <a href="${urlImovel}/detalhesImovel/${nota.imovel.id}" ><strong>${nota.imovel.titulo} </strong></a> <spring:message code="lbl.minha.nota.informacoes.imovel.p2"/> </small>
+																			</c:when>
+																			
+																			<c:when test="${nota.acao == 'U'}">
+																				<small class="block text-muted"> <spring:message code="lbl.minha.nota.informacoes.pessoais"/> </small>
+																			</c:when>
+																			
+																			<c:when test="${nota.acao == 'R'}">
+																				<small class="block text-muted"> <spring:message code="lbl.minha.nota.add.preferencia.imovel"/> </small>
+																			</c:when>																			
+																		</c:choose>																		
+																	</p>																				
+																</div>	
+																 </br>																			  
+															     <em class="text-xs text-muted"><spring:message code="lbl.data.nota"/>: <span class="text-danger"><fmt:formatDate value='${nota.dataNota}' pattern='dd/MM/yyyy'/></span></em>
+															
 															</div>
 														</div>
                                 					</c:forEach>								

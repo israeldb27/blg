@@ -115,8 +115,8 @@ var BlankonDashboardEcommerce = function () {
                     xkey: 'y',
                     ykeys: ['a', 'b', 'c'],
                     labels: ['Apple', 'Android', 'Windows Phone'],
-                    lineColors: ['#8CC152', '#F6BB42', '#906094'],
-                    pointFillColors: ['#8CC152', '#F6BB42', '#906094'],
+                    lineColors: ['#000000', '#F6BB42', '#906094'],
+                    pointFillColors: ['#000000', '#F6BB42', '#906094'],
                     pointStrokeColors: ['#FFFFFF'],
                     lineWidth: '5px',
                     hideHover: true,
@@ -135,7 +135,7 @@ var BlankonDashboardEcommerce = function () {
         marketStatus: function () {
             var piedata = [
                 { label: "Apple", data: [[1,40]], color: '#906094'},
-                { label: "Android", data: [[1,20]], color: '#8CC152'},
+                { label: "Android", data: [[1,20]], color: '#000000'},
                 { label: "Windows Phone", data: [[1,50]], color: '#F6BB42'}
             ];
 

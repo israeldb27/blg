@@ -236,17 +236,17 @@ function indicarImovel(idUsuario, idImovel) {
 					                                    </div>
 					                                    <div class="clearfix"></div>
 					                                </div><!-- /.panel-heading -->
-					                                <div class="panel-body no-padding">		                                
+					                                <div class="panel-body">		                                
 					                                	
 					                                			<div class="table-responsive" style="margin-top: -1px;">
-							                                        <table class="table table-striped table-info">
-							                                            <thead>		                                            
-							                                            	<tr>
-							                                            		<th class="text-center"></th>		                                                
-								                                            	<th class="text-center"></th>
-								                                                <th class="text-center"><spring:message code="lbl.nome.usuario.indicado"/></th>
-								                                                <th class="text-center"><spring:message code="lbl.perfil.usuario.indicado"/></th>
-								                                                <th class="text-center"></th>			                                                
+							                                        <table class="table table-bordred table-striped" >
+							                                            <thead >		                                            
+							                                            	<tr >
+							                                            		<th class="text-center" ></th>		                                                
+								                                            	<th class="text-center" ></th>
+								                                                <th class="text-center" ><strong><spring:message code="lbl.nome.usuario.indicado"/></strong></th>
+								                                                <th class="text-center" ><strong><spring:message code="lbl.perfil.usuario.indicado"/></strong></th>
+								                                                <th class="text-center" "></th>			                                                
 								                                            </tr>	
 							                                            </thead>
 							                                            <tbody>

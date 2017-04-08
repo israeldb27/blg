@@ -93,23 +93,29 @@ function enviarConvite(id) {
   
 function mostrarModal(id){
 	
-	if (id == 0){
-		$('#msgModal').html("Escolha uma foto de exibição para a sua conta");
+	if (id == 0){    			
+		$('#msgModalFunc').html("<spring:message code='msg.aba.foto.principal.usuario'/>");
+		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.aba.alterar.foto.usuario.principal'/>");
 	}
-	else if ( id == 1){
-		$('#msgModal').html("Repasse suas informações básicas");
+	else if ( id == 1){        			
+		$('#msgModalFunc').html("<spring:message code='msg.aba.informacoes.basicas.usuario'/>");
+		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.cad.informacoes.basicas'/>");
 	}
-	else if ( id == 2){
-		$('#msgModal').html("Informe o seu password");
+	else if ( id == 2){  
+		$('#msgModalFunc').html("<spring:message code='msg.aba.informacoes.password.usuario'/>");
+		$('#msgModalFuncionalidade').html("<spring:message code='lbl.password'/>");
 	}
 	else if ( id == 3){
-		$('#msgModal').html("Repasse informações de sua localização");
+		$('#msgModalFunc').html("<spring:message code='msg.aba.informacoes.localizacao.usuario'/>");
+		$('#msgModalFuncionalidade').html("<spring:message code='lbl.localizacao.usuario'/>");
 	}
 	else if ( id == 4){
-		$('#msgModal').html("Repasse suas informações de contato");
+		$('#msgModalFunc').html("<spring:message code='msg.aba.informacoes.localizacao.contato'/>");
+		$('#msgModalFuncionalidade').html("<spring:message code='lbl.contato.pessoal'/>");
 	}
 	else if ( id == 5){
-		$('#msgModal').html("Selecione suas permissões sobre sua conta");
+		$('#msgModalFunc').html("<spring:message code='msg.aba.informacoes.permissoes.usuario'/>");
+		$('#msgModalFuncionalidade').html("<spring:message code='lbl.permissao.busca.usuario'/>");
 	}
 	
 	$("#idModalItem").modal("show");
@@ -136,12 +142,7 @@ function mostrarModal(id){
 
             	 <!-- Start header content -->
                 <div class="header-content">
-                    <h2><i class="fa fa-pencil"></i><spring:message code="lbl.title.link.editar.usuario"/> </h2>                                                                        
-					
-					<!-- Start header modal Ajuda - funcionalidade -->
-						<c:import url="../ajuda/headerMenuModal.jsp"></c:import>																				
-					<!-- End header  modal Ajuda - funcionalidade -->
-					
+                    <h2><i class="fa fa-pencil"></i><spring:message code="lbl.title.link.editar.usuario"/> </h2>  
                 </div><!-- /.header-content -->
                 
                 <c:if test="${msgSucesso != null }">
@@ -170,7 +171,7 @@ function mostrarModal(id){
                                         <h3 class="panel-title"><spring:message code="lbl.title.aba.alterar.foto.perfil.atual"/> <code></code></h3>
                                     </div>
                                     <div class="pull-right">
-                                        <button class="btn btn-sm" data-action="collapse" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Collapse"><i class="fa fa-angle-up"></i></button>
+                                        <a href="#a" class="btn btn-sm"  onClick="mostrarModal(0);"><i class="fa fa-question" ></i></a> 
                                     </div>
                                     <div class="clearfix"></div>
                                 </div><!-- /.panel-heading -->
@@ -180,11 +181,11 @@ function mostrarModal(id){
                                               <div class="col-sm-12" align="center">
                                                   <ul class="list-unstyled">
 				                                        <li class="text-center">	
-				                                            <a href="#aboutModal" data-toggle="modal" data-target="#idModalItem"> <img class="img-circle img-bordered-primary" src="data:image/jpeg;base64,${usuarioForm.imagemArquivo}" style="width: 200px; height: 200px; " alt="Foto Principal"> </a>
+				                                            <a href="#aboutModal" data-toggle="modal" data-target="#idModalFoto"> <img class="img-circle img-bordered-primary" src="data:image/jpeg;base64,${usuarioForm.imagemArquivo}" style="width: 200px; height: 200px; " alt="Foto Principal"> </a>
 				                                        </li>
 				                                        <li class="text-center">
 				                                        	<br>
-				                                        	<em>click my face for more</em> 
+				                                        	<em><spring:message code="lbl.clique.editar.foto"/></em> 
 				                                        </li>
 				                                   </ul>     	
                                               </div>
@@ -514,7 +515,7 @@ function mostrarModal(id){
 				<!-- End content  modal Ajuda - funcionalidade -->
 				
 			 <!-- Start optional size modal element - item 1 -->
-            <div id="idModalItem" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+            <div id="idModalFoto" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                       <form:form id="usuarioForm" modelAttribute="usuarioForm" action="${urlUsuario}/editarFotoPrincipal" class="form-horizontal mt-5" enctype="multipart/form-data" >
@@ -548,24 +549,23 @@ function mostrarModal(id){
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
 				
-			
-			<!-- Start optional size modal element - item 1 -->
+			    <!-- Start optional size modal element - item 1 -->
             <div id="idModalItem" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title"><div id="msgModal"  ></h4>
-                        </div>
-                        <div class="modal-body">
-                            <p><div id="msgModalComparativo" cssClass="errorEntrada"  ></div>   </p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.btn.fechar.geral"/></button>                                                        
-                        </div>
-						
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
+                <div class="modal-dialog">
+				      <div class="modal-content">
+				        <div class="modal-header">
+				          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				          <h4 class="modal-title"><div id="msgModalFuncionalidade" > </div> </h4>
+				        </div>
+				        <div class="modal-body">  
+				       	   <strong> <spring:message code="lbl.descricao.geral"/>:  </strong> <div id="msgModalFunc" > </div>
+				        </div>
+				        <div class="modal-footer">			          
+	                      <button type="button" class="btn btn-primary" data-dismiss="modal"><spring:message code="lbl.btn.fechar.geral"/></button>
+				        </div>
+				      </div>
+				    </div>
+				</div>
             </div><!-- /.modal -->
 
         </section><!-- /#wrapper -->

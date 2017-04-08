@@ -238,8 +238,8 @@
   background-color: #f3f3f4;
 }
 .bg-primary {
-  background-color: #00b1e1 !important;
-  border: 1px solid #00b1e1;
+  background-color: #9d2428 !important;
+  border: 1px solid #9d2428;
   color: white;
 }
 .bg-primary a,
@@ -256,8 +256,8 @@
   background-color: #0089ae;
 }
 .bg-success {
-  background-color: #8cc152 !important;
-  border: 1px solid #8cc152;
+  background-color: #000000 !important;
+  border: 1px solid #000000;
   color: white;
 }
 .bg-success a,
@@ -511,10 +511,10 @@
   color: #eeeeee !important;
 }
 .fg-primary {
-  color: #00b1e1 !important;
+  color: #9d2428 !important;
 }
 .fg-success {
-  color: #8cc152 !important;
+  color: #000000 !important;
 }
 .fg-info {
   color: #63d3e9 !important;

@@ -132,7 +132,7 @@ var BlankonDashboardProjects = function () {
                     xkey: 'y',
                     ykeys: ['a', 'b'],
                     labels: ['Work Done', 'Work Times'],
-                    lineColors: ['#8CC152', '#00B1E1'],
+                    lineColors: ['#000000', '#00B1E1'],
                     lineWidth: '2px',
                     hideHover: true,
                     resize: true

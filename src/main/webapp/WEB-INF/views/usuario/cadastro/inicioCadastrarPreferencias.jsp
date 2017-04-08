@@ -140,6 +140,7 @@ function direcionarMain() {
 														<form:option value="-1" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 														<form:options items="${preferenciaLocalidadeForm.listaEstados}" itemValue="key" itemLabel="label"/>
 												    </form:select>
+												    <form:errors id="idEstado" path="idEstado" cssClass="errorEntrada"  />
                                                   </div>
                                                    
                                                   <div class="col-md-3">
@@ -176,6 +177,7 @@ function direcionarMain() {
 															<form:option value="-1" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 															<form:options items="${preferenciaLocalidadeForm.listaCidades}" itemValue="key" itemLabel="label"/>
 													    </form:select>
+													    <form:errors id="idCidade" path="idCidade" cssClass="errorEntrada"  />
                                                     </div>
                                                     
                                                     <div class="col-md-3">
@@ -204,6 +206,7 @@ function direcionarMain() {
 																<form:option value="-1" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 																<form:options items="${preferenciaLocalidadeForm.listaBairros}" itemValue="key" itemLabel="label"/>
 														 </form:select>
+														 <form:errors id="idBairro" path="idBairro" cssClass="errorEntrada"  />
                                                     </div>
                                                     
                                                     <div class="col-md-3">
@@ -213,6 +216,7 @@ function direcionarMain() {
 											                    	<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 											                    	<form:options items="${listaStatusImovel}" itemValue="identificador" itemLabel="rotulo" />								                    	   
 											                  </form:select>
+											                  <form:errors id="perfilImovel" path="perfilImovel" cssClass="errorEntrada"  />
                                                      </div>
                                                      
                                                      <div class="col-md-3">
@@ -264,7 +268,7 @@ function direcionarMain() {
                                 </div><!-- /.panel-heading -->
                                 <div class="panel-body no-padding">
                                     <div class="table-responsive" style="margin-top: -1px;">
-                                        <table class="table table-striped table-primary">
+                                        <table class="table table-striped">
                                             <thead>
                                             <tr>
                                                 <th class="text-center"><spring:message code="lbl.tipo.imovel"/></th>

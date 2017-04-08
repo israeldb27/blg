@@ -217,7 +217,7 @@ function desmarcarCheck(id) {
 		                                            <br>			
 		                                            	  <spring:message code="lbl.hint.aplicar.filtro" var="hintBtnFiltro"/>									  
 														  <div class="pull-right">
-															<button type="submit" class="btn btn-sm btn-primary btn-lg btn-expand" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
+															<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
 														  </div><!-- /.pull-right --> 
 		                                            <br>		                                        
 		                                    </div><!-- /.panel -->
@@ -252,7 +252,7 @@ function desmarcarCheck(id) {
 									             <br>  
 										      
 								             	  <div class="pull-right">
-														<button type="submit" class="btn btn-sm btn-primary btn-lg btn-expand" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
+														<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
 												  </div><!-- /.pull-right -->            												   
 													
 		                                    </div><!-- /.panel-body -->
@@ -273,7 +273,7 @@ function desmarcarCheck(id) {
 			                                	  
 			                                      <br>
 								             	  <div class="pull-right">
-														<button type="submit" class="btn btn-sm btn-primary btn-lg btn-expand" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
+														<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
 													  </div><!-- /.pull-right -->            												   
 													<br>		
 		                                	 </div> 	
@@ -335,7 +335,7 @@ function desmarcarCheck(id) {
 									                </form:select>														
 											  <br> 
 											  <div class="pull-right">
-												<button type="submit" class="btn btn-sm btn-primary btn-lg btn-expand" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
+												<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
 											  </div><!-- /.pull-right -->            												   
 											  <br>
 		                                    </div>
@@ -361,7 +361,7 @@ function desmarcarCheck(id) {
 	                                <div class="pull-right" >	                                
 	                                		<spring:message code="lbl.hint.tipo.agrupar" var="hintAgrupar"/>
 	                                       <form:form method="POST" id="modoVisualizaIndicadosForm" modelAttribute="imovelIndicadoForm" action="${urlImovelIndicado}/modoVisualizar" >				                           
-				                                   <form:select id="opcaoVisualizacao" path="opcaoVisualizacao"class="form-control" title="${hintAgrupar}">
+				                                   <form:select id="opcaoVisualizacao" path="opcaoVisualizacao" class="form-control" title="${hintAgrupar}">
 													   <form:option value="" disabled="true"><spring:message code="lbl.agrupar.por"/></form:option>            				                        
 													   <form:option value="agruparUsuarios" ><spring:message code="lbl.agrupar.usuarios"/></form:option>
 													   <form:option value="todos" ><spring:message code="lbl.agrupar.todos"/></form:option> 
@@ -410,8 +410,8 @@ function desmarcarCheck(id) {
 	                                                </a>
 	                                            </div>
 	                                            <div class="media-body">
-	                                                <span class="label pull-right" style="background-color: #03A9F4; font-size: 12px">${imovelIndicado.imovel.tipoImovelFmt}</span>
-	                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlImovel}/detalhesImovel/${imovelIndicado.imovel.id}" style="color : #03A9F4;">${imovelIndicado.imovel.titulo}</a></h4>
+	                                                <span class="label pull-right" style="background-color: #9d2428; font-size: 12px">${imovelIndicado.imovel.tipoImovelFmt}</span>
+	                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlImovel}/detalhesImovel/${imovelIndicado.imovel.id}" style="color : #9d2428;">${imovelIndicado.imovel.titulo}</a></h4>
 	                                                <h5 class="media-heading" style="margin-bottom:12px;"><i class="fa fa-map-marker"></i> ${imovelIndicado.imovel.endereco} - ${imovelIndicado.imovel.bairro} - ${imovelIndicado.imovel.cidade} -${imovelIndicado.imovel.uf} </h5>
 	                                                
 	                                                <div class="col-md-5" >                                                    

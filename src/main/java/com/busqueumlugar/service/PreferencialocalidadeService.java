@@ -39,5 +39,7 @@ public interface PreferencialocalidadeService {
 	Preferencialocalidade recuperarPrefLocalidadeByUsuarioByIndexByAleatoriamente(int index);
 
 	String validarExclusaoPrefencia(UsuarioForm user);
+
+	boolean validarAdicionarPreferenciaCadUsuario(PreferencialocalidadeForm form, BindingResult result);
 	
 }
