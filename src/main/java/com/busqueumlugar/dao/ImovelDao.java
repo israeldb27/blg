@@ -58,4 +58,6 @@ public interface ImovelDao extends GenericDAO<Imovel, Long> {
 	List<Imovel> findImoveisByListaIdsByIndexByAceitaCompartilhado(Long idUsuario, int index, String aceitaCompartilhado);
 
 	List<Imovel> findImoveisByListaIdsByIndex(Long idUsuario, int index);
+
+	List<Imovel> findImoveisTimeLine(ImovelForm form, Long idUsuario);
 }

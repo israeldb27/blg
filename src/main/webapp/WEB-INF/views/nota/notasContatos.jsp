@@ -77,19 +77,20 @@
 											<form:form method="POST" id="notaFiltroForm" modelAttribute="notaForm" action="${urlNota}/filtrarNotasContatos" >
 												<form:select id="opcaoFiltro1" path="opcaoFiltro" class="form-control">
 													<form:option value="" disabled="true"><spring:message code="lbl.opcao.filtrar"/></form:option>
-													<form:option value="imovel" ><spring:message code="lbl.nota.filtro.imovel"/></form:option>
-													<form:option value="usuario" ><spring:message code="lbl.nota.filtro.usuario"/></form:option>
-													<form:option value="preferencia" ><spring:message code="lbl.nota.filtro.preferencia"/></form:option>
+													<form:option value="I" ><spring:message code="lbl.nota.filtro.imovel"/></form:option>
+													<form:option value="U" ><spring:message code="lbl.nota.filtro.usuario"/></form:option>	
+													<form:option value="E" ><spring:message code="lbl.nota.filtro.pessoal"/></form:option>
 													<c:choose>
 														<c:when test="${usuario.perfil != 'P'}">
-															<form:option value="parceria" ><spring:message code="lbl.nota.filtro.parceria"/></form:option>
+															<form:option value="P" ><spring:message code="lbl.nota.filtro.parceria"/></form:option>
 														</c:when>
 	
 														<c:when test="${usuario.perfil == 'P'}">
-															<form:option value="intermediacao" ><spring:message code="lbl.nota.filtro.intermediacoes"/></form:option>
+															<form:option value="R" ><spring:message code="lbl.nota.filtro.preferencia"/></form:option>
+															<form:option value="T" ><spring:message code="lbl.nota.filtro.intermediacoes"/></form:option>
 														</c:when>
 													</c:choose>
-													<form:option value="todos" ><spring:message code="lbl.nota.filtro.todos"/></form:option>
+													<form:option value="" ><spring:message code="lbl.nota.filtro.todos"/></form:option>
 												</form:select>
 											</form:form>
 										</div><!-- /.pull-left -->
@@ -147,23 +148,24 @@
 																	<p>
 																		<c:choose>
 																			<c:when test="${nota.acao == 'E'}">
-																				<small class="block text-muted"> ${nota.descricao}</small>
+																				<small class="block text-muted"> <font size="3px;"> ${nota.descricao}</font></small>
 																			</c:when>
 																			
 																			<c:when test="${nota.acao == 'I'}">
-																				<small class="block text-muted"> <spring:message code="lbl.notas.contato.informacoes.imovel.p1"/> <a href="${urlImovel}/detalhesImovel/${nota.imovel.id}" ><strong>${nota.imovel.titulo} </strong></a> <spring:message code="lbl.notas.contato.informacoes.imovel.p2"/> <a href="${urlUsuario}/detalhesUsuario/${usuario.id}" ><strong>${nota.usuario.nome} </strong> </small>
+																				<small class="block text-muted"> <font size="3px;"><spring:message code="lbl.notas.contato.informacoes.imovel.p1"/> <a href="${urlImovel}/detalhesImovel/${nota.imovel.id}" ><strong>${nota.imovel.titulo} </strong></a> <spring:message code="lbl.notas.contato.informacoes.imovel.p2"/> <a href="${urlUsuario}/detalhesUsuario/${usuario.id}" ><strong>${nota.usuario.nome} </strong> </font></small>
 																			</c:when>
 																			
 																			<c:when test="${nota.acao == 'U'}">
-																				<small class="block text-muted"> <spring:message code="lbl.notas.contato.informacoes.usuario.p1"/>  <a href="${urlUsuario}/detalhesUsuario/${usuario.id}" ><strong>${nota.usuario.nome} </strong> <spring:message code="lbl.notas.contato.informacoes.usuario.p2"/></small>
+																				<small class="block text-muted"> <font size="3px;"><spring:message code="lbl.notas.contato.informacoes.usuario.p1"/>  <a href="${urlUsuario}/detalhesUsuario/${usuario.id}" ><strong>${nota.usuario.nome} </strong> <spring:message code="lbl.notas.contato.informacoes.usuario.p2"/></font></small>
 																			</c:when>
 																			
 																			<c:when test="${nota.acao == 'R'}">
-																				<small class="block text-muted"> <spring:message code="lbl.notas.contato.add.preferencia.p1"/>  <a href="${urlUsuario}/detalhesUsuario/${usuario.id}" ><strong>${nota.usuario.nome} </strong> <spring:message code="lbl.notas.contato.add.preferencia.p2"/> </small>
+																				<small class="block text-muted"> <font size="3px;"><spring:message code="lbl.notas.contato.add.preferencia.p1"/>  <a href="${urlUsuario}/detalhesUsuario/${usuario.id}" ><strong>${nota.usuario.nome} </strong> <spring:message code="lbl.notas.contato.add.preferencia.p2"/></font> </small>
 																			</c:when>																			
 																		</c:choose>																		
 																	</p>																				
-																</div>																				  
+																</div>	
+																 </br>																				  
 															     <em class="text-xs text-muted"><spring:message code="lbl.data.nota"/>: <span class="text-danger"><fmt:formatDate value='${nota.dataNota}' pattern='dd/MM/yyyy'/></span></em>
 															
 															</div>

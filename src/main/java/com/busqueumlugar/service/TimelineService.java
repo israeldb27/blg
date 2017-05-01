@@ -16,5 +16,6 @@ public interface TimelineService {
 	String ID_INDEX_NOTA = "idIndexNota";
 	String REGRA_PREF_IMOVEL = "regraPrefImovel";
 	String ID_INDEX_SUGESTAO_USUARIO = "idIndexSugestaoUsuario";
-
+	
+	String PARAMETROS_TIMELINE = "parametrosTimeline";
 }

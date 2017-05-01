@@ -73,5 +73,7 @@ public interface ImovelvisualizadoService {
 	long checarQuantidadeVisitantesPorUsuarioPorStatus(Long idUsuario, String status);
 	
 	long checarQuantidadeImoveisVisualizadosPorImovel(Long idImovel, String statusLeitura);
+
+	List<Long> recuperarUsuariosVisitouImoveisSemelhantes(Long idUsuario, ImovelForm form);
 	
 }

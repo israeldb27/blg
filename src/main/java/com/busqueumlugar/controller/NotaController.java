@@ -176,8 +176,7 @@ public class NotaController {
 	@RequestMapping(value = "/filtrarNotasContatos", method = RequestMethod.POST)
 	public String filtrarNotasContatos(HttpSession session,
 									 @ModelAttribute("notaForm") NotaForm form,
-							    	 ModelMap map){
-		
+							    	 ModelMap map){		
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);		
 			map.addAttribute("listaNotasContato", notaService.filtrarNotasContatos(user.getId(), form));

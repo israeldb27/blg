@@ -350,16 +350,18 @@
 					       <div class="col-lg-9 col-md-9 col-sm-8">
                             <c:if test="${ empty listaMeusImoveis }">
                             	 <form:form method="POST" id="imovelBuscarImoveisMapaForm" modelAttribute="imovelForm" action="${urlImovel}/prepararCadastroImovel" >
-                                        <button type="submit" class="btn btn-primary btn-block" style="width: 15%;"><spring:message code="lbl.btn.novo.imovel"/></button>
-                                 </form:form>
+                                        <button type="submit" class="btn btn-primary btn-block" style="width: 13%;"><spring:message code="lbl.btn.novo.imovel"/></button>
+                                 </form:form>                                 
                                 <div class="callout callout-warning">
                                     <strong><spring:message code="lbl.nenhum.imovel.retornado"/></strong>                              
                                 </div>
                             </c:if>
                             <c:if test="${ not empty listaMeusImoveis }">
-                                <div class="pull-left col-lg-4" style="padding-top: 9px;">                        				
+                                <div class="pull-left col-lg-3" style="padding-top: 9px;">                        				
 	                                 <span class="meta-level" style="font-size: 16px;"><strong> <spring:message code="lbl.quant.total.imoveis"/> </strong>: </span> &nbsp; ${imovelForm.quantRegistros}  
 	                            </div>
+	                            
+	                             	
                                 <div class="pull-right" style="padding-right:10px; width: 240px;">
                                 	 <spring:message code="lbl.hint.tipo.ordenacao" var="hintOrdenar"/>
                                      <form:form method="POST" id="meusImoveisForm" modelAttribute="imovelForm" action="${urlImovel}/ordenaMeusImoveis"  title="${hintOrdenar}">
@@ -376,6 +378,7 @@
                                               </form:select>
                                       </form:form>
                                 </div><!-- /.pull-right -->
+                                
                                 	<c:if test="${imovelForm.isVisible() }">
 	                                	<div class="pull-right" style="padding-right:20px;">
 		                                    <form:form method="POST" id="meusImoveisPageForm" modelAttribute="imovelForm" action="${urlImovel}/filtrarMeusImoveis" >
@@ -387,6 +390,13 @@
 		                                      </form:form>
 		                                </div><!-- /.pull-left -->
 	                                </c:if>
+	                                
+	                                <div class="pull-right" style="padding-right:8px;">
+	                                	<spring:message code="lbl.hint.imovel.ver.mapa" var="hintMapa"/>
+	                                    <form:form method="POST" id="imovelBuscarImoveisMapaForm" modelAttribute="imovelForm" action="${urlImovel}/listarMeusImoveisMapa" >
+	                                        <button type="submit"  title="${hintMapa}" class="btn btn-primary btn-block" ><spring:message code="lbl.btn.ver.mapa.imovel" /></button>
+	                                    </form:form>
+	                                </div><!-- /.pull-left -->
                                 
                                 <div class="pull-right" style="padding-right:10px;">
                                 	<spring:message code="lbl.hint.link.cadastrar.novo.imovel" var="hintNovoImovel"/>

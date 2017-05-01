@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.busqueumlugar.form.AdministracaoForm;
+import com.busqueumlugar.form.ImovelForm;
 import com.busqueumlugar.form.ImovelfavoritosForm;
 import com.busqueumlugar.form.RelatorioForm;
 import com.busqueumlugar.model.Imovel;
@@ -51,5 +52,7 @@ public interface ImovelfavoritosDao  extends GenericDAO<Imovelfavoritos, Long> {
 	long findQuantUsuariosInteressadosByIdUsuarioByStatus(Long idUsuario, String status);
 
 	void updateStatusLeitura(Long idUsuario);
+
+	List<Long> findUsuariosImoveisFavoritosSemelhantes(Long idUsuario, ImovelForm form);
 
 }

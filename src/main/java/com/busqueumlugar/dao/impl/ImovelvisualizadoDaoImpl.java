@@ -719,8 +719,7 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 							  (form.getQuantQuartos() > 0 ) ||
 							  (form.getQuantGaragem() > 0 ) ||
 							  (form.getQuantSuites() > 0 )  ||
-							  (form.getQuantBanheiro() > 0 );
-		
+							  (form.getQuantBanheiro() > 0 );		
 		
 		if (isCritExist)
 			critImovel = crit.createCriteria("imovel");
@@ -840,6 +839,62 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 							.setParameter("tabela", "imovelvisitado");
 		int rows = query.executeUpdate();
 		session.close();		
+	}
+	
+
+	@Override
+	public Imovelvisualizado findImoveisVisitadosByIdUsuarioByIndex(Long idUsuario, int idIndex) {
+		Criteria crit = session().createCriteria(Imovelvisualizado.class);
+		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));
+		crit.setFirstResult(idIndex);
+		crit.setMaxResults(1);		
+		return (Imovelvisualizado) crit.uniqueResult();		
+	}
+
+
+	@Override
+	public List<Long> findUsuariosImoveisVisitadosSemelhantes(Long idUsuario, ImovelForm form) {		
+		
+		boolean isCritExist = (form.getIdEstado() > 0 ) || 
+				  (! StringUtils.isNullOrEmpty(form.getTipoImovel())) || 
+				  (! StringUtils.isNullOrEmpty(form.getAcao())) ||
+				  (! StringUtils.isNullOrEmpty(form.getPerfilImovel()));		
+
+		if (isCritExist) {
+			Criteria crit = session().createCriteria(Imovelvisualizado.class);
+			crit.createCriteria("usuarioDonoImovel").add(Restrictions.ne("id", idUsuario));
+			
+			Criteria critImovel = crit.createCriteria("imovel");
+			critImovel.add(Restrictions.ne("id",  form.getId()));	  
+			
+			if (  form.getIdEstado() > 0 )
+				critImovel.add(Restrictions.eq("idEstado",  form.getIdEstado()));	        	
+			
+			if ( form.getIdCidade() > 0 )
+				critImovel.add(Restrictions.eq("idCidade", form.getIdCidade()));
+			
+			if ( form.getIdBairro() > 0 )
+				critImovel.add(Restrictions.eq("idBairro", form.getIdBairro()));
+					
+			if (! StringUtils.isNullOrEmpty(form.getAcao()))
+				critImovel.add(Restrictions.eq("acao", form.getAcao()));
+			
+			if (! StringUtils.isNullOrEmpty(form.getTipoImovel()))
+				critImovel.add(Restrictions.eq("tipoImovel", form.getTipoImovel())); 
+			
+			if ( ! StringUtils.isNullOrEmpty(form.getPerfilImovel()) )
+				critImovel.add(Restrictions.eq("perfilImovel", form.getPerfilImovel()));
+			
+			crit.setMaxResults(10);
+			crit.add(Restrictions.sqlRestriction("1=1 order by rand()"));	
+			
+			ProjectionList projList = Projections.projectionList();
+		    projList.add(Projections.distinct(Projections.groupProperty("usuario.id")));			
+			crit.setProjection(projList);		
+			return crit.list();
+		}	
+		else	
+			return null;
 	}
 
 }

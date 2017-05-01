@@ -1,19 +1,12 @@
 package com.busqueumlugar.service.impl;
 
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
+import java.util.TreeSet;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
@@ -35,6 +28,7 @@ import com.busqueumlugar.dao.ImoveldestaqueDao;
 import com.busqueumlugar.dao.ImovelfavoritosDao;
 import com.busqueumlugar.dao.IntermediacaoDao;
 import com.busqueumlugar.dao.ParceriaDao;
+import com.busqueumlugar.dao.PreferencialocalidadeDao;
 import com.busqueumlugar.dao.UsuarioDao;
 import com.busqueumlugar.enumerador.PerfilUsuarioOpcaoEnum;
 import com.busqueumlugar.enumerador.StatusImovelCompartilhadoEnum;
@@ -63,7 +57,6 @@ import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.DateUtil;
 import com.busqueumlugar.util.MessageUtils;
-import com.paypal.base.codec.binary.Base64;
 
 @Service
 public class ImovelServiceImpl implements ImovelService{
@@ -123,6 +116,9 @@ public class ImovelServiceImpl implements ImovelService{
 	
 	@Autowired
 	private ImoveldestaqueDao imoveldestaqueDao;	
+	
+	@Autowired
+	private PreferencialocalidadeDao preferenciaLocalidadeDao;
 	
 	@Autowired
 	private ServletContext context;	
@@ -1088,8 +1084,7 @@ public class ImovelServiceImpl implements ImovelService{
 	}
 
 	@Override
-	public String validarPrepararImovel(Long idImovel, UsuarioForm user) {
-		
+	public String validarPrepararImovel(Long idImovel, UsuarioForm user) {		
 		String msg = "";
 		Imovel imovel = dao.findImovelById(idImovel);
 		if ( imovel.getUsuario().getId().longValue() != user.getId().longValue()) {
@@ -1097,6 +1092,47 @@ public class ImovelServiceImpl implements ImovelService{
 		}
 		
 		return msg;
+	}
+
+	@Override
+	public List<Imovel> buscarImovelParaTimeline(ImovelForm form, Long idUsuario) {	
+		return dao.findImoveisTimeLine(form, idUsuario);
+	}
+
+	@Override 
+	public List<Usuario> analisarUsuariosInteressados(Long idUsuario, ImovelForm form) {		
+		
+		List<Usuario> listaFinal = new ArrayList<Usuario>();	
+		TreeSet<Long> listaIdsFinal = new TreeSet<Long>();		
+		
+		//Recuperar usuários de acordo com a preferencia imovel
+		List<Long> listaIdsUsuariosPrefImoveis = preferenciaLocalidadeDao.findUsuariosPreferenciaisImoveisSemelhantes(idUsuario, form);
+		
+		// Recuperar usuários que visitaram imóveis semelhantes a este imóvel selecionado
+		List<Long> listaIdsUsuariosImovelVistado = imovelvisualizadoService.recuperarUsuariosVisitouImoveisSemelhantes(idUsuario, form);
+				
+		// Recuperar usuários que adotaram como favorito imóveis que são semelhantes a este 
+		List<Long> listaIdsUsuariosImoveisFavoritos = imovelfavoritosDao.findUsuariosImoveisFavoritosSemelhantes(idUsuario, form);
+		
+		if (!CollectionUtils.isEmpty(listaIdsUsuariosPrefImoveis))
+			listaIdsFinal.addAll(listaIdsUsuariosPrefImoveis);
+		
+		if (!CollectionUtils.isEmpty(listaIdsUsuariosImovelVistado))
+			listaIdsFinal.addAll(listaIdsUsuariosImovelVistado);
+		
+		if (!CollectionUtils.isEmpty(listaIdsUsuariosImoveisFavoritos))
+			listaIdsFinal.addAll(listaIdsUsuariosImoveisFavoritos);
+		
+		if (!CollectionUtils.isEmpty(listaIdsFinal)){
+			Usuario usuario = null;
+			for (Long idUsuarioRec : listaIdsFinal){
+				usuario = usuarioService.recuperarUsuarioPorId(idUsuarioRec);
+				if ( usuario != null)
+					listaFinal.add(usuario);
+			}
+		}			
+			
+		return listaFinal;
 	}
 
 }

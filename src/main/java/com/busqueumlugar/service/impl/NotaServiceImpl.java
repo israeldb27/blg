@@ -176,18 +176,11 @@ public class NotaServiceImpl implements NotaService {
 	
 
 	@Override
-	public List<Nota> filtrarMinhasNotas(Long idUsuario, NotaForm form) {
-		
-		List<Nota> lista = null;		
-		if ( form.getOpcaoFiltro().equals("todos"))
-			lista = dao.filterNotasByIdUsuario(idUsuario, form);
-		else 
-			lista = dao.filterNotasByIdUsuario(idUsuario, form);	
-		
+	public List<Nota> filtrarMinhasNotas(Long idUsuario, NotaForm form) {		
+		List<Nota> lista = dao.filterNotasByIdUsuario(idUsuario, form);	
 		if (! CollectionUtils.isEmpty(lista)){
 			 return lista;
-		 }
-		
+		 }		
 		return null;
 	}
 
@@ -200,7 +193,7 @@ public class NotaServiceImpl implements NotaService {
         // recuperar Ids dos contatos
     	List listaIdsContatos = contatoDao.findIdsUsuariosContatosByIdUsuarioByStatus(idUsuario, ContatoStatusEnum.OK.getRotulo());
         
-        if ( StringUtils.isEmpty(form.getOpcaoFiltro()) || (form.getOpcaoFiltro().equals("todos"))) {
+        if ( StringUtils.isEmpty(form.getOpcaoFiltro())) {
         	if (! CollectionUtils.isEmpty(listaIdsContatos))
         		listaNotasContatos = dao.findNotasContatosByListaIdsUsuario(listaIdsContatos, form);
         }

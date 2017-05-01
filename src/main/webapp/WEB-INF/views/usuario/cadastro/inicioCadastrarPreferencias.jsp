@@ -89,18 +89,25 @@ function direcionarMain() {
     $.post("${urlUsuario}/submitLogin", {}, function() {
          	
     });
-  }  
+  } 
+
+function carregaAvisoInicial(){		
+		<% if (  request.getSession().getAttribute("firstTime").toString().equals("S") ) {%>			
+			$('#msgModal').html("<spring:message code='lbl.header.modal.aviso.inicio.desc.pref.imoveis'/>");
+			$('#msgModalFuncionalidade').html("<spring:message code='lbl.header.modal.aviso.inicio.pref.imoveis'/>");
+			$("#idModalAvisoInicial").modal("show");		
+		<% }  %>		
+}
 
 </script>
         <c:import url="../../layout/cadastroUsuario/head-layout.jsp"></c:import>
-    <body>
+   
+    <body onload="carregaAvisoInicial();">
 
-        <!-- INICIO - Cadastro Usuario -->
-            
                 <!-- Start body content -->
                 <div class="body-content animated fadeIn">
                 		<form:form class="form-horizontal mt-10" method="POST" id="preferenciaLocalidadeForm" modelAttribute="preferenciaLocalidadeForm" action="${urlPrefDirecionarMain}" >
-                   			<button type="submit" class="btn btn-primary btn-lg btn-slideright">Continuar</button>
+                   			<button type="submit" class="btn btn-primary btn-lg btn-slideright"><spring:message code="lbl.header.btn.continuar.inicio.pref.imoveis"/></button>
                    		</form:form>
                    		
                    		 <c:if test="${msgSucesso != null }">
@@ -130,6 +137,7 @@ function direcionarMain() {
                                 </div><!-- /.panel-heading -->
                                 <div class="panel-body no-padding">
                                     <form:form class="form-horizontal mt-10" method="POST" id="preferenciaLocalidadeForm" modelAttribute="preferenciaLocalidadeForm" action="${urlPrefAdicionar}" >
+                                    <input type="hidden" id="firstTime" value=""/> 
                                     
                                       <div class="form-body" style="vertical-align: middle;">
 	                                      <div class="form-group no-margin">								       				   		
@@ -285,14 +293,14 @@ function direcionarMain() {
                                             <tbody>
                                             <c:forEach var="pref" items="${listaPreferenciaImoveis}" >
 	                                            <tr>
-	                                                <td class="text-center"> ${pref.tipoImovelFmt} </td>
-	                                                <td class="text-center">${pref.acaoFmt}</td>
-	                                                <td class="text-center">${pref.nomeEstado}</td>
-	                                                <td class="text-center">${pref.nomeCidade}</td>
-	                                                <td class="text-center">${pref.nomeBairro}</td>
-													<td class="text-center">${pref.quantQuartos}</td>
-													<td class="text-center">${pref.quantGaragem}</td>
-													<td class="text-center">${pref.quantSuites}</td>
+	                                                <td class="text-center" style="font-size: 13px;">${pref.tipoImovelFmt} </td>
+	                                                <td class="text-center" style="font-size: 13px;">${pref.acaoFmt}</td>
+	                                                <td class="text-center" style="font-size: 13px;">${pref.nomeEstado}</td>
+	                                                <td class="text-center" style="font-size: 13px;">${pref.nomeCidade}</td>
+	                                                <td class="text-center" style="font-size: 13px;">${pref.nomeBairro}</td>
+													<td class="text-center" style="font-size: 13px;">${pref.quantQuartos}</td>
+													<td class="text-center" style="font-size: 13px;">${pref.quantGaragem}</td>
+													<td class="text-center" style="font-size: 13px;">${pref.quantSuites}</td>
 	                                                <td class="text-center">                                                    
 	                                                    <a href="${urlPrefExcluir}/${pref.id}" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" data-original-title="Excluir"><i class="fa fa-times"></i></a>
 	                                                </td>
@@ -311,6 +319,24 @@ function direcionarMain() {
                                                
                 </div><!-- /.body-content -->
                 <!--/ End body content -->    
+                
+                 <div id="idModalAvisoInicial" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+				      <div class="modal-content">
+				        <div class="modal-header">
+				          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				          <h4 class="modal-title"><div id="msgModalFuncionalidade" > </div> </h4>
+				        </div>
+				        <div class="modal-body">  
+				       	    <div id="msgModal" > </div>
+				        </div>
+				        <div class="modal-footer">			          
+	                      <button type="button" class="btn btn-primary" data-dismiss="modal"><spring:message code="lbl.btn.fechar.geral"/></button>
+				        </div>
+				      </div>
+				    </div>
+				</div>
+            </div><!-- /.modal -->
 
         <!-- START JAVASCRIPT SECTION (Load javascripts at bottom to reduce load time) -->
   			<c:import url="../../layout/head-bootstrap.jsp"></c:import> 

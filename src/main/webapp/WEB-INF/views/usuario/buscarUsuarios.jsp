@@ -9,7 +9,6 @@
 
 <c:set var="context" value="<%= request.getContextPath()%>"/>
 
-
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
 
 <spring:url value="/imovel" var="urlImovel"/>
@@ -61,8 +60,7 @@ $(document).ready(function() {
    $("#btn1").click(function(){
 	   alert('clicou');
        $("#idUsuarioBusca").append(" <b>Appended text</b>. </br>");
-   });
-	
+   });	
 
     function limpaComboLinha(comboLinha) {
         $(comboLinha).empty();
@@ -275,16 +273,7 @@ function cancelarSeguirUsuario(id) {
                                     <div class="panel-body">
                                         <div class="form-group no-margin">
                                         	 </br>
-                                        	 <c:if test="${usuario.perfil != 'P'}">
-                                        	 	<span class="label label-default"><spring:message code="lbl.opcao.tipo.busca.usuario"/></span>
-	                                        	 <spring:message code="lbl.hint.usuario.tipo.busca" var="hintTipoBusca"/>
-													 <form:select id="opcaoTipoBuscaUsuarios" path="opcaoTipoBuscaUsuarios" class="chosen-select" tabindex="-1" style="display: none;"  title="${hintTipoBusca}">
-														<form:option value="infoPessoais" ><spring:message code="lbl.opcao.tipo.busca.usuario.dados.usuario"/></form:option>                        
-														<form:option value="infoPreferenciais" ><spring:message code="lbl.opcao.tipo.busca.usuario.preferencias.imoveis.usuario"/></form:option>                        
-													 </form:select> 
-	                                            </br> </br>
-                                        	 </c:if>	
-                                        	 
+                                        	                                        	 
                                         	<span class="label label-default"><spring:message code="lbl.estado"/> </span>
                                         	<spring:message code="lbl.hint.usuario.estado" var="hintEstado"/>                                            
                                             <form:select id="idEstado" path="idEstado" class="chosen-select" tabindex="-1" style="display: none;" title="${hintEstado}">

@@ -9,6 +9,7 @@ import com.busqueumlugar.form.PerfilForm;
 import com.busqueumlugar.form.UsuarioForm;
 import com.busqueumlugar.model.Estados;
 import com.busqueumlugar.model.Imovel;
+import com.busqueumlugar.model.Usuario;
 
 import org.springframework.validation.BindingResult;
 
@@ -144,6 +145,10 @@ public interface ImovelService {
 	List<Imovel> recuperarImovelPorIdsUsuarioPorPosicao(Long idUsuario, int index);
 
 	String validarPrepararImovel(Long idImovel, UsuarioForm user);
+
+	List<Imovel> buscarImovelParaTimeline(ImovelForm form, Long idUsuario);
+
+	List<Usuario> analisarUsuariosInteressados(Long idUsuario, ImovelForm form);
 	
 		
 }

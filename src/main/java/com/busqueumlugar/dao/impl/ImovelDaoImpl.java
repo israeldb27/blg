@@ -13,6 +13,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import com.busqueumlugar.dao.ContatoDao;
@@ -468,11 +469,13 @@ public class ImovelDaoImpl extends GenericDAOImpl<Imovel, Long>   implements Imo
 
 	@Override
 	public List<Imovel> findImoveisByListaIdsByIndex(List<Long> listaIds, int index) {
-		Criteria crit = session().createCriteria(Imovel.class);			
-		crit.createCriteria("usuario").add(Restrictions.in("id", listaIds));		
+		Criteria crit = session().createCriteria(Imovel.class);	
+		if (! CollectionUtils.isEmpty(listaIds))			
+			crit.createCriteria("usuario").add(Restrictions.in("id", listaIds));
+		
 		crit.addOrder(Order.desc("dataUltimaAtualizacao"));
 		crit.setFirstResult(index);
-		crit.setMaxResults(5);
+		crit.setMaxResults(2);
 		return crit.list();
 	}
 
@@ -494,15 +497,17 @@ public class ImovelDaoImpl extends GenericDAOImpl<Imovel, Long>   implements Imo
 		crit.add(Restrictions.eq("autorizacaoOutroUsuario", aceitaCompartilhado));
 		crit.addOrder(Order.desc("dataUltimaAtualizacao"));
 		crit.setFirstResult(index);
-		crit.setMaxResults(5);
+		crit.setMaxResults(2);
 		return crit.list();
 	}
 
 	@Override
 	public List<Imovel> findImoveisAleatoriamenteByListaIdsByIndex(List<Long> listaIds, int index) {
 
-		Criteria crit = session().createCriteria(Imovel.class);			
-		crit.createCriteria("usuario").add(Restrictions.not(Restrictions.in("id", listaIds )));		
+		Criteria crit = session().createCriteria(Imovel.class);
+		if (! CollectionUtils.isEmpty(listaIds))
+			crit.createCriteria("usuario").add(Restrictions.not(Restrictions.in("id", listaIds )));		
+		
 		crit.addOrder(Order.desc("dataUltimaAtualizacao"));
 		crit.setFirstResult(index);
 		crit.setMaxResults(4);
@@ -529,6 +534,27 @@ public class ImovelDaoImpl extends GenericDAOImpl<Imovel, Long>   implements Imo
 		crit.setFirstResult(index);
 		crit.setMaxResults(5);
 		return crit.list();
+	}
+
+	@Override
+	public List<Imovel> findImoveisTimeLine(ImovelForm form, Long idUsuario) {
+		Criteria crit = session().createCriteria(Imovel.class);			
+		crit.createCriteria("usuario").add(Restrictions.ne("id", idUsuario));
+		if ( form.getIdEstado() > 0 )
+			crit.add(Restrictions.eq("idEstado", form.getIdEstado()));
+        
+        if ( form.getIdCidade() > 0 )
+        	crit.add(Restrictions.eq("idCidade", form.getIdCidade()));    
+        
+        if ( form.getIdBairro() > 0 )
+        	crit.add(Restrictions.eq("idBairro", form.getIdBairro()));
+        
+        if ( form.getTipoImovel() != null )
+        	crit.add(Restrictions.eq("tipoImovel", form.getTipoImovel()));
+		
+        crit.addOrder(Order.desc("dataUltimaAtualizacao"));
+		crit.setMaxResults(2);
+		return (List<Imovel>) crit.list();	
 	}
 
 }

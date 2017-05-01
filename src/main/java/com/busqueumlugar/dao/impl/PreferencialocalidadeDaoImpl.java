@@ -12,14 +12,17 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 
 import com.busqueumlugar.dao.CidadesDao;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.dao.PreferencialocalidadeDao;
 import com.busqueumlugar.enumerador.PerfilUsuarioOpcaoEnum;
+import com.busqueumlugar.form.ImovelForm;
 import com.busqueumlugar.form.PreferencialocalidadeForm;
 import com.busqueumlugar.form.UsuarioForm;
 import com.busqueumlugar.model.Cidades;
+import com.busqueumlugar.model.Imovelvisualizado;
 import com.busqueumlugar.model.Nota;
 import com.busqueumlugar.model.Preferencialocalidade;
 import com.busqueumlugar.model.Usuario;
@@ -125,7 +128,7 @@ public class PreferencialocalidadeDaoImpl extends GenericDAOImpl<Preferencialoca
 		    critImovel.add(Subqueries.exists(dtPref1.setProjection(Projections.property("pref1.idEstado"))));
 		    
 		    critImovel.setFirstResult(index);
-			critImovel.setMaxResults(4);
+			critImovel.setMaxResults(2);
 			return critImovel.list();		    
 		}
 		else if ( regra == 2){
@@ -138,7 +141,7 @@ public class PreferencialocalidadeDaoImpl extends GenericDAOImpl<Preferencialoca
 		    critImovel.add(Subqueries.exists(dtPref2.setProjection(Projections.property("pref2.idEstado"))));
 		    
 		    critImovel.setFirstResult(index);
-			critImovel.setMaxResults(4);
+			critImovel.setMaxResults(2);
 			return critImovel.list();	
 		}
 		else if ( regra == 3){
@@ -152,12 +155,11 @@ public class PreferencialocalidadeDaoImpl extends GenericDAOImpl<Preferencialoca
 		    critImovel.add(Subqueries.exists(dtPref3.setProjection(Projections.property("pref3.idEstado"))));
 		    
 		    critImovel.setFirstResult(index);
-			critImovel.setMaxResults(4);
+			critImovel.setMaxResults(2);
 			return critImovel.list();		    
 		}
 		
 		else if ( regra == 4){
-
 			DetachedCriteria dtPref4 = DetachedCriteria.forClass(Preferencialocalidade.class, "pref4");
 		    dtPref4.createCriteria("usuario").add(Restrictions.eq("id", user.getId()));	    
 		    dtPref4.add(Restrictions.eqProperty("im.idEstado",   "pref4.idEstado"));
@@ -169,28 +171,10 @@ public class PreferencialocalidadeDaoImpl extends GenericDAOImpl<Preferencialoca
 		    critImovel.add(Subqueries.exists(dtPref4.setProjection(Projections.property("pref4.idEstado"))));
 		    
 		    critImovel.setFirstResult(index);
-			critImovel.setMaxResults(4);
+			critImovel.setMaxResults(2);
 			return critImovel.list();
 		}
-		
-		else if ( regra == 5){
-			DetachedCriteria dtPref5 = DetachedCriteria.forClass(Preferencialocalidade.class, "pref5");
-		    dtPref5.createCriteria("usuario").add(Restrictions.eq("id", user.getId()));	    
-		    dtPref5.add(Restrictions.eqProperty("im.idEstado",   	"pref5.idEstado"));
-		    dtPref5.add(Restrictions.eqProperty("im.idCidade",   	"pref5.idCidade"));
-		    dtPref5.add(Restrictions.eqProperty("im.idBairro",   	"pref5.idBairro"));
-		    dtPref5.add(Restrictions.eqProperty("im.tipoImovel", 	"pref5.tipoImovel"));
-		    dtPref5.add(Restrictions.eqProperty("im.acao", 		 	"pref5.acao"));
-		    dtPref5.add(Restrictions.eqProperty("im.quantQuartos",  "pref5.quantQuartos"));
-		    dtPref5.add(Restrictions.eqProperty("im.quantGaragem",  "pref5.quantGaragem"));
-		    dtPref5.add(Restrictions.eqProperty("im.quantBanheiro", "pref5.quantBanheiro"));
-		    
-		    critImovel.add(Subqueries.exists(dtPref5.setProjection(Projections.property("pref5.idEstado"))));
-		    
-		    critImovel.setFirstResult(index);
-			critImovel.setMaxResults(4);
-			return critImovel.list();
-		}
+	
 		else
 			return null;
 
@@ -201,10 +185,10 @@ public class PreferencialocalidadeDaoImpl extends GenericDAOImpl<Preferencialoca
 
 		Criteria crit = session().createCriteria(Preferencialocalidade.class);
 		
-		if ( isAleatorio ){
+		if ( isAleatorio && ! CollectionUtils.isEmpty(listaIds)){
 			crit.createCriteria("usuario").add(Restrictions.not(Restrictions.in("id",  listaIds)));	
 		}
-		else
+		else if ( ! CollectionUtils.isEmpty(listaIds))
 			crit.createCriteria("usuario").add(Restrictions.in("id",  listaIds));
 		
 		crit.addOrder(Order.desc("dataCadastro"));
@@ -221,6 +205,48 @@ public class PreferencialocalidadeDaoImpl extends GenericDAOImpl<Preferencialoca
 		crit.setFirstResult(index);
 		crit.setMaxResults(1);
 		return (Preferencialocalidade)crit.uniqueResult();
+	}
+
+	@Override
+	public List<Long> findUsuariosPreferenciaisImoveisSemelhantes(Long idUsuario, ImovelForm form) {
+		
+		boolean isCritExist = (form.getIdEstado() > 0 ) || 
+							  (! StringUtils.isNullOrEmpty(form.getTipoImovel())) || 
+							  (! StringUtils.isNullOrEmpty(form.getAcao())) ||
+							  (! StringUtils.isNullOrEmpty(form.getPerfilImovel()));		
+
+		if (isCritExist) {
+			Criteria crit = session().createCriteria(Preferencialocalidade.class);
+			crit.createCriteria("usuario").add(Restrictions.ne("id", idUsuario));
+			
+			if (  form.getIdEstado() > 0 )
+				crit.add(Restrictions.eq("idEstado",  form.getIdEstado()));	        	
+			
+			if ( form.getIdCidade() > 0 )
+				crit.add(Restrictions.eq("idCidade", form.getIdCidade()));
+			
+			if ( form.getIdBairro() > 0 )
+				crit.add(Restrictions.eq("idBairro", form.getIdBairro()));
+					
+			if (! StringUtils.isNullOrEmpty(form.getAcao()))
+				crit.add(Restrictions.eq("acao", form.getAcao()));
+			
+			if (! StringUtils.isNullOrEmpty(form.getTipoImovel()))
+				crit.add(Restrictions.eq("tipoImovel", form.getTipoImovel())); 
+			
+			if ( ! StringUtils.isNullOrEmpty(form.getPerfilImovel()) )
+				crit.add(Restrictions.eq("perfilImovel", form.getPerfilImovel()));
+			
+			crit.setMaxResults(10);
+			crit.add(Restrictions.sqlRestriction("1=1 order by rand()"));	
+			
+			ProjectionList projList = Projections.projectionList();
+		    projList.add(Projections.distinct(Projections.groupProperty("usuario.id")));			
+			crit.setProjection(projList);		
+			return crit.list();
+		}	
+		else	
+			return null;
 	}
 
 }

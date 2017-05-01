@@ -34,6 +34,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.validation.BindingResult;
 
 import com.busqueumlugar.form.AdministracaoForm;
+import com.busqueumlugar.form.ImovelForm;
 import com.busqueumlugar.form.UsuarioForm;
 import com.busqueumlugar.model.Recomendacao;
 import com.busqueumlugar.model.Usuario;
@@ -48,6 +49,7 @@ import com.busqueumlugar.service.PreferencialocalidadeService;
 import com.busqueumlugar.service.RecomendacaoService;
 import com.busqueumlugar.service.SeguidorService;
 import com.busqueumlugar.service.ServicoService;
+import com.busqueumlugar.service.TimelineService;
 import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.DateUtil;
@@ -552,15 +554,9 @@ public class UsuarioController {
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			 boolean possuiErro = usuarioService.validarBuscarUsuarios(form, result);
-			 if ( !possuiErro){			 
-				 List<Usuario> lista = null;
-				 if ( user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()))
-					lista = usuarioService.buscarUsuarios(form, "infoPessoais", user.getId());			 
-				 else 
-					 lista = usuarioService.buscarUsuarios(form, form.getOpcaoTipoBuscaUsuarios(), user.getId());
-				 
+			 if ( !possuiErro){	
 				 form.setOpcaoOrdenacao("");
-				 map.addAttribute("listaBuscaUsuarios", lista);
+				 map.addAttribute("listaBuscaUsuarios", usuarioService.buscarUsuarios(form, "infoPessoais", user.getId()));
 			 }		 		 
 		 	 map.addAttribute("usuarioForm", form);	 	 
 			 return DIR_PATH + "buscarUsuarios";
@@ -1013,6 +1009,25 @@ public class UsuarioController {
 			map.addAttribute("mensagemErroGeral", "S");
 			return ImovelService.PATH_ERRO_GERAL;
 		} 
+	}
+	
+	@RequestMapping(value = "/carregaParamSession/{parametro}/{valorParametro}")
+	@ResponseBody
+	public String carregaParamSession(@PathVariable("parametro") String parametro,
+											     @PathVariable("valorParametro") String valorParametro,											   
+											     HttpSession session	
+											     ){
+		
+		try {
+			String param = parametro;
+			session.setAttribute(parametro, valorParametro);
+			session.getAttribute(parametro);
+			return "ok";
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelController -  adicionarPropostaDetalheImovel");
+			log.error("Mensagem Erro: " + e.getMessage());		
+			return ImovelService.PATH_ERRO_GERAL;
+		}
 	}
 
 	

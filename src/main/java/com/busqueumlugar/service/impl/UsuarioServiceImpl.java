@@ -2151,25 +2151,32 @@ public class UsuarioServiceImpl implements UsuarioService{
 		 * Utilizar uma Hashtable para tambem carregar os Ids dos usuarios e para cada entrada na Hashtable carrega 
 		 * a respectiva "Index Posicao" que sera usado para carregar um imovel do usuario e minimizar a repeticao na exibicao de imoveis 
 		 *   
-		 */
-		session.setAttribute(TimelineService.LISTA_IDS_USUARIOS, listaIds);
-		if (! CollectionUtils.isEmpty(listaIds)){
-			session.setAttribute(TimelineService.EXISTE_ID_USUARIO, "S");
-			session.setAttribute(TimelineService.ULTIMO_INDEX_IDS_USUARIO, 0);						
-		}		
-		else 
-			session.setAttribute(TimelineService.EXISTE_ID_USUARIO, "N");		
+		 */		
 		
-		session.setAttribute(TimelineService.ULTIMO_INDEX_IDS_USUARIO_COMPARTILHADO, 0);
-		session.setAttribute(TimelineService.ID_INDEX_PREF_IMOVEL, 0);
-		session.setAttribute(TimelineService.ID_INDEX_PREF_IMOVEL_ALEATORIAMENTE, 0);		
-		session.setAttribute(TimelineService.REGRA_PREF_IMOVEL, 1);
-		session.setAttribute(TimelineService.ID_INDEX_IMOVEL_ALEATORIAMENTE, 0);
-		session.setAttribute(TimelineService.ID_INDEX_SUGESTAO_USUARIO, 0);
-		session.setAttribute(TimelineService.ID_INDEX_NOTA, 0);
+		ParametrosTimeline paramTimeline = new ParametrosTimeline();
+		paramTimeline.setListaIds(listaIds);
+		if (! CollectionUtils.isEmpty(listaIds))
+			paramTimeline.setExisteIdUsuario("S");		
+		else
+			paramTimeline.setExisteIdUsuario("N");	
+		
+		
+		// as variaveis 'inicioRegra' e 'fimRegra' sao usadas para evitar que uma determinada regra seja chamada já que não há dados para ela	
+		if (! user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){ // Inicio Timeline para Corretores e Imobiliarias 
+			paramTimeline.setInicioRegra(1);
+			paramTimeline.setFimRegra(22);
+		}
+		else {
+			paramTimeline.setInicioRegra(1);
+			paramTimeline.setFimRegra(23);
+		}
+		
+		paramTimeline.setRegraPrefImovel(1);	
+		
 		// carregar a quantidade de imoveis anuncios do dia
-		session.setAttribute(TimelineService.QUANT_ANUNCIO_IMOVEL, imovelDestaqueService.checarQuantidadeImoveisAnuncioNoDia());
-		session.setAttribute(TimelineService.ID_ULTIMO_ANUNCIO_IMOVEL, 0);
+		paramTimeline.setQuantAnuncioImovel(imovelDestaqueService.checarQuantidadeImoveisAnuncioNoDia());		
+		
+		session.setAttribute(TimelineService.PARAMETROS_TIMELINE, paramTimeline);	
 	}
 
 
@@ -2180,8 +2187,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		return listaFinal;
 	}
 	
-	public List<String> carregar(UsuarioForm user, HttpSession session){
-			// 	independente do perfil, carregar a TimeLine de acordo com a regra selecionada
+	public List<String> carregar(UsuarioForm user, HttpSession session) {
 		
 				/**		  
 				 * Por default, exibir sempre no primeiro registro um Imovel Anuncio (se houver). Exibindo primeiramente o anuncio com maior relevancia e/ou mais recente
@@ -2198,118 +2204,158 @@ public class UsuarioServiceImpl implements UsuarioService{
 				boolean isUsuarioTimeLine = false;
 				Preferencialocalidade prefLocalidadeTimeline = new Preferencialocalidade();
 				boolean isPrefLocalidadeExiste = false;
-				List<String> listaFinalTimeLine = new ArrayList<String>();
+				List<String> listaFinalTimeLine = new ArrayList<String>();		
 				
-				if (! user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){ // Inicio Timeline para Corretores e Imobiliaris 
-					int regra = (int)session.getAttribute(TimelineService.ULTIMA_REGRA_TIMELINE);			
-					if ( regra == 0 ){ // usuario acabou de se logar no sistema entao primeiro registro na timeline sera um Anuncio (se houver)	-- Teoricamente vai ser um anuncio de grande Importancia			
-						Imovel imovel = this.regraTimeLineRecuperarImovelAnuncio(session);
-						if ( imovel != null )
-							listaFinal.add(imovel);
-						
-						regra = 1; // para nao repetir em seguida a exibicao de um novo anuncio
-						session.setAttribute(TimelineService.ULTIMA_REGRA_TIMELINE, regra);
-					}
+				List<Imovel> lista = null;
+				int regraSel = 0;
+				Imovel imovel = null;
+				ParametrosTimeline paramTimeline = (ParametrosTimeline)session.getAttribute(TimelineService.PARAMETROS_TIMELINE);
+				
+				
+				int regra = (int)session.getAttribute(TimelineService.ULTIMA_REGRA_TIMELINE);			
+				if ( regra == 0 ){ // usuario acabou de se logar no sistema entao primeiro registro na timeline sera um Anuncio (se houver)	-- Teoricamente vai ser um anuncio de grande Importancia			
+					imovel = this.regraTimeLineRecuperarImovelAnuncio(paramTimeline);
+					if ( imovel != null )
+						listaFinal.add(imovel);
 					
-					if ( regra == 1 ){
+					regra = 1; // para nao repetir em seguida a exibicao de um novo anuncio
+					session.setAttribute(TimelineService.ULTIMA_REGRA_TIMELINE, regra);
+				}
+				
+				if (! user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){ // Inicio Timeline para Corretores e Imobiliarias 					
+					
+					if ( regra == 1 ){	
 						
-						Random r = new Random();
-						int regraSel = 0;				
-						List<Long> listaIds = (List<Long>)session.getAttribute(TimelineService.LISTA_IDS_USUARIOS);
-						if (! CollectionUtils.isEmpty(listaIds)){ // para o caso de o usuario ainda nao ter nenhum contato ou usuarios seguindo
+						while ( (AppUtil.recuperarQuantidadeLista(listaFinal) < 2)){  // para o caso de o usuario ter algum contato ou usuario seguindo
 							
-							while ( (AppUtil.recuperarQuantidadeLista(listaFinal) < 4)){
+							regraSel = paramTimeline.getInicioRegra() + (int) (Math.random() * paramTimeline.getFimRegra());	
+							
+							if ( ( regraSel >= 1 ) && ( regraSel <= 4 )) { // Exibir preferencia de imóveis de usuários com contato ou que esteja seguindo
+								prefLocalidadeTimeline = this.regraTimelineRecuperarPreferenciaLocalidadeUsuario(paramTimeline, false);
+								if ( prefLocalidadeTimeline != null ){
+									isPrefLocalidadeExiste = true;
+									break;
+								}
+								else
+									paramTimeline.setInicioRegra(4);
 								
-								regraSel = r.nextInt(18) + 1;								
-																
-								if ( ( regraSel >= 1 ) && ( regraSel <= 5 )) { // Exibir imoveis de seus contatos e usuarios que esteja seguindo
-									List<Imovel> lista = this.regraTimeLineRecuperarImoveisCompartilhadosIdsUsuarios(session, "N");
-									if (! CollectionUtils.isEmpty(lista))
-										listaFinal.addAll(lista);
+							} // Exibir imoveis de seus contatos e /ou usuario que esteja seguindo que deseje ser intermediado ou queira parceria
+							else if ( ( regraSel >= 4 ) && ( regraSel <= 8 ) && ! paramTimeline.isEmptyImoveisIntermediacaoParceria()   ) { 
+								lista = this.regraTimeLineRecuperarImoveisCompartilhadosIdsUsuarios("S", paramTimeline);
+								if (! CollectionUtils.isEmpty(lista)){
+									listaFinal.addAll(lista);
+									break;
 								}
-								else if ( ( regraSel >= 6 ) && ( regraSel <= 8 )) { // Exibir imoveis de seus contatos e /ou usuario que esteja seguindo que deseje ser intermediado ou queira parceria
-									List<Imovel> lista = this.regraTimeLineRecuperarImoveisCompartilhadosIdsUsuarios(session, "S");
-									if (! CollectionUtils.isEmpty(lista))
+								else if ( CollectionUtils.isEmpty(lista)){ // para o caso do usuario ainda nao tiver contatos
+									lista = this.regraTimeLineRecuperarImoveisCompartilhadosIdsUsuarios("N", paramTimeline);
+									if (! CollectionUtils.isEmpty(lista)){
 										listaFinal.addAll(lista);
-								}
-								else if ( ( regraSel >= 9 ) && ( regraSel <= 11 )) { // Exibir Notas de seus contatos e usuarios que esteja seguindo
-									notaTimeLine = this.regraTimeLineRecuperarNota(user, session);
-									if ( notaTimeLine != null ){
-										isNotaExiste = true;
 										break;
 									}
 								}
-								else if ( ( regraSel >= 12 ) && ( regraSel <= 14 )) { // Exibir uma preferencia de imovel de algum contato e/ou usuario que esteja seguindo
-									prefLocalidadeTimeline = this.regraTimelineRecuperarPreferenciaLocalidadeUsuario(listaIds, session, false);
-									if ( prefLocalidadeTimeline != null ){
-										isPrefLocalidadeExiste = true;
-										break;
-									}	
-								}
-								else if ( ( regraSel >= 15 ) && ( regraSel <= 16 )) { // Exibir uma anuncio imovel  
-									Imovel imovel = this.regraTimeLineRecuperarImovelAnuncio(session);
-									if ( imovel != null)
-										listaFinal.add(imovel);									
-								}
-								else if ( ( regraSel >= 17 ) && ( regraSel <= 18 )) { // Exibir aleatoriamente uma preferencia de imovel de algum usuario da plataforma  
-									prefLocalidadeTimeline = this.regraTimelineRecuperarPreferenciaLocalidadeUsuario(listaIds, session, true);
-									if ( prefLocalidadeTimeline != null ){
-										isPrefLocalidadeExiste = true;
-										break;
-									}
-								}
-								else if ( ( regraSel == 19) ) { // Exibir aleatoriamente algum imovel da plataforma  
-									List<Imovel> lista = this.regraTimeLineRecuperarImoveisAleatoriamente(listaIds, session);
-									if (! CollectionUtils.isEmpty(lista))
-										listaFinal.addAll(lista);
-								}	
-								else if ( ( regraSel == 20 )  ) { // Sugerir algum usuario para formalizar contato ou para seguir
-									usuarioTimeline = this.regraTimelineRecuperarSugestaoUsuario(listaIds, user, session);
-									if ( usuarioTimeline != null){
-										isUsuarioTimeLine = true;
-										break;
-									}
+								else {
+									paramTimeline.setEmptyImoveisIntermediacaoParceria(true);									
+									if ( paramTimeline.getInicioRegra() == 4 )
+										paramTimeline.setInicioRegra(9);  // afunilando ainda mais o range de regras
 								}	
 							}
-						}
-						else {							
-								while ( (AppUtil.recuperarQuantidadeLista(listaFinal) < 4)  ){
+							// Exibir Notas de seus contatos e usuarios que esteja seguindo
+							else if ( ( regraSel >= 9 ) && ( regraSel <= 11 ) && ! CollectionUtils.isEmpty(paramTimeline.getListaIds()) && ! paramTimeline.isEmptyNotas() ) { 
+								notaTimeLine = this.regraTimeLineRecuperarNota(user, paramTimeline);
+								if ( notaTimeLine != null ){
+									isNotaExiste = true;
+									break;
+								}
+								else {
+									paramTimeline.setEmptyNotas(true);
+									if ( paramTimeline.getInicioRegra() == 9 )
+										paramTimeline.setInicioRegra(12);  // afunilando ainda mais o range de regras
+								}
+							}
+							
+							// Exibir imoveis de seus contatos e usuarios que esteja seguindo
+							else if ( ( regraSel >= 12 ) && ( regraSel <= 14 ) && ! paramTimeline.isEmptyImoveisContatos()) { 
+								lista = this.regraTimeLineRecuperarImoveisCompartilhadosIdsUsuarios( "N", paramTimeline);
+								if (! CollectionUtils.isEmpty(lista)){
+									listaFinal.addAll(lista);
+									break;
+								}
+								else if ( CollectionUtils.isEmpty(lista)){
+									lista = this.regraTimeLineRecuperarImoveisAleatoriamente(user, paramTimeline);
+									if (! CollectionUtils.isEmpty(lista)){
+										listaFinal.addAll(lista);
+										break;
+									}
+								}
+								else {
+									paramTimeline.setEmptyImoveisContatos(true);	
+									if ( paramTimeline.getInicioRegra() == 12 )
+										paramTimeline.setInicioRegra(15);  // afunilando ainda mais o range de regras							
+								}
+							}	
+							
+							// Exibir imoveis que deseje ser intermediado ou queira parceria, mas de usuarios que nao sejam seus contatos ou esteja seguindo
+							else if ( ( regraSel >= 15 ) && ( regraSel <= 17 ) && ! paramTimeline.isEmptyImoveisIntermediacaoParceriaSemContato()) { 
+								lista = this.regraTimeLineRecuperarImoveisCompartilhadosIdsUsuarios("N", paramTimeline);
+								if (! CollectionUtils.isEmpty(lista)){
+									listaFinal.addAll(lista);
+									break;
+								}
+								else if (CollectionUtils.isEmpty(lista)){ // para o caso do usuario ainda nao tiver contatos
+									lista = this.regraTimeLineRecuperarImoveisCompartilhadosIdsUsuarios("S", paramTimeline);
+									if (! CollectionUtils.isEmpty(lista)){
+										listaFinal.addAll(lista);
+										break;
+									}
+								}
+								else {
+									paramTimeline.setEmptyImoveisIntermediacaoParceriaSemContato(true);	
+									if ( paramTimeline.getInicioRegra() == 15 )
+										paramTimeline.setInicioRegra(18);  // afunilando ainda mais o range de regras									
+								}	
+							}	
 								
-									regraSel = r.nextInt(11) + 1;									
-									if (( regraSel >= 1 ) && ( regraSel <= 5 )) { // Exibir aleatoriamente algum imovel que deseje ser intermediado ou queira alguma parceria
-										List<Imovel> lista = this.regraTimeLineRecuperarImoveisCompartilhadosSemContato(user, session, "S");
-										if (! CollectionUtils.isEmpty(lista))
-											listaFinal.addAll(lista);
-									}
-									else if (( regraSel >= 6 ) && ( regraSel <= 8 )) { // Exibir aleatoriamente algum usuario e sua respectiva preferencia de imovel
-										prefLocalidadeTimeline = this.regraTimelineRecuperarPreferenciaLocalidadeUsuario(session);
-										if ( prefLocalidadeTimeline != null ){
-											isPrefLocalidadeExiste = true;
-											break;
-										}
-									}
-									else if ( ( regraSel >= 9 ) && ( regraSel <= 10 ) ) { // Sugerir algum usuario para formalizar contato ou para seguir
-										//usuarioTimeline = dao.findUsuario(124l);
-										usuarioTimeline = this.regraTimelineRecuperarSugestaoUsuario(null, user, session);
-										if ( usuarioTimeline != null){
-											isUsuarioTimeLine = true;
-											break;
-										}
-									}						
-									else if ( ( regraSel >= 11 ) && ( regraSel <= 12 ) ) { // Exibir anuncio de imovel
-										Imovel imovel = this.regraTimeLineRecuperarImovelAnuncio(session);
-										if ( imovel != null )
-											listaFinal.add(imovel);								
-									}					
-							}					
-						}
+							else if ( ( regraSel >= 18 ) && ( regraSel <= 20 ) && ! paramTimeline.isEmptyImoveisAnuncios()) { // Exibir uma anuncio imovel  
+								imovel = this.regraTimeLineRecuperarImovelAnuncio(paramTimeline);
+								if ( imovel != null){
+									listaFinal.add(imovel);
+									break;
+								}
+								else {
+									paramTimeline.setEmptyImoveisAnuncios(true);									
+									if ( paramTimeline.getInicioRegra() == 18 )
+										paramTimeline.setInicioRegra(21);  // afunilando ainda mais o range de regras
+								}
+							}	
+							else if (  regraSel == 21  && !paramTimeline.isEmptyImoveisAleatorios()) { // Exibir aleatoriamente algum imovel da plataforma  
+								lista = this.regraTimeLineRecuperarImoveisAleatoriamente(user, paramTimeline);
+								if (! CollectionUtils.isEmpty(lista)){
+									listaFinal.addAll(lista);
+									break;
+								}
+								else {
+									paramTimeline.setEmptyImoveisAleatorios(true);									
+									if ( paramTimeline.getInicioRegra() == 21 )
+										paramTimeline.setInicioRegra(22);  // afunilando ainda mais o range de regras
+								}
+							}	
+							else if ( ( regraSel == 22 )  ) { // Sugerir algum usuario para formalizar contato ou para seguir
+								usuarioTimeline = this.regraTimelineRecuperarSugestaoUsuario(paramTimeline, user);
+								if ( usuarioTimeline != null){									
+									paramTimeline.setUsuarioTimeLine(true);
+									break;
+								}
+							}								
+						}		
 					}
+					
+					session.setAttribute(TimelineService.PARAMETROS_TIMELINE, paramTimeline);
 					
 					if (isUsuarioTimeLine){
 						listaFinalTimeLine.add(carregarTimeLineUsuario(usuarioTimeline, user));
 						if (! CollectionUtils.isEmpty(listaFinal)){					
-							for (Imovel imovel : listaFinal){
-								listaFinalTimeLine.add(carregarTimeLineImovel(user, imovel));
+							for (Imovel imovelFinal : listaFinal){
+								listaFinalTimeLine.add(carregarTimeLineImovel(user, imovelFinal));
 							}
 						}
 						return listaFinalTimeLine;
@@ -2318,8 +2364,8 @@ public class UsuarioServiceImpl implements UsuarioService{
 						listaFinalTimeLine.add(this.carregarTimeLinePreferenciaLocalidade(prefLocalidadeTimeline));
 						
 						if (! CollectionUtils.isEmpty(listaFinal)){					
-							for (Imovel imovel : listaFinal){
-								listaFinalTimeLine.add(carregarTimeLineImovel(user, imovel));
+							for (Imovel imovelFinal : listaFinal){
+								listaFinalTimeLine.add(carregarTimeLineImovel(user, imovelFinal));
 							}
 						}
 						return listaFinalTimeLine;
@@ -2328,16 +2374,16 @@ public class UsuarioServiceImpl implements UsuarioService{
 					else if ( isNotaExiste ){
 						listaFinalTimeLine.add(carregarTimeLineNota(notaTimeLine, user));
 						if (! CollectionUtils.isEmpty(listaFinal)){					
-							for (Imovel imovel : listaFinal){
-								listaFinalTimeLine.add(carregarTimeLineImovel(user, imovel));
+							for (Imovel imovelFinal : listaFinal){
+								listaFinalTimeLine.add(carregarTimeLineImovel(user, imovelFinal));
 							}
 						}
 						return listaFinalTimeLine;
 					}
 					else {
 						if (! CollectionUtils.isEmpty(listaFinal)){					
-							for (Imovel imovel : listaFinal){
-								listaFinalTimeLine.add(carregarTimeLineImovel(user, imovel));
+							for (Imovel imovelFinal : listaFinal){
+								listaFinalTimeLine.add(carregarTimeLineImovel(user, imovelFinal));
 							}
 						}
 						return listaFinalTimeLine;
@@ -2347,92 +2393,124 @@ public class UsuarioServiceImpl implements UsuarioService{
 				} // Fim Timeline para Corretores e Imobiliaris 
 				
 				else if (user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){ // Inicio Timeline para corretores
-					int regra = (int)session.getAttribute(TimelineService.ULTIMA_REGRA_TIMELINE);			
-					if ( regra == 0 ){ // usuario acabou de se logar no sistema entao primeiro registro na timeline sera um Anuncio (se houver)	-- Teoricamente vai ser um anuncio de grande Importancia			
-						Imovel imovel = this.regraTimeLineRecuperarImovelAnuncio(session);
-						if ( imovel != null )
-							listaFinal.add(imovel);
-						
-						regra = 1; // para nao repetir em seguida a exibicao de um novo anuncio
-						session.setAttribute(TimelineService.ULTIMA_REGRA_TIMELINE, regra);
-					}
-					
+										
 					if ( regra == 1 ){ // podera nao ser exibido um novo anuncio de imovel consecutivo 
 				
-						Random r = new Random();
-						int regraSel = 0;				
-						List<Long> listaIds = (List<Long>)session.getAttribute(TimelineService.LISTA_IDS_USUARIOS);
-						if ( CollectionUtils.isEmpty(listaIds)){ // para o caso de o usuario ainda nao ter nenhum contato ou usuarios seguindo
-							
-							while ( (AppUtil.recuperarQuantidadeLista(listaFinal) < 4)){
-								regraSel = r.nextInt(8) + 1;
+						regraSel = 0;	
+						
+							while ( (AppUtil.recuperarQuantidadeLista(listaFinal) < 2)){
+								regraSel = paramTimeline.getInicioRegra() + (int) (Math.random() * paramTimeline.getFimRegra());								
 								
-								if ( ( regraSel >= 1 ) && ( regraSel <= 5 )) { // Recuperar Imoveis de acordo com a Preferencia de Imoveis
-									List<Imovel> lista = this.regraTimeLineRecuperarImoveisPreferencia(user, session);
-									if (! CollectionUtils.isEmpty(lista))
+								// Exibir alguma Nota de Contato
+								 if ( ( regraSel >= 1 ) && ( regraSel <= 3 ) && ! paramTimeline.isEmptyNotas() ) { 
+									notaTimeLine = this.regraTimeLineRecuperarNota(user,  paramTimeline);
+									if ( notaTimeLine != null ){
+										isNotaExiste = true;
+										break;
+									}	
+									else {
+										paramTimeline.setEmptyNotas(true);
+										if ( paramTimeline.getInicioRegra() == 1)
+											paramTimeline.setInicioRegra(4);
+									}	
+								}
+								 
+								// Exibir um anucio imovel
+									else if ( ( regraSel >= 4 ) && ( regraSel <= 6 ) && ! paramTimeline.isEmptyImoveisAnuncios()) { 
+										imovel = this.regraTimeLineRecuperarImovelAnuncio(paramTimeline);
+										if ( imovel != null) {
+											listaFinal.add(imovel);
+											break;
+										}
+										else {
+											paramTimeline.setEmptyImoveisAnuncios(true);
+											if ( paramTimeline.getInicioRegra() == 4)
+												paramTimeline.setInicioRegra(7);
+										}	
+									}
+								 
+								// Exibir imóveis de usuarios que tenha contato ou que esteja seguindo
+								 else if ( ( regraSel >= 7 ) && ( regraSel <= 9 ) && !paramTimeline.isEmptyImoveisContatos() ) { 
+								 	lista = this.regraTimeLineRecuperarImoveisCompartilhadosIdsUsuarios( "N", paramTimeline);
+									if (! CollectionUtils.isEmpty(lista)){
 										listaFinal.addAll(lista);
+										break;
+									}
+									else if ( CollectionUtils.isEmpty(lista)){ // para o caso do usuario ainda nao tiver contatos
+										lista = this.regraTimeLineRecuperarImoveisAleatoriamente(user, paramTimeline);
+										if (! CollectionUtils.isEmpty(lista)){
+											listaFinal.addAll(lista);
+											break;
+										}
+									}
+									else {
+										paramTimeline.setEmptyImoveisContatos(true);
+										if ( paramTimeline.getInicioRegra() == 7)
+											paramTimeline.setInicioRegra(10);
+									}
+								 } 		
+								
+								// Recuperar Imoveis de acordo com a Preferencia de Imoveis
+								else if ( ( regraSel >= 10 ) && ( regraSel <= 16 )  ) { 
+									lista = this.regraTimeLineRecuperarImoveisPreferencia(user, paramTimeline);
+									if (! CollectionUtils.isEmpty(lista)){
+										listaFinal.addAll(lista);	
+										break;
+									}
+									else if ( CollectionUtils.isEmpty(lista)){ // para o caso do usuario ainda nao tiver contatos
+										lista = this.regraTimeLineRecuperarImoveisAleatoriamente(user, paramTimeline);
+										if (! CollectionUtils.isEmpty(lista)){
+											listaFinal.addAll(lista);
+											break;
+										}
+									}
 								}
-								else if ( ( regraSel >= 6 ) && ( regraSel <= 7 )) { // Exibir algum imovel selecionado aleatoriamente da base
-									List<Imovel> lista = this.regraTimeLineRecuperarImoveisAleatoriamente(user, session);
-									if (! CollectionUtils.isEmpty(lista))
+								
+								// Recuperar Imoveis semelhantes àqueles que o usuário tenha visitado anteriormente
+								else if ( ( regraSel >= 17) && ( regraSel <= 19 )  ) { 
+									lista = this.regraTimeLineRecuperarImoveisVisitadosSemelhantes(user, paramTimeline);
+									if (! CollectionUtils.isEmpty(lista)){
+										listaFinal.addAll(lista);			
+										break;
+									}
+									else if ( CollectionUtils.isEmpty(lista)){ // para o caso do usuario ainda nao tiver contatos
+										lista = this.regraTimeLineRecuperarImoveisAleatoriamente(user, paramTimeline);
+										if (! CollectionUtils.isEmpty(lista)){
+											listaFinal.addAll(lista);
+											break;
+										}
+									}
+								}
+								
+								// Exibir algum imovel selecionado aleatoriamente da base
+								else if ( ( regraSel >= 20 ) && ( regraSel <= 21)) { 
+									lista = this.regraTimeLineRecuperarImoveisAleatoriamente(user, paramTimeline);
+									if (! CollectionUtils.isEmpty(lista)){
 										listaFinal.addAll(lista);
+										break;
+									}
 								}
-								else if ( ( regraSel >= 8 ) && ( regraSel <= 9 )) { // Exibir um anucio imovel
-									Imovel imovel = this.regraTimeLineRecuperarImovelAnuncio(session);
-									if ( imovel != null)
-										listaFinal.add(imovel);
-								}
-								else if ( ( regraSel >= 10 ) || ( regraSel <= 11 )) { // Exibir uma indicacao de usuario  
-									usuarioTimeline = dao.findUsuario(124l);
+								
+								// Sugerir algum contato para realizar contato ou para seguir
+								else if ( ( regraSel >= 22 ) || ( regraSel <= 23 )) {   
+									usuarioTimeline = this.regraTimelineRecuperarSugestaoUsuario(paramTimeline, user);
 									if ( usuarioTimeline != null){
 										isUsuarioTimeLine = true;
 										break;
 									}	
 								}
 							}							
-							
 						}
-						else {
-							while ( (AppUtil.recuperarQuantidadeLista(listaFinal) < 4) || (isNotaExiste) ){
-								
-								regraSel = r.nextInt(12) + 1;
-														
-								if ( ( regraSel >= 1 ) && ( regraSel <= 5 )) { // exibir algum imovel de um contato ou de um usuario que esteja seguindo
-									List<Imovel> lista = this.regraTimeLineRecuperarImoveisIdsUsuarios(session);
-									if (! CollectionUtils.isEmpty(lista))
-										listaFinal.addAll(lista);
-								}
-								else if ( ( regraSel >= 6 ) && ( regraSel <= 8 )) { // Recuperar Imoveis de acordo com a Preferencia de Imoveis
-									List<Imovel> lista = this.regraTimeLineRecuperarImoveisPreferencia(user, session);
-									if (! CollectionUtils.isEmpty(lista))
-										listaFinal.addAll(lista);
-								}
-								else if ( ( regraSel >= 9 ) && ( regraSel <= 10 )) { // Exibir Imovel Anuncio
-									Imovel imovel = this.regraTimeLineRecuperarImovelAnuncio(session);
-									if ( imovel != null )
-										listaFinal.add(imovel);
-								}						
-								else if ( ( regraSel >= 11 ) && ( regraSel <= 12 ) ) { // Exibir alguma Nota de Contato
-									notaTimeLine = this.regraTimeLineRecuperarNota(user, session);
-									if ( notaTimeLine != null ){
-										isNotaExiste = true;
-										break;
-									}								
-								}
-								else if ( regra == 13 ) {
-									List<Imovel> lista = this.regraTimeLineRecuperarImoveisAleatoriamente(user, session);
-									if (! CollectionUtils.isEmpty(lista))
-										listaFinal.addAll(lista);
-								}
-							}
-						}
+						
 					}	
+				
+					session.setAttribute(TimelineService.PARAMETROS_TIMELINE, paramTimeline);
 					
 					if ( isNotaExiste ){
 						listaFinalTimeLine.add(carregarTimeLineNota(notaTimeLine, user));
 						if (! CollectionUtils.isEmpty(listaFinal)){					
-							for (Imovel imovel : listaFinal){
-								listaFinalTimeLine.add(carregarTimeLineImovel(user, imovel));
+							for (Imovel imovelFinal : listaFinal){
+								listaFinalTimeLine.add(carregarTimeLineImovel(user, imovelFinal));
 							}
 						}
 						return listaFinalTimeLine;
@@ -2440,70 +2518,72 @@ public class UsuarioServiceImpl implements UsuarioService{
 					else if (isUsuarioTimeLine){
 						listaFinalTimeLine.add(carregarTimeLineUsuario(usuarioTimeline, user));
 						if (! CollectionUtils.isEmpty(listaFinal)){					
-							for (Imovel imovel : listaFinal){
-								listaFinalTimeLine.add(carregarTimeLineImovel(user, imovel));
+							for (Imovel imovelFinal1 : listaFinal){
+								listaFinalTimeLine.add(carregarTimeLineImovel(user, imovelFinal1));
 							}
 						}
 						return listaFinalTimeLine;
 					}
 					else {
 						if (! CollectionUtils.isEmpty(listaFinal)){					
-							for (Imovel imovel : listaFinal){
-								listaFinalTimeLine.add(carregarTimeLineImovel(user, imovel));
+							for (Imovel imovelFinal2 : listaFinal){
+								listaFinalTimeLine.add(carregarTimeLineImovel(user, imovelFinal2));
 							}
 						}
 						return listaFinalTimeLine;
 					}
-				} // Fim Timeline para corretores
+				 // Fim Timeline para usuario comuns				
 				
-				return listaFinalTimeLine;
 	}
 	
 
-
-	private Usuario regraTimelineRecuperarSugestaoUsuario(List<Long> listaIds,	UsuarioForm user, HttpSession session) {
+	private List<Imovel> regraTimeLineRecuperarImoveisVisitadosSemelhantes(UsuarioForm user, ParametrosTimeline paramTimeline) {		
 		
-		int index = (int) session.getAttribute(TimelineService.ID_INDEX_SUGESTAO_USUARIO);
-		Usuario usuario = dao.findUsuarioByUsuarioByIndex(listaIds, user, index);
+		Imovelvisualizado imovelvisualizado = imovelvisualizadoDao.findImoveisVisitadosByIdUsuarioByIndex(user.getId(), paramTimeline.getIdIndexImovelVisitado());
+		if (imovelvisualizado != null){
+			ImovelForm form = new ImovelForm();
+			form.setIdEstado(imovelvisualizado.getImovel().getIdEstado());
+			form.setIdCidade(imovelvisualizado.getImovel().getIdCidade());
+			form.setIdBairro(imovelvisualizado.getImovel().getIdBairro());
+			form.setTipoImovel(imovelvisualizado.getImovel().getTipoImovel());
+			return imovelService.buscarImovelParaTimeline(form, user.getId() );
+		}
+		return null;
+	}
+
+
+	private Usuario regraTimelineRecuperarSugestaoUsuario(ParametrosTimeline param,	UsuarioForm user) {
+	
+		Usuario usuario = dao.findUsuarioByUsuarioByIndex(param.getListaIds(), 
+														  user, 
+														  param.getIdIndexSugestaoUsuario());
 		if ( usuario != null) {
-			index +=  1;
-			session.setAttribute(TimelineService.ID_INDEX_SUGESTAO_USUARIO, index);
+			param.setIdIndexSugestaoUsuario(param.getIdIndexSugestaoUsuario() + 1);	
 			return usuario;
 		}
 		return null;
 	}
 
 
-	private List<Imovel> regraTimeLineRecuperarImoveisAleatoriamente(List<Long> listaIds, HttpSession session) {
-		int index = (int) session.getAttribute(TimelineService.ID_INDEX_IMOVEL_ALEATORIAMENTE);
-		List<Imovel> lista = imovelService.recuperarImoveisAleatoriamente(listaIds, index);
-		if ( ! CollectionUtils.isEmpty(lista)){
-			int quant = AppUtil.recuperarQuantidadeLista(lista); 
-			session.setAttribute(TimelineService.ID_INDEX_IMOVEL_ALEATORIAMENTE, index + quant);
-		}		
-		return lista;
-	}
-
-
-	private Preferencialocalidade regraTimelineRecuperarPreferenciaLocalidadeUsuario(List<Long> listaIds, HttpSession session, boolean isAleatorio) {
+	private Preferencialocalidade regraTimelineRecuperarPreferenciaLocalidadeUsuario(ParametrosTimeline param, boolean isAleatorio) {
 		
-		if ( isAleatorio ){
-			int index = (int) session.getAttribute(TimelineService.ID_INDEX_PREF_IMOVEL_ALEATORIAMENTE);			
-			Preferencialocalidade pref= preferenciaLocalidadeDao.findPreferencialocalidadeByUsuarioByIndexByAleatorio(listaIds, index, isAleatorio);
+		if ( isAleatorio ){					
+			Preferencialocalidade pref= preferenciaLocalidadeDao.findPreferencialocalidadeByUsuarioByIndexByAleatorio(param.getListaIds(), 
+																													  param.getIdIndexPrefImovelAleatoriamente() , 
+																													  isAleatorio);
 			if ( pref != null ){
-				index +=  1;
-				session.setAttribute(TimelineService.ID_INDEX_PREF_IMOVEL_ALEATORIAMENTE, index);
+				param.setIdIndexPrefImovelAleatoriamente(param.getIdIndexPrefImovelAleatoriamente() + 1);
 				return pref;
 			}
 			else 
 				return null;
 		}
-		else {
-			int index = (int) session.getAttribute(TimelineService.ID_INDEX_PREF_IMOVEL);			
-			Preferencialocalidade pref= preferenciaLocalidadeDao.findPreferencialocalidadeByUsuarioByIndexByAleatorio(listaIds, index, isAleatorio);
+		else {			
+			Preferencialocalidade pref= preferenciaLocalidadeDao.findPreferencialocalidadeByUsuarioByIndexByAleatorio(param.getListaIds(), 
+																													  param.getIdIndexPrefImovel(), 
+																													  isAleatorio);
 			if ( pref != null ){
-				index +=  1;
-				session.setAttribute(TimelineService.ID_INDEX_PREF_IMOVEL, index);
+				param.setIdIndexPrefImovel(param.getIdIndexPrefImovel() + 1);
 				return pref;
 			}
 			else 
@@ -2512,59 +2592,42 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	}
 	
-	private Preferencialocalidade regraTimelineRecuperarPreferenciaLocalidadeUsuario(HttpSession session) {
-		
-		int index = (int) session.getAttribute(TimelineService.ID_INDEX_PREF_IMOVEL_ALEATORIAMENTE);			
-		Preferencialocalidade pref= preferenciaLocalidadeDao.findPreferencialocalidadeByUsuarioByIndexByAleatorio(index);
-		if ( pref != null ){
-			index +=  1;
-			session.setAttribute(TimelineService.ID_INDEX_PREF_IMOVEL_ALEATORIAMENTE, index);
-			return pref;
-		}
-		else 
-			return null;
-	}
-
-
-	public Imovel regraTimeLineRecuperarImovelAnuncio(HttpSession session){
-		long quantAnuncio = (long)session.getAttribute(TimelineService.QUANT_ANUNCIO_IMOVEL);
-		if ( quantAnuncio > 0 ){
-			int idAnuncio = (int)session.getAttribute(TimelineService.ID_ULTIMO_ANUNCIO_IMOVEL);
-			return imovelDestaqueService.recuperarImovelAnuncio(idAnuncio);
-		}
+	public Imovel regraTimeLineRecuperarImovelAnuncio(ParametrosTimeline param){	
+		if ( param.getQuantAnuncioImovel() > 0 )	
+			return imovelDestaqueService.recuperarImovelAnuncio(param.getIdUltimoAnuncioImovel());	
 		else
 			return null;
 	}
 	
 	
-	public List<Imovel> regraTimeLineRecuperarImoveisIdsUsuarios(HttpSession session){
-		List<Long> listaIds = (List<Long>)session.getAttribute(TimelineService.LISTA_IDS_USUARIOS); 
-		if ( ! CollectionUtils.isEmpty(listaIds)) {
-			int index = (int)session.getAttribute(TimelineService.ULTIMO_INDEX_IDS_USUARIO);					
-			List<Imovel> listaImovel = imovelService.recuperarImovelPorIdsUsuarioPorPosicao(listaIds, index); // o parametro informado e index para o setFirstResult no Hibernate 
-			int quant = AppUtil.recuperarQuantidadeLista(listaImovel);
-			session.setAttribute(TimelineService.ULTIMO_INDEX_IDS_USUARIO, index + quant);
+	public List<Imovel> regraTimeLineRecuperarImoveisIdsUsuarios(ParametrosTimeline param){		
+		if ( ! CollectionUtils.isEmpty(param.getListaIds())) {					
+			List<Imovel> listaImovel = imovelService.recuperarImovelPorIdsUsuarioPorPosicao(param.getListaIds(), 
+																							param.getUltimoIndexIdsUsuario()); // o parametro informado e index para o setFirstResult no Hibernate 
+	
+			param.setUltimoIndexIdsUsuario(param.getUltimoIndexIdsUsuario() + AppUtil.recuperarQuantidadeLista(listaImovel));
 			return listaImovel;
 		}
 		else
 			return null;
 	}
 	
-	public List<Imovel> regraTimeLineRecuperarImoveisCompartilhadosIdsUsuarios(HttpSession session, String aceitaCompartilhado){ // o parametro aceitaCompartilhado filtra se o Imovel e compartilhado ou nao
-		List<Long> listaIds = (List<Long>)session.getAttribute(TimelineService.LISTA_IDS_USUARIOS); 
-		if ( ! CollectionUtils.isEmpty(listaIds)) {			
-			if ( aceitaCompartilhado.equals("S")){
-				int index = (int)session.getAttribute(TimelineService.ULTIMO_INDEX_IDS_USUARIO_COMPARTILHADO);					
-				List<Imovel> listaImovel = imovelService.recuperarImovelPorIdsUsuarioPorPosicaoPorAceitaCompartilhado(listaIds, index, aceitaCompartilhado); // o parametro informado e index para o setFirstResult no Hibernate 
-				int quant = AppUtil.recuperarQuantidadeLista(listaImovel);
-				session.setAttribute(TimelineService.ULTIMO_INDEX_IDS_USUARIO_COMPARTILHADO, index + quant);
+	public List<Imovel> regraTimeLineRecuperarImoveisCompartilhadosIdsUsuarios(String aceitaCompartilhado, ParametrosTimeline param){// o parametro aceitaCompartilhado filtra se o Imovel e compartilhado ou nao
+		
+		if ( ! CollectionUtils.isEmpty(param.getListaIds())) {			
+			if ( aceitaCompartilhado.equals("S")){								
+				List<Imovel> listaImovel = imovelService.recuperarImovelPorIdsUsuarioPorPosicaoPorAceitaCompartilhado(param.getListaIds(), 
+																													  param.getUltimoIndexIdsUsuarioCompartilhado(), 
+																													  aceitaCompartilhado); // o parametro informado e index para o setFirstResult no Hibernate 
+
+				param.setUltimoIndexIdsUsuarioCompartilhado(param.getUltimoIndexIdsUsuarioCompartilhado() + AppUtil.recuperarQuantidadeLista(listaImovel));
 				return listaImovel;
 			}
-			else {
-				int index = (int)session.getAttribute(TimelineService.ULTIMO_INDEX_IDS_USUARIO);					
-				List<Imovel> listaImovel = imovelService.recuperarImovelPorIdsUsuarioPorPosicao(listaIds, index); // o parametro informado e index para o setFirstResult no Hibernate 
-				int quant = AppUtil.recuperarQuantidadeLista(listaImovel);
-				session.setAttribute(TimelineService.ULTIMO_INDEX_IDS_USUARIO, index + quant);
+			else {					
+				List<Imovel> listaImovel = imovelService.recuperarImovelPorIdsUsuarioPorPosicao(param.getListaIds(), 
+																								param.getUltimoIndexIdsUsuario()); // o parametro informado e index para o setFirstResult no Hibernate 
+
+				param.setUltimoIndexIdsUsuario(param.getUltimoIndexIdsUsuario() + AppUtil.recuperarQuantidadeLista(listaImovel));
 				return listaImovel;
 			}
 		}
@@ -2573,63 +2636,62 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 	
 	
-	public List<Imovel> regraTimeLineRecuperarImoveisCompartilhadosSemContato(UsuarioForm user, HttpSession session, String aceitaCompartilhado){ // o parametro aceitaCompartilhado filtra se o Imovel e compartilhado ou nao		 
+	public List<Imovel> regraTimeLineRecuperarImoveisCompartilhadosSemContato(UsuarioForm user, ParametrosTimeline param, String aceitaCompartilhado){ // o parametro aceitaCompartilhado filtra se o Imovel e compartilhado ou nao		 
 				
-			if ( aceitaCompartilhado.equals("S")){
-				int index = (int)session.getAttribute(TimelineService.ULTIMO_INDEX_IDS_USUARIO_COMPARTILHADO);					
-				List<Imovel> listaImovel = imovelService.recuperarImovelPorIdsUsuarioPorPosicaoPorAceitaCompartilhado(user.getId(), index, aceitaCompartilhado); // o parametro informado e index para o setFirstResult no Hibernate 
-				int quant = AppUtil.recuperarQuantidadeLista(listaImovel);
-				session.setAttribute(TimelineService.ULTIMO_INDEX_IDS_USUARIO_COMPARTILHADO, index + quant);
+			if ( aceitaCompartilhado.equals("S")){				
+				List<Imovel> listaImovel = imovelService.recuperarImovelPorIdsUsuarioPorPosicaoPorAceitaCompartilhado(user.getId(), 
+																													  param.getUltimoIndexIdsUsuarioCompartilhado(), 
+																													  aceitaCompartilhado); // o parametro informado e index para o setFirstResult no Hibernate 
+		
+				param.setUltimoIndexIdsUsuarioCompartilhado(param.getUltimoIndexIdsUsuarioCompartilhado() + AppUtil.recuperarQuantidadeLista(listaImovel));
 				return listaImovel;
 			}
-			else {
-				int index = (int)session.getAttribute(TimelineService.ULTIMO_INDEX_IDS_USUARIO);					
-				List<Imovel> listaImovel = imovelService.recuperarImovelPorIdsUsuarioPorPosicao(user.getId(), index); // o parametro informado e index para o setFirstResult no Hibernate 
-				int quant = AppUtil.recuperarQuantidadeLista(listaImovel);
-				session.setAttribute(TimelineService.ULTIMO_INDEX_IDS_USUARIO, index + quant);
+			else {							
+				List<Imovel> listaImovel = imovelService.recuperarImovelPorIdsUsuarioPorPosicao(user.getId(), 
+																								param.getUltimoIndexIdsUsuario()); // o parametro informado e index para o setFirstResult no Hibernate 
+
+				param.setUltimoIndexIdsUsuario(param.getUltimoIndexIdsUsuario() + AppUtil.recuperarQuantidadeLista(listaImovel));
 				return listaImovel;
 			}
 	}
 	
-	public List<Imovel> regraTimeLineRecuperarImoveisPreferencia(UsuarioForm user, HttpSession session) {
+	public List<Imovel> regraTimeLineRecuperarImoveisPreferencia(UsuarioForm user, ParametrosTimeline param) {
 		
-		int index = (int) session.getAttribute(TimelineService.ID_INDEX_PREF_IMOVEL);
-		int regra = (int)session.getAttribute(TimelineService.REGRA_PREF_IMOVEL);	
+		int index = param.getIdIndexPrefImovel();
+		int regra = param.getRegraPrefImovel();	
 		List<Imovel> lista = preferenciaLocalidadeDao.findImoveisByPrefLocalidadeByUsuarioByIndex(user, index, regra);
 		if ( ! CollectionUtils.isEmpty(lista)){
 			int quant = AppUtil.recuperarQuantidadeLista(lista);
-			session.setAttribute(TimelineService.ID_INDEX_PREF_IMOVEL, index + quant);
+			param.setIdIndexPrefImovel(index + quant); 
 		}
 		else {
 			regra++;
 			if ( regra > 5)
 				regra = 1;
 			
-			session.setAttribute(TimelineService.REGRA_PREF_IMOVEL, regra);
-			session.setAttribute(TimelineService.ID_INDEX_PREF_IMOVEL, 0);
+			param.setRegraPrefImovel(regra);
+			param.setIdIndexPrefImovel(0);	
 		}
 		return lista;
 	}
 	
-	public List<Imovel> regraTimeLineRecuperarImoveisAleatoriamente(UsuarioForm user, HttpSession session){
+	public List<Imovel> regraTimeLineRecuperarImoveisAleatoriamente(UsuarioForm user, ParametrosTimeline param){
 		
-		int index = (int) session.getAttribute(TimelineService.ID_INDEX_IMOVEL_ALEATORIAMENTE);
+		int index = param.getIdIndexImovelAleatoriamente();
 		List<Imovel> lista = imovelService.recuperarImoveisAleatoriamente(user, index);
-		if ( ! CollectionUtils.isEmpty(lista)){
-			int quant = AppUtil.recuperarQuantidadeLista(lista); 
-			session.setAttribute(TimelineService.ID_INDEX_IMOVEL_ALEATORIAMENTE, index + quant);
-		}		
+		if ( ! CollectionUtils.isEmpty(lista))
+			param.setIdIndexImovelAleatoriamente(index + AppUtil.recuperarQuantidadeLista(lista) );
+			
 		return lista;
 	}
 	
-	public Nota regraTimeLineRecuperarNota(UsuarioForm user, HttpSession session){
+	public Nota regraTimeLineRecuperarNota(UsuarioForm user, ParametrosTimeline param){
 		
-		int index = (int) session.getAttribute(TimelineService.ID_INDEX_NOTA);
-		List<Long> listaIds = (List<Long>)session.getAttribute(TimelineService.LISTA_IDS_USUARIOS);
-		Nota nota = notaService.recuperarNotaByUsuarioByIndex( listaIds, index);
+		int index = param.getIdIndexNota();
+		Nota nota = notaService.recuperarNotaByUsuarioByIndex( param.getListaIds(), index);
 		if ( nota != null ){
 			index +=  1;
-			session.setAttribute(TimelineService.ID_INDEX_NOTA, index);
+			param.setIdIndexNota(index);	
 			return nota;
 		}
 		else
@@ -2661,23 +2723,23 @@ public class UsuarioServiceImpl implements UsuarioService{
 		 
 		 if ( nota.getAcao().equals(NotaAcaoEnum.PARCERIA.getRotulo())) {														    			    	
 			 buf.append(" ");					  
-			 buf.append("					<small class='block text-muted'> " + nota.getDescricao() +" <a href='" + context.getContextPath() + "/imovel/detalhesImovel/ "+ nota.getImovel().getId() + "' ><strong> " + nota.getImovel().getTitulo()  +" </strong></a></small> ");
+			 buf.append("					<small class='block text-muted'> <font size='3px;'> " + nota.getDescricao() +" <a href='" + context.getContextPath() + "/imovel/detalhesImovel/ "+ nota.getImovel().getId() + "' ><strong> " + nota.getImovel().getTitulo()  +" </strong></a></font></small> ");
 		 }
 		 else if ( nota.getAcao().equals(NotaAcaoEnum.PREFERENCIA.getRotulo())) {											    			    	
 			 buf.append(" ");					  
-			 buf.append("					<small class='block text-muted'>" + MessageUtils.getMessage("lbl.notas.contato.add.preferencia.p1")  + " <a href='" + context.getContextPath() + "/usuario/detalhesUsuario/ "+ nota.getUsuario().getId() + "' ><strong> " + nota.getUsuario().getNome()  + " </strong></a>" +  MessageUtils.getMessage("lbl.notas.contato.add.preferencia.p2") + "</small> ");	
+			 buf.append("					<small class='block text-muted'> <font size='3px;'> " + MessageUtils.getMessage("lbl.notas.contato.add.preferencia.p1")  + " <a href='" + context.getContextPath() + "/usuario/detalhesUsuario/ "+ nota.getUsuario().getId() + "' ><strong> " + nota.getUsuario().getNome()  + " </strong></a>" +  MessageUtils.getMessage("lbl.notas.contato.add.preferencia.p2") + "</font></small> ");	
 		 }
 		 else if ( nota.getAcao().equals(NotaAcaoEnum.USUARIO.getRotulo())) {											    			    	
 			 buf.append(" ");					  
-			 buf.append("					<small class='block text-muted'>" + MessageUtils.getMessage("lbl.notas.contato.informacoes.usuario.p1")  + " <a href='" + context.getContextPath() + "/usuario/detalhesUsuario/ "+ nota.getUsuario().getId() + "' ><strong> " + nota.getUsuario().getNome()  + " </strong></a>" +  MessageUtils.getMessage("lbl.notas.contato.informacoes.usuario.p2") + "</small> ");
+			 buf.append("					<small class='block text-muted'> <font size='3px;'> " + MessageUtils.getMessage("lbl.notas.contato.informacoes.usuario.p1")  + " <a href='" + context.getContextPath() + "/usuario/detalhesUsuario/ "+ nota.getUsuario().getId() + "' ><strong> " + nota.getUsuario().getNome()  + " </strong></a>" +  MessageUtils.getMessage("lbl.notas.contato.informacoes.usuario.p2") + "</font></small> ");
 		 }
 		 else if ( nota.getAcao().equals(NotaAcaoEnum.PESSOAL.getRotulo())) {														    			    	
 			 buf.append(" ");					  
-			 buf.append("					<small class='block text-muted'> " + nota.getDescricao() +" </small> ");
+			 buf.append("					<small class='block text-muted'> <font size='3px;'> " + nota.getDescricao() +" </font></small> ");
 		 }
 		 else if ( nota.getAcao().equals(NotaAcaoEnum.IMOVEL.getRotulo())) {											    			    	
 			 buf.append(" ");					  
-			 buf.append("					<small class='block text-muted'>" + MessageUtils.getMessage("lbl.notas.contato.informacoes.imovel.p1")  + " <a href='" + context.getContextPath() + "/imovel/detalhesImovel/ "+ nota.getImovel().getId() + "' ><strong> " + nota.getImovel().getTitulo()  + " </strong></a>" +  MessageUtils.getMessage("lbl.notas.contato.informacoes.imovel.p2") + " <a href='" + context.getContextPath() + "/usuario/detalhesUsuario/ "+ nota.getUsuario().getId() + "' ><strong> " + nota.getUsuario().getNome()  + " </strong></a></small> ");
+			 buf.append("					<small class='block text-muted'> <font size='3px;'> " + MessageUtils.getMessage("lbl.notas.contato.informacoes.imovel.p1")  + " <a href='" + context.getContextPath() + "/imovel/detalhesImovel/ "+ nota.getImovel().getId() + "' ><strong> " + nota.getImovel().getTitulo()  + " </strong></a>" +  MessageUtils.getMessage("lbl.notas.contato.informacoes.imovel.p2") + " <a href='" + context.getContextPath() + "/usuario/detalhesUsuario/ "+ nota.getUsuario().getId() + "' ><strong> " + nota.getUsuario().getNome()  + " </strong></a></font></small> ");
 		 }
 		 															
 		 buf.append(" </br> ");              	  

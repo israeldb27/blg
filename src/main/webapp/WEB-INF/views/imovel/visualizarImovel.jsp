@@ -473,6 +473,9 @@ function prepararModalGaleriaFotos(){
                                     		</c:when>
                                     	</c:choose>  
  										 &nbsp;&nbsp;&nbsp;&nbsp;
+ 										 
+ 										<a href="${urlImovel}/analisarRecuperacaoUsuariosInteressados/${imovelForm.id}" style="font-size:x-large;" class="meta-action"><i class="fa-hourglass-half" style="color:gray" title="<spring:message code="lbl.acao.recuperar.usuario.interessados"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.acao.recuperar.usuario.interessados"/> </font></a> 
+ 										 
                                         <a href="#a" onClick="adicionarComparar(${imovelForm.id})" style="font-size:x-large;" class="meta-action"><i class="fa fa-eye" style="color:gray" title="<spring:message code="lbl.title.link.comparar"/>"></i><font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.title.link.comparar"/> </font></a>&nbsp;&nbsp;&nbsp;&nbsp; 
                                         <a href="${urlImovelIndicado}/selecionarParaIndicarImovel/${imovelForm.id}" style="font-size:x-large;" class="meta-action"><i class="fa fa-share-alt" style="color:gray" title="<spring:message code="lbl.acao.sugerir"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.acao.sugerir"/> </font></a>
                                     </div>

@@ -2,6 +2,7 @@ package com.busqueumlugar.dao;
 
 import java.util.List;
 
+import com.busqueumlugar.form.ImovelForm;
 import com.busqueumlugar.form.PreferencialocalidadeForm;
 import com.busqueumlugar.form.UsuarioForm;
 import com.busqueumlugar.model.Imovel;
@@ -25,4 +26,6 @@ public interface PreferencialocalidadeDao extends GenericDAO<Preferencialocalida
 	Preferencialocalidade findPreferencialocalidadeByUsuarioByIndexByAleatorio(List<Long> listaIds, int index, boolean isAleatorio);
 
 	Preferencialocalidade findPreferencialocalidadeByUsuarioByIndexByAleatorio(int index);
+
+	List<Long> findUsuariosPreferenciaisImoveisSemelhantes(Long idUsuario,	ImovelForm form);
 }

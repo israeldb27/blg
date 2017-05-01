@@ -3,7 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+ 
 <spring:url value="/usuario" var="urlUsuario"/>
 <spring:url value="/contato" var="urlContato"/>
 <spring:url value="/localidade/buscarCidades" var="urlBuscarCidades"/>

@@ -120,6 +120,8 @@ public class PreferenciaLocalidadeController {
 			prefForm.setIdUsuario(idUsuario);
 			map.addAttribute("listaPreferenciaImoveis", prefLocalidadeService.listarPreferenciaPorUsuario(idUsuario));
 			map.addAttribute("preferenciaLocalidadeForm", prefForm);
+		
+			session.setAttribute("firstTime", "S");
 			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "preferenciasImoveis");		
 	    	return DIR_PATH_CADASTRO_USUARIO + "inicioCadastrarPreferencias";
 		} catch (Exception e) {
@@ -138,6 +140,7 @@ public class PreferenciaLocalidadeController {
 		
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
+			session.setAttribute("firstTime", "N");
 			boolean possuiErro = prefLocalidadeService.validarCadastroPreferencia(form, result);
 			if ( ! possuiErro)		
 				prefLocalidadeService.adicionarPreferencia(user.getId(), form);
@@ -179,9 +182,11 @@ public class PreferenciaLocalidadeController {
 	@RequestMapping(value = "/adicionarPreferenciaInicioCadastroUsuario", method = RequestMethod.POST)
 	public String adicionarPreferenciaInicioCadUsuario(@ModelAttribute("preferenciaLocalidadeForm") PreferencialocalidadeForm form,
 													   BindingResult result,
+													   HttpSession session,
 													   ModelMap map){		
 		try {
 			boolean possuiErro = prefLocalidadeService.validarAdicionarPreferenciaCadUsuario(form, result);
+			session.setAttribute("firstTime", "N");
 			if (!possuiErro)
 				prefLocalidadeService.adicionarPreferencia(form.getIdUsuario(), form);			
 			

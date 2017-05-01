@@ -799,6 +799,26 @@ public class ImovelController {
 		} 		
 	}
 	
+	@RequestMapping(value = "/analisarRecuperacaoUsuariosInteressados")
+	public String analisarRecuperacaoUsuariosInteressados(@PathVariable Long idImovel,
+														  @ModelAttribute("imovelForm") ImovelForm form,
+								 						  ModelMap map, 
+								 						  HttpSession session){		
+		try {
+			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);					
+			map.addAttribute("imovel", form);
+			map.addAttribute("listaUsuarios", imovelService.analisarUsuariosInteressados(user.getId(), form));
+			return DIR_PATH + "resultadoAnaliseRecuperacaoUsuariosInteressados";
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelController -  detalhesImovel");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		} 		
+	}
+	
+	
+	
 	@RequestMapping(value = "/detalhesImovel")
 	public String detalhesImovel(HttpServletRequest request,
 								 ModelMap map, 
@@ -1198,7 +1218,40 @@ public class ImovelController {
 		
 		return DIR_PATH + "buscarImovelPorMapa";       
 	}
+	
+	@RequestMapping(value = "/listarMeusImoveisMapa", method = RequestMethod.POST)	
+	public String listarMeusImoveisMapa(@ModelAttribute("imovelForm") ImovelForm form, 
+								   		ModelMap map, 
+								   		HttpSession session){
 		
+		try {
+			 ObjectMapper mapper = new ObjectMapper();
+			 UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);		
+			 String json = "";
+			 List<ImovelMapaForm> lista = null;
+			 int tam = 0;
+			 lista = imovelService.buscarImoveisMapa(form, user.getId());
+			 tam = AppUtil.recuperarQuantidadeLista(lista);
+			 if (tam > 0 ){
+				 json = mapper.writeValueAsString(lista);
+				 map.addAttribute("listaImoveisMapa", json );
+			 }
+			 else
+				 map.addAttribute("listaImoveisMapa", null );
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelController -  listarMeusImoveisMapa");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+		
+		return DIR_PATH + "listarMeusImoveisPorMapa";       
+	}
+		
+	
+	
+	
+	
 	
 	@RequestMapping(value = "/buscarImovel", method = RequestMethod.POST)	
 	public String buscarImovel(@ModelAttribute("imovelForm") ImovelForm form, 

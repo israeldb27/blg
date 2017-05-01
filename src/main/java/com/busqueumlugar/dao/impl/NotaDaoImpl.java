@@ -153,7 +153,7 @@ public class NotaDaoImpl extends GenericDAOImpl<Nota, Long>  implements NotaDao 
 
 	@Override
 	public Nota findNotaByUsuarioByIndex(List<Long> listaIds, int index) {
-		Criteria crit = session().createCriteria(Nota.class);
+		Criteria crit = session().createCriteria(Nota.class);		
 		crit.createCriteria("usuario").add(Restrictions.in("id", listaIds));		
 		crit.setFirstResult(index);
 		crit.setMaxResults(1);

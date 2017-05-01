@@ -4,12 +4,11 @@
 <c:set var="context" value="<%= request.getContextPath()%>"/>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
-<script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="${context}/js/jquery.min.js"></script>
 <script type="text/javascript" src="${context}/js/jquery.validate.js"></script>
 <script type="text/javascript" src="${context}/js/jquery-ui.js"></script>
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
+
 
 <%@page import="com.busqueumlugar.util.UsuarioInterface"%>
 <%@page import="com.busqueumlugar.service.UsuarioService"%>
@@ -26,7 +25,7 @@
    <script type="text/javascript">
    
 	   $(document).ready(function() {		   
-		   carregarTimeline();		   
+		    
 		   $('#quote-carousel').carousel({
 			    pause: true,
 			    interval: 4000,
@@ -43,7 +42,8 @@
 	        });
 	    });
 	   
-	  function carregarTimeline(){
+	  function carregarTimeline(){		
+		  
 			$.ajax({  
 			    type: 'GET',	
 		         url: '${urlUsuario}/carregarTimeLine',
@@ -55,6 +55,8 @@
 		         },	      
 		     }); 
 	  } 
+	  
+	  
 	  
 	  function enviarConvite(id) {	
 			var parametro1 = id;
@@ -318,7 +320,7 @@ border-color: black;
                                         </div>                                     
                                         
                                         <div id="loadMore-container" class="cbp-l-loadMore-button">
-				                            <a href="#a" onClick="carregarTimeline()" class="cbp-l-loadMore-link">
+				                            <a href="#a" onClick="carregarTimeline();" class="cbp-l-loadMore-link">
 				                                <span class="cbp-l-loadMore-defaultText">Carregar Mais</span>
 				                                <span class="cbp-l-loadMore-loadingText">Carregando...</span>
 				                                <span class="cbp-l-loadMore-noMoreLoading">NO MORE WORKS</span>

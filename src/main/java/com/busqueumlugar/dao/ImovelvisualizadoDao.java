@@ -61,6 +61,10 @@ public interface ImovelvisualizadoDao extends GenericDAO<Imovelvisualizado, Long
 
 	long findQuantidadeVisitantesByIdUsuarioByStatus(Long idUsuario, String status);
 
-	void updateStatusLeitura(Long idUsuario);	
+	void updateStatusLeitura(Long idUsuario);
+
+	Imovelvisualizado findImoveisVisitadosByIdUsuarioByIndex(Long idUsuario, int idIndex);
+
+	List<Long> findUsuariosImoveisVisitadosSemelhantes(Long idUsuario,	ImovelForm form);	
 	
 }

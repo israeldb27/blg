@@ -444,4 +444,9 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 		return dao.findQuantidadeImoveisVisitadosPorImovelPorStatus(idImovel, statusLeitura);
 	}
 
+	@Override
+	public List<Long> recuperarUsuariosVisitouImoveisSemelhantes(Long idUsuario, ImovelForm form) {		
+		return dao.findUsuariosImoveisVisitadosSemelhantes(idUsuario, form);
+	}
+
 }
