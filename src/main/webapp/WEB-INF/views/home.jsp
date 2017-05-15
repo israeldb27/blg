@@ -56,6 +56,7 @@
 
             </div>
         </div>
+        
     </div>
     <div class="main">
         <div class="content">  
@@ -83,7 +84,7 @@
             <div class="col col-right">
             	<h2><spring:message code="msg.texto.11.apresentacao.tela.login"/></h2>
                 <h3><spring:message code="msg.texto.12.apresentacao.tela.login"/></h3>
-                <br> </br> <br> </br>
+                <br> </br> 
                 
                 <div class="smart-forms">
                 	<form:form id="usuarioForm" name="usuarioForm" path="usuarioForm" method="POST" action="${urlUsuario}/prepararCadastroUsuario">
@@ -92,9 +93,10 @@
                           </div>     
                 	</form:form>
                 </div>	
+                    <br> </br> <br> </br> 
             </div>            
-         
-        </div>
+  
+        </div>          
     </div>
 </div>
 

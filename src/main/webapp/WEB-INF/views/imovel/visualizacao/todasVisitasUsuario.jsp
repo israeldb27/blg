@@ -57,7 +57,7 @@ $(document).ready(function() {
 		                                <div class="inner-all">
 		                                    <ul class="list-unstyled">
 		                                        <li class="text-center">	
-													<a href="${urlUsuario}/detalhesUsuario/${usuarioVisitante.id}" ><img class="img-circle img-bordered-primary" src="${context}/${usuarioVisitante.imagemArquivo}" style="width: 200px; height: 200px; "></a>		                                            
+													<a href="${urlUsuario}/detalhesUsuario/${usuarioVisitante.id}" ><img class="img-circle img-bordered-primary" src="data:image/jpeg;base64,${usuarioVisitante.imagemArquivo}"  style="width: 200px; height: 200px; "></a>		                                            
 		                                        </li>
 		                                        <li class="text-center">
 		                                            <h4 class="text-capitalize"><a href="${urlUsuario}/detalhesUsuario/${usuarioVisitante.id}" >${usuarioVisitante.nome}</a></h4>
@@ -154,7 +154,7 @@ $(document).ready(function() {
 		                                </div><!-- /.panel-heading -->
 		                                <div class="panel-body no-padding">
 		                                    <div class="table-responsive" style="margin-top: -1px;">
-		                                        <table class="table table-striped table-primary">
+		                                        <table class="table table-striped">
 		                                            <thead>
 		                                            <tr>		                                                
 		                                            	<th class="text-center"></th>
@@ -169,9 +169,9 @@ $(document).ready(function() {
 			                                                <td class="text-center">	
 																<a href="${urlImovel}/detalhesImovel/${imovelVisita.imovel.id}" ><img src="data:image/jpeg;base64,${imovelVisita.imovel.imagemArquivo}" style="width: 60px; height: 50px; " /></a>										                     			                				
 			                                                </td>			                                                
-			                                                <td class="text-center"> <a href="${urlImovel}/detalhesImovel/${imovelVisita.imovel.id}" >${imovelVisita.imovel.titulo}</a> </td>
-	                                            			 <td class="text-center"> ${imovelVisita.imovel.tipoImovelFmt} </td>
-			                                                <td class="text-center"><fmt:formatDate value='${imovelVisita.dataVisita}' pattern='dd/MM/yyyy'/></td>			                                                			                                              	                                            
+			                                                <td class="text-center" style="font-size: 13px;"> <a href="${urlImovel}/detalhesImovel/${imovelVisita.imovel.id}" >${imovelVisita.imovel.titulo}</a> </td>
+	                                            			 <td class="text-center" style="font-size: 13px;"> ${imovelVisita.imovel.tipoImovelFmt} </td>
+			                                                <td class="text-center" style="font-size: 13px;"><fmt:formatDate value='${imovelVisita.dataVisita}' pattern='dd/MM/yyyy'/></td>			                                                			                                              	                                            
 			                                            </tr>
 		                                            </c:forEach>
 		                                            </tbody>

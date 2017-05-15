@@ -64,8 +64,8 @@ $(document).ready(function() {
 		                                <div class="inner-all">
 		                                    <ul class="list-unstyled">
 		                                        <li class="text-center">
-													<a href="${urlUsuario}/detalhesUsuario/${usuarioProposta.id}" >
-														<img class="img-circle img-bordered-primary" src="${context}/${usuarioProposta.imagemArquivo}" style="width: 200px; height: 200px; ">
+													<a href="${urlUsuario}/detalhesUsuario/${usuarioProposta.id}" >												
+														<img class="img-circle img-bordered-primary" src="data:image/jpeg;base64,${usuarioProposta.imagemArquivo}" style="width: 200px; height: 200px; ">
 													</a>
 		                                            
 		                                        </li>
@@ -159,7 +159,7 @@ $(document).ready(function() {
 		                                </div><!-- /.panel-heading -->
 		                                <div class="panel-body no-padding">
 		                                    <div class="table-responsive" style="margin-top: -1px;">
-		                                        <table class="table table-striped table-primary">
+		                                        <table class="table table-striped">
 		                                            <thead>
 		                                            <tr>		                                                
 		                                            	<th class="text-center"></th>
@@ -177,14 +177,14 @@ $(document).ready(function() {
 																	<img src="data:image/jpeg;base64,${imovelProposta.imovel.imagemArquivo}" style="width: 60px; height: 50px; " />	                				
 																</a>
 			                                                </td>			                                                
-			                                                <td class="text-center">
+			                                                <td class="text-center" style="font-size: 13px;">
 																<a href="${urlImovel}/detalhesImovel/${imovelProposta.imovel.id}" >
 																	${imovelProposta.imovel.titulo}
 																</a>  
 															</td>
-	                                            			 <td class="text-center"> ${imovelProposta.imovel.tipoImovelFmt} </td>
-													         <td class="text-center"><fmt:formatNumber value="${imovelProposta.valorProposta}" pattern="#,##0.00;-0"/></td>	                     		
-			                                                 <td class="text-center"><fmt:formatDate value='${imovelProposta.dataCadastro}' pattern='dd/MM/yyyy'/></td>			                                                			                                              	                                            
+	                                            			 <td class="text-center" style="font-size: 13px;"> ${imovelProposta.imovel.tipoImovelFmt} </td>
+													         <td class="text-center" style="font-size: 13px;"><fmt:formatNumber value="${imovelProposta.valorProposta}" pattern="#,##0.00;-0"/></td>	                     		
+			                                                 <td class="text-center" style="font-size: 13px;"><fmt:formatDate value='${imovelProposta.dataCadastro}' pattern='dd/MM/yyyy'/></td>			                                                			                                              	                                            
 			                                            </tr>
 		                                            </c:forEach>
 		                                            </tbody>

@@ -383,7 +383,7 @@ function recuperaBairros(){
 	                                                </div>
 	                                                
 	                                                <div class="col-md-7">
-	                                                    <table class="table table-condensed">
+	                                                    <table class="table table-striped">
 	                                                        <tbody style="font-size: 13px;">
 	                                                        	<tr>
 	                                                                <td class="text-left"><spring:message code="lbl.area.m2.resum"/></td>

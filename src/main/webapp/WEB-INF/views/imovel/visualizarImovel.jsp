@@ -57,7 +57,7 @@ div#map_container{
 }
 </style>
 
-<script type="text/javascript"    src="http://maps.googleapis.com/maps/api/js?sensor=false&key=12345"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyCpGgcH6PuflECkJvtay8pjSdVWFs0bGRE"></script>
 
 <!-- TABS -->
 <script src="${context}/js/jquery-ui.js "></script>
@@ -474,7 +474,10 @@ function prepararModalGaleriaFotos(){
                                     	</c:choose>  
  										 &nbsp;&nbsp;&nbsp;&nbsp;
  										 
- 										<a href="${urlImovel}/analisarRecuperacaoUsuariosInteressados/${imovelForm.id}" style="font-size:x-large;" class="meta-action"><i class="fa-hourglass-half" style="color:gray" title="<spring:message code="lbl.acao.recuperar.usuario.interessados"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.acao.recuperar.usuario.interessados"/> </font></a> 
+ 										 <c:if test="${((imovelForm.usuarioDonoImovel.id == usuario.id) && (imovelForm.usuarioDonoImovel.perfil != 'P')) }">
+	 										<a href="${urlImovel}/analisarRecuperacaoUsuariosInteressados/${imovelForm.id}" style="font-size:x-large;" class="meta-action"><i class="fa fa-hourglass-start" style="color:gray" title="<spring:message code="lbl.acao.recuperar.usuario.interessados"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.acao.recuperar.usuario.interessados"/> </font></a> 
+	 										 &nbsp;&nbsp;&nbsp;&nbsp; 
+ 										 </c:if>
  										 
                                         <a href="#a" onClick="adicionarComparar(${imovelForm.id})" style="font-size:x-large;" class="meta-action"><i class="fa fa-eye" style="color:gray" title="<spring:message code="lbl.title.link.comparar"/>"></i><font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.title.link.comparar"/> </font></a>&nbsp;&nbsp;&nbsp;&nbsp; 
                                         <a href="${urlImovelIndicado}/selecionarParaIndicarImovel/${imovelForm.id}" style="font-size:x-large;" class="meta-action"><i class="fa fa-share-alt" style="color:gray" title="<spring:message code="lbl.acao.sugerir"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.acao.sugerir"/> </font></a>

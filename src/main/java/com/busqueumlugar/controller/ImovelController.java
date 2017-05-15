@@ -799,7 +799,7 @@ public class ImovelController {
 		} 		
 	}
 	
-	@RequestMapping(value = "/analisarRecuperacaoUsuariosInteressados")
+	@RequestMapping(value = "/analisarRecuperacaoUsuariosInteressados/{idImovel}")
 	public String analisarRecuperacaoUsuariosInteressados(@PathVariable Long idImovel,
 														  @ModelAttribute("imovelForm") ImovelForm form,
 								 						  ModelMap map, 

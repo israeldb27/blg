@@ -1106,13 +1106,13 @@ public class ImovelServiceImpl implements ImovelService{
 		TreeSet<Long> listaIdsFinal = new TreeSet<Long>();		
 		
 		//Recuperar usuários de acordo com a preferencia imovel
-		List<Long> listaIdsUsuariosPrefImoveis = preferenciaLocalidadeDao.findUsuariosPreferenciaisImoveisSemelhantes(idUsuario, form);
+		List listaIdsUsuariosPrefImoveis = preferenciaLocalidadeDao.findUsuariosPreferenciaisImoveisSemelhantes(idUsuario, form);
 		
 		// Recuperar usuários que visitaram imóveis semelhantes a este imóvel selecionado
-		List<Long> listaIdsUsuariosImovelVistado = imovelvisualizadoService.recuperarUsuariosVisitouImoveisSemelhantes(idUsuario, form);
+		List listaIdsUsuariosImovelVistado = imovelvisualizadoService.recuperarUsuariosVisitouImoveisSemelhantes(idUsuario, form);
 				
 		// Recuperar usuários que adotaram como favorito imóveis que são semelhantes a este 
-		List<Long> listaIdsUsuariosImoveisFavoritos = imovelfavoritosDao.findUsuariosImoveisFavoritosSemelhantes(idUsuario, form);
+		List listaIdsUsuariosImoveisFavoritos = imovelfavoritosDao.findUsuariosImoveisFavoritosSemelhantes(idUsuario, form);
 		
 		if (!CollectionUtils.isEmpty(listaIdsUsuariosPrefImoveis))
 			listaIdsFinal.addAll(listaIdsUsuariosPrefImoveis);

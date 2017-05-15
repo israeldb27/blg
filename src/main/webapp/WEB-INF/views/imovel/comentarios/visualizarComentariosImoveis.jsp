@@ -186,7 +186,7 @@ function desmarcarCheck(id) {
 															</c:if>	
 			                                		
 				                                        <a class="pull-left" href="${urlUsuario}/detalhesUsuario/${imovel.usuarioComentario.id}">
-				                                            <img src="${context}/${imovel.usuario.imagemArquivo}" style="width: 60px; height: 50px;"  class="img-responsive img-thumbnail"/>								                                            
+				                                            <img src="data:image/jpeg;base64,${imovel.usuario.imagemArquivo}" style="width: 60px; height: 50px;"  class="img-responsive img-thumbnail"/>								                                            
 				                                        </a><!-- /.pull-left -->
 				                                        <div class="media-body">
 				                                            <h4 class="media-heading"><a href="${urlUsuario}/detalhesUsuario/${imovel.usuarioComentario.id}">${imovel.usuario.nome}</a></h4>

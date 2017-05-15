@@ -23,7 +23,7 @@ div#map_container{
 	height:350px;
 }
 </style>
-<script type="text/javascript"    src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript"    src="http://maps.googleapis.com/maps/api/js?sensor=false&key=1223444"></script>
 
 		
 
@@ -147,10 +147,12 @@ $( document ).ready(function() {
                                         <div class="form-body">
                                         
                                             <div class="form-group">
-                                                <label for="endereco" class="col-sm-3 control-label">Informe o seu endereço</label>
-                                                <div class="col-sm-9">                                                    
-                                                     <form:input id="address" path="endereco" />
-                    								 <button type="button" id="btnaddress" onClick="geocoder()" class="btn btn-success">Localizar Mapa</button> 
+                                                <label for="endereco" class="col-sm-3 control-label"><spring:message code="lbl.mapa.informe.endereco"/></label>
+                                                <div class="col-sm-8">                                                    
+                                                     <form:input id="address" path="endereco" size="13" class="form-control"/>
+                                                     <br>
+                    								 <button type="button" id="btnaddress" onClick="geocoder()" class="btn btn-success"><spring:message code="lbl.localizar.mapa"/></button> 
+                                                	 <button type="submit" id="btnaddressSave" class="btn btn-success"><spring:message code="lbl.salvar.mapa"/></button>
                                                 </div>
                                             </div><!-- /.form-group -->
                                             
@@ -161,31 +163,21 @@ $( document ).ready(function() {
 											</div>
 											
 											<div class="form-group">
-                                            	<form:input path="longitudeFmt"  id="longitudeFmt"/>
-												<form:input path="latitudeFmt"  id="latitudeFmt"/>
-											</div>   
-                                            
-                                        </div><!-- /.form-body -->
-                                        
-                                        <div class="form-footer">  
-                                            <div class="col-sm-offset-3">
-                                                <button type="subtmi" id="btnaddress" class="btn btn-success">Salvar Mapa</button>
-                                            </div>
-                                        </div><!-- /.form-footer -->    
+                                            	<form:hidden path="longitudeFmt"  id="longitudeFmt"/>
+												<form:hidden path="latitudeFmt"  id="latitudeFmt"/>
+											</div>  
+                                        </div><!-- /.form-body -->                                  
                                         
                                 </div><!-- /.panel-body -->
                             </div><!-- /.panel -->
                             <!--/ End horizontal form -->
-                        </div>
-						<!--/ FIM ABA LOCALIZACAO -->
+                        </div>		
                      
                         </div><!-- /.row -->
                        </form:form> 
                             
                 </div><!-- /.body-content -->
-                <!--/ End body content -->
-                
-                <!-- Fim Editar Usuario -->          
+                <!--/ End body content -->                 
          
             </section><!-- /#page-content -->
             

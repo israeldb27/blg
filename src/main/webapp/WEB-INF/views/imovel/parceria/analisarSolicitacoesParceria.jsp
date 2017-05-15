@@ -248,7 +248,7 @@ function confirmarExclusaoSolParceriaAnaliseSol(){
                    		
 		                   		<div class="panel-body no-padding">		                 
 		                             <div class="table-responsive" style="margin-top: -1px;">
-		                                 <table class="table table-striped table-primary">
+		                                 <table class="table table-striped">
 		                                     <thead>
 		                                     <tr>
 		                                         <th class="text-center"><spring:message code="lbl.data.sol"/></th>
@@ -260,10 +260,10 @@ function confirmarExclusaoSolParceriaAnaliseSol(){
 		                                     <tbody>
 		                                     <c:forEach var="parceria" items="${listaSolImovelParceria}" >
 		                                      <tr>
-		                                          <td class="text-center"> <fmt:formatDate value='${parceria.dataSolicitacao}' pattern='dd/MM/yyyy'/>  </td>
-		                                          <td class="text-center"> ${parceria.usuarioSolicitante.nome} </td>
-		                                          <td class="text-center"> ${parceria.descricaoCompartilhamento} </td>              
-		                                          <td class="text-center"> <a href="${urlParceria}/aceitarSolImovelParceria/${parceria.id}/${parceria.imovel.id}" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" data-original-title="<spring:message code='lbl.link.selecionar.sol.parceria'/>"><i class="fa fa-pencil"></i></a> 
+		                                          <td class="text-center" style="font-size: 13px;"> <fmt:formatDate value='${parceria.dataSolicitacao}' pattern='dd/MM/yyyy'/>  </td>
+		                                          <td class="text-center" style="font-size: 13px;"> ${parceria.usuarioSolicitante.nome} </td>
+		                                          <td class="text-center" style="font-size: 13px;"> ${parceria.descricaoCompartilhamento} </td>              
+		                                          <td class="text-center" style="font-size: 13px;"> <a href="${urlParceria}/aceitarSolImovelParceria/${parceria.id}/${parceria.imovel.id}" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" data-original-title="<spring:message code='lbl.link.selecionar.sol.parceria'/>"><i class="fa fa-pencil"></i></a> 
 		                                          						   <a href="#" onClick="prepararModalConfirmaExclusao(${parceria.id}, ${parceria.imovel.id} )" data-toggle="tooltip" data-placement="top" data-original-title="Excluir Solicitação"><i class="fa fa-times"></i></a> 
 		                                          </td>
 											                      		

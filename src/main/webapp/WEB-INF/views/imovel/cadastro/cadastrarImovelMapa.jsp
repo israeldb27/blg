@@ -22,7 +22,7 @@ div#map_container{
 	height:350px;
 }
 </style>
-<script type="text/javascript"    src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>		
+<script type="text/javascript"  src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>		
 
 <script type="text/javascript">
 
@@ -65,17 +65,17 @@ $( document ).ready(function() {
    		
 			var latlng = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
 			 var myOptions = {
-				      zoom: 16,
-				      center: latlng,
-				      mapTypeId: google.maps.MapTypeId.ROADMAP
-				    };
-				    var map = new google.maps.Map(document.getElementById("map"),myOptions);
-					
-				    var marker = new google.maps.Marker({
-				      position: latlng, 
-				      map: map, 
-				      title:"my hometown, Malim Nawar!"
-				    }); 
+			      zoom: 16,
+			      center: latlng,
+			      mapTypeId: google.maps.MapTypeId.ROADMAP
+			    };
+			    var map = new google.maps.Map(document.getElementById("map"),myOptions);
+				
+			    var marker = new google.maps.Marker({
+			      position: latlng, 
+			      map: map, 
+			      title:"my hometown, Malim Nawar!"
+			    }); 
 		  } 
 	   });
 	}	
@@ -99,9 +99,7 @@ $( document ).ready(function() {
 
             <!-- START @PAGE CONTENT -->
             <section id="page-content">
-            
-            	<!-- Inicio - Meus Favoritos -->
-            
+                       
             	 <!-- Start header content --> 
                 <div class="header-content">
                     <h2><i class="fa fa-pencil"></i><spring:message code="lbl.cadastrar.imovel.mapa"/>  </h2>                                                                        
@@ -135,13 +133,15 @@ $( document ).ready(function() {
                                 </div><!-- /.panel-heading -->
                                 <div class="panel-body no-padding">
 
-                                        <div class="form-body">
-                                        
+                                        <div class="form-body">                                        
                                             <div class="form-group">
-                                                <label for="endereco" class="col-sm-3 control-label">Informe o seu endereço</label>
-                                                <div class="col-sm-9">                                                    
-                                                     <form:input id="address" path="endereco" />
-                    								 <button type="button" id="btnaddress" onClick="geocoder()" class="btn btn-success">Localizar Mapa</button> 
+                                                <label for="endereco" class="col-sm-3 control-label"><spring:message code="lbl.mapa.informe.endereco"/></label>
+                                                <div class="col-sm-8">                                                    
+                                                     <form:input id="address" path="endereco" size="13" class="form-control"/>
+                                                     <br>  
+                    								 <button type="button" id="btnaddress" onClick="geocoder()" class="btn btn-success"><spring:message code="lbl.localizar.mapa"/></button> 
+                                               		 <button type="submit" id="btnaddressSave" class="btn btn-success"><spring:message code="lbl.salvar.mapa"/></button>
+                                               		<a href="${urlImovel}/confirmarCadastroImovel/${imovelForm.id}" class="btn btn-success"><spring:message code="lbl.btn.confirmar.dados.geral"/></a>
                                                 </div>
                                             </div><!-- /.form-group -->
                                             
@@ -152,26 +152,14 @@ $( document ).ready(function() {
 											</div>
 											
 											<div class="form-group">
-                                            	<form:input path="longitudeFmt"  id="longitudeFmt"/>
-												<form:input path="latitudeFmt"  id="latitudeFmt"/>
+                                            	<form:hidden path="longitudeFmt"  id="longitudeFmt"/>
+												<form:hidden path="latitudeFmt"  id="latitudeFmt"/>
 											</div>   
                                             
-                                        </div><!-- /.form-body -->
-                                        
-                                        <div class="form-footer">  
-                                            <div class="col-sm-offset-3">
-                                                <button type="subtmi" id="btnaddress" class="btn btn-success">Salvar Mapa</button>
-                                            </div>
-                                        </div><!-- /.form-footer -->    
+                                        </div><!-- /.form-body -->                                  
                                         
                                 </div><!-- /.panel-body -->
-                                
-                                 <div class="form-footer" >  
-	                              <div  align="center">	                                  
-	                                  <a href="${urlImovel}/confirmarCadastroImovel/${imovelForm.id}" class="btn btn-success"><spring:message code="lbl.btn.confirmar.dados.geral"/></a>
-	                              </div>
-	                          </div><!-- /.form-footer --> 
-                                
+                                                    
                                 
                             </div><!-- /.panel -->
                             <!--/ End horizontal form -->

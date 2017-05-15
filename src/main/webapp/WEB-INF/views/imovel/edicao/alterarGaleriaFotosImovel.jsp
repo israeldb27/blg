@@ -47,9 +47,7 @@ function preparaInclusaoFoto(){
 
             <!-- START @PAGE CONTENT -->
             <section id="page-content">
-            
-            	<!-- Inicio - Meus Favoritos -->
-            
+ 
             	 <!-- Start header content -->
                 <div class="header-content">
                     <h2><i class="fa fa-pencil"></i><spring:message code="lbl.title.aba.alterar.galeria.fotos.imovel"/> </h2>                                                                        
@@ -87,7 +85,7 @@ function preparaInclusaoFoto(){
                                       
                                         <div class="pull-left">		
 	                                         <button onClick="preparaInclusaoFoto();" class="btn btn-primary" data-role="add">
-	                                                    <span class="glyphicon glyphicon-plus"></span> Adicionar Foto Galeria
+	                                                    <span class="glyphicon glyphicon-plus"></span> <spring:message code="lbl.galeria.adicionar.foto"/>
 	                                         </button>	
 										</div><!-- /.pull-left -->    
                                </div>
@@ -107,11 +105,11 @@ function preparaInclusaoFoto(){
 	                        		
 	                        		<c:when test="${not empty imovelForm.listaImovelFotos }">
 	                        			 <div class="table-responsive" style="margin-top: -1px;">
-	                        			 		<table class="table table-striped table-primary">
+	                        			 		<table class="table table-striped">
 		                                            <thead>
 		                                            <tr>
-		                                                <th class="text-center">Foto</th>
-		                                                <th class="text-center">Data Cadastro</th>                                                                                                
+		                                                <th class="text-center"><spring:message code="lbl.galeria.foto"/></th>
+		                                                <th class="text-center"><spring:message code="lbl.galeria.data.cadastro"/></th>                                                                                                
 		                                                <th class="text-center" style="width: 12%;"></th>
 		                                            </tr>
 		                                            </thead>
@@ -185,16 +183,16 @@ function preparaInclusaoFoto(){
             	<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 					<div class="modal-content">
-						<div class="modal-header">
+						<div class="modal-header">   
 							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-								<h3 id="myModalLabel">Confirmação de exclusão de foto do imóvel</h3>
+								<h3 id="myModalLabel"><spring:message code="lbl.modal.galeria.confirma.foto"/></h3>
 						</div>
 						<div class="modal-body">
-							<p>Você deseja realmente excluir a foto selecionada de sua galeria de fotos ?</p>
+							<p><spring:message code="lbl.modal.galeria.confirma.foto.mensagem"/></p>
 						</div>
 						<div class="modal-footer">
-							<button class="btn" data-dismiss="modal" aria-hidden="true">Não</button>
-							<button class="btn btn-primary">Sim</button>
+							<button class="btn" data-dismiss="modal" aria-hidden="true"><spring:message code="lbl.nao"/></button>
+							<button class="btn btn-primary"><spring:message code="lbl.sim"/></button>
 						</div>
 					</div>
 					</div>

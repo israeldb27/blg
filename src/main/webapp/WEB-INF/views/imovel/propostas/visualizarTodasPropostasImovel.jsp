@@ -172,7 +172,7 @@ $(document).ready(function() {
 		                                </div><!-- /.panel-heading -->
 		                                <div class="panel-body no-padding">
 		                                    <div class="table-responsive" style="margin-top: -1px;">
-		                                        <table class="table table-striped table-primary">
+		                                        <table class="table table-striped">
 		                                            <thead>
 			                                            <c:choose>
 			                                            	<c:when test="${imovelPropostaForm.tipoLista == 'propostasRecebidas' }">
@@ -198,25 +198,25 @@ $(document).ready(function() {
 		                                            	<c:choose>
 		                                            		<c:when test="${imovelPropostaForm.tipoLista == 'propostasRecebidas' }">
 		                                            			<tr>
-					                                                <td class="text-center">	
+					                                                <td class="text-center" >	
 																		<a href="${urlUsuario}/detalhesUsuario/${imovelProposta.usuarioLancador.id}" >
 																			<img src="data:image/jpeg;base64,${imovelProposta.usuarioLancador.imagemArquivo}" style="width: 60px; height: 50px; " />
 																		</a>									                     			                				
 					                                                </td>			                                                
-					                                                <td class="text-center">
+					                                                <td class="text-center" style="font-size: 13px;">
 					                                                	<a href="${urlUsuario}/detalhesUsuario/${imovelProposta.usuarioLancador.id}" >
 																								${imovelProposta.usuarioLancador.nome}
 																		</a>
 																	</td>
-					                                                <td class="text-center"><fmt:formatDate value='${imovelProposta.dataCadastro}' pattern='dd/MM/yyyy'/></td>
-					                                                <td class="text-center"><fmt:formatNumber value="${imovelProposta.valorProposta}" pattern="#,##0.00;-0"/></td>			                                              	                                            
+					                                                <td class="text-center" style="font-size: 13px;"><fmt:formatDate value='${imovelProposta.dataCadastro}' pattern='dd/MM/yyyy'/></td>
+					                                                <td class="text-center" style="font-size: 13px;"><fmt:formatNumber value="${imovelProposta.valorProposta}" pattern="#,##0.00;-0"/></td>			                                              	                                            
 					                                            </tr>	
 		                                            		</c:when>
 		                                            		
 		                                            		<c:when test="${imovelPropostaForm.tipoLista == 'propostasLancadas' }">
 		                                            			<tr>			                                                
-					                                                <td class="text-center"><fmt:formatDate value='${imovelProposta.dataCadastro}' pattern='dd/MM/yyyy'/></td>
-					                                                <td class="text-center"><fmt:formatNumber value="${imovelProposta.valorProposta}" pattern="#,##0.00;-0"/></td>			                                              	                                            
+					                                                <td class="text-center" style="font-size: 13px;"><fmt:formatDate value='${imovelProposta.dataCadastro}' pattern='dd/MM/yyyy'/></td>
+					                                                <td class="text-center" style="font-size: 13px;"><fmt:formatNumber value="${imovelProposta.valorProposta}" pattern="#,##0.00;-0"/></td>			                                              	                                            
 					                                            </tr>	
 		                                            		</c:when>
 		                                            	</c:choose>		                                            

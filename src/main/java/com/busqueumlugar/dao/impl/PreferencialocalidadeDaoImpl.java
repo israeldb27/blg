@@ -208,7 +208,7 @@ public class PreferencialocalidadeDaoImpl extends GenericDAOImpl<Preferencialoca
 	}
 
 	@Override
-	public List<Long> findUsuariosPreferenciaisImoveisSemelhantes(Long idUsuario, ImovelForm form) {
+	public List findUsuariosPreferenciaisImoveisSemelhantes(Long idUsuario, ImovelForm form) {
 		
 		boolean isCritExist = (form.getIdEstado() > 0 ) || 
 							  (! StringUtils.isNullOrEmpty(form.getTipoImovel())) || 
@@ -227,21 +227,14 @@ public class PreferencialocalidadeDaoImpl extends GenericDAOImpl<Preferencialoca
 			
 			if ( form.getIdBairro() > 0 )
 				crit.add(Restrictions.eq("idBairro", form.getIdBairro()));
-					
-			if (! StringUtils.isNullOrEmpty(form.getAcao()))
-				crit.add(Restrictions.eq("acao", form.getAcao()));
 			
 			if (! StringUtils.isNullOrEmpty(form.getTipoImovel()))
-				crit.add(Restrictions.eq("tipoImovel", form.getTipoImovel())); 
+				crit.add(Restrictions.eq("tipoImovel", form.getTipoImovel())); 			
 			
-			if ( ! StringUtils.isNullOrEmpty(form.getPerfilImovel()) )
-				crit.add(Restrictions.eq("perfilImovel", form.getPerfilImovel()));
-			
-			crit.setMaxResults(10);
-			crit.add(Restrictions.sqlRestriction("1=1 order by rand()"));	
-			
+			crit.addOrder(Order.desc("dataCadastro"));
+			crit.setMaxResults(10);			
 			ProjectionList projList = Projections.projectionList();
-		    projList.add(Projections.distinct(Projections.groupProperty("usuario.id")));			
+		    projList.add(Projections.distinct(Projections.property("usuario.id")));			
 			crit.setProjection(projList);		
 			return crit.list();
 		}	

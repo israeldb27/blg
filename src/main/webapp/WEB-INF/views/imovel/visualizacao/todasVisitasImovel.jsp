@@ -168,7 +168,7 @@ $(document).ready(function() {
 		                                </div><!-- /.panel-heading -->
 		                                <div class="panel-body no-padding">
 		                                    <div class="table-responsive" style="margin-top: -1px;">
-		                                        <table class="table table-striped table-primary">
+		                                        <table class="table table-striped">
 		                                            <thead>
 		                                            <tr>		                                                
 		                                            	<th class="text-center"></th>
@@ -184,12 +184,12 @@ $(document).ready(function() {
 																	<img src="data:image/jpeg;base64,${imovelVisita.usuario.imagemArquivo}" style="width: 60px; height: 50px; " />	                				
 																</a>	
 			                                                </td>			                                                
-			                                                <td class="text-center">
+			                                                <td class="text-center" style="font-size: 13px;">
 																<a href="${urlUsuario}/detalhesUsuario/${imovelVisita.usuario.id}">
 																	${imovelVisita.usuario.nome}
 																</a>	
 															</td>
-			                                                <td class="text-center"><fmt:formatDate value='${imovelVisita.dataVisita}' pattern='dd/MM/yyyy'/></td>			                                                			                                              	                                            
+			                                                <td class="text-center" style="font-size: 13px;"><fmt:formatDate value='${imovelVisita.dataVisita}' pattern='dd/MM/yyyy'/></td>			                                                			                                              	                                            
 			                                            </tr>
 		                                            </c:forEach>
 		                                            </tbody>

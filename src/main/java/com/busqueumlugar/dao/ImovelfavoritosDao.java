@@ -53,6 +53,6 @@ public interface ImovelfavoritosDao  extends GenericDAO<Imovelfavoritos, Long> {
 
 	void updateStatusLeitura(Long idUsuario);
 
-	List<Long> findUsuariosImoveisFavoritosSemelhantes(Long idUsuario, ImovelForm form);
+	List findUsuariosImoveisFavoritosSemelhantes(Long idUsuario, ImovelForm form);
 
 }

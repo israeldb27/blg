@@ -339,7 +339,7 @@ function adicionarInteresse(id) {
 		                                <div class="pull-right" >
 		                                <spring:message code="lbl.hint.tipo.agrupar" var="hintAgrupar"/>
 		                                         <form:form method="POST" id="modVisualizaImoveisVisitadosForm" modelAttribute="imovelvisualizadoForm" action="${urlImovelVisualizado}/modoVisualizar" >					                             
-					                                     <form:select id="opcaoVisualizacaoImoveisVisitados" path="opcaoVisualizacao"class="form-control" title="${hintAgrupar}">				                                         	
+					                                     <form:select id="opcaoVisualizacaoImoveisVisitados" path="opcaoVisualizacao" class="form-control" title="${hintAgrupar}">				                                         	
 					                                         <form:option value="" disabled="true"><spring:message code="lbl.agrupar.por"/></form:option>
 					                                         <form:option value="agruparImoveis"><spring:message code="lbl.agrupar.imoveis"/></form:option>                                         
 					                                         <form:option value="agruparUsuarios"><spring:message code="lbl.agrupar.usuarios"/></form:option>

@@ -236,7 +236,7 @@ function confirmarExclusaoSolIntermediacaoAnaliseSol(){
                    		
 		                   		<div class="panel-body no-padding">		                 
 		                             <div class="table-responsive" style="margin-top: -1px;">
-		                                 <table class="table table-striped table-primary">
+		                                 <table class="table table-striped">
 		                                     <thead>
 		                                     <tr>
 		                                         <th class="text-center"><spring:message code="lbl.data.sol"/></th>
@@ -249,12 +249,12 @@ function confirmarExclusaoSolIntermediacaoAnaliseSol(){
 		                                     <c:forEach var="intermediacao" items="${listaSolImovelIntermediacao}" >
 		                                      <tr>
 		                                          <td class="text-center"> <fmt:formatDate value='${intermediacao.dataSolicitacao}' pattern='dd/MM/yyyy'/>  </td>
-		                                          <td class="text-center"> <a href="${urlUsuario}/detalhesUsuario/${intermediacao.usuarioSolicitante.id}" >
+		                                          <td class="text-center" style="font-size: 13px;"> <a href="${urlUsuario}/detalhesUsuario/${intermediacao.usuarioSolicitante.id}" >
 																				${intermediacao.usuarioSolicitante.nome}
 																		   </a> 
 												  </td>
-		                                          <td class="text-center"> ${intermediacao.descricaoCompartilhamento} </td>              
-		                                          <td class="text-center"> <a href="${urlIntermediacao}/aceitarSolImovelIntermediacao/${intermediacao.id}/${intermediacao.imovel.id}" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" data-original-title="Aceitar Solicitação"><i class="fa fa-pencil"></i></a> 
+		                                          <td class="text-center" style="font-size: 13px;"> ${intermediacao.descricaoCompartilhamento} </td>              
+		                                          <td class="text-center" style="font-size: 13px;"> <a href="${urlIntermediacao}/aceitarSolImovelIntermediacao/${intermediacao.id}/${intermediacao.imovel.id}" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" data-original-title="Aceitar Solicitação"><i class="fa fa-pencil"></i></a> 
 		                                          						   <a href="#" onClick="prepararModalConfirmaExclusao(${intermediacao.id}, ${intermediacao.imovel.id} )" data-toggle="tooltip" data-placement="top" data-original-title="Excluir Solicitação"><i class="fa fa-times"></i></a> 
 		                                          </td>
 		                                      </tr>

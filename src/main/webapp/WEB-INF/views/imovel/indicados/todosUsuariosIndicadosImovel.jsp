@@ -160,7 +160,7 @@ $(document).ready(function() {
 		                                </div><!-- /.panel-heading -->
 		                                <div class="panel-body no-padding">
 		                                    <div class="table-responsive" style="margin-top: -1px;">
-		                                        <table class="table table-striped table-primary">
+		                                        <table class="table table-striped">
 		                                            <thead>
 		                                            <tr>		                                                
 		                                            	<th class="text-center"></th>
@@ -174,8 +174,8 @@ $(document).ready(function() {
 			                                                <td class="text-center">	
 																<a href="${urlUsuario}/detalhesUsuario/${imovelIndicado.usuario.id}" ><img src="data:image/jpeg;base64,${imovelIndicado.usuario.imagemArquivo}" style="width: 60px; height: 50px; " /></a>									                     			                				
 			                                                </td>			                                                
-			                                                <td class="text-center"><a href="${urlUsuario}/detalhesUsuario/${imovelIndicado.usuario.id}" >${imovelIndicado.usuario.nome}</a> </td>
-			                                                <td class="text-center"><fmt:formatDate value='${imovelIndicado.dataIndicacao}' pattern='dd/MM/yyyy'/></td>			                                                			                                                			                                              	                                            
+			                                                <td class="text-center" style="font-size: 13px;"><a href="${urlUsuario}/detalhesUsuario/${imovelIndicado.usuario.id}" >${imovelIndicado.usuario.nome}</a> </td>
+			                                                <td class="text-center" style="font-size: 13px;"><fmt:formatDate value='${imovelIndicado.dataIndicacao}' pattern='dd/MM/yyyy'/></td>			                                                			                                                			                                              	                                            
 			                                            </tr>
 		                                            </c:forEach>
 		                                            </tbody>

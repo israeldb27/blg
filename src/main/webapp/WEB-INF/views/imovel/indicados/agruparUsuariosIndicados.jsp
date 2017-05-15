@@ -193,7 +193,7 @@ $('#opcaoPaginacao').change(function () {
 	                                                </div>
 	                                                
 	                                                <div class="col-md-7">
-	                                                    <table class="table table-condensed">
+	                                                    <table class="table table-striped">
 	                                                        <tbody style="font-size: 13px;">
 		                                                        	<tr>
 		                                                                <td class="text-left"> <spring:message code="lbl.total.imoveis"/> </td>

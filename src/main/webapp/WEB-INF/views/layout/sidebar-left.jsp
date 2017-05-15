@@ -103,31 +103,7 @@
                     </li>
                     <!--/ End navigation - Consultas -->
                     
-                    <!-- Start navigation - Favoritos -->
-                    <li class="submenu">  
-                        <a href="javascript:void(0);">
-                            <span class="icon"><i class="fa fa-thumbs-up"></i></span>                            
-                            <span class="text"><spring:message code="lbl.title.link.lista.Favoritos"/></span>                                                        
-                            <% if ( Long.parseLong(request.getSession().getAttribute("quantNovoUsuarioInteressado").toString()) > 0l ) {%>
-                            	<span class="label label-danger pull-right rounded">&nbsp;&nbsp; <spring:message code="lbl.opcao.geral.novo"/> </span>
-                            <% } else { %>
-                            	<span class="arrow"></span>
-                             <% }  %>                             
-                        </a>
-                        <ul>
-                        	<li><a href="${urlImovelFavoritos}/listarInteresse/meuInteresse"><spring:message code="lbl.title.link.lista.Favoritos.meus.Favoritos"/></a></li>
-                        
-                        	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovoUsuarioInteressado").toString()) > 0l ) {%>
-                        		<li><a href="${urlImovelFavoritos}/listarInteresse/usuariosInteressados"><spring:message code="lbl.title.link.lista.Favoritos.usuarios.interessados"/><span class="label label-danger pull-right rounded">&nbsp;&nbsp; <%= request.getSession().getAttribute("quantNovoUsuarioInteressado") %></span></a></li>
-                        	<% } else { %>
-                            	<li><a href="${urlImovelFavoritos}/listarInteresse/usuariosInteressados"><spring:message code="lbl.title.link.lista.Favoritos.usuarios.interessados"/></a></li>
-                             <% }  %>                  
-                                                        
-                        </ul>
-                    </li>
-                    <!--/ End navigation - Favoritos -->  
-                    
-                    <!-- Start navigation - Visitas Imóveis -->
+                        <!-- Start navigation - Visitas Imóveis -->
                     <li class="submenu">
                         <a href="javascript:void(0);">
                             <span class="icon"><i class="fa fa-television"></i></span>  
@@ -150,6 +126,90 @@
                         </ul>
                     </li>
                     <!--/ End navigation - Visitas Imóveis -->
+                    
+                     
+                     <!-- Start navigation - Propostas -->
+                    <li class="submenu">
+                        <a href="javascript:void(0);">
+                            <span class="icon"><i class="fa fa-money"></i></span>
+                            <span class="text"><spring:message code="lbl.title.link.propostas.imoveis"/></span>
+                            <% if ( Long.parseLong(request.getSession().getAttribute("quantNovasImoveisPropostas").toString()) > 0l ) {%>
+                              	<span class="label label-danger pull-right rounded">&nbsp;&nbsp; Novo</span>
+                            <% } else { %>
+                            	<span class="arrow"></span>                            	
+                            <% }  %>  
+                        </a>
+                        <ul>
+                        	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovasImoveisPropostas").toString()) > 0l ) {%>
+                        		<li><a href="${urlImovelPropostas}/listarImoveisPropostas/propostasRecebidas"><spring:message code="lbl.title.link.propostas.imoveis.recebidas2"/><span class="label label-danger pull-right rounded">&nbsp;&nbsp; <%= request.getSession().getAttribute("quantNovasImoveisPropostas") %></span></a></li>
+                        	<% } else { %>
+                            	<li><a href="${urlImovelPropostas}/listarImoveisPropostas/propostasRecebidas"><spring:message code="lbl.title.link.propostas.imoveis.recebidas2"/></a></li>                            	
+                            <% }  %>
+                        	                            
+                            <li><a href="${urlImovelPropostas}/listarImoveisPropostas/propostasLancadas"><spring:message code="lbl.title.link.propostas.imoveis.enviadas2"/></a></li>                            
+                        </ul>
+                    </li>
+                    <!--/ End navigation - Propostas -->
+                    
+                    <!-- Start navigation - Favoritos -->
+                    <li class="submenu">  
+                        <a href="javascript:void(0);">
+                            <span class="icon"><i class="fa fa-thumbs-up"></i></span>                            
+                            <span class="text"><spring:message code="lbl.title.link.lista.Favoritos"/></span>                                                        
+                            <% if ( Long.parseLong(request.getSession().getAttribute("quantNovoUsuarioInteressado").toString()) > 0l ) {%>
+                            	<span class="label label-danger pull-right rounded">&nbsp;&nbsp; <spring:message code="lbl.opcao.geral.novo"/> </span>
+                            <% } else { %>
+                            	<span class="arrow"></span>
+                             <% }  %>                             
+                        </a>
+                        <ul>
+                        	<li><a href="${urlImovelFavoritos}/listarInteresse/meuInteresse"><spring:message code="lbl.title.link.lista.Favoritos.meus.Favoritos"/></a></li>
+                        
+                        	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovoUsuarioInteressado").toString()) > 0l ) {%>
+                        		<li><a href="${urlImovelFavoritos}/listarInteresse/usuariosInteressados"><spring:message code="lbl.title.link.lista.Favoritos.usuarios.interessados"/><span class="label label-danger pull-right rounded">&nbsp;&nbsp; <%= request.getSession().getAttribute("quantNovoUsuarioInteressado") %></span></a></li>
+                        	<% } else { %>
+                            	<li><a href="${urlImovelFavoritos}/listarInteresse/usuariosInteressados"><spring:message code="lbl.title.link.lista.Favoritos.usuarios.interessados"/></a></li>
+                             <% }  %>                   
+                        </ul>
+                    </li>
+                    <!--/ End navigation - Favoritos -->  
+                    
+                      <!-- Start navigation - Indicações -->
+                    <li class="submenu">
+                        <a href="javascript:void(0);">
+                            <span class="icon"><i class="fa fa-arrows"></i></span>
+                            <span class="text"><spring:message code="lbl.title.link.imoveis.indicacoes"/> </span>
+                            <% if ( Long.parseLong(request.getSession().getAttribute("quantNovoImovelIndicado").toString()) > 0l ) {%>
+                              	<span class="label label-danger pull-right rounded">&nbsp;&nbsp; Novo</span>
+                            <% } else { %>
+                            	<span class="arrow"></span>                            	
+                            <% }  %>
+                        </a>
+                        <ul>
+                        	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovoImovelIndicado").toString()) > 0l ) {%>
+                        		<li><a href="${urlImovelIndicado}/listarImoveisIndicados/indicado"><spring:message code="lbl.title.link.imoveis.indicacoes.recebidas2"/><span class="label label-danger pull-right rounded">&nbsp;&nbsp; <%= request.getSession().getAttribute("quantNovoImovelIndicado") %></span></a></li>
+                        	<% } else { %>
+                        		<li><a href="${urlImovelIndicado}/listarImoveisIndicados/indicado"><spring:message code="lbl.title.link.imoveis.indicacoes.recebidas2"/></a></li>
+                        	<% }  %>
+                        	                            
+                            <li><a href="${urlImovelIndicado}/listarImoveisIndicados/indicacoes"><spring:message code="lbl.title.link.imoveis.indicacoes.enviadas2"/></a></li>                            
+                        </ul>
+                    </li>
+                    <!--/ End navigation - Indicações-->
+                    
+                         <!-- Start navigation - Notas -->
+                    <li class="submenu">
+                        <a href="javascript:void(0);">  
+                            <span class="icon"><i class="fa fa-sticky-note-o"></i></span>
+                            <span class="text"><spring:message code="lbl.title.link.notas"/></span>
+                            <span class="arrow"></span>            
+                        </a>
+                        <ul>  
+                        	<li><a href="${urlNota}/minhasNotas"><spring:message code="lbl.title.link.minhas.notas"/></a></li>                            
+                            <li><a href="${urlNota}/notasContatos"><spring:message code="lbl.title.link.notas.contatos"/></a></li>
+                        </ul>
+                    </li>
+                    <!--/ End navigation - Notas-->
                     
                   <!-- Start navigation - Intermediações -->
                     <li class="submenu">
@@ -211,66 +271,6 @@
 	                    <!--/ End navigation - Parcerias-->
                     </c:if>
                     
-                    <!-- Start navigation - Notas -->
-                    <li class="submenu">
-                        <a href="javascript:void(0);">  
-                            <span class="icon"><i class="fa fa-sticky-note-o"></i></span>
-                            <span class="text"><spring:message code="lbl.title.link.notas"/></span>
-                            <span class="arrow"></span>            
-                        </a>
-                        <ul>  
-                        	<li><a href="${urlNota}/minhasNotas"><spring:message code="lbl.title.link.minhas.notas"/></a></li>                            
-                            <li><a href="${urlNota}/notasContatos"><spring:message code="lbl.title.link.notas.contatos"/></a></li>
-                        </ul>
-                    </li>
-                    <!--/ End navigation - Notas-->
-                    
-                     <!-- Start navigation - Propostas -->
-                    <li class="submenu">
-                        <a href="javascript:void(0);">
-                            <span class="icon"><i class="fa fa-money"></i></span>
-                            <span class="text"><spring:message code="lbl.title.link.propostas.imoveis"/></span>
-                            <% if ( Long.parseLong(request.getSession().getAttribute("quantNovasImoveisPropostas").toString()) > 0l ) {%>
-                              	<span class="label label-danger pull-right rounded">&nbsp;&nbsp; Novo</span>
-                            <% } else { %>
-                            	<span class="arrow"></span>                            	
-                            <% }  %>  
-                        </a>
-                        <ul>
-                        	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovasImoveisPropostas").toString()) > 0l ) {%>
-                        		<li><a href="${urlImovelPropostas}/listarImoveisPropostas/propostasRecebidas"><spring:message code="lbl.title.link.propostas.imoveis.recebidas2"/><span class="label label-danger pull-right rounded">&nbsp;&nbsp; <%= request.getSession().getAttribute("quantNovasImoveisPropostas") %></span></a></li>
-                        	<% } else { %>
-                            	<li><a href="${urlImovelPropostas}/listarImoveisPropostas/propostasRecebidas"><spring:message code="lbl.title.link.propostas.imoveis.recebidas2"/></a></li>                            	
-                            <% }  %>
-                        	                            
-                            <li><a href="${urlImovelPropostas}/listarImoveisPropostas/propostasLancadas"><spring:message code="lbl.title.link.propostas.imoveis.enviadas2"/></a></li>                            
-                        </ul>
-                    </li>
-                    <!--/ End navigation - Propostas -->
-                    
-                      <!-- Start navigation - Indicações -->
-                    <li class="submenu">
-                        <a href="javascript:void(0);">
-                            <span class="icon"><i class="fa fa-arrows"></i></span>
-                            <span class="text"><spring:message code="lbl.title.link.imoveis.indicacoes"/> </span>
-                            <% if ( Long.parseLong(request.getSession().getAttribute("quantNovoImovelIndicado").toString()) > 0l ) {%>
-                              	<span class="label label-danger pull-right rounded">&nbsp;&nbsp; Novo</span>
-                            <% } else { %>
-                            	<span class="arrow"></span>                            	
-                            <% }  %>
-                        </a>
-                        <ul>
-                        	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovoImovelIndicado").toString()) > 0l ) {%>
-                        		<li><a href="${urlImovelIndicado}/listarImoveisIndicados/indicado"><spring:message code="lbl.title.link.imoveis.indicacoes.recebidas2"/><span class="label label-danger pull-right rounded">&nbsp;&nbsp; <%= request.getSession().getAttribute("quantNovoImovelIndicado") %></span></a></li>
-                        	<% } else { %>
-                        		<li><a href="${urlImovelIndicado}/listarImoveisIndicados/indicado"><spring:message code="lbl.title.link.imoveis.indicacoes.recebidas2"/></a></li>
-                        	<% }  %>
-                        	                            
-                            <li><a href="${urlImovelIndicado}/listarImoveisIndicados/indicacoes"><spring:message code="lbl.title.link.imoveis.indicacoes.enviadas2"/></a></li>                            
-                        </ul>
-                    </li>
-                    <!--/ End navigation - Indicações-->
-
 					 <!-- Start navigation - Comentários -->
                     <li class="submenu">
                         <a href="javascript:void(0);"> 

@@ -74,6 +74,6 @@ public interface ImovelvisualizadoService {
 	
 	long checarQuantidadeImoveisVisualizadosPorImovel(Long idImovel, String statusLeitura);
 
-	List<Long> recuperarUsuariosVisitouImoveisSemelhantes(Long idUsuario, ImovelForm form);
+	List recuperarUsuariosVisitouImoveisSemelhantes(Long idUsuario, ImovelForm form);
 	
 }

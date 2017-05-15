@@ -19,7 +19,7 @@ $(document).ready(function() {
 
 </script>
 		
-<c:import url="../../layout/head-layout.jsp"></c:import>
+<c:import url="../layout/head-layout.jsp"></c:import>
 
     <body>
 
@@ -27,11 +27,11 @@ $(document).ready(function() {
         <section id="wrapper">
 
             <!-- START @HEADER -->            	
-            	<c:import url="../../layout/header.jsp"></c:import>
+            	<c:import url="../layout/header.jsp"></c:import>
             <!--/ END HEADER -->
 
             <!-- START @SIDEBAR LEFT            -->
-           		<c:import url="../../layout/sidebar-left.jsp"></c:import>
+           		<c:import url="../layout/sidebar-left.jsp"></c:import>
             <!--/ END SIDEBAR LEFT -->
 
             <!-- START @PAGE CONTENT -->
@@ -161,7 +161,7 @@ $(document).ready(function() {
 		                                </div><!-- /.panel-heading -->
 		                                <div class="panel-body no-padding">
 		                                    <div class="table-responsive" style="margin-top: -1px;">
-		                                        <table class="table table-striped table-primary">
+		                                        <table class="table table-striped">
 		                                            <thead>			                                           
 		                                            		<tr>		                                                
 				                                            	<th class="text-center"></th>
@@ -202,7 +202,7 @@ $(document).ready(function() {
             </section><!-- /#page-content -->
 			
 				<!-- Start content modal Ajuda - funcionalidade -->
-					<c:import url="../../ajuda/contentMenuModal.jsp"></c:import>																				
+					<c:import url="../ajuda/contentMenuModal.jsp"></c:import>																				
 				<!-- End content  modal Ajuda - funcionalidade -->
 
         </section><!-- /#wrapper -->

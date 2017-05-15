@@ -20,7 +20,6 @@
 <%@page import="com.busqueumlugar.enumerador.StatusImovelEnum"%>
 <%@page import="com.busqueumlugar.enumerador.PerfilUsuarioNormalEnum"%>
 
-
 <c:set var="usuario" value="<%= (UsuarioForm)request.getSession().getAttribute(UsuarioInterface.USUARIO_SESSAO) %>"/>   
 <c:set var="listaAcaoImovel" value="<%= AcaoImovelEnum.values() %>"/>
 <c:set var="listaTipoImovel" value="<%= TipoImovelEnum.values() %>"/>
@@ -28,8 +27,7 @@
 <c:set var="listaPerfilUsuario" value="<%= PerfilUsuarioNormalEnum.values() %>"/>   
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
-<script src="${context}/js/jquery.maskMoney.js"></script>
- 
+<script src="${context}/js/jquery.maskMoney.js"></script> 
 
    <script type="text/javascript">
     	$(document).ready(function() { 
@@ -149,11 +147,9 @@
                     alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
                 }
             });   
-    	}
-    	
+    	}    	
     	    	        	
 		</script>	
-
 			<c:import url="../layout/head-layout.jsp"></c:import>   
     <body>
 
