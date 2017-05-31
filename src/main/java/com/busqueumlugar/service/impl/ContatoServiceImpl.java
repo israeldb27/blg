@@ -98,8 +98,9 @@ public class ContatoServiceImpl implements ContatoService {
         return dao.findContatos(idUsuario, form);
 	}
 	
-	public List<Usuario> recuperarConvidadosIndicacaoImovel(Long idUsuario, Long idImovel , ImovelindicadoForm form) {		
-		List<Contato> lista = dao.findContatosByIndicacao(idUsuario, new ImovelindicadoForm());
+	public List<Usuario> recuperarConvidadosIndicacaoImovel(Long idUsuario, Long idImovel , ImovelindicadoForm form) {
+		
+		List<Contato> lista = dao.findContatosByIndicacao(idUsuario, new ImovelindicadoForm());					
         List<Usuario> listaTodosContatos = new ArrayList<Usuario>();
         Imovel imovel = imovelDao.findImovelById(idImovel);
 		if (! CollectionUtils.isEmpty(lista)){
@@ -108,14 +109,19 @@ public class ContatoServiceImpl implements ContatoService {
             	if ( contato.getUsuarioConvidado().getId().longValue() != idUsuario.longValue())
             		usuario = contato.getUsuarioConvidado();
             	else if ( contato.getUsuarioHost().getId().longValue() != idUsuario.longValue())
-            		usuario = contato.getUsuarioHost();  
-                
-                if ( imovel.getUsuario().getId().longValue()  == usuario.getId().longValue())
-                	usuario.setIndicadoImovel("S");
-                else
-                	usuario.setIndicadoImovel(imovelIndicadoService.checarUsuarioIndicacaoImovel(usuario.getId(), idImovel));
+            		usuario = contato.getUsuarioHost();              	
+            	
+            		boolean isFiltroOpcaoPerfil = form != null && ! StringUtils.isNullOrEmpty(form.getOpcaoFiltroPerfil()) &&	usuario.getPerfil().equals(form.getOpcaoFiltroPerfil());
+            		boolean isFiltroOpcaoPerfilTodos = form != null && ! StringUtils.isNullOrEmpty(form.getOpcaoFiltroPerfil()) &&	form.getOpcaoFiltroPerfil().equals("T");
+            		boolean isFiltroOpcaoPerfilTodosFormNull = (form == null);
+            		if (isFiltroOpcaoPerfil || isFiltroOpcaoPerfilTodos || isFiltroOpcaoPerfilTodosFormNull){
+            			if ( imovel.getUsuario().getId().longValue()  == usuario.getId().longValue())
+                        	usuario.setIndicadoImovel("S");
+                        else
+                        	usuario.setIndicadoImovel(imovelIndicadoService.checarUsuarioIndicacaoImovel(usuario.getId(), idImovel));
 
-                listaTodosContatos.add(usuario);            
+                        listaTodosContatos.add(usuario);
+            		}  
             }        
         }
         
@@ -352,8 +358,8 @@ public class ContatoServiceImpl implements ContatoService {
 
 
 	@Override
-	public List<Contato> filtrarContatos(Long idUsuario, ContatoForm form) {		
-        return dao.findContatos(idUsuario, form);
+	public List<Contato> filtrarContatos(Long idUsuario, ContatoForm form) {
+		return dao.filterContatos(idUsuario, form);
 	}
 
 

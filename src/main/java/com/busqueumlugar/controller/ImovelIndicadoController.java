@@ -160,8 +160,8 @@ public class ImovelIndicadoController {
     									         ModelMap map){
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
-			map.addAttribute("imovel", imovelService.recuperarImovelPorid(form.getIdImovel()));
-			map.addAttribute("listaUsuariosContatos", contatoService.filtrarRecuperacaoConvidadosParaIndicacao(user.getId(), form));		
+			map.addAttribute("imovel", imovelService.recuperarImovelPorid(form.getIdImovel()));	
+			form.setListaTodosContatos(contatoService.recuperarConvidadosIndicacaoImovel(user.getId() , form.getIdImovel(), form));				
 			map.addAttribute("imovelIndicadoForm", form);		
 	    	return DIR_PATH + "indicarImovel";
 		} catch (Exception e) {
@@ -297,7 +297,8 @@ public class ImovelIndicadoController {
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			
-			form = imovelIndicadoservice.selecionarUsuariosIndicadosPorPerfil(form);
+			//form = imovelIndicadoservice.selecionarUsuariosIndicadosPorPerfil(form);
+			form.setListaTodosContatos(contatoService.recuperarConvidadosIndicacaoImovel(user.getId() , form.getIdImovel(), form));
 			map.addAttribute("imovel", imovelService.recuperarImovelPorid(form.getIdImovel()));
 			map.addAttribute("imovelIndicadoForm", form);		
 			return DIR_PATH + "indicarImovel";

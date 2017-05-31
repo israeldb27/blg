@@ -275,6 +275,10 @@ function mostrarModal(id){
 		$('#msgModal').html("<spring:message code='lbl.modal.recomendacoes.detalhe.usuario'/>");
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.aba.recomendacoes.detalhe.usuario'/>");
 	}
+	else if ( id == 6 ){
+		$('#msgModal').html("<spring:message code='msg.aba.title.detalhes.usuario'/>");
+		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.detalhes.usuario'/>");
+	}
 	
 	$("#idModalItem").modal("show");
 }
@@ -300,7 +304,12 @@ function mostrarModal(id){
             
             	 <!-- Start header content -->
                 <div class="header-content">
-                    <h2><i class="fa fa-pencil"></i><spring:message code="lbl.title.detalhes.usuario"/> </h2>		 
+                    <h2>
+	                    <i class="fa fa-pencil"></i><spring:message code="lbl.title.detalhes.usuario"/>
+	                    <div class="pull-right">
+	                         <a href="#a" class="btn btn-sm"  onClick="mostrarModal(6);"><i class="fa fa-question" style="font-size: 12px;"></i></a>                                        
+	                     </div>		 
+	                 </h2>
                 </div><!-- /.header-content -->
                                 
                 <!-- Start body content -->
@@ -474,7 +483,24 @@ function mostrarModal(id){
                                 	<div align="left" style="margin-top: 5px;">                                
                               			<h3 class="panel-title"> <spring:message code="lbl.imoveis.usuario"/> &nbsp;
                               				<c:if test="${not empty usuarioForm.listaImoveisUsuario}">
-                              					<a href="${urlImovel}/visualizarImoveisPerfilUsuario/${usuarioForm.id}" style="font-size:x-large; margin-left: 510px;" class="meta-action" title='<spring:message code="lbl.visualizar.imoveis.perfil.usuario"/>' ><i class="fa fa-home" style="color:gray"></i><font style="font-size: 12px; color: black;" >&nbsp; Filtrar Imóveis </font></a>
+                              					<c:if test="${usuarioForm.id != usuario.id}">
+                              						<a href="${urlImovel}/visualizarImoveisPerfilUsuario/${usuarioForm.id}" style="font-size:x-large; margin-left: 510px;" class="meta-action" title='<spring:message code="lbl.visualizar.imoveis.perfil.usuario"/>' >
+	                              						<div class="pull-right">
+	                              							<i class="fa fa-home" style="color:gray"></i>                              						
+	                              							<font style="font-size: 12px; color: black;" >&nbsp; <spring:message code="lbl.title.link.filtrar.imoveis"/></font>	                              						
+	                              						</div>	                              						
+	                              					</a>                              					
+                              					</c:if>
+                              					
+                              					<c:if test="${usuarioForm.id == usuario.id}">
+                              						<a href="${urlImovel}/listarMeusImoveis" style="font-size:x-large; margin-left: 510px;" class="meta-action" title='<spring:message code="lbl.visualizar.imoveis.perfil.usuario"/>' >
+                              							<div class="pull-right">
+                              								<i class="fa fa-home" style="color:gray"></i>                              						
+	                              							<font style="font-size: 12px; color: black;" >&nbsp; <spring:message code="lbl.title.link.meus.imoveis"/></font>
+                              							</div>	                              						
+	                              					</a>                              					
+                              					</c:if>                              				
+                              					
                               				</c:if> 
                               			</h3>
                               			

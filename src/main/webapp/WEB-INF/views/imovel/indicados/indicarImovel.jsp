@@ -11,8 +11,6 @@
 
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
 
-<spring:url value="/localidade/buscarCidades" var="urlBuscarCidades"/>
-<spring:url value="/localidade/buscarBairros" var="urlBuscarBairros"/>
 <spring:url value="/imovel" var="urlImovel"/>
  
 <script type="text/javascript">
@@ -48,6 +46,15 @@ function indicarImovel(idUsuario, idImovel) {
     });   
 }
 
+function mostrarModal(id){
+	
+	if (id == 0){
+		$('#msgModalFunc').html("<spring:message code='msg.modal.title.aba.indicar'/>");
+		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.aba.indicar'/>");
+	}		
+	$("#idModalItem").modal("show");
+}
+
 </script>
 		
 <c:import url="../../layout/head-layout.jsp"></c:import>
@@ -69,8 +76,12 @@ function indicarImovel(idUsuario, idImovel) {
             <section id="page-content">
             
             	 <!-- Start header content -->
-                <div class="header-content">
-                    <h2><i class="fa fa-pencil"></i><spring:message code="lbl.title.aba.indicar"/> </h2>    
+                <div class="header-content">                	
+                    <h2><i class="fa fa-pencil"></i><spring:message code="lbl.title.aba.indicar"/> 
+                    	<div class="pull-right">
+                             <a href="#a" class="btn btn-sm"  onClick="mostrarModal(0);"><i class="fa fa-question" style="font-size: 12px;"></i></a>                                        
+                         </div>
+                    </h2> 
                 </div><!-- /.header-content -->                
                 
                 <!-- Start body content -->
@@ -84,11 +95,15 @@ function indicarImovel(idUsuario, idImovel) {
 		                            <div class="panel-body">
 		                                <div class="inner-all">
 		                                    <ul class="list-unstyled">
-		                                        <li class="text-center">		                                        
-		                                            <img class="img-circle img-bordered-primary" src="data:image/jpeg;base64,${imovel.imagemArquivo}"  style="width: 200px; height: 200px; ">
+		                                        <li class="text-center">	
+		                                        	 <a href="${urlImovel}/detalhesImovel/${imovel.id}" >
+		                                        		<img class="img-circle img-bordered-primary" src="data:image/jpeg;base64,${imovel.imagemArquivo}"  style="width: 200px; height: 200px; "> 
+		                                        	 </a>	
 		                                        </li>
 		                                        <li class="text-center">
-		                                            <h4 class="text-capitalize">${imovel.titulo}</h4>
+		                                        	<a href="${urlImovel}/detalhesImovel/${imovel.id}" >
+		                                        		<h4 class="text-capitalize">${imovel.titulo}</h4>
+		                                        	</a>		                                            
 		                                            <p class="text-muted text-capitalize"> ${imovel.tipoImovelFmt} </p>
 		                                        </li>
 		                                    
@@ -187,7 +202,7 @@ function indicarImovel(idUsuario, idImovel) {
                                            <div class="tab-pane fade in active" id="tab4-1">
                                            		 
                                            		 <div class="input-group">
-                                                        <input type="text" class="form-control input-sm" id="to" placeholder="Digite o email aqui">
+                                                        <input type="text" class="form-control input-sm" id="to" placeholder="Indique este imóvel para uma pessoa digitando aqui o email">
                                                         <div class="input-group-btn">
                                                             <button type="button" class="btn btn-primary btn-stroke" style="font-size: 11px;"> <i class="fa fa-envelope-o"></i> &nbsp; Indicar por Email </button>
                                                         </div>
@@ -217,9 +232,6 @@ function indicarImovel(idUsuario, idImovel) {
 				                             <strong>${ultrapassouLimiteIndicacoes}</strong>
 				                         </div>						                      
 					                </c:if>
-					                	
-					                <c:choose>
-	                                		<c:when test = "${not empty imovelIndicadoForm.listaTodosContatos}">
 	                                			<div class="panel">
 					                                <div class="panel-heading">
 					                                    <div class="pull-left">
@@ -236,64 +248,67 @@ function indicarImovel(idUsuario, idImovel) {
 					                                    </div>
 					                                    <div class="clearfix"></div>
 					                                </div><!-- /.panel-heading -->
-					                                <div class="panel-body">		                                
-					                                	
-					                                			<div class="table-responsive" style="margin-top: -1px;">
-							                                        <table class="table table-bordred table-striped" >
-							                                            <thead >		                                            
-							                                            	<tr >
-							                                            		<th class="text-center" ></th>		                                                
-								                                            	<th class="text-center" ></th>
-								                                                <th class="text-center" ><strong><spring:message code="lbl.nome.usuario.indicado"/></strong></th>
-								                                                <th class="text-center" ><strong><spring:message code="lbl.perfil.usuario.indicado"/></strong></th>
-								                                                <th class="text-center" "></th>			                                                
-								                                            </tr>	
-							                                            </thead>
-							                                            <tbody>
-							                                           <form:form method="POST" id="imovelIndicadoForm" modelAttribute="imovelIndicadoForm" action="${urlImovelIndicado}/indicarImovelSelecionados" >
-							                                            <div class="section colm colm2 spacer-b5">
-														                      
-														                  </div>
-								                                            <c:forEach var="usuarioContato" items="${imovelIndicadoForm.listaTodosContatos}" >			                                            
-									                                            <tr>
-									                                            	<c:if test="${usuarioContato.indicadoImovel == 'N'}">
-									                                            		<td> <form:checkbox id="idNaoIndicadoCheck_${usuarioContato.id}"  path="idUsuariosSelecionados" value="${usuarioContato.id}"  /> </td>
-									                                            	</c:if>
-									                                            	<c:if test="${usuarioContato.indicadoImovel == 'S'}">
-									                                            		<td> </td>
-									                                            	</c:if>
-									                                                <td class="text-center">	                                                    
-															                     		<img src="data:image/jpeg;base64,${usuarioContato.imagemArquivo}" style="width: 60px; height: 50px; " />	                				
-									                                                </td>			                                                
-									                                                <td class="text-center">${usuarioContato.nome}</td>
-									                                                <td class="text-center">${usuarioContato.perfilFmt} </td>
-																					<td>
-																						<c:if test="${usuarioContato.indicadoImovel == 'N'}">
-																							<a href="#a" id="idNaoIndicado_${usuarioContato.id}" class="meta-action" onClick="indicarImovel(${usuarioContato.id}, ${imovel.id})" ><i class="fa fa-share-alt" style="color:gray"></i> Indicar</a>
-														              					
-														              						<a href="#a" style="display: none;"  id="idIndicado_${usuarioContato.id}" class="meta-action" ><i class="fa fa-share-alt" style="color:gray"></i> Indicado </button>
-																						</c:if>
-																						<c:if test="${usuarioContato.indicadoImovel == 'S'}">
-																							<a href="#a" class="meta-action" ><i class="fa fa-share-alt" style="color:gray"></i> Indicado </button>
-																						</c:if>
-														              					
-														              				</td>			            			                                                			                                              	                                            
-									                                            </tr>			                                            
-								                                            </c:forEach>
-							                                            </form:form>
-							                                            </tbody>
-							                                        </table>
-							                                    </div>		                                    
-					                                </div>
-			                            		</div><!-- /.panel -->
-	                                		</c:when>
-	                                		
-	                                		<c:when test = "${empty imovelIndicadoForm.listaTodosContatos}">
-	                                			<div class="callout callout-warning">
-				                                    <strong><spring:message code="lbl.nenhum.contato.indicar.imovel"/></strong>
-				                                </div>
-	                                		</c:when>		                                		
-		                            </c:choose>    	
+					                                
+					                                <c:choose>
+	                                					<c:when test = "${not empty imovelIndicadoForm.listaTodosContatos}">
+							                                <div class="panel-body">		                                
+							                                	
+							                                			<div class="table-responsive" style="margin-top: -1px;">
+									                                        <table class="table table-bordred table-striped" >
+									                                            <thead >		                                            
+									                                            	<tr >
+									                                            		<th class="text-center" ></th>		                                                
+										                                            	<th class="text-center" ></th>
+										                                                <th class="text-center" ><strong><spring:message code="lbl.nome.usuario.indicado"/></strong></th>
+										                                                <th class="text-center" ><strong><spring:message code="lbl.perfil.usuario.indicado"/></strong></th>
+										                                                <th class="text-center" "></th>			                                                
+										                                            </tr>	
+									                                            </thead>
+									                                            <tbody>
+									                                           <form:form method="POST" id="imovelIndicadoForm" modelAttribute="imovelIndicadoForm" action="${urlImovelIndicado}/indicarImovelSelecionados" >
+									                                            <div class="section colm colm2 spacer-b5">
+																                      
+																                  </div>
+										                                            <c:forEach var="usuarioContato" items="${imovelIndicadoForm.listaTodosContatos}" >			                                            
+											                                            <tr>
+											                                            	<c:if test="${usuarioContato.indicadoImovel == 'N'}">
+											                                            		<td> <form:checkbox id="idNaoIndicadoCheck_${usuarioContato.id}"  path="idUsuariosSelecionados" value="${usuarioContato.id}"  /> </td>
+											                                            	</c:if>
+											                                            	<c:if test="${usuarioContato.indicadoImovel == 'S'}">
+											                                            		<td> </td>
+											                                            	</c:if>
+											                                                <td class="text-center">	                                                    
+																	                     		<img src="data:image/jpeg;base64,${usuarioContato.imagemArquivo}" style="width: 60px; height: 50px; " />	                				
+											                                                </td>			                                                
+											                                                <td class="text-center">${usuarioContato.nome}</td>
+											                                                <td class="text-center">${usuarioContato.perfilFmt} </td>
+																							<td>
+																								<c:if test="${usuarioContato.indicadoImovel == 'N'}">
+																									<a href="#a" id="idNaoIndicado_${usuarioContato.id}" class="meta-action" onClick="indicarImovel(${usuarioContato.id}, ${imovel.id})" ><i class="fa fa-share-alt" style="color:gray"></i> Indicar</a>
+																              					
+																              						<a href="#a" style="display: none;"  id="idIndicado_${usuarioContato.id}" class="meta-action" ><i class="fa fa-share-alt" style="color:gray"></i> Indicado </button>
+																								</c:if>
+																								<c:if test="${usuarioContato.indicadoImovel == 'S'}">
+																									<a href="#a" class="meta-action" ><i class="fa fa-share-alt" style="color:gray"></i> Indicado </button>
+																								</c:if>
+																              					
+																              				</td>			            			                                                			                                              	                                            
+											                                            </tr>			                                            
+										                                            </c:forEach>
+									                                            </form:form>
+									                                            </tbody>
+									                                        </table>
+									                                    </div>		                                    
+							                                </div>
+							                          </c:when>
+					                                <c:when test = "${empty imovelIndicadoForm.listaTodosContatos}">
+					                                <br>
+			                                			<div class="callout callout-warning">
+						                                    <strong><spring:message code="lbl.nenhum.contato.indicar.imovel"/></strong>
+						                                </div>
+			                                		</c:when>		                                		
+		                            			</c:choose>					                                
+			                            </div><!-- /.panel -->
 		                       </div>		  
 	                    </div>                   		
                 		                               
@@ -306,6 +321,24 @@ function indicarImovel(idUsuario, idImovel) {
 			<!-- Start content modal Ajuda - funcionalidade -->
 				<c:import url="../../ajuda/contentMenuModal.jsp"></c:import>																				
 			<!-- End content  modal Ajuda - funcionalidade -->
+			
+				    <!-- Start optional size modal element - item 1 -->
+            <div id="idModalItem" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+				      <div class="modal-content">
+				        <div class="modal-header">
+				          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				          <h4 class="modal-title"> <div id="msgModalFuncionalidade" > </div>  </h4>
+				        </div>
+				        <div class="modal-body">  
+				       	   <strong> <spring:message code="lbl.descricao.geral"/>:  </strong> <div id="msgModalFunc" > </div>
+				        </div>
+				        <div class="modal-footer">			          
+	                      <button type="button" class="btn btn-primary" data-dismiss="modal"><spring:message code="lbl.btn.fechar.geral"/></button>
+				        </div>
+				      </div>
+				    </div>
+				</div>
 
         </section><!-- /#wrapper -->
         <!--/ END WRAPPER -->

@@ -8,7 +8,6 @@
 <spring:url value="/contato" var="urlContato"/>
 
 <c:set var="context" value="<%= request.getContextPath()%>"/>
-
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
 
 <spring:url value="/usuario/buscarCidades" var="urlBuscarCidades"/>
@@ -246,25 +245,11 @@ function mostrarModal(id){
 											
 											<div class="form-group">
                                                 <label for=diaNascimento class="col-sm-3 control-label"><spring:message code="lbl.data.nascimento"/></label>
-                                                <div class="col-sm-7">
-                                                		<spring:message code="lbl.hint.usuario.data.nascimento" var="hintDataNascimento"/>
-	                                                	<div class="col-sm-2">  
-															  <form:select id="diaNascimento" path="diaNascimento" class="form-control" title="${hintDataNascimento}">										                 
-												                 <form:options items="${usuarioForm.listaDiaNascimento}" itemValue="key" itemLabel="label"/>
-													          </form:select>
-													    </div>
-												    	<div class="col-sm-3">      
-												          <form:select id="mesNascimento" path="mesNascimento" class="form-control" title="${hintDataNascimento}">										                 
-											                 <form:options items="${usuarioForm.listaMesNascimento}" itemValue="key" itemLabel="label"/>
-												          </form:select>												          
-												    	</div>      
-												    	<div class="col-sm-2">      
-												          <form:select id="anoNascimento" path="anoNascimento" class="form-control" title="${hintDataNascimento}">										                 
-											                 <form:options items="${usuarioForm.listaAnoNascimento}" itemValue="key" itemLabel="label"/>
-												          </form:select>												          
-												     	</div>
-												    <form:errors id="dataNascimento" path="dataNascimento" cssClass="errorEntrada"  /> 
-                                                </div>
+                                                <div class="col-sm-7">                                                    
+                                                    <spring:message code="lbl.hint.usuario.data.nascimento" var="hintDataNascimento"/>         
+                                                    <form:input id="dataNascimentoFmt" path="dataNascimentoFmt" class="form-control" title="${hintDataNascimento}"/>
+                                                    <form:errors id="dataNascimentoFmt" path="dataNascimentoFmt" cssClass="errorEntrada"  />
+                                                </div>                                               
                                             </div><!-- /.form-group -->
                                             
                                               <div class="form-group">
@@ -286,7 +271,7 @@ function mostrarModal(id){
                                                 </div>
                                             </div><!-- /.form-group -->
                                                   
-                                            <c:if test="${(usuarioForm.perfil != 'imobiliaria')}">                                          
+                                            <c:if test="${(usuarioForm.perfil != 'I')}">                                          
 	                                            <div class="form-group">
 	                                                <label for="cnpj" class="col-sm-3 control-label"><spring:message code="lbl.cpf"/></label>
 	                                                <div class="col-sm-7">                                                    
@@ -303,7 +288,7 @@ function mostrarModal(id){
 	                                                <div class="col-sm-7">                                                    
 	                                                    <spring:message code="lbl.hint.usuario.cnpj" var="hintCnpj"/>                                                   
                                                     	<form:input  id="cnpj" path="cnpj" class="form-control" title="${hintCnpj}"/>
-	                                                    <form:errors id="cnpj" path="cpf" cssClass="errorEntrada"  />
+	                                                    <form:errors id="cnpj" path="cnpj" cssClass="errorEntrada"  />
 	                                                </div>
 	                                            </div><!-- /.form-group -->
                                             </c:if>
@@ -519,25 +504,23 @@ function mostrarModal(id){
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                       <form:form id="usuarioForm" modelAttribute="usuarioForm" action="${urlUsuario}/editarFotoPrincipal" class="form-horizontal mt-5" enctype="multipart/form-data" >
-                        <div class="modal-header">
+                        <div class="modal-header" align="center">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title"><div id="msgModal"  ></h4>
+                            <h4 class="modal-title"><spring:message code="lbl.modal.carregar.nova.foto.imovel"/></h4>
                         </div>
                         <div class="modal-body">
-                            <div class="form-group">
-                            	
+                            <div class="form-group">                            	
                                     <label class="control-label"></label>
                                     <div class="fileinput fileinput-new" data-provides="fileinput">
                                         <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px; margin-left: 330px;"></div>
-                                        <div style="margin-left: 330px;">
+                                        <div align="center">
                                             <span class="btn btn-info btn-file"><span class="fileinput-new"><spring:message code="lbl.selecionar.foto.imovel"/></span><span class="fileinput-exists"><spring:message code="lbl.selecionar.foto.imovel"/></span>	                                                        
                                             <input type="text" name="name" id="name"/>
 											<input type="file" name="file" id="file" />                                            
                                             </span>
                                             <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput"><spring:message code="lbl.remover.foto.imovel"/></a>
                                         </div>
-                                    </div>
-                                
+                                    </div>                                
                               </div><!-- /.form-group -->	
                         </div>
                         <div class="modal-footer">

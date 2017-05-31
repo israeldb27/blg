@@ -133,7 +133,7 @@ public class NotificacaoController {
 											ModelMap map){
 		try {
 			UsuarioForm usuario = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
-			map.addAttribute("listaNotificacoes", notificacaoService.ordenarNotificacoes(usuario.getId(), form));
+			map.addAttribute("listaNotificacoes", notificacaoService.filtrarNotificacoes(usuario.getId(), form));
 			//form.setListaNotificacoes(notificacaoService.ordenarMinhasNotificacoes(form.getListaNotificacoes(), usuario.getId(), form.getOpcaoOrdenacao()));
 			map.addAttribute("notificacaoForm", form);
 			return DIR_PATH + "listarMinhasNotificacoes";

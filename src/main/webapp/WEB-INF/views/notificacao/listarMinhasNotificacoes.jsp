@@ -32,7 +32,15 @@
 			$("#idCheckNotNovo_"+id).hide();	
 			$("#idCheckNotNovoLabel_"+id).hide();			
 		});
-	}	  
+	}
+	
+	function mostrarModal(id){		
+		if (id == 0){
+			$('#msgModalFunc').html("<spring:message code='msg.modal.title.link.notificacoes'/>");
+			$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.link.notificacoes'/>");
+		}		
+		$("#idModalItem").modal("show");
+	}
 </script>
 		
 <c:import url="../layout/head-layout.jsp"></c:import>
@@ -55,7 +63,12 @@
            
 		   <!-- Start header content -->
                 <div class="header-content">
-                    <h2><i class="fa fa-pencil"></i> <spring:message code="lbl.title.link.notificacoes"/> </h2>
+                    <h2>
+                    	<i class="fa fa-pencil"></i> <spring:message code="lbl.title.link.notificacoes"/> 
+                    	 <div class="pull-right">
+	                         <a href="#a" class="btn btn-sm"  onClick="mostrarModal(0);"><i class="fa fa-question" style="font-size: 12px;"></i></a>                                        
+	                     </div>	
+                    </h2>
                 </div><!-- /.header-content -->
           <!--/ End header content -->
                 
@@ -67,8 +80,7 @@
 	                <% if ( request.getSession().getAttribute("acessoValido").equals("N") ) {%>
 							<c:import url="../avisoRenovacaoAssinatura.jsp"></c:import>
                     <% } %>
-                        <div class="col-md-12">
-                        	<c:if test="${not empty listaNotificacoes}">
+                        <div class="col-md-12">                        	
                         		<!-- Start inline form -->
 		                            <div class="panel rounded shadow">     
 		                                <div class="panel-body no-padding">                                 
@@ -79,16 +91,21 @@
 					                                        	<form:select id="opcaoFiltro1" path="opcaoFiltro" class="form-control" >                                
 												                        <form:option value="" disabled="true"><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 												                        <c:if test="${usuario.perfil == 'P'}">
-												                        <form:option value="intermediacao"><spring:message code="lbl.notificacao.filtro.intermediacao"/></form:option>
+												                        <form:option value="I"><spring:message code="lbl.notificacao.filtro.intermediacao"/></form:option>
 												                        </c:if>
 												                        <c:if test="${usuario.perfil != 'P'}">
-																		<form:option value="parceria"><spring:message code="lbl.notificacao.filtro.parceria"/></form:option>
-																		<form:option value="intermediacao"><spring:message code="lbl.notificacao.filtro.intermediacao"/></form:option>
+																		<form:option value="R"><spring:message code="lbl.notificacao.filtro.parceria"/></form:option>
+																		<form:option value="I"><spring:message code="lbl.notificacao.filtro.intermediacao"/></form:option>
 																		</c:if>
-																		<form:option value="convite"><spring:message code="lbl.notificacao.filtro.convite"/></form:option>
-																		<form:option value="servico"><spring:message code="lbl.notificacao.filtro.servico"/></form:option>
-																		<form:option value="plano"><spring:message code="lbl.notificacao.filtro.plano"/></form:option>																		
-																		<form:option value="todos"><spring:message code="lbl.notificacao.filtro.todos"/></form:option>
+																		<form:option value="C"><spring:message code="lbl.notificacao.filtro.convite"/></form:option>
+																		<form:option value="U"><spring:message code="lbl.notificacao.filtro.usuario"/></form:option>
+																		<% if ( request.getSession().getAttribute("habilitaFuncServicos").equals("S") ) {%>
+																			<form:option value="S"><spring:message code="lbl.notificacao.filtro.servico"/></form:option>
+																		<% }  %>
+																		<% if ( request.getSession().getAttribute("habilitaFuncPlanos").equals("S") ) {%>
+																			<form:option value="P"><spring:message code="lbl.notificacao.filtro.plano"/></form:option>	
+																		<% }  %>																	
+																		<form:option value="T"><spring:message code="lbl.notificacao.filtro.todos"/></form:option>
 												                  </form:select>  
 					                                        </form:form>
 					                                    </div>
@@ -119,8 +136,7 @@
 		
 		                                </div><!-- /.panel-body -->
 		                            </div><!-- /.panel -->
-		                            <!--/ End inline form -->
-                        	</c:if>
+		                            <!--/ End inline form -->                       	
                         </div>	               
                     </div><!-- /.row -->                    
                     
@@ -342,6 +358,23 @@
 		<!-- Start content modal Ajuda - funcionalidade -->
 			<c:import url="../ajuda/contentMenuModal.jsp"></c:import>																				
 		<!-- End content  modal Ajuda - funcionalidade -->
+		
+		 <div id="idModalItem" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+             <div class="modal-dialog">
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	          <h4 class="modal-title"> <div id="msgModalFuncionalidade" > </div>  </h4>
+	        </div>
+	        <div class="modal-body">  
+	       	   <strong> <spring:message code="lbl.descricao.geral"/>:  </strong> <div id="msgModalFunc" > </div>
+	        </div>
+	        <div class="modal-footer">			          
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"><spring:message code="lbl.btn.fechar.geral"/></button>
+	        </div>
+	      </div>
+	    </div>
+	    </div>
 
         <!-- START @BACK TOP -->
         <div id="back-top" class="animated pulse circle">

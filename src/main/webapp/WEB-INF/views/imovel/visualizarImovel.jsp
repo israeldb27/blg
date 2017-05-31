@@ -407,7 +407,6 @@ function mostrarModal(id){
 	$("#idModalItem").modal("show");
 }
 
-
 function prepararModalGaleriaFotos(){		
 	$("#idModalGaleriaFotos").modal("show");	
 }
@@ -571,8 +570,7 @@ function prepararModalGaleriaFotos(){
                                                         <tr>
                                                             <td class="text-left"><spring:message code="lbl.codigo.identificacao.imovel.resum"/></td>
                                                             <td class="text-right">${imovelForm.codigoIdentificacao}</td>
-                                                        </tr>
-                                                    
+                                                        </tr>                                                    
                                                 </tbody>
                                             </table>
                                         </div> 
@@ -872,8 +870,7 @@ function prepararModalGaleriaFotos(){
 						                                <div class="panel-heading">
 						                                    <div class="pull-left">
 						                                    	</br>
-						                                        <h7 class="panel-title">Minha Solicitação Parceria</h7>
-						                                        
+						                                        <h7 class="panel-title"><spring:message code="lbl.title.aba.parceria.det.imovel"/></h7>						                                        
 						                                    </div>
 						                                </div>
 						                               	
@@ -914,7 +911,7 @@ function prepararModalGaleriaFotos(){
                           <!-- /.END Parceria -->
                          
                           <!-- /.START Visitas -->
-                          <c:if test="${imovelForm.idUsuario == usuario.id && not empty imovelForm.listaVisita }">
+                          <c:if test="${imovelForm.usuarioDonoImovel.id == usuario.id}">
                               <div class="panel rounded shadow">	
 								<div class="panel-heading">                                   
                                       <h3 class="panel-title">
@@ -930,8 +927,10 @@ function prepararModalGaleriaFotos(){
                                 </div>
                                 <div class="panel-body">                                	
                                 	<c:choose>
-                                		<c:when test="${  empty imovelForm.listaVisita }">
-                                			<h5 class="text-danger"> <spring:message code="msg.nenhuma.visualizacao"/> </h5>
+                                		<c:when test="${  empty imovelForm.listaVisita }"> 
+			                                	 <div class="callout callout-warning">
+					                                    <strong><spring:message code="msg.nenhuma.visualizacao"/></strong>		                                    
+					                              </div>
                                 		</c:when>
                                 		
                                 		<c:when test="${ not  empty imovelForm.listaVisita }">
@@ -1250,15 +1249,15 @@ function prepararModalGaleriaFotos(){
                                 <div class="form-body">
                                     <div class="form-group">
                                         <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.valor.proposta.imovel"/></label>
-                                        <div class="col-sm-4">
-                                            <input type="text" class="form-control" id="novaProposta2" onkeypress="formatarMoeda(this);">                                            
+                                        <div class="col-sm-5">
+                                            <input type="text" class="form-control" id="novaProposta2" onkeypress="formatarMoeda(this);" > 
                                             <div id="msgErroNovaProposta2" cssClass="errorEntrada"  ></div>                                            
                                         </div>
                                     </div><!-- /.form-group -->
                                     <div class="form-group">
                                         <label for="password-1" class="col-sm-3 control-label"><spring:message code="lbl.observacao.proposta.imovel"/></label>
-                                        <div class="col-sm-4">
-                                            <input type="text" class="form-control " id="novaObsProposta2"  >
+                                        <div class="col-sm-5">                                            
+                                            <textarea rows="5" cols="20" class="form-control " id="novaObsProposta2"></textarea>
                                             <div id="msgErroNovaObsProposta2" cssClass="errorEntrada"  ></div>
                                         </div>
                                     </div><!-- /.form-group -->                                    
@@ -1295,21 +1294,18 @@ function prepararModalGaleriaFotos(){
                                 <div class="form-body">
                                     <div class="form-group">
                                         <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.nova.descricao.comentario"/></label>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control input-sm" id="novoComentario2">
+                                        <div class="col-sm-7">                                         
+                                            <textarea rows="5" cols="20" class="form-control " id="novoComentario2"></textarea>
                                             <div id="msgErroNovoComentario"> </div>
-                                        </div>
-                                        
-                                    </div><!-- /.form-group -->
-                                   
+                                        </div>                                        
+                                    </div><!-- /.form-group -->                                   
                                 </div><!-- /.form-body -->
                                 <div class="form-footer">
                                     <div class="col-sm-offset-3">
                                     	<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.btn.cancelar.geral"/></button>
                                         <button type="button" class="btn btn-success" onClick="adicionarComentario();"><spring:message code="lbl.btn.adicionar.geral"/></button>
                                     </div>
-                                </div><!-- /.form-footer -->								
-																
+                                </div><!-- /.form-footer -->
                             </form>
                         </div>
 
@@ -1331,8 +1327,8 @@ function prepararModalGaleriaFotos(){
                                 <div class="form-body">
                                     <div class="form-group">
                                         <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.desc.nova.intermediacao"/></label>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control input-sm" id="novaSolIntermediacao">
+                                        <div class="col-sm-7">                                            
+                                            <textarea rows="5" cols="20" class="form-control " id="novaSolIntermediacao"></textarea>
                                             <div id="msgRetornoSolIntermediacaoErro" cssClass="errorEntrada"  ></div>											
                                         </div>
                                     </div><!-- /.form-group -->
@@ -1342,10 +1338,8 @@ function prepararModalGaleriaFotos(){
                                     <div class="col-sm-offset-3">
                                     	<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.btn.cancelar.geral"/></button>
                                         <button type="button" class="btn btn-success" onClick="adicionarSolIntermediacao();" ><spring:message code="lbl.btn.confirmar.geral"/></button>
-                                    </div>
-                                    
-                                    <div id="msgRetornoSolIntermediacaoErroForm" cssClass="errorEntrada"  ></div>
-                                                                        
+                                    </div>                                    
+                                    <div id="msgRetornoSolIntermediacaoErroForm" cssClass="errorEntrada"  ></div>                                                                        
                                 </div><!-- /.form-footer -->																   
                             </form>
                         </div>
@@ -1368,13 +1362,11 @@ function prepararModalGaleriaFotos(){
                                 <div class="form-body">
                                     <div class="form-group">
                                         <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.desc.nova.parceria"/></label>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control input-sm" id="novaSolParceria">
+                                        <div class="col-sm-7">                                           
+                                            <textarea rows="5" cols="20" class="form-control " id="novaSolParceria"></textarea>
                                             <div id="msgRetornoSolParceriaErro" cssClass="errorEntrada"  ></div>
-                                        </div>
-                                        
-                                    </div><!-- /.form-group -->
-                                   
+                                        </div>                                        
+                                    </div><!-- /.form-group -->                                   
                                 </div><!-- /.form-body -->
                                 <div class="form-footer">
                                     <div class="col-sm-offset-3">

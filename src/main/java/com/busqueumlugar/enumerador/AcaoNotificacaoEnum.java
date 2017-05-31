@@ -9,7 +9,7 @@ public enum AcaoNotificacaoEnum  implements Serializable, ICodigoDescricao{
 	PLANO("P"),
 	SERVICO("S"),	
 	INTERMEDIACAO("I"), 	
-	PARCERIA("P"); 
+	PARCERIA("R"); 
 
 	private String descricao;
 	

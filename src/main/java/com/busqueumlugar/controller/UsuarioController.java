@@ -599,9 +599,7 @@ public class UsuarioController {
 		
 		try {
 			UsuarioForm form = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
-			usuarioService.prepararEdicaoUsuario(form);
-			if ( form.getDataNascimento() != null )
-				usuarioService.preparaCampoDataNascimentoEditarUsuario(form);
+			usuarioService.prepararEdicaoUsuario(form);	
 	    	map.addAttribute("usuarioForm", form);
 			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "editarUsuario");
 			return DIR_PATH + "editarUsuario";
@@ -629,6 +627,7 @@ public class UsuarioController {
 				map.addAttribute("msgErro", "S");			
 			
 			 map.addAttribute("usuarioForm", form);
+			 session.setAttribute(UsuarioInterface.USUARIO_SESSAO, form);
 			 return DIR_PATH+ "editarUsuario";
 		} catch (Exception e) {
 			log.error("Erro metodo - UsuarioController -  editarUsuario");

@@ -12,6 +12,7 @@ import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 
 import com.busqueumlugar.dao.ContatoDao;
 import com.busqueumlugar.enumerador.ContatoStatusEnum;
@@ -19,6 +20,7 @@ import com.busqueumlugar.form.ContatoForm;
 import com.busqueumlugar.form.ImovelindicadoForm;
 import com.busqueumlugar.form.RelatorioForm;
 import com.busqueumlugar.model.Contato;
+import com.busqueumlugar.model.Usuario;
 import com.mysql.jdbc.StringUtils;
 
 
@@ -329,10 +331,42 @@ public class ContatoDaoImpl extends GenericDAOImpl<Contato, Long>  implements Co
 		Criterion usuarioConvidado = Restrictions.eq("usuarioConvidado.id", idUsuario); 
 		LogicalExpression orExp = Restrictions.or(usuarioHost,usuarioConvidado); 
 		crit.add(orExp);
-		if (! StringUtils.isNullOrEmpty(form.getOpcaoFiltro()))
-			crit.add(Restrictions.eq("perfilContato", form.getOpcaoFiltro()));
+		
+		if ( form != null ){
+			if (! StringUtils.isNullOrEmpty(form.getOpcaoFiltro()))
+				crit.add(Restrictions.eq("perfilContato", form.getOpcaoFiltro()));
+		}		
 		
 		crit.add(Restrictions.eq("status", ContatoStatusEnum.OK.getRotulo()));
 		return (List<Contato>) crit.list();
+	}
+
+
+	@Override
+	public List<Contato> filterContatos(Long idUsuario, ContatoForm form) {	
+		
+		Criteria crit1 = session().createCriteria(Contato.class);
+		crit1.add(Restrictions.eq("status", ContatoStatusEnum.OK.getRotulo()));
+		crit1.createCriteria("usuarioHost").add(Restrictions.eq("id", idUsuario));		
+		Criteria critUsuarioHost = crit1.createCriteria("usuarioConvidado");
+		
+		Criteria crit2 = session().createCriteria(Contato.class);
+		crit2.add(Restrictions.eq("status", ContatoStatusEnum.OK.getRotulo()));		
+		crit2.createCriteria("usuarioConvidado").add(Restrictions.eq("id", idUsuario));		
+		Criteria critUsuarioConvidado = crit2.createCriteria("usuarioHost");
+		
+		if (! StringUtils.isNullOrEmpty(form.getOpcaoFiltro()) && ! form.getOpcaoFiltro().equals("T")){			
+			critUsuarioHost.add(Restrictions.eq("perfil", form.getOpcaoFiltro()));
+			critUsuarioConvidado.add(Restrictions.eq("perfil", form.getOpcaoFiltro()));
+		}
+		List<Contato> listaFinal = new ArrayList<Contato>();
+		if (! CollectionUtils.isEmpty(crit1.list())){
+			listaFinal.addAll(crit1.list());
+		}
+		
+		if (! CollectionUtils.isEmpty(crit2.list())){
+			listaFinal.addAll(crit2.list());
+		}
+		return (List<Contato>) listaFinal;	
 	}	
 }

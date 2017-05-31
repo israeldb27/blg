@@ -281,9 +281,8 @@ public class UsuarioServiceImpl implements UsuarioService{
         usuario.setHabilitaBusca("S");
         usuario.setHabilitaDetalhesInfoUsuario("S");
         usuario.setHabilitaRecebeSeguidor("S");
-        
-        DateUtil dtNascimento = new DateUtil(frm.getDiaNascimento(), frm.getMesNascimento(), frm.getAnoNascimento());
-        usuario.setDataNascimento(dtNascimento.getTime());
+               
+        usuario.setDataNascimento(DateUtil.formataDataBanco(frm.getDataNascimentoFmt()));
         
         if ( usuario.getPerfil().equals(PerfilUsuarioOpcaoEnum.IMOBILIARIA.getRotulo()))
         	usuario.setCpf(frm.getCnpj());
@@ -370,10 +369,9 @@ public class UsuarioServiceImpl implements UsuarioService{
         usuario.setUf(estado.getUf());
         usuario.setEstado(estado.getNome());
         usuario.setCidade(cidade.getNome());
-        usuario.setBairro(bairro.getNome());
+        usuario.setBairro(bairro.getNome());       
         
-        DateUtil dtNascimento = new DateUtil(frm.getDiaNascimento(), frm.getMesNascimento(), frm.getAnoNascimento());
-        usuario.setDataNascimento(dtNascimento.getTime());
+        usuario.setDataNascimento(DateUtil.formataDataBanco(frm.getDataNascimentoFmt()));
         
         dao.save(usuario);
           
@@ -488,25 +486,19 @@ public class UsuarioServiceImpl implements UsuarioService{
 			result.rejectValue("fotoPrincipal", "msg.erro.campo.obrigatorio");
 			filtroValido = true;
 		}
-		
-		
-		boolean estaVaziaDataNascimento = false;
-		if ( StringUtils.isEmpty(form.getDiaNascimento()) || StringUtils.isEmpty(form.getMesNascimento()) || StringUtils.isEmpty(form.getAnoNascimento())){
-			result.rejectValue("dataNascimento", "msg.erro.data.nascimento.invalida");
-			filtroValido = true;
-			estaVaziaDataNascimento = true;
-		}		
-		
-		
-		if ( ! estaVaziaDataNascimento){			
-			try{
-				String dtNascimento = form.getDiaNascimento() + "/" + form.getMesNascimento() + "/" + form.getAnoNascimento();
+
+		if ( StringUtils.isEmpty(form.getDataNascimentoFmt())){
+			result.rejectValue("dataNascimentoFmt", "msg.erro.campo.obrigatorio");
+			filtroValido = true;                   
+		}
+		else {
+			try{				
 				DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
 				df.setLenient (false); 
-				df.parse (dtNascimento);   
+				df.parse (form.getDataNascimentoFmt());   
 			}
 			catch(ParseException e){
-				result.rejectValue("dataNascimento", "msg.erro.data.nascimento.invalida");
+				result.rejectValue("dataNascimentoFmt", "msg.erro.data.nascimento.invalida");
 				filtroValido = true;
 			}
 		}
@@ -650,11 +642,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 			}		
 		}
 		else if ( form.getPerfil().equals(PerfilUsuarioOpcaoEnum.IMOBILIARIA.getRotulo())){
-			if ( StringUtils.isEmpty(form.getCpf())){
-				result.rejectValue("cpf", "msg.erro.campo.obrigatorio");
+			if ( StringUtils.isEmpty(form.getCnpj())){
+				result.rejectValue("cnpj", "msg.erro.campo.obrigatorio");
 				filtroValido = true;                   
 			}
-			else if ( ! JsfUtil.isValidoCNPJ(form.getCpf())){
+			else if ( ! JsfUtil.isValidoCNPJ(form.getCnpj())){
 				result.rejectValue("cnpj", "msg.erro.cnpj.invalido");
 				filtroValido = true;
 			}
@@ -667,33 +659,28 @@ public class UsuarioServiceImpl implements UsuarioService{
 			}
 			else {
 				Usuario usuario = dao.findUsuarioByCampo(form, "creci");
-				if ( usuario != null ){				   
+				if ( usuario != null && usuario.getId().longValue() != form.getId().longValue()){				   
 				   result.rejectValue("creci", "msg.erro.creci.existente");
 				   filtroValido = true;
 				}   
 			}
-		}		
+		}
 		
-		boolean estaVaziaDataNascimento = false;
-		if ( StringUtils.isEmpty(form.getDiaNascimento()) || StringUtils.isEmpty(form.getMesNascimento()) || StringUtils.isEmpty(form.getAnoNascimento())){
-			result.rejectValue("dataNascimento", "msg.erro.data.nascimento.invalida");
-			filtroValido = true;
-			estaVaziaDataNascimento = true;
-		}		
-		
-		
-		if ( ! estaVaziaDataNascimento){			
-			try{
-				String dtNascimento = form.getDiaNascimento() + "/" + form.getMesNascimento() + "/" + form.getAnoNascimento();
+		if ( StringUtils.isEmpty(form.getDataNascimentoFmt())){
+			result.rejectValue("dataNascimentoFmt", "msg.erro.campo.obrigatorio");
+			filtroValido = true;                   
+		}
+		else {
+			try{				
 				DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
 				df.setLenient (false); 
-				df.parse (dtNascimento);   
+				df.parse (form.getDataNascimentoFmt());   
 			}
 			catch(ParseException e){
-				result.rejectValue("dataNascimento", "msg.erro.data.nascimento.invalida");
+				result.rejectValue("dataNascimentoFmt", "msg.erro.data.nascimento.invalida");
 				filtroValido = true;
 			}
-		}
+		}	
 		
 		if ( StringUtils.isEmpty(form.getDescSobreMim())){
 			result.rejectValue("descSobreMim", "msg.erro.campo.obrigatorio");
@@ -1782,9 +1769,12 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	@Override
 	public void prepararEdicaoUsuario(UsuarioForm form) {
+		Usuario usuario = dao.findUsuario(form.getId());
+		BeanUtils.copyProperties(usuario, form);		
 		form.setListaEstados(estadosService.listarTodosEstadosSelect());
 		form.setListaCidades(cidadesService.selecionarCidadesPorIdEstadoSelect(form.getIdEstado()));
-		form.setListaBairros(bairrosService.selecionarBairrosPorIdCidadeSelect(form.getIdCidade()));		
+		form.setListaBairros(bairrosService.selecionarBairrosPorIdCidadeSelect(form.getIdCidade()));
+		form.setDataNascimentoFmt(DateUtil.formataData(usuario.getDataNascimento()));
 	}
 	
 	@Override
@@ -1830,6 +1820,8 @@ public class UsuarioServiceImpl implements UsuarioService{
 		}
 		else
 			form.setListaImoveisUsuario(null);
+		
+		form.setDataNascimentoFmt(DateUtil.formataData(usuario.getDataNascimento()));
 		
 		form.setListaNotasUsuario(notaService.listarTodasNotasPorPerfil(idUsuario, new NotaForm()));
 		form.setListaSeguidores(seguidorService.recuperarSeguidoresPorIdUsuarioSeguido(idUsuario));		

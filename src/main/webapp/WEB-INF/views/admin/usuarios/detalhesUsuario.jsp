@@ -65,12 +65,10 @@ function adicionarSuspensaoUsuario(){
 	
 }
 
-function cancelarSuspensaoUsuario(){	
-	
+function cancelarSuspensaoUsuario(){		
 	$.post("${urlAdmin}/cancelarSuspensaoUsuario", {}, function() {		
 		location.reload();
-    });
-	
+    });	
 }
 
 
@@ -94,8 +92,6 @@ function cancelarSuspensaoUsuario(){
 
             <!-- START @PAGE CONTENT -->
             <section id="page-content">
-            
-            	<!-- Inicio - Meus Favoritos -->
             
             	 <!-- Start header content -->
                 <div class="header-content">

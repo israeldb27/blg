@@ -23,8 +23,7 @@
 
     
 <script type="text/javascript">
-    	$(document).ready(function() {  
-    			
+    	$(document).ready(function() { 
     		
     		$('.my-tooltip').tooltip({    			  
     		});
@@ -79,7 +78,6 @@
     	        }
     	    });    	   
     	}
-
 
     	function recuperaBairros(){   
     	    var parametro1 = $("#idCidade").val();

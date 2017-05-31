@@ -159,7 +159,7 @@ public class NotificacaoServiceImpl implements NotificacaoService {
 	public List<Notificacao> filtrarNotificacoes(Long idUsuario, NotificacaoForm form) {
 		List<Notificacao> lista = null;
 		
-		if (form.getOpcaoFiltro().equals("todos"))
+		if (form.getOpcaoFiltro().equals("T"))
 			lista = dao.findNotificacoesByIdUsuario(idUsuario, form);
 		else
 			lista = dao.filterNotificacoesByIdUsuario(idUsuario, form);

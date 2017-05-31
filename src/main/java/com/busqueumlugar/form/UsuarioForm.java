@@ -56,7 +56,9 @@ public class UsuarioForm extends BaseForm {
     private String diaNascimento;
     private String mesNascimento;
     private String anoNascimento;
-    private List<Select> listaDiaNascimento;
+    private String dataNascimentoFmt = "";  
+
+	private List<Select> listaDiaNascimento;
     private List<Select> listaMesNascimento;
     private List<Select> listaAnoNascimento;
     
@@ -1327,4 +1329,12 @@ public class UsuarioForm extends BaseForm {
     	else
     		return "";
     }
+    
+    public String getDataNascimentoFmt() {
+  		return dataNascimentoFmt;
+  	}
+
+  	public void setDataNascimentoFmt(String dataNascimentoFmt) {
+  		this.dataNascimentoFmt = dataNascimentoFmt;
+  	}
 }

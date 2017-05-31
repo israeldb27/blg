@@ -45,4 +45,6 @@ public interface ContatoDao extends GenericDAO<Contato, Long>{
 	List filterListaIds(Long idUsuario, String perfilUsuario);
 
 	List<Contato> findContatosByIndicacao(Long idUsuario, ImovelindicadoForm form);
+
+	List<Contato> filterContatos(Long idUsuario, ContatoForm form);
 }

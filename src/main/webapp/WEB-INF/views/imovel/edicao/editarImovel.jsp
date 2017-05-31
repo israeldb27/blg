@@ -418,7 +418,7 @@
                                             </div><!-- /.form-group -->
                                             
                                             <div class="form-group">
-                                                <label for="area" class="col-sm-3 control-label"><spring:message code="lbl.area.m2"/></label>
+                                                <label for="area" class="col-sm-3 control-label"><spring:message code="lbl.area.m2.resum"/></label>
                                                 <div class="col-sm-7">
                                                     <spring:message code="lbl.hint.imovel.area" var="hintArea"/>
                                                     <form:input id="area" path="area" class="form-control" title="${hintArea}"/>
