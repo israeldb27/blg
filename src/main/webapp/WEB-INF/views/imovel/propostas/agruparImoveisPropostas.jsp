@@ -24,18 +24,18 @@
 
 $(document).ready(function() {	
 	
-	$('#idEstadoAgruparImoveis').change(function () {
-	    var comboPai = '#idEstadoAgruparImoveis';
-	    var comboFilha = '#idCidadeAgruparImoveis';
-	    var comboFilha2 = '#idBairroAgruparImoveis';
+	$('#idEstado').change(function () {
+	    var comboPai = '#idEstado';
+	    var comboFilha = '#idCidade';
+	    var comboFilha2 = '#idBairro';
 	    limpaComboLinha(comboFilha);
 	    limpaComboLinha(comboFilha2);
 	    recuperaCidades();
 	});
 
-	$('#idCidadeAgruparImoveis').change(function () {
-		var comboPai   = '#idCidadeAgruparImoveis';
-		var comboFilha = '#idBairroAgruparImoveis';
+	$('#idCidade').change(function () {
+		var comboPai   = '#idCidade';
+		var comboFilha = '#idBairro';
 		limpaComboLinha(comboFilha);
 		recuperaBairros();		
 	 });
@@ -61,7 +61,7 @@ $(document).ready(function() {
 
 
 function recuperaCidades(){
-    var parametro1 = $("#idEstadoAgruparImoveis").val();
+    var parametro1 = $("#idEstado").val();
     $.ajax({
         type: 'GET',
         url: '${urlBuscarCidades}/' + parametro1,
@@ -69,8 +69,9 @@ function recuperaCidades(){
         success: function(json){
             var options = "";
             $.each(json, function(key, value){
-               $("#idCidadeAgruparImoveis").append("<option value='"+value.key+"'>"+value.label+"</option>");
+               $("#idCidade").append("<option value='"+value.key+"'>"+value.label+"</option>");
             });  
+            $('#idCidade').trigger("chosen:updated");
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
@@ -79,7 +80,7 @@ function recuperaCidades(){
 }
 
 function recuperaBairros(){
-    var parametro1 = $("#idCidadeAgruparImoveis").val();
+    var parametro1 = $("#idCidade").val();
     $.ajax({
         type: 'GET',
         url: '${urlBuscarBairros}/' + parametro1,
@@ -87,8 +88,9 @@ function recuperaBairros(){
         success: function(json){
             var options = "";
             $.each(json, function(key, value){
-            	$("#idBairroAgruparImoveis").append("<option value='"+value.key+"'>"+value.label+"</option>");
+            	$("#idBairro").append("<option value='"+value.key+"'>"+value.label+"</option>");
             });  
+            $('#idBairro').trigger("chosen:updated");
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
@@ -182,8 +184,7 @@ function recuperaBairros(){
 														  <div class="pull-right">
 															<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
 														  </div><!-- /.pull-right --> 
-		                                            <br>
-		                                        
+		                                            <br>		                                        
 		                                    </div><!-- /.panel -->
 		                                </div>
 		                                
@@ -240,8 +241,7 @@ function recuperaBairros(){
 														<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
 													  </div><!-- /.pull-right -->            												   
 													<br>		
-		                                	 </div> 
-		                                	 
+		                                	 </div> 		                                	 
 		                                </div>
 		                                
 		                                <div class="panel rounded shadow no-overflow">                                    
@@ -303,18 +303,20 @@ function recuperaBairros(){
 											  </div><!-- /.pull-right -->            												   
 											  <br>
 		                                    </div>
-		                               </div>		                                
-                                       
+		                               </div>	
                                     </form:form>        
                                     
                                 </div><!-- /.panel-body -->
                         </div> 
                                              
-					    <div class="col-lg-9 col-md-9 col-sm-8">					    	
+					    <div class="col-lg-9 col-md-9 col-sm-8">
+					    	<c:choose>					    		
+					    		<c:when test="${ not empty listaAgruposImoveis }">	
 					    			 <div class="pull-left col-lg-4" style="padding-top: 9px;">                        				
 			                               <span class="meta-level" style="font-size: 16px;"><strong> <spring:message code="lbl.quant.total.imoveis"/> </strong>: </span> &nbsp; ${imovelPropostaForm.quantRegistros}  
-			                          </div>					    		
-	                                <div class="pull-right" >
+			                          </div>
+			                          
+			                          <div class="pull-right" >
 	                                		<spring:message code="lbl.hint.tipo.agrupar" var="hintAgrupar"/>
 	                                       <form:form method="POST" id="modoVisualizarPropostasForm" modelAttribute="imovelPropostaForm" action="${urlImovelPropostas}/modoVisualizar"  >						              		  	
 						                    	<form:select id="opcaoVisualizacaoPropostas" path="opcaoVisualizacao" class="form-control" title="${hintAgrupar}">                                
@@ -324,8 +326,9 @@ function recuperaBairros(){
 													  <form:option value="todos" ><spring:message code="lbl.agrupar.todos"/></form:option> 
 							                    </form:select>
 							               </form:form>
-	                                </div><!-- /.pull-right -->
-	                                <div class="pull-right" style="padding-right:10px;">
+	                                  </div><!-- /.pull-right -->
+	                                  
+	                                   <div class="pull-right" style="padding-right:10px;">
 	                                	 <spring:message code="lbl.hint.tipo.ordenacao" var="hintOrdenar"/>
 		                                 <form:form method="POST" id="propostasForm" modelAttribute="imovelPropostaForm" action="${urlImovelPropostas}/ordenarAgrupar" >						              		   								               
 					                        	<form:select id="opcaoOrdenacao2" path="opcaoOrdenacao" class="form-control" title="${hintOrdenar}">  
@@ -339,6 +342,7 @@ function recuperaBairros(){
 							                  </form:select>
 					                    </form:form>
 	                                </div><!-- /.pull-left -->
+	                                
 	                                <c:if test="${imovelPropostaForm.isVisible() }">
 		                                <div class="pull-right" style="padding-right:20px;">
 		                                    <form:form method="POST" id="propostasPageForm" modelAttribute="imovelPropostaForm" action="${urlImovelPropostas}/filtrarAgruparImoveis" >
@@ -352,7 +356,7 @@ function recuperaBairros(){
 	                                </c:if>
 	                                
 	                                <div class="clearfix"></div>
-	
+	                                
 	                                <div class="media-list list-search">
 	                                 		<c:forEach var="imovel" items="${listaAgruposImoveis}" varStatus="item">
 	                                        <div class="media rounded shadow no-overflow">
@@ -371,14 +375,14 @@ function recuperaBairros(){
 	                                                
 	                                                <div class="col-md-5" > 
 	                                                 	<div class="media-body" >
-	                                                 	
+	                                                 		<br>
 	                                                 		<c:if test="${imovelPropostaForm.tipoLista == 'propostasRecebidas' }">																					                     		
-	                                                 			<em class="text-sm text-muted" ><font style="font-size:13px; font-style: normal;"><spring:message code="lbl.total.propostas.recebidas" />: </font><span class="text-success">${imovel.quantPropostas}</span></em> </br>
-	                                                 			<em class="text-sm text-muted" ><font style="font-size:13px; font-style: normal;"><spring:message code="lbl.total.novas.propostas.recebidas" />: </font><span class="text-success">${imovel.quantNovasPropostas}</span></em> </br>
+	                                                 			<em class="text-sm text-muted" ><font style="font-size:13px; font-style: normal;"><spring:message code="lbl.total.propostas.recebidas" />: </font>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-success">${imovel.quantPropostas}</span></em> <br> <br>
+	                                                 			<em class="text-sm text-muted" ><font style="font-size:13px; font-style: normal;"><spring:message code="lbl.total.novas.propostas.recebidas" />: </font>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-success">${imovel.quantNovasPropostas}</span></em> <br>
 	                                                 				
 					                                        </c:if>
 					                                        <c:if test="${imovelPropostaForm.tipoLista == 'propostasLancadas' }">
-					                                        	<em class="text-sm text-muted" ><font style="font-size:13px; font-style: normal;"><spring:message code="lbl.total.propostas.recebidas" />: </font><span class="text-success">${imovel.quantPropostas}</span></em> </br>			                                        
+					                                        	<em class="text-sm text-muted" ><font style="font-size:13px; font-style: normal;"><spring:message code="lbl.total.propostas.recebidas" />: </font>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-success">${imovel.quantPropostas}</span></em> </br>			                                        
 					                                        </c:if>
 				                                        </div>
 	                                              		                                                 
@@ -426,8 +430,17 @@ function recuperaBairros(){
 	                                            </div>
 	                                        </div>
 	                                    </c:forEach>  
-	                                </div>					    				
-                        </div>                
+	                                </div>			                          
+					    		</c:when>
+					    		
+					    		<c:when test="${ empty listaAgruposImoveis }">
+					    			<div class="callout callout-warning">
+	                                    <strong><spring:message code="lbl.rel.nenhum.registro"/></strong>                              
+	                                </div>
+					    		</c:when>
+					    	</c:choose>	
+					    				    				
+                            </div>                
                     </div><!-- /.row -->
 
                 </div><!-- /.body-content -->

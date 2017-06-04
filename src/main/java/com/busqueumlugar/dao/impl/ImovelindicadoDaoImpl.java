@@ -500,9 +500,11 @@ public class ImovelindicadoDaoImpl extends GenericDAOImpl<Imovelindicado, Long> 
 				else
 					critUsuario.add(Restrictions.isNull("id"));					
 			}
+			
+			// corrigir a regra do Else
 			else if (! StringUtils.isNullOrEmpty(form.getOpcaoContatoAgruparUsuarios()) &&
 					(! StringUtils.isNullOrEmpty(form.getOpcaoPerfilContatoAgruparUsuarios()) &&
-					(form.getOpcaoContatoAgruparUsuarios().equals(TipoContatoOpcaoEnum.TODOS_USUARIOS.getRotulo()))) ){
+					(! form.getOpcaoPerfilContatoAgruparUsuarios().equals(TipoContatoOpcaoEnum.TODOS_USUARIOS.getRotulo()))) ){
 				critUsuario.add(Restrictions.eq("perfil", form.getOpcaoPerfilContatoAgruparUsuarios()));
 			}
 			
@@ -559,7 +561,7 @@ public class ImovelindicadoDaoImpl extends GenericDAOImpl<Imovelindicado, Long> 
 	}
 
 	@Override
-	public int findQuantidadeNovosImoveisIndicacoes(Long idImovel) {
+	public long findQuantidadeNovosImoveisIndicacoes(Long idImovel) {
 		Criteria crit = session().createCriteria(Imovelindicado.class);
 		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));
 		crit.add(Restrictions.eq("statusIndicado", StatusLeituraEnum.NOVO.getRotulo()));
@@ -568,7 +570,7 @@ public class ImovelindicadoDaoImpl extends GenericDAOImpl<Imovelindicado, Long> 
         projList.add(Projections.rowCount());		
 		crit.setProjection(projList);
 		crit.setMaxResults(1);
-		return (int)crit.uniqueResult();
+		return (long)crit.uniqueResult();
 	}
 
 	@Override

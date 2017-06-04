@@ -40,7 +40,7 @@ public interface ImovelindicadoDao extends GenericDAO<Imovelindicado, Long> {
 
 	List findImoveisIndicacoesByIdUsuarioDistinct(Long idUsuario, ImovelindicadoForm form);
 
-	int findQuantidadeNovosImoveisIndicacoes(Long idImovel);
+	long findQuantidadeNovosImoveisIndicacoes(Long idImovel);
 
 	List<Imovelindicado> findImoveisIndicadosByIdImovel(Long idImovel);
 

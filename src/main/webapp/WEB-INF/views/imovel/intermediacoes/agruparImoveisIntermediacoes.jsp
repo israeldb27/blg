@@ -35,18 +35,18 @@
 
 $(document).ready(function() {
 
-	$('#idEstadoAgruparImoveis').change(function () {
-	    var comboPai = '#idEstadoAgruparImoveis';
-	    var comboFilha = '#idCidadeAgruparImoveis';
-	    var comboFilha2 = '#idBairroAgruparImoveis';
+	$('#idEstado').change(function () {
+	    var comboPai = '#idEstado';
+	    var comboFilha = '#idCidade';
+	    var comboFilha2 = '#idBairro';
 	    limpaComboLinha(comboFilha);
 	    limpaComboLinha(comboFilha2);
 	    recuperaCidades();
 	});
 
-	$('#idCidadeAgruparImoveis').change(function () {
-		var comboPai   = '#idCidadeAgruparImoveis';
-		var comboFilha = '#idBairroAgruparImoveis';
+	$('#idCidade').change(function () {
+		var comboPai   = '#idCidade';
+		var comboFilha = '#idBairro';
 		limpaComboLinha(comboFilha);
 		recuperaBairros();		
 	 });
@@ -77,7 +77,7 @@ $('#opcaoPaginacao').change(function () {
 });	
 
 function recuperaCidades(){
-    var parametro1 = $("#idEstadoAgruparImoveis").val();
+    var parametro1 = $("#idEstado").val();
     $.ajax({
         type: 'GET',
         url: '${urlBuscarCidades}/' + parametro1,
@@ -85,7 +85,7 @@ function recuperaCidades(){
         success: function(json){
             var options = "";
             $.each(json, function(key, value){
-               $("#idCidadeAgruparImoveis").append("<option value='"+value.key+"'>"+value.label+"</option>");
+               $("#idCidade").append("<option value='"+value.key+"'>"+value.label+"</option>");
             });  
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -95,7 +95,7 @@ function recuperaCidades(){
 }
 
 function recuperaBairros(){
-    var parametro1 = $("#idCidadeAgruparImoveis").val();
+    var parametro1 = $("#idCidade").val();
     $.ajax({
         type: 'GET',
         url: '${urlBuscarBairros}/' + parametro1,
@@ -103,7 +103,7 @@ function recuperaBairros(){
         success: function(json){
             var options = "";
             $.each(json, function(key, value){
-            	$("#idBairroAgruparImoveis").append("<option value='"+value.key+"'>"+value.label+"</option>");
+            	$("#idBairro").append("<option value='"+value.key+"'>"+value.label+"</option>");
             });  
         },
         error: function(jqXHR, textStatus, errorThrown) {

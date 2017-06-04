@@ -184,9 +184,11 @@ $(document).ready(function() {
 		                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlUsuario}/detalhesUsuario/${usuarioProposta.id}" style="color : #9d2428;">${usuarioProposta.nome}</a></h4>
 		                                                <h5 class="media-heading" style="margin-bottom:12px;"><i class="fa fa-map-marker"></i> ${usuarioProposta.cidade} - ${usuarioProposta.uf}   </h1>
 		                                                
-		                                                <div class="col-md-5" >  
+		                                                <div class="col-md-5" > 
+		                                                	<br> 
 		                                                	<div class="media-body" >
-					                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.total.propostas" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;">${usuarioProposta.quantPropostas}</font></span></em> </br>			                                            		                                            	                                            
+					                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.total.propostas" />: </font><span class="text-success">&nbsp;&nbsp;&nbsp;&nbsp;
+					                                            <font style="font-size:11px; font-style: normal;">${usuarioProposta.quantPropostas}</font></span></em> </br>			                                            		                                            	                                            
 					                                        </div>				                                     
 		                                                </div>
 		                                                

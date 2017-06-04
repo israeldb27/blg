@@ -11,8 +11,8 @@
 <spring:url value="/imovelFavoritos" var="urlImovelFavoritos"/>
 <spring:url value="/imovel" var="urlImovel"/>
 <spring:url value="/usuario" var="urlUsuario"/>
-<spring:url value="/localidade/buscarCidades" var="urlBuscarCidades"/>
-<spring:url value="/localidade/buscarBairros" var="urlBuscarBairros"/>
+<spring:url value="/imovelFavoritos/buscarCidades" var="urlBuscarCidades"/>
+<spring:url value="/imovelFavoritos/buscarBairros" var="urlBuscarBairros"/>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -42,18 +42,18 @@ $('#opcaoPaginacao').change(function () {
 	$("#imovelFavoritoPageForm").submit();      
  });
  
-$('#idEstadoAgruparImoveis').change(function () {
-    var comboPai = '#idEstadoAgruparImoveis';
-    var comboFilha = '#idCidadeAgruparImoveis';
-    var comboFilha2 = '#idBairroAgruparImoveis';
+$('#idEstado').change(function () {
+    var comboPai = '#idEstado';
+    var comboFilha = '#idCidade';
+    var comboFilha2 = '#idBairro';
     limpaComboLinha(comboFilha);
     limpaComboLinha(comboFilha2);
     recuperaCidades();
 });
 
-$('#idCidadeAgruparImoveis').change(function () {
-	var comboPai   = '#idCidadeAgruparImoveis';
-	var comboFilha = '#idBairroAgruparImoveis';
+$('#idCidade').change(function () {
+	var comboPai   = '#idCidade';
+	var comboFilha = '#idBairro';
 	limpaComboLinha(comboFilha);
 	recuperaBairros();		
  });
@@ -67,7 +67,7 @@ function limpaComboLinha(comboLinha) {
 });	
 
 function recuperaCidades(){
-    var parametro1 = $("#idEstadoAgruparImoveis").val();
+    var parametro1 = $("#idEstado").val();
     $.ajax({
         type: 'GET',
         url: '${urlBuscarCidades}/' + parametro1,
@@ -75,8 +75,9 @@ function recuperaCidades(){
         success: function(json){
             var options = "";
             $.each(json, function(key, value){
-               $("#idCidadeAgruparImoveis").append("<option value='"+value.key+"'>"+value.label+"</option>");
+               $("#idCidade").append("<option value='"+value.key+"'>"+value.label+"</option>");
             });  
+            $('#idCidade').trigger("chosen:updated");
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
@@ -85,7 +86,7 @@ function recuperaCidades(){
 }
 
 function recuperaBairros(){
-    var parametro1 = $("#idCidadeAgruparImoveis").val();
+    var parametro1 = $("#idCidade").val();
     $.ajax({
         type: 'GET',
         url: '${urlBuscarBairros}/' + parametro1,
@@ -93,8 +94,9 @@ function recuperaBairros(){
         success: function(json){
             var options = "";
             $.each(json, function(key, value){
-            	$("#idBairroAgruparImoveis").append("<option value='"+value.key+"'>"+value.label+"</option>");
+            	$("#idBairro").append("<option value='"+value.key+"'>"+value.label+"</option>");
             });  
+            $('#idBairro').trigger("chosen:updated");
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
@@ -189,8 +191,7 @@ function recuperaBairros(){
 														  <div class="pull-right">
 															<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
 														  </div><!-- /.pull-right --> 
-		                                            <br>
-		                                        
+		                                            <br>		                                        
 		                                    </div><!-- /.panel -->
 		                                </div>
 		                                
@@ -380,7 +381,8 @@ function recuperaBairros(){
 	                                                    
 	                                                 	<div class="media-body" >
 	                                                 		 <br>
-				                                             <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.total.usuarios.interessados" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;"> ${imovel.quantImoveisFavoritos} </font></span></em>
+				                                             <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.total.usuarios.interessados" />: &nbsp;&nbsp;</font><span class="text-success">
+				                                             <font style="font-size:11px; font-style: normal;"> ${imovel.quantImoveisFavoritos} </font></span></em>
 				                                        </div>
 	                                              		
 	                                                </div>	                                                

@@ -185,9 +185,10 @@ $('#opcaoPaginacao').change(function () {
 		                                                
 		                                                <div class="col-md-5" >  
 		                                                	<div class="media-body" >
-					                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.total.imoveis.interesse" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;">${usuarioInteresse.quantImovelFavoritos}</font></span></em> </br>			                                            		                                            	                                            
-					                                        </div>
-					                                        
+					                                            <br>
+					                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.total.imoveis.interesse" />: &nbsp;&nbsp;</font><span class="text-success">
+					                                            <font style="font-size:11px; font-style: normal;">${usuarioInteresse.quantImovelFavoritos}</font></span></em> </br>			                                            		                                            	                                            
+					                                        </div>					                                        
 		                                                </div>
 		                                                
 		                                                <div class="col-md-7">

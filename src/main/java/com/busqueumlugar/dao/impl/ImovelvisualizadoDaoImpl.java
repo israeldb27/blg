@@ -371,9 +371,9 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 		crit.createCriteria("usuarioDonoImovel").add(Restrictions.eq("id", idUsuario));		
 		Criteria critImovel = null;			
 
-		boolean isCritImovelExist = (form.getIdEstadoAgruparImoveis() > 0) || 
-									(!StringUtils.isNullOrEmpty(form.getAcaoAgruparImoveis())) || 
-									(!StringUtils.isNullOrEmpty(form.getTipoImovelAgruparImoveis())) ||
+		boolean isCritImovelExist = (form.getIdEstado() > 0) || 
+									(!StringUtils.isNullOrEmpty(form.getAcao())) || 
+									(!StringUtils.isNullOrEmpty(form.getTipoImovel())) ||
 									(! StringUtils.isNullOrEmpty(form.getPerfilImovel())) ||
 									(form.getQuantQuartos() > 0 ) ||
 									(form.getQuantGaragem() > 0 ) ||
@@ -385,21 +385,21 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 		if ( isCritImovelExist){
 			critImovel = crit.createCriteria("imovel");
 			
-			 if ( form.getIdEstadoAgruparImoveis() > 0 ) {
-				 critImovel.add(Restrictions.eq("idEstado", form.getIdEstadoAgruparImoveis()));
+			 if ( form.getIdEstado() > 0 ) {
+				 critImovel.add(Restrictions.eq("idEstado", form.getIdEstado()));
 				 
-				 if ( form.getIdCidadeAgruparImoveis() > 0 )
-					 critImovel.add(Restrictions.eq("idCidade", form.getIdCidadeAgruparImoveis()));		            
+				 if ( form.getIdCidade() > 0 )
+					 critImovel.add(Restrictions.eq("idCidade", form.getIdCidade()));		            
 			        
-			     if ( form.getIdBairroAgruparImoveis() > 0 )
-			    	 critImovel.add(Restrictions.eq("idBairro", form.getIdBairroAgruparImoveis()));
+			     if ( form.getIdBairro() > 0 )
+			    	 critImovel.add(Restrictions.eq("idBairro", form.getIdBairro()));
 			 }	          
 			
-	        if ( ! StringUtils.isNullOrEmpty(form.getAcaoAgruparImoveis()))         
-	        	critImovel.add(Restrictions.eq("acao", form.getAcaoAgruparImoveis()));            
+	        if ( ! StringUtils.isNullOrEmpty(form.getAcao()))         
+	        	critImovel.add(Restrictions.eq("acao", form.getAcao()));            
 
-	        if ( ! StringUtils.isNullOrEmpty(form.getTipoImovelAgruparImoveis()))
-	        	critImovel.add(Restrictions.eq("tipoImovel", form.getTipoImovelAgruparImoveis()));
+	        if ( ! StringUtils.isNullOrEmpty(form.getTipoImovel()))
+	        	critImovel.add(Restrictions.eq("tipoImovel", form.getTipoImovel()));
 	        
 	        if ( ! StringUtils.isNullOrEmpty(form.getPerfilImovel()) && ! form.getPerfilImovel().equals("todos") )
 	        	critImovel.add(Restrictions.eq("perfilImovel", form.getPerfilImovel())); 

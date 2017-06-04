@@ -445,10 +445,11 @@ function confirmarExclusaoParametro(){
 	                                                <div class="col-md-5" >
 	                                                 	<div class="media-body" >
 				                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.proposta" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;"><br>
-				                                            <fmt:formatDate value='${imovelProposta.dataCadastro}' pattern='dd/MM/yyyy'/></font></span></em>
+				                                            <fmt:formatDate value='${imovelProposta.dataCadastro}' pattern='dd/MM/yyyy'/></font></span></em> <br> 
 				                                            
 				                                            <br> 				                                            
-				                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.valor.proposta" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;"><fmt:formatNumber value="${imovelProposta.valorProposta}" pattern="#,##0.00;-0"/></font></span></em>				                                            
+				                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.valor.proposta" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;"><br>
+				                                            <fmt:formatNumber value="${imovelProposta.valorProposta}" pattern="#,##0.00;-0"/></font></span></em>				                                            
 				                                            				                                                                               
 				                                        </div>	                                              	
 	                                                </div>

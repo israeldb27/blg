@@ -41,18 +41,18 @@ $('#opcaoPaginacao').change(function () {
 	$("#indicacaoPageForm").submit();      
  });
  
-$('#idEstadoAgruparImoveis').change(function () {
-    var comboPai = '#idEstadoAgruparImoveis';
-    var comboFilha = '#idCidadeAgruparImoveis';
-    var comboFilha2 = '#idBairroAgruparImoveis';
+$('#idEstado').change(function () {
+    var comboPai = '#idEstado';
+    var comboFilha = '#idCidade';
+    var comboFilha2 = '#idBairro';
     limpaComboLinha(comboFilha);
     limpaComboLinha(comboFilha2);
     recuperaCidades();
 });
 
-$('#idCidadeAgruparImoveis').change(function () {
-	var comboPai   = '#idCidadeAgruparImoveis';
-	var comboFilha = '#idBairroAgruparImoveis';
+$('#idCidade').change(function () {
+	var comboPai   = '#idCidade';
+	var comboFilha = '#idBairro';
 	limpaComboLinha(comboFilha);
 	recuperaBairros();		
  });
@@ -66,7 +66,7 @@ function limpaComboLinha(comboLinha) {
 });	
 
 function recuperaCidades(){
-    var parametro1 = $("#idEstadoAgruparImoveis").val();
+    var parametro1 = $("#idEstado").val();
     $.ajax({
         type: 'GET',
         url: '${urlBuscarCidades}/' + parametro1,
@@ -74,8 +74,9 @@ function recuperaCidades(){
         success: function(json){
             var options = "";
             $.each(json, function(key, value){
-               $("#idCidadeAgruparImoveis").append("<option value='"+value.key+"'>"+value.label+"</option>");
+               $("#idCidade").append("<option value='"+value.key+"'>"+value.label+"</option>");
             });  
+            $('#idCidade').trigger("chosen:updated");
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
@@ -84,7 +85,7 @@ function recuperaCidades(){
 }
 
 function recuperaBairros(){
-    var parametro1 = $("#idCidadeAgruparImoveis").val();
+    var parametro1 = $("#idCidade").val();
     $.ajax({
         type: 'GET',
         url: '${urlBuscarBairros}/' + parametro1,
@@ -92,8 +93,9 @@ function recuperaBairros(){
         success: function(json){
             var options = "";
             $.each(json, function(key, value){
-            	$("#idBairroAgruparImoveis").append("<option value='"+value.key+"'>"+value.label+"</option>");
+            	$("#idBairro").append("<option value='"+value.key+"'>"+value.label+"</option>");
             });  
+            $('#idBairro').trigger("chosen:updated");
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
@@ -317,6 +319,8 @@ function recuperaBairros(){
                         </div> 
                                              
 					    <div class="col-lg-9 col-md-9 col-sm-8">
+					    	<c:choose>					    		
+					    		<c:when test="${ not empty listaAgruposImoveis }">
 					    			<div class="pull-left col-lg-4" style="padding-top: 9px;">                        				
 				                           <span class="meta-level" style="font-size: 16px;"><strong> <spring:message code="lbl.quant.total.imoveis"/> </strong>: </span> &nbsp; ${imovelIndicadoForm.quantRegistros}  
 				                     </div>
@@ -364,9 +368,9 @@ function recuperaBairros(){
 	                                            <div class="media-left">
 	                                                <a href="${urlImovel}/detalhesImovel/${imovel.id}" >
 	                                                   <span class="meta-provider" style="font-size:19px;">${imovel.acaoFmt} <br>
-	                                                   							<strong>  R$<fmt:formatNumber value="${imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
+	                                                   			<strong>  R$<fmt:formatNumber value="${imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
 	                                                   </span><br>                                                   
-	                                                    <img src="data:image/jpeg;base64,${imovel.imagemArquivo}"  class="img-responsive" style="width: 260px; height: 195px; alt="admin"/>
+	                                                    <img src="data:image/jpeg;base64,${imovel.imagemArquivo}"  class="img-responsive" style="width: 300px; height: 245px; alt="admin"/>
 	                                                </a>
 	                                            </div>
 	                                            <div class="media-body">
@@ -417,7 +421,16 @@ function recuperaBairros(){
 	                                            </div>
 	                                        </div>
 	                                    </c:forEach>  
-	                                </div>					    					    
+	                                </div>
+					    		
+					    		</c:when>
+					    		
+					    		<c:when test="${ empty listaAgruposImoveis }">
+					    			<div class="callout callout-warning">
+	                                    <strong><spring:message code="lbl.rel.nenhum.registro"/></strong>                              
+	                                </div>
+					    		</c:when>
+					    	</c:choose>					    								    					    
                         </div>                 
                                               
                     </div><!-- /.row -->

@@ -5,7 +5,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:set var="context" value="<%= request.getContextPath()%>"/>
-
 <c:set var="contextURL" value="<%= request.getRequestURL().toString()%>"/>
 
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>

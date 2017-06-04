@@ -41,14 +41,7 @@ public class ImovelvisualizadoForm extends BaseForm{
     private String opcaoOrdenacao = "";
     private String tipoLista = "";
     private String opcaoVisualizacao = "";
-    
-    private int idEstadoAgruparImoveis;
-    private int idCidadeAgruparImoveis;
-    private int idBairroAgruparImoveis;
-    
-    private String acaoAgruparImoveis;
-    private String tipoImovelAgruparImoveis;
-    
+       
     private String opcaoContatoAgruparUsuarios;
     private boolean temFiltroContatoAgruparUsuarios;
     
@@ -157,18 +150,6 @@ public class ImovelvisualizadoForm extends BaseForm{
 	public void setStatusVisita(String statusVisita) {
 		this.statusVisita = statusVisita;
 	}
-	public String getAcaoAgruparImoveis() {
-		return acaoAgruparImoveis;
-	}
-	public void setAcaoAgruparImoveis(String acaoAgruparImoveis) {
-		this.acaoAgruparImoveis = acaoAgruparImoveis;
-	}
-	public String getTipoImovelAgruparImoveis() {
-		return tipoImovelAgruparImoveis;
-	}
-	public void setTipoImovelAgruparImoveis(String tipoImovelAgruparImoveis) {
-		this.tipoImovelAgruparImoveis = tipoImovelAgruparImoveis;
-	}
 	public String getOpcaoContatoAgruparUsuarios() {
 		return opcaoContatoAgruparUsuarios;
 	}
@@ -201,24 +182,6 @@ public class ImovelvisualizadoForm extends BaseForm{
 	public void setTemFiltroPerfilContatoAgruparUsuarios(
 			boolean temFiltroPerfilContatoAgruparUsuarios) {
 		this.temFiltroPerfilContatoAgruparUsuarios = temFiltroPerfilContatoAgruparUsuarios;
-	}
-	public int getIdEstadoAgruparImoveis() {
-		return idEstadoAgruparImoveis;
-	}
-	public void setIdEstadoAgruparImoveis(int idEstadoAgruparImoveis) {
-		this.idEstadoAgruparImoveis = idEstadoAgruparImoveis;
-	}
-	public int getIdCidadeAgruparImoveis() {
-		return idCidadeAgruparImoveis;
-	}
-	public void setIdCidadeAgruparImoveis(int idCidadeAgruparImoveis) {
-		this.idCidadeAgruparImoveis = idCidadeAgruparImoveis;
-	}
-	public int getIdBairroAgruparImoveis() {
-		return idBairroAgruparImoveis;
-	}
-	public void setIdBairroAgruparImoveis(int idBairroAgruparImoveis) {
-		this.idBairroAgruparImoveis = idBairroAgruparImoveis;
 	}
 	public Imovel getImovel() {
 		return imovel;

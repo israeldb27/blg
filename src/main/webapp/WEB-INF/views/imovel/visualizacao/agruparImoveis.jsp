@@ -25,18 +25,19 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
-	$('#idEstadoAgruparImoveis').change(function () {
-	    var comboPai = '#idEstadoAgruparImoveis';
-	    var comboFilha = '#idCidadeAgruparImoveis';
-	    var comboFilha2 = '#idBairroAgruparImoveis';
+	
+	$('#idEstado').change(function () {
+	    var comboPai = '#idEstado';
+	    var comboFilha = '#idCidade';
+	    var comboFilha2 = '#idBairro';
 	    limpaComboLinha(comboFilha);
 	    limpaComboLinha(comboFilha2);
 	    recuperaCidades();
 	});
 
-	$('#idCidadeAgruparImoveis').change(function () {
-		var comboPai   = '#idCidadeAgruparImoveis';
-		var comboFilha = '#idBairroAgruparImoveis';
+	$('#idCidade').change(function () {
+		var comboPai   = '#idCidade';
+		var comboFilha = '#idBairro';
 		limpaComboLinha(comboFilha);
 		recuperaBairros();		
 	 });
@@ -62,7 +63,7 @@ $(document).ready(function() {
 });	
 
 function recuperaCidades(){
-    var parametro1 = $("#idEstadoAgruparImoveis").val();
+    var parametro1 = $("#idEstado").val();
     $.ajax({
         type: 'GET',
         url: '${urlBuscarCidades}/' + parametro1,
@@ -70,8 +71,9 @@ function recuperaCidades(){
         success: function(json){
             var options = "";
             $.each(json, function(key, value){
-               $("#idCidadeAgruparImoveis").append("<option value='"+value.key+"'>"+value.label+"</option>");
+               $("#idCidade").append("<option value='"+value.key+"'>"+value.label+"</option>");
             });  
+            $('#idCidade').trigger("chosen:updated");
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
@@ -80,7 +82,7 @@ function recuperaCidades(){
 }
 
 function recuperaBairros(){
-    var parametro1 = $("#idCidadeAgruparImoveis").val();
+    var parametro1 = $("#idCidade").val();
     $.ajax({
         type: 'GET',
         url: '${urlBuscarBairros}/' + parametro1,
@@ -88,8 +90,9 @@ function recuperaBairros(){
         success: function(json){
             var options = "";
             $.each(json, function(key, value){
-            	$("#idBairroAgruparImoveis").append("<option value='"+value.key+"'>"+value.label+"</option>");
+            	$("#idBairro").append("<option value='"+value.key+"'>"+value.label+"</option>");
             });  
+            $('#idBairro').trigger("chosen:updated");
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
@@ -332,8 +335,10 @@ function adicionarInteresse(id) {
                                 </div><!-- /.panel-body -->
                         </div> 
                                              
-					    <div class="col-lg-9 col-md-9 col-sm-8">					    						    			  
-		                                <div class="pull-left col-lg-4" style="padding-top: 9px;">                        				
+					    <div class="col-lg-9 col-md-9 col-sm-8">	
+					    	<c:choose>					    		
+					    		<c:when test="${ not empty listaAgruposImoveis }">	
+					    			<div class="pull-left col-lg-4" style="padding-top: 9px;">                        				
 			                                 <span class="meta-level" style="font-size: 16px;"><strong> <spring:message code="lbl.quant.total.imoveis"/> </strong>: </span> &nbsp; ${imovelvisualizadoForm.quantRegistros}  
 			                            </div>
 		                                <div class="pull-right" >
@@ -382,7 +387,7 @@ function adicionarInteresse(id) {
 		                                            <div class="media-left">
 		                                                <a href="${urlImovel}/detalhesImovel/${imovel.id}" >
 		                                                   <span class="meta-provider" style="font-size:19px;">${imovel.acaoFmt} <br>
-		                                                   							<strong>  R$<fmt:formatNumber value="${imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
+		                                                   			<strong>  R$<fmt:formatNumber value="${imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
 		                                                   </span><br>                                                   
 		                                                    <img src="data:image/jpeg;base64,${imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 215px; alt="admin"/>
 		                                                </a>
@@ -396,7 +401,7 @@ function adicionarInteresse(id) {
 		                                                    
 		                                                 	<div class="media-body" >
 		                                                 		<br>			                                            			                                            
-					                                            <em class="text-sm text-muted" ><font style="font-size:13px; font-style: normal;"><spring:message code="lbl.total.visualizacoes" />: </font>
+					                                            <em class="text-sm text-muted" ><font style="font-size:13px; font-style: normal;"><spring:message code="lbl.total.visualizacoes" />: </font>&nbsp;&nbsp;&nbsp;&nbsp;
 					                                            <span class="text-success">  ${imovel.quantImoveisVisitados}</span></em> </br>					                                            			                                            
 					                                        </div>
 		                                                  
@@ -437,7 +442,17 @@ function adicionarInteresse(id) {
 		                                            </div>
 		                                        </div>
 		                                    </c:forEach>  
-		                                </div>					    	
+		                                </div>
+					    		</c:when>
+					    		
+					    		<c:when test="${ empty listaAgruposImoveis }">
+					    			<div class="callout callout-warning">
+	                                    <strong><spring:message code="lbl.rel.nenhum.registro"/></strong>                              
+	                                </div>
+					    		</c:when>
+					    		
+					    	</c:choose>				    						    			  
+		                                					    	
                         </div>                
                     </div><!-- /.row -->
 

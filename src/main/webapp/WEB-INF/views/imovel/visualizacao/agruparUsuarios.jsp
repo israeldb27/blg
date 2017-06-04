@@ -16,7 +16,6 @@
 <c:set var="listaPerfilUsuario" value="<%= PerfilUsuarioNormalEnum.values() %>"/>
 <c:set var="listaTipoContato" value="<%= TipoContatoEnum.values() %>"/>
 
-
 <spring:url value="/imovelVisualizado" var="urlImovelVisualizado"/>
 <spring:url value="/localidade/buscarCidades" var="urlBuscarCidades"/>
 <spring:url value="/localidade/buscarBairros" var="urlBuscarBairros"/>
@@ -213,10 +212,11 @@ function adicionarInteresse(id) {
 			                                                <h5 class="media-heading" style="margin-bottom:12px;"><i class="fa fa-map-marker"></i> ${usuarioVisita.cidade} - ${usuarioVisita.uf}   </h1>
 			                                                
 			                                                <div class="col-md-5" >  
+			                                                	<br>
 			                                                	<div class="media-body" >
-						                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.total.visualizacoes" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;">${usuarioVisita.quantImovelVisitado}</font></span></em> </br>			                                            		                                            	                                            
-						                                        </div>
-						                                     
+						                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.total.visualizacoes" />: </font> &nbsp;&nbsp;&nbsp;&nbsp;
+						                                            <span class="text-success"> <font style="font-size:11px; font-style: normal;">${usuarioVisita.quantImovelVisitado}</font></span></em> </br>			                                            		                                            	                                            
+						                                        </div>						                                     
 			                                                </div>
 			                                                
 			                                                <div class="col-md-7">

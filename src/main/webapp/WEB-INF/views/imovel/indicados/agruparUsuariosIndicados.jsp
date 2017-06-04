@@ -15,8 +15,8 @@
 
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
 
-<spring:url value="/localidade/buscarCidades" var="urlBuscarCidades"/>
-<spring:url value="/localidade/buscarBairros" var="urlBuscarBairros"/>
+<spring:url value="/imovelFavoritos/buscarCidades" var="urlBuscarCidades"/>
+<spring:url value="/imovelFavoritos/buscarBairros" var="urlBuscarBairros"/>
 <spring:url value="/imovel" var="urlImovel"/>
 <spring:url var="urlImovelFavoritos" value="/imovelFavoritos"/>
 <spring:url value="/usuario" var="urlUsuario"/>
@@ -178,7 +178,7 @@ $('#opcaoPaginacao').change(function () {
 	                                        <div class="media rounded shadow no-overflow">
 	                                            <div class="media-left">
 	                                                <a href="${urlUsuario}/detalhesUsuario/${usuarioIndicado.id}" >                                                                                                     
-	                                                    <img src="data:image/jpeg;base64,${usuarioIndicado.imagemArquivo}" class="img-responsive" style="width: 260px; height: 195px; alt="admin"/>
+	                                                    <img src="data:image/jpeg;base64,${usuarioIndicado.imagemArquivo}" class="img-responsive" style="width: 260px; height: 215px; alt="admin"/>
 	                                                </a>
 	                                            </div>
 	                                            <div class="media-body">
@@ -187,8 +187,10 @@ $('#opcaoPaginacao').change(function () {
 	                                                <h5 class="media-heading" style="margin-bottom:12px;"><i class="fa fa-map-marker"></i> ${usuarioIndicado.cidade} - ${usuarioIndicado.uf}   </h1>
 	                                                
 	                                                <div class="col-md-5" >  
+	                                                	<br>
 	                                                	<div class="media-body" >
-				                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.total.indicados" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;">${usuarioIndicado.quantImoveisIndicado}</font></span></em> </br>			                                            		                                            	                                            
+				                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.total.indicados" />: </font><span class="text-success">&nbsp;&nbsp;&nbsp;&nbsp;
+				                                            <font style="font-size:11px; font-style: normal;">${usuarioIndicado.quantImoveisIndicado}</font></span></em> </br>			                                            		                                            	                                            
 				                                        </div>			                                        
 	                                                </div>
 	                                                
