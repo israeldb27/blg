@@ -20,6 +20,9 @@
 <%@page import="com.busqueumlugar.enumerador.TipoContatoEnum"%>
 <c:set var="listaTipoContato" value="<%= TipoContatoEnum.values() %>"/>
 
+<%@page import="com.busqueumlugar.enumerador.PerfilUsuarioSemComumlEnum"%>
+<c:set var="listaPerfilUsuarioSemComum" value="<%= PerfilUsuarioSemComumlEnum.values() %>"/>
+
 <%@page import="com.busqueumlugar.enumerador.PerfilUsuarioNormalEnum"%>
 <c:set var="listaPerfilUsuario" value="<%= PerfilUsuarioNormalEnum.values() %>"/>
 
@@ -112,13 +115,27 @@ $('#opcaoPaginacao').change(function () {
 		                               <div class="panel-body">
 			                            </br>
                                         <div class="form-group no-margin">
-                                        	 <span class="label label-default"><spring:message code="lbl.filtro.perfil.usuario"/> </span>
-                                        	 	<spring:message code="lbl.hint.usuario.perfil.usuario" var="hintPerfilUsuario"/>
-									             <form:select id="opcaoPerfilContatoAgruparUsuarios" path="opcaoPerfilContatoAgruparUsuarios" class="chosen-select" tabindex="-1" style="display: none;" title="${hintPerfilUsuario}">                                
-														<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
-											   			<form:options items="${listaPerfilUsuario}" itemValue="identificador" itemLabel="rotulo" />
-												  </form:select> 
-                                            </br> </br>
+                                        	<c:choose>
+                                        		<c:when test="${intermediacaoForm.tipoLista != 'intermediacaoMinhasSol'}">
+                                        			<span class="label label-default"><spring:message code="lbl.filtro.perfil.usuario"/> </span>
+	                                        	 	<spring:message code="lbl.hint.usuario.perfil.usuario" var="hintPerfilUsuario"/>
+										             <form:select id="opcaoPerfilContatoAgruparUsuarios" path="opcaoPerfilContatoAgruparUsuarios" class="chosen-select" tabindex="-1" style="display: none;" title="${hintPerfilUsuario}">                                
+															<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>												   			
+												   			<c:choose>
+												   				<c:when test="${usuario.perfil != 'P'}">
+												   					<form:options items="${listaPerfilUsuario}" itemValue="identificador" itemLabel="rotulo" />
+												   				</c:when>
+												   				<c:when test="${usuario.perfil == 'P'}">
+												   					<form:options items="${listaPerfilUsuarioSemComum}" itemValue="identificador" itemLabel="rotulo" />
+												   				</c:when>													   			
+												   			</c:choose>													   															   			
+													  </form:select> 	                                           
+                                        		</c:when>
+                                        		<c:when test="${intermediacaoForm.tipoLista == 'intermediacaoMinhasSol'}">
+                                        			<form:hidden path="opcaoPerfilContatoAgruparUsuarios" value="P"/>
+                                        		</c:when>
+                                        	</c:choose>
+                                            <br>  <br> <br> 
                                         	<span class="label label-default"><spring:message code="lbl.relatorio.tipo.contato"/></span>
                                         		<spring:message code="lbl.hint.usuario.contatos.usuario" var="hintContatosUsuario"/>
 									            <form:select id="opcaoContatoAgruparUsuarios" path="opcaoContatoAgruparUsuarios" class="chosen-select" tabindex="-1" style="display: none;" title="${hintContatosUsuario}">                                
@@ -140,19 +157,22 @@ $('#opcaoPaginacao').change(function () {
                             </form:form>
                         </div>
                         <div class="col-lg-9 col-md-9 col-sm-8">
-                                <div class="pull-left col-lg-4" style="padding-top: 9px;">                        				
-	                                 <span class="meta-level" style="font-size: 16px;"><strong> <spring:message code="lbl.quant.total.usuarios"/> </strong>: </span> &nbsp; ${intermediacaoForm.quantRegistros}  
+                                <div class="pull-left col-lg-4" style="padding-top: 9px;">    
+	                           		 <c:if test="${not empty listaAgruposUsuarios }">
+                        					<span class="meta-level" style="font-size: 16px;"><strong> <spring:message code="lbl.quant.total.usuarios"/> </strong>: </span> &nbsp; ${intermediacaoForm.quantRegistros}  	
+                        			  </c:if> 
 	                            </div>
                                 <div class="pull-right" >
-                                			<spring:message code="lbl.hint.tipo.agrupar" var="hintAgrupar"/>
-                                      		<form:form method="POST" id="modVisualizaListaIntermediacaoForm" modelAttribute="intermediacaoForm" action="${urlIntermediacao}/modoVisualizarIntermediacao" >								                    
-							                    <form:select id="opcaoVisualizacaoListaIntermediacao" path="opcaoVisualizacao" class="form-control" title="${hintAgrupar}">
-														<form:option value="" disabled="true"><spring:message code="lbl.agrupar.por"/></form:option>                  											
-														<form:option value="agruparUsuarios" ><spring:message code="lbl.agrupar.usuarios"/></form:option>   
-														<form:option value="todos" ><spring:message code="lbl.agrupar.todos"/></form:option> 
-			                                    </form:select>
-								            </form:form>
+                             		<spring:message code="lbl.hint.tipo.agrupar" var="hintAgrupar"/>
+                                   	<form:form method="POST" id="modVisualizaListaIntermediacaoForm" modelAttribute="intermediacaoForm" action="${urlIntermediacao}/modoVisualizarIntermediacao" >								                    
+					                    <form:select id="opcaoVisualizacaoListaIntermediacao" path="opcaoVisualizacao" class="form-control" title="${hintAgrupar}">
+												<form:option value="" disabled="true"><spring:message code="lbl.agrupar.por"/></form:option>                  											
+												<form:option value="agruparUsuarios" ><spring:message code="lbl.agrupar.usuarios"/></form:option>   
+												<form:option value="todos" ><spring:message code="lbl.agrupar.todos"/></form:option> 
+	                                    </form:select>
+						            </form:form>
                                 </div><!-- /.pull-right -->
+                                
                                 <div class="pull-right" style="padding-right:10px;">
                                 			<spring:message code="lbl.hint.tipo.ordenacao" var="hintOrdenar"/>
                                     		<form:form method="POST" id="imoveisIntermediacaoForm" modelAttribute="intermediacaoForm" action="${urlIntermediacao}/ordenarAgruparIntermediacoes" >         		      	
@@ -187,7 +207,7 @@ $('#opcaoPaginacao').change(function () {
 		                                        <div class="media rounded shadow no-overflow">
 		                                            <div class="media-left">
 		                                                <a href="${urlUsuario}/detalhesUsuario/${usuarioIntermediacao.id}" >                                                                                                     
-		                                                    <img src="data:image/jpeg;base64,${usuarioIntermediacao.imagemArquivo}" class="img-responsive" style="width: 260px; height: 195px; alt="admin"/>
+		                                                    <img src="data:image/jpeg;base64,${usuarioIntermediacao.imagemArquivo}" class="img-responsive" style="width: 260px; height: 225px; alt="admin"/>
 		                                                </a>
 		                                            </div>
 		                                            <div class="media-body">
@@ -197,10 +217,27 @@ $('#opcaoPaginacao').change(function () {
 		                                                
 		                                                <div class="col-md-5" >  
 		                                                	<div class="media-body" >
-		                                                		<em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.cadastro.usuario" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;"><fmt:formatDate value='${usuarioIntermediacao.dataCadastro}' pattern='dd/MM/yyyy'/></font></span></em> </br>
-					                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.total.usuarios.intermediacoes" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;">${usuarioIntermediacao.quantImovelIntermediacao}</font></span></em> </br>			                                            		                                            	                                            
+		                                                		<em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.cadastro.usuario" />: </font> <br> 
+		                                                		<span class="text-success"><font style="font-size:11px; font-style: normal;"><fmt:formatDate value='${usuarioIntermediacao.dataCadastro}' pattern='dd/MM/yyyy'/></font></span></em> <br>
+		                                                		
+		                                                		<br>
+		                                                		
+					                                            <em class="text-xs text-muted"> 					                                            	
+					                                            <c:choose>
+										                    		<c:when test="${intermediacaoForm.tipoLista == 'intermediacaoAceita'}">
+										                    		  <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.total.usuarios.intermediacoes.aceitas" />: </font> <br>
+										                    		</c:when>
+										                    		<c:when test="${intermediacaoForm.tipoLista == 'intermediacaoSolRecebida'}">
+										                    		  <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.total.usuarios.intermediacoes.solicitadas" />: </font> <br>
+										                    		</c:when>
+										                    		<c:when test="${intermediacaoForm.tipoLista == 'intermediacaoMinhasSol'}">
+										                    		  <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.total.usuarios.intermediacoes.solicitadas" />: </font> <br>
+										                    		</c:when>
+										                    	</c:choose>
+					                                            
+					                                            <span class="text-success"><font style="font-size:11px; font-style: normal;">${usuarioIntermediacao.quantImovelIntermediacao}</font></span></em> <br>			                                            		                                            	                                            
 					                                        </div>			                                                                                       
-		                                                    <br/> <br/>
+		                                                   
 		                                                </div>
 		                                                
 		                                                <div class="col-md-7">

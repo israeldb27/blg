@@ -12,7 +12,6 @@
 <c:set var="context" value="<%= request.getContextPath()%>"/>
 
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
-
 <spring:url value="/mensagem" var="urlMensagem"/>
    
 <%@page import="com.busqueumlugar.util.UsuarioInterface"%>
@@ -39,16 +38,58 @@ function confirmarExclusaoSolParceriaAnaliseSol(){
 	var parametro = document.getElementById("modIdParametro");
 	var idImovel = document.getElementById("modIdImovel");	
 	$.ajax({
-			 url: '${urlParceria}/confirmarExclusaoSolParceriaAnaliseSol/' + parametro.value + "/" + idImovel.value,			 
-			 success: function(){				 
-				 location.reload();     	    
-			 },
-			 error: function(jqXHR, textStatus, errorThrown) {				 
-				 $('#msgRetornoConfirmExclusaoParamErro').html("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
-			 }
-		 });
+		 url: '${urlParceria}/confirmarExclusaoSolParceriaAnaliseSol/' + parametro.value + "/" + idImovel.value,			 
+		 success: function(){				 
+			 location.reload();     	    
+		 },
+		 error: function(jqXHR, textStatus, errorThrown) {				 
+			 $('#msgRetornoConfirmExclusaoParamErro').html("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+		 }
+	 });
 }
 
+function prepararModalConfirmaAdicao(id, idImovel){
+	$("#modIdParametro").val(id);
+	$("#modIdImovel").val(idImovel);	
+	$('#msgRetornoConfirmAdicaoParamErro').html("");	
+	$("#idModalConfirmacaoAdicaoParam").modal("show");	
+}
+
+function confirmarAdicaoSolParceriaAnaliseSol(){	
+	var parametro = document.getElementById("modIdParametro");
+	var idImovel = document.getElementById("modIdImovel");	
+	$.ajax({
+		 url: '${urlParceria}/aceitarSolImovelParceria/' + parametro.value + "/" + idImovel.value,			 
+		 success: function(){				 
+			 location.reload();     	    
+		 },
+		 error: function(jqXHR, textStatus, errorThrown) {				 
+			 $('#msgRetornoConfirmAdicaoParamErro').html("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+		 }
+	 });
+}
+
+
+function prepararModalConfirmaRemocao(id, idImovel){
+	$("#modIdParametro").val(id);
+	$("#modIdImovel").val(idImovel);	
+	$('#msgRetornoConfirmRemocaoParamErro').html("");	
+	$("#idModalConfirmacaoRemocaoParam").modal("show");	
+}
+
+function confirmarRemocaoSolParceriaAnaliseSol(){	
+	var parametro = document.getElementById("modIdParametro");
+	var idImovel = document.getElementById("modIdImovel");	
+	$.ajax({
+		 url: '${urlParceria}/limparUsuarioImovelParceria/' + parametro.value + "/" + idImovel.value,			 
+		 success: function(){				 
+			 location.reload();     	    
+		 },
+		 error: function(jqXHR, textStatus, errorThrown) {				 
+			 $('#msgRetornoConfirmRemocaoParamErro').html("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+		 }
+	 });
+}
 
 </script>
 		
@@ -178,11 +219,14 @@ function confirmarExclusaoSolParceriaAnaliseSol(){
 			                                                                </td>
 			                                                                <td class="text-center"><b><a href="${urlUsuario}/detalhesUsuario/${parceriaSelecionada.usuarioSolicitante.id}" >
 																											${parceriaSelecionada.usuarioSolicitante.nome}
-																										</a></b>
+																									   </a></b>
 																			</td>
 			                                                                <td class="text-center"><fmt:formatDate value='${parceriaSelecionada.dataResposta}' pattern='dd/MM/yyyy'/></td>
 			                                                                <td class="text-center"><fmt:formatDate value='${parceriaSelecionada.dataSolicitacao}' pattern='dd/MM/yyyy'/></td>                                                                
-			                                                                <td class="text-center"><a href="${urlParceria}/excluirSolAnaliseImovelParceria/${parceriaSelecionada.id}/${parceriaSelecionada.imovel.id}" data-toggle="tooltip" data-placement="top" data-original-title="<spring:message code='lbl.link.excluir.sol.parceria'/>"><i class="fa fa-times"></i></a></td>
+			                                                                <td class="text-center"><a href="#" onClick="prepararModalConfirmaRemocao(${parceriaSelecionada.id},${parceriaSelecionada.imovel.id})" data-toggle="tooltip" data-placement="top" data-original-title="Excluir Solicitação"><i class="fa fa-times"></i></a> 
+		                                          							</td>
+			                                                           		
+			                                                           			
 			                                                            </tr>
 		                                                            </c:forEach>
 		                                                            </tbody>
@@ -263,8 +307,9 @@ function confirmarExclusaoSolParceriaAnaliseSol(){
 		                                          <td class="text-center" style="font-size: 13px;"> <fmt:formatDate value='${parceria.dataSolicitacao}' pattern='dd/MM/yyyy'/>  </td>
 		                                          <td class="text-center" style="font-size: 13px;"> ${parceria.usuarioSolicitante.nome} </td>
 		                                          <td class="text-center" style="font-size: 13px;"> ${parceria.descricaoCompartilhamento} </td>              
-		                                          <td class="text-center" style="font-size: 13px;"> <a href="${urlParceria}/aceitarSolImovelParceria/${parceria.id}/${parceria.imovel.id}" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" data-original-title="<spring:message code='lbl.link.selecionar.sol.parceria'/>"><i class="fa fa-pencil"></i></a> 
-		                                          						   <a href="#" onClick="prepararModalConfirmaExclusao(${parceria.id}, ${parceria.imovel.id} )" data-toggle="tooltip" data-placement="top" data-original-title="Excluir Solicitação"><i class="fa fa-times"></i></a> 
+		                                          <td class="text-center" style="font-size: 13px;"> 
+		                                                <a href="#" onClick="prepararModalConfirmaAdicao(${parceria.id}, ${parceria.imovel.id})"  data-toggle="tooltip" data-placement="top" data-original-title="<spring:message code='lbl.link.selecionar.sol.parceria'/>"><i class="fa fa-check"></i></a> 
+		                                          		<a href="#" onClick="prepararModalConfirmaExclusao(${parceria.id}, ${parceria.imovel.id} )" data-toggle="tooltip" data-placement="top" data-original-title="Excluir Solicitação"><i class="fa fa-times"></i></a> 
 		                                          </td>
 											                      		
 		                                      </tr>
@@ -284,8 +329,7 @@ function confirmarExclusaoSolParceriaAnaliseSol(){
        <!-- Start optional size modal element - confirmacao exclusao parceria solicitada -->
             <div id="idModalConfirmacaoExclusaoParam" class="modal fade bs-example-modal-lg-confirmacao-exclusao-sol-intermediacao" tabindex="-1" role="dialog" aria-hidden="true">
 	            <input type="hidden" id="modIdParametro" readonly="readonly" name="modIdParametro">
-	            <input type="hidden" id="modIdImovel" readonly="readonly" name="modIdImovel">
-	            
+	            <input type="hidden" id="modIdImovel" readonly="readonly" name="modIdImovel">	            
 	                <div class="modal-dialog modal-lg">
 	                    <div class="modal-content">
 	                        <div class="modal-header">
@@ -305,7 +349,54 @@ function confirmarExclusaoSolParceriaAnaliseSol(){
 	                    </div><!-- /.modal-content -->
 	                </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
-         <!-- End optional size modal element - confirmacao exclusao parceria solicitada  --> 
+         <!-- End optional size modal element - confirmacao exclusao parceria solicitada  -->          
+         
+          <!-- Start optional size modal element - confirmacao selecao parceria -->
+            <div id="idModalConfirmacaoAdicaoParam" class="modal fade bs-example-modal-lg-confirmacao-adicao-sol-intermediacao" tabindex="-1" role="dialog" aria-hidden="true">
+	            <input type="hidden" id="modIdParametro" readonly="readonly" name="modIdParametro">
+	            <input type="hidden" id="modIdImovel" readonly="readonly" name="modIdImovel">	            
+	                <div class="modal-dialog modal-lg">
+	                    <div class="modal-content">
+	                        <div class="modal-header">
+	                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                            <h4 class="modal-title"><spring:message code="lbl.modal.confirmar.adicao.sol.parceria"/></h4>
+	                        </div>
+	                        <div class="modal-body">
+	                            <p><spring:message code="lbl.modal.pergunta.confirma.adicao.sol.parceria"/></p>
+	                        </div>
+	                        <div class="modal-footer">
+	                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
+	                            <button type="button" class="btn btn-theme" onClick="confirmarAdicaoSolParceriaAnaliseSol();"><spring:message code="lbl.sim"/></button>                            
+	                        </div>							
+							<div id="msgRetornoConfirmAdicaoParamErro" cssClass="errorEntrada"  ></div>  
+	                    </div><!-- /.modal-content -->
+	                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+         <!-- End optional size modal element - confirmacao  selecao parceria  --> 
+         
+         
+           <!-- Start optional size modal element - remover usuario da parceria -->
+            <div id="idModalConfirmacaoRemocaoParam" class="modal fade bs-example-modal-lg-confirmacao-remocao-parceria-intermediacao" tabindex="-1" role="dialog" aria-hidden="true">
+	            <input type="hidden" id="modIdParametro" readonly="readonly" name="modIdParametro">
+	            <input type="hidden" id="modIdImovel" readonly="readonly" name="modIdImovel">	            
+	                <div class="modal-dialog modal-lg">
+	                    <div class="modal-content">
+	                        <div class="modal-header">
+	                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                            <h4 class="modal-title"><spring:message code="lbl.modal.confirmar.remocao.sol.parceria"/></h4>
+	                        </div>
+	                        <div class="modal-body">
+	                            <p><spring:message code="lbl.modal.pergunta.confirma.remocao.sol.parceria"/></p>
+	                        </div>
+	                        <div class="modal-footer">
+	                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
+	                            <button type="button" class="btn btn-theme" onClick="confirmarRemocaoSolParceriaAnaliseSol();"><spring:message code="lbl.sim"/></button>                            
+	                        </div>							
+							<div id="msgRetornoConfirmRemocaoParamErro" cssClass="errorEntrada"  ></div>  
+	                    </div><!-- /.modal-content -->
+	                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+         <!-- End optional size modal element - remover usuario da parceria   --> 
 				
 			
 			<!-- Start content modal Ajuda - funcionalidade -->

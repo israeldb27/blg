@@ -374,25 +374,6 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaController.cla
 		}
     }
 	
-	@RequestMapping(value = "/aceitarSolImovelParceria/{idImovelParceria}/{idImovel}", method = RequestMethod.GET)
-    public String aceitarSolImovelParceria(@PathVariable Long idImovelParceria, 
-    									   @PathVariable Long idImovel, 
-    									   ModelMap map){
-		
-		try {
-			parceriaService.atualizarStatusParceria(idImovelParceria, StatusImovelCompartilhadoEnum.ACEITA.getRotulo());
-			map.addAttribute("listaSolImovelParceria", parceriaService.recuperarUsuarioParceiroPorIdImovel(idImovel, StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo()));
-			map.addAttribute("listaImovelParceriaSelecionados", parceriaService.recuperarUsuarioParceiroPorIdImovel(idImovel, StatusImovelCompartilhadoEnum.ACEITA.getRotulo()));
-			map.addAttribute("imovel", imovelService.recuperarImovelPorid(idImovel));
-	    	return DIR_PATH_PARCERIA + "analisarSolicitacoesParceria";
-		} catch (Exception e) {
-			log.error("Erro metodo - ImovelCompartilhadoController -  aceitarSolImovelParceria");
-			log.error("Mensagem Erro: " + e.getMessage());
-			map.addAttribute("mensagemErroGeral", "S");
-			return ImovelService.PATH_ERRO_GERAL;
-		}
-    }
-	
 	@RequestMapping(value = "/excluirSolAnaliseImovelParceria/{idImovelParceria}/{idImovel}", method = RequestMethod.GET)
     public String excluirSolAnaliseImovelParceria(@PathVariable Long idImovelParceria, 
 												  @PathVariable Long idImovel, 
@@ -570,6 +551,43 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaController.cla
 		}		
 	}
 
+	@RequestMapping(value = "/aceitarSolImovelParceria/{idImovelParceria}/{idImovel}")
+    public String aceitarSolImovelParceria(@PathVariable Long idImovelParceria, 
+    									   @PathVariable Long idImovel, 
+    									   ModelMap map){
+		
+		try {
+			parceriaService.atualizarStatusParceria(idImovelParceria, StatusImovelCompartilhadoEnum.ACEITA.getRotulo());
+			map.addAttribute("listaSolImovelParceria", parceriaService.recuperarUsuarioParceiroPorIdImovel(idImovel, StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo()));
+			map.addAttribute("listaImovelParceriaSelecionados", parceriaService.recuperarUsuarioParceiroPorIdImovel(idImovel, StatusImovelCompartilhadoEnum.ACEITA.getRotulo()));
+			map.addAttribute("imovel", imovelService.recuperarImovelPorid(idImovel));
+	    	return DIR_PATH_PARCERIA + "analisarSolicitacoesParceria";
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelCompartilhadoController -  aceitarSolImovelParceria");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+    }
+	
+	@RequestMapping(value = "/limparUsuarioImovelParceria/{idImovelParceria}/{idImovel}")
+    public String limparUsuarioImovelParceria(@PathVariable Long idImovelParceria, 
+    									   	  @PathVariable Long idImovel, 
+    									   	  ModelMap map){
+		try {
+			parceriaService.atualizarStatusParceria(idImovelParceria, StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo());
+			map.addAttribute("listaSolImovelParceria", parceriaService.recuperarUsuarioParceiroPorIdImovel(idImovel, StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo()));
+			map.addAttribute("listaImovelParceriaSelecionados", parceriaService.recuperarUsuarioParceiroPorIdImovel(idImovel, StatusImovelCompartilhadoEnum.ACEITA.getRotulo()));
+			map.addAttribute("imovel", imovelService.recuperarImovelPorid(idImovel));
+	    	return DIR_PATH_PARCERIA + "analisarSolicitacoesParceria";
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelCompartilhadoController -  limparUsuarioImovelParceria");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+    }
+	
 	
 
 }

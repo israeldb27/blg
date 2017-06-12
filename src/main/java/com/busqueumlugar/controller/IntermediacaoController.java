@@ -358,7 +358,7 @@ public class IntermediacaoController {
 		}
     }
     
-	@RequestMapping(value = "/aceitarSolImovelIntermediacao/{idImovelIntermediacao}/{idImovel}", method = RequestMethod.GET)
+	@RequestMapping(value = "/aceitarSolImovelIntermediacao/{idImovelIntermediacao}/{idImovel}")
     public String aceitarSolImovelIntermediacoes(@PathVariable Long idImovelIntermediacao, 
 											     @PathVariable Long idImovel, 
 												 ModelMap map,
@@ -374,6 +374,27 @@ public class IntermediacaoController {
 			return DIR_PATH_INTERMEDIACOES + "analisarSolicitacoesIntermediacoes";
 		} catch (Exception e) {
 			log.error("Erro metodo - IntermediacaoController -  aceitarSolImovelIntermediacoes");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+    }
+	
+	@RequestMapping(value = "/limparUsuarioImovelIntermediacao/{idImovelIntermediacao}/{idImovel}")
+    public String limparUsuarioImovelIntermediacao(@PathVariable Long idImovelIntermediacao, 
+												   @PathVariable Long idImovel, 
+												   ModelMap map,
+												   HttpSession session){
+		
+		try {
+			intermediacaoService.atualizarStatusIntermediacao(idImovelIntermediacao, StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo());
+			List<Intermediacao> lista = intermediacaoService.recuperarSolicitacoesIntermediacoesRecebidasPorIdImovelPorStatus(idImovel);
+			map.addAttribute("intermediacaoSelecionadaForm", intermediacaoService.recuperarImovelIntermediadoSelecionadoPorIdImovel(idImovel) );
+			map.addAttribute("listaSolImovelIntermediacao", lista);
+			map.addAttribute("imovel", imovelService.recuperarImovelPorid(idImovel));			
+			return DIR_PATH_INTERMEDIACOES + "analisarSolicitacoesIntermediacoes";
+		} catch (Exception e) {
+			log.error("Erro metodo - IntermediacaoController -  limparUsuarioImovelIntermediacao");
 			log.error("Mensagem Erro: " + e.getMessage());
 			map.addAttribute("mensagemErroGeral", "S");
 			return ImovelService.PATH_ERRO_GERAL;

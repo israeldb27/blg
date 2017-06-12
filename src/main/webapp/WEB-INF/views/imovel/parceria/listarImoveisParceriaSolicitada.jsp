@@ -20,7 +20,6 @@
 <c:set var="listaAcaoImovel" value="<%= AcaoImovelEnum.values() %>"/>
 <c:set var="listaTipoImovel" value="<%= TipoImovelEnum.values() %>"/>
 <c:set var="listaStatusImovel" value="<%= StatusImovelEnum.values() %>"/>
-
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
 
 <spring:url value="/parceria/buscarCidadesParceria" var="urlBuscarCidades"/>
@@ -152,9 +151,7 @@
 
             <!-- START @PAGE CONTENT -->
             <section id="page-content">
-            
-            	<!-- Inicio - Meus Favoritos -->
-            
+           
             	 <!-- Start header content -->
                 <div class="header-content">
                      <h2><i class="fa fa-pencil"></i> 
@@ -401,7 +398,7 @@
 	                                                   <span class="meta-provider" style="font-size:19px;">${imovelParceria.imovel.acaoFmt} <br>
 	                                                   							<strong>  R$<fmt:formatNumber value="${imovelParceria.imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
 	                                                   </span><br>                                                   
-	                                                    <img src="data:image/jpeg;base64,${imovelParceria.imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 195px; alt="admin"/>
+	                                                    <img src="data:image/jpeg;base64,${imovelParceria.imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 225px; alt="admin"/>
 	                                                </a>
 	                                            </div>
 	                                            <div class="media-body">
@@ -447,9 +444,7 @@
 	                                                 	<% if ( request.getSession().getAttribute("acessoValido").equals("S") ) {%>	                                                 	
 	                                                 			<spring:message code="lbl.link.analisar.sol.intermediacoes" var="mensagemAnalisarSol"/>
 	                                                 			<a href="${urlParceria}/analisarSolicitacoesParceriasRecebidas/${imovelParceria.imovel.id}" style="font-size:x-large; color: rgb(99, 110, 123);" class="dropdown-toggle" ><i class="fa fa-gavel"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;"> ${mensagemAnalisarSol} </font>&nbsp;&nbsp;</i> </a>
-	                                                 			                                                 			                                                 			
-	                                                 			<spring:message code="lbl.link.excluir.sol.intermediacoes" var="mensagemExcluirSolicitacao"/>
-	                                                 			<a href="#" onClick="prepararModalConfirmaExclusao(${imovelParceria.imovel.id})" style="font-size:x-large; color: rgb(99, 110, 123);"  class="dropdown-toggle" ><i class="fa fa-times"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;"> ${mensagemExcluirSolicitacao} </font> &nbsp;&nbsp; </i> </a>                                                 			 
+	                                                 					 
 				                                        <% } %>
 	                                                    
 	                                                </div>

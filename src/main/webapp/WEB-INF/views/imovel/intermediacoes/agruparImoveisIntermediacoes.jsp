@@ -184,7 +184,7 @@ function recuperaBairros(){
 															<form:options items="${intermediacaoForm.listaEstados}" itemValue="key" itemLabel="label"/>
 													  </form:select>
 												   	  
-												   <br> 	  
+												    <br> <br>	  
 													<span class="label label-default"><spring:message code="lbl.cidade"/> </span>
 													<spring:message code="lbl.hint.imovel.cidade" var="hintCidade"/>                                            
 										            <form:select id="idCidadeAgruparImoveis" path="idCidadeAgruparImoveis" class="chosen-select" tabindex="-1" style="display: none;" title="${hintCidade}">                                
@@ -192,18 +192,18 @@ function recuperaBairros(){
 														<form:options items="${intermediacaoForm.listaCidades}" itemValue="key" itemLabel="label"/>
 												  </form:select>
 												  
-												   <br>
+												    <br> <br>
 												   <span class="label label-default"><spring:message code="lbl.bairro"/> </span>
 												   	<spring:message code="lbl.hint.imovel.bairro" var="hintBairro"/>                                            
 										             <form:select id="idBairroAgruparImoveis" path="idBairroAgruparImoveis" class="chosen-select" tabindex="-1" style="display: none;" title="${hintBairro}">                                
 														<form:option value="-1" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 														<form:options items="${intermediacaoForm.listaBairros}" itemValue="key" itemLabel="label"/>
 												  	</form:select>											   
-												     <br>			
+												      <br> <br>		
 												     
 											     	 <spring:message code="lbl.hint.aplicar.filtro" var="hintBtnFiltro"/>								  
 													  <div class="pull-right">
-														<button type="submit" class="btn btn-sm btn-primary btn-xs btn-push" title="${hintBtnFiltro}"><i class="fa fa-eye"></i> <spring:message code="lbl.filtrar.geral"/></button>
+														<button type="submit" class="button btn-primary"  title="${hintBtnFiltro}"><i class="fa fa-eye"></i> <spring:message code="lbl.filtrar.geral"/></button>
 													  </div><!-- /.pull-right -->                                    												   
 													<br>		                                        
 		                                    </div><!-- /.panel -->
@@ -385,7 +385,7 @@ function recuperaBairros(){
                                                    <span class="meta-provider" style="font-size:19px;">${imovel.acaoFmt} <br>
                                                    							<strong>  R$<fmt:formatNumber value="${imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
                                                    </span><br>                                                   
-                                                    <img src="data:image/jpeg;base64,${imovel.imagemArquivo}"  class="img-responsive" style="width: 260px; height: 195px; alt="admin"/>
+                                                    <img src="data:image/jpeg;base64,${imovel.imagemArquivo}"  class="img-responsive" style="width: 260px; height: 225px; alt="admin"/>
                                                 </a>
                                             </div>
                                             <div class="media-body">
@@ -396,7 +396,8 @@ function recuperaBairros(){
                                                 <div class="col-md-5" >                                                    
                                                     
                                                  	<div class="media-body" >
-			                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.total.intermediacoes" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;"> ${imovel.quantImovelIntermediacao} </font></span></em> </br>			                                            													 
+			                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.total.intermediacoes" />: </font><br>
+			                                            <span class="text-success"><font style="font-size:11px; font-style: normal;"> ${imovel.quantImovelIntermediacao} </font></span></em> </br>			                                            													 
 			                                        </div>
                                               
                                               		</br>        
@@ -424,6 +425,15 @@ function recuperaBairros(){
                                                             </tr>
                                                         </tbody>
                                                     </table>
+                                                    
+                                                    <br>
+                                                    
+                                                    <% if ( request.getSession().getAttribute("acessoValido").equals("S") ) {%>	                                                 			
+	                                                 			<spring:message code="lbl.link.analisar.sol.intermediacoes" var="mensagemAnalisarSol"/>
+	                                                 			<a href="${urlIntermediacao}/analisarSolicitacoesIntermediacoesRecebidas/${imovel.id}" style="font-size:x-large; color: rgb(99, 110, 123);" class="dropdown-toggle">
+	                                                 				<i class="fa fa-gavel"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;"> ${mensagemAnalisarSol} </font> &nbsp;&nbsp;</i>
+	                                                 			 </a> 					 
+				                                    <% } %>
                                                 </div>
                                             </div>
                                         </div>

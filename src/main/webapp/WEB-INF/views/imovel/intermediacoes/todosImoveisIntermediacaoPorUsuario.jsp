@@ -155,7 +155,7 @@
 			                                                </td>			                                                
 			                                                <td class="text-center"><a href="${urlImovel}/detalhesImovel/${imovelIntermediacao.imovel.id}" > ${imovelIntermediacao.imovel.titulo}	</a> </td>
 	                                            			 <td class="text-center"> ${imovelIntermediacao.imovel.tipoImovelFmt} </td>													        	                     		
-	                                            			 <td class="text-center"> ${imovelIntermediacao.status} </td>			                                                			                                                			                                              	                                            
+	                                            			 <td class="text-center"> ${imovelIntermediacao.statusFmt} </td>			                                                			                                                			                                              	                                            
 			                                            </tr>
 		                                            </c:forEach>
 		                                            </tbody>

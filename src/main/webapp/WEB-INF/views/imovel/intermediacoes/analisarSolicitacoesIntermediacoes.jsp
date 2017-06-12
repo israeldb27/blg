@@ -41,14 +41,57 @@ function confirmarExclusaoSolIntermediacaoAnaliseSol(){
 	var parametro = document.getElementById("modIdParametro");
 	var idImovel = document.getElementById("modIdImovel");	
 	$.ajax({
-			 url: '${urlIntermediacao}/confirmarExclusaoSolIntermediacaoAnaliseSol/' + parametro.value + "/" + idImovel.value,			 
-			 success: function(){				 
-				 location.reload();     	    
-			 },
-			 error: function(jqXHR, textStatus, errorThrown) {				 
-				 $('#msgRetornoConfirmExclusaoParamErro').html("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
-			 }
-		 });
+		 url: '${urlIntermediacao}/confirmarExclusaoSolIntermediacaoAnaliseSol/' + parametro.value + "/" + idImovel.value,			 
+		 success: function(){				 
+			 location.reload();     	    
+		 },
+		 error: function(jqXHR, textStatus, errorThrown) {				 
+			 $('#msgRetornoConfirmExclusaoParamErro').html("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+		 }
+	 });
+}
+
+function prepararModalConfirmaAdicao(id, idImovel){
+	$("#modIdParametro").val(id);
+	$("#modIdImovel").val(idImovel);	
+	$('#msgRetornoConfirmAdicaoParamErro').html("");	
+	$("#idModalConfirmacaoAdicaoParam").modal("show");	
+}
+
+function confirmarAdicaoSolIntermediacaoAnaliseSol(){	
+	var parametro = document.getElementById("modIdParametro");
+	var idImovel = document.getElementById("modIdImovel");	
+	$.ajax({
+		 url: '${urlIntermediacao}/aceitarSolImovelIntermediacao/' + parametro.value + "/" + idImovel.value,			 
+		 success: function(){				 
+			 location.reload();     	    
+		 },
+		 error: function(jqXHR, textStatus, errorThrown) {				 
+			 $('#msgRetornoConfirmAdicaoParamErro').html("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+		 }
+	 });
+}
+
+
+function prepararModalConfirmaRemocao(id, idImovel){
+	$("#modIdParametro").val(id);
+	$("#modIdImovel").val(idImovel);	
+	$('#msgRetornoConfirmRemocaoParamErro').html("");	
+	$("#idModalConfirmacaoRemocaoParam").modal("show");	
+}
+
+function confirmarRemocaoSolIntermediacaoAnaliseSol(){	
+	var parametro = document.getElementById("modIdParametro");
+	var idImovel = document.getElementById("modIdImovel");	
+	$.ajax({	
+		 url: '${urlIntermediacao}/limparUsuarioImovelIntermediacao/' + parametro.value + "/" + idImovel.value,			 
+		 success: function(){				 
+			 location.reload();     	    
+		 },
+		 error: function(jqXHR, textStatus, errorThrown) {				 
+			 $('#msgRetornoConfirmRemocaoParamErro').html("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+		 }
+	 });
 }
 
 </script>
@@ -176,7 +219,7 @@ function confirmarExclusaoSolIntermediacaoAnaliseSol(){
 		                                         </div><!-- /.form-group -->
 		                                         
 		                                         <div class="section-sample">		                                				
-		                                				<a href="${urlIntermediacao}/limparImovelIntermediacaoSelecionada/${intermediacaoSelecionadaForm.id}/${imovel.id}" class="btn btn-primary btn-stroke"><spring:message code="lbl.link.limpar.sol.intermediacoes"/></a>         
+		                                				<a href="#" onClick="prepararModalConfirmaRemocao(${intermediacaoSelecionadaForm.id}, ${intermediacaoSelecionadaForm.imovel.id })" class="btn btn-primary btn-stroke"><spring:message code="lbl.link.limpar.sol.intermediacoes"/></a>         
 		                                         </div>
                                         
 	                                         </c:if>	                                         
@@ -254,7 +297,7 @@ function confirmarExclusaoSolIntermediacaoAnaliseSol(){
 																		   </a> 
 												  </td>
 		                                          <td class="text-center" style="font-size: 13px;"> ${intermediacao.descricaoCompartilhamento} </td>              
-		                                          <td class="text-center" style="font-size: 13px;"> <a href="${urlIntermediacao}/aceitarSolImovelIntermediacao/${intermediacao.id}/${intermediacao.imovel.id}" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" data-original-title="Aceitar Solicitação"><i class="fa fa-pencil"></i></a> 
+		                                          <td class="text-center" style="font-size: 13px;"> <a href="#" onClick="prepararModalConfirmaAdicao(${intermediacao.id},${intermediacao.imovel.id})"  data-toggle="tooltip" data-placement="top" data-original-title="Aceitar Solicitação"><i class="fa fa-check"></i></a> 
 		                                          						   <a href="#" onClick="prepararModalConfirmaExclusao(${intermediacao.id}, ${intermediacao.imovel.id} )" data-toggle="tooltip" data-placement="top" data-original-title="Excluir Solicitação"><i class="fa fa-times"></i></a> 
 		                                          </td>
 		                                      </tr>
@@ -270,7 +313,7 @@ function confirmarExclusaoSolIntermediacaoAnaliseSol(){
                   
             </section><!-- /#page-content -->
             
-                     <!-- Start optional size modal element - confirmacao exclusao intermediacao solicitada -->
+          <!-- Start optional size modal element - confirmacao exclusao intermediacao solicitada -->
             <div id="idModalConfirmacaoExclusaoParam" class="modal fade bs-example-modal-lg-confirmacao-exclusao-sol-intermediacao" tabindex="-1" role="dialog" aria-hidden="true">
 	            <input type="hidden" id="modIdParametro" readonly="readonly" name="modIdParametro">
 	            <input type="hidden" id="modIdImovel" readonly="readonly" name="modIdImovel">
@@ -295,6 +338,53 @@ function confirmarExclusaoSolIntermediacaoAnaliseSol(){
 	                </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
          <!-- End optional size modal element - confirmacao exclusao intermediacao solicitada  --> 
+         
+           <!-- Start optional size modal element - confirmacao selecao intermediacao -->
+            <div id="idModalConfirmacaoAdicaoParam" class="modal fade bs-example-modal-lg-confirmacao-adicao-sol-intermediacao" tabindex="-1" role="dialog" aria-hidden="true">
+	            <input type="hidden" id="modIdParametro" readonly="readonly" name="modIdParametro">
+	            <input type="hidden" id="modIdImovel" readonly="readonly" name="modIdImovel">	            
+	                <div class="modal-dialog modal-lg">
+	                    <div class="modal-content">
+	                        <div class="modal-header">
+	                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                            <h4 class="modal-title"><spring:message code="lbl.modal.confirmar.adicao.sol.intermediacao"/></h4>
+	                        </div>
+	                        <div class="modal-body">
+	                            <p><spring:message code="lbl.modal.pergunta.confirma.adicao.sol.intermediacao"/></p>
+	                        </div>
+	                        <div class="modal-footer">
+	                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
+	                            <button type="button" class="btn btn-theme" onClick="confirmarAdicaoSolIntermediacaoAnaliseSol();"><spring:message code="lbl.sim"/></button>                            
+	                        </div>							
+							<div id="msgRetornoConfirmAdicaoParamErro" cssClass="errorEntrada"  ></div>  
+	                    </div><!-- /.modal-content -->
+	                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+         <!-- End optional size modal element - confirmacao  selecao parceria  --> 
+         
+         
+           <!-- Start optional size modal element - remover usuario da intermediacao -->
+            <div id="idModalConfirmacaoRemocaoParam" class="modal fade bs-example-modal-lg-confirmacao-remocao-intermediacao-intermediacao" tabindex="-1" role="dialog" aria-hidden="true">
+	            <input type="hidden" id="modIdParametro" readonly="readonly" name="modIdParametro">
+	            <input type="hidden" id="modIdImovel" readonly="readonly" name="modIdImovel">	            
+	                <div class="modal-dialog modal-lg">
+	                    <div class="modal-content">
+	                        <div class="modal-header">
+	                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                            <h4 class="modal-title"><spring:message code="lbl.modal.confirmar.remocao.sol.intermediacao"/></h4>
+	                        </div>
+	                        <div class="modal-body">
+	                            <p><spring:message code="lbl.modal.pergunta.confirma.remocao.sol.intermediacao"/></p>
+	                        </div>
+	                        <div class="modal-footer">
+	                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
+	                            <button type="button" class="btn btn-theme" onClick="confirmarRemocaoSolIntermediacaoAnaliseSol();"><spring:message code="lbl.sim"/></button>                            
+	                        </div>							
+							<div id="msgRetornoConfirmRemocaoParamErro" cssClass="errorEntrada"  ></div>  
+	                    </div><!-- /.modal-content -->
+	                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+         <!-- End optional size modal element - remover usuario da intermediacao   --> 
 			
 			<!-- Start content modal Ajuda - funcionalidade -->
 				<c:import url="../../ajuda/contentMenuModal.jsp"></c:import>																				

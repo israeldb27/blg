@@ -188,12 +188,12 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
             						  new Date(),
             						  NotaAcaoEnum.INTERMEDIACAO.getRotulo());            
         }
-        else if ( status.equals("rejeitada")){
+       /* else if ( status.equals("rejeitada")){
         	imovel.setDataResposta(new Date());
             imovel.setStatusLeitura(StatusLeituraEnum.LIDO.getRotulo());
             imovel.setStatus(StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo());
             this.dao.update(imovel);
-        }    
+        }*/    
         else if ( status.equals(StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo())){
             imovel.setDataResposta(null);
             this.dao.update(imovel);

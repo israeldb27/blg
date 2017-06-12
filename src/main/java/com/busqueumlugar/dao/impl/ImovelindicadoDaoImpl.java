@@ -437,9 +437,8 @@ public class ImovelindicadoDaoImpl extends GenericDAOImpl<Imovelindicado, Long> 
 				else
 					critUsuario.add(Restrictions.isNull("id"));					
 			}
-			else if (! StringUtils.isNullOrEmpty(form.getOpcaoContatoAgruparUsuarios()) &&
-					(! StringUtils.isNullOrEmpty(form.getOpcaoPerfilContatoAgruparUsuarios()) &&
-					(form.getOpcaoContatoAgruparUsuarios().equals(TipoContatoOpcaoEnum.TODOS_USUARIOS.getRotulo()))) ){
+		   
+			if (! StringUtils.isNullOrEmpty(form.getOpcaoPerfilContatoAgruparUsuarios())) {
 				critUsuario.add(Restrictions.eq("perfil", form.getOpcaoPerfilContatoAgruparUsuarios()));
 			}			
 			
@@ -504,7 +503,7 @@ public class ImovelindicadoDaoImpl extends GenericDAOImpl<Imovelindicado, Long> 
 			// corrigir a regra do Else
 			else if (! StringUtils.isNullOrEmpty(form.getOpcaoContatoAgruparUsuarios()) &&
 					(! StringUtils.isNullOrEmpty(form.getOpcaoPerfilContatoAgruparUsuarios()) &&
-					(! form.getOpcaoPerfilContatoAgruparUsuarios().equals(TipoContatoOpcaoEnum.TODOS_USUARIOS.getRotulo()))) ){
+					(form.getOpcaoContatoAgruparUsuarios().equals(TipoContatoOpcaoEnum.TODOS_USUARIOS.getRotulo()))) ){
 				critUsuario.add(Restrictions.eq("perfil", form.getOpcaoPerfilContatoAgruparUsuarios()));
 			}
 			

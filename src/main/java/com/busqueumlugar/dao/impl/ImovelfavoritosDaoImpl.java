@@ -558,9 +558,7 @@ public class ImovelfavoritosDaoImpl extends GenericDAOImpl<Imovelfavoritos, Long
 				else
 					critUsuario.add(Restrictions.isNull("id"));					
 			}
-			else if (! StringUtils.isNullOrEmpty(form.getOpcaoContatoAgruparUsuarios()) &&
-					(! StringUtils.isNullOrEmpty(form.getOpcaoPerfilContatoAgruparUsuarios()) &&
-					(form.getOpcaoContatoAgruparUsuarios().equals(TipoContatoOpcaoEnum.TODOS_USUARIOS.getRotulo()))) ){
+			 if ((! StringUtils.isNullOrEmpty(form.getOpcaoPerfilContatoAgruparUsuarios()))){
 				critUsuario.add(Restrictions.eq("perfil", form.getOpcaoPerfilContatoAgruparUsuarios()));
 			}
 			
@@ -620,11 +618,9 @@ public class ImovelfavoritosDaoImpl extends GenericDAOImpl<Imovelfavoritos, Long
 				else
 					critUsuario.add(Restrictions.isNull("id"));					
 			}
-			else if (! StringUtils.isNullOrEmpty(form.getOpcaoContatoAgruparUsuarios()) &&
-					(! StringUtils.isNullOrEmpty(form.getOpcaoPerfilContatoAgruparUsuarios()) &&
-					(form.getOpcaoContatoAgruparUsuarios().equals(TipoContatoOpcaoEnum.TODOS_USUARIOS.getRotulo()))) ){
-				critUsuario.add(Restrictions.eq("perfil", form.getOpcaoPerfilContatoAgruparUsuarios()));
-			}
+			 if ((! StringUtils.isNullOrEmpty(form.getOpcaoPerfilContatoAgruparUsuarios()))){
+					critUsuario.add(Restrictions.eq("perfil", form.getOpcaoPerfilContatoAgruparUsuarios()));
+			 }
 			
 			if (!StringUtils.isNullOrEmpty(form.getOpcaoOrdenacao())) {				
 	        	if (form.getOpcaoOrdenacao().equals("maiorDataCadastrado")){

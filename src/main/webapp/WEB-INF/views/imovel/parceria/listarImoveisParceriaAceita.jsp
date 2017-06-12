@@ -376,7 +376,7 @@
 		                                                   <span class="meta-provider" style="font-size:19px;">${imovelParceria.imovel.acaoFmt} <br>
 		                                                   							<strong>  R$<fmt:formatNumber value="${imovelParceria.imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
 		                                                   </span><br>                                                   
-		                                                    <img src="data:image/jpeg;base64,${imovelParceria.imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 195px; alt="admin"/>
+		                                                    <img src="data:image/jpeg;base64,${imovelParceria.imovel.imagemArquivo}" class="img-responsive" style="width: 290px; height: 295px; alt="admin"/>
 		                                                </a>
 		                                            </div>
 		                                            <div class="media-body">
@@ -387,10 +387,17 @@
 		                                                <div class="col-md-5" >                                                    
 		                                                    
 		                                                 	<div class="media-body" >
-					                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.aceitacao" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;"><fmt:formatDate value='${imovelParceria.dataResposta}' pattern='dd/MM/yyyy'/></font></span></em> </br>
-					                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.sol" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;"><fmt:formatDate value='${imovelParceria.dataSolicitacao}' pattern='dd/MM/yyyy'/></font></span></em>  </br>
+					                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.aceitacao" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;"> <br>
+					                                            <fmt:formatDate value='${imovelParceria.dataResposta}' pattern='dd/MM/yyyy'/></font></span></em> <br><br>
+					                                            
+					                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.sol" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;"> <br>
+					                                            <fmt:formatDate value='${imovelParceria.dataSolicitacao}' pattern='dd/MM/yyyy'/></font></span></em>  <br><br>
+					                                            
 					                                            <c:if test="${usuario.id != imovel.usuarioDonoImovel.id}">
-					                                            	<em class="text-sm text-muted" ><font style="font-size:13px; font-style: normal;"><spring:message code="lbl.dono.imovel" />: </font><span class="text-success"><a href="${urlUsuario}/detalhesUsuario/${imovelParceria.usuarioDonoImovel.id}"  >${imovelParceria.usuarioDonoImovel.nome}</a></span></em> </br>														 	
+					                                            	<em class="text-sm text-muted" ><font style="font-size:13px; font-style: normal;"><spring:message code="lbl.dono.imovel" />: </font><span class="text-success"><br>
+					                                            	<a href="${urlUsuario}/detalhesUsuario/${imovelParceria.usuarioDonoImovel.id}"  >
+					                                            		 <img src="data:image/jpeg;base64,${imovelParceria.usuarioDonoImovel.imagemArquivo}" class="img-responsive" style="width: 70px; height: 50px; alt="admin"/>
+					                                            	</a></span></em> <br>														 	
 																</c:if>													 
 					                                        </div>
 		                                              		
@@ -423,12 +430,12 @@
 		                                                 	<% if ( request.getSession().getAttribute("acessoValido").equals("S") ) {%>		                                                 	
 		                                                 			<c:if test="${usuario.id == imovelParceria.usuarioDonoImovel.id}">
 		                                                 				<spring:message code="lbl.link.analisar.sol.intermediacoes" var="mensagemAnalisarSol"/>														    															
-																		<a href="${urlParceria}/analisarSolicitacoesParceriasRecebidas/${imovelParceria.imovel.id}" style="font-size:x-large; color: rgb(99, 110, 123);" class="dropdown-toggle" ><i class="fa fa-gavel"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;"> ${mensagemAnalisarSol} </font> </i> </a>
+																		<a href="${urlParceria}/analisarSolicitacoesParceriasRecebidas/${imovelParceria.imovel.id}" style="font-size:x-large; color: rgb(99, 110, 123);" class="dropdown-toggle" ><i class="fa fa-gavel"> </i><font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;"> ${mensagemAnalisarSol} </font>  </a>
 																	</c:if> 
-																	
+																	&nbsp;&nbsp;&nbsp;&nbsp; 
 																	<div class="btn-group dropup">                                            
-																		<a href="#a"  class="dropdown-toggle" data-toggle="dropdown">
-																			<i class="fa fa-cogs"></i> 	
+																		<a href="#a"  class="dropdown-toggle" data-toggle="dropdown" style="font-size:x-large; color: rgb(99, 110, 123);">
+																			<i class="fa fa-cogs"></i> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;"> 	<spring:message code="lbl.link.funcoes.analisar.sol.parceria"/> </font>
 																		</a>																
 																			<ul class="dropdown-menu pull-bottom">      
 																				<li><a href="${urlImovelVisualizado}/todosUsuariosVisitantesCompartilhado/${imovelParceria.imovel.id}"><spring:message code="lbl.link.imovel.compartilhado.visualizacoes"/></a></li>

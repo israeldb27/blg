@@ -360,9 +360,7 @@ public class ImovelPropostasDaoImpl extends GenericDAOImpl<ImovelPropostas, Long
 				else
 					critUsuario.add(Restrictions.isNull("id"));					
 			}
-			else if (! StringUtils.isNullOrEmpty(form.getOpcaoContatoAgruparUsuarios()) &&
-					(! StringUtils.isNullOrEmpty(form.getOpcaoPerfilContatoAgruparUsuarios()) &&
-					(form.getOpcaoContatoAgruparUsuarios().equals(TipoContatoOpcaoEnum.TODOS_USUARIOS.getRotulo()))) ){
+			if ((! StringUtils.isNullOrEmpty(form.getOpcaoPerfilContatoAgruparUsuarios()))){
 				critUsuario.add(Restrictions.eq("perfil", form.getOpcaoPerfilContatoAgruparUsuarios()));
 			}
 			
@@ -426,7 +424,8 @@ public class ImovelPropostasDaoImpl extends GenericDAOImpl<ImovelPropostas, Long
 			
 			Criteria critUsuario = crit.createCriteria("usuarioReceptor");
 			
-		    if (! StringUtils.isNullOrEmpty(form.getOpcaoContatoAgruparUsuarios()) && (! form.getOpcaoContatoAgruparUsuarios().equals(TipoContatoOpcaoEnum.TODOS_USUARIOS.getRotulo())) ){
+		    if (! StringUtils.isNullOrEmpty(form.getOpcaoContatoAgruparUsuarios()) && 
+		       (! form.getOpcaoContatoAgruparUsuarios().equals(TipoContatoOpcaoEnum.TODOS_USUARIOS.getRotulo())) ){
 				List listaIds = null;
 				if (form.getOpcaoContatoAgruparUsuarios().equals(TipoContatoOpcaoEnum.MEUS_CONTATOS.getRotulo())){
 					listaIds = contatoDao.filterListaIds(idUsuarioSessao, form.getOpcaoPerfilContatoAgruparUsuarios());
@@ -443,23 +442,28 @@ public class ImovelPropostasDaoImpl extends GenericDAOImpl<ImovelPropostas, Long
 				if (! CollectionUtils.isEmpty(listaIds))
 					critUsuario.add(Restrictions.in("id", listaIds));
 				else	
-					critUsuario.add(Restrictions.isNull("id"));
+					critUsuario.add(Restrictions.isNull("id"));			
 				
-				if (!StringUtils.isNullOrEmpty(form.getOpcaoOrdenacao())) {		
-		        	if (form.getOpcaoOrdenacao().equals("maiorDataCadastrado")){
-		        		critUsuario.addOrder(Order.desc("dataCadastro"));
-		            }
-		            else if (form.getOpcaoOrdenacao().equals("menorDataCadastrado")){
-		            	critUsuario.addOrder(Order.asc("dataCadastro"));
-		            } 
-		            else if (form.getOpcaoOrdenacao().equals("nomeImovelCrescente")){
-		            	critUsuario.addOrder(Order.asc("nome"));
-		            }
-		             else if (form.getOpcaoOrdenacao().equals("nomeImovelDeCrescente")){
-		            	 critUsuario.addOrder(Order.desc("nome"));
-		            }
-			    }
 			}
+		    
+		    if ((! StringUtils.isNullOrEmpty(form.getOpcaoPerfilContatoAgruparUsuarios()))){
+				critUsuario.add(Restrictions.eq("perfil", form.getOpcaoPerfilContatoAgruparUsuarios()));
+		    }
+		    
+		    if (!StringUtils.isNullOrEmpty(form.getOpcaoOrdenacao())) {		
+	        	if (form.getOpcaoOrdenacao().equals("maiorDataCadastrado")){
+	        		critUsuario.addOrder(Order.desc("dataCadastro"));
+	            }
+	            else if (form.getOpcaoOrdenacao().equals("menorDataCadastrado")){
+	            	critUsuario.addOrder(Order.asc("dataCadastro"));
+	            } 
+	            else if (form.getOpcaoOrdenacao().equals("nomeImovelCrescente")){
+	            	critUsuario.addOrder(Order.asc("nome"));
+	            }
+	             else if (form.getOpcaoOrdenacao().equals("nomeImovelDeCrescente")){
+	            	 critUsuario.addOrder(Order.desc("nome"));
+	            }
+		    }
 		}
 		
 		form.setQuantRegistros(AppUtil.recuperarQuantidadeLista(crit.list()));

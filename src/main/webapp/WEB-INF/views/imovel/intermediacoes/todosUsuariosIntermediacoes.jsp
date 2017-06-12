@@ -185,7 +185,7 @@
 															</td>
 			                                                <td class="text-center"><fmt:formatDate value='${imovelIntermediacao.dataSolicitacao}' pattern='dd/MM/yyyy'/></td>
 			                                                <td class="text-center"><fmt:formatDate value='${imovelIntermediacao.dataResposta}' pattern='dd/MM/yyyy'/></td>
-			                                                <td class="text-center">${imovelIntermediacao.status}</td>			                                                			                                              	                                            
+			                                                <td class="text-center">${imovelIntermediacao.statusFmt}</td>			                                                			                                              	                                            
 			                                            </tr>
 		                                            </c:forEach>
 		                                            </tbody>

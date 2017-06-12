@@ -2,6 +2,7 @@ package com.busqueumlugar.model;
 
 import java.io.Serializable;
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,6 +15,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+
+import com.busqueumlugar.enumerador.StatusImovelCompartilhadoFmtEnum;
 
 
 @Entity
@@ -58,6 +61,8 @@ public class Intermediacao implements Serializable {
     @Transient
     private int quantTotalParceiros;
 	
+    @Transient
+    private String statusFmt;
 
 	public Intermediacao() {
     }
@@ -104,6 +109,15 @@ public class Intermediacao implements Serializable {
         this.status = status;
     }
 
+    public String getStatusFmt() {
+        return StatusImovelCompartilhadoFmtEnum.getLabel(status);
+    }
+    
+    public void setStatusFmt(String statusFmt) {
+        this.statusFmt = statusFmt;
+    }
+    
+    
     /**
      * @return the statusLeitura
      */

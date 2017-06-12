@@ -397,7 +397,7 @@
 	                                                   <span class="meta-provider" style="font-size:19px;">${imovelIntermediacao.imovel.acaoFmt} <br>
 	                                                   							<strong>  R$<fmt:formatNumber value="${imovelIntermediacao.imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
 	                                                   </span><br>                                                   
-	                                                    <img src="data:image/jpeg;base64,${imovelIntermediacao.imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 195px; alt="admin"/>
+	                                                    <img src="data:image/jpeg;base64,${imovelIntermediacao.imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 225px; alt="admin"/>
 	                                                </a>
 	                                            </div>
 	                                            <div class="media-body">
@@ -486,6 +486,31 @@
         <!-- START JAVASCRIPT SECTION (Load javascripts at bottom to reduce load time) -->
   			<c:import url="../../layout/head-bootstrap.jsp"></c:import> 
         <!--/ END JAVASCRIPT SECTION -->
+        
+                  <!-- Start optional size modal element - confirmacao exclusao intermediacao solicitada -->
+            <div id="idModalConfirmacaoExclusaoParam" class="modal fade bs-example-modal-lg-confirmacao-exclusao-sol-intermediacao" tabindex="-1" role="dialog" aria-hidden="true">
+	            <input type="hidden" id="modIdParametro" readonly="readonly" name="modIdParametro">	          
+	            
+	                <div class="modal-dialog modal-lg">
+	                    <div class="modal-content">
+	                        <div class="modal-header">
+	                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                            <h4 class="modal-title"><spring:message code="lbl.modal.confirmar.exclusao.sol.intermediacao"/></h4>
+	                        </div>
+	                        <div class="modal-body">
+	                            <p><spring:message code="lbl.modal.pergunta.confirma.exclusao.sol.intermediacao"/></p>
+	                        </div>
+	                        <div class="modal-footer">
+	                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
+	                            <button type="button" class="btn btn-theme" onClick="confirmarExclusaoEnviadaIntermediacao();"><spring:message code="lbl.sim"/></button>                            
+	                        </div>
+							
+							<div id="msgRetornoConfirmExclusaoParamErro" cssClass="errorEntrada"  ></div>   
+							
+	                    </div><!-- /.modal-content -->
+	                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+         <!-- End optional size modal element - confirmacao exclusao intermediacao solicitada  --> 
 
     </body>
     <!--/ END BODY -->

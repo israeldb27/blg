@@ -36,109 +36,130 @@
 
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript">
-    	$(document).ready(function() {
-    		
-    		$('#idEstado').change(function () {    			
-    	        var comboPai = '#idEstado';
-    	        var comboFilha = '#idCidade';
-    	        var comboFilha2 = '#idBairro';
-    	        limpaComboLinha(comboFilha);
-    	        limpaComboLinha(comboFilha2);
-    	        recuperaCidades();
-    	    });
-    		
-    		$('#idCidade').change(function () {
-    			var comboPai   = '#idCidade';
-    			var comboFilha = '#idBairro';
-    			limpaComboLinha(comboFilha);
-    			recuperaBairros();		
-    		 });    		
+	$(document).ready(function() {
+		
+		$('#idEstado').change(function () {    			
+	        var comboPai = '#idEstado';
+	        var comboFilha = '#idCidade';
+	        var comboFilha2 = '#idBairro';
+	        limpaComboLinha(comboFilha);
+	        limpaComboLinha(comboFilha2);
+	        recuperaCidades();
+	    });
+		
+		$('#idCidade').change(function () {
+			var comboPai   = '#idCidade';
+			var comboFilha = '#idBairro';
+			limpaComboLinha(comboFilha);
+			recuperaBairros();		
+		 });    		
 
-    		$('#opcaoOrdenacao2').change(function () {				
-    			$("#intermediacaoSolRecebidaForm").submit();      
-    		 });
-    		
-    		$('#opcaoVisualizacaoListaIntermediacao').change(function () {				
-    			$("#modVisualizaListaIntermediacaoForm").submit();      
-    		 });
-    		
-    		 $('#opcaoPaginacao').change(function () {				
-    			$("#intermediacaoPageForm").submit();      
-    		 });
-			
-    		 function limpaComboLinha(comboLinha) {
-    			    $(comboLinha).empty();  
-    			    $(comboLinha).append('<option value="-1" >' + "<spring:message code='opcao.selecao.uma.opcao'/>" + '</option>');
-    			    $(comboLinha).trigger("chosen:updated");
-    		 }
-    	});	
+		$('#opcaoOrdenacao2').change(function () {				
+			$("#intermediacaoSolRecebidaForm").submit();      
+		 });
+		
+		$('#opcaoVisualizacaoListaIntermediacao').change(function () {				
+			$("#modVisualizaListaIntermediacaoForm").submit();      
+		 });
+		
+		 $('#opcaoPaginacao').change(function () {				
+			$("#intermediacaoPageForm").submit();      
+		 });
 
-    	
-    	function recuperaCidades(){
-    	    var parametro1 = $("#idEstado").val();
-    	    $.ajax({
-    	        type: 'GET',
-    	        url: '${urlBuscarCidades}/' + parametro1,
-    	        dataType: 'json',
-    	        success: function(json){
-    	            var options = "";
-    	            $.each(json, function(key, value){
-    	               $("#idCidade").append("<option value='"+value.key+"'>"+value.label+"</option>");
-    	            });    
-    	            $('#idCidade').trigger("chosen:updated");
-    	        },
-    	        
-    	        error: function(jqXHR, textStatus, errorThrown) {
-    	            alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
-    	        }
-    	    });
-    	}
+		 function limpaComboLinha(comboLinha) {
+			    $(comboLinha).empty();  
+			    $(comboLinha).append('<option value="-1" >' + "<spring:message code='opcao.selecao.uma.opcao'/>" + '</option>');
+			    $(comboLinha).trigger("chosen:updated");
+		 }
+	});	
+
+	
+	function recuperaCidades(){
+	    var parametro1 = $("#idEstado").val();
+	    $.ajax({
+	        type: 'GET',
+	        url: '${urlBuscarCidades}/' + parametro1,
+	        dataType: 'json',
+	        success: function(json){
+	            var options = "";
+	            $.each(json, function(key, value){
+	               $("#idCidade").append("<option value='"+value.key+"'>"+value.label+"</option>");
+	            });    
+	            $('#idCidade').trigger("chosen:updated");
+	        },
+	        
+	        error: function(jqXHR, textStatus, errorThrown) {
+	            alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+	        }
+	    });
+	}
 
 
-    	function recuperaBairros(){   
-    	    var parametro1 = $("#idCidade").val();
-    	    $.ajax({
-    	        type: 'GET',
-    	        url: '${urlBuscarBairros}/' + parametro1,
-    	        dataType: 'json',
-    	        success: function(json){
-    	            var options = "";
-    	            $.each(json, function(key, value){
-    	            	$("#idBairro").append("<option value='"+value.key+"'>"+value.label+"</option>");
-    	            });  
-    	            $('#idBairro').trigger("chosen:updated");
-    	        },
-    	        error: function(jqXHR, textStatus, errorThrown) {
-    	            alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
-    	        }
-    	    });    
-    	}
-    	
-    	function desmarcarCheck(id) {
-    	    $.post("${urlIntermediacao}/desmarcarCheckIntermediacao", {'idImovelcompartilhado' : id}, function() {
-    	      	$("#idCheckImovelDiv_"+id).hide();
-    	    	$("#idCheckImovel_"+id).hide();    	    	
-    	    });
-    	  }    	   
-    	
-    	function prepararModalConfirmaExclusao(id){
-    		$("#modIdParametro").val(id);
-    		$('#msgRetornoConfirmExclusaoParamErro').html("");	
-    		$("#idModalConfirmacaoExclusaoParam").modal("show");	
-    	}
+	function recuperaBairros(){   
+	    var parametro1 = $("#idCidade").val();
+	    $.ajax({
+	        type: 'GET',
+	        url: '${urlBuscarBairros}/' + parametro1,
+	        dataType: 'json',
+	        success: function(json){
+	            var options = "";
+	            $.each(json, function(key, value){
+	            	$("#idBairro").append("<option value='"+value.key+"'>"+value.label+"</option>");
+	            });  
+	            $('#idBairro').trigger("chosen:updated");
+	        },
+	        error: function(jqXHR, textStatus, errorThrown) {
+	            alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+	        }
+	    });    
+	}
+	
+	function desmarcarCheck(id) {
+	    $.post("${urlIntermediacao}/desmarcarCheckIntermediacao", {'idImovelcompartilhado' : id}, function() {
+	      	$("#idCheckImovelDiv_"+id).hide();
+	    	$("#idCheckImovel_"+id).hide();    	    	
+	    });
+	  }    	   
+	
+	function prepararModalConfirmaExclusao(id){
+		$("#modIdParametro").val(id);
+		$('#msgRetornoConfirmExclusaoParamErro').html("");	
+		$("#idModalConfirmacaoExclusaoParam").modal("show");	
+	}
 
-    	function confirmarExclusaoSolIntermediacao(){	
-    		var parametro = document.getElementById("modIdParametro");	
-    		$.ajax({
-    				 url: '${urlIntermediacao}/confirmarExclusaoSolIntermediacao/' + parametro.value,			 
-    				 success: function(){				 
-    					 location.reload();     	    
-    				 },
-    				 error: function(jqXHR, textStatus, errorThrown) {				 
-    					 $('#msgRetornoConfirmExclusaoParamErro').html("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
-    				 }
-    			 });
-    	}
+	function confirmarExclusaoSolIntermediacao(){	
+		var parametro = document.getElementById("modIdParametro");	
+		$.ajax({
+				 url: '${urlIntermediacao}/confirmarExclusaoSolIntermediacao/' + parametro.value,			 
+				 success: function(){				 
+					 location.reload();     	    
+				 },
+				 error: function(jqXHR, textStatus, errorThrown) {				 
+					 $('#msgRetornoConfirmExclusaoParamErro').html("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+				 }
+			 });
+	}
+	
+	function prepararModalConfirmaExclusao(id, idImovel){
+		$("#modIdParametro").val(id);
+		$("#modIdImovel").val(idImovel);	
+		$('#msgRetornoConfirmExclusaoParamErro').html("");	
+		$("#idModalConfirmacaoExclusaoParam").modal("show");	
+	}
+
+	function confirmarExclusaoSolIntermediacaoAnaliseSol(){	
+		var parametro = document.getElementById("modIdParametro");
+		var idImovel = document.getElementById("modIdImovel");	
+		$.ajax({
+			 url: '${urlIntermediacao}/confirmarExclusaoSolIntermediacaoAnaliseSol/' + parametro.value + "/" + idImovel.value,			 
+			 success: function(){				 
+				 location.reload();     	    
+			 },
+			 error: function(jqXHR, textStatus, errorThrown) {				 
+				 $('#msgRetornoConfirmExclusaoParamErro').html("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+			 }
+		 });
+	}
 </script>
 		
         <c:import url="../../layout/head-layout.jsp"></c:import>
@@ -409,7 +430,7 @@
 	                                                   <span class="meta-provider" style="font-size:19px;">${imovelIntermediacao.imovel.acaoFmt} <br>
 	                                                   							<strong>  R$<fmt:formatNumber value="${imovelIntermediacao.imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
 	                                                   </span><br>                                                   
-	                                                    <img src="data:image/jpeg;base64,${imovelIntermediacao.imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 195px; alt="admin"/>
+	                                                    <img src="data:image/jpeg;base64,${imovelIntermediacao.imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 250px; alt="admin"/>
 	                                                </a>
 	                                            </div>
 	                                            <div class="media-body">
@@ -420,8 +441,16 @@
 	                                                <div class="col-md-5" >                                                    
 	                                                    
 	                                                 	<div class="media-body" >				                                            
-				                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.sol" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;"><fmt:formatDate value='${imovelIntermediacao.dataSolicitacao}' pattern='dd/MM/yyyy'/></font></span></em>  </br>			                                            
-				                                            <em class="text-sm text-muted" ><font style="font-size:13px; font-style: normal;"><spring:message code="lbl.usuario.sol.parceria" />: </font><span class="text-success"><a href="${urlUsuario}/detalhesUsuario/${imovelIntermediacao.usuarioSolicitante.id}"  >${imovelIntermediacao.usuarioSolicitante.nome}</a></span></em> </br>
+				                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.sol" />: </font> <br> 
+				                                            <span class="text-success"><font style="font-size:11px; font-style: normal;"><fmt:formatDate value='${imovelIntermediacao.dataSolicitacao}' pattern='dd/MM/yyyy'/></font></span></em>  <br>			                                            
+				                                            
+				                                            <br>
+				                                            
+				                                            <em class="text-sm text-muted" ><font style="font-size:13px; font-style: normal;"><spring:message code="lbl.usuario.sol.parceria" />: </font> <br> 
+				                                            <span class="text-success">
+				                                            <a href="${urlUsuario}/detalhesUsuario/${imovelIntermediacao.usuarioSolicitante.id}"  >
+				                                            	<img src="data:image/jpeg;base64,${imovelIntermediacao.usuarioSolicitante.imagemArquivo}" class="img-responsive" style="width: 60px; height: 65px; alt="admin"/> 
+				                                            </a></span></em> </br>
 				                                        </div>
 	                                                  
 	                                                </div>
@@ -455,7 +484,7 @@
 	                                                 			<a href="${urlIntermediacao}/analisarSolicitacoesIntermediacoesRecebidas/${imovelIntermediacao.imovel.id}" style="font-size:x-large; color: rgb(99, 110, 123);" class="dropdown-toggle"><i class="fa fa-gavel"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;"> ${mensagemAnalisarSol} </font> &nbsp;&nbsp;</i> </a>
 	                                                 			                                                 			
 	                                                 			<spring:message code="lbl.link.excluir.sol.intermediacoes" var="mensagemExcluirSolicitacao"/>
-	                                                 			<a href="#" onClick="prepararModalConfirmaExclusao(${imovelIntermediacao.id})" style="font-size:x-large; color: rgb(99, 110, 123);"  class="dropdown-toggle" ><i class="fa fa-times"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;"> ${mensagemExcluirSolicitacao} </font> &nbsp;&nbsp;</i> </a>                                                 			 
+	                                                 			<a href="#" onClick="prepararModalConfirmaExclusao(${imovelIntermediacao.id},${imovelIntermediacao.imovel.id})" style="font-size:x-large; color: rgb(99, 110, 123);"  class="dropdown-toggle" ><i class="fa fa-times"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;"> ${mensagemExcluirSolicitacao} </font> &nbsp;&nbsp;</i> </a>                                                 			 
 				                                        <% } %>
 	                                                </div>
 	                                            </div>
@@ -497,6 +526,32 @@
         <!-- START JAVASCRIPT SECTION (Load javascripts at bottom to reduce load time) -->
   			<c:import url="../../layout/head-bootstrap.jsp"></c:import> 
         <!--/ END JAVASCRIPT SECTION -->
+        
+          <!-- Start optional size modal element - confirmacao exclusao intermediacao solicitada -->
+            <div id="idModalConfirmacaoExclusaoParam" class="modal fade bs-example-modal-lg-confirmacao-exclusao-sol-intermediacao" tabindex="-1" role="dialog" aria-hidden="true">
+	            <input type="hidden" id="modIdParametro" readonly="readonly" name="modIdParametro">
+	            <input type="hidden" id="modIdImovel" readonly="readonly" name="modIdImovel">
+	            
+	                <div class="modal-dialog modal-lg">
+	                    <div class="modal-content">
+	                        <div class="modal-header">
+	                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                            <h4 class="modal-title"><spring:message code="lbl.modal.confirmar.exclusao.sol.intermediacao"/></h4>
+	                        </div>
+	                        <div class="modal-body">
+	                            <p><spring:message code="lbl.modal.pergunta.confirma.exclusao.sol.intermediacao"/></p>
+	                        </div>
+	                        <div class="modal-footer">
+	                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
+	                            <button type="button" class="btn btn-theme" onClick="confirmarExclusaoSolIntermediacaoAnaliseSol();"><spring:message code="lbl.sim"/></button>                            
+	                        </div>
+							
+							<div id="msgRetornoConfirmExclusaoParamErro" cssClass="errorEntrada"  ></div>   
+							
+	                    </div><!-- /.modal-content -->
+	                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+         <!-- End optional size modal element - confirmacao exclusao intermediacao solicitada  --> 
 
     </body>
     <!--/ END BODY -->

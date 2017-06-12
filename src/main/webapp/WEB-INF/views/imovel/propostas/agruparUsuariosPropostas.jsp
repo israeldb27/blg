@@ -111,7 +111,7 @@ $(document).ready(function() {
                                         	<span class="label label-default"><spring:message code="lbl.relatorio.tipo.contato"/></span>
                                         		<spring:message code="lbl.hint.usuario.contatos.usuario" var="hintContatosUsuario"/>
 									            <form:select id="opcaoContatoAgruparUsuarios" path="opcaoContatoAgruparUsuarios" class="chosen-select" tabindex="-1" style="display: none;" title="${hintContatosUsuario}">                                
-													<form:option value="" disabled="true"><spring:message code="opcao.selecao.uma.opcao"/></form:option>											   			
+													<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>											   			
 											   	    <form:options items="${listaTipoContato}" itemValue="identificador" itemLabel="rotulo" />
 											  </form:select>
                                             </br> </br>
@@ -176,7 +176,7 @@ $(document).ready(function() {
 		                                        <div class="media rounded shadow no-overflow">
 		                                            <div class="media-left">
 		                                                <a href="${urlUsuario}/detalhesUsuario/${usuarioProposta.id}" >                                                                                                     
-		                                                    <img src="data:image/jpeg;base64,${usuarioProposta.imagemArquivo}" class="img-responsive" style="width: 260px; height: 195px; alt="admin"/>
+		                                                    <img src="data:image/jpeg;base64,${usuarioProposta.imagemArquivo}" class="img-responsive" style="width: 260px; height: 225px;" alt="admin"/>
 		                                                </a>
 		                                            </div>
 		                                            <div class="media-body">

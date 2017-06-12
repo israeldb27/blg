@@ -112,7 +112,7 @@ $('#opcaoPaginacao').change(function () {
                                         	<span class="label label-default"><spring:message code="lbl.relatorio.tipo.contato"/></span>
                                         		<spring:message code="lbl.hint.usuario.contatos.usuario" var="hintContatosUsuario"/>
 									            <form:select id="opcaoContatoAgruparUsuarios" path="opcaoContatoAgruparUsuarios" class="chosen-select" tabindex="-1" style="display: none;" title="${hintContatosUsuario}">                                
-													<form:option value="" disabled="true"><spring:message code="lbl.agrupar.por"/></form:option>                  											
+													<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>                  											
 												    <form:options items="${listaTipoContato}" itemValue="identificador" itemLabel="rotulo" />
 											  </form:select>
                                             </br> </br>
