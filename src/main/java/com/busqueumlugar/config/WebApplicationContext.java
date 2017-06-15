@@ -144,7 +144,7 @@ public class WebApplicationContext extends WebMvcConfigurerAdapter
  	
 
  	//<editor-fold defaultstate="collapsed" desc="HikariCP Datasoure Configuration" >
- 	  @Bean(destroyMethod = "close")
+	  @Bean(destroyMethod = "close")
  	    @Autowired
  	    public DataSource dataSource()
  		{
@@ -155,9 +155,9 @@ public class WebApplicationContext extends WebMvcConfigurerAdapter
  			dataSource.setPassword("admin");
  			return dataSource;
  		}
- 
+
  	    
- 	 /* @Bean(destroyMethod = "close")
+ /*	  @Bean(destroyMethod = "close")
  	    @Autowired
  	    public DataSource dataSource()
  		{
@@ -168,8 +168,8 @@ public class WebApplicationContext extends WebMvcConfigurerAdapter
  			dataSource.setPassword("Israel814245!"); 			
  			return dataSource;
  		}
- 	
- 	 */ 
+ 	*/
+ 	  
  	//</editor-fold>
 
  	//<editor-fold defaultstate="collapsed" desc="Hibernate Session factory configuration">

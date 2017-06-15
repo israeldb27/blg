@@ -1800,7 +1800,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		
 		if ( usuario.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){
 			form.setListaPreferenciaImoveis(preferenciaLocalidadeDao.findPreferencialocalidadeByIdUsuario(idUsuario));
-			form.setQuantTotalPrefImoveis(AppUtil.recuperarQuantidadeLista(form.getListaPreferenciaImoveis()));
+			form.setQuantTotalPrefImoveis(AppUtil.recuperarQuantidadeLista(form.getListaPreferenciaImoveis()));			
 		}
 		else {			
 			form.setQuantTotalParcerias(parceriaDao.findQuantidadeParceriaPorUsuarioPorStatus(idUsuario, StatusImovelCompartilhadoEnum.ACEITA.getRotulo()));

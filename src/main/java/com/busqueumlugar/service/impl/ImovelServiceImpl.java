@@ -787,6 +787,14 @@ public class ImovelServiceImpl implements ImovelService{
 			form.setListaUsuariosInteressados(imovelFavoritosService.recuperarUsuariosInteressadosPorIdImovel(idImovel));
 			form.setUsuarioDonoImovel(imovel.getUsuario());
 			form.setListaVisita(imovelvisualizadoService.recuperarUsuariosVisitantesPorIdImovel(idImovel));
+			
+			if (usuarioSessao.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){
+				form.setListaIntermediacao(intermediacaoDao.findIntermediacaoByIdImovelByStatus(idImovel, 
+																								StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo()));								
+			}
+			else {
+				form.setListaParceria(parceriaDao.findParceriaByIdImovelByStatus(idImovel, StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo()));
+			}
 		}
 		else {
 			imovelvisualizadoService.adicionarVisitaImovel(idImovel, usuarioSessao.getId());

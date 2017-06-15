@@ -11,9 +11,11 @@ import com.busqueumlugar.model.Contato;
 import com.busqueumlugar.model.Formapagamento;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Infoservico;
+import com.busqueumlugar.model.Intermediacao;
 import com.busqueumlugar.model.MensagemAdmin;
 import com.busqueumlugar.model.Nota;
 import com.busqueumlugar.model.Paramservico;
+import com.busqueumlugar.model.Parceria;
 import com.busqueumlugar.model.Plano;
 import com.busqueumlugar.model.Planousuario;
 import com.busqueumlugar.model.Preferencialocalidade;
@@ -155,10 +157,10 @@ public class UsuarioForm extends BaseForm {
 	private String confirmarNovaSenhaEsqueceu = "";
 	private String cpfCnpjEsqueceuSenha = "";
 	
-	private String emailIndicaAmigos = "";
-	
-	
-    public String getAcessoValido() {
+	private String emailIndicaAmigos = "";	
+
+
+	public String getAcessoValido() {
 		return acessoValido;
 	}
 

@@ -743,7 +743,11 @@ function prepararModalGaleriaFotos(){
                           <!-- /.END Propostas -->
               				
                           <!-- /.START Intermediação --> 
-                          <c:if test="${((imovelForm.usuarioDonoImovel.perfil == 'P') && (usuario.perfil != 'P') && (imovelForm.autorizacaoOutroUsuario == 'S') && (usuario.id != imovelForm.usuarioDonoImovel.id))}">
+                          <c:if test="${((imovelForm.usuarioDonoImovel.perfil == 'P') && 
+                          				 (usuario.perfil != 'P') && 
+                          				 (imovelForm.autorizacaoOutroUsuario == 'S') && 
+                          				 (usuario.id != imovelForm.usuarioDonoImovel.id))}">
+                          				 
                           		<div class="panel rounded shadow">
 		                                <div class="panel-heading">
 		                                    <h3 class="panel-title">	
@@ -820,8 +824,83 @@ function prepararModalGaleriaFotos(){
                           </c:if>
                           <!-- /.END Intermediação -->
                           
+                          <!-- /.START Intermediação - na visao do Dono Imóvel--> 
+                            <c:if test="${((imovelForm.usuarioDonoImovel.perfil == 'P') && 
+                          				   (usuario.perfil == 'P') &&                           				   
+                          				   (usuario.id == imovelForm.usuarioDonoImovel.id))}">
+                          			
+                          			<div class="panel rounded shadow">
+		                                <div class="panel-heading">
+		                                    <h3 class="panel-title">	
+		                                    	<div class="pull-left">
+		                              				<spring:message code="lbl.title.aba.det.intermediacoes.imovel"/>
+		                               			</div>
+		                               				
+		                              			<div class="pull-right">
+		                              				<a href="#a" class="btn btn-sm"  onClick="mostrarModal(4);" style=""><i class="fa fa-question" ></i></a>
+		                              			</div>
+		                              			<br>	
+		                                    </h3>
+		                                </div>
+		                                <div class="panel-body">
+		                                    <ul class="media-list comment-list">
+		
+		                                        <li class="media">
+		                                            <div class="media-left">
+		                                                
+		                                            </div>
+		                                            <div class="media-body">  
+		                                                <h4><spring:message code="lbl.condicao.intermediacao"/></h4>		                                                
+		                                                <p><strong><spring:message code="lbl.descricao.imovel"/>: </strong> ${imovelForm.descAceitaCorretagemParceria}</p>
+		                                            </div>
+		                                        </li><!-- media -->		
+		                                    </ul>
+		                                    <br/>
+		                                  
+                                    		 <table class="table table-striped" >
+		                                         <thead>
+		                                            <tr>
+		                                               <th style="width: 15%"></th>		                                               
+		                                               <th style="width: 25%"><strong><spring:message code="lbl.data.sol"/></strong></th>
+		                                               <th style="width: 60%;"><strong><spring:message code="lbl.desc.sol.parceria"/></strong></th>
+		                                            </tr>
+		                                         </thead>
+		
+		                                         <tbody>
+		                                         	   <c:forEach items="${imovelForm.listaIntermediacao" var="imovelIntermediacao">
+		                                         	   		<tr>
+			                                                  <td> <a href="${urlUsuario}/detalhesUsuario/${imovelIntermediacao.usuario.id}" ><img src="data:image/jpeg;base64,${imovelIntermediacao.usuario.imagemArquivo}"  style="width: 60px; height: 50px; " />	</a></td>
+			                                                  <td style="font-size: 13px;"><small><fmt:formatDate value='${imovelIntermediacao.dataSolicitacao}' pattern='dd/MM/yyyy'/></small></td>
+			                                                  <td style="font-size: 13px;"><small>${imovelIntermediacao.descricaoCompartilhamento} </small> </td>
+			                                               </tr>		                                         	   
+		                                         	   </c:forEach>	                                   
+		                                         </tbody>
+		                                      </table>
+		                                      
+		                                      <ul class="media-list comment-list">
+			                                        <li class="media">                                                                                        
+			                                            <div class="mb-20"></div>
+			                                            <form class="form-horizontal mb-20" role="form">
+				                                            <div class="form-group">
+				                                               <input type="button" class="btn btn-primary" onClick="prepararModalCancelSolIntermediacao();" value='Cancelar Solicitação Intermediação '>
+				                                            </div>						                                      
+			                                            </form>
+			                                        </li>
+			                                   </ul>		                                    	                                                      
+		                                </div>
+		                            </div>   
+                          				 
+                          				 
+                          	</c:if>
+                          
+                          <!-- /.END Intermediação - na visao do Dono Imóvel--> 
+                          
                           <!-- /.START Parceria -->                          
-                           <c:if test="${((imovelForm.usuarioDonoImovel.perfil != 'P') && (usuario.perfil != 'P') && (imovelForm.autorizacaoOutroUsuario == 'S') && (usuario.id != imovelForm.usuarioDonoImovel.id))}">
+                           <c:if test="${((imovelForm.usuarioDonoImovel.perfil != 'P') && 
+                           				  (usuario.perfil != 'P') && 
+                           				  (imovelForm.autorizacaoOutroUsuario == 'S') && 
+                           				  (usuario.id != imovelForm.usuarioDonoImovel.id))}">
+                           				  
                           		<div class="panel rounded shadow">
 		                                <div class="panel-heading">
 		                                    <h3 class="panel-title">
@@ -876,7 +955,7 @@ function prepararModalGaleriaFotos(){
 					                           		<table class="table table-striped" >
 				                                         <thead>
 				                                            <tr>	                                               
-				                                               <th style="width: 25%"><strong><strong><spring:message code="lbl.data.sol"/></strong></th>
+				                                               <th style="width: 25%"><strong><spring:message code="lbl.data.sol"/></strong></th>
 				                                               <th style="width: 60%;"><strong><spring:message code="lbl.desc.sol.parceria"/></strong></th>
 				                                            </tr>
 				                                         </thead>
@@ -908,6 +987,87 @@ function prepararModalGaleriaFotos(){
 		                            </div>                          
                           </c:if>
                           <!-- /.END Parceria -->
+                          
+                           <!-- /.START Parceria - na visao do Dono Imóvel--> 
+                                <c:if test="${((imovelForm.usuarioDonoImovel.perfil != 'P') && 
+                           				  (usuario.perfil != 'P') &&                            				  
+                           				  (usuario.id == imovelForm.usuarioDonoImovel.id))}">
+                           			
+                           			<div class="panel rounded shadow">
+		                                <div class="panel-heading">
+		                                    <h3 class="panel-title">
+		                                    	<div class="pull-left">
+		                              				<spring:message code="lbl.title.aba.det.parcerias.imovel"/>
+		                               			</div>
+		                               				
+		                              			<div class="pull-right">
+		                              				<a href="#a" class="btn btn-sm"  onClick="mostrarModal(5);" style=""><i class="fa fa-question" ></i></a>
+		                              			</div>
+		                              			<br>
+		                                    </h3>
+		                                </div>
+		                                <div class="panel-body">
+		                                    <ul class="media-list comment-list">
+		
+		                                        <li class="media">
+		                                            <div class="media-left">
+		                                                
+		                                            </div>
+		                                            <div class="media-body">
+		                                                <h4><spring:message code="lbl.condicao.parceria"/></h4>		                                                
+		                                                <p><strong><spring:message code="lbl.descricao.imovel"/>: </strong> ${imovelForm.descAceitaCorretagemParceria}</p>
+		                                            </div>
+		                                        </li><!-- media -->		
+		                                    </ul>
+		                                    <br/>		                                    
+		                                  
+					                           		 <div class="panel">
+						                                <div class="panel-heading">
+						                                    <div class="pull-left">
+						                                    	</br>
+						                                        <h7 class="panel-title"><spring:message code="lbl.title.aba.parceria.det.imovel"/></h7>						                                        
+						                                    </div>
+						                                </div>
+						                               	
+					                           		<table class="table table-striped" >
+				                                         <thead>
+				                                            <tr>	                                               
+				                                               <th style="width: 10%"></th>
+				                                               <th style="width: 25%"><strong><spring:message code="lbl.data.sol"/></strong></th>
+				                                               <th style="width: 60%;"><strong><spring:message code="lbl.desc.sol.parceria"/></strong></th>
+				                                            </tr>
+				                                         </thead>
+				
+				                                         <tbody>
+				                                         	   <c:forEach items="${imovelForm.listaParceria}" var="imovelParceria" >
+				                                         	   		<tr>
+				                                         	   		  <td> <a href="${urlUsuario}/detalhesUsuario/${imovelParceria.usuario.id}" ><img src="data:image/jpeg;base64,${imovelParceria.usuario.imagemArquivo}"  style="width: 60px; height: 50px; " />	</a></td>
+					                                                  <td style="font-size: 13px;"><small><fmt:formatDate value='${imovelParceria.dataSolicitacao}' pattern='dd/MM/yyyy'/></small></td>
+					                                                  <td style="font-size: 13px;"><small>${imovelParceria.descricaoCompartilhamento} </small> </td>
+					                                                </tr>
+				                                         	   </c:forEach>		                                            
+				                                         </tbody>
+				                                      </table>
+				                                      
+				                                      <ul class="media-list comment-list">
+					                                        <li class="media">                                                                                        
+					                                            <div class="mb-20"></div>
+					                                            <form class="form-horizontal mb-20" role="form">			                                                                                              
+								                                         
+						                                            <div class="form-group">
+						                                               <input type="button" class="btn btn-primary" onClick="prepararModalCancelSolParceria();" value='<spring:message code="lbl.cancelar.parceria"/>'>
+						                                            </div>
+								                                      
+					                                            </form>
+					                                        </li>
+					                                    </ul>
+					                           </div>           		                                                                        
+		                                </div>
+		                            </div>  
+		                            	  
+                           	    </c:if>
+                           
+                           <!-- /.END Parceria - na visao do Dono Imóvel--> 
                          
                           <!-- /.START Visitas -->
                           <c:if test="${imovelForm.usuarioDonoImovel.id == usuario.id}">
