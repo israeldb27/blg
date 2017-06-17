@@ -16,10 +16,18 @@
  
 <script type="text/javascript">
 
-$(document).ready(function() {
-
-});
-
+	function mostrarModal(id){	
+		if (id == 0){
+			$('#msgModal').html("<spring:message code='lbl.aba.modal.desc.lista.todas.propostas'/>");		
+			$('#msgModalFuncionalidade').html("<spring:message code='lbl.lista.todas.propostas'/>");
+		}
+		else if (id == 1){
+			$('#msgModal').html("<spring:message code='lbl.aba.modal.desc.link.todos.imoveis.proposta'/>");		
+			$('#msgModalFuncionalidade').html("<spring:message code='lbl.lista.todas.minhas.propostas'/>");
+		}
+		$("#idModalItem").modal("show");
+	}
+	
 </script>
 		
 <c:import url="../../layout/head-layout.jsp"></c:import>
@@ -153,21 +161,28 @@ $(document).ready(function() {
 	                      	   <div class="row">
 		                      		<div class="panel">
 		                                <div class="panel-heading">
-		                                    <div class="pull-left">
-		                                    	<c:choose>
-		                                    		<c:when test="${imovelPropostaForm.tipoLista == 'propostasRecebidas' }">
-		                                    			<h3 class="panel-title"><spring:message code="lbl.lista.todas.propostas"/></h3>
-		                                    		</c:when>
-		                                    		
-		                                    		<c:when test="${imovelPropostaForm.tipoLista == 'propostasLancadas' }">
-		                                    			<h3 class="panel-title"><spring:message code="lbl.lista.todas.minhas.propostas"/></h3>
-		                                    		</c:when>
-		                                    	</c:choose>
-		                                    	&nbsp; <label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.quant.total.usuarios"/> </strong>: (${quantTotalUsuarios}) </label>		                                        
-		                                    </div>
-		                                    <div class="pull-right">
-		                                        <a href="#a" class="btn btn-sm"  data-toggle="modal" data-target=".bs-modal-ajuda-informacoes" style=""><i class="fa fa-question" ></i></a>
-		                                    </div>
+		                                	<c:choose>
+		                                			                                    		
+		                                		<c:when test="${imovelPropostaForm.tipoLista == 'propostasRecebidas' }">
+		                                			 <div class="pull-left">	
+		                                					<h3 class="panel-title"><spring:message code="lbl.lista.todas.propostas"/></h3>
+		                                        			&nbsp;&nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.quant.total.imoveis"/> </strong>: (${quantTotalImoveis}) </label>
+		                                			 </div>
+		                                			 <div class="pull-right">
+				                                        <a href="#a" class="btn btn-sm" onClick="mostrarModal(0);" ><i class="fa fa-question" ></i></a>	
+				                                    </div>
+		                                		</c:when>
+		                                		<c:when test="${imovelPropostaForm.tipoLista == 'propostasLancadas' }">
+		                                			  <div class="pull-left">	
+		                                					<h3 class="panel-title"><spring:message code="lbl.lista.todas.minhas.propostas"/></h3>
+		                                        			&nbsp;&nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.quant.total.imoveis"/> </strong>: (${quantTotalImoveis}) </label>
+		                                			 </div>
+		                                			 <div class="pull-right">
+				                                        <a href="#a" class="btn btn-sm" onClick="mostrarModal(1);" ><i class="fa fa-question" ></i></a>	
+				                                    </div>
+		                                		</c:when>
+		                                	</c:choose>
+		                                   
 		                                    <div class="clearfix"></div>
 		                                </div><!-- /.panel-heading -->
 		                                <div class="panel-body no-padding">
@@ -235,9 +250,23 @@ $(document).ready(function() {
          
             </section><!-- /#page-content -->
 			
-				<!-- Start content modal Ajuda - funcionalidade -->
-					<c:import url="../../ajuda/contentMenuModal.jsp"></c:import>																				
-				<!-- End content  modal Ajuda - funcionalidade -->
+				 <!-- Start optional size modal element - item 1 -->
+	               <div id="idModalItem" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+	                <div class="modal-dialog">
+					      <div class="modal-content">
+					        <div class="modal-header">
+					          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					          <h4 class="modal-title"><div id="msgModalFuncionalidade" > </div> </h4>
+					        </div>
+					        <div class="modal-body">  
+					       	   <strong> <spring:message code="lbl.descricao.geral"/>:  </strong> <div id="msgModal" > </div>
+					        </div>
+					        <div class="modal-footer">			          
+		                      <button type="button" class="btn btn-primary" data-dismiss="modal"><spring:message code="lbl.btn.fechar.geral"/></button>
+					        </div>
+					      </div>
+					    </div>
+					</div>
 
         </section><!-- /#wrapper -->
         <!--/ END WRAPPER -->

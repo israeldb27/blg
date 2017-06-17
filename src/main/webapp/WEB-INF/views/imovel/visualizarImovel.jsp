@@ -26,6 +26,9 @@
 <spring:url value="/usuario" var="urlUsuario"/>
 <spring:url value="/imovel" var="urlImovel"/>
 <spring:url value="/mensagem" var="urlMensagem"/>
+<spring:url value="/intermediacao" var="urlIntermediacao"/>
+<spring:url value="/parceria" var="urlParceria"/>
+
 
 <c:set var="usuario" value="<%= (UsuarioForm)request.getSession().getAttribute(UsuarioInterface.USUARIO_SESSAO) %>"/>
 
@@ -708,7 +711,9 @@ function prepararModalGaleriaFotos(){
                                 			 <table class="table table-striped" >
 		                                         <thead>
 		                                            <tr>
-		                                               <th style="width: 15%;"><strong><spring:message code="lbl.data.proposta"/></strong></th>
+		                                               <th style="width: 15%;" class="text-center"></th>
+		                                               <th style="width: 15%;" class="text-center"><strong><spring:message code="lbl.usuario.proposta"/></strong></th>
+		                                               <th style="width: 15%;" class="text-center"><strong><spring:message code="lbl.data.proposta"/></strong></th>
 		                                               <th style="width: 25%; text-align: center;"><strong><spring:message code="lbl.valor.proposta"/></strong></th>
 		                                               <th style="width: 40%"><strong><spring:message code="lbl.observacao.proposta.imovel"/></strong></th>
 		                                               <th style="width: 10%" class="text-center"><strong><spring:message code="lbl.table.data.acoes"/></strong></th>
@@ -718,8 +723,19 @@ function prepararModalGaleriaFotos(){
 		                                         <tbody>
 		                                            <c:forEach var="imovel" items="${imovelForm.listaPropostas}">
 		                                               <tr>
-		                                                  <td style="font-size: 13px;"><small><fmt:formatDate value='${imovel.dataCadastro}' pattern='dd/MM/yyyy'/></small></td>
-		                                                  <td style="font-size: 13px;"><small>R$<fmt:formatNumber value="${imovel.valorProposta}" pattern="#,##0.00;-0"/></small></td>
+		                                               	  <td style="font-size: 13px;" class="text-center">
+		                                               	  		<a href="${urlUsuario}/detalhesUsuario/${imovel.usuarioLancador.id}" >
+																	<img src="data:image/jpeg;base64,${imovel.usuarioLancador.imagemArquivo}" style="width: 60px; height: 50px; " />
+																</a>
+		                                               	  </td>	
+		                                               	  
+		                                               	  <td style="font-size: 13px;" class="text-center">
+												  				<a href="${urlUsuario}/detalhesUsuario/${imovel.usuarioLancador.id}" >
+																		${imovel.usuarioLancador.nome}
+																</a>			                                               	  
+		                                               	  </td>
+		                                                  <td style="font-size: 13px;" class="text-center"><small><fmt:formatDate value='${imovel.dataCadastro}' pattern='dd/MM/yyyy'/></small></td>
+		                                                  <td style="font-size: 13px;" class="text-center"><small>R$<fmt:formatNumber value="${imovel.valorProposta}" pattern="#,##0.00;-0"/></small></td>
 		                                                  <td style="font-size: 13px;"><small>${imovel.observacao}</small></td>
 		                                                  <td class="text-center" >
 		                                                     <a href="#" onClick="prepararModalConfirmaExclusaoProposta(${imovel.id});" data-toggle="tooltip" data-placement="top" title="" data-original-title="delete"><i class="fa fa-trash-o"></i></a>
@@ -800,7 +816,7 @@ function prepararModalGaleriaFotos(){
 				                                         </thead>
 				
 				                                         <tbody>		                                            
-				                                               <tr>
+				                                               <tr>				                                               	  	
 				                                                  <td style="font-size: 13px;"><small><fmt:formatDate value='${imovelForm.intermediacaoEnviada.dataSolicitacao}' pattern='dd/MM/yyyy'/></small></td>
 				                                                  <td style="font-size: 13px;"><small>${imovelForm.intermediacaoEnviada.descricaoCompartilhamento} </small> </td>
 				                                               </tr>		                                            
@@ -855,42 +871,80 @@ function prepararModalGaleriaFotos(){
 		                                            </div>
 		                                        </li><!-- media -->		
 		                                    </ul>
-		                                    <br/>
-		                                  
-                                    		 <table class="table table-striped" >
-		                                         <thead>
-		                                            <tr>
-		                                               <th style="width: 15%"></th>		                                               
-		                                               <th style="width: 25%"><strong><spring:message code="lbl.data.sol"/></strong></th>
-		                                               <th style="width: 60%;"><strong><spring:message code="lbl.desc.sol.parceria"/></strong></th>
-		                                            </tr>
-		                                         </thead>
-		
-		                                         <tbody>
-		                                         	   <c:forEach items="${imovelForm.listaIntermediacao" var="imovelIntermediacao">
-		                                         	   		<tr>
-			                                                  <td> <a href="${urlUsuario}/detalhesUsuario/${imovelIntermediacao.usuario.id}" ><img src="data:image/jpeg;base64,${imovelIntermediacao.usuario.imagemArquivo}"  style="width: 60px; height: 50px; " />	</a></td>
-			                                                  <td style="font-size: 13px;"><small><fmt:formatDate value='${imovelIntermediacao.dataSolicitacao}' pattern='dd/MM/yyyy'/></small></td>
-			                                                  <td style="font-size: 13px;"><small>${imovelIntermediacao.descricaoCompartilhamento} </small> </td>
-			                                               </tr>		                                         	   
-		                                         	   </c:forEach>	                                   
-		                                         </tbody>
-		                                      </table>
-		                                      
-		                                      <ul class="media-list comment-list">
-			                                        <li class="media">                                                                                        
-			                                            <div class="mb-20"></div>
-			                                            <form class="form-horizontal mb-20" role="form">
-				                                            <div class="form-group">
-				                                               <input type="button" class="btn btn-primary" onClick="prepararModalCancelSolIntermediacao();" value='Cancelar Solicitação Intermediação '>
-				                                            </div>						                                      
-			                                            </form>
-			                                        </li>
-			                                   </ul>		                                    	                                                      
+		               		                                    
+		                                    <c:if test="${imovelForm.intermediacaoEnviada != null }">
+	                                    		<br>
+	                                    		 <table class="table table-striped" >
+			                                         <thead>
+			                                            <tr>	                                               
+			                                               <th style="width: 25%"><strong><strong><spring:message code="lbl.data.sol"/></strong></th>
+			                                               <th style="width: 60%;"><strong><spring:message code="lbl.desc.sol.parceria"/></strong></th>
+			                                            </tr>
+			                                         </thead>
+			
+			                                         <tbody>		                                            
+			                                               <tr>
+			                                                  <td style="font-size: 13px;"><small><fmt:formatDate value='${imovelForm.intermediacaoEnviada.dataSolicitacao}' pattern='dd/MM/yyyy'/></small></td>
+			                                                  <td style="font-size: 13px;"><small>${imovelForm.intermediacaoEnviada.descricaoCompartilhamento} </small> </td>
+			                                               </tr>		                                            
+			                                         </tbody>
+			                                      </table>				                                      
+		                                    </c:if>		                                    
+		                                    <br>
+		                                    
+		                                    <c:choose>
+		                                    	<c:when test="${not empty imovelForm.listaIntermediacao}">
+		                                    		<div class="panel-heading">
+					                                    <div class="pull-left">
+					                                        <h4 class="panel-title" style="font-size: 13px;" ><spring:message code="lbl.aba.intermediacao.lista.sol"/> </h4>			                                       
+					                                    </div>	
+					                                    <div class="pull-right">
+					                                        <spring:message code="lbl.link.analisar.sol.intermediacoes" var="mensagemAnalisarSol"/>
+			                                                <a href="${urlIntermediacao}/analisarSolicitacoesIntermediacoesRecebidas/${imovelForm.id}" style="font-size:19px; color: rgb(99, 110, 123);" class="dropdown-toggle"><i class="fa fa-gavel"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;"> ${mensagemAnalisarSol} </font> &nbsp;&nbsp;</i> </a>	 			                                       
+					                                    </div>
+					                                    <div class="clearfix"></div>
+					                                </div><!-- /.panel-heading -->
+		                                    		 <table class="table table-striped" >
+				                                         <thead>
+				                                            <tr>				                                               
+				                                               <th style="width: 15%"class="text-center"></th>
+		                                               		   <th style="width: 15%"class="text-center"><spring:message code="lbl.nome.usuario.intermediacao"/></th>	                                               
+				                                               <th style="width: 25%" class="text-center"><strong><spring:message code="lbl.data.sol"/></strong></th>
+				                                               <th style="width: 60%;" class="text-center"><strong><spring:message code="lbl.desc.sol.parceria"/></strong></th>
+				                                            </tr>
+				                                         </thead>
+				
+				                                         <tbody>
+				                                         	   <c:forEach items="${imovelForm.listaIntermediacao}" var="imovelIntermediacao">
+				                                         	   		<tr>
+				                                         	   		  <td style="font-size: 13px;" class="text-center">
+					                                               	  		<a href="${urlUsuario}/detalhesUsuario/${imovelIntermediacao.usuarioSolicitante.id}" >
+																				<img src="data:image/jpeg;base64,${imovelIntermediacao.usuarioSolicitante.imagemArquivo}" style="width: 60px; height: 50px; " />
+																			</a>
+					                                               	  </td>	
+					                                               	  
+					                                               	  <td style="font-size: 13px;" class="text-center">
+															  				<a href="${urlUsuario}/detalhesUsuario/${imovelIntermediacao.usuarioSolicitante.id}" >
+																					${imovelIntermediacao.usuarioSolicitante.nome}
+																			</a>			                                               	  
+					                                               	  </td>
+					                                                  <td class="text-center"> <a href="${urlUsuario}/detalhesUsuario/${imovelIntermediacao.usuarioSolicitante.id}" ><img src="data:image/jpeg;base64,${imovelIntermediacao.usuarioSolicitante.imagemArquivo}"  style="width: 60px; height: 50px; " />	</a></td>
+					                                                  <td style="font-size: 13px;" class="text-center"><small><fmt:formatDate value='${imovelIntermediacao.dataSolicitacao}' pattern='dd/MM/yyyy'/></small></td>
+					                                                  <td style="font-size: 13px;" class="text-center"><small>${imovelIntermediacao.descricaoCompartilhamento} </small> </td>
+					                                               </tr>		                                         	   
+				                                         	   </c:forEach>	                                   
+				                                         </tbody>
+				                                      </table>	
+		                                    	</c:when>
+		                                    	
+		                                    	<c:when test="${empty imovelForm.listaIntermediacao}">
+		                                    		<div class="callout callout-warning">
+					                                    <strong><spring:message code="lbl.nenhuma.sol.intermediacao"/></strong>		                                    
+					                                </div>
+		                                    	</c:when>		                                    	
+		                                    </c:choose>                       		                                    	                                                      
 		                                </div>
-		                            </div>   
-                          				 
-                          				 
+		                            </div>    
                           	</c:if>
                           
                           <!-- /.END Intermediação - na visao do Dono Imóvel--> 
@@ -915,8 +969,7 @@ function prepararModalGaleriaFotos(){
 		                                    </h3>
 		                                </div>
 		                                <div class="panel-body">
-		                                    <ul class="media-list comment-list">
-		
+		                                    <ul class="media-list comment-list">		
 		                                        <li class="media">
 		                                            <div class="media-left">
 		                                                
@@ -1019,8 +1072,9 @@ function prepararModalGaleriaFotos(){
 		                                            </div>
 		                                        </li><!-- media -->		
 		                                    </ul>
-		                                    <br/>		                                    
-		                                  
+		                                    
+		                                      <c:if test="${ imovelForm.parceriaEnviada != null }">
+		                                      		<br>
 					                           		 <div class="panel">
 						                                <div class="panel-heading">
 						                                    <div class="pull-left">
@@ -1032,36 +1086,77 @@ function prepararModalGaleriaFotos(){
 					                           		<table class="table table-striped" >
 				                                         <thead>
 				                                            <tr>	                                               
-				                                               <th style="width: 10%"></th>
 				                                               <th style="width: 25%"><strong><spring:message code="lbl.data.sol"/></strong></th>
 				                                               <th style="width: 60%;"><strong><spring:message code="lbl.desc.sol.parceria"/></strong></th>
 				                                            </tr>
 				                                         </thead>
 				
-				                                         <tbody>
-				                                         	   <c:forEach items="${imovelForm.listaParceria}" var="imovelParceria" >
-				                                         	   		<tr>
-				                                         	   		  <td> <a href="${urlUsuario}/detalhesUsuario/${imovelParceria.usuario.id}" ><img src="data:image/jpeg;base64,${imovelParceria.usuario.imagemArquivo}"  style="width: 60px; height: 50px; " />	</a></td>
-					                                                  <td style="font-size: 13px;"><small><fmt:formatDate value='${imovelParceria.dataSolicitacao}' pattern='dd/MM/yyyy'/></small></td>
-					                                                  <td style="font-size: 13px;"><small>${imovelParceria.descricaoCompartilhamento} </small> </td>
-					                                                </tr>
-				                                         	   </c:forEach>		                                            
+				                                         <tbody>		                                            
+				                                               <tr>
+				                                                  <td style="font-size: 13px;"><small><fmt:formatDate value='${imovelForm.parceriaEnviada.dataSolicitacao}' pattern='dd/MM/yyyy'/></small></td>
+				                                                  <td style="font-size: 13px;"><small>${imovelForm.parceriaEnviada.descricaoCompartilhamento} </small> </td>
+				                                               </tr>		                                            
 				                                         </tbody>
-				                                      </table>
-				                                      
-				                                      <ul class="media-list comment-list">
-					                                        <li class="media">                                                                                        
-					                                            <div class="mb-20"></div>
-					                                            <form class="form-horizontal mb-20" role="form">			                                                                                              
-								                                         
-						                                            <div class="form-group">
-						                                               <input type="button" class="btn btn-primary" onClick="prepararModalCancelSolParceria();" value='<spring:message code="lbl.cancelar.parceria"/>'>
-						                                            </div>
-								                                      
-					                                            </form>
-					                                        </li>
-					                                    </ul>
-					                           </div>           		                                                                        
+				                                      </table>				                                      
+					                                  </div>    
+					                           </c:if>  
+		                                    
+		                                       <br>		                                    
+		                                  	   
+		                                  	   <c:choose>
+		                                  	   		<c:when test="${not empty imovelForm.listaParceria}">
+		                                  	   			<div class="panel">
+							                                <div class="panel-heading">
+															    <div class="pull-left">
+																	<h4 class="panel-title" style="font-size: 13px;" ><spring:message code="lbl.aba.parceria.lista.sol"/> </h4>			                                       
+															    </div>	
+															    <div class="pull-right">																	
+																	<spring:message code="lbl.link.analisar.sol.intermediacoes" var="mensagemAnalisarSol"/>
+	                                                 			    <a href="${urlParceria}/analisarSolicitacoesParceriasRecebidas/${imovelForm.id}" style="font-size:19px; color: rgb(99, 110, 123);" class="dropdown-toggle" ><i class="fa fa-gavel"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;"> ${mensagemAnalisarSol} </font>&nbsp;&nbsp;</i> </a>                                                 					                                       
+															    </div>
+															    <div class="clearfix"></div>
+															</div><!-- /.panel-heading -->
+							                               	
+						                           		<table class="table table-striped" >
+					                                         <thead>
+					                                            <tr>	                                               
+					                                               <th style="width: 10%"></th>
+					                                               <th style="width: 10%" class="text-center"><spring:message code="lbl.nome.usuario.parceria"/></th>
+					                                               <th style="width: 25%" class="text-center"><strong><spring:message code="lbl.data.sol"/></strong></th>
+					                                               <th style="width: 60%;" class="text-center"><strong><spring:message code="lbl.desc.sol.parceria"/></strong></th>
+					                                            </tr>
+					                                         </thead>
+					
+					                                         <tbody>
+					                                         	   <c:forEach items="${imovelForm.listaParceria}" var="imovelParceria" >
+					                                         	   		<tr>
+					                                         	   		  <td style="font-size: 13px;" class="text-center">
+						                                               	  		<a href="${urlUsuario}/detalhesUsuario/${imovelParceria.usuarioSolicitante.id}" >
+																					<img src="data:image/jpeg;base64,${imovelParceria.usuarioSolicitante.imagemArquivo}" style="width: 60px; height: 50px; " />
+																				</a>
+						                                               	  </td>	
+						                                               	  
+						                                               	  <td style="font-size: 13px;" class="text-center">
+																  				<a href="${urlUsuario}/detalhesUsuario/${imovelParceria.usuarioSolicitante.id}" >
+																						${imovelParceria.usuarioSolicitante.nome}
+																				</a>			                                               	  
+						                                               	  </td>						                                         	   		 
+						                                                  <td style="font-size: 13px;" class="text-center"><small><fmt:formatDate value='${imovelParceria.dataSolicitacao}' pattern='dd/MM/yyyy'/></small></td>
+						                                                  <td style="font-size: 13px;" class="text-center"><small>${imovelParceria.descricaoCompartilhamento} </small> </td>
+						                                                </tr>
+					                                         	   </c:forEach>		                                            
+					                                         </tbody>
+					                                      </table>				                                     
+							                           </div>
+		                                  	   		</c:when>
+		                                  	   		
+		                                  	   		<c:when test="${empty imovelForm.listaParceria}">
+		                                  	   			<div class="callout callout-warning">
+														    <strong><spring:message code="lbl.nenhuma.sol.parceria"/></strong>		                                    
+														</div>
+		                                  	   		</c:when>
+		                                  	   </c:choose>
+					                                      		                                                                        
 		                                </div>
 		                            </div>  
 		                            	  
@@ -1086,19 +1181,19 @@ function prepararModalGaleriaFotos(){
                                 </div>
                                 <div class="panel-body">                                	
                                 	<c:choose>
-                                		<c:when test="${  empty imovelForm.listaVisita }"> 
+                                		<c:when test="${empty imovelForm.listaVisita }"> 
 			                                	 <div class="callout callout-warning">
 					                                    <strong><spring:message code="msg.nenhuma.visualizacao"/></strong>		                                    
 					                              </div>
                                 		</c:when>
                                 		
-                                		<c:when test="${ not  empty imovelForm.listaVisita }">
+                                		<c:when test="${not empty imovelForm.listaVisita }">
                                 			<table class="table table-striped" >
 		                                         <thead>
 		                                            <tr>
-		                                               <th style="width: 5%;"> </th>
-		                                               <th style="width: 10%;"><strong><spring:message code="lbl.visualizacao.nome.usuario"/></strong></th>
-		                                               <th style="width: 25%"><strong><strong><spring:message code="lbl.data.visualizacao"/></strong></th>                                               
+		                                               <th style="width: 5%;" class="text-center"> </th>
+		                                               <th style="width: 10%;" class="text-center"><strong><spring:message code="lbl.visualizacao.nome.usuario"/></strong></th>
+		                                               <th style="width: 25%" class="text-center"><strong><strong><spring:message code="lbl.data.visualizacao"/></strong></th>                                               
 		                                            </tr>
 		                                         </thead>
 		
@@ -1110,12 +1205,12 @@ function prepararModalGaleriaFotos(){
 																	<img src="data:image/jpeg;base64,${imovelVisita.usuario.imagemArquivo}" style="width: 60px; height: 50px; " />	                				
 																</a> 
 														  </td>	
-		                                                  <td style="font-size: 13px;"><small><a href="${urlUsuario}/detalhesUsuario/${imovelVisita.id}">
-																		${imovelVisita.nomeVisitante}	                				
+		                                                  <td style="font-size: 13px;" class="text-center"><small><a href="${urlUsuario}/detalhesUsuario/${imovelVisita.id}">
+																		${imovelVisita.usuario.nome}	                				
 																	</a>  
 															  </small>
 														  </td>
-		                                                  <td ><small><fmt:formatDate value='${imovelVisita.dataVisita}' pattern='dd/MM/yyyy'/></small></td>
+		                                                  <td class="text-center"><small><fmt:formatDate value='${imovelVisita.dataVisita}' pattern='dd/MM/yyyy'/></small></td>
 		                                               </tr>
 		                                            </c:forEach>
 		                                         </tbody>
@@ -1155,9 +1250,9 @@ function prepararModalGaleriaFotos(){
                                 			 <table class="table table-striped" >
 		                                         <thead>
 		                                            <tr>
-		                                               <th style="width: 5%;"> </th>
-		                                               <th style="width: 10%;"><strong><spring:message code="lbl.nome.usuario.lista.interesse"/></strong></th>
-		                                               <th style="width: 25%"><strong><strong><spring:message code="lbl.data.interesse"/></strong></th>                                               
+		                                               <th style="width: 5%;" class="text-center"> </th>
+		                                               <th style="width: 10%;" class="text-center"><strong><spring:message code="lbl.nome.usuario.lista.interesse"/></strong></th>
+		                                               <th style="width: 25%" class="text-center"><strong><strong><spring:message code="lbl.data.interesse"/></strong></th>                                               
 		                                            </tr>
 		                                         </thead>
 		
@@ -1169,12 +1264,12 @@ function prepararModalGaleriaFotos(){
 																	<img src="data:image/jpeg;base64,${imovelFavorito.usuario.imagemArquivo}" style="width: 60px; height: 50px; " />	                				
 																</a> 
 														  </td>	
-		                                                  <td style="font-size: 13px;"><small><a href="${urlUsuario}/detalhesUsuario/${imovelFavorito.usuario.id}">
+		                                                  <td style="font-size: 13px;" class="text-center"><small><a href="${urlUsuario}/detalhesUsuario/${imovelFavorito.usuario.id}">
 																		${imovelFavorito.usuario.nome}	                				
 																	</a> 
 															  </small>
 														  </td>
-		                                                  <td style="font-size: 13px;"><small><fmt:formatDate value='${imovelFavorito.dataInteresse}' pattern='dd/MM/yyyy'/></small></td>
+		                                                  <td style="font-size: 13px;" class="text-center"><small><fmt:formatDate value='${imovelFavorito.dataInteresse}' pattern='dd/MM/yyyy'/></small></td>
 		                                               </tr>
 		                                            </c:forEach>
 		                                         </tbody>
@@ -1260,7 +1355,10 @@ function prepararModalGaleriaFotos(){
 						
 						<div class="col-lg-4 col-md-4 col-sm-12">
 							<!-- /.START Informação de Contato do Imóvel -- Dono Imovel -->
-							<c:if test="${(((imovelForm.usuarioDonoImovel.perfil == 'P') && (imovelForm.usuarioIntermediador == null ) ) || (imovelForm.usuarioDonoImovel.perfil != 'P') || (imovelForm.usuarioDonoImovel.id == usuario.id) )}">
+							<c:if test="${(((imovelForm.usuarioDonoImovel.perfil == 'P') && 
+											(imovelForm.usuarioIntermediador == null ) ) || 
+											(imovelForm.usuarioDonoImovel.perfil != 'P') || 
+											(imovelForm.usuarioDonoImovel.id == usuario.id) )}">
 								<div class="panel rounded shadow">
 									<div class="panel-heading">
 										<h3 class="panel-title">

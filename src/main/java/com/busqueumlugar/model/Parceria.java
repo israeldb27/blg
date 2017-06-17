@@ -16,6 +16,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import com.busqueumlugar.enumerador.StatusImovelCompartilhadoFmtEnum;
+
 
 @Entity
 @Table(name = "parceria")
@@ -58,6 +60,16 @@ public class Parceria implements Serializable {
     @Transient
     private int quantTotalParceiros;
 	
+    @Transient
+    private String statusFmt;
+
+    public String getStatusFmt() {
+        return StatusImovelCompartilhadoFmtEnum.getLabel(status);
+    }
+
+	public void setStatusFmt(String statusFmt) {
+		this.statusFmt = statusFmt;
+	}
 
 	public Parceria() {
     }

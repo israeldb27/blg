@@ -24,10 +24,15 @@
  
 <script type="text/javascript">
 
-$(document).ready(function() {
-
-});	
-
+	function mostrarModal(id){	
+		if (id == 0){
+			$('#msgModal').html("<spring:message code='lbl.aba.desc.modal.todos.usuarios.parceria'/>");		
+			$('#msgModalFuncionalidade').html("<spring:message code='lbl.aba.todos.usuarios.parceria'/>");
+		}
+	
+		$("#idModalItem").modal("show");
+	}
+	
 </script>
 		
 <c:import url="../../layout/head-layout.jsp"></c:import>
@@ -160,7 +165,7 @@ $(document).ready(function() {
 		                                        <h3 class="panel-title"><spring:message code="lbl.aba.todos.usuarios.parceria"/></h3>
 		                                    </div>
 		                                    <div class="pull-right">
-		                                        <a href="#a" class="btn btn-sm"  data-toggle="modal" data-target=".bs-modal-ajuda-informacoes" style=""><i class="fa fa-question" ></i></a>
+		                                        <a href="#a" class="btn btn-sm" onClick="mostrarModal(0);"><i class="fa fa-question" ></i></a>
 		                                    </div>
 		                                    <div class="clearfix"></div>
 		                                </div><!-- /.panel-heading -->
@@ -190,7 +195,7 @@ $(document).ready(function() {
 															</td>
 			                                                <td class="text-center"><fmt:formatDate value='${imovelIntermediacao.dataSolicitacao}' pattern='dd/MM/yyyy'/></td>
 			                                                <td class="text-center"><fmt:formatDate value='${imovelIntermediacao.dataResposta}' pattern='dd/MM/yyyy'/></td>
-			                                                <td class="text-center">${imovelIntermediacao.status}</td>			                                                			                                              	                                            
+			                                                <td class="text-center">${imovelIntermediacao.statusFmt}</td>			                                                			                                              	                                            
 			                                            </tr>
 		                                            </c:forEach>
 		                                            </tbody>
@@ -206,10 +211,24 @@ $(document).ready(function() {
                 </div><!-- /.body-content -->
          
             </section><!-- /#page-content -->
-			
-				<!-- Start content modal Ajuda - funcionalidade -->
-					<c:import url="../../ajuda/contentMenuModal.jsp"></c:import>																				
-				<!-- End content  modal Ajuda - funcionalidade -->
+            
+			 <!-- Start optional size modal element - item 1 -->
+              <div id="idModalItem" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+               <div class="modal-dialog">
+			      <div class="modal-content">
+			        <div class="modal-header">
+			          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			          <h4 class="modal-title"><div id="msgModalFuncionalidade" > </div> </h4>
+			        </div>
+			        <div class="modal-body">  
+			       	   <strong> <spring:message code="lbl.descricao.geral"/>:  </strong> <div id="msgModal" > </div>
+			        </div>
+			        <div class="modal-footer">			          
+                      <button type="button" class="btn btn-primary" data-dismiss="modal"><spring:message code="lbl.btn.fechar.geral"/></button>
+			        </div>
+			      </div>
+			    </div>
+			</div>
 
         </section><!-- /#wrapper -->
         <!--/ END WRAPPER -->

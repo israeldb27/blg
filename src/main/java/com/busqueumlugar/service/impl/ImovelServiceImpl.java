@@ -790,10 +790,14 @@ public class ImovelServiceImpl implements ImovelService{
 			
 			if (usuarioSessao.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){
 				form.setListaIntermediacao(intermediacaoDao.findIntermediacaoByIdImovelByStatus(idImovel, 
-																								StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo()));								
+																								StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo()));	
+			
+				form.setUsuarioIntermediador(intermediacaoService.recuperarUsuarioIntermediador(form.getId()));
+				form.setIntermediacaoEnviada(intermediacaoDao.findIntermediacaoByIdUsuarioSolicitanteByIdImovel(usuarioSessao.getId(), form.getId()));	
 			}
 			else {
 				form.setListaParceria(parceriaDao.findParceriaByIdImovelByStatus(idImovel, StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo()));
+				form.setParceriaEnviada(parceriaDao.findParceriaByIdUsuarioSolicitanteByIdImovel(usuarioSessao.getId(), form.getId()));				
 			}
 		}
 		else {
@@ -805,8 +809,7 @@ public class ImovelServiceImpl implements ImovelService{
 			}
 			
 			if ( imovel.getAutorizacaoPropostas().equals("S"))
-				form.setListaPropostas(imovelPropostasDao.findImoveisPropostasLancadasByIdUsuarioByIdImovel(usuarioSessao.getId(), idImovel));
-			
+				form.setListaPropostas(imovelPropostasDao.findImoveisPropostasLancadasByIdUsuarioByIdImovel(usuarioSessao.getId(), idImovel));			
 			
 			if (imovel.getUsuario().getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()))	{	
 				form.setUsuarioIntermediador(intermediacaoService.recuperarUsuarioIntermediador(form.getId()));

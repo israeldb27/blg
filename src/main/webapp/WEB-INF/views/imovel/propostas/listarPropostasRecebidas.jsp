@@ -252,8 +252,7 @@ function desmarcarCheck(id) {
 														<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
 													  </div><!-- /.pull-right -->            												   
 													<br>		
-		                                	 </div> 
-		                                	 
+		                                	 </div> 		                                	 
 		                                </div>
 		                                
 		                                <div class="panel rounded shadow no-overflow">                                    
