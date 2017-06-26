@@ -205,9 +205,6 @@
 										        <p><spring:message code="msg.ajuda.modal.funcionalidades.descricao.editarImovel"/></p>
 										    </c:when>
 										    
-										    
-										    
-										    
 										    <c:when test="${func == 'tipoImoveisMaisProcuradoPorLocalizacao'}">
 										        <p><spring:message code="msg.ajuda.modal.funcionalidades.descricao.rel.tipoImoveisMaisProcuradoPorLocalizacao"/></p>
 										    </c:when>

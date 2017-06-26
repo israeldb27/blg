@@ -417,9 +417,9 @@ public class ImovelIndicadoController {
     												 ModelMap map){
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
-			ImovelindicadoForm form = new ImovelindicadoForm();		
-			map.addAttribute("listaTodasIndicacoesUsuario", imovelIndicadoservice.recuperarSolicitacoesIndicacoesPorImovelPorUsuario(idImovel, user.getId()));
-	        map.addAttribute("imovelIndicadoForm", form);
+			List<Imovelindicado> lista = imovelIndicadoservice.recuperarSolicitacoesIndicacoesPorImovelPorUsuario(idImovel, user.getId());
+			map.addAttribute("listaTodasIndicacoesUsuario", lista);
+			map.addAttribute("quantTotalUsuarios", AppUtil.recuperarQuantidadeLista(lista));
 	        map.addAttribute("imovel", imovelService.recuperarImovelPorid(idImovel));        
 	        return DIR_PATH + "todosUsuariosIndicadosImovel";
 		} catch (Exception e) {

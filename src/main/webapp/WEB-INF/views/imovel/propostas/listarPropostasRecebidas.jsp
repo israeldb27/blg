@@ -326,7 +326,7 @@ function desmarcarCheck(id) {
 					    	<c:choose>
 					    		<c:when test="${ empty listaPropostasRecebidas }">
 					    			<div class="callout callout-warning">
-	                                    <strong><spring:message code="msg.nenhum.imovel.interesse"/></strong>                              
+	                                    <strong><spring:message code="msg.nenhuma.proposta.recebida"/></strong>                              
 	                                </div>
 					    		</c:when>
 					    		

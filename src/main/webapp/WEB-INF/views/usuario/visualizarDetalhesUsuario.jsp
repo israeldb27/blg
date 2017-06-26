@@ -489,7 +489,7 @@ function mostrarModal(id){
                               						<a href="${urlImovel}/visualizarImoveisPerfilUsuario/${usuarioForm.id}" style="font-size:x-large; margin-left: 510px;" class="meta-action" title='<spring:message code="lbl.visualizar.imoveis.perfil.usuario"/>' >
 	                              						<div class="pull-right">
 	                              							<i class="fa fa-home" style="color:gray"></i>                              						
-	                              							<font style="font-size: 12px; color: black;" >&nbsp; <spring:message code="lbl.title.link.filtrar.imoveis"/></font>	                              						
+	                              							<font style="font-size: 12px; color: black;" >&nbsp; <spring:message code="lbl.visualizar.imoveis.perfil.usuario"/></font>	                              						
 	                              						</div>	                              						
 	                              					</a>                              					
                               					</c:if>
@@ -525,7 +525,7 @@ function mostrarModal(id){
                                 	</c:when>
                                 	
                                 	<c:when test="${not empty usuarioForm.listaImoveisUsuario }">
-                                			<div class="panel-body panel panel-scrollable rounded shadow" style="height: 455px;">
+                                			<div class="panel-body panel panel-scrollable rounded shadow" style="height: 710px;">
 					                                   <div class="media-list list-search">
 					                                    <c:forEach var="imovel" items="${usuarioForm.listaImoveisUsuario}" varStatus="item">
 					                                        <div class="media rounded shadow no-overflow">

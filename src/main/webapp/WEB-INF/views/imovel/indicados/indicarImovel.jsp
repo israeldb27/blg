@@ -12,6 +12,7 @@
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
 
 <spring:url value="/imovel" var="urlImovel"/>
+<spring:url value="/usuario" var="urlUsuario"/>
  
 <script type="text/javascript">
 
@@ -277,10 +278,16 @@ function mostrarModal(id){
 											                                            	<c:if test="${usuarioContato.indicadoImovel == 'S'}">
 											                                            		<td> </td>
 											                                            	</c:if>
-											                                                <td class="text-center">	                                                    
-																	                     		<img src="data:image/jpeg;base64,${usuarioContato.imagemArquivo}" style="width: 60px; height: 50px; " />	                				
+											                                                <td class="text-center">	
+											                                                	<a href="${urlUsuario}/detalhesUsuario/${usuarioContato.id}" >                                                      
+																	                     			<img src="data:image/jpeg;base64,${usuarioContato.imagemArquivo}" style="width: 60px; height: 50px; " />
+																	                     		</a>		                				
 											                                                </td>			                                                
-											                                                <td class="text-center">${usuarioContato.nome}</td>
+											                                                <td class="text-center">
+											                                                	<a href="${urlUsuario}/detalhesUsuario/${usuarioContato.id}" > 
+											                                                		${usuarioContato.nome}	
+											                                                	</a>
+											                                                </td>
 											                                                <td class="text-center">${usuarioContato.perfilFmt} </td>
 																							<td>
 																								<c:if test="${usuarioContato.indicadoImovel == 'N'}">

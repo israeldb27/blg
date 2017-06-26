@@ -160,86 +160,95 @@
 	                    
 	                      	   <div class="row">
 		                      		<div class="panel">
-		                                <div class="panel-heading">
-		                                	<c:choose>
-		                                			                                    		
-		                                		<c:when test="${imovelPropostaForm.tipoLista == 'propostasRecebidas' }">
-		                                			 <div class="pull-left">	
-		                                					<h3 class="panel-title"><spring:message code="lbl.lista.todas.propostas"/></h3>
-		                                        			&nbsp;&nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.quant.total.imoveis"/> </strong>: (${quantTotalImoveis}) </label>
-		                                			 </div>
-		                                			 <div class="pull-right">
-				                                        <a href="#a" class="btn btn-sm" onClick="mostrarModal(0);" ><i class="fa fa-question" ></i></a>	
+		                      			<c:choose>
+											<c:when test="${not empty listaTodasPropostas}">
+												<div class="panel-heading">
+				                                	<c:choose>
+				                                			                                    		
+				                                		<c:when test="${imovelPropostaForm.tipoLista == 'propostasRecebidas' }">
+				                                			 <div class="pull-left">	
+				                                					<h3 class="panel-title"><spring:message code="lbl.lista.todas.propostas"/></h3>
+				                                        			&nbsp;&nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.quant.total.imoveis"/> </strong>: (${quantTotalImoveis}) </label>
+				                                			 </div>
+				                                			 <div class="pull-right">
+						                                        <a href="#a" class="btn btn-sm" onClick="mostrarModal(0);" ><i class="fa fa-question" ></i></a>	
+						                                    </div>
+				                                		</c:when>
+				                                		<c:when test="${imovelPropostaForm.tipoLista == 'propostasLancadas' }">
+				                                			  <div class="pull-left">	
+				                                					<h3 class="panel-title"><spring:message code="lbl.lista.todas.minhas.propostas"/></h3>
+				                                        			&nbsp;&nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.quant.total.imoveis"/> </strong>: (${quantTotalImoveis}) </label>
+				                                			 </div>
+				                                			 <div class="pull-right">
+						                                        <a href="#a" class="btn btn-sm" onClick="mostrarModal(1);" ><i class="fa fa-question" ></i></a>	
+						                                    </div>
+				                                		</c:when>
+				                                	</c:choose>
+				                                   
+				                                    <div class="clearfix"></div>
+				                                </div><!-- /.panel-heading -->
+				                                <div class="panel-body no-padding">
+				                                    <div class="table-responsive" style="margin-top: -1px;">
+				                                        <table class="table table-striped">
+				                                            <thead>
+					                                            <c:choose>
+					                                            	<c:when test="${imovelPropostaForm.tipoLista == 'propostasRecebidas' }">
+					                                            		<tr>		                                                
+							                                            	<th class="text-center"></th>
+							                                                <th class="text-center"><spring:message code="lbl.usuario.proposta"/></th>
+							                                                <th class="text-center"><spring:message code="lbl.data.proposta"/></th>
+							                                                <th class="text-center"><spring:message code="lbl.valor.proposta"/></th>
+							                                            </tr>
+					                                            	</c:when>
+					                                            	
+					                                            	<c:when test="${imovelPropostaForm.tipoLista == 'propostasLancadas' }">
+					                                            		<tr>
+							                                                <th class="text-center"><spring:message code="lbl.data.proposta"/></th>
+							                                                <th class="text-center"><spring:message code="lbl.valor.proposta"/></th>
+							                                            </tr>
+					                                            	</c:when>
+					                                            
+					                                            </c:choose>
+				                                            </thead>
+				                                            <tbody>
+				                                            <c:forEach var="imovelProposta" items="${listaTodasPropostas}" >
+				                                            	<c:choose>
+				                                            		<c:when test="${imovelPropostaForm.tipoLista == 'propostasRecebidas' }">
+				                                            			<tr>
+							                                                <td class="text-center" >	
+																				<a href="${urlUsuario}/detalhesUsuario/${imovelProposta.usuarioLancador.id}" >
+																					<img src="data:image/jpeg;base64,${imovelProposta.usuarioLancador.imagemArquivo}" style="width: 60px; height: 50px; " />
+																				</a>									                     			                				
+							                                                </td>			                                                
+							                                                <td class="text-center" style="font-size: 13px;">
+							                                                	<a href="${urlUsuario}/detalhesUsuario/${imovelProposta.usuarioLancador.id}" >
+																										${imovelProposta.usuarioLancador.nome}
+																				</a>
+																			</td>
+							                                                <td class="text-center" style="font-size: 13px;"><fmt:formatDate value='${imovelProposta.dataCadastro}' pattern='dd/MM/yyyy'/></td>
+							                                                <td class="text-center" style="font-size: 13px;"><fmt:formatNumber value="${imovelProposta.valorProposta}" pattern="#,##0.00;-0"/></td>			                                              	                                            
+							                                            </tr>	
+				                                            		</c:when>
+				                                            		
+				                                            		<c:when test="${imovelPropostaForm.tipoLista == 'propostasLancadas' }">
+				                                            			<tr>			                                                
+							                                                <td class="text-center" style="font-size: 13px;"><fmt:formatDate value='${imovelProposta.dataCadastro}' pattern='dd/MM/yyyy'/></td>
+							                                                <td class="text-center" style="font-size: 13px;"><fmt:formatNumber value="${imovelProposta.valorProposta}" pattern="#,##0.00;-0"/></td>			                                              	                                            
+							                                            </tr>	
+				                                            		</c:when>
+				                                            	</c:choose>		                                            
+				                                            </c:forEach>
+				                                            </tbody>
+				                                        </table>
 				                                    </div>
-		                                		</c:when>
-		                                		<c:when test="${imovelPropostaForm.tipoLista == 'propostasLancadas' }">
-		                                			  <div class="pull-left">	
-		                                					<h3 class="panel-title"><spring:message code="lbl.lista.todas.minhas.propostas"/></h3>
-		                                        			&nbsp;&nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.quant.total.imoveis"/> </strong>: (${quantTotalImoveis}) </label>
-		                                			 </div>
-		                                			 <div class="pull-right">
-				                                        <a href="#a" class="btn btn-sm" onClick="mostrarModal(1);" ><i class="fa fa-question" ></i></a>	
-				                                    </div>
-		                                		</c:when>
-		                                	</c:choose>
-		                                   
-		                                    <div class="clearfix"></div>
-		                                </div><!-- /.panel-heading -->
-		                                <div class="panel-body no-padding">
-		                                    <div class="table-responsive" style="margin-top: -1px;">
-		                                        <table class="table table-striped">
-		                                            <thead>
-			                                            <c:choose>
-			                                            	<c:when test="${imovelPropostaForm.tipoLista == 'propostasRecebidas' }">
-			                                            		<tr>		                                                
-					                                            	<th class="text-center"></th>
-					                                                <th class="text-center"><spring:message code="lbl.usuario.proposta"/></th>
-					                                                <th class="text-center"><spring:message code="lbl.data.proposta"/></th>
-					                                                <th class="text-center"><spring:message code="lbl.valor.proposta"/></th>
-					                                            </tr>
-			                                            	</c:when>
-			                                            	
-			                                            	<c:when test="${imovelPropostaForm.tipoLista == 'propostasLancadas' }">
-			                                            		<tr>
-					                                                <th class="text-center"><spring:message code="lbl.data.proposta"/></th>
-					                                                <th class="text-center"><spring:message code="lbl.valor.proposta"/></th>
-					                                            </tr>
-			                                            	</c:when>
-			                                            
-			                                            </c:choose>
-		                                            </thead>
-		                                            <tbody>
-		                                            <c:forEach var="imovelProposta" items="${listaTodasPropostas}" >
-		                                            	<c:choose>
-		                                            		<c:when test="${imovelPropostaForm.tipoLista == 'propostasRecebidas' }">
-		                                            			<tr>
-					                                                <td class="text-center" >	
-																		<a href="${urlUsuario}/detalhesUsuario/${imovelProposta.usuarioLancador.id}" >
-																			<img src="data:image/jpeg;base64,${imovelProposta.usuarioLancador.imagemArquivo}" style="width: 60px; height: 50px; " />
-																		</a>									                     			                				
-					                                                </td>			                                                
-					                                                <td class="text-center" style="font-size: 13px;">
-					                                                	<a href="${urlUsuario}/detalhesUsuario/${imovelProposta.usuarioLancador.id}" >
-																								${imovelProposta.usuarioLancador.nome}
-																		</a>
-																	</td>
-					                                                <td class="text-center" style="font-size: 13px;"><fmt:formatDate value='${imovelProposta.dataCadastro}' pattern='dd/MM/yyyy'/></td>
-					                                                <td class="text-center" style="font-size: 13px;"><fmt:formatNumber value="${imovelProposta.valorProposta}" pattern="#,##0.00;-0"/></td>			                                              	                                            
-					                                            </tr>	
-		                                            		</c:when>
-		                                            		
-		                                            		<c:when test="${imovelPropostaForm.tipoLista == 'propostasLancadas' }">
-		                                            			<tr>			                                                
-					                                                <td class="text-center" style="font-size: 13px;"><fmt:formatDate value='${imovelProposta.dataCadastro}' pattern='dd/MM/yyyy'/></td>
-					                                                <td class="text-center" style="font-size: 13px;"><fmt:formatNumber value="${imovelProposta.valorProposta}" pattern="#,##0.00;-0"/></td>			                                              	                                            
-					                                            </tr>	
-		                                            		</c:when>
-		                                            	</c:choose>		                                            
-		                                            </c:forEach>
-		                                            </tbody>
-		                                        </table>
-		                                    </div>
-		                                </div>
+				                                </div>	
+											</c:when>
+											<c:when test="${empty listaTodasPropostas}">
+												<div class="callout callout-warning">
+				                                    <strong><spring:message code="msg.nenhuma.proposta.recebida"/></strong>                              
+				                                </div>
+											</c:when>
+										</c:choose>
                             		</div><!-- /.panel -->
 		                       </div>		  
 	                    </div>                   		

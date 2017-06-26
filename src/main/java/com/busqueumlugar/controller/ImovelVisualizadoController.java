@@ -394,9 +394,9 @@ public class ImovelVisualizadoController {
 	public String visualizarTodosUsuariosVisitantesCompartilhado(@PathVariable Long idImovel, 
 																 ModelMap map){
 		try {
-			ImovelvisualizadoForm  form = new ImovelvisualizadoForm();
-			map.addAttribute("listaTodasVisitasImovel", imovelVisitadoService.recuperarUsuariosVisitantesPorIdImovel(idImovel));
-			map.addAttribute("imovelvisualizadoForm", form);
+			List<Imovelvisualizado> lista = imovelVisitadoService.recuperarUsuariosVisitantesPorIdImovel(idImovel);
+			map.addAttribute("listaTodasVisitasImovel", lista);
+			map.addAttribute("quantTotalUsuarios", AppUtil.recuperarQuantidadeLista(lista));
 			map.addAttribute("imovel", imovelService.recuperarImovelPorid(idImovel));
 			return DIR_PATH + "todasVisitasImovel";
 		} catch (Exception e) {

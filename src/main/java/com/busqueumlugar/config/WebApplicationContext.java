@@ -157,7 +157,7 @@ public class WebApplicationContext extends WebMvcConfigurerAdapter
  		}
 
  	    
- /*	  @Bean(destroyMethod = "close")
+	  /*  @Bean(destroyMethod = "close")
  	    @Autowired
  	    public DataSource dataSource()
  		{

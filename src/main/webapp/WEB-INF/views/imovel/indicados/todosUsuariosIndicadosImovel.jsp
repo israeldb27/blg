@@ -154,40 +154,51 @@
 	                    
 	                      	   <div class="row">
 		                      		<div class="panel">
-		                                <div class="panel-heading">
-		                                    <div class="pull-left">
-		                                        <h3 class="panel-title"><spring:message code="lbl.todos.usuario.indicados"/></h3>
-		                                        &nbsp; <label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.quant.total.usuarios"/> </strong>: (${quantTotalUsuarios}) </label>
-		                                    </div>
-		                                    <div class="pull-right">
-		                                        <a href="#a" class="btn btn-sm" onClick="mostrarModal(0);"><i class="fa fa-question" ></i></a>
-		                                    </div>
-		                                    <div class="clearfix"></div>
-		                                </div><!-- /.panel-heading -->
-		                                <div class="panel-body no-padding">
-		                                    <div class="table-responsive" style="margin-top: -1px;">
-		                                        <table class="table table-striped">
-		                                            <thead>
-		                                            <tr>		                                                
-		                                            	<th class="text-center"></th>
-		                                                <th class="text-center"><spring:message code="lbl.nome.usuario.indicado"/></th>
-		                                                <th class="text-center"><spring:message code="lbl.data.indicacao"/></th>
-		                                            </tr>
-		                                            </thead>
-		                                            <tbody>
-		                                            <c:forEach var="imovelIndicado" items="${listaTodasIndicacoesUsuario}" >
-			                                            <tr>
-			                                                <td class="text-center">	
-																<a href="${urlUsuario}/detalhesUsuario/${imovelIndicado.usuario.id}" ><img src="data:image/jpeg;base64,${imovelIndicado.usuario.imagemArquivo}" style="width: 60px; height: 50px; " /></a>									                     			                				
-			                                                </td>			                                                
-			                                                <td class="text-center" style="font-size: 13px;"><a href="${urlUsuario}/detalhesUsuario/${imovelIndicado.usuario.id}" >${imovelIndicado.usuario.nome}</a> </td>
-			                                                <td class="text-center" style="font-size: 13px;"><fmt:formatDate value='${imovelIndicado.dataIndicacao}' pattern='dd/MM/yyyy'/></td>			                                                			                                                			                                              	                                            
-			                                            </tr>
-		                                            </c:forEach>
-		                                            </tbody>
-		                                        </table>
-		                                    </div>
-		                                </div>
+		                                <c:choose>
+		                                	<c:when test="${not empty listaTodasIndicacoesUsuario}">
+		                                		  <div class="panel-heading">
+					                                    <div class="pull-left">
+					                                        <h3 class="panel-title"><spring:message code="lbl.todos.usuario.indicados"/></h3>
+					                                        &nbsp; <label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.quant.total.usuarios"/> </strong>: (${quantTotalUsuarios}) </label>
+					                                    </div>
+					                                    <div class="pull-right">
+					                                        <a href="#a" class="btn btn-sm" onClick="mostrarModal(0);"><i class="fa fa-question" ></i></a>
+					                                    </div>
+					                                    <div class="clearfix"></div>
+					                                </div><!-- /.panel-heading -->
+					                                <div class="panel-body no-padding">
+					                                    <div class="table-responsive" style="margin-top: -1px;">
+					                                        <table class="table table-striped">
+					                                            <thead>
+					                                            <tr>		                                                
+					                                            	<th class="text-center"></th>
+					                                                <th class="text-center"><spring:message code="lbl.nome.usuario.indicado"/></th>
+					                                                <th class="text-center"><spring:message code="lbl.data.indicacao"/></th>
+					                                            </tr>
+					                                            </thead>
+					                                            <tbody>
+					                                            <c:forEach var="imovelIndicado" items="${listaTodasIndicacoesUsuario}" >
+						                                            <tr>
+						                                                <td class="text-center">	
+																			<a href="${urlUsuario}/detalhesUsuario/${imovelIndicado.usuario.id}" ><img src="data:image/jpeg;base64,${imovelIndicado.usuario.imagemArquivo}" style="width: 60px; height: 50px; " /></a>									                     			                				
+						                                                </td>			                                                
+						                                                <td class="text-center" style="font-size: 13px;"><a href="${urlUsuario}/detalhesUsuario/${imovelIndicado.usuario.id}" >${imovelIndicado.usuario.nome}</a> </td>
+						                                                <td class="text-center" style="font-size: 13px;"><fmt:formatDate value='${imovelIndicado.dataIndicacao}' pattern='dd/MM/yyyy'/></td>			                                                			                                                			                                              	                                            
+						                                            </tr>
+					                                            </c:forEach>
+					                                            </tbody>
+					                                        </table>
+					                                    </div>
+					                                </div>
+		                                	</c:when>
+		                                	
+		                                	<c:when test="${empty listaTodasIndicacoesUsuario}">
+		                                		<div class="callout callout-warning">
+				                                    <strong><spring:message code="msg.erro.nenhuma.indicacao"/></strong>                              
+				                                </div>
+		                                	</c:when>
+		                                </c:choose>
+		                                
                             		</div><!-- /.panel -->
 		                       </div>		  
 	                    </div>                   		

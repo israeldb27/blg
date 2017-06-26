@@ -440,10 +440,8 @@ function desmarcarCheck(id) {
 					    			<div class="callout callout-warning">
 	                                    <strong><spring:message code="msg.nenhuma.visualizacao"/></strong>                              
 	                                </div>
-					    		</c:when>
-					    		
-					    	</c:choose>
-					    
+					    		</c:when>					    		
+					    	</c:choose>					    
                         </div>                 
                                               
                     </div><!-- /.row -->

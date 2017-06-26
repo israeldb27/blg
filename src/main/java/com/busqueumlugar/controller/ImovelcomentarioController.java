@@ -158,13 +158,11 @@ public class ImovelcomentarioController {
 												   				HttpSession session,
 												   				ModelMap map){
 		
-		try {
-			ImovelcomentarioForm form = new ImovelcomentarioForm();
+		try {			
 			List<Imovelcomentario> lista = imovelComentarioService.listarComentarios(idImovel, null);
 			map.addAttribute("listaTodosComentarios", lista);
 			map.addAttribute("quantTotalComentarios", AppUtil.recuperarQuantidadeLista(lista));		
-	        map.addAttribute("imovel", imovelService.recuperarImovelPorid(idImovel));        
-	        map.addAttribute("imovelComentarioForm", form);
+	        map.addAttribute("imovel", imovelService.recuperarImovelPorid(idImovel));  
 			return DIR_PATH + "visualizarComentariosImoveis";
 		} catch (Exception e) {
 			log.error("Erro metodo - ImovelcomentarioController -  visualizarTodosComentariosImovelCompartilhado");

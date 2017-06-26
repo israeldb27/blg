@@ -319,9 +319,11 @@ public class ImovelPropostasController {
 		
 		try {
 			ImovelPropostasForm  form = new ImovelPropostasForm();		
-			form.setTipoLista("propostasRecebidas");
-			map.addAttribute("listaTodasPropostas", imovelPropostasservice.recuperarPropostasImovel(idImovel) );
-			map.addAttribute("imovelPropostaForm", form );
+			form.setTipoLista("propostasRecebidas");			
+			map.addAttribute("imovelPropostaForm", form );			
+			List<ImovelPropostas> lista = imovelPropostasservice.recuperarPropostasImovel(idImovel);
+			map.addAttribute("listaTodasPropostas",  lista);
+			map.addAttribute("quantTotalImoveis", AppUtil.recuperarQuantidadeLista(lista) );
 			map.addAttribute("imovel", imovelService.recuperarImovelPorid(idImovel));
 	        return DIR_PATH + "visualizarTodasPropostasImovel";
 		} catch (Exception e) {

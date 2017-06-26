@@ -165,43 +165,52 @@ function desmarcarCheck(id) {
 	                    
 	                      	   <div class="row">
 		                      		<div class="panel">
-		                                <div class="panel-heading">
-		                                    <div class="pull-left">		                                    			                                    	
-		                                    		<h3 class="panel-title"><spring:message code="lbl.todos.comentarios"/></h3>
-		                                    		&nbsp; <label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.total.comentarios"/> </strong>: (${quantTotalComentarios}) </label>		                                    			                                        
-		                                    </div>
-		                                    <div class="pull-right">
-		                                    	<a href="#a" class="btn btn-sm"  onClick="mostrarModal(0);"><i class="fa fa-question" ></i></a>		                                    	
-		                                    </div>		                                    
-		                                    
-		                                    <div class="clearfix"></div>
-		                                </div><!-- /.panel-heading -->
-		                                <div class="panel-body no-padding">
-		                                    <div id="popular" class="blog-list tab-pane active">
-			                                 	 <c:forEach var="imovel" items="${listaTodosComentarios}">
-			                                		<div class="media">
-			                                			   <c:if test="${imovel.status == 'N' }">
-																<div id="idCheckImovelDiv_${imovel.id}"   class="ribbon-wrapper">
-							                                        <div class="ribbon ribbon-danger">Novo</div>
-							                                   </div>
-							                                   		
-															   <div class="media-left">
-							                                        <input id="idCheckImovel_${imovel.id}"  checked="checked" type="checkbox" onclick="desmarcarCheck(${imovel.id});">
-							                                    </div>
-															</c:if>	
-			                                		
-				                                        <a class="pull-left" href="${urlUsuario}/detalhesUsuario/${imovel.usuarioComentario.id}">
-				                                            <img src="data:image/jpeg;base64,${imovel.usuario.imagemArquivo}" style="width: 60px; height: 50px;"  class="img-responsive img-thumbnail"/>								                                            
-				                                        </a><!-- /.pull-left -->
-				                                        <div class="media-body">
-				                                            <h4 class="media-heading"><a href="${urlUsuario}/detalhesUsuario/${imovel.usuarioComentario.id}">${imovel.usuario.nome}</a></h4>
-				                                            <small class="media-desc">${imovel.comentario}</small> <br>
-				                                            <em class="text-xs text-muted"><spring:message code="lbl.data.comentario"/> <span class="text-teal"><fmt:formatDate value='${imovel.dataComentario}' pattern='dd/MM/yyyy'/></span></em>
-				                                        </div><!-- /.media-body -->
-				                                    </div><!-- /.media --> 	 
-			                                 	 </c:forEach>
-		                                 	 </div>
-		                                </div>
+		                      			<c:choose>
+											<c:when test="${not empty listaTodosComentarios}">
+												<div class="panel-heading">
+				                                    <div class="pull-left">		                                    			                                    	
+				                                    		<h3 class="panel-title"><spring:message code="lbl.todos.comentarios"/></h3>
+				                                    		&nbsp; <label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.total.comentarios"/> </strong>: (${quantTotalComentarios}) </label>		                                    			                                        
+				                                    </div>
+				                                    <div class="pull-right">
+				                                    	<a href="#a" class="btn btn-sm"  onClick="mostrarModal(0);"><i class="fa fa-question" ></i></a>		                                    	
+				                                    </div>		                                    
+				                                    
+				                                    <div class="clearfix"></div>
+				                                </div><!-- /.panel-heading -->
+				                                <div class="panel-body no-padding">
+				                                    <div id="popular" class="blog-list tab-pane active">
+					                                 	 <c:forEach var="imovel" items="${listaTodosComentarios}">
+					                                		<div class="media">
+					                                			   <c:if test="${imovel.status == 'N' }">
+																		<div id="idCheckImovelDiv_${imovel.id}"   class="ribbon-wrapper">
+									                                        <div class="ribbon ribbon-danger">Novo</div>
+									                                   </div>
+									                                   		
+																	   <div class="media-left">
+									                                        <input id="idCheckImovel_${imovel.id}"  checked="checked" type="checkbox" onclick="desmarcarCheck(${imovel.id});">
+									                                    </div>
+																	</c:if>	
+					                                		
+						                                        <a class="pull-left" href="${urlUsuario}/detalhesUsuario/${imovel.usuarioComentario.id}">
+						                                            <img src="data:image/jpeg;base64,${imovel.usuario.imagemArquivo}" style="width: 60px; height: 50px;"  class="img-responsive img-thumbnail"/>								                                            
+						                                        </a><!-- /.pull-left -->
+						                                        <div class="media-body">
+						                                            <h4 class="media-heading"><a href="${urlUsuario}/detalhesUsuario/${imovel.usuarioComentario.id}">${imovel.usuario.nome}</a></h4>
+						                                            <small class="media-desc">${imovel.comentario}</small> <br>
+						                                            <em class="text-xs text-muted"><spring:message code="lbl.data.comentario"/> <span class="text-teal"><fmt:formatDate value='${imovel.dataComentario}' pattern='dd/MM/yyyy'/></span></em>
+						                                        </div><!-- /.media-body -->
+						                                    </div><!-- /.media --> 	 
+					                                 	 </c:forEach>
+				                                 	 </div>
+				                                </div>
+											</c:when>
+											<c:when test="${empty listaTodosComentarios}">
+												<div class="callout callout-warning">
+				                                    <strong><spring:message code="msg.nenhum.comentario.existente.imovel"/></strong>                              
+				                                </div>
+											</c:when>
+										</c:choose>    
                             		</div><!-- /.panel -->
 		                       </div>		  
 	                    </div>                   		

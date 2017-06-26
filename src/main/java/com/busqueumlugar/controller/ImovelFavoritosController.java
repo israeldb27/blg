@@ -138,11 +138,9 @@ public class ImovelFavoritosController {
 												    			 HttpSession session,
 												    			 ModelMap map){
 		
-		try {
-			ImovelfavoritosForm form = new ImovelfavoritosForm();		
+		try {		
 			List<Imovelfavoritos> lista = imovelFavoritosService.recuperarUsuariosInteressadosPorIdImovel(idImovel);
-			map.addAttribute("listaTodosUsuariosInteresados", lista);		
-			map.addAttribute("imovelFavoritoForm", form);		
+			map.addAttribute("listaTodosUsuariosInteresados", lista);
 			map.addAttribute("imovel", imovelService.recuperarImovelPorid(idImovel));
 			map.addAttribute("quantTotalUsuarios", AppUtil.recuperarQuantidadeLista(lista));
 			return DIR_PATH + "todosUsuariosListaInteresse";
