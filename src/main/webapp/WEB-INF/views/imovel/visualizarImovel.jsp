@@ -89,14 +89,11 @@ $(window).load(function() {
 	   title:"my hometown, Malim Nawar!"
 	 });
 });
-
-
 $(document).ready(function() {
 	
 	$('#myCarousel').carousel({
 	    interval: 4000
 	});
-
 	// handles the carousel thumbnails
 	$('[id^=carousel-selector-]').click( function(){		
 	  var id_selector = $(this).attr("id");	  
@@ -106,7 +103,6 @@ $(document).ready(function() {
 	  $('[id^=carousel-selector-]').removeClass('selected');
 	  $(this).addClass('selected');
 	});
-
 	// when the carousel slides, auto update
 	$('#myCarousel').on('slid', function (e) {
 	  var id = $('.item.active').data('slide-number');
@@ -115,7 +111,6 @@ $(document).ready(function() {
 	  $('[id=carousel-selector-'+id+']').addClass('selected');
 	});
 });	
-
 function adicionarInteresse(id) {    	
 	var parametro1 = id;
     $.ajax({                
@@ -129,7 +124,6 @@ function adicionarInteresse(id) {
         }
     });   
 }
-
 function retirarInteresse(id) {
 	var parametro1 = id;    		
     $.ajax({                
@@ -143,7 +137,6 @@ function retirarInteresse(id) {
         }
     });   
 }
-
 function prepararModalProposta(){
 	$("#msgRetornoPropostaErro").html("");	
 	$("#idModalProposta").modal("show");
@@ -183,13 +176,11 @@ function adicionarProposta(){
 	     });
 	}	  
 } 
-
 function prepararModalConfirmaExclusaoProposta(id){
 	$("#modIdProposta").val(id);
 	$('#msgRetornoConfirmExclusaoPropostaErro').html("");	
 	$("#idModalConfirmacaoExclusaoProposta").modal("show");	
 }
-
 function confirmarExclusaoPropostaImovel(){	
 	var parametro = document.getElementById("modIdProposta");	
 	$.ajax({
@@ -202,7 +193,6 @@ function confirmarExclusaoPropostaImovel(){
 		 }
 	 });
 } 
-
 function prepararModalComentario(){
 	$("#msgRetornoComentarioErro").html("");
 	$("#idModalComentario").modal("show");
@@ -412,15 +402,12 @@ function mostrarModal(id){
 function prepararModalGaleriaFotos(){		
 	$("#idModalGaleriaFotos").modal("show");	
 }
-
 </script>
 
 <style>
-
 .selected img {
 	opacity:0.5;
 }	
-
 </style>
 		
 <c:import url="../layout/head-layout.jsp"></c:import>   

@@ -10,6 +10,10 @@
 <%@page import="com.busqueumlugar.form.UsuarioForm"%>
 <c:set var="usuario" value="<%= (UsuarioForm)request.getSession().getAttribute(UsuarioInterface.USUARIO_SESSAO) %>"/>
 
+<%@page import="com.busqueumlugar.enumerador.TipoContatoEnum"%>
+<c:set var="listaTipoContato" value="<%= TipoContatoEnum.values() %>"/>
+
+
 <c:set var="listaPerfilUsuario" value="<%= PerfilUsuarioNormalEnum.values() %>"/>
 <c:set var="context" value="<%= request.getContextPath()%>"/>
 
@@ -26,7 +30,13 @@ $(document).ready(function() {
 	
    $('#opcaoFiltro1').change(function () {				
 		$("#contatoFiltroForm").submit();      
-	 });  
+	 });
+   
+   $('#opcaoFiltroTipoContato').change(function () {				
+		$("#contatoFiltroTipoForm").submit();      
+	 });
+   
+   
 });	
 
 function mostrarModal(id){		
@@ -83,8 +93,18 @@ function mostrarModal(id){
 		                                    <div class="pull-left">
 		                                        <label><strong> <spring:message code="lbl.quant.total.usuarios"/> </strong>: (${quantTotalContatos}) </label>
 		                                    </div>
+		                                    
+		                                    <div class="pull-right" style="padding-right:8px;">
+		                                    	<spring:message code="lbl.hint.usuario.perfil.contato" var="hintFiltrar"/> 
+		                                        <form:form method="POST" id="contatoFiltroTipoForm" modelAttribute="contatoForm" action="${urlContato}/filtrarTipoContato" >
+		                                        	<form:select id="opcaoFiltroTipoContato" path="opcaoFiltroTipoContato" class="form-control" title="${hintFiltrar}">                                
+									                        <form:option value="" disabled="true"><spring:message code="opcao.selecao.uma.opcao"/></form:option>
+									                        <form:options items="${listaTipoContato}" itemValue="identificador" itemLabel="rotulo" />														
+									                  </form:select>  
+		                                        </form:form> 
+		                                    </div>
 		                                                                           
-		                                    <div class="pull-right" >
+		                                    <div class="pull-right" style="padding-right:10px;">
 		                                    	<spring:message code="lbl.hint.usuario.perfil.contato" var="hintFiltrar"/> 
 		                                        <form:form method="POST" id="contatoFiltroForm" modelAttribute="contatoForm" action="${urlContato}/filtrarContato" >
 		                                        	<form:select id="opcaoFiltro1" path="opcaoFiltro" class="form-control" title="${hintFiltrar}">                                
@@ -107,7 +127,7 @@ function mostrarModal(id){
                     
                     <div class="row">
                     	<c:choose>
-                    			<c:when test="${ not empty listaContatos }">
+                    			<c:when test="${((contatoForm.tipoListaContato == 'N') && (not empty listaContatos))}">
                     				<c:forEach var="usuarioContato" items="${listaContatos}">
 				                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
 				                            <div class="panel rounded shadow">
@@ -153,13 +173,68 @@ function mostrarModal(id){
 			                        </c:forEach>	
                     			</c:when>
                     			
-                    			<c:when test="${ empty listaContatos }">
+                    			<c:when test="${ ((contatoForm.tipoListaContato == 'N') && (empty listaContatos)) }">
                     				<div class="panel">
                     						<div class="alert alert-primary">
 			                                      <strong><spring:message code="lbl.nenhum.contato.retornado"/></strong> 
 			                                 </div>             				
 		                            </div>     			
-                    			</c:when>                    	
+                    			</c:when>  
+                    			
+                    			<c:when test="${((contatoForm.tipoListaContato == 'S') && (not empty listaUsuarios)) }">
+                    					
+                    					<c:forEach var="usuarioContato" items="${listaUsuarios}">
+					                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+					                            <div class="panel rounded shadow">
+					                                <div class="panel-body ">
+					                                    <div class="ribbon-wrapper">
+					                                        
+					                                    </div><!-- /.ribbon-wrapper -->
+					                                    <ul class="inner-all list-unstyled">
+					                                    	<c:choose>
+					                                    		<c:when test="${contatoForm.opcaoFiltroTipoContato == 'usuariosSeguidores'}">
+					                                    			<li class="text-center">				                                        
+							                                        	<a href="${urlUsuario}/detalhesUsuario/${usuarioContato.id}" > 
+							                                            	<img class="img-circle img-bordered-success" src="data:image/jpeg;base64,${usuarioContato.imagemArquivo}" style="width: 100px; height: 100px; ">
+							                                            </a>	
+							                                        </li>
+							                                        <li class="text-center">
+							                                        	<a href="${urlUsuario}/detalhesUsuario/${usuarioContato.id}" >
+							                                            	${usuarioContato.nome}
+							                                            </a>	
+							                                            <p class="text-muted text-capitalize">${usuarioContato.perfilFmt} </p>
+							                                        </li>	
+					                                    		</c:when>
+					                                    	
+					                                    		<c:when test="${contatoForm.opcaoFiltroTipoContato == 'usuariosSeguindo'}">
+					                                    			<li class="text-center">				                                        
+							                                        	<a href="${urlUsuario}/detalhesUsuario/${usuarioContato.id}" >
+							                                            	<img class="img-circle img-bordered-success" src="data:image/jpeg;base64,${usuarioContato.imagemArquivo}" style="width: 100px; height: 100px; ">
+							                                            </a>	
+							                                        </li>
+							                                        <li class="text-center">
+							                                        	<a href="${urlUsuario}/detalhesUsuario/${usuarioContato.id}" >
+							                                            	${usuarioContato.nome}
+							                                            </a>	
+							                                            <p class="text-muted text-capitalize">${usuarioContato.perfilFmt} </p>
+							                                        </li>	
+					                                    		</c:when>	
+					                                    					                                    		
+					                                    	</c:choose>
+					                                    </ul><!-- /.list-unstyled -->
+					                                </div><!-- /.panel-body -->
+					                            </div><!-- /.panel -->
+					                        </div>
+				                        </c:forEach>
+                    			</c:when>   
+                    			
+                    			<c:when test="${ ((contatoForm.tipoListaContato == 'S') && (empty listaUsuarios)) }">
+                    				<div class="panel">
+                    						<div class="alert alert-primary">
+			                                      <strong><spring:message code="lbl.nenhum.contato.retornado"/></strong> 
+			                                 </div>             				
+		                            </div>     			
+                    			</c:when>                 	
                     	</c:choose>
                     </div>
 

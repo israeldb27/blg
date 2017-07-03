@@ -413,10 +413,6 @@
 										        <p><spring:message code="msg.ajuda.modal.funcionalidades.objetivos.editarImovel"/></p>
 										    </c:when>
 										    
-										    
-										    
-										    
-										    
 										     <c:when test="${func == 'tipoImoveisMaisProcuradoPorLocalizacao'}">
 										        <p><spring:message code="msg.ajuda.modal.funcionalidades.objetivos.rel.tipoImoveisMaisProcuradoPorLocalizacao"/></p>
 										    </c:when>
@@ -698,8 +694,8 @@
                             </div>
                             <!--/ End tabs content -->
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.title.modal.fechar"/></button>                            
+                        <div class="modal-footer"> 
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"><spring:message code="lbl.title.modal.fechar"/></button>                            
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->

@@ -20,10 +20,20 @@ public class ContatoForm extends BaseForm {
     private Date dataConvite; 
     
     private String opcaoOrdenacao = "";
-    private String tipoLista = "";
+    private String tipoListaContato = "";
     private String statusLeitura;       
     private String opcaoFiltro = "";
     
+    private String opcaoFiltroTipoContato = "";
+
+
+	public String getOpcaoFiltroTipoContato() {
+		return opcaoFiltroTipoContato;
+	}
+
+	public void setOpcaoFiltroTipoContato(String opcaoFiltroTipoContato) {
+		this.opcaoFiltroTipoContato = opcaoFiltroTipoContato;
+	}
 
 	public String getOpcaoFiltro() {
 		return opcaoFiltro;
@@ -83,11 +93,11 @@ public class ContatoForm extends BaseForm {
 	public void setOpcaoOrdenacao(String opcaoOrdenacao) {
 		this.opcaoOrdenacao = opcaoOrdenacao;
 	}
-	public String getTipoLista() {
-		return tipoLista;
+	public String getTipoListaContato() {
+		return tipoListaContato;
 	}
-	public void setTipoLista(String tipoLista) {
-		this.tipoLista = tipoLista;
+	public void setTipoListaContato(String tipoListaContato) {
+		this.tipoListaContato = tipoListaContato;
 	}
 
 }

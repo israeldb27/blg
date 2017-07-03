@@ -48,6 +48,14 @@ public class SeguidorDaoImpl extends GenericDAOImpl<Seguidor, Long>  implements 
 		crit.createCriteria("usuarioSeguido").add(Restrictions.eq("id", idUsuario));
 		return (List<Seguidor>)crit.list();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Seguidor> findSeguindoByIdUsuarioSeguido(Long idUsuario) {
+		Criteria crit = session().createCriteria(Seguidor.class);
+		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));
+		return (List<Seguidor>)crit.list();
+	}
 
 	@Override
 	public List<?> findIdsSeguidoresByIdUsuario(Long idUsuario) {

@@ -398,7 +398,7 @@
 	                                                   <span class="meta-provider" style="font-size:19px;">${imovelParceria.imovel.acaoFmt} <br>
 	                                                   							<strong>  R$<fmt:formatNumber value="${imovelParceria.imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
 	                                                   </span><br>                                                   
-	                                                    <img src="data:image/jpeg;base64,${imovelParceria.imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 225px; alt="admin"/>
+	                                                    <img src="data:image/jpeg;base64,${imovelParceria.imovel.imagemArquivo}" class="img-responsive" style="width: 270px; height: 230px; alt="admin"/>
 	                                                </a>
 	                                            </div>
 	                                            <div class="media-body">
@@ -410,8 +410,17 @@
 	                                                    
 	                                                 	<div class="media-body" >
 				                                            
-				                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.sol" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;"><fmt:formatDate value='${imovelParceria.dataSolicitacao}' pattern='dd/MM/yyyy'/></font></span></em>  </br>			                                            
-				                                            <em class="text-sm text-muted" ><font style="font-size:13px; font-style: normal;"><spring:message code="lbl.usuario.sol.intermediacao" />: </font><span class="text-success"><a href="${urlUsuario}/detalhesUsuario/${imovelParceria.usuarioSolicitante.id}"  >${imovelParceria.usuarioSolicitante.nome}</a></span></em> </br>														 	
+				                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.sol" />: </font> <br> 
+				                                            <span class="text-success"><font style="font-size:11px; font-style: normal;"><fmt:formatDate value='${imovelParceria.dataSolicitacao}' pattern='dd/MM/yyyy'/></font></span></em>  </br>			                                            
+				                                            
+				                                            <br>
+				                                            
+				                                            <em class="text-sm text-muted" ><font style="font-size:13px; font-style: normal;"><spring:message code="lbl.usuario.sol.intermediacao" />: </font> <br> 
+				                                            <span class="text-success">
+				                                            	<a href="${urlUsuario}/detalhesUsuario/${imovelParceria.usuarioSolicitante.id}" >
+				                                            		<img src="data:image/jpeg;base64,${imovelParceria.usuarioSolicitante.imagemArquivo}" class="img-responsive" style="width: 70px; height: 50px; alt="admin"/>
+				                                            	</a>
+				                                            </span></em> </br>														 	
 																												 
 				                                        </div>
 	                                                  

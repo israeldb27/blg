@@ -80,5 +80,7 @@ public interface ContatoService {
 	long checarTotalContatosPorUsuarioPorStatus(Long idUsuario, String status);
 
 	List<Contato> filtrarRecuperacaoConvidadosParaIndicacao(Long idUsuario, ImovelindicadoForm form);
+
+	List<Usuario> filtrarUsuariosTipoContato(Long idUsuario, ContatoForm form);
 		
 }

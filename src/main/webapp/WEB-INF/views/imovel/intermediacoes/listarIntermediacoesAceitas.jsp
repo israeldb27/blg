@@ -374,8 +374,16 @@
 	                                                <a href="${urlImovel}/detalhesImovel/${imovelIntermediacao.imovel.id}" >
 	                                                   <span class="meta-provider" style="font-size:19px;">${imovelIntermediacao.imovel.acaoFmt} <br>
 	                                                   							<strong>  R$<fmt:formatNumber value="${imovelIntermediacao.imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
-	                                                   </span><br>                                                   
-	                                                    <img src="data:image/jpeg;base64,${imovelIntermediacao.imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 225px; alt="admin"/>
+	                                                   </span><br>   
+	                                                   <c:choose>
+	                                                   		<c:when test="${usuario.id != imovelIntermediacao.usuarioDonoImovel.id}">
+	                                                   			<img src="data:image/jpeg;base64,${imovelIntermediacao.imovel.imagemArquivo}" class="img-responsive" style="width: 300px; height: 295px; alt="admin"/>	
+	                                                   		</c:when>
+	                                                   		<c:when test="${usuario.id == imovelIntermediacao.usuarioDonoImovel.id}">
+	                                                   			<img src="data:image/jpeg;base64,${imovelIntermediacao.imovel.imagemArquivo}" class="img-responsive" style="width: 290px; height: 255px; alt="admin"/>
+	                                                   		</c:when>	                                                   		
+	                                                   </c:choose>                                                
+	                                                    
 	                                                </a>
 	                                            </div>
 	                                            <div class="media-body">
@@ -391,8 +399,16 @@
 				                                            
 				                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.sol" />: </font> <br>
 				                                            <span class="text-success"><font style="font-size:11px; font-style: normal;"><fmt:formatDate value='${imovelIntermediacao.dataSolicitacao}' pattern='dd/MM/yyyy'/></font></span></em>  <br>
+				                                            
+				                                            <br>
+				                                            
 				                                            <c:if test="${usuario.id != imovelIntermediacao.usuarioDonoImovel.id}">
-				                                            	<em class="text-sm text-muted" ><font style="font-size:13px; font-style: normal;"><spring:message code="lbl.dono.imovel" />: </font><span class="text-success"><a href="${urlUsuario}/detalhesUsuario/${imovelIntermediacao.usuarioDonoImovel.id}"  >${imovelIntermediacao.usuarioDonoImovel.nome}</a></span></em> </br>														 	
+				                                            	<em class="text-sm text-muted" ><font style="font-size:13px; font-style: normal;"><spring:message code="lbl.dono.imovel" />: </font> <br>
+				                                            	<span class="text-success">
+				                                            		<a href="${urlUsuario}/detalhesUsuario/${imovelIntermediacao.usuarioDonoImovel.id}"  >
+				                                            			 <img src="data:image/jpeg;base64,${imovelIntermediacao.usuarioDonoImovel.imagemArquivo}" class="img-responsive" style="width: 70px; height: 50px; alt="admin"/>
+				                                            		</a>
+				                                            	</span></em> 														 	
 															</c:if>													 
 				                                        </div>
 	                                                  

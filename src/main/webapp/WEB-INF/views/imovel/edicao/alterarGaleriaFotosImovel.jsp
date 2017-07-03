@@ -191,8 +191,8 @@ function preparaInclusaoFoto(){
 							<p><spring:message code="lbl.modal.galeria.confirma.foto.mensagem"/></p>
 						</div>
 						<div class="modal-footer">
-							<button class="btn" data-dismiss="modal" aria-hidden="true"><spring:message code="lbl.nao"/></button>
-							<button class="btn btn-primary"><spring:message code="lbl.sim"/></button>
+						    <button class="btn btn-primary"><spring:message code="lbl.sim"/></button>
+							<button class="btn" data-dismiss="modal" aria-hidden="true"><spring:message code="lbl.nao"/></button>							
 						</div>
 					</div>
 					</div>

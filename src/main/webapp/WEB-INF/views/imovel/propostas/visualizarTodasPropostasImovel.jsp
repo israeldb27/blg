@@ -168,7 +168,7 @@
 				                                		<c:when test="${imovelPropostaForm.tipoLista == 'propostasRecebidas' }">
 				                                			 <div class="pull-left">	
 				                                					<h3 class="panel-title"><spring:message code="lbl.lista.todas.propostas"/></h3>
-				                                        			&nbsp;&nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.quant.total.imoveis"/> </strong>: (${quantTotalImoveis}) </label>
+				                                        			&nbsp;&nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.quant.total.usuarios"/> </strong>: (${quantTotalUsuarios}) </label>
 				                                			 </div>
 				                                			 <div class="pull-right">
 						                                        <a href="#a" class="btn btn-sm" onClick="mostrarModal(0);" ><i class="fa fa-question" ></i></a>	
@@ -177,7 +177,7 @@
 				                                		<c:when test="${imovelPropostaForm.tipoLista == 'propostasLancadas' }">
 				                                			  <div class="pull-left">	
 				                                					<h3 class="panel-title"><spring:message code="lbl.lista.todas.minhas.propostas"/></h3>
-				                                        			&nbsp;&nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.quant.total.imoveis"/> </strong>: (${quantTotalImoveis}) </label>
+				                                        			&nbsp;&nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.quant.total.usuarios"/> </strong>: (${quantTotalUsuarios}) </label>
 				                                			 </div>
 				                                			 <div class="pull-right">
 						                                        <a href="#a" class="btn btn-sm" onClick="mostrarModal(1);" ><i class="fa fa-question" ></i></a>	

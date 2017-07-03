@@ -195,562 +195,566 @@
 									</div>
 								    </div>                                            
 
-</div>
-</div>
-<div class="cbp-item esquerdo">
-<div class="cbp-caption">
-    <div class="cbp-caption-defaultWrap">
-	<i class="fa fa-television"></i> <spring:message code="lbl.title.link.lista.Favoritos"/>
-    </div>
-    <div class="cbp-caption-activeWrap">
-	<div class="cbp-l-caption-body">
-	     <div class="row">
-						<div class="col-md-12">
-
-						    <!-- Start accordion -->
-						    <div class="panel-group rounded shadow" id="accordion2">
-
-							<div class="panel panel-default">
-							    <div class="panel-heading no-border">
-								<h4 class="panel-title">
-								    <a data-toggle="collapse" data-parent="#accordion2"  style="font-size: 13px;" href="#collapse2-1">
-									<spring:message code="lbl.title.link.lista.Favoritos.usuarios.interessados"/>
-								    </a>
-								</h4>
-							    </div><!-- /.panel-heading -->
-							    <div id="collapse2-1" class="panel-collapse collapse in">
-								<div class="panel-body" style="font-size: 11px;">
-								    <spring:message code="msg.conhecendo.funcionalidades.lista.Favoritos.usuarios.interessados"/>	
 								</div>
-							    </div>
-							</div><!-- /.panel -->
-
-							<div class="panel panel-default">
-							    <div class="panel-heading no-border">
-								<h4 class="panel-title">
-								    <a data-toggle="collapse" data-parent="#accordion2"  style="font-size: 13px;" href="#collapse2-2">
-									<spring:message code="lbl.title.link.lista.Favoritos.meus.Favoritos"/>
-								    </a>
-								</h4>
-							    </div><!-- /.panel-heading -->
-							    <div id="collapse2-2" class="panel-collapse collapse">
-								<div class="panel-body" style="font-size: 11px;">
-								    <spring:message code="msg.conhecendo.funcionalidades.lista.Favoritos.meus.Favoritos"/>	
 								</div>
+								
+						<div class="cbp-item esquerdo">
+							<div class="cbp-caption">
+							    <div class="cbp-caption-defaultWrap">
+								<i class="fa fa-television"></i> <spring:message code="lbl.title.link.lista.Favoritos"/>
 							    </div>
-							</div><!-- /.panel -->
-
-						    </div><!-- /.panel-group -->
-						    <!--/ End accordion -->
-
-						</div>
-					    </div><!-- /.row -->
-	</div>
-    </div>
-</div>
-</div>
-<div class="cbp-item esquerdo">
-<div class="cbp-caption">
-    <div class="cbp-caption-defaultWrap">
-	<i class="fa fa-user"></i> <spring:message code="lbl.title.link.imoveis.visualizacoes"/>
-    </div>
-    <div class="cbp-caption-activeWrap">
-	<div class="cbp-l-caption-body">
-	     <div class="row">
-						<div class="col-md-12">
-
-						    <!-- Start accordion -->
-						    <div class="panel-group rounded shadow" id="accordion3">
-							<div class="panel panel-default">
-							    <div class="panel-heading no-border">
-								<h4 class="panel-title">
-								    <a data-toggle="collapse" data-parent="#accordion3"  style="font-size: 13px;" href="#collapse3-1">
-								       <spring:message code="lbl.title.link.imoveis.visualizacoes.recebidas"/>
-								    </a>
-								</h4>
-							    </div><!-- /.panel-heading -->
-							    <div id="collapse3-1" class="panel-collapse collapse in">
-								<div class="panel-body" style="font-size: 11px;">
-								    <spring:message code="msg.conhecendo.funcionalidades.usuarios.visualizacoes.recebidas"/>	
+							    <div class="cbp-caption-activeWrap">
+								<div class="cbp-l-caption-body">
+								     <div class="row">
+													<div class="col-md-12">
+							
+													    <!-- Start accordion -->
+													    <div class="panel-group rounded shadow" id="accordion2">
+							
+														<div class="panel panel-default">
+														    <div class="panel-heading no-border">
+															<h4 class="panel-title">
+															    <a data-toggle="collapse" data-parent="#accordion2"  style="font-size: 13px;" href="#collapse2-1">
+																<spring:message code="lbl.title.link.lista.Favoritos.usuarios.interessados"/>
+															    </a>
+															</h4>
+														    </div><!-- /.panel-heading -->
+														    <div id="collapse2-1" class="panel-collapse collapse in">
+															<div class="panel-body" style="font-size: 11px;">
+															    <spring:message code="msg.conhecendo.funcionalidades.lista.Favoritos.usuarios.interessados"/>	
+															</div>
+														    </div>
+														</div><!-- /.panel -->
+							
+														<div class="panel panel-default">
+														    <div class="panel-heading no-border">
+															<h4 class="panel-title">
+															    <a data-toggle="collapse" data-parent="#accordion2"  style="font-size: 13px;" href="#collapse2-2">
+																<spring:message code="lbl.title.link.lista.Favoritos.meus.Favoritos"/>
+															    </a>
+															</h4>
+														    </div><!-- /.panel-heading -->
+														    <div id="collapse2-2" class="panel-collapse collapse">
+															<div class="panel-body" style="font-size: 11px;">
+															    <spring:message code="msg.conhecendo.funcionalidades.lista.Favoritos.meus.Favoritos"/>	
+															</div>
+														    </div>
+														</div><!-- /.panel -->
+							
+													    </div><!-- /.panel-group -->
+													    <!--/ End accordion -->
+							
+													</div>
+												    </div><!-- /.row -->
+										</div>
+							    	</div>
 								</div>
-							    </div>
-							</div><!-- /.panel -->
-							<div class="panel panel-default">
-							    <div class="panel-heading no-border">
-								<h4 class="panel-title">
-								    <a data-toggle="collapse" data-parent="#accordion3"  style="font-size: 13px;" href="#collapse3-2">
-								       <spring:message code="lbl.title.link.imoveis.visualizacoes.minhas"/>
-								    </a>
-								</h4>
-							    </div><!-- /.panel-heading -->
-							    <div id="collapse3-2" class="panel-collapse collapse">
-								<div class="panel-body" style="font-size: 11px;">
-								    <spring:message code="msg.conhecendo.funcionalidades.usuarios.visitantes.minhas.visitas"/>
-								</div>
-							    </div>
-							</div><!-- /.panel -->
-
-						    </div><!-- /.panel-group -->
-						    <!--/ End accordion -->								
-						</div>
-					    </div><!-- /.row -->
-	</div>
-    </div>
-</div>
-</div>
-<div class="cbp-item esquerdo">
-<div class="cbp-caption">
-    <div class="cbp-caption-defaultWrap">
-	<i class="fa fa-industry"></i> <spring:message code="lbl.title.link.intermediacoes"/>
-    </div>
-    <div class="cbp-caption-activeWrap">
-	<div class="cbp-l-caption-body">
-	     <!-- Start accordion -->
-					    <div class="panel-group rounded shadow" id="accordion4">
-						<div class="panel panel-default">
-						    <div class="panel-heading no-border">
-							<h4 class="panel-title">
-							    <a data-toggle="collapse" data-parent="#accordion4"  style="font-size: 13px;" href="#collapse4-1">
-							       <spring:message code="lbl.title.link.aceita"/>
-							    </a>
-							</h4>
-						    </div><!-- /.panel-heading -->
-						    <div id="collapse4-1" class="panel-collapse collapse in">
-							<div class="panel-body" style="font-size: 11px;">
-													<c:if test="${usuario.perfil == 'P'}">
-														<spring:message code="lbl.conhecendo.funcionalidades.intermediacoes.aceitas.cliente"/>
-													</c:if>
-													<c:if test="${usuario.perfil != 'P'}">
-														<spring:message code="lbl.conhecendo.funcionalidades.intermediacoes.aceitas"/>
-													</c:if>
 							</div>
-						    </div>
-						</div><!-- /.panel -->
-
-						<div class="panel panel-default">
-						    <div class="panel-heading no-border">
-							<h4 class="panel-title">
-							    <a data-toggle="collapse" data-parent="#accordion4"  style="font-size: 13px;" href="#collapse4-2">
-							       <spring:message code="lbl.title.link.solicitada"/>
-							    </a>
-							</h4>
-						    </div><!-- /.panel-heading -->
-						    <div id="collapse4-2" class="panel-collapse collapse">
-							<div class="panel-body" style="font-size: 11px;">
-													<spring:message code="lbl.title.link.solicitacoes.recebidas"/>							                                            
+						<div class="cbp-item esquerdo">
+							<div class="cbp-caption">
+							    <div class="cbp-caption-defaultWrap">
+								<i class="fa fa-user"></i> <spring:message code="lbl.title.link.imoveis.visualizacoes"/>
+							    </div>
+							    <div class="cbp-caption-activeWrap">
+								<div class="cbp-l-caption-body">
+								     <div class="row">
+													<div class="col-md-12">
+							
+													    <!-- Start accordion -->
+													    <div class="panel-group rounded shadow" id="accordion3">
+														<div class="panel panel-default">
+														    <div class="panel-heading no-border">
+															<h4 class="panel-title">
+															    <a data-toggle="collapse" data-parent="#accordion3"  style="font-size: 13px;" href="#collapse3-1">
+															       <spring:message code="lbl.title.link.imoveis.visualizacoes.recebidas"/>
+															    </a>
+															</h4>
+														    </div><!-- /.panel-heading -->
+														    <div id="collapse3-1" class="panel-collapse collapse in">
+															<div class="panel-body" style="font-size: 11px;">
+															    <spring:message code="msg.conhecendo.funcionalidades.usuarios.visualizacoes.recebidas"/>	
+															</div>
+														    </div>
+														</div><!-- /.panel -->
+														<div class="panel panel-default">
+														    <div class="panel-heading no-border">
+															<h4 class="panel-title">
+															    <a data-toggle="collapse" data-parent="#accordion3"  style="font-size: 13px;" href="#collapse3-2">
+															       <spring:message code="lbl.title.link.imoveis.visualizacoes.minhas"/>
+															    </a>
+															</h4>
+														    </div><!-- /.panel-heading -->
+														    <div id="collapse3-2" class="panel-collapse collapse">
+															<div class="panel-body" style="font-size: 11px;">
+															    <spring:message code="msg.conhecendo.funcionalidades.usuarios.visitantes.minhas.visitas"/>
+															</div>
+														    </div>
+														</div><!-- /.panel -->
+							
+													    </div><!-- /.panel-group -->
+													    <!--/ End accordion -->								
+													</div>
+												    </div><!-- /.row -->
+											</div>
+										    </div>
+										</div>
+									</div>
+									
+							<div class="cbp-item esquerdo">
+							<div class="cbp-caption">
+							    <div class="cbp-caption-defaultWrap">
+								<i class="fa fa-industry"></i> <spring:message code="lbl.title.link.intermediacoes"/>
+							    </div>
+							    <div class="cbp-caption-activeWrap">
+								<div class="cbp-l-caption-body">
+								     <!-- Start accordion -->
+												    <div class="panel-group rounded shadow" id="accordion4">
+													<div class="panel panel-default">
+													    <div class="panel-heading no-border">
+														<h4 class="panel-title">
+														    <a data-toggle="collapse" data-parent="#accordion4"  style="font-size: 13px;" href="#collapse4-1">
+														       <spring:message code="lbl.title.link.aceita"/>
+														    </a>
+														</h4>
+													    </div><!-- /.panel-heading -->
+													    <div id="collapse4-1" class="panel-collapse collapse in">
+														<div class="panel-body" style="font-size: 11px;">
+																				<c:if test="${usuario.perfil == 'P'}">
+																					<spring:message code="lbl.conhecendo.funcionalidades.intermediacoes.aceitas.cliente"/>
+																				</c:if>
+																				<c:if test="${usuario.perfil != 'P'}">
+																					<spring:message code="lbl.conhecendo.funcionalidades.intermediacoes.aceitas"/>
+																				</c:if>
+														</div>
+													    </div>
+													</div><!-- /.panel -->
+							
+													<div class="panel panel-default">
+													    <div class="panel-heading no-border">
+														<h4 class="panel-title">
+														    <a data-toggle="collapse" data-parent="#accordion4"  style="font-size: 13px;" href="#collapse4-2">
+														       <spring:message code="lbl.title.link.solicitada"/>
+														    </a>
+														</h4>
+													    </div><!-- /.panel-heading -->
+													    <div id="collapse4-2" class="panel-collapse collapse">
+														<div class="panel-body" style="font-size: 11px;">
+																				<spring:message code="lbl.title.link.solicitacoes.recebidas"/>							                                            
+														</div>
+													    </div>
+													</div><!-- /.panel -->
+							
+													 <div class="panel panel-default">
+													    <div class="panel-heading no-border">
+														<h4 class="panel-title">
+														    <a data-toggle="collapse" data-parent="#accordion4"  style="font-size: 13px;" href="#collapse4-3">
+														       <spring:message code="lbl.title.link.solicitacoes.enviadas"/>
+														    </a>
+														</h4>
+													    </div><!-- /.panel-heading -->
+													    <div id="collapse4-3" class="panel-collapse collapse">
+														<div class="panel-body" style="font-size: 11px;">
+														    <spring:message code="lbl.conhecendo.funcionalidades.intermediacoes.enviadas"/>							                                            
+														</div>
+													    </div>
+													</div><!-- /.panel -->
+							
+										 </div><!-- /.panel-group -->
+												    <!--/ End accordion -->		
+								</div>
+							    </div>
 							</div>
-						    </div>
-						</div><!-- /.panel -->
-
-						 <div class="panel panel-default">
-						    <div class="panel-heading no-border">
-							<h4 class="panel-title">
-							    <a data-toggle="collapse" data-parent="#accordion4"  style="font-size: 13px;" href="#collapse4-3">
-							       <spring:message code="lbl.title.link.solicitacoes.enviadas"/>
-							    </a>
-							</h4>
-						    </div><!-- /.panel-heading -->
-						    <div id="collapse4-3" class="panel-collapse collapse">
-							<div class="panel-body" style="font-size: 11px;">
-							    <spring:message code="lbl.conhecendo.funcionalidades.intermediacoes.enviadas"/>							                                            
 							</div>
+
+						<c:if test="${usuario.perfil != 'P'}">
+						    <div class="cbp-item esquerdo">
+							<div class="cbp-caption">
+							    <div class="cbp-caption-defaultWrap">
+								<i class="fa fa-users""></i> <spring:message code="lbl.title.link.parcerias"/>
+							    </div>
+							    <div class="cbp-caption-activeWrap">
+								<div class="cbp-l-caption-body">
+								     <!-- Start accordion -->
+											    <div class="panel-group rounded shadow" id="accordion5">
+												<div class="panel panel-default">
+												    <div class="panel-heading no-border">
+													<h4 class="panel-title">
+													    <a data-toggle="collapse" data-parent="#accordion5"  style="font-size: 13px;" href="#collapse5-1">
+														<spring:message code="lbl.title.link.aceita"/>
+													    </a>
+													</h4>
+												    </div><!-- /.panel-heading -->
+												    <div id="collapse5-1" class="panel-collapse collapse in">
+													<div class="panel-body" style="font-size: 11px;">							                                            
+																				<spring:message code="lbl.conhecendo.funcionalidades.parcerias.aceitas"/>																		
+													</div>
+												    </div>
+												</div><!-- /.panel -->
+						
+												<div class="panel panel-default">
+												    <div class="panel-heading no-border">
+													<h4 class="panel-title">
+													    <a data-toggle="collapse" data-parent="#accordion5"  style="font-size: 13px;" href="#collapse5-2">
+													      <spring:message code="lbl.title.link.solicitacoes.recebidas"/>
+													    </a>
+													</h4>
+												    </div><!-- /.panel-heading -->
+												    <div id="collapse5-2" class="panel-collapse collapse">
+													<div class="panel-body" style="font-size: 11px;">
+													    <spring:message code="lbl.conhecendo.funcionalidades.parcerias.solicitadas"/>
+													</div>
+												    </div>
+												</div><!-- /.panel -->
+						
+												 <div class="panel panel-default">
+												    <div class="panel-heading no-border">
+													<h4 class="panel-title">
+													    <a data-toggle="collapse" data-parent="#accordion5"  style="font-size: 13px;" href="#collapse5-3">
+													       <spring:message code="lbl.title.link.solicitacoes.enviadas"/>
+													    </a>
+													</h4>
+												    </div><!-- /.panel-heading -->
+												    <div id="collapse5-3" class="panel-collapse collapse">
+													<div class="panel-body" style="font-size: 11px;">
+													    <spring:message code="lbl.conhecendo.funcionalidades.parcerias.enviadas"/>	
+													</div>
+												    </div>
+												</div><!-- /.panel -->
+						
+											    </div><!-- /.panel-group -->
+											    <!--/ End accordion -->		
+											</div>
+							    		</div>
+									</div>
 						    </div>
-						</div><!-- /.panel -->
-
-					    </div><!-- /.panel-group -->
-					    <!--/ End accordion -->		
-	</div>
-    </div>
-</div>
-</div>
-
-<c:if test="${usuario.perfil != 'P'}">
-    <div class="cbp-item esquerdo">
-	<div class="cbp-caption">
-	    <div class="cbp-caption-defaultWrap">
-		<i class="fa fa-users""></i> <spring:message code="lbl.title.link.parcerias"/>
-	    </div>
-	    <div class="cbp-caption-activeWrap">
-		<div class="cbp-l-caption-body">
-		     <!-- Start accordion -->
-					    <div class="panel-group rounded shadow" id="accordion5">
-						<div class="panel panel-default">
-						    <div class="panel-heading no-border">
-							<h4 class="panel-title">
-							    <a data-toggle="collapse" data-parent="#accordion5"  style="font-size: 13px;" href="#collapse5-1">
-								<spring:message code="lbl.title.link.aceita"/>
-							    </a>
-							</h4>
-						    </div><!-- /.panel-heading -->
-						    <div id="collapse5-1" class="panel-collapse collapse in">
-							<div class="panel-body" style="font-size: 11px;">							                                            
-														<spring:message code="lbl.conhecendo.funcionalidades.parcerias.aceitas"/>																		
+						</c:if>
+						
+						<div class="cbp-item esquerdo">
+						<div class="cbp-caption">
+						    <div class="cbp-caption-defaultWrap">
+							<i class="fa fa-sticky-note-o"></i> <spring:message code="lbl.title.link.notas"/>
+						    </div>
+						    <div class="cbp-caption-activeWrap">
+							<div class="cbp-l-caption-body">
+							    <div class="row">
+												<div class="col-md-12">
+						
+												    <!-- Start accordion -->
+												    <div class="panel-group rounded shadow" id="accordion6">
+													<div class="panel panel-default">
+													    <div class="panel-heading no-border">
+														<h4 class="panel-title">
+														    <a data-toggle="collapse" data-parent="#accordion6"  style="font-size: 13px;" href="#collapse6-1">
+														       <spring:message code="lbl.title.link.minhas.notas"/>
+														    </a>
+														</h4>
+													    </div><!-- /.panel-heading -->
+													    <div id="collapse6-1" class="panel-collapse collapse in">
+														<div class="panel-body" style="font-size: 11px;">
+																				<spring:message code="lbl.conhecendo.funcionalidades.minhas.notas"/>								                                            
+														</div>
+													    </div>
+													</div><!-- /.panel -->
+													<div class="panel panel-default">
+													    <div class="panel-heading no-border">
+														<h4 class="panel-title">
+														    <a data-toggle="collapse" data-parent="#accordion6"  style="font-size: 13px;" href="#collapse6-2">
+														       <spring:message code="lbl.title.link.notas.contatos"/>
+														    </a>
+														</h4>
+													    </div><!-- /.panel-heading -->
+													    <div id="collapse6-2" class="panel-collapse collapse">
+														<div class="panel-body" style="font-size: 11px;">
+														    <spring:message code="lbl.conhecendo.funcionalidades.notas.contatos"/>								                                            
+														</div>
+													    </div>
+													</div><!-- /.panel -->
+						
+												    </div><!-- /.panel-group -->
+												    <!--/ End accordion -->								
+												</div>
+										</div><!-- /.row -->
+								</div>
+						    	</div>
 							</div>
-						    </div>
-						</div><!-- /.panel -->
-
-						<div class="panel panel-default">
-						    <div class="panel-heading no-border">
-							<h4 class="panel-title">
-							    <a data-toggle="collapse" data-parent="#accordion5"  style="font-size: 13px;" href="#collapse5-2">
-							      <spring:message code="lbl.title.link.solicitacoes.recebidas"/>
-							    </a>
-							</h4>
-						    </div><!-- /.panel-heading -->
-						    <div id="collapse5-2" class="panel-collapse collapse">
-							<div class="panel-body" style="font-size: 11px;">
-							    <spring:message code="lbl.conhecendo.funcionalidades.parcerias.solicitadas"/>
+						</div>
+						
+							<div class="cbp-item esquerdo">
+							<div class="cbp-caption">
+							    <div class="cbp-caption-defaultWrap">
+								<i class="fa fa-money"></i> <spring:message code="lbl.title.link.propostas.imoveis"/>
+							    </div>
+							    <div class="cbp-caption-activeWrap">
+								<div class="cbp-l-caption-body">
+								    <div class="row">
+													<div class="col-md-12">
+							
+													    <!-- Start accordion -->
+													    <div class="panel-group rounded shadow" id="accordion7">
+														<div class="panel panel-default">
+														    <div class="panel-heading no-border">
+															<h4 class="panel-title">
+															    <a data-toggle="collapse" data-parent="#accordion7"  style="font-size: 13px;" href="#collapse7-1">
+															       <spring:message code="lbl.title.link.propostas.imoveis.recebidas"/>
+															    </a>
+															</h4>
+														    </div><!-- /.panel-heading -->
+														    <div id="collapse7-1" class="panel-collapse collapse in">
+															<div class="panel-body" style="font-size: 11px;">
+															    <spring:message code="lbl.conhecendo.funcionalidades.propostas.imoveis.recebidas"/>
+															</div>
+														    </div>
+														</div><!-- /.panel -->
+														<div class="panel panel-default">
+														    <div class="panel-heading no-border">
+															<h4 class="panel-title">
+															    <a data-toggle="collapse" data-parent="#accordion7"  style="font-size: 13px;" href="#collapse7-2">
+															       <spring:message code="lbl.title.link.propostas.imoveis.enviadas"/>
+															    </a>
+															</h4>
+														    </div><!-- /.panel-heading -->
+														    <div id="collapse7-2" class="panel-collapse collapse">
+															<div class="panel-body" style="font-size: 11px;">
+															    <spring:message code="lbl.conhecendo.funcionalidades.propostas.imoveis.enviadas"/>
+															</div>
+														    </div>
+														</div><!-- /.panel -->
+							
+													    </div><!-- /.panel-group -->
+													    <!--/ End accordion -->								
+													</div>
+									</div><!-- /.row -->
+								</div>
+							    </div>
 							</div>
-						    </div>
-						</div><!-- /.panel -->
-
-						 <div class="panel panel-default">
-						    <div class="panel-heading no-border">
-							<h4 class="panel-title">
-							    <a data-toggle="collapse" data-parent="#accordion5"  style="font-size: 13px;" href="#collapse5-3">
-							       <spring:message code="lbl.title.link.solicitacoes.enviadas"/>
-							    </a>
-							</h4>
-						    </div><!-- /.panel-heading -->
-						    <div id="collapse5-3" class="panel-collapse collapse">
-							<div class="panel-body" style="font-size: 11px;">
-							    <spring:message code="lbl.conhecendo.funcionalidades.parcerias.enviadas"/>	
 							</div>
-						    </div>
-						</div><!-- /.panel -->
-
-					    </div><!-- /.panel-group -->
-					    <!--/ End accordion -->		
-		</div>
-	    </div>
-	</div>
-    </div>
-</c:if>
-<div class="cbp-item esquerdo">
-<div class="cbp-caption">
-    <div class="cbp-caption-defaultWrap">
-	<i class="fa fa-sticky-note-o"></i> <spring:message code="lbl.title.link.notas"/>
-    </div>
-    <div class="cbp-caption-activeWrap">
-	<div class="cbp-l-caption-body">
-	    <div class="row">
-						<div class="col-md-12">
-
-						    <!-- Start accordion -->
-						    <div class="panel-group rounded shadow" id="accordion6">
-							<div class="panel panel-default">
-							    <div class="panel-heading no-border">
-								<h4 class="panel-title">
-								    <a data-toggle="collapse" data-parent="#accordion6"  style="font-size: 13px;" href="#collapse6-1">
-								       <spring:message code="lbl.title.link.minhas.notas"/>
-								    </a>
-								</h4>
-							    </div><!-- /.panel-heading -->
-							    <div id="collapse6-1" class="panel-collapse collapse in">
-								<div class="panel-body" style="font-size: 11px;">
-														<spring:message code="lbl.conhecendo.funcionalidades.minhas.notas"/>								                                            
+							
+							<div class="cbp-item esquerdo">
+							<div class="cbp-caption">
+							    <div class="cbp-caption-defaultWrap">
+								<i class="fa fa-arrows"></i> <spring:message code="lbl.title.link.imoveis.indicacoes"/> 
+							    </div>
+							    <div class="cbp-caption-activeWrap">
+								<div class="cbp-l-caption-body">
+								    <div class="row">
+													<div class="col-md-12">
+							
+													    <!-- Start accordion -->
+													    <div class="panel-group rounded shadow" id="accordion8">
+														<div class="panel panel-default">
+														    <div class="panel-heading no-border">
+															<h4 class="panel-title">
+															    <a data-toggle="collapse" data-parent="#accordion8"  style="font-size: 13px;" href="#collapse8-1">
+															       <spring:message code="lbl.title.link.imoveis.indicacoes.recebidas"/>
+															    </a>
+															</h4>
+														    </div><!-- /.panel-heading -->
+														    <div id="collapse8-1" class="panel-collapse collapse in">
+															<div class="panel-body" style="font-size: 11px;">
+															    <spring:message code="lbl.conhecendo.funcionalidades.indicacoes.recebidas"/>
+															</div>
+														    </div>
+														</div><!-- /.panel -->
+														<div class="panel panel-default">
+														    <div class="panel-heading no-border">
+															<h4 class="panel-title">
+															    <a data-toggle="collapse" data-parent="#accordion8"  style="font-size: 13px;" href="#collapse8-2">
+																<spring:message code="lbl.title.link.imoveis.indicacoes.enviadas"/>
+															    </a>
+															</h4>
+														    </div><!-- /.panel-heading -->
+														    <div id="collapse8-2" class="panel-collapse collapse">
+															<div class="panel-body" style="font-size: 11px;">
+															    <spring:message code="lbl.conhecendo.funcionalidades.indicacoes.enviadas"/>
+															</div>
+														    </div>
+														</div><!-- /.panel -->
+							
+													    </div><!-- /.panel-group -->
+													    <!--/ End accordion -->								
+													</div>
+									  </div><!-- /.row -->
 								</div>
 							    </div>
-							</div><!-- /.panel -->
-							<div class="panel panel-default">
-							    <div class="panel-heading no-border">
-								<h4 class="panel-title">
-								    <a data-toggle="collapse" data-parent="#accordion6"  style="font-size: 13px;" href="#collapse6-2">
-								       <spring:message code="lbl.title.link.notas.contatos"/>
-								    </a>
-								</h4>
-							    </div><!-- /.panel-heading -->
-							    <div id="collapse6-2" class="panel-collapse collapse">
-								<div class="panel-body" style="font-size: 11px;">
-								    <spring:message code="lbl.conhecendo.funcionalidades.notas.contatos"/>								                                            
+							</div>
+							</div>                                    
+							
+							<div class="cbp-item esquerdo">
+							<div class="cbp-caption">
+							    <div class="cbp-caption-defaultWrap">
+								<i class="fa fa-commenting"></i> <spring:message code="lbl.title.link.comentarios.imoveis"/>
+							    </div>
+							    <div class="cbp-caption-activeWrap">
+								<div class="cbp-l-caption-body">
+								    <div class="row">
+													<div class="col-md-12">
+							
+													    <!-- Start accordion -->
+													    <div class="panel-group rounded shadow" id="accordion9">
+														<div class="panel panel-default">
+														    <div class="panel-heading no-border">
+															<h4 class="panel-title">
+															    <a data-toggle="collapse" data-parent="#accordion9"  style="font-size: 13px;" href="#collapse9-1">
+															       <spring:message code="lbl.title.link.comentarios.imoveis.recebidos"/>
+															    </a>
+															</h4>
+														    </div><!-- /.panel-heading -->
+														    <div id="collapse9-1" class="panel-collapse collapse in">
+															<div class="panel-body" style="font-size: 11px;">
+															    <spring:message code="lbl.conhecendo.funcionalidades.comentarios.imoveis.recebidos"/>
+															</div>
+														    </div>
+														</div><!-- /.panel -->								                                								                                								                              
+							
+													    </div><!-- /.panel-group -->
+													    <!--/ End accordion -->								
+													</div>
+									 </div><!-- /.row -->								                    
 								</div>
 							    </div>
-							</div><!-- /.panel -->
-
-						    </div><!-- /.panel-group -->
-						    <!--/ End accordion -->								
-						</div>
-					    </div><!-- /.row -->
-	</div>
-    </div>
-</div>
-</div>
-<div class="cbp-item esquerdo">
-<div class="cbp-caption">
-    <div class="cbp-caption-defaultWrap">
-	<i class="fa fa-money"></i> <spring:message code="lbl.title.link.propostas.imoveis"/>
-    </div>
-    <div class="cbp-caption-activeWrap">
-	<div class="cbp-l-caption-body">
-	    <div class="row">
-						<div class="col-md-12">
-
-						    <!-- Start accordion -->
-						    <div class="panel-group rounded shadow" id="accordion7">
-							<div class="panel panel-default">
-							    <div class="panel-heading no-border">
-								<h4 class="panel-title">
-								    <a data-toggle="collapse" data-parent="#accordion7"  style="font-size: 13px;" href="#collapse7-1">
-								       <spring:message code="lbl.title.link.propostas.imoveis.recebidas"/>
-								    </a>
-								</h4>
-							    </div><!-- /.panel-heading -->
-							    <div id="collapse7-1" class="panel-collapse collapse in">
-								<div class="panel-body" style="font-size: 11px;">
-								    <spring:message code="lbl.conhecendo.funcionalidades.propostas.imoveis.recebidas"/>
+							</div>
+							</div>                                    
+							
+							<div class="cbp-item superior">
+							<div class="cbp-caption">
+							    <div class="cbp-caption-defaultWrap">
+								<i class="fa fa-user"></i> <spring:message code="lbl.contatos"/>
+							    </div>
+							    <div class="cbp-caption-activeWrap">
+								<div class="cbp-l-caption-body">
+								    <div class="row">
+													<div class="col-md-12">
+							
+													    <!-- Start accordion -->
+													    <div class="panel-group rounded shadow" id="accordion10">
+							
+														 <div class="panel panel-default">
+														    <div class="panel-heading no-border">
+															<h4 class="panel-title">
+															    <a data-toggle="collapse" data-parent="#accordion10"  style="font-size: 13px;" href="#collapse10-1">
+																<spring:message code="lbl.title.link.convites"/> 
+															    </a>
+															</h4>
+														    </div><!-- /.panel-heading -->
+														    <div id="collapse10-1" class="panel-collapse collapse in">
+															<div class="panel-body" style="font-size: 11px;">
+															    <spring:message code="lbl.conhecendo.funcionalidades.convites"/>
+															</div>
+														    </div>
+														</div><!-- /.panel -->								                              
+							
+														 <div class="panel panel-default">
+														    <div class="panel-heading no-border">
+															<h4 class="panel-title">
+															    <a data-toggle="collapse" data-parent="#accordion10"  style="font-size: 13px;" href="#collapse10-2">
+																<spring:message code="lbl.contatos"/>
+															    </a>
+															</h4>
+														    </div><!-- /.panel-heading -->
+														    <div id="collapse10-2" class="panel-collapse collapse">
+															<div class="panel-body" style="font-size: 11px;">
+															    <spring:message code="lbl.conhecendo.funcionalidades.contatos"/>
+															</div>
+														    </div>
+														</div><!-- /.panel -->	
+							
+													    </div><!-- /.panel-group -->
+													    <!--/ End accordion -->								
+													</div>
+										</div><!-- /.row -->
+							
 								</div>
 							    </div>
-							</div><!-- /.panel -->
-							<div class="panel panel-default">
-							    <div class="panel-heading no-border">
-								<h4 class="panel-title">
-								    <a data-toggle="collapse" data-parent="#accordion7"  style="font-size: 13px;" href="#collapse7-2">
-								       <spring:message code="lbl.title.link.propostas.imoveis.enviadas"/>
-								    </a>
-								</h4>
-							    </div><!-- /.panel-heading -->
-							    <div id="collapse7-2" class="panel-collapse collapse">
-								<div class="panel-body" style="font-size: 11px;">
-								    <spring:message code="lbl.conhecendo.funcionalidades.propostas.imoveis.enviadas"/>
+							</div>
+							</div>
+							
+							<div class="cbp-item superior">
+							<div class="cbp-caption">
+							    <div class="cbp-caption-defaultWrap">
+								<i class="fa fa-envelope-o"></i> <spring:message code="lbl.title.link.mensagens"/>
+							    </div>
+							    <div class="cbp-caption-activeWrap">
+								<div class="cbp-l-caption-body">
+								    <div class="row">
+										<div class="col-md-12">									                            
+				
+													<!-- Start accordion -->
+										    <div class="panel-group rounded shadow" id="accordion13">
+											 <div class="panel panel-default">					
+												<div class="panel-body" style="font-size: 11px;">
+												    <spring:message code="lbl.conhecendo.funcionalidades.mensagens"/>
+												</div>
+											</div><!-- /.panel -->
+										    </div><!-- /.panel-group -->
+										    <!--/ End accordion -->								
+										</div>
+									    </div><!-- /.row -->
+							
 								</div>
 							    </div>
-							</div><!-- /.panel -->
-
-						    </div><!-- /.panel-group -->
-						    <!--/ End accordion -->								
-						</div>
-					    </div><!-- /.row -->
-	</div>
-    </div>
-</div>
-</div>
-
-<div class="cbp-item esquerdo">
-<div class="cbp-caption">
-    <div class="cbp-caption-defaultWrap">
-	<i class="fa fa-arrows"></i> <spring:message code="lbl.title.link.imoveis.indicacoes"/> 
-    </div>
-    <div class="cbp-caption-activeWrap">
-	<div class="cbp-l-caption-body">
-	    <div class="row">
-						<div class="col-md-12">
-
-						    <!-- Start accordion -->
-						    <div class="panel-group rounded shadow" id="accordion8">
-							<div class="panel panel-default">
-							    <div class="panel-heading no-border">
-								<h4 class="panel-title">
-								    <a data-toggle="collapse" data-parent="#accordion8"  style="font-size: 13px;" href="#collapse8-1">
-								       <spring:message code="lbl.title.link.imoveis.indicacoes.recebidas"/>
-								    </a>
-								</h4>
-							    </div><!-- /.panel-heading -->
-							    <div id="collapse8-1" class="panel-collapse collapse in">
-								<div class="panel-body" style="font-size: 11px;">
-								    <spring:message code="lbl.conhecendo.funcionalidades.indicacoes.recebidas"/>
+							</div>
+							</div> 
+							
+							<div class="cbp-item superior">
+							<div class="cbp-caption">
+							    <div class="cbp-caption-defaultWrap">
+								<i class="fa fa-bell-o"></i> <spring:message code="lbl.title.link.notificacoes"/>
+							    </div>
+							    <div class="cbp-caption-activeWrap">
+								<div class="cbp-l-caption-body">
+									    <div class="row">
+														<div class="col-md-12">														
+																	<!-- Start accordion -->
+														    <div class="panel-group rounded shadow" id="accordion12">
+															 <div class="panel panel-default">
+															<div class="panel-body" style="font-size: 11px;">
+															    <spring:message code="lbl.conhecendo.funcionalidades.notificacoes"/>
+															</div>								                                    
+															</div><!-- /.panel -->								                              
+								
+														    </div><!-- /.panel-group -->
+														    <!--/ End accordion -->								
+														</div>
+											 </div><!-- /.row -->
+										</div>
+							    	</div>
+								</div>
+							</div>                                    
+							
+							<div class="cbp-item superior">
+							<div class="cbp-caption">
+							    <div class="cbp-caption-defaultWrap">
+								<i class="fa fa-envelope-square"></i> <spring:message code="lbl.title.link.mensagens.admin"/>
+							    </div>
+							    <div class="cbp-caption-activeWrap">
+								<div class="cbp-l-caption-body">
+								    <div class="row">
+										<div class="col-md-12">														
+							
+										    <div class="panel-group rounded shadow" id="accordion13">
+												<div class="panel panel-default">
+													<div class="panel-body" style="font-size: 11px;">
+													    <spring:message code="lbl.conhecendo.funcionalidades.mensagens.admin"/>
+													</div>
+												</div><!-- /.panel -->
+										    </div><!-- /.panel-group -->
+										    <!--/ End accordion -->								
+										</div>
+									  </div><!-- /.row -->
 								</div>
 							    </div>
-							</div><!-- /.panel -->
-							<div class="panel panel-default">
-							    <div class="panel-heading no-border">
-								<h4 class="panel-title">
-								    <a data-toggle="collapse" data-parent="#accordion8"  style="font-size: 13px;" href="#collapse8-2">
-									<spring:message code="lbl.title.link.imoveis.indicacoes.enviadas"/>
-								    </a>
-								</h4>
-							    </div><!-- /.panel-heading -->
-							    <div id="collapse8-2" class="panel-collapse collapse">
-								<div class="panel-body" style="font-size: 11px;">
-								    <spring:message code="lbl.conhecendo.funcionalidades.indicacoes.enviadas"/>
-								</div>
-							    </div>
-							</div><!-- /.panel -->
+							</div>
+							</div> 
 
-						    </div><!-- /.panel-group -->
-						    <!--/ End accordion -->								
-						</div>
-					    </div><!-- /.row -->
-	</div>
-    </div>
-</div>
-</div>                                    
-
-<div class="cbp-item esquerdo">
-<div class="cbp-caption">
-    <div class="cbp-caption-defaultWrap">
-	<i class="fa fa-commenting"></i> <spring:message code="lbl.title.link.comentarios.imoveis"/>
-    </div>
-    <div class="cbp-caption-activeWrap">
-	<div class="cbp-l-caption-body">
-	    <div class="row">
-						<div class="col-md-12">
-
-						    <!-- Start accordion -->
-						    <div class="panel-group rounded shadow" id="accordion9">
-							<div class="panel panel-default">
-							    <div class="panel-heading no-border">
-								<h4 class="panel-title">
-								    <a data-toggle="collapse" data-parent="#accordion9"  style="font-size: 13px;" href="#collapse9-1">
-								       <spring:message code="lbl.title.link.comentarios.imoveis.recebidos"/>
-								    </a>
-								</h4>
-							    </div><!-- /.panel-heading -->
-							    <div id="collapse9-1" class="panel-collapse collapse in">
-								<div class="panel-body" style="font-size: 11px;">
-								    <spring:message code="lbl.conhecendo.funcionalidades.comentarios.imoveis.recebidos"/>
-								</div>
-							    </div>
-							</div><!-- /.panel -->								                                								                                								                              
-
-						    </div><!-- /.panel-group -->
-						    <!--/ End accordion -->								
-						</div>
-					    </div><!-- /.row -->								                    
-	</div>
-    </div>
-</div>
-</div>                                    
-
-<div class="cbp-item superior">
-<div class="cbp-caption">
-    <div class="cbp-caption-defaultWrap">
-	<i class="fa fa-user"></i> <spring:message code="lbl.contatos"/>
-    </div>
-    <div class="cbp-caption-activeWrap">
-	<div class="cbp-l-caption-body">
-	    <div class="row">
-						<div class="col-md-12">
-
-						    <!-- Start accordion -->
-						    <div class="panel-group rounded shadow" id="accordion10">
-
-							 <div class="panel panel-default">
-							    <div class="panel-heading no-border">
-								<h4 class="panel-title">
-								    <a data-toggle="collapse" data-parent="#accordion10"  style="font-size: 13px;" href="#collapse10-1">
-									<spring:message code="lbl.title.link.convites"/> 
-								    </a>
-								</h4>
-							    </div><!-- /.panel-heading -->
-							    <div id="collapse10-1" class="panel-collapse collapse in">
-								<div class="panel-body" style="font-size: 11px;">
-								    <spring:message code="lbl.conhecendo.funcionalidades.convites"/>
-								</div>
-							    </div>
-							</div><!-- /.panel -->								                              
-
-							 <div class="panel panel-default">
-							    <div class="panel-heading no-border">
-								<h4 class="panel-title">
-								    <a data-toggle="collapse" data-parent="#accordion10"  style="font-size: 13px;" href="#collapse10-2">
-									<spring:message code="lbl.contatos"/>
-								    </a>
-								</h4>
-							    </div><!-- /.panel-heading -->
-							    <div id="collapse10-2" class="panel-collapse collapse">
-								<div class="panel-body" style="font-size: 11px;">
-								    <spring:message code="lbl.conhecendo.funcionalidades.contatos"/>
-								</div>
-							    </div>
-							</div><!-- /.panel -->	
-
-						    </div><!-- /.panel-group -->
-						    <!--/ End accordion -->								
-						</div>
-					    </div><!-- /.row -->
-
-	</div>
-    </div>
-</div>
-</div>
-
-<div class="cbp-item superior">
-<div class="cbp-caption">
-    <div class="cbp-caption-defaultWrap">
-	<i class="fa fa-envelope-o"></i> <spring:message code="lbl.title.link.mensagens"/>
-    </div>
-    <div class="cbp-caption-activeWrap">
-	<div class="cbp-l-caption-body">
-	    <div class="row">
-						<div class="col-md-12">									                            
-
-									<!-- Start accordion -->
-						    <div class="panel-group rounded shadow" id="accordion13">
-							 <div class="panel panel-default">					
-								<div class="panel-body" style="font-size: 11px;">
-								    <spring:message code="lbl.conhecendo.funcionalidades.mensagens"/>
-								</div>
-							</div><!-- /.panel -->
-						    </div><!-- /.panel-group -->
-						    <!--/ End accordion -->								
-						</div>
-					    </div><!-- /.row -->
-
-	</div>
-    </div>
-</div>
-</div> 
-
-<div class="cbp-item superior">
-<div class="cbp-caption">
-    <div class="cbp-caption-defaultWrap">
-	<i class="fa fa-bell-o"></i> <spring:message code="lbl.title.link.notificacoes"/>
-    </div>
-    <div class="cbp-caption-activeWrap">
-	<div class="cbp-l-caption-body">
-	    <div class="row">
-						<div class="col-md-12">														
-									<!-- Start accordion -->
-						    <div class="panel-group rounded shadow" id="accordion12">
-							 <div class="panel panel-default">
-							<div class="panel-body" style="font-size: 11px;">
-							    <spring:message code="lbl.conhecendo.funcionalidades.notificacoes"/>
-							</div>								                                    
-							</div><!-- /.panel -->								                              
-
-						    </div><!-- /.panel-group -->
-						    <!--/ End accordion -->								
-						</div>
-					    </div><!-- /.row -->
-	</div>
-    </div>
-</div>
-</div>                                    
-
-<div class="cbp-item superior">
-<div class="cbp-caption">
-    <div class="cbp-caption-defaultWrap">
-	<i class="fa fa-envelope-square"></i> <spring:message code="lbl.title.link.mensagens.admin"/>
-    </div>
-    <div class="cbp-caption-activeWrap">
-	<div class="cbp-l-caption-body">
-	    <div class="row">
-			<div class="col-md-12">														
-
-			    <div class="panel-group rounded shadow" id="accordion13">
-					<div class="panel panel-default">
-						<div class="panel-body" style="font-size: 11px;">
-						    <spring:message code="lbl.conhecendo.funcionalidades.mensagens.admin"/>
-						</div>
-					</div><!-- /.panel -->
-			    </div><!-- /.panel-group -->
-			    <!--/ End accordion -->								
-			</div>
-		  </div><!-- /.row -->
-	</div>
-    </div>
-</div>
-</div> 
-
-<div class="cbp-item superior">
-<div class="cbp-caption">
-    <div class="cbp-caption-defaultWrap">
-	<i class="fa fa-user"></i> <spring:message code="lbl.title.conta"/>
-    </div>
-    <div class="cbp-caption-activeWrap">
-	<div class="cbp-l-caption-body">
-	    <div class="row">
-						<div class="col-md-12">
+					<div class="cbp-item superior">
+					<div class="cbp-caption">
+					    <div class="cbp-caption-defaultWrap">
+						<i class="fa fa-user"></i> <spring:message code="lbl.title.conta"/>
+					    </div>
+					    <div class="cbp-caption-activeWrap">
+						<div class="cbp-l-caption-body">
+						    <div class="row">
+								<div class="col-md-12">
 
 									  <!-- Start accordion -->
 						    <div class="panel-group rounded shadow" id="accordion14">
@@ -788,13 +792,28 @@
 							    <div class="panel-heading no-border">
 								<h4 class="panel-title">
 								    <a data-toggle="collapse" data-parent="#accordion14" href="#collapse14-3" style="font-size: 13px;">
-									<spring:message code="lbl.title.aba.alterar.foto.perfil"/>
+									<spring:message code="lbl.title.aba.editar.senha"/>
 								    </a>
 								</h4>
 							    </div><!-- /.panel-heading -->
 							    <div id="collapse14-3" class="panel-collapse collapse">
 								<div class="panel-body" style="font-size: 11px;">
-								    <spring:message code="lbl.conhecendo.funcionalidades.foto.perfil"/>
+								    <spring:message code="lbl.conhecendo.funcionalidades.editar.senha"/>
+								</div>
+							    </div>
+							</div><!-- /.panel -->
+							
+							<div class="panel panel-default">
+							    <div class="panel-heading no-border">
+								<h4 class="panel-title">
+								    <a data-toggle="collapse" data-parent="#accordion14" href="#collapse14-4" style="font-size: 13px;">
+									<spring:message code="lbl.title.aba.indicar.amigo"/>
+								    </a>
+								</h4>
+							    </div><!-- /.panel-heading -->
+							    <div id="collapse14-4" class="panel-collapse collapse">
+								<div class="panel-body" style="font-size: 11px;">
+								    <spring:message code="lbl.conhecendo.funcionalidades.indicar.amigo"/>
 								</div>
 							    </div>
 							</div><!-- /.panel -->
@@ -802,12 +821,12 @@
 							<div class="panel panel-default">
 							    <div class="panel-heading no-border">
 								<h4 class="panel-title">
-								    <a data-toggle="collapse" data-parent="#accordion14" href="#collapse14-4" style="font-size: 13px;">
+								    <a data-toggle="collapse" data-parent="#accordion14" href="#collapse14-5" style="font-size: 13px;">
 									<spring:message code="lbl.title.logout"/>
 								    </a>
 								</h4>
 							    </div><!-- /.panel-heading -->
-							    <div id="collapse14-4" class="panel-collapse collapse">
+							    <div id="collapse14-5" class="panel-collapse collapse">
 								<div class="panel-body" style="font-size: 11px;">
 								    <spring:message code="lbl.conhecendo.funcionalidades.logout"/>
 								</div>

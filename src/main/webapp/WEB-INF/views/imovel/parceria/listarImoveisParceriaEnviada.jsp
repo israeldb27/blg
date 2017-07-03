@@ -395,7 +395,7 @@
 	                                                   <span class="meta-provider" style="font-size:19px;">${imovelParceria.imovel.acaoFmt} <br>
 	                                                   							<strong>  R$<fmt:formatNumber value="${imovelParceria.imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
 	                                                   </span><br>                                                   
-	                                                    <img src="data:image/jpeg;base64,${imovelParceria.imovel.imagemArquivo}" class="img-responsive" style="width: 260px; height: 195px; alt="admin"/>
+	                                                    <img src="data:image/jpeg;base64,${imovelParceria.imovel.imagemArquivo}" class="img-responsive" style="width: 295px; height: 230px; alt="admin"/>
 	                                                </a>
 	                                            </div>
 	                                            <div class="media-body">
@@ -406,9 +406,19 @@
 	                                                <div class="col-md-5" >                                                    
 	                                                    
 	                                                 	<div class="media-body" >			                                            
-				                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.sol" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;"><fmt:formatDate value='${imovelParceria.dataSolicitacao}' pattern='dd/MM/yyyy'/></font></span></em>  </br>			                                            
+				                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.sol" />: </font> <br> 
+				                                            <span class="text-success"><font style="font-size:11px; font-style: normal;"><fmt:formatDate value='${imovelParceria.dataSolicitacao}' pattern='dd/MM/yyyy'/></font></span></em>  </br>			                                            
+				                                           	
+				                                           	<br>
+				                                           	
 				                                            <c:if test="${usuario.id != imovelParceria.usuarioDonoImovel.id}">
-				                                            	<em class="text-sm text-muted" ><font style="font-size:13px; font-style: normal;"><spring:message code="lbl.dono.imovel" />: </font><span class="text-success"><a href="${urlUsuario}/detalhesUsuario/${imovelParceria.usuarioDonoImovel.id}"  >${imovelParceria.usuarioDonoImovel.nome}</a></span></em> </br>														 	
+				                                            	<em class="text-sm text-muted" ><font style="font-size:13px; font-style: normal;"><spring:message code="lbl.dono.imovel" />: </font> <br> 
+				                                            	<span class="text-success">
+				                                            		<a href="${urlUsuario}/detalhesUsuario/${imovelParceria.usuarioDonoImovel.id}"  >
+				                                            	   		 <img src="data:image/jpeg;base64,${imovelParceria.usuarioDonoImovel.imagemArquivo}" class="img-responsive" style="width: 70px; height: 50px; alt="admin"/>
+				                                            	   	</a>
+				                                            	  </span></em> </br>														 	
+															
 															 </c:if>													 
 				                                        </div>
 	                                                  
@@ -472,8 +482,8 @@
 	                            <p><spring:message code="lbl.modal.pergunta.confirma.exclusao.sol.parceria"/></p>
 	                        </div>
 	                        <div class="modal-footer">
-	                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
-	                            <button type="button" class="btn btn-theme" onClick="confirmarExclusaoSolParceria();"><spring:message code="lbl.sim"/></button>                            
+	                            <button type="button" class="btn btn-theme" onClick="confirmarExclusaoSolParceria();"><spring:message code="lbl.sim"/></button>  
+	                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>                          
 	                        </div>
 							
 							<div id="msgRetornoConfirmExclusaoParamErro" cssClass="errorEntrada"  ></div>   

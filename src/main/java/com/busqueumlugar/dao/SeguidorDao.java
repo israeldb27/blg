@@ -13,6 +13,8 @@ public interface SeguidorDao extends GenericDAO<Seguidor, Long>{
 	Seguidor findSeguidorByIdUsuarioSeguidorByIdUsuario(Long idUsuarioSessao, Long idUsuario);
 
 	List<Seguidor> findSeguidoresByIdUsuarioSeguido(Long idUsuario);
+	
+	List<Seguidor> findSeguindoByIdUsuarioSeguido(Long idUsuario);
 
 	List<?> findIdsSeguidoresByIdUsuario(Long idUsuario);
 	

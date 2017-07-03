@@ -120,6 +120,23 @@ function mostrarModal(id){
 	$("#idModalItem").modal("show");
 }
 
+function mostrarModalPermissoes(id){
+	
+	if ( id == 1 ){
+		$('#msgModalFunc').html("<spring:message code='lbl.msg.aba.permissao.busca.usuario'/>");
+		$('#msgModalFuncionalidade').html("<spring:message code='lbl.permissao.busca.usuario'/>");
+	}
+	else if ( id == 2 ){
+		$('#msgModalFunc').html("<spring:message code='lbl.msg.aba.permissao.exibir.detalhes.usuario'/>");
+		$('#msgModalFuncionalidade').html("<spring:message code='lbl.permissao.exibir.detalhes.usuario'/>");
+	}
+	else if ( id == 3 ){
+		$('#msgModalFunc').html("<spring:message code='lbl.msg.aba.permissao.receber.seguidor'/>");
+		$('#msgModalFuncionalidade').html("<spring:message code='lbl.permissao.receber.seguidor'/>");
+	}
+	$("#idModalItem").modal("show");
+}
+
 </script>		
         <c:import url="../layout/head-layout.jsp"></c:import>
    
@@ -436,6 +453,7 @@ function mostrarModal(id){
                                         <div class="form-body">
                                         
                                             <div class="form-group">
+                                            <a href="#a" class="btn btn-sm"  onClick="mostrarModalPermissoes(1)" style=""><i class="fa fa-question" ></i></a>									              
                                                 <label for="idPermBuscaUsuario" class="col-sm-3 control-label"><spring:message code="lbl.permissao.busca.usuario"/></label>
                                                 <div class="col-sm-7">
                                                      <spring:message code="lbl.hint.usuario.habilitaBusca" var="hintHabilitaBusca"/>
@@ -444,11 +462,14 @@ function mostrarModal(id){
 														<form:option value="S"> <spring:message code="lbl.sim"/></form:option>
 														<form:option value="N"> <spring:message code="lbl.nao"/></form:option>														
 									                 </form:select>
+									                 
 									                 <form:errors id="habilitaBusca" path="habilitaBusca" cssClass="errorEntrada"  />
                                                 </div>
                                             </div><!-- /.form-group -->
                                             
                                             <div class="form-group">
+                                               	<a href="#a" class="btn btn-sm"  onClick="mostrarModalPermissoes(2)" style=""><i class="fa fa-question" ></i></a>
+									              
                                                 <label for="habilitaDetalhesInfoUsuario" class="col-sm-3 control-label"><spring:message code="lbl.permissao.exibir.detalhes.usuario"/></label>
                                                 <div class="col-sm-7">
                                                      <spring:message code="lbl.hint.usuario.habilitaDetalhesInfo" var="hintDetalhesInfo"/>
@@ -462,6 +483,8 @@ function mostrarModal(id){
                                             </div><!-- /.form-group -->
                                             
                                               <div class="form-group">
+                                                <a href="#a" class="btn btn-sm" onClick="mostrarModalPermissoes(3)" style=""><i class="fa fa-question" ></i></a>
+									              
                                                 <label for="habilitaRecebeSeguidor" class="col-sm-3 control-label"><spring:message code="lbl.permissao.receber.seguidor"/></label>
                                                 <div class="col-sm-7">
                                                 	<spring:message code="lbl.hint.usuario.habilitaRecSeguidor" var="hintRecSeguidor"/>

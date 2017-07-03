@@ -52,10 +52,40 @@ public class ContatoController {
 			List<Contato> lista = contatoService.filtrarContatos(user.getId(), form);
 			map.addAttribute("listaContatos", lista);
 			map.addAttribute("quantTotalContatos", AppUtil.recuperarQuantidadeLista(lista));	
-			map.addAttribute("contatoForm", form);
+			form.setTipoListaContato("N");
+			map.addAttribute("contatoForm", form);		
 	        return DIR_PATH + "listaContatos";
 		} catch (Exception e) {
 			log.error("Erro metodo - ContatoController -  filtrarContato");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+    }
+	
+	@RequestMapping(value = "/filtrarTipoContato", method = RequestMethod.POST)
+    public String filtrarTipoContato(@ModelAttribute("contatoForm") ContatoForm form,
+			  					 	 HttpSession session, 
+			  					 	 ModelMap map){		
+		try {
+			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
+			if ( form.getOpcaoFiltroTipoContato().equals("meusContatos")){
+				List<Contato> lista = contatoService.filtrarContatos(user.getId(), form);
+				map.addAttribute("listaContatos", lista);
+				form.setTipoListaContato("N");
+				map.addAttribute("quantTotalContatos", AppUtil.recuperarQuantidadeLista(lista));	
+			}
+			else {
+				List<Usuario> lista = contatoService.filtrarUsuariosTipoContato(user.getId(), form);
+				form.setTipoListaContato("S");
+				map.addAttribute("listaUsuarios", lista);
+				map.addAttribute("quantTotalContatos", AppUtil.recuperarQuantidadeLista(lista));	
+			}
+				
+			map.addAttribute("contatoForm", form);
+	        return DIR_PATH + "listaContatos";
+		} catch (Exception e) {
+			log.error("Erro metodo - ContatoController -  filtrarTipoContato");
 			log.error("Mensagem Erro: " + e.getMessage());
 			map.addAttribute("mensagemErroGeral", "S");
 			return ImovelService.PATH_ERRO_GERAL;
@@ -214,6 +244,7 @@ public class ContatoController {
 		List<Contato> listaContatos = contatoService.recuperarConvidados(user.getId(), form);
 		map.addAttribute("listaContatos", listaContatos);
 		map.addAttribute("quantTotalContatos", AppUtil.recuperarQuantidadeLista(listaContatos));
+		form.setTipoListaContato("N");
 		map.addAttribute("contatoForm", form);
         return DIR_PATH + "listaContatos";
     }    

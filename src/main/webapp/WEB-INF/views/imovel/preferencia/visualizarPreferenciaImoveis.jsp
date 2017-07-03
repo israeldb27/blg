@@ -365,8 +365,8 @@ function confirmarExclusaoPrefImoveis(){
 	                            <p><spring:message code="lbl.modal.pergunta.confirma.exclusao.pref.imoveis"/></p>
 	                        </div>
 	                        <div class="modal-footer">
-	                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
 	                            <button type="button" class="btn btn-theme" onClick="confirmarExclusaoPrefImoveis();"><spring:message code="lbl.sim"/></button>                            
+	                       		<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
 	                        </div>
 							
 							<div id="msgRetornoConfirmExclusaoPref" cssClass="errorEntrada"  ></div>   

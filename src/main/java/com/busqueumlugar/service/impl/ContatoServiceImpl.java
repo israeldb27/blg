@@ -13,12 +13,14 @@ import org.springframework.util.CollectionUtils;
 
 import com.busqueumlugar.dao.ContatoDao;
 import com.busqueumlugar.dao.ImovelDao;
+import com.busqueumlugar.dao.SeguidorDao;
 import com.busqueumlugar.dao.UsuarioDao;
 import com.busqueumlugar.enumerador.AcaoNotificacaoEnum;
 import com.busqueumlugar.enumerador.ContatoPerfilEnum;
 import com.busqueumlugar.enumerador.ContatoStatusEnum;
 import com.busqueumlugar.enumerador.PerfilUsuarioOpcaoEnum;
 import com.busqueumlugar.enumerador.StatusLeituraEnum;
+import com.busqueumlugar.enumerador.TipoContatoEnum;
 import com.busqueumlugar.enumerador.TipoNotificacaoEnum;
 import com.busqueumlugar.form.ContatoForm;
 import com.busqueumlugar.form.ImovelindicadoForm;
@@ -27,6 +29,7 @@ import com.busqueumlugar.form.UsuarioForm;
 import com.busqueumlugar.model.Contato;
 import com.busqueumlugar.model.EmailImovel;
 import com.busqueumlugar.model.Imovel;
+import com.busqueumlugar.model.Seguidor;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.ContatoService;
 import com.busqueumlugar.service.ImovelindicadoService;
@@ -46,6 +49,9 @@ public class ContatoServiceImpl implements ContatoService {
 	
 	@Autowired
 	private UsuarioDao usuarioDao;
+	
+	@Autowired
+	private SeguidorDao seguidorDao;
 	
 	@Autowired
 	private ImovelDao imovelDao;
@@ -443,6 +449,32 @@ public class ContatoServiceImpl implements ContatoService {
 	@Override
 	public List<Contato> filtrarRecuperacaoConvidadosParaIndicacao(	Long idUsuario, ImovelindicadoForm form) {
         return dao.findContatosByIndicacao(idUsuario, form);
+	}
+
+	@Override
+	public List<Usuario> filtrarUsuariosTipoContato(Long idUsuario, ContatoForm form) {
+	
+		List<Usuario> lista = null;
+		List<Seguidor> listaSeguidor = null; 
+		if ( form.getOpcaoFiltroTipoContato().equals(TipoContatoEnum.usuariosSeguidores .getIdentificador())){
+			listaSeguidor = seguidorDao.findSeguidoresByIdUsuarioSeguido(idUsuario);		
+			if (! CollectionUtils.isEmpty(listaSeguidor)){
+				lista = new ArrayList<Usuario>();
+				for (Seguidor seguidor : listaSeguidor ){
+					lista.add(seguidor.getUsuario());
+				}
+			}
+		}
+		else if ( form.getOpcaoFiltroTipoContato().equals(TipoContatoEnum.usuariosSeguindo.getIdentificador())){						
+			listaSeguidor = seguidorDao.findSeguindoByIdUsuarioSeguido(idUsuario);		
+			if (! CollectionUtils.isEmpty(listaSeguidor)){
+				lista = new ArrayList<Usuario>();
+				for (Seguidor seguidor : listaSeguidor ){
+					lista.add(seguidor.getUsuarioSeguido());
+				}
+			}
+		}
+		return lista;
 	}
 
 }

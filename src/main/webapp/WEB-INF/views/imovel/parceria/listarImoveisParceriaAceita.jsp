@@ -374,7 +374,7 @@
 		                                            <div class="media-left">
 		                                                <a href="${urlImovel}/detalhesImovel/${imovelParceria.id}" >
 		                                                   <span class="meta-provider" style="font-size:19px;">${imovelParceria.imovel.acaoFmt} <br>
-		                                                   							<strong>  R$<fmt:formatNumber value="${imovelParceria.imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
+		                                                   			<strong>  R$<fmt:formatNumber value="${imovelParceria.imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
 		                                                   </span><br>                                                   
 		                                                    <img src="data:image/jpeg;base64,${imovelParceria.imovel.imagemArquivo}" class="img-responsive" style="width: 290px; height: 295px; alt="admin"/>
 		                                                </a>

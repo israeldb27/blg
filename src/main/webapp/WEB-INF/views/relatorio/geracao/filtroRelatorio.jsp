@@ -765,7 +765,7 @@ function mostrarModalInfo(){
                                 			 <label for="btnSubmitAdd" class="col-sm-4 control-label"></label>
                                             <div class="col-sm-7">
                                             	<br>                                            	
-                                            	<button id="btnSubmitAdd" type="submit" class="btn btn-primary btn-block" style="width: 20%;"><spring:message code="btn.rel.gerar.relatorio"/></button>
+                                            	<button id="btnSubmitAdd" type="submit" class="btn btn-primary btn-block" style="width: 30%;"><spring:message code="btn.rel.gerar.relatorio"/></button>
                                             </div>
                                        </div>	
                                        
