@@ -99,7 +99,7 @@
                 	<h2>
                     	<i class="fa fa-pencil"></i> <spring:message code="lbl.title.link.convites"/> 
                     	 <div class="pull-right">
-	                         <a href="#a" class="btn btn-sm"  onClick="mostrarModal(0);"><i class="fa fa-question" style="font-size: 12px;"></i></a>                                        
+	                        <a href="#a" class="btn btn-sm"  data-toggle="modal" data-target=".bs-modal-ajuda-informacoes" style=""><i class="fa fa-question" ></i></a>                                        
 	                     </div>	
                     </h2>                                                                           				
                 </div><!-- /.header-content -->
@@ -107,10 +107,9 @@
                 
                 <!-- Start body content -->
                 <div class="body-content animated fadeIn">
-                 <div class="row">
-                 		
+                 <div class="row">                 		
                     	<% if ( request.getSession().getAttribute("acessoValido").equals("N") ) {%>
-		    		<c:import url="../../avisoRenovacaoAssinatura.jsp"></c:import>
+		    				<c:import url="../../avisoRenovacaoAssinatura.jsp"></c:import>
                         <% } %>
                        
                        <c:choose>                       
@@ -126,8 +125,8 @@
 			                                    <div class="pull-right">
 			                                    	<spring:message code="lbl.hint.tipo.ordenacao" var="hintOrdenar"/>
 			                                        <form:form method="POST" id="contatoOrdForm" modelAttribute="contatoForm" action="${urlContato}/ordenarConvites" >
-			                                        	<form:select id="opcaoOrdenacao1" path="opcaoOrdenacao" class="chosen-select" tabindex="-1" style="display: none;" title="${hintOrdenar}">                                
-										                        <form:option value="" disabled="true"><spring:message code="opcao.selecao.uma.opcao"/></form:option>
+			                                        	<form:select id="opcaoOrdenacao1" path="opcaoOrdenacao" class="form-control" title="${hintOrdenar}">                                
+										                        <form:option value="" disabled="true"><spring:message code="lbl.opcao.ordenar"/></form:option>
 										                        <form:option value="maisRecente"><spring:message code="lbl.opcao.contato.mais.recente"/></form:option>
 																<form:option value="menosRecente"><spring:message code="lbl.opcao.contato.menos.recente"/></form:option>
 										                  </form:select>  
@@ -282,23 +281,6 @@
 			<!-- Start content modal Ajuda - funcionalidade -->
 				<c:import url="../ajuda/contentMenuModal.jsp"></c:import>																				
 			<!-- End content  modal Ajuda - funcionalidade -->
-			
-			<div id="idModalItem" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog">
-				      <div class="modal-content">
-				        <div class="modal-header">
-				          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				          <h4 class="modal-title"> <div id="msgModalFuncionalidade" > </div>  </h4>
-				        </div>
-				        <div class="modal-body">  
-				       	   <strong> <spring:message code="lbl.descricao.geral"/>:  </strong> <div id="msgModalFunc" > </div>
-				        </div>
-				        <div class="modal-footer">			          
-	                      <button type="button" class="btn btn-primary" data-dismiss="modal"><spring:message code="lbl.btn.fechar.geral"/></button>
-				        </div>
-				      </div>
-				    </div>
-			</div>
 
         </section><!-- /#wrapper -->
         <!--/ END WRAPPER -->

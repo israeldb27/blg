@@ -52,9 +52,6 @@ public class MensagemAdminController {
 	private static final String DIR_PATH = "/mensagem/admin/";
 	private static final String DIR_PATH_ADMIN = "/admin/mensagem/";
 	
-	private static final String TIPO_VISUALIZACAO = "mensagemAdmin";
-	
-	
 	@RequestMapping(value = "/filtrarTipoMensagem", method = RequestMethod.POST)
 	public String filtrarTipoMensagem(@ModelAttribute("mensagemAdminForm") MensagemAdminForm form,
 									   HttpSession session, 
@@ -75,6 +72,7 @@ public class MensagemAdminController {
 	public String listarMensagensAdmin(HttpSession session, 
 								 	   ModelMap map){
 		try {
+			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "listarMinhasMensagensAdmin");
 			map.addAttribute("listaMinhasMensagens", mensagemAdminService.listarTodasMensagensOrdenadasPorData());		
 			map.addAttribute("mensagemAdminForm", new MensagemAdminForm());
 			return DIR_PATH_ADMIN + "listaMensagensAdmin";
@@ -92,6 +90,7 @@ public class MensagemAdminController {
 								 	     ModelMap map){		
 		
 		try {
+			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "listarMinhasMensagensAdmin");
 			map.addAttribute("listaMinhasMensagens", itemMensagemAdminService.recuperaItemMensagensPorIdMensagemAdminParaAdministrador(idMensagemAdmin));		
 			map.addAttribute("mensagemAdminForm", mensagemAdminService.carregaFormPorIdMensagemAdmin(idMensagemAdmin));
 			session.setAttribute(MensagemAdminService.QUANT_NOVAS_MENSAGENS_ADMIN, AppUtil.recuperarQuantidadeLista(itemMensagemAdminService.recuperarQuantidadesNovasMensagensEnviadasParaAdmin()));
@@ -111,6 +110,7 @@ public class MensagemAdminController {
 											 		ModelMap map){
 		
 		try {
+			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "listarMinhasMensagensAdmin");
 			boolean isValido = itemMensagemAdminService.validarAdicionarNovoItemMensagemAdminEnviadoPorAdministrador(form, result);
 			if ( isValido )
 				itemMensagemAdminService.adicionarNovoItemMensagemAdminPorAdministrador(form);			
@@ -133,6 +133,7 @@ public class MensagemAdminController {
 															ModelMap map){
 		
 		try {
+			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "listarMinhasMensagensAdmin");
 			boolean isValido = itemMensagemAdminService.validarAdicionarNovoItemMensagemAdminEnviadoPorAdministrador(form, result);
 			if ( isValido )
 				itemMensagemAdminService.adicionarNovoItemMensagemAdminEnviadoPorAdministrador(form);
@@ -155,6 +156,7 @@ public class MensagemAdminController {
 								 	 		 ModelMap map){
 		
 		try {
+			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "listarMinhasMensagensAdmin");
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			boolean isValido = itemMensagemAdminService.validarAdicionarNovoItemMensagemAdmin(form, result);
 			if ( isValido )	{
@@ -181,6 +183,7 @@ public class MensagemAdminController {
 								 	 		 ModelMap map){		
 		
 		try {
+			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "listarMinhasMensagensAdmin");
 			int quantNovas = Integer.parseInt(request.getSession().getAttribute("quantNovasMensagensAdmin").toString());
 			if (quantNovas > 0){
 				itemMensagemAdminService.atualizarItemMensagensPorId(idMensagemAdmin);
@@ -202,9 +205,10 @@ public class MensagemAdminController {
 	}
 	
 	@RequestMapping(value = "/prepararNovaMensagem", method = RequestMethod.GET)
-	public String prepararNovaMensagem(ModelMap map){
+	public String prepararNovaMensagem(ModelMap map, HttpSession session){
 		
-		try {			
+		try {	
+			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "listarMinhasMensagensAdmin");
 			map.addAttribute("mensagemAdminForm", new MensagemAdminForm());
 			return DIR_PATH + "criarMensagemAdmin";
 		} catch (Exception e) {
@@ -224,6 +228,7 @@ public class MensagemAdminController {
 			form.setIdUsuario(idUsuario);
 			form.setNomeUsuarioPara(usuarioService.recuperarUsuarioPorId(idUsuario).getNome());
 			map.addAttribute("mensagemAdminForm", form);
+			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "listarMinhasMensagensAdmin");
 			return DIR_PATH_ADMIN + "criarMensagemAdmin";
 		} catch (Exception e) {
 			log.error("Erro metodo - MensagemAdminController - prepararNovaMensagemPorAdmin");
@@ -242,6 +247,7 @@ public class MensagemAdminController {
 		try {			
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			boolean isValido = mensagemAdminService.validarCriarMensagemParaAdmin(form, result);
+			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "listarMinhasMensagensAdmin");
 			if ( isValido ){
 				mensagemAdminService.criarMensagemParaAdmin(form, user.getId());
 				map.addAttribute("msgSucesso", "S");
@@ -283,13 +289,29 @@ public class MensagemAdminController {
 	}
 	
 	
+	@RequestMapping(value = "/minhasNovasMensagensAdmin", method = RequestMethod.GET)
+	public String minhasNovasMensagensAdmin(HttpSession session, ModelMap map){
+		try {			
+			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
+			map.addAttribute("listaMinhasMensagens", mensagemAdminService.recuperaTodasMensagensNovasPorUsuario(user.getId()));
+			map.addAttribute("mensagemAdminForm", new MensagemAdminForm());
+			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "listarMinhasMensagensAdmin");
+			return DIR_PATH + "listaMensagensAdmin";
+		} catch (Exception e) {
+			log.error("Erro metodo - MensagemAdminController - minhasMensagensAdmin");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		}				
+	}
+	
 	@RequestMapping(value = "/minhasMensagensAdmin", method = RequestMethod.GET)
 	public String minhasMensagensAdmin(HttpSession session, ModelMap map){
 		try {			
-			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
-			session.setAttribute(ParametrosUtils.TIPO_VISUALIZACAO, TIPO_VISUALIZACAO);	
+			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);	
 			map.addAttribute("listaMinhasMensagens", mensagemAdminService.recuperaTodasMensagensPorUsuario(user.getId()));
 			map.addAttribute("mensagemAdminForm", new MensagemAdminForm());
+			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "listarMinhasMensagensAdmin");
 			return DIR_PATH + "listaMensagensAdmin";
 		} catch (Exception e) {
 			log.error("Erro metodo - MensagemAdminController - minhasMensagensAdmin");

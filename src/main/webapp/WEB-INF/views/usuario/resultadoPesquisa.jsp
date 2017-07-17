@@ -9,10 +9,48 @@
 <spring:url value="/imovel" var="urlImovel"/>
 <spring:url value="/usuario" var="urlUsuario"/>
 <spring:url value="/servico" var="urlServico"/>
+<spring:url var="urlImovelFavoritos" value="/imovelFavoritos"/>
 
 <%@page import="com.busqueumlugar.util.UsuarioInterface"%>
 <%@page import="com.busqueumlugar.form.UsuarioForm"%>
 <c:set var="usuario" value="<%= (UsuarioForm)request.getSession().getAttribute(UsuarioInterface.USUARIO_SESSAO) %>"/> 
+   
+ <script type="text/javascript">
+    	$(document).ready(function() {
+    		
+    		
+    	}
+    	
+    	function adicionarInteresse(id) {    	
+    		var parametro1 = id;
+    	    $.ajax({                
+                url: '${urlImovelFavoritos}/adicionarFavoritos/' + parametro1,                
+                success: function(){
+                	$("#idMeInteressei_"+id).hide();
+                	$("#idNovoMeInteressei_"+id).hide();
+	    	    	$("#idInteressado_"+id).show();	    	    	
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+                }
+            });   
+    	}
+    	
+    	function retirarInteresse(id) {
+    		var parametro1 = id;    		
+    	    $.ajax({                
+                url: '${urlImovelFavoritos}/retirarFavoritos/' + parametro1,                
+                success: function(){
+                	$("#idNovoMeInteressei_"+id).show();                	
+	    	    	$("#idInteressado_"+id).hide();
+	    	    	$("#idNovoInteressado_"+id).hide();	    	    	
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+                }
+            });   
+    	}  
+ </script>
    
 <html> 
 
@@ -114,7 +152,8 @@
 																  
 																  <div class="col-md-5" >  	                                                
 					                                                	<div class="media-body" >
-								                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.ultima.imovel.atualizacao" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;"><fmt:formatDate value='${imovel.dataUltimaAtualizacao}' pattern='dd/MM/yyyy'/></font></span></em> 
+								                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.ultima.imovel.atualizacao" />: </font> <br> 
+								                                            <span class="text-success"><font style="font-size:11px; font-style: normal;"><fmt:formatDate value='${imovel.dataUltimaAtualizacao}' pattern='dd/MM/yyyy'/></font></span></em> 
 								                                            
 								                                            <br> <br>
 								                                            
@@ -152,6 +191,7 @@
 					                                                            </tr>
 					                                                        </tbody>
 					                                                    </table>
+					                                                    					                                                    
 					                                                  </div> 	                                          			                                          
 																  </div>
 																  
@@ -180,7 +220,7 @@
 														<div id="idUsuarioBusca" class="media rounded shadow no-overflow">
 														    <div class="media-left">
 				                                                <a href="${urlUsuario}/detalhesUsuario/${usuarioBusca.id}" >                                                                                                     
-				                                                    <img  src="data:image/jpeg;base64,${usuarioBusca.imagemArquivo}" class="img-responsive" style="width: 260px; height: 225px; alt="admin"/>
+				                                                    <img  src="data:image/jpeg;base64,${usuarioBusca.imagemArquivo}" class="img-responsive" style="width: 260px; height: 245px; alt="admin"/>
 				                                                </a>
 				                                            </div>
 				                                            
@@ -194,7 +234,8 @@
 							                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.cadastro.usuario" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;"><br>
 							                                            <fmt:formatDate value='${usuarioBusca.dataCadastro}' pattern='dd/MM/yyyy'/></font></span></em> </br>			                                            		                                            	                                            
 							                                        </div>				                                                                                       
-				                                                    <br/> <br/>	                                                    		                                                  
+				                                                            
+				                                                     <br>                                                   		                                                  
 				                                              </div>
 				                                              	                                        	  
 															  <div class="meta-search">
@@ -229,38 +270,14 @@
 						                                                      
 						                                                         <c:if test="${usuarioBusca.id != usuario.id}">
 						                                                      	 	<a href="${urlImovel}/visualizarImoveisPerfilUsuario/${usuarioBusca.id}" style="font-size:x-large; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.visualizar.imoveis.perfil.usuario"/>' ><i class="fa fa-home pull-left" style="color:gray"><font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.visualizar.imoveis.perfil.usuario"/> </font> </i>  </a>
-						                                                      	 </c:if>	                                                      	
-						                                                     
-					                                                      	 	<c:if test="${((usuarioBusca.isContato == 'N') && (usuarioBusca.id != usuario.id) && (usuarioBusca.isSeguindo == 'N'))}">
-					                                                      	 		<spring:message code="lbl.enviar.convite" var="mensagemEnviarConvite"/>
-									                                        		<a href="#a" id="idConvite_${usuarioBusca.id}"  onClick="enviarConvite(${usuarioBusca.id})" style="font-size:x-large; color: rgb(99, 110, 123);"  class="dropdown-toggle"  ><i class="fa fa-user-plus"></i> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> ${mensagemEnviarConvite} </font> </a> 
-					                                                      	 	</c:if> 
-						                                                      
-						                                                      	<c:if test="${((usuarioBusca.isContato == 'N') && (usuarioBusca.id != usuario.id))}">
-						                                                      		<c:choose>
-							                                                      		<c:when test="${usuarioBusca.isSeguindo == 'S' }">
-																							<a href="#a" onClick="cancelarSeguirUsuario(${usuarioBusca.id})" id="idCancelarSeguidor_${usuarioBusca.id}" style="font-size:x-large; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.link.cancelar.seguir.usuario"/>'> <i class="fa fa-outdent pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.link.cancelar.seguir.usuario"/> </font> &nbsp; &nbsp;</i> </a>   	                                    			
-																							<a href="#a" onClick="iniciarSeguirUsuario(${usuarioBusca.id})" id="idIniciarSeguidor_${usuarioBusca.id}" style="font-size:x-large;display: none; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.link.iniciar.seguir.usuario"/>'> <i class="fa fa-list-ul pull-right" style="color:gray">  <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.link.iniciar.seguir.usuario"/> </font> &nbsp; &nbsp;  </i></a>
-																							<spring:message code="lbl.enviar.convite" var="mensagemEnviarConvite"/>
-																							<a href="#a" id="idConvite_${usuarioBusca.id}"  onClick="enviarConvite(${usuarioBusca.id})" style="font-size:x-large; color: rgb(99, 110, 123); display: none;"  class="dropdown-toggle"  ><i class="fa fa-user-plus"></i> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> ${mensagemEnviarConvite} </font> </a>
-																							 
-											                                    		</c:when>
-											                                    		
-											                                    		<c:when test="${usuarioBusca.isSeguindo == 'N' }">						                                    		
-											                                    			<a href="#a" onClick="iniciarSeguirUsuario(${usuarioBusca.id})" id="idIniciarSeguidor_${usuarioBusca.id}" style="font-size:x-large; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.link.iniciar.seguir.usuario"/>'> <i class="fa fa-list-ul pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.link.iniciar.seguir.usuario"/> </font> &nbsp; &nbsp; </i> </a> 
-											                                    			<a href="#a" onClick="cancelarSeguirUsuario(${usuarioBusca.id})" id="idCancelarSeguidor_${usuarioBusca.id}" style="font-size:x-large; display: none; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.link.cancelar.seguir.usuario"/>'> <i class="fa fa-outdent pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.link.cancelar.seguir.usuario"/> </font> &nbsp; &nbsp; </i></a>
-											                                    			<spring:message code="lbl.enviar.convite" var="mensagemEnviarConvite"/>
-											                                    			<a href="#a" id="idConvite_${usuarioBusca.id}"  onClick="enviarConvite(${usuarioBusca.id})" style="font-size:x-large; color: rgb(99, 110, 123); display: none;"  class="dropdown-toggle"  ><i class="fa fa-user-plus"></i> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> ${mensagemEnviarConvite} </font> </a> 
-											                                    		</c:when> 
-										                                    		</c:choose>
-						                                                      	</c:if>
-										                                         
+						                                                      	 </c:if>
+					                                                      	 											                                         
 						                                                    <% } %>
 				                                                  </div>                                                                                                           
 														  	 </div>		                                          
 														  </div><!-- /.media-body -->
 													  </div><!-- /.media -->
-													  <div class="line"></div>		                              	  
+													                              	  
 												   </c:forEach>	
 												</div>	
 											 </c:if>

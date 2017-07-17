@@ -409,35 +409,39 @@
 				                                    </div>
 				                                </div><!-- /.panel -->
 												
-												<div class="panel panel-default">
-				                                    <div class="panel-heading no-border">
-				                                        <h4 class="panel-title">
-				                                            <a data-toggle="collapse" data-parent="#accordion1"  style="font-size: 13px;" href="#collapse1-24">
-				                                                <spring:message code="msg.faq.pergunta.planos"/>
-				                                            </a>
-				                                        </h4>
-				                                    </div><!-- /.panel-heading -->
-				                                    <div id="collapse1-24" class="panel-collapse collapse">
-				                                        <div class="panel-body" style="font-size: 11px;">
-				                                            <spring:message code="msg.faq.resposta.planos"/>	
-				                                        </div>
-				                                    </div>
-				                                </div><!-- /.panel -->
+												<% if ( request.getSession().getAttribute("habilitaFuncPlanos").equals("S") ) {%>
+													<div class="panel panel-default">
+					                                    <div class="panel-heading no-border">
+					                                        <h4 class="panel-title">
+					                                            <a data-toggle="collapse" data-parent="#accordion1"  style="font-size: 13px;" href="#collapse1-24">
+					                                                <spring:message code="msg.faq.pergunta.planos"/>
+					                                            </a>
+					                                        </h4>
+					                                    </div><!-- /.panel-heading -->
+					                                    <div id="collapse1-24" class="panel-collapse collapse">
+					                                        <div class="panel-body" style="font-size: 11px;">
+					                                            <spring:message code="msg.faq.resposta.planos"/>	
+					                                        </div>
+					                                    </div>
+					                                </div><!-- /.panel -->
+				                                 <% }  %>
 												
-												<div class="panel panel-default">
-				                                    <div class="panel-heading no-border">
-				                                        <h4 class="panel-title">
-				                                            <a data-toggle="collapse" data-parent="#accordion1"  style="font-size: 13px;" href="#collapse1-25">
-				                                                <spring:message code="msg.faq.pergunta.servicos"/>
-				                                            </a>
-				                                        </h4>
-				                                    </div><!-- /.panel-heading -->
-				                                    <div id="collapse1-25" class="panel-collapse collapse">
-				                                        <div class="panel-body" style="font-size: 11px;">
-				                                            <spring:message code="msg.faq.resposta.servicos"/>	
-				                                        </div>
-				                                    </div>
-				                                </div><!-- /.panel -->
+												<% if ( request.getSession().getAttribute("habilitaFuncServicos").equals("S") ) {%>
+													<div class="panel panel-default">
+					                                    <div class="panel-heading no-border">
+					                                        <h4 class="panel-title">
+					                                            <a data-toggle="collapse" data-parent="#accordion1"  style="font-size: 13px;" href="#collapse1-25">
+					                                                <spring:message code="msg.faq.pergunta.servicos"/>
+					                                            </a>
+					                                        </h4>
+					                                    </div><!-- /.panel-heading -->
+					                                    <div id="collapse1-25" class="panel-collapse collapse">
+					                                        <div class="panel-body" style="font-size: 11px;">
+					                                            <spring:message code="msg.faq.resposta.servicos"/>	
+					                                        </div>
+					                                    </div>
+					                                </div><!-- /.panel -->
+				                                 <% }  %>
 				                                
 				                            </div><!-- /.panel-group -->
 				                            <!--/ End accordion -->								

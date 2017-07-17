@@ -52,7 +52,13 @@
             <section id="page-content">            
             	 <!-- Start header content -->
                 <div class="header-content">                	 
-                    	<h2><i class="fa fa-pencil"></i> <spring:message code="lbl.title.link.convites"/>  </h2>                    	
+                    	<h2>
+                    		<i class="fa fa-pencil"></i> <spring:message code="lbl.title.link.convites"/> 
+                    		<div class="pull-right">
+		                        <a href="#a" class="btn btn-sm"  data-toggle="modal" data-target=".bs-modal-ajuda-informacoes" style=""><i class="fa fa-question" ></i></a>                                        
+		                     </div>
+                    	 </h2>  
+                    		                  	
                 </div><!-- /.header-content -->
                 <!--/ End header content -->
                 
@@ -128,7 +134,7 @@
 												                
 												                <c:when test="${msgConviteRecusado != null }">
 													               		 <div class="alert alert-danger">
-									                                                <strong><spring:message code="msg.convite.recusado.sucesso"/></strong> 
+									                                           <strong><spring:message code="msg.convite.recusado.sucesso"/></strong> 
 									                                     </div>								                    
 													             </c:when>
 															</c:choose>	

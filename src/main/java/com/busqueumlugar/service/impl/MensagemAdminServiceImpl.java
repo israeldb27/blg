@@ -66,18 +66,8 @@ public class MensagemAdminServiceImpl implements MensagemAdminService {
 		}
 	
 	@Override
-	public List<MensagemAdmin> recuperaTodasMensagensPorUsuario(Long idUsuario) {		
-		List<MensagemAdmin> lista = dao.findMensagemAdminByIdUsuario(idUsuario);
-		List<MensagemAdmin> listaFinal = new ArrayList<MensagemAdmin>();		
-		int quantNovaMensagens = 0;
-		for (MensagemAdmin mensagem : lista){
-			quantNovaMensagens = itemMensagemAdminDao.findQuantNovasItensMensagensByIdMensagemAdmin(mensagem.getId());
-			if ( quantNovaMensagens > 0 ) {
-				mensagem.setPossuiNovaMensagem("S");			
-			}
-		}				
-		return listaFinal;
-
+	public List<MensagemAdmin> recuperaTodasMensagensPorUsuario(Long idUsuario) {					
+		return dao.findMensagemAdminByIdUsuario(idUsuario);
 	}
 
 	@Override
@@ -208,6 +198,11 @@ public class MensagemAdminServiceImpl implements MensagemAdminService {
 	@Override
 	public List<MensagemAdmin> listarNovasMensagensOrdenadasPorDataPorQuantidade(int quant) {
 		return dao.findAllMensagensNovasAdminOrderByDataMensagemBYQuant(quant);
+	}
+
+	@Override
+	public List<MensagemAdmin> recuperaTodasMensagensPorUsuarioPorQuantidade(Long idUsuario, int quantMensagens) {
+		return dao.findMensagemAdminByIdUsuarioBYQuant(idUsuario, quantMensagens);
 	}	
 
 }

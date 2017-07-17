@@ -55,10 +55,9 @@ public class NotificacaoController {
 	}
 	
 	@RequestMapping(value = "/listarMinhasNotificacoes", method = RequestMethod.GET)
-	public String goListarMinhasNotificacoes(HttpSession session, 
-											 HttpServletRequest request,
-											 ModelMap map){
-		
+	public String listarMinhasNotificacoes(HttpSession session, 
+										   HttpServletRequest request,
+										   ModelMap map){		
 		try {
 			UsuarioForm usuario = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);		
 			NotificacaoForm form = new NotificacaoForm();
@@ -69,7 +68,7 @@ public class NotificacaoController {
 				session.setAttribute(ImovelService.LISTA_NOVAS_NOTIFICACOES, null);
 				session.setAttribute(ImovelService.QUANT_NOVAS_NOTIFICACOES, 0);
 			}
-			map.addAttribute("listaNotificacoes", notificacaoService.recuperarMinhasNotificacoes(usuario.getId(), form));		
+			map.addAttribute("listaNotificacoes", notificacaoService.recuperarMinhasNotificacoes(usuario.getId(), form));
 			map.addAttribute("notificacaoForm", form);
 			return DIR_PATH + "listarMinhasNotificacoes";
 		} catch (Exception e) {
@@ -87,8 +86,8 @@ public class NotificacaoController {
 											ModelMap map){
 		
 		try {
-			UsuarioForm usuario = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);		
-			map.addAttribute("listaNotificacoes", notificacaoService.recuperarMinhasNotificacoes(usuario.getId(), form));		
+			UsuarioForm usuario = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
+			map.addAttribute("listaNotificacoes", notificacaoService.recuperarMinhasNotificacoes(usuario.getId(), form));	
 			map.addAttribute("notificacaoForm", form);
 			return DIR_PATH + "listarMinhasNotificacoes";
 		} catch (Exception e) {
@@ -96,22 +95,19 @@ public class NotificacaoController {
 			log.error("Mensagem Erro: " + e.getMessage());
 			map.addAttribute("mensagemErroGeral", "S");
 			return ImovelService.PATH_ERRO_GERAL;
-		}
-		
+		}		
 	}
 	
 	@RequestMapping(value = "/selecionarNotificacao/{idNotificacao}", method = RequestMethod.GET)
 	public String selecionarNotificacao(@PathVariable Long idNotificacao,
 										HttpSession session,
 										HttpServletRequest request,
-										ModelMap map){
-		
+										ModelMap map){		
 		try {
 			UsuarioForm usuario = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			notificacaoService.atualizarStatusLeituraNotificacaoByIdUsuario(usuario.getId());
 			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "listarMinhasNotificacoes");
-			List<Notificacao> lista = notificacaoService.recuperarNotificacaoPorIdSelecionada(idNotificacao);
-			map.addAttribute("listaNotificacoes", lista);
+			map.addAttribute("listaNotificacoes", notificacaoService.recuperarNotificacaoPorIdSelecionada(idNotificacao));
 			List<Notificacao> listaNovasNotificacoes = notificacaoService.recuperarListaNotificacoesNovas(usuario.getId());
 			session.setAttribute(ImovelService.LISTA_NOVAS_NOTIFICACOES, listaNovasNotificacoes);
 			session.setAttribute(ImovelService.QUANT_NOVAS_NOTIFICACOES, AppUtil.recuperarQuantidadeLista(listaNovasNotificacoes));
@@ -123,9 +119,7 @@ public class NotificacaoController {
 			map.addAttribute("mensagemErroGeral", "S");
 			return ImovelService.PATH_ERRO_GERAL;
 		}
-	}
-	
-	
+	}	
 	
 	@RequestMapping(value = "/ordenarMinhasNotificacoes", method = RequestMethod.POST)
 	public String ordenarMinhasNotificacoes(@ModelAttribute("notificacaoForm") NotificacaoForm form,
@@ -134,7 +128,7 @@ public class NotificacaoController {
 		try {
 			UsuarioForm usuario = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			map.addAttribute("listaNotificacoes", notificacaoService.filtrarNotificacoes(usuario.getId(), form));
-			//form.setListaNotificacoes(notificacaoService.ordenarMinhasNotificacoes(form.getListaNotificacoes(), usuario.getId(), form.getOpcaoOrdenacao()));
+			form.setOpcaoPaginacao("");
 			map.addAttribute("notificacaoForm", form);
 			return DIR_PATH + "listarMinhasNotificacoes";
 		} catch (Exception e) {
@@ -148,12 +142,11 @@ public class NotificacaoController {
 	@RequestMapping(value = "/filtrarNotificacoes", method = RequestMethod.POST)
 	public String filtrarNotificacoes(@ModelAttribute("notificacaoForm") NotificacaoForm form,
 									  HttpSession session, 
-									  ModelMap map){
-		
+									  ModelMap map){		
 		try {
-			UsuarioForm usuario = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
-			//form.setListaNotificacoes(notificacaoService.filtrarNotificacoes(usuario.getId(), form.getOpcaoFiltro()));
+			UsuarioForm usuario = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);			
 			map.addAttribute("listaNotificacoes", notificacaoService.filtrarNotificacoes(usuario.getId(), form));
+			form.setOpcaoPaginacao("");
 			map.addAttribute("notificacaoForm", form);
 			return DIR_PATH + "listarMinhasNotificacoes";
 		} catch (Exception e) {

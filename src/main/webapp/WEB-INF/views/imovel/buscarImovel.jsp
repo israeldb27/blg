@@ -199,7 +199,7 @@
 	                                 </div>  
                                     <div class="panel-body">
                                         <div class="form-group no-margin">
-                                        	 </br>
+                                        	 <br>
                                         	<span class="label label-default" > <spring:message code="lbl.estado" /> </span>  
                                         	<spring:message code="lbl.hint.imovel.estado" var="hintEstado"/>
                                             <form:select id="idEstado" path="idEstado" class="chosen-select" tabindex="-1" style="display: none;" title="${hintEstado}">

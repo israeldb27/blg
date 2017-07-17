@@ -43,6 +43,7 @@ public class RecomendacaoController {
 											   HttpSession session){
 		
 		try {
+			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "listarMinhasRecomendacoes");
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			map.addAttribute("recomendacaoForm", new RecomendacaoForm());		
 			map.addAttribute("listaRecomendacoes", recomendacaoService.recuperarRecomendacoesPorIdUsuarioRecomendadoPorStatus(user.getId(), RecomendacaoStatusEnum.ENVIADO.getRotulo()));		
@@ -65,6 +66,7 @@ public class RecomendacaoController {
 												    ModelMap map, 	
 											   		HttpSession session) {
 		try {
+			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "listarMinhasRecomendacoes");
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			Recomendacao rec = recomendacaoService.recuperarRecomendacaoPorId(idRecomendacao);
 			map.addAttribute("recomendacaoSelecionada", rec);

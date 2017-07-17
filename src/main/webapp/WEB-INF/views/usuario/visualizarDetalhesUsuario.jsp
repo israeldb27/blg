@@ -539,13 +539,13 @@ function mostrarModal(id){
 					                                                   <span class="meta-provider ${imovel.classePorAcao}" style="font-size:19px;">${imovel.acaoFmt} <br>
 					                                                   							<strong>  R$<fmt:formatNumber value="${imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
 					                                                   </span><br>                                                   
-					                                                    <img src="data:image/jpeg;base64,${imovel.imagemArquivo}"  class="img-responsive" style="width: 270px; height: 300px; alt="admin"/>
+					                                                    <img src="data:image/jpeg;base64,${imovel.imagemArquivo}"  class="img-responsive" style="width: 270px; height: 300px;"  />
 					                                                </a>
 					                                            </div>
 					                                            <div class="media-body">
 					                                                <span class="label pull-right" style="background-color: #9d2428; font-size: 12px">${imovel.tipoImovelFmt}</span>			                                                 
 					                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlImovel}/detalhesImovel/${imovel.id}" style="color : #9d2428;">${imovel.titulo}</a></h4>
-					                                                <h5 class="media-heading" style="margin-bottom:12px;"><i class="fa fa-map-marker"></i> ${imovel.endereco} - ${imovel.bairro} - ${imovel.cidade} -${imovel.uf} </h1>
+					                                                <h5 class="media-heading" style="margin-bottom:12px;"><i class="fa fa-map-marker"></i> ${imovel.endereco} - ${imovel.bairro} - ${imovel.cidade} -${imovel.uf} </h5>
 					                                                
 					                                                  <div class="col-md-5" >  	                                                
 						                                                	<div class="media-body" >
@@ -674,25 +674,36 @@ function mostrarModal(id){
 																			
 																			<c:when test="${nota.acao == 'R'}">
 																				<small class="block text-muted"> <font size="3px;"> <spring:message code="lbl.minha.nota.add.preferencia.imovel"/> </font></small>
-																			</c:when>																			
+																			</c:when>	
+																			
+																			<c:when test="${nota.acao == 'T'}">
+																				<small class="block text-muted"> <font size="3px;"> <spring:message code="lbl.notas.contato.intermediacao"/> <a href="${urlImovel}/detalhesImovel/${nota.imovel.id}" ><strong>${nota.imovel.titulo} </strong></a></font></small>
+																			</c:when>
+																			
+																			<c:when test="${nota.acao == 'P'}">
+																				<small class="block text-muted"> <font size="3px;"> <spring:message code="lbl.notas.contato.parceria"/> <a href="${urlImovel}/detalhesImovel/${nota.imovel.id}" ><strong>${nota.imovel.titulo} </strong></a> </font></small>
+																			</c:when>																		
 																		</c:choose>																		
 																	</p>																				
 																</div>	
 																 </br>																			  
 															     <em class="text-xs text-muted"><spring:message code="lbl.data.nota"/>: <span class="text-danger"><fmt:formatDate value='${nota.dataNota}' pattern='dd/MM/yyyy'/></span></em>
-															<hr>
+															
 															</div>
 														</div>
                                 					</c:forEach>								
 												</div>
+												 <div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
+				                                    <a href="#"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+				                               		<br> <br>
+				                                </div>
                                 			</c:when>
                                 			
                                 			<c:when test="${ empty usuarioForm.listaNotasUsuario }">
 	                                			 <div class="callout callout-warning">
 				                                    <strong><spring:message code="lbl.nenhuma.nota"/></strong>			                                    
 				                                </div>                                		
-	                                		</c:when>
-	                                		
+	                                		</c:when>	                                		
                                 		</c:choose>		
 								</div>
                                                             
@@ -745,6 +756,11 @@ function mostrarModal(id){
 					                                            </tbody>
 					                                        </table>
 						                                </div><!-- /.panel-body -->
+						                                <!-- botao ver mais  -->
+						                                 <div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
+						                                    <a href="#"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+						                               		<br> <br>
+						                                </div>
 				                                	</c:when>
 				                                	
 				                                	<c:when test="${ empty usuarioForm.listaPreferenciaImoveis}">
@@ -828,6 +844,11 @@ function mostrarModal(id){
 								                         </div>   				                        
 							                        </c:forEach>
 							                     </div>		
+							                       <!-- botao ver mais  -->
+						                                 <div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
+						                                    <a href="#"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+						                               		<br> <br>
+						                                </div>
 	                                		</c:when>
 	                                		
 	                                		<c:when test="${ empty usuarioForm.listaContatosUsuario }">
@@ -889,6 +910,11 @@ function mostrarModal(id){
 								                         </div>   				                        
 							                        </c:forEach>
 							                        </div>
+							                          <!-- botao ver mais  -->
+						                                 <div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
+						                                    <a href="#"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+						                               		<br> <br>
+						                                </div>
 	                                		</c:when>
 	                                		<c:when test="${empty usuarioForm.listaSeguidores }">
 	                                			<div class="panel-body panel panel-scrollable rounded shadow" style="height: 120px;">
@@ -988,11 +1014,7 @@ function mostrarModal(id){
 												                      </div><!-- /.panel -->   
 					                                            </div>
 			                                            	</c:when>
-			                                            	
-			                                            	
-			                                            	
-			                                            </c:choose>
-			                                            
+			                                            </c:choose>			                                            
 			                                        </li><!-- media -->											
 												</c:forEach>
 		                                    </ul>
@@ -1005,14 +1027,17 @@ function mostrarModal(id){
 				                                            <form class="form-horizontal mb-20" role="form">	
 					                                            <div class="form-group">
 					                                               <input type="button" class="btn btn-primary" onClick="prepararModalAddRecomendacao();" value='<spring:message code="btn.modal.adicionar.recomendacao"/> '>
-					                                            </div>
-							                                      
+					                                            </div>							                                      
 				                                            </form>
 				                                        </li>
 				                                    </ul>
-											</c:if>	
-		                                    
+											</c:if>			                                    
 		                                </div>	
+		                                  <!-- botao ver mais  -->
+		                                 <div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
+		                                    <a href="#"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+		                               		<br> <br>
+		                                </div>
                                 	</c:when>
                                 	
                                 	<c:when test="${empty usuarioForm.listaRecomendacoes }">

@@ -60,13 +60,26 @@ public class NotificacaoDaoImpl extends GenericDAOImpl<Notificacao, Long>  imple
 	public List<Notificacao> findNotificacoesByIdUsuario(Long idUsuario, NotificacaoForm form) {
 		Criteria crit = session().createCriteria(Notificacao.class);
 		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));
+		
+		if ( ! StringUtils.isNullOrEmpty(form.getOpcaoFiltro()))
+			crit.add(Restrictions.eq("acao", form.getOpcaoFiltro()));
+		
+		if ( ! StringUtils.isNullOrEmpty(form.getOpcaoOrdenacao())){
+			if ( form.getOpcaoOrdenacao().equals("maiorDataNotificacao"))
+				crit.addOrder(Order.desc("dataNotificacao"));
+			else
+				crit.addOrder(Order.asc("dataNotificacao"));			
+		}
+		else
+			crit.addOrder(Order.desc("dataNotificacao"));
+		
 		form.setQuantRegistros(AppUtil.recuperarQuantidadeLista(crit.list()));
 		if ( form.isVisible()){
 	        crit.setFirstResult((Integer.parseInt((StringUtils.isNullOrEmpty(form.getOpcaoPaginacao())) ? "1": form.getOpcaoPaginacao()) - 1) * form.getQuantMaxRegistrosPerPage());        
 	        crit.setMaxResults(form.getQuantMaxRegistrosPerPage());
 	        form.setListaPaginas(AppUtil.carregarQuantidadePaginas(form.getQuantRegistros(), form.getQuantMaxRegistrosPerPage()));
 		}        
-		crit.addOrder(Order.desc("dataNotificacao"));	
+			
 		return (List<Notificacao>)crit.list();		
 	}
 	

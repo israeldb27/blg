@@ -43,8 +43,7 @@
                                         <a href="#tab2-3" data-toggle="tab">
                                             <i class="fa fa-file-text"></i>
                                             <div>
-                                            	<span class="text-strong"><spring:message code="lbl.title.modal.regras.basicas"/></span>
-                                                                                                
+                                            	<span class="text-strong"><spring:message code="lbl.title.modal.regras.basicas"/></span>                                                                                                
                                             </div>
                                         </a>
                                     </li>                                    
@@ -56,18 +55,16 @@
                             <div class="panel-body">
                                 <div class="tab-content">
                                     <div class="tab-pane fade in active" id="tab2-1">
-                                        <h4><spring:message code="lbl.title.modal.descricao"/></h4>
+                                        <h4><spring:message code="lbl.title.modal.descricao"/>: </h4>
                                         
-                                        <c:choose>
-                                        
+                                        <c:choose>                                        
 										    <c:when test="${func == 'buscarImoveis'}" >
 										       <p><spring:message code="msg.ajuda.modal.funcionalidades.descricao.buscarImoveis"/></p>
 										    </c:when>
 										    
 										    <c:when test="${func == 'buscarImoveisMapa'}">
 										        <p><spring:message code="msg.ajuda.modal.funcionalidades.descricao.buscarImoveisMapa"/></p>
-										    </c:when>										    
-										   
+										    </c:when>	
 										    
 										    <c:when test="${func == 'listarMeusImoveis'}">
 										        <p><spring:message code="msg.ajuda.modal.funcionalidades.descricao.listarMeusImoveis"/></p>
@@ -168,6 +165,26 @@
 											<c:when test="${func == 'listarMinhasNotificacoes'}">
 										        <p><spring:message code="msg.ajuda.modal.funcionalidades.descricao.listarMinhasNotificacoes"/></p>
 										    </c:when>
+										    
+										    <c:when test="${func == 'listarMinhasMensagensAdmin'}">
+										        <p><spring:message code="msg.ajuda.modal.funcionalidades.descricao.listarMinhasMensagensAdmin"/></p>
+										    </c:when>
+										    
+										    <c:when test="${func == 'listarMinhasMensagens'}">
+										        <p><spring:message code="msg.ajuda.modal.funcionalidades.descricao.listarMinhasMensagens"/></p>
+										    </c:when>
+										    
+										     <c:when test="${func == 'listarMinhasRecomendacoes'}">
+										        <p><spring:message code="msg.ajuda.modal.funcionalidades.descricao.listarMinhasRecomendacoes"/></p>
+										    </c:when>
+										    
+										     <c:when test="${func == 'listarContatos'}">
+										        <p><spring:message code="msg.ajuda.modal.funcionalidades.descricao.listarContatos"/></p>
+										    </c:when>
+										    
+										     <c:when test="${func == 'listarConvites'}">
+										        <p><spring:message code="msg.ajuda.modal.funcionalidades.descricao.listarConvites"/></p>
+										    </c:when>
 											
 											<c:when test="${func == 'preferenciasImoveis'}">
 										        <p><spring:message code="msg.ajuda.modal.funcionalidades.descricao.preferenciasImoveis"/></p>
@@ -266,7 +283,7 @@
                                     </div>
                                     
                                     <div class="tab-pane fade" id="tab2-2">
-                                        <h4><spring:message code="lbl.title.modal.objetivo"/></h4>
+                                        <h4><spring:message code="lbl.title.modal.objetivo"/>: </h4>
                                         
                                          <c:choose>
                                         	<c:when test="${func == 'buscarImoveis'}" >
@@ -376,6 +393,26 @@
 											<c:when test="${func == 'listarMinhasNotificacoes'}">
 										        <p><spring:message code="msg.ajuda.modal.funcionalidades.objetivos.listarMinhasNotificacoes"/></p>
 										    </c:when>
+										    
+										    <c:when test="${func == 'listarMinhasMensagensAdmin'}">
+										        <p><spring:message code="msg.ajuda.modal.funcionalidades.objetivos.listarMinhasMensagensAdmin"/></p>
+										    </c:when>
+										    
+										    <c:when test="${func == 'listarMinhasMensagens'}">
+										        <p><spring:message code="msg.ajuda.modal.funcionalidades.objetivos.listarMinhasMensagens"/></p>
+										    </c:when>
+										    
+										     <c:when test="${func == 'listarMinhasRecomendacoes'}">
+										        <p><spring:message code="msg.ajuda.modal.funcionalidades.objetivos.listarMinhasRecomendacoes"/></p>
+										    </c:when>
+										    
+										     <c:when test="${func == 'listarContatos'}">
+										        <p><spring:message code="msg.ajuda.modal.funcionalidades.objetivos.listarContatos"/></p>
+										    </c:when>
+										    
+										    <c:when test="${func == 'listarConvites'}">
+										        <p><spring:message code="msg.ajuda.modal.funcionalidades.objetivos.listarConvites"/></p>
+										    </c:when>
 
 											<c:when test="${func == 'preferenciasImoveis'}">
 										        <p><spring:message code="msg.ajuda.modal.funcionalidades.objetivos.preferenciasImoveis"/></p>
@@ -474,7 +511,7 @@
                                     </div>    
                                     
                                     <div class="tab-pane fade" id="tab2-3">
-                                        <h4><spring:message code="lbl.title.modal.regras.basicas"/></h4>
+                                        <h4><spring:message code="lbl.title.modal.regras.basicas"/>: </h4>
                                         
                                         <c:choose>
                                         	<c:when test="${func == 'buscarImoveis'}" >
@@ -592,6 +629,26 @@
 											<c:when test="${func == 'listarMinhasNotificacoes'}">
 										        <p><spring:message code="msg.ajuda.modal.funcionalidades.regras.listarMinhasNotificacoes"/></p>
 										    </c:when>
+										    
+										    <c:when test="${func == 'listarMinhasMensagensAdmin'}">
+										        <p><spring:message code="msg.ajuda.modal.funcionalidades.regras.listarMinhasMensagensAdmin"/></p>
+										    </c:when>
+										    
+										    <c:when test="${func == 'listarMinhasMensagens'}">
+										        <p><spring:message code="msg.ajuda.modal.funcionalidades.regras.listarMinhasMensagens"/></p>
+										    </c:when>
+										    
+										    <c:when test="${func == 'listarMinhasRecomendacoes'}">
+										        <p><spring:message code="msg.ajuda.modal.funcionalidades.regras.listarMinhasRecomendacoes"/></p>
+										    </c:when>
+										    
+										     <c:when test="${func == 'listarContatos'}">
+										        <p><spring:message code="msg.ajuda.modal.funcionalidades.regras.listarContatos"/></p>
+										    </c:when>
+										    
+										     <c:when test="${func == 'listarConvites'}">
+										        <p><spring:message code="msg.ajuda.modal.funcionalidades.regras.listarConvites"/></p>
+										    </c:when>
 
 											<c:when test="${func == 'preferenciasImoveis'}">
 										        <p><spring:message code="msg.ajuda.modal.funcionalidades.regras.preferenciasImoveis"/></p>
@@ -628,8 +685,6 @@
 											<c:when test="${func == 'editarImovel'}">
 										        <p><spring:message code="msg.ajuda.modal.funcionalidades.regras.editarImovel"/></p>
 										    </c:when>
-										    
-										    
 										    
 										    <c:when test="${func == 'tipoImoveisMaisProcuradoPorLocalizacao'}">
 										        <p><spring:message code="msg.ajuda.modal.funcionalidades.regras.rel.tipoImoveisMaisProcuradoPorLocalizacao"/></p>

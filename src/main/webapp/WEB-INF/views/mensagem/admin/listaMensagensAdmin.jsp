@@ -46,7 +46,6 @@
    
     <body>
 
-        <!-- START @WRAPPER -->
         <section id="wrapper">
 
             <!-- START @HEADER -->            	
@@ -58,58 +57,52 @@
             <!--/ END SIDEBAR LEFT -->
 
             <!-- START @PAGE CONTENT -->
-            <section id="page-content">
-            
-            	<!-- Inicio - Meus Favoritos -->
-            
-            	 <!-- Start header content -->
+            <section id="page-content">           
+      
                 <div class="header-content">
                 	<h2>
-                    	<i class="fa fa-pencil"></i> <spring:message code="lbl.title.link.mensagens"/> 
+                    	<i class="fa fa-pencil"></i> <spring:message code="lbl.title.link.mensagens.admin"/> 
                     	 <div class="pull-right">
-	                         <a href="#a" class="btn btn-sm"  onClick="mostrarModal(0);"><i class="fa fa-question" style="font-size: 12px;"></i></a>                                        
+	                         <a href="#a" class="btn btn-sm" data-toggle="modal" data-target=".bs-modal-ajuda-informacoes" style=""><i class="fa fa-question" style="font-size: 15px;"></i></a>                                        
 	                     </div>	
                     </h2>                                                                          
-                </div><!-- /.header-content -->
-                <!--/ End header content -->
+                </div><!-- /.header-content -->    
                 
                 <!-- Start body content -->
                 <div class="body-content animated fadeIn">
 					<div class="row">
                         <div class="col-md-12">
-                            <div class="panel panel-success shadow">
-                                <div class="panel-heading">
-                                    <div class="pull-left">
-                                        <h3 class="panel-title"><spring:message code="lbl.lista.mensagens.admin"/></h3>
-                                    </div>
-                                    <div class="pull-right">
-                                        <button class="btn btn-sm" data-action="collapse" data-toggle="tooltip" data-placement="top" data-title="Collapse"><i class="fa fa-angle-up"></i></button>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div><!-- /.panel-heading -->
+                            <div class="panel panel-success shadow">                                
                                 <div class="panel-body no-padding">
-
                                     <!-- Start list message -->
                                     <div class="media-list">
-										<c:forEach var="mensagem" items="${listaMinhasMensagens}">											
-										        <a href="${urlMensagemAdmin}/prepararMaisMensagensAdmin/${mensagem.id}" class="media">
-										                                        
-	                                            <div class="pull-left"> </div>
-	                                            <div class="media-body">
-	                                                <span class="media-heading">${mensagem.tipoMensagemFmt}</span>
-	                                                <span class="media-text">${mensagem.descricaoUltimaMensagem} </span>
-	                                                <!-- Start meta icon -->
-	                                                <span class="media-meta"></span>	                                                
-	                                                <span class="media-meta"><i class="fa fa-plus-square"></i> <spring:message code="lbl.mais.mensagens"/></span>
-	                                                
-	                                                <span class="media-meta pull-right"><fmt:formatDate value="${mensagem.dataUltimaMensagem}" pattern='dd/MM/yyyy'/></span>
-	                                                <!--/ End meta icon -->
-	                                            </div><!-- /.media-body -->
-	                                        </a><!-- /.media -->
-                                        </c:forEach>
-                                        
-                                    </div>
-                                    <!--/ End list message -->
+                                    	<c:choose>
+                                    		<c:when test="${not empty listaMinhasMensagens}">
+                                    			<c:forEach var="mensagem" items="${listaMinhasMensagens}">											
+												        <a href="${urlMensagemAdmin}/prepararMaisMensagensAdmin/${mensagem.id}" class="media">
+												                                        
+			                                            <div class="pull-left"> </div>
+			                                            <div class="media-body">
+			                                                <span class="media-heading">${mensagem.tipoMensagemFmt}</span>
+			                                                <span class="media-text">${mensagem.descricaoUltimaMensagem} </span>
+			                                                <!-- Start meta icon -->
+			                                                <span class="media-meta"></span>	                                                
+			                                                <span class="media-meta"><i class="fa fa-plus-square"></i> <spring:message code="lbl.mais.mensagens"/></span>
+			                                                
+			                                                <span class="media-meta pull-right"><fmt:formatDate value="${mensagem.dataUltimaMensagem}" pattern='dd/MM/yyyy'/></span>
+			                                                <!--/ End meta icon -->
+			                                            </div><!-- /.media-body -->
+			                                        </a><!-- /.media -->
+		                                        </c:forEach>
+                                    		</c:when>
+                                    		
+                                    		<c:when test="${empty listaMinhasMensagens}">
+                                    			<div class="callout callout-warning">
+				                                    <strong><spring:message code="lbl.nenhuma.mensagem"/> </strong>		                                    
+				                                </div>
+                                    		</c:when>
+                                    	</c:choose>										
+                                    </div>                             
 
                                 </div><!-- /.panel-body -->
                             </div>
@@ -117,7 +110,6 @@
                 </div>       
        		</div>               
             </section><!-- /#page-content -->
-            <!--/ END PAGE CONTENT -->    
 
         </section><!-- /#wrapper -->
         <!--/ END WRAPPER -->
@@ -127,6 +119,10 @@
             <i class="fa fa-angle-up"></i>
         </div><!-- /#back-top -->
         <!--/ END BACK TOP -->
+        
+        <!-- Start content modal Ajuda - funcionalidade -->
+				<c:import url="../../ajuda/contentMenuModal.jsp"></c:import>																				
+			<!-- End content  modal Ajuda - funcionalidade -->
 
         <!-- START JAVASCRIPT SECTION (Load javascripts at bottom to reduce load time) -->
   			<c:import url="../../layout/head-bootstrap.jsp"></c:import> 

@@ -184,8 +184,7 @@ function adicionarComparativo(id) {
                             <!--/ End dropdown menu -->
 
                         </li><!-- /.dropdown navbar-message -->
-                        <!--/ End convites -->
-                        
+                        <!--/ End convites -->                        
                         
                           <!-- Start Recomendacoes -->
                         <li class="dropdown navbar-message">
@@ -195,9 +194,8 @@ function adicionarComparativo(id) {
 							<% } else { %>
 								<spring:message code="lbl.recomendacao.hint.header" var="recomendacao"/>
 								<a href="${urlRecomendacao}/listarRecomendacoesRecebidas" class="dropdown-toggle my-tooltip" data-toggle="tooltip" data-placement="bottom" data-original-title="${recomendacao}"><i class="fa fa-flag"></i></a>							
-							<% }  %>                            
-
-
+							<% }  %>   
+							
                             <!-- Start dropdown menu -->
                             <div class="dropdown-menu animated flipInX">
                                 <div class="dropdown-header">
@@ -415,22 +413,26 @@ function adicionarComparativo(id) {
 
                             <!-- Start dropdown menu -->
                             <div class="dropdown-menu animated flipInX">
-                                <div class="dropdown-header">  
+                                <div class="dropdown-header">     
                                 	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovasMensagensAdmin").toString()) > 0l ) {%>
-                                		<a href="${urlMensagemAdmin}/minhasMensagensAdmin" class="media" >
-	                                    	<span class="title"><spring:message code="lbl.title.link.mensagens.admin"/> <strong>(<%= request.getSession().getAttribute("quantNovasMensagensAdmin") %>)</strong></span>
-	                                    </a>
-                                	<% }  %>	                            	
-                                	
-                                    <span class="option text-right"><a href="${urlMensagemAdmin}/prepararNovaMensagem">+ <spring:message code="lbl.nova.mensagem"/></a></span>
+                                		<a href="${urlMensagemAdmin}/minhasNovasMensagensAdmin" class="media" >
+	                                    	<span class="title"><spring:message code="lbl.nova.mensagem"/> <strong>(<%= request.getSession().getAttribute("quantNovasMensagensAdmin") %>)</strong></span>
+	                                    </a>                                 	
+                                	<% } else { %>
+                                	    <a href="${urlMensagemAdmin}/minhasMensagensAdmin" class="media" >
+	                                    	<span class="title"><spring:message code="lbl.todas.mensagem"/> </span>
+	                                    </a>                          	
+                               		
+                               		<% }  %>                                 		         
+                                    <span class="option text-right"><a href="${urlMensagemAdmin}/prepararNovaMensagem">+ <spring:message code="lbl.criar.nova.mensagem"/></a></span>
                                 </div> 
                                 
-                                <% if ( Long.parseLong(request.getSession().getAttribute("quantNovasMensagensAdmin").toString()) > 0l ) {%>
+                                <% if ( Long.parseLong(request.getSession().getAttribute("quantMensagensAdmin").toString()) > 0l ) {%>
 	                                <div class="dropdown-body">                           
 	
 	                                    <!-- Start message list -->
 	                                    <div class="media-list niceScroll">										
-											<c:forEach var="mensagem" items="${sessionScope.listaNovasMensagensAdmin}">
+											<c:forEach var="mensagem" items="${sessionScope.listaMensagensAdmin}">
 												<a href="${urlMensagemAdmin}/prepararMaisMensagensAdmin/${mensagem.id}" class="media">
 													<div class="pull-left"></div>
 													<div class="media-body">
@@ -449,19 +451,13 @@ function adicionarComparativo(id) {
 	                                    <a href="${urlMensagemAdmin}/minhasMensagensAdmin"><spring:message code="lbl.title.see.all"/></a>
 	                                </div>
                                 <% }  else { %>
-                                	
-                                	
-                                	<div class="dropdown-body niceScroll">
-                                    <!-- Start notification list -->
-                                    
-                                    <br>
-                                    <div class="media-list small">	
-		                                   <div class="callout callout-info">
-			                                    <strong>Nenhuma mensagem Recebida</strong>                                    
-			                                </div>
-	                                 </div>
-	                                    
-	
+                                	<div class="dropdown-body niceScroll">  
+	                                    <br>
+	                                    <div class="media-list small">	
+			                                   <div class="callout callout-info">
+				                                    <strong><spring:message code="lbl.nenhuma.mensagem.recebida"/></strong>                                    
+				                                </div>
+		                                 </div>
 	                                </div>
                                 <% }  %>
                             </div>

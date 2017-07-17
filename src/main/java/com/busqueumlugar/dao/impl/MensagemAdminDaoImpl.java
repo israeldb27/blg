@@ -69,4 +69,13 @@ public class MensagemAdminDaoImpl extends GenericDAOImpl<MensagemAdmin, Long> im
 		return (List<MensagemAdmin>)crit.list();	
 	}
 
+	@Override
+	public List<MensagemAdmin> findMensagemAdminByIdUsuarioBYQuant(Long idUsuario, int quantMensagens) {
+		Criteria crit = session().createCriteria(MensagemAdmin.class);
+		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));		
+		crit.addOrder(Order.desc("dataUltimaMensagem"));
+		crit.setMaxResults(quantMensagens);
+		return (List<MensagemAdmin>)crit.list();
+	}
+
 }

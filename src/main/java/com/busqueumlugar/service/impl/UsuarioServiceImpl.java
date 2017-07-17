@@ -1640,8 +1640,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 		if (!  user.getPerfil().equals(PerfilUsuarioOpcaoEnum.ADMIN.getRotulo())){			
 			session.setAttribute(MensagemService.LISTA_MENSAGENS, mensagemService.recuperaTodasMensagensPorDataMensagem(user.getId(), 4));
 			session.setAttribute(MensagemService.QUANT_NOVAS_MENSAGENS, mensagemService.checarQuantidadeNovasMensagens(user.getId()));
-			List<MensagemAdmin> listaNovasMensagensAdmin = mensagemAdminService.recuperaTodasMensagensNovasPorUsuario(user.getId());
-			session.setAttribute(MensagemAdminService.LISTA_NOVAS_MENSAGENS_ADMIN, listaNovasMensagensAdmin);
+			//List<MensagemAdmin> listaNovasMensagensAdmin = mensagemAdminService.recuperaTodasMensagensNovasPorUsuario(user.getId());
+			// Será exibido agora no header no maximo as 4 ultimas mensagens recebidas 
+			List<MensagemAdmin> listaMensagensAdmin = mensagemAdminService.recuperaTodasMensagensPorUsuarioPorQuantidade(user.getId(), 6);
+			session.setAttribute(MensagemAdminService.LISTA_MENSAGENS_ADMIN, listaMensagensAdmin);
+			session.setAttribute(MensagemAdminService.QUANT_MENSAGENS_ADMIN, AppUtil.recuperarQuantidadeLista(listaMensagensAdmin));
 			session.setAttribute(MensagemAdminService.QUANT_NOVAS_MENSAGENS_ADMIN, AppUtil.recuperarQuantidadeLista(itemMensagemAdminDao.findItemMensagemAdminByStatusLeituraByIdUsuario(user.getId(), StatusLeituraEnum.NOVO.getRotulo())));
 		}
 		

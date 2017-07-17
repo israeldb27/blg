@@ -126,13 +126,15 @@
             	<!-- Inicio - Meus Favoritos -->
             
             	 <!-- Start header content -->
-                <div class="header-content">
-                    <h2><i class="fa fa-pencil"></i> <spring:message code="lbl.aba.title.comparativo"/> </h2>                                                                        
+                <div class="header-content">                                   
 					
-					<!-- Start header modal Ajuda - funcionalidade -->
-						<c:import url="../../ajuda/headerMenuModal.jsp"></c:import>																				
-					<!-- End header  modal Ajuda - funcionalidade -->
-					
+					  <h2>
+                    	<i class="fa fa-pencil"></i> <spring:message code="lbl.aba.title.comparativo"/> 
+                    	 <div class="pull-right">	                                                            
+	                    	 <a href="#a" class="btn btn-sm"  data-toggle="modal" data-target=".bs-modal-ajuda-informacoes" style=""><i class="fa fa-question" style="font-size: 15px;"></i></a>	
+	                     </div>	
+                    </h2>
+				
                 </div><!-- /.header-content -->
                 <!--/ End header content -->   
                 

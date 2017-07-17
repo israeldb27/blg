@@ -175,7 +175,16 @@
 																			
 																			<c:when test="${nota.acao == 'R'}">
 																				<small class="block text-muted"> <font size="3px;"> <spring:message code="lbl.minha.nota.add.preferencia.imovel"/> </font></small>
-																			</c:when>																			
+																			</c:when>	
+																			
+																			<c:when test="${nota.acao == 'T'}">
+																				<small class="block text-muted"> <font size="3px;"> <spring:message code="lbl.minhas.notas.contato.intermediacao"/> <a href="${urlImovel}/detalhesImovel/${nota.imovel.id}" ><strong>${nota.imovel.titulo} </strong></a></font></small>
+																			</c:when>
+																			
+																			<c:when test="${nota.acao == 'P'}">
+																				<small class="block text-muted"> <font size="3px;"> <spring:message code="lbl.minhas.notas.contato.parceria"/> <a href="${urlImovel}/detalhesImovel/${nota.imovel.id}" ><strong>${nota.imovel.titulo} </strong></a> </font></small>
+																			</c:when>
+																																					
 																		</c:choose>																		
 																	</p>																				
 																</div>	

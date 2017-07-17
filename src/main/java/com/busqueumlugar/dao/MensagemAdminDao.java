@@ -16,6 +16,8 @@ public interface MensagemAdminDao extends GenericDAO<MensagemAdmin, Long>{
 
 	List<MensagemAdmin> findAllMensagensNovasAdminOrderByDataMensagemBYQuant(int quant);
 
+	List<MensagemAdmin> findMensagemAdminByIdUsuarioBYQuant(Long idUsuario,	int quantMensagens);
+
 
 
 	

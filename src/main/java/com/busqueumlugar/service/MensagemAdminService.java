@@ -11,7 +11,9 @@ import com.busqueumlugar.model.MensagemAdmin;
 public interface MensagemAdminService {
 	
 	String QUANT_NOVAS_MENSAGENS_ADMIN = "quantNovasMensagensAdmin";
+	String QUANT_MENSAGENS_ADMIN = "quantMensagensAdmin";
 	String LISTA_NOVAS_MENSAGENS_ADMIN = "listaNovasMensagensAdmin";
+	String LISTA_MENSAGENS_ADMIN = "listaMensagensAdmin";
 
 	long checarQuantidadeNovasMensagensFromAdmin(Long idUsuario);
 
@@ -39,7 +41,7 @@ public interface MensagemAdminService {
 
 	List<MensagemAdmin> recuperaTodasMensagensNovasPorUsuario(Long idUsuario);
 
-	
-	
+	List<MensagemAdmin> recuperaTodasMensagensPorUsuarioPorQuantidade(Long idUsuario, int quantMensagens);
+
 
 }

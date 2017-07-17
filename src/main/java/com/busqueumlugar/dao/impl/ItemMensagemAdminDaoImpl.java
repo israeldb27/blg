@@ -44,15 +44,11 @@ public class ItemMensagemAdminDaoImpl  extends GenericDAOImpl<ItemMensagemAdmin,
 
 
 	@Override
-	public int findQuantNovasItensMensagensByIdMensagemAdmin(Long idMensagemAdmin) {
-		
-		Criteria crit = session().createCriteria(ItemMensagemAdmin.class);
-		ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.count("mensagemAdmin.id").as("quant"));	
-		crit.setProjection(projList);
-		crit.add(Restrictions.eq("mensagemAdmin.id", idMensagemAdmin));								  
+	public int findQuantNovasItensMensagensByIdMensagemAdmin(Long idMensagemAdmin) {		
+		Criteria crit = session().createCriteria(ItemMensagemAdmin.class);		
+		crit.createCriteria("mensagemAdmin").add(Restrictions.eq("id", idMensagemAdmin));							  
 		crit.add(Restrictions.eq("statusLeitura", StatusLeituraEnum.NOVO.getRotulo()));
-		crit.add(Restrictions.eq("remetenteAdmin", "S"));
+		crit.add(Restrictions.eq("remetenteAdmin", "S"));	;
 		return AppUtil.recuperarQuantidadeLista(crit.list());
 	}
 

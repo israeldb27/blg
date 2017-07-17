@@ -69,8 +69,8 @@ function mostrarModal(id){
                 <div class="header-content">
                     <h2>
                     	<i class="fa fa-pencil"></i> <spring:message code="lbl.contatos"/> 
-                    	 <div class="pull-right">
-	                         <a href="#a" class="btn btn-sm"  onClick="mostrarModal(0);"><i class="fa fa-question" style="font-size: 12px;"></i></a>                                        
+                    	 <div class="pull-right">	                                                            
+	                    	 <a href="#a" class="btn btn-sm"  data-toggle="modal" data-target=".bs-modal-ajuda-informacoes" style=""><i class="fa fa-question" style="font-size: 15px;"></i></a>	
 	                     </div>	
                     </h2>    	
                 </div><!-- /.header-content -->

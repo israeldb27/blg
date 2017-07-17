@@ -68,7 +68,7 @@
                 	 <h2>
                     	<i class="fa fa-pencil"></i> <spring:message code="lbl.title.link.mensagens.admin"/> 
                     	 <div class="pull-right">
-	                         <a href="#a" class="btn btn-sm"  onClick="mostrarModal(0);"><i class="fa fa-question" style="font-size: 12px;"></i></a>                                        
+	                        <a href="#a" class="btn btn-sm"  data-toggle="modal" data-target=".bs-modal-ajuda-informacoes" style=""><i class="fa fa-question" style="font-size: 15px;"></i></a>                                        
 	                     </div>	
                     </h2>                                                                       
                 </div><!-- /.header-content -->
@@ -147,6 +147,10 @@
             <i class="fa fa-angle-up"></i>
         </div><!-- /#back-top -->
         <!--/ END BACK TOP -->
+        
+        <!-- Start content modal Ajuda - funcionalidade -->
+				<c:import url="../../ajuda/contentMenuModal.jsp"></c:import>																				
+			<!-- End content  modal Ajuda - funcionalidade -->
 
         <!-- START JAVASCRIPT SECTION (Load javascripts at bottom to reduce load time) -->
   			<c:import url="../../layout/head-bootstrap.jsp"></c:import> 

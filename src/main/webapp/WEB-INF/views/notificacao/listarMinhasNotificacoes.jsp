@@ -65,8 +65,8 @@
                 <div class="header-content">
                     <h2>
                     	<i class="fa fa-pencil"></i> <spring:message code="lbl.title.link.notificacoes"/> 
-                    	 <div class="pull-right">
-	                         <a href="#a" class="btn btn-sm"  onClick="mostrarModal(0);"><i class="fa fa-question" style="font-size: 12px;"></i></a>                                        
+                    	 <div class="pull-right">	                                                              
+	                    	<a href="#a" class="btn btn-sm"  data-toggle="modal" data-target=".bs-modal-ajuda-informacoes" style=""><i class="fa fa-question" style="font-size: 15px;"></i></a>	
 	                     </div>	
                     </h2>
                 </div><!-- /.header-content -->
@@ -84,12 +84,27 @@
                         		<!-- Start inline form -->
 		                            <div class="panel rounded shadow">     
 		                                <div class="panel-body no-padding">                                 
-		                        				<div class="panel-heading">
-			                        					<div class="pull-left">
+		                        				<div class="panel-heading">		                        						
+		                        						<div class="pull-left" >
+		                        							<br>		                        							
+				                                        	&nbsp;&nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.total.notificacoes"/> </strong>: (${notificacaoForm.quantRegistros}) </label>
+		                        						</div>		                        						
+		                        						
+		                        						<div class="pull-right" >
+					                                        <form:form method="POST" id="notificacaoOrdForm" modelAttribute="notificacaoForm" action="${urlNotificacao}/ordenarMinhasNotificacoes" >
+					                                        	<form:select id="opcaoOrdenacao1" path="opcaoOrdenacao" class="form-control" >                                
+												                        <form:option value="" disabled="true"><spring:message code="lbl.opcao.ordenar"/></form:option>
+												                        <form:option value="maiorDataNotificacao"><spring:message code="lbl.notificacao.ordenacao.mais.recente"/></form:option>
+																		<form:option value="menorDataNotificacao"><spring:message code="lbl.notificacao.ordenacao.menos.recente"/></form:option>
+												                  </form:select>  
+					                                        </form:form> 
+					                                    </div>
+					                                    
+			                        					<div class="pull-right" style="padding-right:20px;">
 			                                    
 					                                        <form:form method="POST" id="notificacaoFiltroForm" modelAttribute="notificacaoForm" action="${urlNotificacao}/filtrarNotificacoes" >
 					                                        	<form:select id="opcaoFiltro1" path="opcaoFiltro" class="form-control" >                                
-												                        <form:option value="" disabled="true"><spring:message code="opcao.selecao.uma.opcao"/></form:option>
+												                        <form:option value="" disabled="true"><spring:message code="lbl.opcao.filtrar"/></form:option>
 												                        <c:if test="${usuario.perfil == 'P'}">
 												                        <form:option value="I"><spring:message code="lbl.notificacao.filtro.intermediacao"/></form:option>
 												                        </c:if>
@@ -105,19 +120,10 @@
 																		<% if ( request.getSession().getAttribute("habilitaFuncPlanos").equals("S") ) {%>
 																			<form:option value="P"><spring:message code="lbl.notificacao.filtro.plano"/></form:option>	
 																		<% }  %>																	
-																		<form:option value="T"><spring:message code="lbl.notificacao.filtro.todos"/></form:option>
+																		<form:option value=""><spring:message code="lbl.notificacao.filtro.todos"/></form:option>
 												                  </form:select>  
 					                                        </form:form>
-					                                    </div>
-					                                    <div class="pull-right">
-					                                        <form:form method="POST" id="notificacaoOrdForm" modelAttribute="notificacaoForm" action="${urlNotificacao}/ordenarMinhasNotificacoes" >
-					                                        	<form:select id="opcaoOrdenacao1" path="opcaoOrdenacao" class="form-control" >                                
-												                        <form:option value="" disabled="true"><spring:message code="opcao.selecao.uma.opcao"/></form:option>
-												                        <form:option value="maiorDataNotificacao"><spring:message code="lbl.notificacao.ordenacao.mais.recente"/></form:option>
-																		<form:option value="menorDataNotificacao"><spring:message code="lbl.notificacao.ordenacao.menos.recente"/></form:option>
-												                  </form:select>  
-					                                        </form:form> 
-					                                    </div>
+					                                    </div>					                                    
 					                                    
 					                                    <c:if test="${notificacaoForm.isVisible() }">
 						                                     <div class="pull-right" style="padding-right:20px;">

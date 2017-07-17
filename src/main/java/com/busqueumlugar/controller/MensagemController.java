@@ -81,6 +81,7 @@ public class MensagemController {
 		try {
 			UsuarioForm usuarioDe = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			MensagemForm form = new MensagemForm(); 
+			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "listarMinhasMensagens");
 			boolean pagouServico = servicoService.checarPossuiServicoPago(usuarioDe.getId(), ServicoService.SERVICO_MENSAGENS);
 			if ( pagouServico ){
 				form = mensagemService.prepararTodasMensagens(usuarioDe.getId(), idUsuario);
@@ -110,6 +111,7 @@ public class MensagemController {
 								 ModelMap map){
 		try {
 			mensagemService.criarMensagem(form);
+			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "listarMinhasMensagens");
 			map.addAttribute("listaMinhasMensagens", mensagemService.recuperaTodasMensagens(form.getIdUsuarioDe(), form.getIdUsuarioPara(), form.getLoginExibicao()) );
 			map.addAttribute("mensagemForm", form);
 			return DIR_PATH + "criarMensagem";
@@ -128,6 +130,7 @@ public class MensagemController {
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			MensagemForm form = new MensagemForm();		
+			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "listarMinhasMensagens");
 			boolean pagouServico = servicoService.checarPossuiServicoPago(user.getId(), ServicoService.SERVICO_MENSAGENS);
 			if ( pagouServico ){			
 				map.addAttribute("listaMinhasMensagens", mensagemService.recuperaTodasMensagensPorDataMensagem(user.getId()));
@@ -157,6 +160,7 @@ public class MensagemController {
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			MensagemForm form = new MensagemForm();		
+			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "listarMinhasMensagens");
 			boolean pagouServico = servicoService.checarPossuiServicoPago(user.getId(), ServicoService.SERVICO_MENSAGENS);
 			if ( pagouServico ){			
 				map.addAttribute("listaMinhasMensagens", mensagemService.recuperaTodasMensagensNovasPorDataMensagem(user.getId()));

@@ -151,30 +151,7 @@ public class ContatoController {
 			map.addAttribute("mensagemErroGeral", "S");
 			return ImovelService.PATH_ERRO_GERAL;
 		}
-    }
-    
-	/*@RequestMapping(value = "/responderConvite/{idUsuarioContato}/{respostaConvite}", method = RequestMethod.GET)
-    public String responderConvite(@PathVariable Long idUsuarioContato, @PathVariable String respostaConvite, ModelMap map, HttpSession session){        
-		UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
-		map.addAttribute("listaConvitesRecebidos", contatoService.recuperarConvites(user.getId()));
-		if ( respostaConvite.equals("ok") || respostaConvite.equals("recusado")) {
-			contatoService.responderConvite(user.getId(), idUsuarioContato, respostaConvite);
-			if ( respostaConvite.equals("ok") )
-				map.addAttribute("msgConviteAceito", "S");
-			else
-				map.addAttribute("msgConviteRecusado", "S");
-		}	
-		else
-			contatoService.responderConvite(idUsuarioContato, user.getId(), respostaConvite);
-		
-		session.setAttribute(ContatoService.QUANT_CONVITES_RECEBIDOS, contatoService.quantidadeConvites(user.getId()));
-		session.setAttribute(ContatoService.QUANT_TOTAL_CONTATOS, contatoService.recuperarConvidados(user.getId()).size());		
-		//map.addAttribute("listaConvitesEnviados", contatoService.recuperarConvitesEnviados(user.getId()));
-		map.addAttribute("contatoForm", new ContatoForm());
-        return DIR_PATH + "listarConvites";
-    }
-	
-	*/
+    }  
 	
 	@RequestMapping(value = "/responderConvite/{respostaConvite}/{idUsuarioContato}", method = RequestMethod.GET)
 	@ResponseBody
@@ -192,8 +169,7 @@ public class ContatoController {
 				map.addAttribute("msgConviteRecusado", "S");
 		}	
 		else
-			contatoService.responderConvite(idUsuarioContato, user.getId(), respostaConvite);
-		
+			contatoService.responderConvite(idUsuarioContato, user.getId(), respostaConvite);		
 		
 		session.setAttribute(ContatoService.QUANT_TOTAL_CONTATOS, contatoService.checarTotalContatosPorUsuarioPorStatus(user.getId(), ContatoStatusEnum.OK.getRotulo()));	
 		session.setAttribute(ContatoService.LISTA_CONVITES_RECEBIDOS, contatoService.recuperarConvites(user.getId(), 4));		
@@ -238,25 +214,45 @@ public class ContatoController {
     
 
 	@RequestMapping(value = "/listarContatos", method = RequestMethod.GET)
-    public String goListarContatos(HttpSession session, ModelMap map){        
-		UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
-		ContatoForm form = new ContatoForm();
-		List<Contato> listaContatos = contatoService.recuperarConvidados(user.getId(), form);
-		map.addAttribute("listaContatos", listaContatos);
-		map.addAttribute("quantTotalContatos", AppUtil.recuperarQuantidadeLista(listaContatos));
-		form.setTipoListaContato("N");
-		map.addAttribute("contatoForm", form);
-        return DIR_PATH + "listaContatos";
+    public String listarContatos(HttpSession session, ModelMap map){        
+		
+		try {
+			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
+			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "listarContatos");
+			ContatoForm form = new ContatoForm();
+			List<Contato> listaContatos = contatoService.recuperarConvidados(user.getId(), form);
+			map.addAttribute("listaContatos", listaContatos);
+			map.addAttribute("quantTotalContatos", AppUtil.recuperarQuantidadeLista(listaContatos));
+			form.setTipoListaContato("N");
+			map.addAttribute("contatoForm", form);
+	        return DIR_PATH + "listaContatos";
+		} catch (Exception e) {
+			log.error("Erro metodo - ContatoController -  listarContatos"); 
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+		
     }    
     
 	@RequestMapping(value = "/convites", method = RequestMethod.GET)
-    public String goConvites(HttpSession session, 
-    						 ModelMap map){        
-		UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
-		map.addAttribute("listaConvitesRecebidos", contatoService.recuperarConvites(user.getId()));
-		session.setAttribute(ContatoService.QUANT_CONVITES_RECEBIDOS, contatoService.checarConvitesRecebidosPorUsuarioPorStatus(user.getId(), null));
-		map.addAttribute("contatoForm", new ContatoForm());
-		return DIR_PATH + "listarConvites";
+    public String convites(HttpSession session, 
+    					   ModelMap map){ 
+		
+		try {
+			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
+			map.addAttribute("listaConvitesRecebidos", contatoService.recuperarConvites(user.getId()));
+			session.setAttribute(ContatoService.QUANT_CONVITES_RECEBIDOS, contatoService.checarConvitesRecebidosPorUsuarioPorStatus(user.getId(), null));
+			map.addAttribute("contatoForm", new ContatoForm());
+			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "listarConvites");
+			return DIR_PATH + "listarConvites";
+		} catch (Exception e) {
+			log.error("Erro metodo - ContatoController -  convites"); 
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+		
     }
 	
 	@RequestMapping(value = "/visualizarConvite/{idContatoConvite}", method = RequestMethod.GET)
@@ -264,12 +260,21 @@ public class ContatoController {
     								HttpSession session, 
     								ModelMap map){     
 		
-		UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
-		map.addAttribute("listaConvitesRecebidos", contatoService.recuperarConviteSelecionado(user.getId(), idContatoConvite));
-		session.setAttribute(ContatoService.LISTA_CONVITES_RECEBIDOS, contatoService.recuperarConvites(user.getId(), 4));
-		session.setAttribute(ContatoService.QUANT_NOVOS_CONVITES_RECEBIDOS, contatoService.checarConvitesRecebidosPorUsuarioPorStatus(user.getId(), StatusLeituraEnum.NOVO.getRotulo()));
-		map.addAttribute("contatoForm", new ContatoForm());
-		return DIR_PATH + "visualizarConviteSelecionado";
+		try {
+			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
+			map.addAttribute("listaConvitesRecebidos", contatoService.recuperarConviteSelecionado(user.getId(), idContatoConvite));
+			session.setAttribute(ContatoService.LISTA_CONVITES_RECEBIDOS, contatoService.recuperarConvites(user.getId(), 4));
+			session.setAttribute(ContatoService.QUANT_NOVOS_CONVITES_RECEBIDOS, contatoService.checarConvitesRecebidosPorUsuarioPorStatus(user.getId(), StatusLeituraEnum.NOVO.getRotulo()));
+			map.addAttribute("contatoForm", new ContatoForm());
+			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "listarConvites");
+			return DIR_PATH + "visualizarConviteSelecionado";
+		} catch (Exception e) {
+			log.error("Erro metodo - ContatoController -  visualizarConvite"); 
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+		
     }
 	
 	

@@ -60,8 +60,8 @@
                 <div class="header-content">
                 	<h2>
                     	<i class="fa fa-pencil"></i> <spring:message code="lbl.title.link.mensagens"/> 
-                    	 <div class="pull-right">
-	                         <a href="#a" class="btn btn-sm"  onClick="mostrarModal(0);"><i class="fa fa-question" style="font-size: 12px;"></i></a>                                        
+                    	 <div class="pull-right">	                                             
+	                   		 <a href="#a" class="btn btn-sm"  data-toggle="modal" data-target=".bs-modal-ajuda-informacoes" style=""><i class="fa fa-question" style="font-size: 15px;"></i></a>
 	                     </div>	
                     </h2>                            
                 </div><!-- /.header-content -->
@@ -92,7 +92,9 @@
 														<c:choose>
 															<c:when test="${mensagem.usuarioDe.id == usuario.id}">  
 																<a href="${urlMensagem}/maisMensagens/${mensagem.usuarioPara.id}" class="media">														
-																	<div class="pull-left"> <img src="data:image/jpeg;base64,${mensagem.usuarioPara.imagemArquivo}" class="media-object img-circle" alt="..."/> </div>
+																	<div class="pull-left"> 
+																		<img src="data:image/jpeg;base64,${mensagem.usuarioPara.imagemArquivo}" class="media-object img-circle" alt="..."/> 
+																	</div>
 							                                            <div class="media-body">
 							                                                <span class="media-heading"> ${mensagem.usuarioPara.nome} </span>
 																			                    	    
@@ -113,7 +115,10 @@
 															
 															<c:when test="${mensagem.usuarioPara.id == usuario.id}">
 																<a href="${urlMensagem}/maisMensagens/${mensagem.usuarioDe.id}" class="media">
-																	 <div class="pull-left"><img src="data:image/jpeg;base64,${mensagem.usuarioDe.imagemArquivo}" class="media-object img-circle" alt="..."/></div>
+																	 <div class="pull-left">
+																	 	<img src="data:image/jpeg;base64,${mensagem.usuarioDe.imagemArquivo}" class="media-object img-circle" alt="..."/>
+																	 </div>
+																	 
 							                                            <div class="media-body">
 							                                                <span class="media-heading"> ${mensagem.usuarioDe.nome} </span>
 																			                    	    
@@ -126,8 +131,7 @@
 							                                                	
 							                                                	<c:if test="${(mensagem.status == 'N')}">
 							                                                		<spring:message code="lbl.nova.mensagem.resum"/>	                                                	
-							                                                	</c:if>
-							                                                <!--/ End meta icon -->
+							                                                	</c:if>							                                          
 							                                            </div><!-- /.media-body -->
 							                                    </a>													
 															</c:when>												
