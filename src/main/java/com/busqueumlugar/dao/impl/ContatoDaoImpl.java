@@ -65,18 +65,24 @@ public class ContatoDaoImpl extends GenericDAOImpl<Contato, Long>  implements Co
 		Criterion usuarioConvidado = Restrictions.eq("usuarioConvidado.id", idUsuario); 
 		LogicalExpression orExp = Restrictions.or(usuarioHost,usuarioConvidado); 
 		crit.add(orExp);
-		if (! StringUtils.isNullOrEmpty(form.getOpcaoFiltro()))
-			crit.add(Restrictions.eq("status", form.getOpcaoFiltro()));
-		else
+		
+		if ( form != null){
+			if (! StringUtils.isNullOrEmpty(form.getOpcaoFiltro()))
+				crit.add(Restrictions.eq("status", form.getOpcaoFiltro()));
+			else
+				crit.add(Restrictions.eq("status", ContatoStatusEnum.OK.getRotulo()));
+			
+			if (! StringUtils.isNullOrEmpty(form.getOpcaoOrdenacao())){
+				if (form.getOpcaoOrdenacao().equals("maiorDataContato"))
+					crit.addOrder(Order.desc("dataConvite"));	        
+				else if (form.getOpcaoOrdenacao().equals("menorDataContato"))
+					crit.addOrder(Order.asc("dataConvite"));	       
+			}
+		}
+		else {
 			crit.add(Restrictions.eq("status", ContatoStatusEnum.OK.getRotulo()));
-		
-		if (! StringUtils.isNullOrEmpty(form.getOpcaoOrdenacao())){
-			if (form.getOpcaoOrdenacao().equals("maiorDataContato"))
-				crit.addOrder(Order.desc("dataConvite"));	        
-			else if (form.getOpcaoOrdenacao().equals("menorDataContato"))
-				crit.addOrder(Order.asc("dataConvite"));	       
-		}		
-		
+			crit.addOrder(Order.asc("dataConvite"));
+		}
 		return (List<Contato>) crit.list();			
 	}
 	

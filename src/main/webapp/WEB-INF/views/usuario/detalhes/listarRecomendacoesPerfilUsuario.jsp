@@ -141,7 +141,7 @@
 	
 		</script>
 
-        <c:import url="../layout/head-layout.jsp"></c:import>
+        <c:import url="../../layout/head-layout.jsp"></c:import>
 
     <body>
 
@@ -149,11 +149,11 @@
         <section id="wrapper">
 
             <!-- START @HEADER -->            	
-            	<c:import url="../layout/header.jsp"></c:import>
+            	<c:import url="../../layout/header.jsp"></c:import>
             <!--/ END HEADER -->
 
             <!-- START @SIDEBAR LEFT            -->
-           		<c:import url="../layout/sidebar-left.jsp"></c:import>
+           		<c:import url="../../layout/sidebar-left.jsp"></c:import>
             <!--/ END SIDEBAR LEFT -->
 
             <!-- START @PAGE CONTENT -->
@@ -170,7 +170,7 @@
 
                     <div class="row">
                         <% if ( request.getSession().getAttribute("acessoValido").equals("N") ) {%>
-                        	<c:import url="../avisoRenovacaoAssinatura.jsp"></c:import>
+                        	<c:import url="../../avisoRenovacaoAssinatura.jsp"></c:import>
                         <% } %>		
                         
                          <div class="col-lg-13 col-md-13 col-sm-13">
@@ -248,7 +248,7 @@
 										<div class="col-lg-6 col-md-6 col-sm-6"> 
 	                                        <div id="owl-demo" class="owl-carousel owl-theme">    
 	                                        	<a href="${urlUsuario}/detalhesUsuario/${usuarioForm.id}" >  
-	                                        		<img class="img-circle" src="${context}/${usuarioForm.imagemArquivo}" style="margin-left:350px; width: 240px; height: 240px; ">
+	                                        		<img class="img-circle" src="data:image/jpeg;base64,${usuarioForm.imagemArquivo}" style="margin-left:350px; width: 240px; height: 240px; ">
 	                                        	</a>                                            	                                            	                                                                                        
 	                                        </div>
 	                                    </div>
@@ -323,7 +323,91 @@
                              
 					    <!-- INICIO - LISTA RECOMENDACOES USUARIO -->                
                         <div class="col-md-8">                         	
-                        		                                        
+                        	<div class="panel rounded shadow">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                    	<div class="pull-left">
+                              				<spring:message code="lbl.title.aba.recomendacoes.detalhe.usuario"/>
+                               			</div>
+                               				
+                              			<div class="pull-right">
+                              				<a href="#a" class="btn btn-sm" onClick="mostrarModal(5);" style=""><i class="fa fa-question" ></i></a>
+                              			</div>
+                              			<br>	
+                                    </h3>
+                                    &nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.total.recomendacoes"/> </strong>: (${usuarioForm.quantTotalRecomendacoes}) </label>
+                                </div>                                
+                                		<div class="panel-body">
+		                                    <ul class="media-list comment-list">
+												<c:forEach var="recomendacao" items="${listarRecomendacoesPerfilUsuario}">
+													<li class="media">		                                            
+			                                            <c:choose>		                                            	
+			                                            	<c:when test="${((recomendacao.isStatusEnviado()) && (recomendacao.usuario.id == usuario.id))}">
+			                                            		<div class="media-left">
+					                                                <a href="#">
+					                                                    <img class="media-object thumbnail" src="data:image/jpeg;base64,${recomendacao.usuario.imagemArquivo}" style="width: 50px; height: 60px;"  />
+					                                                </a>
+					                                            </div>
+			                                            		<div class="media-body">
+			                                            			<span class="label pull-right" style="background-color: #9d2428; font-size: 12px">Aguardando Aprovação</span>
+					                                                <h4>${recomendacao.usuario.nome}</h4>
+					                                                <small class="text-muted"><fmt:formatDate value='${recomendacao.dataResposta}' pattern='dd/MM/yyyy HH:mm:ss'/></small>
+					                                                <p>${recomendacao.descricao}</p>
+					                                            </div>	
+			                                            	</c:when>
+			                                            	
+			                                            	<c:when test="${(recomendacao.isStatusAceito())}">
+			                                            		<div class="media-left">
+					                                                <a href="#">
+					                                                    <img class="media-object thumbnail" src="data:image/jpeg;base64,${recomendacao.usuario.imagemArquivo}"  style="width: 50px; height: 60px;"  />
+					                                                </a>
+					                                            </div>
+			                                            		<div class="media-body">		                                            			
+					                                                <h4>${recomendacao.usuario.nome}</h4>
+					                                                <small class="text-muted"><fmt:formatDate value='${recomendacao.dataResposta}' pattern='dd/MM/yyyy HH:mm:ss'/></small>
+					                                                <p>${recomendacao.descricao}</p>
+					                                            </div>	
+			                                            	</c:when>
+			                                            	
+			                                            	<c:when test="${((recomendacao.isStatusEnviado()) && (recomendacao.usuarioRecomendado.id == usuario.id))}">
+			                                            		<div class="media-left">
+					                                                <a href="#">
+					                                                    <img class="media-object thumbnail" src="data:image/jpeg;base64,${recomendacao.usuario.imagemArquivo}" style="width: 50px; height: 60px;"  />
+					                                                </a>
+					                                            </div>
+			                                            		<div class="media-body">	
+			                                            			<span id="spanRecomendacao_${recomendacao.id}" class="label pull-right" style="background-color: #9d2428; font-size: 12px">Aguardando Minha Aprovação</span>	                                            			
+					                                                <h4>${recomendacao.usuario.nome}</h4>
+					                                                <small class="text-muted"><fmt:formatDate value='${recomendacao.dataResposta}' pattern='dd/MM/yyyy HH:mm:ss'/></small>
+					                                                <p>${recomendacao.descricao}</p>
+					                                                
+				                                                    <spring:message code="lbl.acao.aceita.recomendacao" var="mensagemAceitaRecomendacao"/>
+									                                <a href="#a" onClick="aceitarRecomendacao(${recomendacao.id})" id="idAceitaRecomendacao_${recomendacao.id}" style="font-size:x-large; "  class="dropdown-toggle my-tooltip" data-toggle="tooltip" data-placement="right"  data-original-title="${mensagemAceitaRecomendacao}" ><i class="fa fa-check"></i></a>
+					                                                                                                    
+					                                                <spring:message code="lbl.acao.recusar.recomendacao" var="mensagemRecusarRecomendacao"/>	
+					                                                <a href="#a" onClick="recusarRecomendacao(${recomendacao.id})" id="idRecusaRecomendacao_${recomendacao.id}" style="font-size:x-large; "  class="dropdown-toggle my-tooltip" data-toggle="tooltip" data-placement="right"  data-original-title="${mensagemRecusarRecomendacao}" ><i class="fa fa-times"></i></a>
+					                                                
+					                                                
+					                                                <div id="idMsgAceitarRecomendacao_${recomendacao.id}"  class="panel panel-success" style="display: none;">												                   
+												                          <div class="alert alert-success">
+								                                                <strong><spring:message code="msg.recomendacao.aceita"/></strong> 
+								                                           </div>	                          
+													                </div><!-- /.panel -->                      
+													                
+												               		 <div id="idMsgRecusarRecomendacao_${recomendacao.id}" class="panel panel-danger" style="display: none;">
+												               		 	   <div class="alert alert-danger">
+								                                                <strong><spring:message code="msg.recomendacao.recusado"/></strong> 
+								                                            </div>												                   			                                                    
+												                      </div><!-- /.panel -->   
+					                                            </div>
+			                                            	</c:when>
+			                                            </c:choose>			                                            
+			                                        </li><!-- media -->											
+												</c:forEach>
+		                                    </ul>
+		                                    <br/>													                                    
+		                                </div>	                                                  
+                            </div>	                                        
 		                </div>                         
 		                <!-- FIM - LISTA RECOMENDACOES USUARIO -->   
                                            
@@ -336,7 +420,7 @@
             <!--/ END PAGE CONTENT -->
 			
 				<!-- Start content modal Ajuda - funcionalidade -->
-					<c:import url="../ajuda/contentMenuModal.jsp"></c:import>																				
+					<c:import url="../../ajuda/contentMenuModal.jsp"></c:import>																				
 				<!-- End content  modal Ajuda - funcionalidade -->
 
         </section><!-- /#wrapper -->
@@ -396,7 +480,7 @@
         <!--/ END BACK TOP -->
 
         <!-- START JAVASCRIPT SECTION (Load javascripts at bottom to reduce load time) -->
-  			<c:import url="../layout/head-bootstrap.jsp"></c:import> 
+  			<c:import url="../../layout/head-bootstrap.jsp"></c:import> 
         <!--/ END JAVASCRIPT SECTION -->
 
     </body>

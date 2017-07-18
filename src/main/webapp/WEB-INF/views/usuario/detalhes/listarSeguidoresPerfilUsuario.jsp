@@ -141,7 +141,7 @@
 	
 		</script>
 
-        <c:import url="../layout/head-layout.jsp"></c:import>
+        <c:import url="../../layout/head-layout.jsp"></c:import>
 
     <body>
 
@@ -149,11 +149,11 @@
         <section id="wrapper">
 
             <!-- START @HEADER -->            	
-            	<c:import url="../layout/header.jsp"></c:import>
+            	<c:import url="../../layout/header.jsp"></c:import>
             <!--/ END HEADER -->
 
             <!-- START @SIDEBAR LEFT            -->
-           		<c:import url="../layout/sidebar-left.jsp"></c:import>
+           		<c:import url="../../layout/sidebar-left.jsp"></c:import>
             <!--/ END SIDEBAR LEFT -->
 
             <!-- START @PAGE CONTENT -->
@@ -170,7 +170,7 @@
 
                     <div class="row">
                         <% if ( request.getSession().getAttribute("acessoValido").equals("N") ) {%>
-                        	<c:import url="../avisoRenovacaoAssinatura.jsp"></c:import>
+                        	<c:import url="../../avisoRenovacaoAssinatura.jsp"></c:import>
                         <% } %>		
                         
                          <div class="col-lg-13 col-md-13 col-sm-13">
@@ -248,7 +248,7 @@
 										<div class="col-lg-6 col-md-6 col-sm-6"> 
 	                                        <div id="owl-demo" class="owl-carousel owl-theme">    
 	                                        	<a href="${urlUsuario}/detalhesUsuario/${usuarioForm.id}" >  
-	                                        		<img class="img-circle" src="${context}/${usuarioForm.imagemArquivo}" style="margin-left:350px; width: 240px; height: 240px; ">
+	                                        		<img class="img-circle" src="data:image/jpeg;base64,${usuarioForm.imagemArquivo}" style="margin-left:350px; width: 240px; height: 240px; ">
 	                                        	</a>                                            	                                            	                                                                                        
 	                                        </div>
 	                                    </div>
@@ -339,9 +339,9 @@
                              			
 	                                </div><!-- /.panel-heading -->
 	                                	<c:choose>
-	                                		<c:when test="${ not empty usuarioForm.listaSeguidores }">
+	                                		<c:when test="${ not empty listarSeguidoresPerfilUsuario }">
                                 				<div class="panel-body panel " style="height: 400px;">	                                    
-							                    	<c:forEach var="usuarioSeguidor" items="${usuarioForm.listaSeguidores}">
+							                    	<c:forEach var="usuarioSeguidor" items="${listarSeguidoresPerfilUsuario}">
 								                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
 								                            <div class="panel">
 								                                <div class="panel-body" style="height: 220px;">						                                   
@@ -368,11 +368,11 @@
 							                        </div>
 							                          <!-- botao ver mais  -->
 						                                 <div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
-						                                    <a href="#"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+						                                    <a href="${urlUsuario}/listarSeguidoresPerfilUsuario/${usuarioForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
 						                               		<br> <br>
 						                                </div>
 	                                		</c:when>
-	                                		<c:when test="${empty usuarioForm.listaSeguidores }">
+	                                		<c:when test="${empty listarSeguidoresPerfilUsuario }">
 	                                			<div class="panel-body panel panel-scrollable rounded shadow" style="height: 120px;">
 						                                 <div class="media-list list-search">
 						                                 	<div class="callout callout-warning">
@@ -384,7 +384,7 @@
 	                                		</c:when>
 	                                	</c:choose>	
 	                                     
-	                            </div><!-- /.panel -->	                                        
+	                            </div><!-- /.panel -->                                      
 		                </div>                         
 		                <!-- FIM - LISTA SEGUIDORES USUARIO -->   
                                            
@@ -397,7 +397,7 @@
             <!--/ END PAGE CONTENT -->
 			
 				<!-- Start content modal Ajuda - funcionalidade -->
-					<c:import url="../ajuda/contentMenuModal.jsp"></c:import>																				
+					<c:import url="../../ajuda/contentMenuModal.jsp"></c:import>																				
 				<!-- End content  modal Ajuda - funcionalidade -->
 
         </section><!-- /#wrapper -->
@@ -457,7 +457,7 @@
         <!--/ END BACK TOP -->
 
         <!-- START JAVASCRIPT SECTION (Load javascripts at bottom to reduce load time) -->
-  			<c:import url="../layout/head-bootstrap.jsp"></c:import> 
+  			<c:import url="../../layout/head-bootstrap.jsp"></c:import> 
         <!--/ END JAVASCRIPT SECTION -->
 
     </body>

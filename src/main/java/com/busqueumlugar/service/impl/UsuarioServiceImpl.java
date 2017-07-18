@@ -1826,10 +1826,10 @@ public class UsuarioServiceImpl implements UsuarioService{
 		
 		form.setDataNascimentoFmt(DateUtil.formataData(usuario.getDataNascimento()));
 		
-		form.setListaNotasUsuario(notaService.listarTodasNotasPorPerfil(idUsuario, new NotaForm()));
+		form.setListaNotasUsuario(notaService.listarTodasNotasPorPerfil(idUsuario, null));
 		form.setListaSeguidores(seguidorService.recuperarSeguidoresPorIdUsuarioSeguido(idUsuario));		
 		form.setListaRecomendacoes(recomendacaoService.recuperarRecomendacoesPorIdUsuarioRecomendado(idUsuario));		
-		form.setListaContatosUsuario(contatoService.recuperarConvidadosHabilitados(idUsuario, new ContatoForm()));		
+		form.setListaContatosUsuario(contatoService.recuperarConvidadosHabilitados(idUsuario, null));		
 		
 		form.setQuantTotalSeguidores(AppUtil.recuperarQuantidadeLista(form.getListaSeguidores()));
 		form.setQuantTotalImoveis(AppUtil.recuperarQuantidadeLista(form.getListaImoveisUsuario()));

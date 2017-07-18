@@ -41,8 +41,10 @@ import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.AdministracaoService;
 import com.busqueumlugar.service.BairrosService;
 import com.busqueumlugar.service.CidadesService;
+import com.busqueumlugar.service.ContatoService;
 import com.busqueumlugar.service.EstadosService;
 import com.busqueumlugar.service.ImovelService;
+import com.busqueumlugar.service.NotaService;
 import com.busqueumlugar.service.ParamservicoService;
 import com.busqueumlugar.service.PlanoService;
 import com.busqueumlugar.service.PreferencialocalidadeService;
@@ -96,11 +98,18 @@ public class UsuarioController {
 	@Autowired
 	private RecomendacaoService recomendacaoService;
 	
+	@Autowired
+	private NotaService notaService;
+	
+	@Autowired
+	private ContatoService contatoService;
+	
 	private static final String DIR_PATH = "/usuario/";
 	private static final String DIR_PATH_EDICAO = "/usuario/edicao/";
 	private static final String DIR_PATH_CADASTRO = "/usuario/cadastro/";
 	private static final String DIR_PATH_ASSINATURA = "/usuario/assinatura/";
 	private static final String DIR_PATH_ESQUECEU_SENHA = "/usuario/esqueceuSenha/";
+	private static final String DIR_PATH_DETALHES = "/usuario/detalhes/";
 	private static final String DIR = "/";
 	
 	@Autowired
@@ -1028,7 +1037,86 @@ public class UsuarioController {
 			return ImovelService.PATH_ERRO_GERAL;
 		}
 	}
+	
+	@RequestMapping(value = "/listarNotasPerfilUsuario/{idUsuario}")
+	public String listarNotasPerfilUsuario(@PathVariable("idUsuario") Long idUsuario,											     											   
+											     HttpSession session,
+											     ModelMap map){
 
+		try {		
+			map.addAttribute("listaNotasPerfilUsuario", notaService.listarTodasNotasPorPerfil(idUsuario, null));
+			map.addAttribute("usuarioForm", usuarioService.carregaUsuario(idUsuario));
+			return DIR_PATH_DETALHES + "listarNotasPerfilUsuario";
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelController -  listarNotasPerfilUsuario");
+			log.error("Mensagem Erro: " + e.getMessage());		
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+	}
+	
+	@RequestMapping(value = "/listarContatosPerfilUsuario/{idUsuario}")
+	public String listarContatosPerfilUsuario(@PathVariable("idUsuario") Long idUsuario,											     											   
+											  HttpSession session,
+											  ModelMap map){
+
+		try {		
+			map.addAttribute("listarContatosPerfilUsuario", contatoService.recuperarConvidadosHabilitados(idUsuario, null));
+			map.addAttribute("usuarioForm", usuarioService.carregaUsuario(idUsuario));
+			return DIR_PATH_DETALHES + "listarContatosPerfilUsuario";
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelController -  listarContatosPerfilUsuario");
+			log.error("Mensagem Erro: " + e.getMessage());		
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+	}
+	
+	@RequestMapping(value = "/listarPrefImoveisPerfilUsuario/{idUsuario}")
+	public String listarPrefImoveisPerfilUsuario(@PathVariable("idUsuario") Long idUsuario,											     											   
+											  HttpSession session,
+											  ModelMap map){
+
+		try {		
+			map.addAttribute("listarPrefImoveisPerfilUsuario", prefLocalidadeService.listarPreferenciaPorUsuario(idUsuario));
+			map.addAttribute("usuarioForm", usuarioService.carregaUsuario(idUsuario));
+			return DIR_PATH_DETALHES + "listarPrefImoveisPerfilUsuario";
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelController -  listarPrefImoveisPerfilUsuario");
+			log.error("Mensagem Erro: " + e.getMessage());		
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+	}
+	
+	@RequestMapping(value = "/listarRecomendacoesPerfilUsuario/{idUsuario}")
+	public String listarRecomendacoesPerfilUsuario(@PathVariable("idUsuario") Long idUsuario,											     											   
+											  HttpSession session,
+											  ModelMap map){
+
+		try {		
+			map.addAttribute("listarRecomendacoesPerfilUsuario", recomendacaoService.recuperarRecomendacoesPorIdUsuarioRecomendado(idUsuario));
+			map.addAttribute("usuarioForm", usuarioService.carregaUsuario(idUsuario));
+			return DIR_PATH_DETALHES + "listarRecomendacoesPerfilUsuario";
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelController -  listarRecomendacoesPerfilUsuario");
+			log.error("Mensagem Erro: " + e.getMessage());		
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+	}
+	
+	@RequestMapping(value = "/listarSeguidoresPerfilUsuario/{idUsuario}")
+	public String listarSeguidoresPerfilUsuario(@PathVariable("idUsuario") Long idUsuario,											     											   
+											  	HttpSession session,
+											  	ModelMap map){
+
+		try {		
+			map.addAttribute("listarSeguidoresPerfilUsuario", seguidorService.recuperarSeguidoresPorIdUsuarioSeguido(idUsuario));
+			map.addAttribute("usuarioForm", usuarioService.carregaUsuario(idUsuario));
+			return DIR_PATH_DETALHES + "listarSeguidoresPerfilUsuario";
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelController -  listarSeguidoresPerfilUsuario");
+			log.error("Mensagem Erro: " + e.getMessage());		
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+	}
 	
 	
    public void criaArquivo(byte[] bytes, String arquivo) throws IOException {

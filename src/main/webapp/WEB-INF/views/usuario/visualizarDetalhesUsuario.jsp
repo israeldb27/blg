@@ -501,8 +501,7 @@ function mostrarModal(id){
 	                              							<font style="font-size: 12px; color: black;" >&nbsp; <spring:message code="lbl.title.link.meus.imoveis"/></font>
                               							</div>	                              						
 	                              					</a>                              					
-                              					</c:if>                              				
-                              					
+                              					</c:if>   
                               				</c:if> 
                               			</h3>
                               			
@@ -694,7 +693,7 @@ function mostrarModal(id){
                                 					</c:forEach>								
 												</div>
 												 <div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
-				                                    <a href="#"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+				                                    <a href="${urlUsuario}/listarNotasPerfilUsuario/${usuarioForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
 				                               		<br> <br>
 				                                </div>
                                 			</c:when>
@@ -758,7 +757,7 @@ function mostrarModal(id){
 						                                </div><!-- /.panel-body -->
 						                                <!-- botao ver mais  -->
 						                                 <div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
-						                                    <a href="#"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+						                                    <a href="${urlUsuario}/listarPrefImoveisPerfilUsuario/${usuarioForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
 						                               		<br> <br>
 						                                </div>
 				                                	</c:when>
@@ -846,7 +845,7 @@ function mostrarModal(id){
 							                     </div>		
 							                       <!-- botao ver mais  -->
 						                                 <div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
-						                                    <a href="#"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+						                                    <a href="${urlUsuario}/listarContatosPerfilUsuario/${usuarioForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
 						                               		<br> <br>
 						                                </div>
 	                                		</c:when>
@@ -912,7 +911,7 @@ function mostrarModal(id){
 							                        </div>
 							                          <!-- botao ver mais  -->
 						                                 <div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
-						                                    <a href="#"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+						                                    <a href="${urlUsuario}/listarSeguidoresPerfilUsuario/${usuarioForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
 						                               		<br> <br>
 						                                </div>
 	                                		</c:when>
@@ -1035,7 +1034,7 @@ function mostrarModal(id){
 		                                </div>	
 		                                  <!-- botao ver mais  -->
 		                                 <div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
-		                                    <a href="#"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+		                                    <a href="${urlUsuario}/listarRecomendacoesPerfilUsuario/${usuarioForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
 		                               		<br> <br>
 		                                </div>
                                 	</c:when>

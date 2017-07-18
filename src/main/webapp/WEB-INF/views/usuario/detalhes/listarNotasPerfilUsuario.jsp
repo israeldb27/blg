@@ -141,7 +141,7 @@
 	
 		</script>
 
-        <c:import url="../layout/head-layout.jsp"></c:import>
+        <c:import url="../../layout/head-layout.jsp"></c:import>
 
     <body>
 
@@ -149,11 +149,11 @@
         <section id="wrapper">
 
             <!-- START @HEADER -->            	
-            	<c:import url="../layout/header.jsp"></c:import>
+            	<c:import url="../../layout/header.jsp"></c:import>
             <!--/ END HEADER -->
 
             <!-- START @SIDEBAR LEFT            -->
-           		<c:import url="../layout/sidebar-left.jsp"></c:import>
+           		<c:import url="../../layout/sidebar-left.jsp"></c:import>
             <!--/ END SIDEBAR LEFT -->
 
             <!-- START @PAGE CONTENT -->
@@ -248,7 +248,7 @@
 										<div class="col-lg-6 col-md-6 col-sm-6"> 
 	                                        <div id="owl-demo" class="owl-carousel owl-theme">    
 	                                        	<a href="${urlUsuario}/detalhesUsuario/${usuarioForm.id}" >  
-	                                        		<img class="img-circle" src="${context}/${usuarioForm.imagemArquivo}" style="margin-left:350px; width: 240px; height: 240px; ">
+	                                        		<img class="img-circle" src="data:image/jpeg;base64,${usuarioForm.imagemArquivo}" style="margin-left:350px; width: 240px; height: 240px; ">
 	                                        	</a>                                            	                                            	                                                                                        
 	                                        </div>
 	                                    </div>
@@ -340,9 +340,9 @@
                                 
                                 <div class="profile-body">
 											<c:choose>
-		                                			<c:when test="${not empty usuarioForm.listaNotasUsuario}">
+		                                			<c:when test="${not empty listaNotasPerfilUsuario}">
 		                                				<div class="timeline">
-		                                					<c:forEach var="nota" items="${usuarioForm.listaNotasUsuario}"> 
+		                                					<c:forEach var="nota" items="${listaNotasPerfilUsuario}"> 
 		                                						<div class="timeline-item last-timeline">
 																	<div class="timeline-badge">
 																		<br>
@@ -393,14 +393,10 @@
 																	</div>
 																</div>
 		                                					</c:forEach>								
-														</div>
-														 <div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
-						                                    <a href="#"><strong><spring:message code="lbl.title.see.all"/></strong></a>
-						                               		<br> <br>
-						                                </div>
+														</div>														
 		                                			</c:when>
 		                                			
-		                                			<c:when test="${ empty usuarioForm.listaNotasUsuario }">
+		                                			<c:when test="${ empty listaNotasPerfilUsuario }">
 			                                			 <div class="callout callout-warning">
 						                                    <strong><spring:message code="lbl.nenhuma.nota"/></strong>			                                    
 						                                </div>                                		
@@ -420,7 +416,7 @@
             <!--/ END PAGE CONTENT -->
 			
 				<!-- Start content modal Ajuda - funcionalidade -->
-					<c:import url="../ajuda/contentMenuModal.jsp"></c:import>																				
+					<c:import url="../../ajuda/contentMenuModal.jsp"></c:import>																				
 				<!-- End content  modal Ajuda - funcionalidade -->
 
         </section><!-- /#wrapper -->
@@ -480,7 +476,7 @@
         <!--/ END BACK TOP -->
 
         <!-- START JAVASCRIPT SECTION (Load javascripts at bottom to reduce load time) -->
-  			<c:import url="../layout/head-bootstrap.jsp"></c:import> 
+  			<c:import url="../../layout/head-bootstrap.jsp"></c:import> 
         <!--/ END JAVASCRIPT SECTION -->
 
     </body>

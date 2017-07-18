@@ -141,7 +141,7 @@
 	
 		</script>
 
-        <c:import url="../layout/head-layout.jsp"></c:import>
+        <c:import url="../../layout/head-layout.jsp"></c:import>
 
     <body>
 
@@ -149,11 +149,11 @@
         <section id="wrapper">
 
             <!-- START @HEADER -->            	
-            	<c:import url="../layout/header.jsp"></c:import>
+            	<c:import url="../../layout/header.jsp"></c:import>
             <!--/ END HEADER -->
 
             <!-- START @SIDEBAR LEFT            -->
-           		<c:import url="../layout/sidebar-left.jsp"></c:import>
+           		<c:import url="../../layout/sidebar-left.jsp"></c:import>
             <!--/ END SIDEBAR LEFT -->
 
             <!-- START @PAGE CONTENT -->
@@ -170,7 +170,7 @@
 
                     <div class="row">
                         <% if ( request.getSession().getAttribute("acessoValido").equals("N") ) {%>
-                        	<c:import url="../avisoRenovacaoAssinatura.jsp"></c:import>
+                        	<c:import url="../../avisoRenovacaoAssinatura.jsp"></c:import>
                         <% } %>		
                         
                          <div class="col-lg-13 col-md-13 col-sm-13">
@@ -248,7 +248,7 @@
 										<div class="col-lg-6 col-md-6 col-sm-6"> 
 	                                        <div id="owl-demo" class="owl-carousel owl-theme">    
 	                                        	<a href="${urlUsuario}/detalhesUsuario/${usuarioForm.id}" >  
-	                                        		<img class="img-circle" src="${context}/${usuarioForm.imagemArquivo}" style="margin-left:350px; width: 240px; height: 240px; ">
+	                                        		<img class="img-circle" src="data:image/jpeg;base64,${usuarioForm.imagemArquivo}" style="margin-left:350px; width: 240px; height: 240px; ">
 	                                        	</a>                                            	                                            	                                                                                        
 	                                        </div>
 	                                    </div>
@@ -339,7 +339,7 @@
                                 </div><!-- /.panel-heading -->
                                 
                                 <c:choose>
-                                	<c:when test="${not empty usuarioForm.listaPreferenciaImoveis}">
+                                	<c:when test="${not empty listarPrefImoveisPerfilUsuario}">
                                 		<div class="panel-body panel rounded shadow">
 		                                    <table class="table table-striped" >
 	                                            <thead>
@@ -352,7 +352,7 @@
 	                                            </tr>
 	                                            </thead>
 	                                            <tbody>
-	                                            <c:forEach var="pref" items="${usuarioForm.listaPreferenciaImoveis}" >
+	                                            <c:forEach var="pref" items="${listarPrefImoveisPerfilUsuario}" >
 		                                            <tr>
 		                                                <td class="text-center" style="font-size: 13px;"> ${pref.tipoImovelFmt}</td>
 		                                                <td class="text-center" style="font-size: 13px;">${pref.acaoFmt}</td>
@@ -371,7 +371,7 @@
 		                                </div>
                                 	</c:when>
                                 	
-                                	<c:when test="${ empty usuarioForm.listaPreferenciaImoveis}">
+                                	<c:when test="${ empty listarPrefImoveisPerfilUsuario}">
                                 		<div class="panel-body panel panel-scrollable rounded shadow" style="height: 120px;">
 				                                 <div class="media-list list-search">
 				                                 	<div class="callout callout-warning">
@@ -396,7 +396,7 @@
             <!--/ END PAGE CONTENT -->
 			
 				<!-- Start content modal Ajuda - funcionalidade -->
-					<c:import url="../ajuda/contentMenuModal.jsp"></c:import>																				
+					<c:import url="../../ajuda/contentMenuModal.jsp"></c:import>																				
 				<!-- End content  modal Ajuda - funcionalidade -->
 
         </section><!-- /#wrapper -->
@@ -456,7 +456,7 @@
         <!--/ END BACK TOP -->
 
         <!-- START JAVASCRIPT SECTION (Load javascripts at bottom to reduce load time) -->
-  			<c:import url="../layout/head-bootstrap.jsp"></c:import> 
+  			<c:import url="../../layout/head-bootstrap.jsp"></c:import> 
         <!--/ END JAVASCRIPT SECTION -->
 
     </body>

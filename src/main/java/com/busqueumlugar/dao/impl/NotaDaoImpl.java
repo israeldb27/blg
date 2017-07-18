@@ -62,28 +62,33 @@ public class NotaDaoImpl extends GenericDAOImpl<Nota, Long>  implements NotaDao 
 		Criteria crit = session().createCriteria(Nota.class);
 		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));
 		
-		if (! StringUtils.isNullOrEmpty(form.getOpcaoFiltro()))
-			crit.add(Restrictions.eq("acao", form.getOpcaoFiltro()));
-		
-		if (! StringUtils.isNullOrEmpty(form.getOpcaoOrdenacao())){
-			if (form.getOpcaoOrdenacao().equals("maiorDataNota"))
-				crit.addOrder(Order.desc("dataNota"));
-		    else if (form.getOpcaoOrdenacao().equals("menorDataNota"))
-		    	crit.addOrder(Order.asc("dataNota"));
-		    else if (form.getOpcaoOrdenacao().equals("tituloImovelCrescente"))
-		    	crit.createCriteria("imovel").addOrder(Order.desc("titulo"));
-		    else if (form.getOpcaoOrdenacao().equals("tituloImovelDeCrescente"))
-		    	crit.createCriteria("imovel").addOrder(Order.asc("titulo"));
+		if ( form != null){
+			if (! StringUtils.isNullOrEmpty(form.getOpcaoFiltro()))
+				crit.add(Restrictions.eq("acao", form.getOpcaoFiltro()));
+			
+			if (! StringUtils.isNullOrEmpty(form.getOpcaoOrdenacao())){
+				if (form.getOpcaoOrdenacao().equals("maiorDataNota"))
+					crit.addOrder(Order.desc("dataNota"));
+			    else if (form.getOpcaoOrdenacao().equals("menorDataNota"))
+			    	crit.addOrder(Order.asc("dataNota"));
+			    else if (form.getOpcaoOrdenacao().equals("tituloImovelCrescente"))
+			    	crit.createCriteria("imovel").addOrder(Order.desc("titulo"));
+			    else if (form.getOpcaoOrdenacao().equals("tituloImovelDeCrescente"))
+			    	crit.createCriteria("imovel").addOrder(Order.asc("titulo"));
+			}
+			else		
+				crit.addOrder(Order.desc("dataNota")).list();
+			
+			form.setQuantRegistros(AppUtil.recuperarQuantidadeLista(crit.list()));
+			if ( form.isVisible()){
+		        crit.setFirstResult((Integer.parseInt((StringUtils.isNullOrEmpty(form.getOpcaoPaginacao())) ? "1": form.getOpcaoPaginacao()) - 1) * form.getQuantMaxRegistrosPerPage());        
+		        crit.setMaxResults(form.getQuantMaxRegistrosPerPage());
+		        form.setListaPaginas(AppUtil.carregarQuantidadePaginas(form.getQuantRegistros(), form.getQuantMaxRegistrosPerPage()));
+			}
 		}
-		else		
+		else
 			crit.addOrder(Order.desc("dataNota")).list();
-		
-		form.setQuantRegistros(AppUtil.recuperarQuantidadeLista(crit.list()));
-		if ( form.isVisible()){
-	        crit.setFirstResult((Integer.parseInt((StringUtils.isNullOrEmpty(form.getOpcaoPaginacao())) ? "1": form.getOpcaoPaginacao()) - 1) * form.getQuantMaxRegistrosPerPage());        
-	        crit.setMaxResults(form.getQuantMaxRegistrosPerPage());
-	        form.setListaPaginas(AppUtil.carregarQuantidadePaginas(form.getQuantRegistros(), form.getQuantMaxRegistrosPerPage()));
-		}   
+		   
 		return (List<Nota>)crit.list();	
 	}
 
