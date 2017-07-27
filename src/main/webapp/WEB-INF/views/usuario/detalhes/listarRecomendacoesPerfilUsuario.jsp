@@ -335,7 +335,7 @@
                               			</div>
                               			<br>	
                                     </h3>
-                                    &nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.total.recomendacoes"/> </strong>: (${usuarioForm.quantTotalRecomendacoes}) </label>
+                                    &nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.total.recomendacoes"/> </strong>: (${quantTotalRecomendacoes}) </label>
                                 </div>                                
                                 		<div class="panel-body">
 		                                    <ul class="media-list comment-list">

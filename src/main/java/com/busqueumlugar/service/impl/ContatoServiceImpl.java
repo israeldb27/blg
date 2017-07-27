@@ -137,7 +137,10 @@ public class ContatoServiceImpl implements ContatoService {
 	public List<Contato> recuperarConvidadosHabilitados(Long idUsuario, ContatoForm form) {		
         return dao.findContatos(idUsuario, form);
 	}
-
+	
+	public List<Contato> recuperarConvidadosHabilitados(Long idUsuario, ContatoForm form, int quantMaxExibeMaisListaContatos) {		
+        return dao.findContatos(idUsuario, form, quantMaxExibeMaisListaContatos);
+	}
 	
 	public List<Contato> recuperarConvidadosPorPerfil(Long idUsuario, String tipoPerfil) {		
         return dao.findContatosByPerfilUsuario(idUsuario, tipoPerfil);

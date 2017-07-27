@@ -468,7 +468,7 @@ function mostrarModal(id){
                                			</div>
                                				
                               			<div class="pull-right">
-                              				<a href="#a" class="btn btn-sm"  onClick="mostrarModal(0);" style=""><i class="fa fa-question" ></i></a>
+                              				<a href="#a" class="btn btn-sm" onClick="mostrarModal(0);"  style=""><i class="fa fa-question" ></i></a>
                               			</div>
                               			<br>
 									</h3>
@@ -591,8 +591,7 @@ function mostrarModal(id){
 						                                                        </tbody>
 						                                                    </table>
 						                                                    
-						                                                    <br>
-						                                                    
+						                                                    <br>						                                                    
 						                                                      <% if ( request.getSession().getAttribute("acessoValido").equals("S") ) {%>   
 						                                                    	<c:if test="${(imovel.interessadoImovel == 'N') && (imovel.usuario.id != usuario.id)}">
 																					<a href="#a" id="idMeInteressei_${imovel.id}" onClick="adicionarInteresse(${imovel.id})" style="font-size:x-large; color: rgb(99, 110, 123);" class="meta-action"><i class="fa fa-star-o" title="<spring:message code="lbl.me.interessei"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;"> <spring:message code="lbl.me.interessei"/> &nbsp;&nbsp; </a> 
@@ -636,7 +635,7 @@ function mostrarModal(id){
                                    		&nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.total.notas"/> </strong>: (${usuarioForm.quantTotalNotas}) </label>
                                 </div><!-- /.panel-heading -->
                                 
-                                <div class="profile-body">
+                                <div class="profile-body" >
 									<c:choose>
                                 			<c:when test="${not empty usuarioForm.listaNotasUsuario}">
                                 				<div class="timeline">
@@ -686,16 +685,17 @@ function mostrarModal(id){
 																	</p>																				
 																</div>	
 																 </br>																			  
-															     <em class="text-xs text-muted"><spring:message code="lbl.data.nota"/>: <span class="text-danger"><fmt:formatDate value='${nota.dataNota}' pattern='dd/MM/yyyy'/></span></em>
-															
+															     <em class="text-xs text-muted"><spring:message code="lbl.data.nota"/>: <span class="text-danger"><fmt:formatDate value='${nota.dataNota}' pattern='dd/MM/yyyy'/></span></em>															
 															</div>
 														</div>
                                 					</c:forEach>								
 												</div>
-												 <div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
-				                                    <a href="${urlUsuario}/listarNotasPerfilUsuario/${usuarioForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
-				                               		<br> <br>
-				                                </div>
+												<c:if test="${usuarioForm.isExibeMaisListaNotas() }">
+													<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
+					                                    <a href="${urlUsuario}/listarNotasPerfilUsuario/${usuarioForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+					                               		<br> <br>
+					                                </div>
+												</c:if>												 
                                 			</c:when>
                                 			
                                 			<c:when test="${ empty usuarioForm.listaNotasUsuario }">
@@ -704,9 +704,7 @@ function mostrarModal(id){
 				                                </div>                                		
 	                                		</c:when>	                                		
                                 		</c:choose>		
-								</div>
-                                                            
-                                      
+								</div>         
                          </div><!-- /.panel -->
  						
  						<!-- /.END Notas Usuario -->  						
@@ -756,10 +754,12 @@ function mostrarModal(id){
 					                                        </table>
 						                                </div><!-- /.panel-body -->
 						                                <!-- botao ver mais  -->
-						                                 <div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
-						                                    <a href="${urlUsuario}/listarPrefImoveisPerfilUsuario/${usuarioForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
-						                               		<br> <br>
-						                                </div>
+						                                <c:if test="${usuarioForm.isExibeMaisListaPrefImoveis() }">
+						                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
+							                                    <a href="${urlUsuario}/listarPrefImoveisPerfilUsuario/${usuarioForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+							                               		<br> <br>
+							                                </div>
+						                                </c:if>						                                 
 				                                	</c:when>
 				                                	
 				                                	<c:when test="${ empty usuarioForm.listaPreferenciaImoveis}">
@@ -797,7 +797,7 @@ function mostrarModal(id){
 	                                </div><!-- /.panel-heading -->
 	                                	<c:choose>
 	                                		<c:when test="${ not empty usuarioForm.listaContatosUsuario }">
-	                                			<div class="panel-body panel " style="height: 400px;">	                                    
+	                                			<div class="panel-body panel " style="height: 470px;">	                                    
 							                    	<c:forEach var="contato" items="${usuarioForm.listaContatosUsuario}">
 								                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
 								                            <div class="panel">
@@ -842,12 +842,15 @@ function mostrarModal(id){
 								                            </div><!-- /.panel -->		
 								                         </div>   				                        
 							                        </c:forEach>
-							                     </div>		
+							                     </div>	
+							                     
 							                       <!-- botao ver mais  -->
+							                       <c:if test="${usuarioForm.isExibeMaisListaContatos() }">
 						                                 <div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
 						                                    <a href="${urlUsuario}/listarContatosPerfilUsuario/${usuarioForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
 						                               		<br> <br>
 						                                </div>
+						                          </c:if>
 	                                		</c:when>
 	                                		
 	                                		<c:when test="${ empty usuarioForm.listaContatosUsuario }">
@@ -910,10 +913,12 @@ function mostrarModal(id){
 							                        </c:forEach>
 							                        </div>
 							                          <!-- botao ver mais  -->
-						                                 <div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
-						                                    <a href="${urlUsuario}/listarSeguidoresPerfilUsuario/${usuarioForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
-						                               		<br> <br>
-						                                </div>
+							                           <c:if test="${usuarioForm.isExibeMaisListaSeguidores() }">
+							                                 <div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
+							                                    <a href="${urlUsuario}/listarSeguidoresPerfilUsuario/${usuarioForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+							                               		<br> <br>
+							                                </div>
+						                               </c:if>
 	                                		</c:when>
 	                                		<c:when test="${empty usuarioForm.listaSeguidores }">
 	                                			<div class="panel-body panel panel-scrollable rounded shadow" style="height: 120px;">
@@ -1016,6 +1021,18 @@ function mostrarModal(id){
 			                                            </c:choose>			                                            
 			                                        </li><!-- media -->											
 												</c:forEach>
+												
+												
+												<!-- botao ver mais  -->
+				                         		<br>
+				                                <!-- botao ver mais  -->
+					                           <c:if test="${usuarioForm.isExibeMaisListaRecomendacoes() }">
+					                                <div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
+					                                    <a href="${urlUsuario}/listarRecomendacoesPerfilUsuario/${usuarioForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+					                               		<br> <br>
+					                                </div>
+				                               </c:if>
+			                             	
 		                                    </ul>
 		                                    <br/>
 											
@@ -1030,13 +1047,9 @@ function mostrarModal(id){
 				                                            </form>
 				                                        </li>
 				                                    </ul>
-											</c:if>			                                    
+											</c:if>	
+											                                    
 		                                </div>	
-		                                  <!-- botao ver mais  -->
-		                                 <div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
-		                                    <a href="${urlUsuario}/listarRecomendacoesPerfilUsuario/${usuarioForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
-		                               		<br> <br>
-		                                </div>
                                 	</c:when>
                                 	
                                 	<c:when test="${empty usuarioForm.listaRecomendacoes }">

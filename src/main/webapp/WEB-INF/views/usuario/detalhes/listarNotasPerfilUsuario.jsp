@@ -335,7 +335,7 @@
                               			</div>
                               			<br>                                    	
                                     </h3>
-                                   		&nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.total.notas"/> </strong>: (${usuarioForm.quantTotalNotas}) </label>
+                                   		&nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.total.notas"/> </strong>: (${quantTotalNotas}) </label>
                                 </div><!-- /.panel-heading -->
                                 
                                 <div class="profile-body">

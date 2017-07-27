@@ -110,6 +110,9 @@ public class NotaServiceImpl implements NotaService {
         return dao.filterNotasByIdUsuario(idUsuario, form);
 	}
 
+	public List<Nota> listarTodasNotasPorPerfil(Long idUsuario,	NotaForm form, int quantMaxExibeMaisListaNotas) {		
+        return dao.filterNotasByIdUsuario(idUsuario, form, quantMaxExibeMaisListaNotas);
+	}
 	
 	public List<Nota> recuperarNotasContatosUsuario(Long idUsuario, NotaForm form) {            
         List listaIdsContato = contatoDao.findIdsUsuariosContatosByIdUsuarioByStatus(idUsuario, ContatoStatusEnum.OK.getRotulo());
@@ -214,6 +217,12 @@ public class NotaServiceImpl implements NotaService {
 	@Override
 	public Nota recuperarNotaByUsuarioByIndex(List<Long> listaIds, int index) {
 		return dao.findNotaByUsuarioByIndex( listaIds, index);
+	}
+
+
+	@Override
+	public long checarQuantidadeNotasPorUsuario(Long idUsuario) {	
+		return dao.findQuantNotasByIdUsuario(idUsuario);
 	}
 
 

@@ -51,6 +51,15 @@ public class SeguidorDaoImpl extends GenericDAOImpl<Seguidor, Long>  implements 
 	
 	@SuppressWarnings("unchecked")
 	@Override
+	public List<Seguidor> findSeguidoresByIdUsuarioSeguido(Long idUsuario, int quantMaxExibeMaisListaSeguidores) {
+		Criteria crit = session().createCriteria(Seguidor.class);
+		crit.createCriteria("usuarioSeguido").add(Restrictions.eq("id", idUsuario));
+		crit.setMaxResults(quantMaxExibeMaisListaSeguidores);
+		return (List<Seguidor>)crit.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
 	public List<Seguidor> findSeguindoByIdUsuarioSeguido(Long idUsuario) {
 		Criteria crit = session().createCriteria(Seguidor.class);
 		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));

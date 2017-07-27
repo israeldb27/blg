@@ -13,6 +13,8 @@ public interface RecomendacaoService {
 	Recomendacao recuperarRecomendacaoPorId(Long idRecomendacao);
 
 	List<Recomendacao> recuperarRecomendacoesPorIdUsuarioRecomendado(Long idUsuario);
+	
+	List<Recomendacao> recuperarRecomendacoesPorIdUsuarioRecomendado(Long idUsuario, int quantMaxExibeMaisListaRecomendacoes);
 
 	void cadastrarRecomendacao(Long idUsuario, Long idUsuarioSessao, String novaRecomendacao);
 

@@ -158,7 +158,117 @@ public class UsuarioForm extends BaseForm {
 	private String cpfCnpjEsqueceuSenha = "";
 	
 	private String emailIndicaAmigos = "";	
+	
+	private boolean exibeMaisListaNotas = false;
+	private boolean exibeMaisListaContatos = false;
+	private boolean exibeMaisListaSeguidores = false;
+	private boolean exibeMaisListaRecomendacoes = false;
+	private boolean exibeMaisListaPrefImoveis = false;
+	
+	private int quantMaxExibeMaisListaNotas = 5;
+	private int quantMaxExibeMaisListaContatos = 8;
+	private int quantMaxExibeMaisListaSeguidores = 8;
+	private int quantMaxExibeMaisListaRecomendacoes = 8;
+	private int quantMaxExibeMaisListaPrefImoveis = 8;
+	
 
+	public int getQuantMaxExibeMaisListaNotas() {
+		return quantMaxExibeMaisListaNotas;
+	}
+
+	public void setQuantMaxExibeMaisListaNotas(int quantMaxExibeMaisListaNotas) {
+		this.quantMaxExibeMaisListaNotas = quantMaxExibeMaisListaNotas;
+	}
+
+	public int getQuantMaxExibeMaisListaContatos() {
+		return quantMaxExibeMaisListaContatos;
+	}
+
+	public void setQuantMaxExibeMaisListaContatos(int quantMaxExibeMaisListaContatos) {
+		this.quantMaxExibeMaisListaContatos = quantMaxExibeMaisListaContatos;
+	}
+
+	public int getQuantMaxExibeMaisListaSeguidores() {
+		return quantMaxExibeMaisListaSeguidores;
+	}
+
+	public void setQuantMaxExibeMaisListaSeguidores(
+			int quantMaxExibeMaisListaSeguidores) {
+		this.quantMaxExibeMaisListaSeguidores = quantMaxExibeMaisListaSeguidores;
+	}
+
+	public int getQuantMaxExibeMaisListaRecomendacoes() {
+		return quantMaxExibeMaisListaRecomendacoes;
+	}
+
+	public void setQuantMaxExibeMaisListaRecomendacoes(
+			int quantMaxExibeMaisListaRecomendacoes) {
+		this.quantMaxExibeMaisListaRecomendacoes = quantMaxExibeMaisListaRecomendacoes;
+	}
+
+	public int getQuantMaxExibeMaisListaPrefImoveis() {
+		return quantMaxExibeMaisListaPrefImoveis;
+	}
+
+	public void setQuantMaxExibeMaisListaPrefImoveis(
+			int quantMaxExibeMaisListaPrefImoveis) {
+		this.quantMaxExibeMaisListaPrefImoveis = quantMaxExibeMaisListaPrefImoveis;
+	}
+
+	public boolean isExibeMaisListaPrefImoveis() {
+		if ( this.quantTotalPrefImoveis > this.quantMaxExibeMaisListaPrefImoveis )
+			return true;
+		else
+			return false;
+	}
+
+	public void setExibeMaisListaPrefImoveis(boolean exibeMaisListaPrefImoveis) {
+		this.exibeMaisListaPrefImoveis = exibeMaisListaPrefImoveis;
+	}
+
+	public boolean isExibeMaisListaContatos() {
+		if ( this.quantTotalContatos > this.quantMaxExibeMaisListaContatos )
+			return true;
+		else
+			return false;
+	}
+
+	public void setExibeMaisListaContatos(boolean exibeMaisListaContatos) {
+		this.exibeMaisListaContatos = exibeMaisListaContatos;
+	}
+
+	public boolean isExibeMaisListaSeguidores() {
+		if ( this.quantTotalSeguidores > this.quantMaxExibeMaisListaSeguidores )
+			return true;
+		else
+			return false;
+	}
+
+	public void setExibeMaisListaSeguidores(boolean exibeMaisListaSeguidores) {
+		this.exibeMaisListaSeguidores = exibeMaisListaSeguidores;
+	}
+
+	public boolean isExibeMaisListaRecomendacoes() {
+		if ( this.quantTotalRecomendacoes > this.quantMaxExibeMaisListaRecomendacoes )
+			return true;
+		else
+			return false;
+	}
+
+	public void setExibeMaisListaRecomendacoes(boolean exibeMaisListaRecomendacoes) {
+		this.exibeMaisListaRecomendacoes = exibeMaisListaRecomendacoes;
+	}
+
+	public boolean isExibeMaisListaNotas() {		
+		if ( this.quantTotalNotas > this.quantMaxExibeMaisListaNotas )
+			return true;
+		else
+			return false;
+	}
+
+	public void setExibeMaisListaNotas(boolean exibeMaisListaNotas) {
+		this.exibeMaisListaNotas = exibeMaisListaNotas;
+	}
 
 	public String getAcessoValido() {
 		return acessoValido;

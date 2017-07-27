@@ -15,6 +15,8 @@ public interface SeguidorService {
 	void cancelarIniciarSeguidor(Long idUsuarioSeguido, Long idUsuario);
 
 	List<Seguidor> recuperarSeguidoresPorIdUsuarioSeguido(Long idUsuario);
+	
+	List<Seguidor> recuperarSeguidoresPorIdUsuarioSeguido(Long idUsuario, int quantMaxExibeMaisListaSeguidores);
 
 	List recuperarIdsSeguidores(Long idUsuario);
 	

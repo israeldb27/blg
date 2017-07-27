@@ -10,6 +10,8 @@ public interface RecomendacaoDao extends GenericDAO<Recomendacao, Long>  {
 	Recomendacao findRecomendacaoById(Long idRecomendacao);
 
 	List<Recomendacao> findListRecomendacaoByIdUsuario(Long idUsuario);
+	
+	List<Recomendacao> findListRecomendacaoByIdUsuario(Long idUsuario, int quantMaxExibeMaisListaRecomendacoes);
 
 	List<Recomendacao> findListRecomendacaoByIdUsuarioNovas(Long idUsuario);
 

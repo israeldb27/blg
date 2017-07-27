@@ -49,7 +49,27 @@ public class PreferencialocalidadeDaoImpl extends GenericDAOImpl<Preferencialoca
 	public List<Preferencialocalidade> findPreferencialocalidadeByIdUsuario(Long idUsuario) {
 		Criteria crit = session().createCriteria(Preferencialocalidade.class);
 		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));
+		crit.addOrder(Order.desc("dataCadastro"));
 		return crit.list();		
+	}
+	
+	@Override
+	public List<Preferencialocalidade> findPreferencialocalidadeByIdUsuario(Long idUsuario, int quantMaxExibeMaisListaPrefImoveis) {
+		Criteria crit = session().createCriteria(Preferencialocalidade.class);
+		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));
+		crit.addOrder(Order.desc("dataCadastro"));
+		crit.setMaxResults(quantMaxExibeMaisListaPrefImoveis);		
+		return crit.list();	
+	}
+	
+	@Override
+	public long findPreferencialocalidadeByIdUsuarioQuant(Long idUsuario){
+		Criteria crit = session().createCriteria(Preferencialocalidade.class);
+		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));
+		ProjectionList projList = Projections.projectionList();
+        projList.add(Projections.rowCount());
+		crit.setProjection(projList);
+		return (long) crit.uniqueResult();
 	}
 
 	@Override
@@ -240,6 +260,6 @@ public class PreferencialocalidadeDaoImpl extends GenericDAOImpl<Preferencialoca
 		}	
 		else	
 			return null;
-	}
+	}	
 
 }

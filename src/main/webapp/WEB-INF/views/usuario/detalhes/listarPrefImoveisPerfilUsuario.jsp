@@ -335,7 +335,7 @@
                               			</div>
                               			<br>	
                                     </h3>
-                                    &nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.total.pref.imoveis"/> </strong>: (${usuarioForm.quantTotalPrefImoveis}) </label>
+                                    &nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.total.pref.imoveis"/> </strong>: (${quantTotalPrefImoveis}) </label>
                                 </div><!-- /.panel-heading -->
                                 
                                 <c:choose>

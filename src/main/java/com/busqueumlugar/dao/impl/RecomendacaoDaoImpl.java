@@ -41,7 +41,15 @@ public class RecomendacaoDaoImpl extends GenericDAOImpl<Recomendacao, Long>  imp
 		crit.createCriteria("usuarioRecomendado").add(Restrictions.eq("id", idUsuario));
 		return (List<Recomendacao>)crit.list();
 	}
-
+	
+	@Override
+	public List<Recomendacao> findListRecomendacaoByIdUsuario(Long idUsuario, int quantMaxExibeMaisListaRecomendacoes) {
+		Criteria crit = session().createCriteria(Recomendacao.class);
+		crit.createCriteria("usuarioRecomendado").add(Restrictions.eq("id", idUsuario));
+		crit.setMaxResults(quantMaxExibeMaisListaRecomendacoes);
+		return (List<Recomendacao>)crit.list();
+	}
+	
 	@Override
 	public List<Recomendacao> findListRecomendacaoByIdUsuarioNovas(Long idUsuario) {
 		Criteria crit = session().createCriteria(Recomendacao.class);

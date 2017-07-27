@@ -36,7 +36,11 @@ import org.springframework.validation.BindingResult;
 import com.busqueumlugar.form.AdministracaoForm;
 import com.busqueumlugar.form.ImovelForm;
 import com.busqueumlugar.form.UsuarioForm;
+import com.busqueumlugar.model.Contato;
+import com.busqueumlugar.model.Nota;
+import com.busqueumlugar.model.Preferencialocalidade;
 import com.busqueumlugar.model.Recomendacao;
+import com.busqueumlugar.model.Seguidor;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.AdministracaoService;
 import com.busqueumlugar.service.BairrosService;
@@ -1044,7 +1048,9 @@ public class UsuarioController {
 											     ModelMap map){
 
 		try {		
-			map.addAttribute("listaNotasPerfilUsuario", notaService.listarTodasNotasPorPerfil(idUsuario, null));
+			List<Nota> lista = notaService.listarTodasNotasPorPerfil(idUsuario, null);
+			map.addAttribute("listaNotasPerfilUsuario", lista );
+			map.addAttribute("quantTotalNotas", AppUtil.recuperarQuantidadeLista(lista));
 			map.addAttribute("usuarioForm", usuarioService.carregaUsuario(idUsuario));
 			return DIR_PATH_DETALHES + "listarNotasPerfilUsuario";
 		} catch (Exception e) {
@@ -1059,8 +1065,10 @@ public class UsuarioController {
 											  HttpSession session,
 											  ModelMap map){
 
-		try {		
-			map.addAttribute("listarContatosPerfilUsuario", contatoService.recuperarConvidadosHabilitados(idUsuario, null));
+		try {	
+			List<Contato> lista = contatoService.recuperarConvidadosHabilitados(idUsuario, null);
+			map.addAttribute("listarContatosPerfilUsuario", lista);
+			map.addAttribute("quantTotalContatos", AppUtil.recuperarQuantidadeLista(lista));			
 			map.addAttribute("usuarioForm", usuarioService.carregaUsuario(idUsuario));
 			return DIR_PATH_DETALHES + "listarContatosPerfilUsuario";
 		} catch (Exception e) {
@@ -1075,8 +1083,10 @@ public class UsuarioController {
 											  HttpSession session,
 											  ModelMap map){
 
-		try {		
-			map.addAttribute("listarPrefImoveisPerfilUsuario", prefLocalidadeService.listarPreferenciaPorUsuario(idUsuario));
+		try {	
+			List<Preferencialocalidade> lista = prefLocalidadeService.listarPreferenciaPorUsuario(idUsuario);
+			map.addAttribute("listarPrefImoveisPerfilUsuario", lista);
+			map.addAttribute("quantTotalPrefImoveis", AppUtil.recuperarQuantidadeLista(lista));			
 			map.addAttribute("usuarioForm", usuarioService.carregaUsuario(idUsuario));
 			return DIR_PATH_DETALHES + "listarPrefImoveisPerfilUsuario";
 		} catch (Exception e) {
@@ -1092,7 +1102,9 @@ public class UsuarioController {
 											  ModelMap map){
 
 		try {		
-			map.addAttribute("listarRecomendacoesPerfilUsuario", recomendacaoService.recuperarRecomendacoesPorIdUsuarioRecomendado(idUsuario));
+			List<Recomendacao> lista = recomendacaoService.recuperarRecomendacoesPorIdUsuarioRecomendado(idUsuario);
+			map.addAttribute("listarRecomendacoesPerfilUsuario", lista);
+			map.addAttribute("quantTotalRecomendacoes", AppUtil.recuperarQuantidadeLista(lista));
 			map.addAttribute("usuarioForm", usuarioService.carregaUsuario(idUsuario));
 			return DIR_PATH_DETALHES + "listarRecomendacoesPerfilUsuario";
 		} catch (Exception e) {
@@ -1107,8 +1119,10 @@ public class UsuarioController {
 											  	HttpSession session,
 											  	ModelMap map){
 
-		try {		
-			map.addAttribute("listarSeguidoresPerfilUsuario", seguidorService.recuperarSeguidoresPorIdUsuarioSeguido(idUsuario));
+		try {
+			List<Seguidor> lista = seguidorService.recuperarSeguidoresPorIdUsuarioSeguido(idUsuario);
+			map.addAttribute("listarSeguidoresPerfilUsuario", lista);
+			map.addAttribute("quantTotalSeguidores", AppUtil.recuperarQuantidadeLista(lista));
 			map.addAttribute("usuarioForm", usuarioService.carregaUsuario(idUsuario));
 			return DIR_PATH_DETALHES + "listarSeguidoresPerfilUsuario";
 		} catch (Exception e) {

@@ -21,6 +21,10 @@ public interface NotaDao extends GenericDAO<Nota, Long> {
 	List<Nota> filterNotasByListaIdsUsuario(List<?> listaIdsContatos, NotaForm form);
 
 	Nota findNotaByUsuarioByIndex(List<Long> listaIds, int index);
+
+	List<Nota> filterNotasByIdUsuario(Long idUsuario, NotaForm form, int quantMaxExibeMaisListaNotas);
+
+	long findQuantNotasByIdUsuario(Long idUsuario);
 	
 	
 

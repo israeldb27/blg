@@ -29,6 +29,8 @@ public interface NotaService {
 	
 	List<Nota> listarTodasNotasPorPerfil(Long idUsuario, NotaForm form);
 	
+	List<Nota> listarTodasNotasPorPerfil(Long idUsuario, NotaForm form,	int quantMaxExibeMaisListaNotas);
+	
 	void excluirNotasImovel(Long idImovel);
 
 	public List<Nota> ordenarNotas(String tipoLista, Long idUsuario, String nomeUsuario, NotaForm form);
@@ -39,8 +41,6 @@ public interface NotaService {
 
 	Nota recuperarNotaByUsuarioByIndex(List<Long> listaIds, int index);
 
-	
-	
-	
+	long checarQuantidadeNotasPorUsuario(Long idUsuario);
 
 }

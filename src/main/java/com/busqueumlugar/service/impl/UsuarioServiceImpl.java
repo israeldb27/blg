@@ -1802,8 +1802,8 @@ public class UsuarioServiceImpl implements UsuarioService{
 		BeanUtils.copyProperties(usuario, form);
 		
 		if ( usuario.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){
-			form.setListaPreferenciaImoveis(preferenciaLocalidadeDao.findPreferencialocalidadeByIdUsuario(idUsuario));
-			form.setQuantTotalPrefImoveis(AppUtil.recuperarQuantidadeLista(form.getListaPreferenciaImoveis()));			
+			form.setListaPreferenciaImoveis(preferenciaLocalidadeDao.findPreferencialocalidadeByIdUsuario(idUsuario, form.getQuantMaxExibeMaisListaPrefImoveis()));
+			form.setQuantTotalPrefImoveis(preferenciaLocalidadeDao.findPreferencialocalidadeByIdUsuarioQuant(idUsuario));			
 		}
 		else {			
 			form.setQuantTotalParcerias(parceriaDao.findQuantidadeParceriaPorUsuarioPorStatus(idUsuario, StatusImovelCompartilhadoEnum.ACEITA.getRotulo()));
@@ -1826,19 +1826,18 @@ public class UsuarioServiceImpl implements UsuarioService{
 		
 		form.setDataNascimentoFmt(DateUtil.formataData(usuario.getDataNascimento()));
 		
-		form.setListaNotasUsuario(notaService.listarTodasNotasPorPerfil(idUsuario, null));
-		form.setListaSeguidores(seguidorService.recuperarSeguidoresPorIdUsuarioSeguido(idUsuario));		
-		form.setListaRecomendacoes(recomendacaoService.recuperarRecomendacoesPorIdUsuarioRecomendado(idUsuario));		
-		form.setListaContatosUsuario(contatoService.recuperarConvidadosHabilitados(idUsuario, null));		
+		form.setListaNotasUsuario(notaService.listarTodasNotasPorPerfil(idUsuario, null, form.getQuantMaxExibeMaisListaNotas()));
+		form.setListaSeguidores(seguidorService.recuperarSeguidoresPorIdUsuarioSeguido(idUsuario, form.getQuantMaxExibeMaisListaSeguidores()));		
+		form.setListaRecomendacoes(recomendacaoService.recuperarRecomendacoesPorIdUsuarioRecomendado(idUsuario, form.getQuantMaxExibeMaisListaRecomendacoes()));		
+		form.setListaContatosUsuario(contatoService.recuperarConvidadosHabilitados(idUsuario, null, form.getQuantMaxExibeMaisListaContatos()));		
 		
-		form.setQuantTotalSeguidores(AppUtil.recuperarQuantidadeLista(form.getListaSeguidores()));
+		form.setQuantTotalSeguidores(seguidorService.checarQuantidadeSeguidores(idUsuario) );
 		form.setQuantTotalImoveis(AppUtil.recuperarQuantidadeLista(form.getListaImoveisUsuario()));
 		form.setQuantTotalInteressadosImoveis(imovelFavoritosDao.findQuantUsuariosInteressadosByIdUsuarioByStatus(idUsuario, null));
 		form.setQuantTotalVisitasImoveis(imovelvisualizadoDao.findQuantidadeVisitantesByIdUsuarioByStatus(idUsuario, null));
-		form.setQuantTotalNotas(AppUtil.recuperarQuantidadeLista(form.getListaNotasUsuario()));
-		form.setQuantTotalContatos(AppUtil.recuperarQuantidadeLista(form.getListaContatosUsuario()));
-		form.setQuantTotalRecomendacoes(AppUtil.recuperarQuantidadeLista(form.getListaRecomendacoes()));		
-		
+		form.setQuantTotalNotas(notaService.checarQuantidadeNotasPorUsuario(idUsuario));
+		form.setQuantTotalContatos(contatoService.checarTotalContatosPorUsuarioPorStatus(idUsuario, ContatoStatusEnum.OK.getRotulo()));
+		form.setQuantTotalRecomendacoes(recomendacaoService.checarQuantidadeTotalRecomendacaoRecebidaPorStatus(idUsuario, RecomendacaoStatusEnum.ACEITO.getRotulo()));		
 		
 		if (idUsuarioSessao != null && idUsuarioSessao.longValue() > 0 ){
 			form.setPossuiContatoUsuarioSessao(contatoService.checarTipoContato(idUsuario, idUsuarioSessao));

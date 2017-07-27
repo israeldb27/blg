@@ -30,6 +30,8 @@ public interface ContatoService {
 	
 	List<Contato> recuperarConvidadosHabilitados(Long idUsuario, ContatoForm form);
 	
+	List<Contato> recuperarConvidadosHabilitados(Long idUsuario, ContatoForm form, int quantMaxExibeMaisListaContatos);
+	
 	List<Contato> recuperarConvidadosPorPerfil(Long idUsuario, String tipoPerfil);	
 	
 	void responderConvite(Long idUsuarioConvidado, Long idUsuarioHost, String resposta);
@@ -82,5 +84,5 @@ public interface ContatoService {
 	List<Contato> filtrarRecuperacaoConvidadosParaIndicacao(Long idUsuario, ImovelindicadoForm form);
 
 	List<Usuario> filtrarUsuariosTipoContato(Long idUsuario, ContatoForm form);
-		
+	
 }

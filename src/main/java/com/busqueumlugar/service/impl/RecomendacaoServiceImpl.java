@@ -45,6 +45,11 @@ public class RecomendacaoServiceImpl implements RecomendacaoService {
 	public List<Recomendacao> recuperarRecomendacoesPorIdUsuarioRecomendado(Long idUsuario) {	
 		return dao.findListRecomendacaoByIdUsuario(idUsuario);
 	}
+	
+	@Override
+	public List<Recomendacao> recuperarRecomendacoesPorIdUsuarioRecomendado(Long idUsuario, int quantMaxExibeMaisListaRecomendacoes) {	
+		return dao.findListRecomendacaoByIdUsuario(idUsuario, quantMaxExibeMaisListaRecomendacoes);
+	}
 
 	@Override
 	@Transactional
