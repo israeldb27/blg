@@ -256,10 +256,44 @@ public class Imovel extends BaseEntity implements Serializable{
 	
 	@Transient
 	private String perfilUsuario = "";
+	
+	@Transient
+	private String isAnuncio = "N"; // campo usado na timeline para indicar que imovel é um anuncio
 
-  
+	@Transient
+	private String isPrefImoveis = "N"; // campo usado na timeline para indicar que imovel é preferencia imoveis
+	
+	@Transient
+	private String isImovelContato = "N"; // campo usado na timeline para indicar que o imóvel é de um usuario conhecido
+	
+	
+	
     
-    public double getValorMetroQuadrado() {
+    public String getIsImovelContato() {
+		return isImovelContato;
+	}
+
+	public void setIsImovelContato(String isImovelContato) {
+		this.isImovelContato = isImovelContato;
+	}
+
+	public String getIsPrefImoveis() {
+		return isPrefImoveis;
+	}
+
+	public void setIsPrefImoveis(String isPrefImoveis) {
+		this.isPrefImoveis = isPrefImoveis;
+	}
+
+	public String getIsAnuncio() {
+		return isAnuncio;
+	}
+
+	public void setIsAnuncio(String isAnuncio) {
+		this.isAnuncio = isAnuncio;
+	}
+
+	public double getValorMetroQuadrado() {
 		return (this.valorImovel.doubleValue() / this.area );
 	}
 

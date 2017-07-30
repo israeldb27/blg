@@ -2312,6 +2312,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 							else if ( ( regraSel >= 18 ) && ( regraSel <= 20 ) && ! paramTimeline.isEmptyImoveisAnuncios()) { // Exibir uma anuncio imovel  
 								imovel = this.regraTimeLineRecuperarImovelAnuncio(paramTimeline);
 								if ( imovel != null){
+									imovel.setIsAnuncio("S");
 									listaFinal.add(imovel);
 									break;
 								}
@@ -2386,12 +2387,10 @@ public class UsuarioServiceImpl implements UsuarioService{
 					
 				} // Fim Timeline para Corretores e Imobiliaris 
 				
-				else if (user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){ // Inicio Timeline para corretores
+				else if (user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){ // Inicio Timeline para usuario perfil padrao
 										
-					if ( regra == 1 ){ // podera nao ser exibido um novo anuncio de imovel consecutivo 
-				
-						regraSel = 0;	
-						
+					if ( regra == 1 ){ // podera nao ser exibido um novo anuncio de imovel consecutivo 				
+						regraSel = 0;							
 							while ( (AppUtil.recuperarQuantidadeLista(listaFinal) < 2)){
 								regraSel = paramTimeline.getInicioRegra() + (int) (Math.random() * paramTimeline.getFimRegra());								
 								
@@ -2413,6 +2412,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 									else if ( ( regraSel >= 4 ) && ( regraSel <= 6 ) && ! paramTimeline.isEmptyImoveisAnuncios()) { 
 										imovel = this.regraTimeLineRecuperarImovelAnuncio(paramTimeline);
 										if ( imovel != null) {
+											imovel.setIsAnuncio("S");
 											listaFinal.add(imovel);
 											break;
 										}
@@ -2494,8 +2494,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 									}	
 								}
 							}							
-						}
-						
+						}						
 					}	
 				
 					session.setAttribute(TimelineService.PARAMETROS_TIMELINE, paramTimeline);
@@ -2517,7 +2516,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 							}
 						}
 						return listaFinalTimeLine;
-					}
+					}					
 					else {
 						if (! CollectionUtils.isEmpty(listaFinal)){					
 							for (Imovel imovelFinal2 : listaFinal){
@@ -2608,19 +2607,31 @@ public class UsuarioServiceImpl implements UsuarioService{
 	
 	public List<Imovel> regraTimeLineRecuperarImoveisCompartilhadosIdsUsuarios(String aceitaCompartilhado, ParametrosTimeline param){// o parametro aceitaCompartilhado filtra se o Imovel e compartilhado ou nao
 		
-		if ( ! CollectionUtils.isEmpty(param.getListaIds())) {			
+		if ( ! CollectionUtils.isEmpty(param.getListaIds())) {
+			List<Imovel> listaFinal = new ArrayList<Imovel>();
 			if ( aceitaCompartilhado.equals("S")){								
 				List<Imovel> listaImovel = imovelService.recuperarImovelPorIdsUsuarioPorPosicaoPorAceitaCompartilhado(param.getListaIds(), 
 																													  param.getUltimoIndexIdsUsuarioCompartilhado(), 
 																													  aceitaCompartilhado); // o parametro informado e index para o setFirstResult no Hibernate 
-
+				if (CollectionUtils.isEmpty(listaImovel)){
+					for (Imovel imovel : listaImovel){
+						imovel.setIsImovelContato("S");
+						listaFinal.add(imovel);
+					}
+				}				
 				param.setUltimoIndexIdsUsuarioCompartilhado(param.getUltimoIndexIdsUsuarioCompartilhado() + AppUtil.recuperarQuantidadeLista(listaImovel));
-				return listaImovel;
+				return listaFinal;
 			}
 			else {					
 				List<Imovel> listaImovel = imovelService.recuperarImovelPorIdsUsuarioPorPosicao(param.getListaIds(), 
 																								param.getUltimoIndexIdsUsuario()); // o parametro informado e index para o setFirstResult no Hibernate 
-
+				
+				if (CollectionUtils.isEmpty(listaImovel)){
+					for (Imovel imovel : listaImovel){
+						imovel.setIsImovelContato("S");
+						listaFinal.add(imovel);
+					}
+				}
 				param.setUltimoIndexIdsUsuario(param.getUltimoIndexIdsUsuario() + AppUtil.recuperarQuantidadeLista(listaImovel));
 				return listaImovel;
 			}
@@ -2654,8 +2665,13 @@ public class UsuarioServiceImpl implements UsuarioService{
 		int index = param.getIdIndexPrefImovel();
 		int regra = param.getRegraPrefImovel();	
 		List<Imovel> lista = preferenciaLocalidadeDao.findImoveisByPrefLocalidadeByUsuarioByIndex(user, index, regra);
+		List<Imovel> listaFinal = new  ArrayList<Imovel>();
 		if ( ! CollectionUtils.isEmpty(lista)){
-			int quant = AppUtil.recuperarQuantidadeLista(lista);
+			for (Imovel imovel : lista){
+				imovel.setIsPrefImoveis("S");
+				listaFinal.add(imovel);
+			}
+			int quant = AppUtil.recuperarQuantidadeLista(listaFinal);
 			param.setIdIndexPrefImovel(index + quant); 
 		}
 		else {
@@ -2666,7 +2682,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 			param.setRegraPrefImovel(regra);
 			param.setIdIndexPrefImovel(0);	
 		}
-		return lista;
+		return listaFinal;
 	}
 	
 	public List<Imovel> regraTimeLineRecuperarImoveisAleatoriamente(UsuarioForm user, ParametrosTimeline param){
@@ -2717,7 +2733,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 		 
 		 if ( nota.getAcao().equals(NotaAcaoEnum.PARCERIA.getRotulo())) {														    			    	
 			 buf.append(" ");					  
-			 buf.append("					<small class='block text-muted'> <font size='3px;'> " + nota.getDescricao() +" <a href='" + context.getContextPath() + "/imovel/detalhesImovel/ "+ nota.getImovel().getId() + "' ><strong> " + nota.getImovel().getTitulo()  +" </strong></a></font></small> ");
+			 buf.append("					<small class='block text-muted'> <font size='3px;'> " + MessageUtils.getMessage("lbl.notas.contato.parceria")  +" <a href='" + context.getContextPath() + "/imovel/detalhesImovel/ "+ nota.getImovel().getId() + "' ><strong> " + nota.getImovel().getTitulo()  +" </strong></a></font></small> ");
+		 }
+		 else  if ( nota.getAcao().equals(NotaAcaoEnum.INTERMEDIACAO.getRotulo())) {														    			    	
+			 buf.append(" ");					  
+			 buf.append("					<small class='block text-muted'> <font size='3px;'> " + MessageUtils.getMessage("lbl.notas.contato.intermediacao")  +" <a href='" + context.getContextPath() + "/imovel/detalhesImovel/ "+ nota.getImovel().getId() + "' ><strong> " + nota.getImovel().getTitulo()  +" </strong></a></font></small> ");
 		 }
 		 else if ( nota.getAcao().equals(NotaAcaoEnum.PREFERENCIA.getRotulo())) {											    			    	
 			 buf.append(" ");					  
@@ -2750,7 +2770,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	
 	public String carregarTimeLineImovel(UsuarioForm user, Imovel imovel) {
 		
-			String isInteressado = imovelFavoritosService.checarUsuarioEstaInteressadoImovel(user.getId(), imovel.getId());
+		   String isInteressado = imovelFavoritosService.checarUsuarioEstaInteressadoImovel(user.getId(), imovel.getId());
 
 		   StringBuffer buf = new StringBuffer("");
 		   buf.append("<div class='timeline-item last-timeline'>");
@@ -2765,7 +2785,40 @@ public class UsuarioServiceImpl implements UsuarioService{
 		   buf.append("      <div class='timeline-body-head'> ");
 		   buf.append("           <div class='timeline-body-head-caption'> ");
 		   buf.append("               <a href='" + context.getContextPath() + "/usuario/detalhesUsuario/"+ imovel.getUsuario().getId() +"' class='timeline-body-title font-blue-madison'>" + imovel.getUsuario().getNome() + ": </a> ");		   
-		   buf.append("               <span class='timeline-body-time font-grey-cascade' style='font-style: italic;'>" +  MessageUtils.getMessage("lbl.imovel.timeline")  +"</span> ");   
+		   
+		   if ( imovel.getIsAnuncio().equals("N")){ // nao eh anuncio de imovel
+			   
+			   int i = (int) (Math.random() * 10 ); // esta variavel é usada apenas para evitar que o texto se repita
+			   
+			   if ( user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){				   
+				   if ( imovel.getIsPrefImoveis().equals("S"))
+					   buf.append("  <span class='timeline-body-time font-grey-cascade' style='font-style: italic;'>" +  MessageUtils.getMessage("lbl.imovel.timeline.pref.imoveis")  +"</span> ");
+				   else if ( imovel.getIsImovelContato().equals("S"))
+					   buf.append("  <span class='timeline-body-time font-grey-cascade' style='font-style: italic;'>" +  MessageUtils.getMessage("lbl.imovel.timeline.imovel.contato")  +"</span> ");
+				   else 
+					   buf.append("  <span class='timeline-body-time font-grey-cascade' style='font-style: italic;'>" +  MessageUtils.getMessage("lbl.imovel.timeline")  +"</span> ");
+			   }
+			   else {
+				    if ( i % 2 == 0){
+					   if ( imovel.getAceitaCorretagem().equals("S") && 
+							imovel.getUsuario().getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){  // intermediacao
+							   buf.append("  <span class='timeline-body-time font-grey-cascade' style='font-style: italic;'>" +  MessageUtils.getMessage("lbl.imovel.timeline.intermediacao")  +"</span> ");
+					   }
+					   else if ( imovel.getAceitaCorretagem().equals("S") && 
+							   ! imovel.getUsuario().getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){  // parceria
+						   buf.append("   <span class='timeline-body-time font-grey-cascade' style='font-style: italic;'>" +  MessageUtils.getMessage("lbl.imovel.timeline.parceria")  +"</span> ");
+					   }
+					   else {
+						   buf.append("   <span class='timeline-body-time font-grey-cascade' style='font-style: italic;'>" +  MessageUtils.getMessage("lbl.imovel.timeline")  +"</span> ");
+					   }
+				   }
+				   else 
+					   buf.append("   <span class='timeline-body-time font-grey-cascade' style='font-style: italic;'>" +  MessageUtils.getMessage("lbl.imovel.timeline.sugestao.imovel")  +"</span> ");
+			   }			
+		   }
+		   else 
+			   buf.append("               <span class='timeline-body-time font-grey-cascade' style='font-style: italic;'>" +  MessageUtils.getMessage("lbl.imovel.timeline.anuncio.imovel")  +"</span> ");
+		   	   
 		   buf.append("           </div> ");
 		   buf.append("      </div> ");
 		   buf.append("       <div class='timeline-body-content'> ");
@@ -2822,10 +2875,10 @@ public class UsuarioServiceImpl implements UsuarioService{
 			   buf.append("                                                <a href='#a' id='idNovoInteressado_" + imovel.getId() + "' onClick='retirarInteresse("+ imovel.getId() + ")' style='font-size:x-large; color: rgb(99, 110, 123);' class='meta-action'><i class='fa fa-star'> </i> <font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;'>" + MessageUtils.getMessage("lbl.interessado") + "  &nbsp;&nbsp; </a> ");
 		   } 		   
 		   
-		   buf.append("                                                <a href='#a' id='idNovoMeInteressei_" + imovel.getId() + "' onClick='adicionarInteresse("+ imovel.getId() + ")' style='font-size:x-large; color: rgb(99, 110, 123);display: none;' class='meta-action'><i class='fa fa-star-o'> </i> <font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;'>" + MessageUtils.getMessage("lbl.me.interessei") + "  &nbsp;&nbsp; </a> ");		   
-		   buf.append("                                                <a href='#a' id='idInteressado_" + imovel.getId() + "' onClick='retirarInteresse("+ imovel.getId() + ")' style='font-size:x-large; color: rgb(99, 110, 123);display: none;' class='meta-action'><i class='fa fa-star'> </i> <font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;'>" + MessageUtils.getMessage("lbl.interessado") + "  &nbsp;&nbsp; </a> ");
+		   buf.append("                                                <a href='#a' id='idNovoMeInteressei_" + imovel.getId() + "' onClick='adicionarInteresse("+ imovel.getId() + ")' style='font-size:x-large; color: rgb(99, 110, 123);display: none;' class='meta-action'><i class='fa fa-star-o'> </i> <font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;'>" + MessageUtils.getMessage("lbl.me.interessei") + " </a> &nbsp;&nbsp; ");		   
+		   buf.append("                                                <a href='#a' id='idInteressado_" + imovel.getId() + "' onClick='retirarInteresse("+ imovel.getId() + ")' style='font-size:x-large; color: rgb(99, 110, 123);display: none;' class='meta-action'><i class='fa fa-star'> </i> <font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;'>" + MessageUtils.getMessage("lbl.interessado") + " </a> &nbsp;&nbsp;");
 		   
-		   buf.append("                                                <a href='#a'  onClick='adicionarComparativo("+ imovel.getId() + ")' style='font-size:x-large; color: rgb(99, 110, 123);' class='meta-action'><i class='fa fa-eye'> </i> <font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;'>" + MessageUtils.getMessage("lbl.title.link.comparar") + "  &nbsp;&nbsp; </a> ");		   						
+		   buf.append("                                                <a href='#a'  onClick='adicionarComparativo("+ imovel.getId() + ")' style='font-size:x-large; color: rgb(99, 110, 123);' class='meta-action'><i class='fa fa-eye'> </i> <font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;'>" + MessageUtils.getMessage("lbl.title.link.comparar") + " </a> &nbsp;&nbsp; ");		   						
 		   
 		   buf.append("                                            </div> ");
 		   buf.append("                                        </div> ");
@@ -2874,7 +2927,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	    buf.append("     <div class='media'> ");     
 	    buf.append("     <div class='media-body'> ");                                           
 	    buf.append("          <span class='label pull-right' style='background-color: #9d2428; font-size: 12px; margin-top: 25px; '>" + usuario.getPerfilFmt() + "</span></br> ");
-	    buf.append("			   <h4 class='media-heading' style='margin-bottom:20px;'><a href='"+  context.getContextPath() + "/usuario/detalhesUsuario/"+ usuario.getId()  +"' style='color : #9d2428;'>"+ usuario.getNome()  +"</a></h4> ");
+	    //buf.append("			   <h4 class='media-heading' style='margin-bottom:20px;'><a href='"+  context.getContextPath() + "/usuario/detalhesUsuario/"+ usuario.getId()  +"' style='color : #9d2428;'>"+ usuario.getNome()  +"</a></h4> ");
 	    buf.append("			   <h5 class='media-heading' style='margin-bottom:12px;'><i class='fa fa-map-marker'></i> "+ usuario.getUf() + " - "+ usuario.getCidade() + "</h1> ");                                 
 	    buf.append("			   <div class='col-md-5' > ");  	                                                
 	    buf.append("					<div class='media-body' > ");

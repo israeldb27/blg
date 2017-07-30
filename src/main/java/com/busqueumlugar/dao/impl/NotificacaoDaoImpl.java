@@ -61,7 +61,7 @@ public class NotificacaoDaoImpl extends GenericDAOImpl<Notificacao, Long>  imple
 		Criteria crit = session().createCriteria(Notificacao.class);
 		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));
 		
-		if ( ! StringUtils.isNullOrEmpty(form.getOpcaoFiltro()))
+		if ( ! StringUtils.isNullOrEmpty(form.getOpcaoFiltro()) && ! form.getOpcaoFiltro().equals("todos"))
 			crit.add(Restrictions.eq("acao", form.getOpcaoFiltro()));
 		
 		if ( ! StringUtils.isNullOrEmpty(form.getOpcaoOrdenacao())){

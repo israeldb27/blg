@@ -106,11 +106,11 @@
 					                                        	<form:select id="opcaoFiltro1" path="opcaoFiltro" class="form-control" >                                
 												                        <form:option value="" disabled="true"><spring:message code="lbl.opcao.filtrar"/></form:option>
 												                        <c:if test="${usuario.perfil == 'P'}">
-												                        <form:option value="I"><spring:message code="lbl.notificacao.filtro.intermediacao"/></form:option>
+												                        	<form:option value="I"><spring:message code="lbl.notificacao.filtro.intermediacao"/></form:option>
 												                        </c:if>
 												                        <c:if test="${usuario.perfil != 'P'}">
-																		<form:option value="R"><spring:message code="lbl.notificacao.filtro.parceria"/></form:option>
-																		<form:option value="I"><spring:message code="lbl.notificacao.filtro.intermediacao"/></form:option>
+																			<form:option value="R"><spring:message code="lbl.notificacao.filtro.parceria"/></form:option>
+																			<form:option value="I"><spring:message code="lbl.notificacao.filtro.intermediacao"/></form:option>
 																		</c:if>
 																		<form:option value="C"><spring:message code="lbl.notificacao.filtro.convite"/></form:option>
 																		<form:option value="U"><spring:message code="lbl.notificacao.filtro.usuario"/></form:option>
@@ -120,7 +120,7 @@
 																		<% if ( request.getSession().getAttribute("habilitaFuncPlanos").equals("S") ) {%>
 																			<form:option value="P"><spring:message code="lbl.notificacao.filtro.plano"/></form:option>	
 																		<% }  %>																	
-																		<form:option value=""><spring:message code="lbl.notificacao.filtro.todos"/></form:option>
+																		<form:option value="todos"><spring:message code="lbl.notificacao.filtro.todos"/></form:option>
 												                  </form:select>  
 					                                        </form:form>
 					                                    </div>					                                    

@@ -35,8 +35,6 @@ $(document).ready(function() {
    $('#opcaoFiltroTipoContato').change(function () {				
 		$("#contatoFiltroTipoForm").submit();      
 	 });
-   
-   
 });	
 
 function mostrarModal(id){		
@@ -84,57 +82,60 @@ function mostrarModal(id){
 							<c:import url="../avisoRenovacaoAssinatura.jsp"></c:import>
                         <% } %>
                         
-                        <div class="col-md-12">
-                        	
-                        		<!-- Start inline form -->
-		                            <div class="panel rounded shadow">     
-		                                <div class="panel-body no-padding">
-		                                  <div class="panel-heading">
-		                                    <div class="pull-left">
-		                                        <label><strong> <spring:message code="lbl.quant.total.usuarios"/> </strong>: (${quantTotalContatos}) </label>
-		                                    </div>
-		                                    
-		                                    <div class="pull-right" style="padding-right:8px;">
-		                                    	<spring:message code="lbl.hint.usuario.perfil.contato" var="hintFiltrar"/> 
-		                                        <form:form method="POST" id="contatoFiltroTipoForm" modelAttribute="contatoForm" action="${urlContato}/filtrarTipoContato" >
-		                                        	<form:select id="opcaoFiltroTipoContato" path="opcaoFiltroTipoContato" class="form-control" title="${hintFiltrar}">                                
-									                        <form:option value="" disabled="true"><spring:message code="opcao.selecao.uma.opcao"/></form:option>
-									                        <form:options items="${listaTipoContato}" itemValue="identificador" itemLabel="rotulo" />														
-									                  </form:select>  
-		                                        </form:form> 
-		                                    </div>
-		                                                                           
-		                                    <div class="pull-right" style="padding-right:10px;">
-		                                    	<spring:message code="lbl.hint.usuario.perfil.contato" var="hintFiltrar"/> 
-		                                        <form:form method="POST" id="contatoFiltroForm" modelAttribute="contatoForm" action="${urlContato}/filtrarContato" >
-		                                        	<form:select id="opcaoFiltro1" path="opcaoFiltro" class="form-control" title="${hintFiltrar}">                                
-									                        <form:option value="" disabled="true"><spring:message code="opcao.selecao.uma.opcao"/></form:option>
-									                        <form:options items="${listaPerfilUsuario}" itemValue="identificador" itemLabel="rotulo" />
-															<form:option value="T"><spring:message code="lbl.perfil.usuario.todos"/></form:option>
-									                  </form:select>  
-		                                        </form:form> 
-		                                    </div>
-		                                    
-		                                    <div class="clearfix"></div>
-		                                </div><!-- /.panel-heading -->
-		
-		                                </div><!-- /.panel-body -->
-		                            </div><!-- /.panel -->
-		                            <!--/ End inline form -->
-                        	
-                        </div>	               
-                    </div><!-- /.row -->
-                    
-                    <div class="row">
-                    	<c:choose>
+                        <div class="col-lg-3 col-md-3 col-sm-4">
+                            <div class="panel rounded shadow">    
+                             
+                                <div class="panel-body no-padding">
+                                  <div class="panel-heading">
+                                    <div class="pull-left">
+                                        <label><strong> <spring:message code="lbl.quant.total.usuarios"/> </strong>: (${quantTotalContatos}) </label>
+                                    </div>
+                                    
+                                    <div class="clearfix"></div>
+                                </div><!-- /.panel-heading -->
+
+                                </div><!-- /.panel-body -->
+                                
+                                <div class="panel-body">
+	                        	 	<div class="form-group no-margin">		
+	                        	 		<br>  	                                		
+	                               		<span class="label label-default"><spring:message code="lbl.relatorio.tipo.contato"/> </span>
+	                               		<spring:message code="lbl.hint.usuario.perfil.contato" var="hintFiltrar"/> 
+	                                       <form:form method="POST" id="contatoFiltroTipoForm" modelAttribute="contatoForm" action="${urlContato}/filtrarTipoContato" >
+	                                       	<form:select id="opcaoFiltroTipoContato" path="opcaoFiltroTipoContato" class="form-control" title="${hintFiltrar}">                                
+							                        <form:option value="" disabled="true"><spring:message code="opcao.selecao.uma.opcao"/></form:option>
+							                        <form:options items="${listaTipoContato}" itemValue="identificador" itemLabel="rotulo" />														
+							                  </form:select>  
+	                                       </form:form> 
+	                                       
+	                                        <br> <br>
+	                                        
+	                                       <span class="label label-default"><spring:message code="lbl.perfil.usuario"/> </span>
+	                                       <spring:message code="lbl.hint.usuario.perfil.contato" var="hintFiltrar"/> 
+	                                       <form:form method="POST" id="contatoFiltroForm" modelAttribute="contatoForm" action="${urlContato}/filtrarContato" >
+	                                       	<form:select id="opcaoFiltro1" path="opcaoFiltro" class="form-control" title="${hintFiltrar}">                                
+							                        <form:option value="" disabled="true"><spring:message code="opcao.selecao.uma.opcao"/></form:option>
+							                        <form:options items="${listaPerfilUsuario}" itemValue="identificador" itemLabel="rotulo" />
+													<form:option value="T"><spring:message code="lbl.perfil.usuario.todos"/></form:option>
+							                  </form:select>  
+	                                       </form:form>
+	                                       
+	                                       <br>	
+	                               	</div>
+	                        	 </div>
+                            </div><!-- /.panel -->
+                            
+                        </div>	 
+                        
+                        <div class="col-lg-9 col-md-9 col-sm-8">   
+                        	                         
+                        	<c:choose>
                     			<c:when test="${((contatoForm.tipoListaContato == 'N') && (not empty listaContatos))}">
                     				<c:forEach var="usuarioContato" items="${listaContatos}">
 				                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
 				                            <div class="panel rounded shadow">
 				                                <div class="panel-body ">
-				                                    <div class="ribbon-wrapper">
-				                                        
-				                                    </div><!-- /.ribbon-wrapper -->
+				                                	
 				                                    <ul class="inner-all list-unstyled">
 				                                    	<c:choose>
 				                                    		<c:when test="${usuarioContato.usuarioConvidado.id == usuario.id}">
@@ -236,7 +237,11 @@ function mostrarModal(id){
 		                            </div>     			
                     			</c:when>                 	
                     	</c:choose>
-                    </div>
+                        
+                        </div>              
+                    </div><!-- /.row -->
+                    
+                 
 
                 </div><!-- /.body-content -->
                 <!--/ End body content -->

@@ -129,6 +129,7 @@
                          <% if ( request.getSession().getAttribute("acessoValido").equals("N") ) {%>
                             <c:import url="../avisoRenovacaoAssinatura.jsp"></c:import>
                         <% } %>
+                        
                         <div class="col-lg-3 col-md-3 col-sm-4">
                             <form:form method="POST" id="imovelForm" modelAttribute="imovelForm" action="${urlImovel}/filtrarMeusImoveis" >
                             	<div class="panel rounded shadow no-overflow">
