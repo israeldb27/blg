@@ -4,7 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
 <c:set var="context" value="<%= request.getContextPath()%>"/>
 
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
@@ -23,65 +22,15 @@ div#map_container{
 	height:350px;
 }
 </style>
-<script type="text/javascript"    src="http://maps.googleapis.com/maps/api/js?sensor=false&key=1223444"></script>
 
-		
+
 
 <script type="text/javascript">
 
 $( document ).ready(function() {	
 	
 });
-
-  function loadMap() {	  
-    var latlng = new google.maps.LatLng(document.getElementById("latitude").value, document.getElementById("longitude").value);
-    document.getElementById("latitudeFmt").value = document.getElementById("latitude").value;
-	document.getElementById("longitudeFmt").value = document.getElementById("longitude").value;
-    var myOptions = {
-      zoom: 16,
-      center: latlng,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    var map = new google.maps.Map(document.getElementById("map"),myOptions);
-	
-    var marker = new google.maps.Marker({
-      position: latlng, 
-      map: map, 
-      title:"my hometown, Malim Nawar!"
-    }); 
   
-  }
-  
-  function geocoder() {
-	   var address = document.getElementById("address").value;	   
-	   var geocoder = new google.maps.Geocoder();
-	   //alert("ads:"+address);
-	     
-	   geocoder.geocode({
-		  'address' : address
-	   }, function(results, status) {
-		  if (status == google.maps.GeocoderStatus.OK) {
-			 // Calls the remoteCommand "rmtCommandGeocoder", 
-			 // passing the coordinates to map of parameters
-			document.getElementById("latitudeFmt").value = results[0].geometry.location.lat();
-			document.getElementById("longitudeFmt").value = results[0].geometry.location.lng();
-   		
-			var latlng = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
-			 var myOptions = {
-				      zoom: 16,
-				      center: latlng,
-				      mapTypeId: google.maps.MapTypeId.ROADMAP
-				    };
-				    var map = new google.maps.Map(document.getElementById("map"),myOptions);
-					
-				    var marker = new google.maps.Marker({
-				      position: latlng, 
-				      map: map, 
-				      title:"my hometown, Malim Nawar!"
-				    }); 
-		  } 
-	   });
-	}
 </script>
 		
         <c:import url="../../layout/head-layout.jsp"></c:import>
@@ -161,6 +110,62 @@ $( document ).ready(function() {
 											  <br/>
 											  <div style="width:900px;height:400px" id="map"></div>
 											</div>
+											
+											<script>
+											function initMap() {	  
+											    var latlng = new google.maps.LatLng(document.getElementById("latitude").value, document.getElementById("longitude").value);
+											    document.getElementById("latitudeFmt").value = document.getElementById("latitude").value;
+												document.getElementById("longitudeFmt").value = document.getElementById("longitude").value;
+											    var myOptions = {
+											      zoom: 16,
+											      center: latlng,
+											      mapTypeId: google.maps.MapTypeId.ROADMAP
+											    };
+											    var map = new google.maps.Map(document.getElementById("map"),myOptions);
+												
+											    var marker = new google.maps.Marker({
+											      position: latlng, 
+											      map: map, 
+											      title:"my hometown, Malim Nawar!"
+											    }); 
+											  
+											  }
+											  
+											  function geocoder() {
+												   var address = document.getElementById("address").value;	   
+												   var geocoder = new google.maps.Geocoder();
+												   //alert("ads:"+address);
+												     
+												   geocoder.geocode({
+													  'address' : address
+												   }, function(results, status) {
+													  if (status == google.maps.GeocoderStatus.OK) {
+														 // Calls the remoteCommand "rmtCommandGeocoder", 
+														 // passing the coordinates to map of parameters
+														document.getElementById("latitudeFmt").value = results[0].geometry.location.lat();
+														document.getElementById("longitudeFmt").value = results[0].geometry.location.lng();
+											   		
+														var latlng = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
+														 var myOptions = {
+															      zoom: 16,
+															      center: latlng,
+															      mapTypeId: google.maps.MapTypeId.ROADMAP
+															    };
+															    var map = new google.maps.Map(document.getElementById("map"),myOptions);
+																
+															    var marker = new google.maps.Marker({
+															      position: latlng, 
+															      map: map, 
+															      title:"my hometown, Malim Nawar!"
+															    }); 
+													  } 
+												   });
+												}
+											</script>
+											
+											<script async defer
+											    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAoIntYq8CHlVWThpYtElySNBKyXRpZ9M0&callback=initMap">
+											    </script>
 											
 											<div class="form-group">
                                             	<form:hidden path="longitudeFmt"  id="longitudeFmt"/>

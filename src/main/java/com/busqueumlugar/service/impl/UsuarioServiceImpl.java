@@ -2726,6 +2726,8 @@ public class UsuarioServiceImpl implements UsuarioService{
 		 buf.append("            <a href='" + context.getContextPath() + "/usuario/detalhesUsuario/" + nota.getUsuario().getId()  +"' class='timeline-body-title font-blue-madison'>" + nota.getUsuario().getNome() + " : </a>  ");
 		 buf.append("            <span class='timeline-body-time font-grey-cascade' style='font-style: italic;' >" + MessageUtils.getMessage("lbl.nota.timeline")  + " </span>  ");
 		 buf.append("        </div>  ");
+		 buf.append("  <span class='label pull-right'>  <a href='#a' class='btn btn-sm'  onClick='mostrarModal(0);' ><i class='fa fa-question' ></i></a>  </span> ");
+		
 		 buf.append("    </div> ");
 		 buf.append("     <div class='timeline-body-content'> ");                                              
 		 buf.append("        <div class='media inner-all'> ");		
@@ -2791,35 +2793,55 @@ public class UsuarioServiceImpl implements UsuarioService{
 			   int i = (int) (Math.random() * 10 ); // esta variavel é usada apenas para evitar que o texto se repita
 			   
 			   if ( user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){				   
-				   if ( imovel.getIsPrefImoveis().equals("S"))
+				   if ( imovel.getIsPrefImoveis().equals("S")){
 					   buf.append("  <span class='timeline-body-time font-grey-cascade' style='font-style: italic;'>" +  MessageUtils.getMessage("lbl.imovel.timeline.pref.imoveis")  +"</span> ");
-				   else if ( imovel.getIsImovelContato().equals("S"))
+					   buf.append("  </div> ");
+					   buf.append("  <span class='label pull-right'>  <a href='#a' class='btn btn-sm'  onClick='mostrarModal(1);' ><i class='fa fa-question' ></i></a>  </span> ");
+				   }
+				   else if ( imovel.getIsImovelContato().equals("S")){
 					   buf.append("  <span class='timeline-body-time font-grey-cascade' style='font-style: italic;'>" +  MessageUtils.getMessage("lbl.imovel.timeline.imovel.contato")  +"</span> ");
-				   else 
+					   buf.append("  </div> ");
+					   buf.append("  <span class='label pull-right'>  <a href='#a' class='btn btn-sm'  onClick='mostrarModal(2);' ><i class='fa fa-question' ></i></a>  </span> ");
+				   }
+				   else {
 					   buf.append("  <span class='timeline-body-time font-grey-cascade' style='font-style: italic;'>" +  MessageUtils.getMessage("lbl.imovel.timeline")  +"</span> ");
+					   buf.append("  </div> ");
+					   buf.append("  <span class='label pull-right'>  <a href='#a' class='btn btn-sm'  onClick='mostrarModal(3);' ><i class='fa fa-question' ></i></a>  </span> ");
+				   }					   
 			   }
 			   else {
 				    if ( i % 2 == 0){
 					   if ( imovel.getAceitaCorretagem().equals("S") && 
 							imovel.getUsuario().getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){  // intermediacao
 							   buf.append("  <span class='timeline-body-time font-grey-cascade' style='font-style: italic;'>" +  MessageUtils.getMessage("lbl.imovel.timeline.intermediacao")  +"</span> ");
+							   buf.append("  </div> ");
+							   buf.append("  <span class='label pull-right'>  <a href='#a' class='btn btn-sm'  onClick='mostrarModal(4);' ><i class='fa fa-question' ></i></a>  </span> ");
 					   }
 					   else if ( imovel.getAceitaCorretagem().equals("S") && 
 							   ! imovel.getUsuario().getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){  // parceria
-						   buf.append("   <span class='timeline-body-time font-grey-cascade' style='font-style: italic;'>" +  MessageUtils.getMessage("lbl.imovel.timeline.parceria")  +"</span> ");
+						   buf.append("  <span class='timeline-body-time font-grey-cascade' style='font-style: italic;'>" +  MessageUtils.getMessage("lbl.imovel.timeline.parceria")  +"</span> ");
+						   buf.append("  </div> ");
+						   buf.append("  <span class='label pull-right'>  <a href='#a' class='btn btn-sm'  onClick='mostrarModal(5);' ><i class='fa fa-question' ></i></a>  </span> ");
 					   }
 					   else {
 						   buf.append("   <span class='timeline-body-time font-grey-cascade' style='font-style: italic;'>" +  MessageUtils.getMessage("lbl.imovel.timeline")  +"</span> ");
+						   buf.append("  </div> ");
+						   buf.append("  <span class='label pull-right'>  <a href='#a' class='btn btn-sm'  onClick='mostrarModal(3);' ><i class='fa fa-question' ></i></a>  </span> ");
 					   }
 				   }
-				   else 
+				   else  {
 					   buf.append("   <span class='timeline-body-time font-grey-cascade' style='font-style: italic;'>" +  MessageUtils.getMessage("lbl.imovel.timeline.sugestao.imovel")  +"</span> ");
-			   }			
+					   buf.append("  </div> ");
+					   buf.append("  <span class='label pull-right'>  <a href='#a' class='btn btn-sm'  onClick='mostrarModal(6);' ><i class='fa fa-question' ></i></a>  </span> ");
+				   }  
+				}			
 		   }
-		   else 
-			   buf.append("               <span class='timeline-body-time font-grey-cascade' style='font-style: italic;'>" +  MessageUtils.getMessage("lbl.imovel.timeline.anuncio.imovel")  +"</span> ");
-		   	   
-		   buf.append("           </div> ");
+		   else {
+			   buf.append("  <span class='timeline-body-time font-grey-cascade' style='font-style: italic;'>" +  MessageUtils.getMessage("lbl.imovel.timeline.anuncio.imovel")  +"</span> ");
+			   buf.append("  </div> ");
+			   buf.append("  <span class='label pull-right'>  <a href='#a' class='btn btn-sm'  onClick='mostrarModal(7);' ><i class='fa fa-question' ></i></a>  </span> ");
+		   }
+		 //  buf.append("           </div> ");
 		   buf.append("      </div> ");
 		   buf.append("       <div class='timeline-body-content'> ");
 		   buf.append("          <div class='panel panel-theme shadow blog-list-slider'> ");
@@ -2836,7 +2858,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		   buf.append("                                            </a> ");
 		   buf.append("                                        </div> ");
 		   buf.append("                              <div class='media-body'> ");
-		   buf.append("                                           <span class='label pull-right' style='background-color: #9d2428; font-size: 12px'>Casa</span></br> ");		   
+		   buf.append("                                           <span class='label pull-right' style='background-color: #9d2428; font-size: 12px'>" + imovel.getTipoImovelFmt() + "</span></br> ");		   
 		   buf.append("                                            <h4 class='media-heading' style='margin-bottom:20px;'><a href='" + context.getContextPath() + "/imovel/detalhesImovel/" +  imovel.getId() + "' style='color : #9d2428;'>"+ imovel.getTitulo() + "</a></h4> ");
 		   buf.append("                                            <h5 class='media-heading' style='margin-bottom:12px;'><i class='fa fa-map-marker'></i> " + imovel.getEndereco() + " - " + imovel.getBairro()  + " - " +  imovel.getCidade() + " - " + imovel.getUf() + " </h1> ");
 		   buf.append("                                 <div class='col-md-5' > ");		
@@ -2913,6 +2935,8 @@ public class UsuarioServiceImpl implements UsuarioService{
 	    buf.append("                  <a href='"+  context.getContextPath() + "/usuario/detalhesUsuario/"+ usuario.getId()  +"' class='timeline-body-title font-blue-madison'> "+ usuario.getNome()  +" </a> ");
 	    buf.append("                      <span class='timeline-body-time font-grey-cascade' style='font-style: italic;' >" + MessageUtils.getMessage("lbl.usuario.voce.conhece") + "</span> ");
 	    buf.append("               </div> ");
+	    buf.append("  <span class='label pull-right'>  <a href='#a' class='btn btn-sm'  onClick='mostrarModal(8);' ><i class='fa fa-question' ></i></a>  </span> ");
+	
 	    buf.append("               <div class='timeline-body-head-actions'> ");
 	    buf.append("                  <div class='btn-group'> ");		                                                            
 	    buf.append("               </div> ");
@@ -2971,8 +2995,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	    			buf.append("    <a href='#a' id='idIniciarSeguidor' onclick='iniciarSeguirUsuario("+ usuario.getId() +")' style='font-size:x-large; color: rgb(99, 110, 123);' class='meta-action'><i class='fa fa-list-ul pull-right' style='color:gray'><font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;'> " + MessageUtils.getMessage("lbl.link.iniciar.seguir.usuario") + " </font> &nbsp; &nbsp; </i> </a> ");
 	    			buf.append("    <a href='#a' id='idCancelarSeguidor' onclick='cancelarSeguirUsuario("+ usuario.getId() +")' style='font-size:x-large; color: rgb(99, 110, 123); display: none;' class='meta-action'><i class='fa fa-outdent pull-right' style='color:gray'><font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;'> " + MessageUtils.getMessage("lbl.link.cancelar.seguir.usuario") + " </font> &nbsp; &nbsp; </i> </a> ");
 	    		}
-	    	}
-	    	
+	    	}	    	
 	    	if ( tipoContato.equals("S")){	    		
 	    		buf.append("    <a href='#a' id='idCancelarContato' onclick='prepararModalCancelarContato("+ usuario.getId() +")' style='font-size:x-large; color: rgb(99, 110, 123); ' class='meta-action'><i class='fa fa-user-times pull-right' style='color:gray'><font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;'> " + MessageUtils.getMessage("lbl.canceler.contato") + " </font> &nbsp; &nbsp; </i> </a> ");	    		
 	    		buf.append("    <a href='#a' id='idEnviarConvite' onclick='enviarConvite("+ usuario.getId() +")' style='font-size:x-large; display: none; ' class='meta-action'><i class='fa fa-user-times pull-right' style='color:gray'><font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;'> " + MessageUtils.getMessage("lbl.enviar.convite") + " </font> &nbsp; &nbsp; </i> </a> ");	    		
@@ -3022,6 +3045,8 @@ public class UsuarioServiceImpl implements UsuarioService{
 	    buf.append("                  <a href='"+  context.getContextPath() + "/usuario/detalhesUsuario/"+ pref.getUsuario().getId()  +"' class='timeline-body-title font-blue-madison'> "+ pref.getUsuario().getNome()  +" </a> ");
 	    buf.append("                      <span class='timeline-body-time font-grey-cascade' style='font-style: italic;' >" + MessageUtils.getMessage("lbl.preferencia.localidade.timeline") + "</span> ");
 	    buf.append("               </div> ");
+	    buf.append("  <span class='label pull-right'>  <a href='#a' class='btn btn-sm'  onClick='mostrarModal(9);' ><i class='fa fa-question' ></i></a>  </span> ");
+	    
 	    buf.append("               <div class='timeline-body-head-actions'> ");
 	    buf.append("                  <div class='btn-group'> ");		                                                            
 	    buf.append("               </div> ");
@@ -3067,8 +3092,6 @@ public class UsuarioServiceImpl implements UsuarioService{
 		
 		return buf.toString();
 	}
-
-	
 	
 	@Override
 	public boolean validarEnviarSenhaTemporarioEsqueceuSenha(UsuarioForm form, BindingResult result) {

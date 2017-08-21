@@ -59,7 +59,10 @@
                                             </div>
                                             <div data-filter=".superior" class="cbp-filter-item">
                                                 <spring:message code="lbl.title.aba.menu.superior"/> 
-                                            </div>                                          
+                                            </div>   
+                                             <div data-filter=".timeline" class="cbp-filter-item">
+                                             	<spring:message code="lbl.title.aba.timeline"/>                                                
+                                            </div>                                         
                                         </div>
                                     </div>
                                     <div class="clearfix"></div>
@@ -192,10 +195,9 @@
 														    <!--/ End accordion -->								
 														</div>
 													    </div><!-- /.row -->
-									</div>
-								    </div>                                            
-
-								</div>
+											</div>
+								    </div> 
+								   </div>
 								</div>
 								
 						<div class="cbp-item esquerdo">
@@ -843,6 +845,232 @@
                                         </div>
                                     </div>
                                     
+                                    <div class="cbp-item timeline">
+										<div class="cbp-caption">
+										    <div class="cbp-caption-defaultWrap">
+											<i class="fa fa-file-text"></i> <spring:message code="lbl.conhecendo.funcionalidades.timeline.sugerir.imovel"/> 
+										    </div>
+										    <div class="cbp-caption-activeWrap">
+												<div class="cbp-l-caption-body">
+												    <div class="row">
+												    	<div class="col-md-12">	
+														    <div class="panel-group rounded shadow" id="accordion15">
+																<div class="panel panel-default">
+																	<div class="panel-body" style="font-size: 11px;">																	   
+																	   <spring:message code="lbl.conhecendo.funcionalidades.timeline.sugerir.imovel.descricao"/>																	  
+																	</div>
+																</div><!-- /.panel -->
+														    </div><!-- /.panel-group -->
+														    <!--/ End accordion -->								
+														</div>
+												    </div>
+												</div>
+	                                    	 </div>
+	                                    </div>
+	                                    
+	                                    <div class="cbp-caption">
+										    <div class="cbp-caption-defaultWrap">
+											<i class="fa fa-file-text"></i> <spring:message code="lbl.conhecendo.funcionalidades.timeline.imoveis.interesse"/>  
+										    </div>
+										    <div class="cbp-caption-activeWrap">
+												<div class="cbp-l-caption-body">
+												    <div class="row">
+												    	<div class="col-md-12">	
+														    <div class="panel-group rounded shadow" id="accordion16">
+																<div class="panel panel-default">
+																	<div class="panel-body" style="font-size: 11px;">
+																	   <spring:message code="lbl.conhecendo.funcionalidades.timeline.imoveis.interesse.descricao"/>  	
+																	</div>
+																</div><!-- /.panel -->
+														    </div><!-- /.panel-group -->
+														    <!--/ End accordion -->								
+														</div>
+												    </div>
+												</div>
+	                                    	 </div>
+	                                    </div>
+	                                    
+	                                    <div class="cbp-caption">
+										    <div class="cbp-caption-defaultWrap">
+											<i class="fa fa-file-text"></i> <spring:message code="lbl.conhecendo.funcionalidades.timeline.trabalhar.intermediacao"/>
+										    </div>
+										    <div class="cbp-caption-activeWrap">
+												<div class="cbp-l-caption-body">
+												    <div class="row">
+												    	<div class="col-md-12">	
+														    <div class="panel-group rounded shadow" id="accordion16">
+																<div class="panel panel-default">
+																	<div class="panel-body" style="font-size: 11px;">
+																	   <spring:message code="lbl.conhecendo.funcionalidades.timeline.trabalhar.intermediacao.descricao"/>
+																	</div>
+																</div><!-- /.panel -->
+														    </div><!-- /.panel-group -->
+														    <!--/ End accordion -->								
+														</div>
+												    </div>
+												</div>
+	                                    	 </div>
+	                                    </div>
+	                                    
+	                                     <div class="cbp-caption">
+										    <div class="cbp-caption-defaultWrap">
+											<i class="fa fa-file-text"></i> <spring:message code="lbl.conhecendo.funcionalidades.timeline.trabalhar.parceria"/>
+										    </div>
+										    <div class="cbp-caption-activeWrap">
+												<div class="cbp-l-caption-body">
+												    <div class="row">
+												    	<div class="col-md-12">	
+														    <div class="panel-group rounded shadow" id="accordion16">
+																<div class="panel panel-default">
+																	<div class="panel-body" style="font-size: 11px;">
+																	   <spring:message code="lbl.conhecendo.funcionalidades.timeline.trabalhar.parceria.descricao"/>
+																	</div>
+																</div><!-- /.panel -->
+														    </div><!-- /.panel-group -->
+														    <!--/ End accordion -->								
+														</div>
+												    </div>
+												</div>
+	                                    	 </div>
+	                                    </div>
+	                                    
+	                                     <div class="cbp-caption">
+										    <div class="cbp-caption-defaultWrap">
+											<i class="fa fa-file-text"></i> <spring:message code="lbl.conhecendo.funcionalidades.timeline.nota.usuario"/> 
+										    </div>
+										    <div class="cbp-caption-activeWrap">
+												<div class="cbp-l-caption-body">
+												    <div class="row">
+												    	<div class="col-md-12">	
+														    <div class="panel-group rounded shadow" id="accordion16">
+																<div class="panel panel-default">
+																	<div class="panel-body" style="font-size: 11px;">
+																	   <spring:message code="lbl.conhecendo.funcionalidades.timeline.nota.usuario.descricao"/> 
+																	</div>
+																</div><!-- /.panel -->
+														    </div><!-- /.panel-group -->
+														    <!--/ End accordion -->								
+														</div>
+												    </div>
+												</div>
+	                                    	 </div>
+	                                    </div>
+	                                    
+	                                    
+	                                    
+	                                    
+	                                    <div class="cbp-caption">
+										    <div class="cbp-caption-defaultWrap">
+											<i class="fa fa-file-text"></i> <spring:message code="lbl.conhecendo.funcionalidades.timeline.pref.imoveis"/> 
+										    </div>
+										    <div class="cbp-caption-activeWrap">
+												<div class="cbp-l-caption-body">
+												    <div class="row">
+												    	<div class="col-md-12">	
+														    <div class="panel-group rounded shadow" id="accordion16">
+																<div class="panel panel-default">
+																	<div class="panel-body" style="font-size: 11px;">
+																	   <spring:message code="lbl.conhecendo.funcionalidades.timeline.pref.imoveis.descricao"/> 
+																	</div>
+																</div><!-- /.panel -->
+														    </div><!-- /.panel-group -->
+														    <!--/ End accordion -->								
+														</div>
+												    </div>
+												</div>
+	                                    	 </div>
+	                                    </div>
+	                                    
+	                                    <div class="cbp-caption">
+										    <div class="cbp-caption-defaultWrap">
+											<i class="fa fa-file-text"></i> <spring:message code="lbl.conhecendo.funcionalidades.timeline.imoveis.contato"/> 
+										    </div>
+										    <div class="cbp-caption-activeWrap">
+												<div class="cbp-l-caption-body">
+												    <div class="row">
+												    	<div class="col-md-12">	
+														    <div class="panel-group rounded shadow" id="accordion16">
+																<div class="panel panel-default">
+																	<div class="panel-body" style="font-size: 11px;">
+																	   <spring:message code="lbl.conhecendo.funcionalidades.timeline.imoveis.contato.descricao"/> 
+																	</div>
+																</div><!-- /.panel -->
+														    </div><!-- /.panel-group -->
+														    <!--/ End accordion -->								
+														</div>
+												    </div>
+												</div>
+	                                    	 </div>
+	                                    </div>
+	                                    
+	                                    <div class="cbp-caption">
+										    <div class="cbp-caption-defaultWrap">
+											<i class="fa fa-file-text"></i> <spring:message code="lbl.conhecendo.funcionalidades.timeline.anuncio.imoveis"/> 
+										    </div>
+										    <div class="cbp-caption-activeWrap">
+												<div class="cbp-l-caption-body">
+												    <div class="row">
+												    	<div class="col-md-12">	
+														    <div class="panel-group rounded shadow" id="accordion16">
+																<div class="panel panel-default">
+																	<div class="panel-body" style="font-size: 11px;">
+																	   <spring:message code="lbl.conhecendo.funcionalidades.timeline.anuncio.imoveis.descricao"/> 
+																	</div>
+																</div><!-- /.panel -->
+														    </div><!-- /.panel-group -->
+														    <!--/ End accordion -->								
+														</div>
+												    </div>
+												</div>
+	                                    	 </div>
+	                                    </div>
+	                                    
+	                                    <div class="cbp-caption">
+										    <div class="cbp-caption-defaultWrap">
+											<i class="fa fa-file-text"></i> <spring:message code="lbl.conhecendo.funcionalidades.timeline.usuario.voce.conhece"/> 
+										    </div>
+										    <div class="cbp-caption-activeWrap">
+												<div class="cbp-l-caption-body">
+												    <div class="row">
+												    	<div class="col-md-12">	
+														    <div class="panel-group rounded shadow" id="accordion16">
+																<div class="panel panel-default">
+																	<div class="panel-body" style="font-size: 11px;">
+																	   <spring:message code="lbl.conhecendo.funcionalidades.timeline.usuario.voce.conhece.descricao"/> 
+																	</div>
+																</div><!-- /.panel -->
+														    </div><!-- /.panel-group -->
+														    <!--/ End accordion -->								
+														</div>
+												    </div>
+												</div>
+	                                    	 </div>
+	                                    </div>
+	                                    
+	                                    <div class="cbp-caption">
+										    <div class="cbp-caption-defaultWrap">
+											<i class="fa fa-file-text"></i> <spring:message code="lbl.conhecendo.funcionalidades.timeline.pref.usuario"/> 
+										    </div>
+										    <div class="cbp-caption-activeWrap">
+												<div class="cbp-l-caption-body">
+												    <div class="row">
+												    	<div class="col-md-12">	
+														    <div class="panel-group rounded shadow" id="accordion16">
+																<div class="panel panel-default">
+																	<div class="panel-body" style="font-size: 11px;">
+																	   <spring:message code="lbl.conhecendo.funcionalidades.timeline.pref.usuario.descricao"/> 
+																	</div>
+																</div><!-- /.panel -->
+														    </div><!-- /.panel-group -->
+														    <!--/ End accordion -->								
+														</div>
+												    </div>
+												</div>
+	                                    	 </div>
+	                                    </div>
+	                                    
+	                                    
+	                                 </div>
                                 </div>
 
                                 </div><!-- /.panel-body -->

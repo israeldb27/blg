@@ -171,6 +171,52 @@
                 }
             });   
     	}
+    	
+    	function mostrarModal(id){    
+    		
+    		if (id == 0){
+    			$('#msgModal').html("<spring:message code='lbl.conhecendo.funcionalidades.timeline.nota.usuario.descricao'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.nota.timeline'/>");
+    		}
+    		else if (id == 1){
+    			$('#msgModal').html("<spring:message code='lbl.conhecendo.funcionalidades.timeline.pref.imoveis.descricao'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.imovel.timeline.pref.imoveis'/>");
+    		}
+    		else if (id == 2){
+    			$('#msgModal').html("<spring:message code='lbl.conhecendo.funcionalidades.timeline.imoveis.contato.descricao'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.imovel.timeline.imovel.contato'/>");
+    		}
+    		else if (id == 3){
+    			$('#msgModal').html("<spring:message code='lbl.conhecendo.funcionalidades.timeline.imoveis.interesse.descricao'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.imovel.timeline'/>");
+    		}
+    		else if (id == 4){
+    			$('#msgModal').html("<spring:message code='lbl.conhecendo.funcionalidades.timeline.trabalhar.intermediacao.descricao'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.imovel.timeline.intermediacao'/>");
+    		}
+    		else if (id == 5){
+    			$('#msgModal').html("<spring:message code='lbl.conhecendo.funcionalidades.timeline.trabalhar.parceria.descricao'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.imovel.timeline.parceria'/>");
+    		}
+    		else if (id == 6){
+    			$('#msgModal').html("<spring:message code='lbl.conhecendo.funcionalidades.timeline.sugerir.imovel.descricao'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.imovel.timeline.sugestao.imovel'/>");
+    		}
+    		else if (id == 7){
+    			$('#msgModal').html("<spring:message code='lbl.conhecendo.funcionalidades.timeline.anuncio.imoveis.descricao'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.imovel.timeline.anuncio.imovel'/>");
+    		}
+    		else if (id == 8){
+    			$('#msgModal').html("<spring:message code='lbl.conhecendo.funcionalidades.timeline.usuario.voce.conhece.descricao'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.conhecendo.funcionalidades.timeline.usuario.voce.conhece'/>");
+    		}
+    		else if (id == 9){
+    			$('#msgModal').html("<spring:message code='lbl.conhecendo.funcionalidades.timeline.pref.usuario.descricao'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.conhecendo.funcionalidades.timeline.pref.usuario'/>");
+    		}  
+    		
+    		$("#idModalItem").modal("show");
+    	}
 
 		
 	  
@@ -349,6 +395,25 @@ border-color: black;
           
         </section><!-- /#wrapper -->
         <!--/ END WRAPPER -->
+        
+          <!-- modal para informações sobre o Timeline -->
+            <div id="idModalItem" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+				      <div class="modal-content">
+				        <div class="modal-header">
+				          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				          <h4 class="modal-title"><font size="3px;"><div id="msgModalFuncionalidade" > </font></div> </h4>
+				        </div>
+				        <div class="modal-body">  
+				       	   <strong><font size="3px;"> <spring:message code="lbl.descricao.geral"/> </font>:  </strong> 
+				       	   									<font size="2px;"><div id="msgModal" > </div> </font>
+				        </div>
+				        <div class="modal-footer">			          
+	                      <button type="button" class="btn btn-primary" data-dismiss="modal"><spring:message code="lbl.btn.fechar.geral"/></button>
+				        </div>
+				      </div>
+				    </div>
+				</div>
         
         <!-- Start optional size modal element - confirmacao cancelamento de contato -->
             <div id="idModalConfirmacaoCancelContato" class="modal fade bs-example-modal-lg-confirmacao-cancel-contato" tabindex="-1" role="dialog" aria-hidden="true">

@@ -29,6 +29,9 @@
 <spring:url value="/intermediacao" var="urlIntermediacao"/>
 <spring:url value="/parceria" var="urlParceria"/>
 
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBC9ter9LUNs4kWEqVoQUFy6UthDBQYuXw&callback"></script>
+
+<script src="//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=YOUR_API_KEY" async="" defer="defer" type="text/javascript"></script>
 
 <c:set var="usuario" value="<%= (UsuarioForm)request.getSession().getAttribute(UsuarioInterface.USUARIO_SESSAO) %>"/>
 
@@ -41,6 +44,7 @@
 <script type="text/javascript" src="${context}/js/jquery.validate.js"></script>
 <script type="text/javascript" src="${context}/js/jquery-ui.js"></script>
 <script type="text/javascript" src="${context}/js/additional-methods.js"></script>   
+
 
 <style type="text/css">
 #owl-demo .item img{
@@ -59,7 +63,8 @@ div#map_container{
 }
 </style>
 
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyCpGgcH6PuflECkJvtay8pjSdVWFs0bGRE"></script>
+
+  
 
 <!-- TABS -->
 <script src="${context}/js/jquery-ui.js "></script>
@@ -73,24 +78,11 @@ Shadowbox.init();
 
 <script defer src="${context}/js/jquery.flexslider.js"></script>
 <script type="text/javascript">
-$(window).load(function() {
-	 var longi = ${imovelForm.longitude};
-	 var lat = ${imovelForm.latitude};
-	 var latlng = new google.maps.LatLng(lat, longi);
-	 var myOptions = {
-	   zoom: 13,
-	   center: latlng,
-	   mapTypeId: google.maps.MapTypeId.ROADMAP
-	 };
-	var map = new google.maps.Map(document.getElementById("map"),myOptions);
-	 var marker = new google.maps.Marker({
-	   position: latlng,
-	   map: map,
-	   title:"my hometown, Malim Nawar!"
-	 });
+$(window).load(function() {	
+	
 });
 $(document).ready(function() {
-	
+
 	$('#myCarousel').carousel({
 	    interval: 4000
 	});
@@ -111,6 +103,8 @@ $(document).ready(function() {
 	  $('[id=carousel-selector-'+id+']').addClass('selected');
 	});
 });	
+
+
 function adicionarInteresse(id) {    	
 	var parametro1 = id;
     $.ajax({                
@@ -627,7 +621,31 @@ function prepararModalGaleriaFotos(){
 										<div class="panel-body panel panel-info rounded shadow">
 											<div id="result"></div>
 											<br/>
-											<div style="width:700px;height:400px" id="map"></div>											
+											<div style="width:700px;height:400px" id="map"></div>		
+											
+											<script>
+											function initMap(){
+												var longi = ${imovelForm.longitude};
+												 var lat = ${imovelForm.latitude};
+												 var latlng = new google.maps.LatLng(lat, longi);
+												 var myOptions = {
+												   zoom: 14,
+												   center: latlng,
+												   mapTypeId: google.maps.MapTypeId.ROADMAP
+												 };
+												var map = new google.maps.Map(document.getElementById("map"),myOptions);
+												 var marker = new google.maps.Marker({
+												   position: latlng,
+												   map: map,
+												   title:"my hometown, Malim Nawar!"
+												 });
+											}
+											</script>
+											
+											<script async defer
+											    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAoIntYq8CHlVWThpYtElySNBKyXRpZ9M0&callback=initMap">
+											    </script>
+											
 										</div>
 									</c:when>
 									
@@ -640,7 +658,9 @@ function prepararModalGaleriaFotos(){
 									
 									     </br> </br> 
 									</c:when>
-								</c:choose>																		   
+								</c:choose>		
+								
+																								   
 							</div>							
 							<!-- /.END Mapa -->							
                          

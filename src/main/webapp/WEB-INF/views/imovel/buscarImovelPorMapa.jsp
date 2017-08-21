@@ -34,47 +34,10 @@ div#map_container{
 	height:150px;
 }
 </style>
-<script type="text/javascript"  src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>  
+  
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
 
     	<script type="text/javascript">		
-		
-		$(window).load(function() {
-		
-			  var list = ${listaImoveis};			  
-			  if ( list.length > 0  ){
-				  
-				    var lat1 = JSON.stringify(list, ['latitude']);
-	            	var longi1 = JSON.stringify(list, ['longitude']);
-	            	var titulo = JSON.stringify(list, ['titulo']);
-	            	var parsedLat = JSON.parse(lat1);
-	            	var parsedLongi = JSON.parse(longi1);
-	            	var parsedTitulo = JSON.parse(titulo);
-				  
-				  var map = new google.maps.Map(document.getElementById('map'), {
-		                zoom: 10,
-		                center: new google.maps.LatLng(parsedLat[0].latitude, parsedLongi[0].longitude),
-		                mapTypeId: google.maps.MapTypeId.ROADMAP
-		              });
-		
-		              var infowindow = new google.maps.InfoWindow();
-		              var marker, i;	
-		              
-		              for (i = 0; i < list.length; i++) {  
-		                marker = new google.maps.Marker({
-		                  position: new google.maps.LatLng(parsedLat[i].latitude, parsedLongi[i].longitude),
-		                  map: map
-		                });
-
-		                google.maps.event.addListener(marker, 'click', (function(marker, i) {
-		                  return function() {
-		                    infowindow.setContent(parsedTitulo[i].titulo);
-		                    infowindow.open(map, marker);
-		                  }
-		                })(marker, i));
-		              }				  
-			  }			
-		});		
 			
     	$(document).ready(function() {
     		
@@ -114,35 +77,6 @@ div#map_container{
     		}
     	});	
 		
-		function buscarImoveisMapa(obj){
-			alert(obj);
-    	    $.ajax({
-                type: 'POST',
-                url: '${urlBuscarImoveisMapa}',
-                dataType: 'json',
-                success: function(json){
-                    var options = "";
-                    $.each(json, function(key, value){                    	
-					   var latlng = new google.maps.LatLng(value.latitude, value.longitude);					   
-						 var myOptions = {
-							  zoom: 10,
-							  center: latlng,
-							  mapTypeId: google.maps.MapTypeId.ROADMAP
-							};
-							var map = new google.maps.Map(document.getElementById("map"),myOptions);							
-							var marker = new google.maps.Marker({
-							  position: latlng, 
-							  map: map, 
-							  title:"my hometown, Malim Nawar!"
-							});
-					});  
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
-                }
-            });    	   
-    	}
-    	
     	function recuperaCidades(){
     	    var parametro1 = $("#idEstado").val();
     	    $.ajax({
@@ -461,6 +395,77 @@ div#map_container{
 													<br/>
 													
 											    <div style="width:800px;height:420px" id="map"></div>
+											    
+											    <script>
+													function initMap(){
+														var list = ${listaImoveis};			  
+														  if ( list.length > 0  ){
+															  
+															    var lat1 = JSON.stringify(list, ['latitude']);
+												            	var longi1 = JSON.stringify(list, ['longitude']);
+												            	var titulo = JSON.stringify(list, ['titulo']);
+												            	var parsedLat = JSON.parse(lat1);
+												            	var parsedLongi = JSON.parse(longi1);
+												            	var parsedTitulo = JSON.parse(titulo);
+															  
+															  var map = new google.maps.Map(document.getElementById('map'), {
+													                zoom: 10,
+													                center: new google.maps.LatLng(parsedLat[0].latitude, parsedLongi[0].longitude),
+													                mapTypeId: google.maps.MapTypeId.ROADMAP
+													              });
+													
+													              var infowindow = new google.maps.InfoWindow();
+													              var marker, i;	
+													              
+													              for (i = 0; i < list.length; i++) {  
+													                marker = new google.maps.Marker({
+													                  position: new google.maps.LatLng(parsedLat[i].latitude, parsedLongi[i].longitude),
+													                  map: map
+													                });
+
+													                google.maps.event.addListener(marker, 'click', (function(marker, i) {
+													                  return function() {
+													                    infowindow.setContent(parsedTitulo[i].titulo);
+													                    infowindow.open(map, marker);
+													                  }
+													                })(marker, i));
+													              }				  
+														  }
+													}
+													
+													function buscarImoveisMapa(obj){
+											  			alert(obj);
+											      	    $.ajax({
+											                  type: 'POST',
+											                  url: '${urlBuscarImoveisMapa}',
+											                  dataType: 'json',
+											                  success: function(json){
+											                      var options = "";
+											                      $.each(json, function(key, value){                    	
+											  					   var latlng = new google.maps.LatLng(value.latitude, value.longitude);					   
+											  						 var myOptions = {
+											  							  zoom: 8,
+											  							  center: latlng,
+											  							  mapTypeId: google.maps.MapTypeId.ROADMAP
+											  							};
+											  							var map = new google.maps.Map(document.getElementById("map"),myOptions);							
+											  							var marker = new google.maps.Marker({
+											  							  position: latlng, 
+											  							  map: map, 
+											  							  title:"my hometown, Malim Nawar!"
+											  							});
+											  					});  
+											                  },
+											                  error: function(jqXHR, textStatus, errorThrown) {
+											                      alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+											                  }
+											              });    	   
+								    	}
+													</script>
+													
+													<script async defer
+													    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAoIntYq8CHlVWThpYtElySNBKyXRpZ9M0&callback=initMap">
+													    </script>
                                         	</div>
                                         </div>
 	                                 </div>  

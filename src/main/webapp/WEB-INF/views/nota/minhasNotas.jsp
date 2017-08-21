@@ -157,6 +157,7 @@
 																		<a href="${urlUsuario}/detalhesUsuario/${usuario.id}"  class="timeline-body-title font-blue-madison"> ${nota.usuario.nome}</a>
 																		<span class="timeline-body-time font-grey-cascade"> </span>
 																	</div>
+																	<span class="label pull-right">  <a href="#a" class="btn btn-sm"  onClick="mostrarModal(6);" ><i class="fa fa-question" ></i></a>  </span>
 																</div>
 																<div class="timeline-body-content">
 																	<p>
