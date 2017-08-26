@@ -355,36 +355,31 @@ border-color: black;
                             <!-- END estimativas gerais -->                            
                            	
                            	<div class="row">
-                        		<div class="col-md-15">
+                        		<div class="col-lg-10 col-md-12 col-sm-4 col-xs-12" style="position: absolute;">
                            		<!-- INICIO TIMELINE -->
                            	
-                                <div class="profile-body">
-                                    <div class="timeline">                                
-                                        
-                                        <div id="idTimeLine" >
-                                        	
-                                        </div>                                     
-                                        
-                                        <div id="loadMore-container" class="cbp-l-loadMore-button">
-				                            <a href="#a" onClick="carregarTimeline();" class="cbp-l-loadMore-link">
-				                                <span class="cbp-l-loadMore-defaultText">Carregar Mais</span>
-				                                <span class="cbp-l-loadMore-loadingText">Carregando...</span>
-				                                <span class="cbp-l-loadMore-noMoreLoading">NO MORE WORKS</span>
-				                            </a>
-				                        </div>
-                                    </div>
-                                </div><!-- /.profile-body -->                           		
-                           	<!-- FIM TIMELINE -->
+	                                <div class="profile-body" >
+	                                    <div class="timeline" align="center">                                
+	                                        
+	                                        <div id="idTimeLine" >
+	                                        	
+	                                        </div>                                     
+	                                        
+	                                        <div id="loadMore-container" class="">
+					                            <a href="#a" onClick="carregarTimeline();" class="cbp-l-loadMore-link">
+					                                <span class="cbp-l-loadMore-defaultText">Carregar Mais</span>
+					                                <span class="cbp-l-loadMore-loadingText">Carregando...</span>
+					                                <span class="cbp-l-loadMore-noMoreLoading">NO MORE WORKS</span>
+					                            </a>
+					                        </div>
+	                                    </div>
+	                                </div><!-- /.profile-body -->                           		
+	                           	<!-- FIM TIMELINE -->
+	                        </div>
                         </div>
-                        
-                        <!--  START SIDEBAR RIGHT -->
-                        <!-- 
-                        <div class="col-md-3">
-                            <c:import url="./layout/sidebar-right.jsp"></c:import>
-                        </div>
-                         -->                        
-                        <!--  END SIDEBAR RIGHT -->
+                    
                     </div><!-- /.row -->
+                  </div>  
 
                 </div><!-- /.body-content -->
                 <!--/ End body content -->

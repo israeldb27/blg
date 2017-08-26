@@ -455,7 +455,7 @@
 	                                            </div>
 	                                            <div class="media-body">
 	                                                <span class="label pull-right" style="background-color: #9d2428; font-size: 12px">${imovel.tipoImovelFmt}</span>
-	                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlImovel}/detalhesImovel/${imovel.id}"><strong>${imovel.titulo} </strong> </a></h4>
+	                                                <h4 class="media-heading" style="margin-bottom:20px;"><a href="${urlImovel}/detalhesImovel/${imovel.id}"><strong>${imovel.titulo} </strong> </a></h4>                                                	                                                
 	                                                <h5 class="media-heading" style="margin-bottom:12px;"><i class="fa fa-map-marker"></i> ${imovel.endereco} - ${imovel.bairro} - ${imovel.cidade} -${imovel.uf} </h1>
 	                                                
 	                                                <div class="col-md-5" >  	                                                

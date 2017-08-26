@@ -255,6 +255,9 @@ public class Imovel extends BaseEntity implements Serializable{
 	private String dataCadastroFmt = "";
 	
 	@Transient
+	private String dataUltimaAtualizacaoFmt = "";
+	
+	@Transient
 	private String perfilUsuario = "";
 	
 	@Transient
@@ -1137,6 +1140,14 @@ public class Imovel extends BaseEntity implements Serializable{
 
 	public void setQuantNovosImovelIntermediacao(long quantNovosImovelIntermediacao) {
 		this.quantNovosImovelIntermediacao = quantNovosImovelIntermediacao;
+	}
+
+	public String getDataUltimaAtualizacaoFmt() {
+		return DateUtil.formataData(this.dataUltimaAtualizacao);
+	}
+
+	public void setDataUltimaAtualizacaoFmt(String dataUltimaAtualizacaoFmt) {
+		this.dataUltimaAtualizacaoFmt = dataUltimaAtualizacaoFmt;
 	}
 
 }

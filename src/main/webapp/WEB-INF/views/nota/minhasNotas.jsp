@@ -73,7 +73,7 @@
 						<c:import url="../avisoRenovacaoAssinatura.jsp"></c:import>
 						<% } %>
 
-						<div class="col-lg-9 col-md-12 col-sm-9">
+						<div class="col-lg-8 col-md-10 col-sm-8">
 							<div class="panel rounded shadow">
 								<div class="panel-heading" style="background: #eeeeef; border-style: none;" >
 									<div class="pull-left">
@@ -122,12 +122,12 @@
 									<div class="clearfix"></div>
 								</div><!-- /.panel-heading -->
 
-								<div class="panel-body" style="background: #eeeeef">
+								<div class="panel-body" style="background: #eeeeef" >
 									<div class="panel-body no-padding">
 										<form:form method="POST" id="notaEscreveForm" modelAttribute="notaForm" action="${urlNota}/escreverMinhaNota" >
 											<div class="form-body">
 												<div class="form-group">													
-													<form:textarea id="escreverNota" path="escreverNota" class="form-control"  rows="5" cols="40"/>
+													<form:textarea id="escreverNota" path="escreverNota" class="form-control"  rows="5" cols="30"/>
 												</div><!-- /.form-group -->
 											</div>
 										
@@ -139,16 +139,16 @@
 										</form:form>
 									</div>
 									<br>									
-									<div class="profile-body">
+									<div class="profile-body" >
 										<c:choose>
                                 			<c:when test="${not empty listaMinhasNotas}">
                                 				<div class="timeline">
                                 					<c:forEach var="nota" items="${listaMinhasNotas}"> 
-                                						<div class="timeline-item last-timeline">
-															<div class="timeline-badge">
+                                						<div class="timeline-item last-timeline" >
+															<div class="timeline-badge" >
 																  <img class="timeline-badge-userpic" src="data:image/jpeg;base64,${nota.usuario.imagemArquivo}" style="width: 80px; height: 90px; " >
-															</div>
-															<div class="timeline-body">
+															</div>															
+															<div class="timeline-body" style="width: 800px;" >
 																<div class="timeline-body-arrow">
 																</div>
 																
@@ -159,7 +159,7 @@
 																	</div>
 																	<span class="label pull-right">  <a href="#a" class="btn btn-sm"  onClick="mostrarModal(6);" ><i class="fa fa-question" ></i></a>  </span>
 																</div>
-																<div class="timeline-body-content">
+																<div class="timeline-body-content" >
 																	<p>
 																		<c:choose>
 																			<c:when test="${nota.acao == 'E'}">

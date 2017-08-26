@@ -2781,17 +2781,14 @@ public class UsuarioServiceImpl implements UsuarioService{
 		   buf.append("    			<img class='timeline-badge-userpic' src='data:image/jpeg;base64," + imovel.getUsuario().getImagemArquivo() + "' style='width: 72px; height: 72px; ' />  ");
 		   buf.append(" 		</a>");
 		   buf.append("   </div> ");
-		   buf.append("   <div class='timeline-body'> ");
+		   buf.append("   <div class='timeline-body' style='width:800px;'> ");
 		   buf.append("    	<div class='timeline-body-arrow'>  "); 
 		   buf.append("    	</div>   ");
 		   buf.append("      <div class='timeline-body-head'> ");
 		   buf.append("           <div class='timeline-body-head-caption'> ");
-		   buf.append("               <a href='" + context.getContextPath() + "/usuario/detalhesUsuario/"+ imovel.getUsuario().getId() +"' class='timeline-body-title font-blue-madison'>" + imovel.getUsuario().getNome() + ": </a> ");		   
-		   
-		   if ( imovel.getIsAnuncio().equals("N")){ // nao eh anuncio de imovel
-			   
-			   int i = (int) (Math.random() * 10 ); // esta variavel é usada apenas para evitar que o texto se repita
-			   
+		   buf.append("               <a href='" + context.getContextPath() + "/usuario/detalhesUsuario/"+ imovel.getUsuario().getId() +"' class='timeline-body-title font-blue-madison'>" + imovel.getUsuario().getNome() + ": </a> ");		   	   
+		   if ( imovel.getIsAnuncio().equals("N")){ // nao eh anuncio de imovel			   
+			   int i = (int) (Math.random() * 10 ); // esta variavel é usada apenas para evitar que o texto se repita			   
 			   if ( user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){				   
 				   if ( imovel.getIsPrefImoveis().equals("S")){
 					   buf.append("  <span class='timeline-body-time font-grey-cascade' style='font-style: italic;'>" +  MessageUtils.getMessage("lbl.imovel.timeline.pref.imoveis")  +"</span> ");
@@ -2841,78 +2838,73 @@ public class UsuarioServiceImpl implements UsuarioService{
 			   buf.append("  </div> ");
 			   buf.append("  <span class='label pull-right'>  <a href='#a' class='btn btn-sm'  onClick='mostrarModal(7);' ><i class='fa fa-question' ></i></a>  </span> ");
 		   }
-		 //  buf.append("           </div> ");
-		   buf.append("      </div> ");
-		   buf.append("       <div class='timeline-body-content'> ");
-		   buf.append("          <div class='panel panel-theme shadow blog-list-slider'> ");
-		   buf.append("                <div id='carousel-blog-list' class='carousel slide' data-ride='carousel'> ");		   
-		   buf.append("                    <div class='carousel-inner'> ");
-		   buf.append("                       <div class='item active'> ");
-		   buf.append("                           <div class='blog-list'> ");
-		   buf.append("                                <div class='media-list list-search'> ");
-		   buf.append("                                   <div class='media rounded shadow no-overflow'> ");
-		   buf.append("                                        <div class='media-left'> ");
-		   buf.append("                                            <a href='" + context.getContextPath() + "/imovel/detalhesImovel/" +  imovel.getId() + "' > ");
-		   buf.append("                                               <span class='meta-provider' style='font-size:13px;'>"+ imovel.getAcaoFmt() + " <br><strong>  R$ " + AppUtil.formataMoedaString(imovel.getValorImovel()) + " </strong></span><br> ");
-		   buf.append("                                                <img src='data:image/jpeg;base64," + imovel.getImagemArquivo() + "' class='img-responsive' style='width: 230px; height: 290px; alt='admin'/> ");
-		   buf.append("                                            </a> ");
-		   buf.append("                                        </div> ");
-		   buf.append("                              <div class='media-body'> ");
-		   buf.append("                                           <span class='label pull-right' style='background-color: #9d2428; font-size: 12px'>" + imovel.getTipoImovelFmt() + "</span></br> ");		   
-		   buf.append("                                            <h4 class='media-heading' style='margin-bottom:20px;'><a href='" + context.getContextPath() + "/imovel/detalhesImovel/" +  imovel.getId() + "' style='color : #9d2428;'>"+ imovel.getTitulo() + "</a></h4> ");
-		   buf.append("                                            <h5 class='media-heading' style='margin-bottom:12px;'><i class='fa fa-map-marker'></i> " + imovel.getEndereco() + " - " + imovel.getBairro()  + " - " +  imovel.getCidade() + " - " + imovel.getUf() + " </h1> ");
-		   buf.append("                                 <div class='col-md-5' > ");		
-		   buf.append("                                           </div> ");
-		   buf.append("                                            <div class='col-md-7'> ");
-		   buf.append("                                               <table class='table table-condensed'> ");
-		   buf.append("                                                   <tbody style='font-size: 13px;'> ");
-		   buf.append("                                                       <tr> ");
-		   buf.append("                                                           <td class='text-left'>" + MessageUtils.getMessage("lbl.area.m2.resum") + "</td> ");
-		   buf.append("                                                            <td class='text-right'>"+ imovel.getArea().intValue() +"m<sup>2</sup></td> ");
-		   buf.append("                                                        </tr> ");
-		   buf.append("                                                        <tr> ");
-		   buf.append("                                                           <td class='text-left'> "+ MessageUtils.getMessage("lbl.vagas.garagem.resum") +" </td> ");
-		   buf.append("                                                            <td class='text-right'>" + imovel.getQuantGaragem() + " vaga(s)</td> ");
-		   buf.append("                                                        </tr> ");		
-		   buf.append("                                                        <tr> ");
-		   buf.append("                                                           <td class='text-left'> "+ MessageUtils.getMessage("lbl.banheiros") +" </td> ");
-		   buf.append("                                                            <td class='text-right'>" + imovel.getQuantBanheiro() + "</td> ");
-		   buf.append("                                                        </tr> ");
-		   buf.append("                                                        <tr> ");
-		   buf.append("                                                           <td class='text-left'> "+ MessageUtils.getMessage("lbl.quartos.dormitorios.resum") + "</td> ");
-		   buf.append("                                                            <td class='text-right'>"+ imovel.getQuantQuartos() +"</td> ");
-		   buf.append("                                                        </tr> ");
-		   buf.append("                                                        <tr> ");
-		   buf.append("                                                           <td class='text-left'> "+  MessageUtils.getMessage("lbl.suites")  +" </td> ");
-		   buf.append("                                                            <td class='text-right'>"+  imovel.getQuantSuites() + "</td> ");
-		   buf.append("                                                        </tr> ");		   
-		   buf.append("                                                    </tbody> ");
-		   buf.append("                                                </table> ");
-		   buf.append("                                                <br> ");
-		   
-		   if ( isInteressado.equals("N") && imovel.getUsuario().getId().longValue() != user.getId().longValue()) {
-			   buf.append("                                                <a href='#a' id='idMeInteressei_" + imovel.getId() + "' onClick='adicionarInteresse("+ imovel.getId() + ")' style='font-size:x-large; color: rgb(99, 110, 123);' class='meta-action'><i class='fa fa-star-o'> </i> <font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;'>" + MessageUtils.getMessage("lbl.me.interessei") + "  &nbsp;&nbsp; </a> ");
-		   }
-		   else  if ( isInteressado.equals("S")) {		   
+		    buf.append("      </div> ");		   
+		    buf.append("       <div class='timeline-body-content'> ");
+            buf.append("   <div class='media-list list-search'>	");         
+	        buf.append("        <div class='media rounded shadow no-overflow'>");             
+		    buf.append("            <div class='media-left'>");
+		    buf.append("                <a href='" + context.getContextPath() + "/imovel/detalhesImovel/" +  imovel.getId() + "' > ");
+		    buf.append("                   <span class='meta-provider' style='font-size:19px;'>" + imovel.getAcaoFmt() + " <br>");
+		    buf.append("                   		<strong>  R$ " + AppUtil.formataMoedaString(imovel.getValorImovel()) + "</strong> ");
+		    buf.append("                   </span><br>");
+		    buf.append("                    <img src='data:image/jpeg;base64, " + imovel.getImagemArquivo() + "' style='width: 270px; height: 355px; '  />	"); 
+		    buf.append("                </a>	");
+		    buf.append("            </div>");
+		    buf.append("            <div class='media-body'>");		   
+		    buf.append("                 <span class='label pull-right' style='background-color: #9d2428; font-size: 12px'>" + imovel.getTipoImovelFmt() + "</span> ");
+		    buf.append("                <h4 class='media-heading pull-left' style='margin-bottom:20px;'><a href='" + context.getContextPath() + "/imovel/detalhesImovel/" +  imovel.getId() + "'> <strong> "+ imovel.getTitulo() + " </strong> </a></h4> <br> <br> <br>");
+		 //   buf.append("	                       <h5 class='media-heading' style='margin-bottom:12px;'><i class='fa fa-map-marker'></i> " + imovel.getEndereco() + " - " + imovel.getBairro()  + " - " +  imovel.getCidade() + " - " + imovel.getUf() + "</h1> ");
+		    buf.append("	                       <h5 class='media-heading pull-left'><i class='fa fa-map-marker'></i> " + imovel.getEndereco() + "," + imovel.getBairro()  + " - " +  imovel.getCidade() + " - " + imovel.getUf() + "</h1> ");
+		    buf.append("	                       <div class='col-md-7' > ");	                                                
+		    buf.append("	                       	<div class='media-body' > ");		                               
+		  //  buf.append("                              <em class='text-xs text-muted'> <font style='font-size:13px; font-style: normal;'> "+ MessageUtils.getMessage("lbl.data.cadastro.imovel") +": </font><span class='text-success'><br>		");		                                            
+		  //  buf.append("                              <font style='font-size:11px; font-style: normal;'>" + imovel.getDataCadastroFmt() + "</font></span></em>		");
+		    buf.append("	                           </div>   ");                                             
+		    buf.append("	                           <br/> <br/> 	  ");                                               
+		    buf.append("	                       </div>  ");	                       
+		    buf.append("	                       <div class='col-md-8' style='margin-left: 152px;'> ");
+		    buf.append("                    <table class='table table-condensed'>  ");
+		    buf.append("	                               <tbody style='font-size: 13px;'>	 ");
+		    buf.append("                        	<tr>  ");
+		    buf.append("                                <td class='text-left'>" + MessageUtils.getMessage("lbl.area.m2.resum") + "</td> ");
+			buf.append("                                <td class='text-right'>"+ imovel.getArea().intValue() +"m<sup>2</sup></td> ");
+		    buf.append("	                        </tr>  ");
+		    buf.append("	                        <tr>    ");
+		    buf.append("                            <tr> ");
+			buf.append("                               <td class='text-left'> "+ MessageUtils.getMessage("lbl.vagas.garagem.resum") +" </td> ");
+		    buf.append("                               <td class='text-right'>" + imovel.getQuantGaragem() + " vaga(s)</td> ");
+		    buf.append("                            </tr>	           ");                                              
+		    buf.append("                            <tr>               ");
+		    buf.append("                                 <td class='text-left'> "+ MessageUtils.getMessage("lbl.banheiros") +" </td> ");
+			buf.append("                                 <td class='text-right'>" + imovel.getQuantBanheiro() + "</td> ");
+		    buf.append("	                       </tr>	                    ");                                      
+		    buf.append("                           <tr> ");
+		    buf.append("                               <td class='text-left'> "+ MessageUtils.getMessage("lbl.quartos.dormitorios.resum") + "</td> ");
+		    buf.append("                               <td class='text-right'>"+ imovel.getQuantQuartos() +"</td> ");
+		    buf.append("                           </tr> ");
+		    buf.append("                           <tr> ");
+		    buf.append("                              <td class='text-left'> "+  MessageUtils.getMessage("lbl.suites")  +" </td> ");
+		    buf.append("                              <td class='text-right'>"+  imovel.getQuantSuites() + "</td> ");
+		    buf.append("                           </tr> ");
+		    buf.append("                        </tbody>   ");
+		    buf.append("                    </table>	       ");                  
+		    buf.append("                    <br>	             ");  
+		    if ( isInteressado.equals("N") && imovel.getUsuario().getId().longValue() != user.getId().longValue()) {
+				   buf.append("                                                <a href='#a' id='idMeInteressei_" + imovel.getId() + "' onClick='adicionarInteresse("+ imovel.getId() + ")' style='font-size:x-large; color: rgb(99, 110, 123);' class='meta-action'><i class='fa fa-star-o'> </i> <font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;'>" + MessageUtils.getMessage("lbl.me.interessei") + "  &nbsp;&nbsp; </a> ");
+			}
+		    else  if ( isInteressado.equals("S")) {		   
 			   buf.append("                                                <a href='#a' id='idNovoInteressado_" + imovel.getId() + "' onClick='retirarInteresse("+ imovel.getId() + ")' style='font-size:x-large; color: rgb(99, 110, 123);' class='meta-action'><i class='fa fa-star'> </i> <font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;'>" + MessageUtils.getMessage("lbl.interessado") + "  &nbsp;&nbsp; </a> ");
-		   } 		   
-		   
-		   buf.append("                                                <a href='#a' id='idNovoMeInteressei_" + imovel.getId() + "' onClick='adicionarInteresse("+ imovel.getId() + ")' style='font-size:x-large; color: rgb(99, 110, 123);display: none;' class='meta-action'><i class='fa fa-star-o'> </i> <font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;'>" + MessageUtils.getMessage("lbl.me.interessei") + " </a> &nbsp;&nbsp; ");		   
-		   buf.append("                                                <a href='#a' id='idInteressado_" + imovel.getId() + "' onClick='retirarInteresse("+ imovel.getId() + ")' style='font-size:x-large; color: rgb(99, 110, 123);display: none;' class='meta-action'><i class='fa fa-star'> </i> <font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;'>" + MessageUtils.getMessage("lbl.interessado") + " </a> &nbsp;&nbsp;");
-		   
-		   buf.append("                                                <a href='#a'  onClick='adicionarComparativo("+ imovel.getId() + ")' style='font-size:x-large; color: rgb(99, 110, 123);' class='meta-action'><i class='fa fa-eye'> </i> <font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;'>" + MessageUtils.getMessage("lbl.title.link.comparar") + " </a> &nbsp;&nbsp; ");		   						
-		   
-		   buf.append("                                            </div> ");
-		   buf.append("                                        </div> ");
-		   buf.append("                                    </div> ");
-		   buf.append("                            </div> ");
-		   buf.append("                    </div> ");
-		   buf.append("            </div> ");
-		   buf.append("      </div> ");
-		   buf.append("   </div> ");
-		   buf.append("</div> ");
-
-		   return buf.toString();
+		    } 	
+		    buf.append("                                                <a href='#a' id='idNovoMeInteressei_" + imovel.getId() + "' onClick='adicionarInteresse("+ imovel.getId() + ")' style='font-size:x-large; color: rgb(99, 110, 123);display: none;' class='meta-action'><i class='fa fa-star-o'> </i> <font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;'>" + MessageUtils.getMessage("lbl.me.interessei") + " </a> &nbsp;&nbsp; ");		   
+		    buf.append("                                                <a href='#a' id='idInteressado_" + imovel.getId() + "' onClick='retirarInteresse("+ imovel.getId() + ")' style='font-size:x-large; color: rgb(99, 110, 123);display: none;' class='meta-action'><i class='fa fa-star'> </i> <font style='color: rgb(99, 110, 123); font-size: 12px; margin-bottom:  22px;'>" + MessageUtils.getMessage("lbl.interessado") + " </a> &nbsp;&nbsp;");    
+		    buf.append("                   </div>   ");
+	        buf.append("                </div>    ");
+	        buf.append("            </div>	     ");      
+	        buf.append("           </div>		 ");   
+		    buf.append("       </div> ");
+		    buf.append("   </div> ");
+		    buf.append("</div> ");
+		    return buf.toString();
 		}	
 	
 	public String carregarTimeLineUsuario(Usuario usuario, UsuarioForm user) {
@@ -3055,7 +3047,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	    buf.append("     <div class='timeline-body-content'> "); 
 	    buf.append("     <div class='media'> ");     
 	    buf.append("     <div class='media-body'> "); 
-	    buf.append("		  <div class='col-md-13'> ");
+	    buf.append("		  <div class='col-md-7'> ");
 	    buf.append("			    <table class='table table-striped'> ");
 	    buf.append("                      <tbody style='font-size: 15px;'> ");
 	    buf.append("                        <tr> ");    
