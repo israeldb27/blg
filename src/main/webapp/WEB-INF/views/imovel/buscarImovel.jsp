@@ -44,7 +44,6 @@
     			  $('.spinner .btn:last-of-type').on('click', function() {
     			    $('.spinner input').val( parseInt($('.spinner input').val(), 10) - 1);
     			  });
-
     			})(jQuery);
     		
     		$('#idEstado').change(function () {    			
@@ -225,8 +224,7 @@
 												  <div class="pull-right">
 													<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
 												  </div><!-- /.pull-right -->            												   
-												<br>
-                                            
+												<br>                                            
                                         </div><!-- /.form-group -->
                                     </div><!-- /.panel -->
                                 </div>
@@ -391,10 +389,8 @@
 												  </div><!-- /.pull-right -->            												   
 												<br>		
 	                                	 </div>
-	                                </div>
-                             
-                             </form:form>   
-								
+	                                </div>                             
+                             </form:form>   								
                             
                         </div>
                         <div class="col-lg-9 col-md-9 col-sm-8">
@@ -448,8 +444,7 @@
 	                                                <a href="${urlImovel}/detalhesImovel/${imovel.id}" >
 	                                                   <span class="meta-provider ${imovel.classePorAcao}" style="font-size:19px;">${imovel.acaoFmt} <br>
 	                                                   							<strong>  R$<fmt:formatNumber value="${imovel.valorImovel}" pattern="#,##0.00;-0"/></strong>
-	                                                   </span><br>                                                   
-	                                                   
+	                                                   </span><br> 
 	                                                    <img src="data:image/jpeg;base64,${imovel.imagemArquivo}" style="width: 270px; height: 355px; "  />	                                           
 	                                                </a>	
 	                                            </div>
@@ -474,8 +469,7 @@
 	                                                
 	                                                <div class="col-md-6" style="margin-right: -9px;">
 	                                                    <table class="table table-condensed">
-	                                                        <tbody style="font-size: 13px;">	                                                        
-	                                                        
+	                                                        <tbody style="font-size: 13px;">
 	                                                        	<tr>
 	                                                                <td class="text-left"><spring:message code="lbl.area.m2.resum"/></td>
 	                                                                <td class="text-right"><fmt:formatNumber value="${imovel.area}" pattern="#,##0;-0"/>m<sup>2</sup></td>
@@ -526,13 +520,12 @@
 	                                    </c:forEach>
 	                                </div>
                         		</c:when>
-                        		
+                        		                        		
                         		<c:when test="${ empty listaBuscarImoveis }">
                         			<div class="callout callout-warning">
 	                                    <strong><spring:message code="lbl.rel.nenhum.registro"/></strong>
 	                                </div>
-                        		</c:when>
-                        		
+                        		</c:when>                        		
                         	</c:choose>                   
                         </div>
                     </div>
@@ -547,9 +540,7 @@
 			<!-- Start content modal Ajuda - funcionalidade -->
 				<c:import url="../ajuda/contentMenuModal.jsp"></c:import>																				
 			<!-- End content  modal Ajuda - funcionalidade -->
-         
-         
-
+			
         <!-- START JAVASCRIPT SECTION (Load javascripts at bottom to reduce load time) -->
   			<c:import url="../layout/head-bootstrap.jsp"></c:import> 
         <!--/ END JAVASCRIPT SECTION -->

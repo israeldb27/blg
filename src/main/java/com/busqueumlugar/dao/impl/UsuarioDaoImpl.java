@@ -142,7 +142,6 @@ public class UsuarioDaoImpl extends GenericDAOImpl<Usuario, Long> implements  Us
 	
 	@Override
 	public List<Usuario> findUsuariosByCampo(UsuarioForm form, String nomeCampo, boolean isAdmin) {
-
 		
 		if (! StringUtils.isNullOrEmpty(nomeCampo)){
 			Criteria crit = session().createCriteria(Usuario.class);
@@ -201,8 +200,7 @@ public class UsuarioDaoImpl extends GenericDAOImpl<Usuario, Long> implements  Us
 		 }	 	
         
         if ( ! StringUtils.isNullOrEmpty(form.getPerfil() ))
-        	crit.add(Restrictions.eq("perfil", form.getPerfil()));
-        
+        	crit.add(Restrictions.eq("perfil", form.getPerfil()));        
         
         if (!StringUtils.isNullOrEmpty(form.getOpcaoOrdenacao())) {
         	if (form.getOpcaoOrdenacao().equals("maiorDataCadastrado")){

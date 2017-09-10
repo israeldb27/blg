@@ -14,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.busqueumlugar.dao.SeguidorDao;
+import com.busqueumlugar.form.ContatoForm;
 import com.busqueumlugar.form.RelatorioForm;
 import com.busqueumlugar.model.Seguidor;
+import com.busqueumlugar.util.AppUtil;
 import com.mysql.jdbc.StringUtils;
 
 @Repository
@@ -45,7 +47,7 @@ public class SeguidorDaoImpl extends GenericDAOImpl<Seguidor, Long>  implements 
 	@Override
 	public List<Seguidor> findSeguidoresByIdUsuarioSeguido(Long idUsuario) {
 		Criteria crit = session().createCriteria(Seguidor.class);
-		crit.createCriteria("usuarioSeguido").add(Restrictions.eq("id", idUsuario));
+		crit.createCriteria("usuarioSeguido").add(Restrictions.eq("id", idUsuario));		
 		return (List<Seguidor>)crit.list();
 	}
 	
@@ -151,6 +153,44 @@ public class SeguidorDaoImpl extends GenericDAOImpl<Seguidor, Long>  implements 
         	critUsuario.add(Restrictions.eq("perfil", perfilUsuario));        	
         }        
 		return crit.list();
+	}
+
+	@Override
+	public List<Seguidor> findSeguidoresByIdUsuarioSeguido(Long idUsuario, ContatoForm form) {
+		Criteria crit = session().createCriteria(Seguidor.class);
+		Criteria critUsuarioSeguido = crit.createCriteria("usuarioSeguido");	
+		Criteria critUsuarioSeguidor = crit.createCriteria("usuario");	
+		critUsuarioSeguido.add(Restrictions.eq("id", idUsuario));       	
+        
+        if (! StringUtils.isNullOrEmpty(form.getOpcaoFiltro()) )
+        	critUsuarioSeguidor.add(Restrictions.eq("perfil", form.getOpcaoFiltro()));
+		
+	    form.setQuantRegistros(AppUtil.recuperarQuantidadeLista(crit.list()));
+    	if ( form.isVisible()){
+	        crit.setFirstResult((Integer.parseInt((StringUtils.isNullOrEmpty(form.getOpcaoPaginacao())) ? "1": form.getOpcaoPaginacao()) - 1) * form.getQuantMaxRegistrosPerPage());        
+	        crit.setMaxResults(form.getQuantMaxRegistrosPerPage());
+	        form.setListaPaginas(AppUtil.carregarQuantidadePaginas(form.getQuantRegistros(), form.getQuantMaxRegistrosPerPage()));
+		}
+		return (List<Seguidor>)crit.list();
+	}
+
+	@Override
+	public List<Seguidor> findSeguindoByIdUsuarioSeguido(Long idUsuario, ContatoForm form) {
+		Criteria crit = session().createCriteria(Seguidor.class);		
+		Criteria critUsuarioSeguidor = crit.createCriteria("usuario");		
+		Criteria critUsuarioSeguido = crit.createCriteria("usuarioSeguido");
+		critUsuarioSeguidor.add(Restrictions.eq("id", idUsuario));  
+		
+        if (! StringUtils.isNullOrEmpty(form.getOpcaoFiltro()) )
+        	critUsuarioSeguido.add(Restrictions.eq("perfil", form.getOpcaoFiltro()));		
+		
+		form.setQuantRegistros(AppUtil.recuperarQuantidadeLista(crit.list()));
+    	if ( form.isVisible()){
+	        crit.setFirstResult((Integer.parseInt((StringUtils.isNullOrEmpty(form.getOpcaoPaginacao())) ? "1": form.getOpcaoPaginacao()) - 1) * form.getQuantMaxRegistrosPerPage());        
+	        crit.setMaxResults(form.getQuantMaxRegistrosPerPage());
+	        form.setListaPaginas(AppUtil.carregarQuantidadePaginas(form.getQuantRegistros(), form.getQuantMaxRegistrosPerPage()));
+		}
+		return (List<Seguidor>)crit.list();
 	}
 
 }

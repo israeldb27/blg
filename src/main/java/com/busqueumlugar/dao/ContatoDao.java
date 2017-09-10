@@ -47,4 +47,8 @@ public interface ContatoDao extends GenericDAO<Contato, Long>{
 	List<Contato> findContatosByIndicacao(Long idUsuario, ImovelindicadoForm form);
 
 	List<Contato> filterContatos(Long idUsuario, ContatoForm form);
+
+	List<Contato> findContatosPaginacao(Long idUsuario, ContatoForm form);
+
+	List<Contato> filterContatosPaginacao(Long idUsuario, ContatoForm form);
 }

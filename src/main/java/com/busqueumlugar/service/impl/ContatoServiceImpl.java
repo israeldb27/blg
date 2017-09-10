@@ -367,7 +367,7 @@ public class ContatoServiceImpl implements ContatoService {
 
 
 	@Override
-	public List<Contato> filtrarContatos(Long idUsuario, ContatoForm form) {
+	public List<Contato> filtrarContatos(Long idUsuario, ContatoForm form) {	
 		return dao.filterContatos(idUsuario, form);
 	}
 
@@ -460,7 +460,7 @@ public class ContatoServiceImpl implements ContatoService {
 		List<Usuario> lista = null;
 		List<Seguidor> listaSeguidor = null; 
 		if ( form.getOpcaoFiltroTipoContato().equals(TipoContatoEnum.usuariosSeguidores .getIdentificador())){
-			listaSeguidor = seguidorDao.findSeguidoresByIdUsuarioSeguido(idUsuario);		
+			listaSeguidor = seguidorDao.findSeguidoresByIdUsuarioSeguido(idUsuario, form);		
 			if (! CollectionUtils.isEmpty(listaSeguidor)){
 				lista = new ArrayList<Usuario>();
 				for (Seguidor seguidor : listaSeguidor ){
@@ -469,15 +469,25 @@ public class ContatoServiceImpl implements ContatoService {
 			}
 		}
 		else if ( form.getOpcaoFiltroTipoContato().equals(TipoContatoEnum.usuariosSeguindo.getIdentificador())){						
-			listaSeguidor = seguidorDao.findSeguindoByIdUsuarioSeguido(idUsuario);		
+			listaSeguidor = seguidorDao.findSeguindoByIdUsuarioSeguido(idUsuario, form);		
 			if (! CollectionUtils.isEmpty(listaSeguidor)){
 				lista = new ArrayList<Usuario>();
-				for (Seguidor seguidor : listaSeguidor ){
+				for (Seguidor seguidor : listaSeguidor ){					
 					lista.add(seguidor.getUsuarioSeguido());
 				}
 			}
 		}
 		return lista;
+	}
+
+	@Override
+	public List<Contato> recuperarConvidadosPaginacao(Long idUsuario, ContatoForm form) {		
+		return dao.findContatosPaginacao(idUsuario, form);
+	}
+
+	@Override
+	public List<Contato> filtrarContatosPaginacao(Long idUsuario, ContatoForm form) {		
+		return dao.filterContatosPaginacao(idUsuario, form);
 	}
 
 }

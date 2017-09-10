@@ -62,12 +62,9 @@ public class Notificacao implements Serializable {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="idUsuarioConvite")    
     private Usuario usuarioConvite;
-
-
-
-	@Transient
-    private String imagemUsuario;
     
+	@Transient
+    private String imagemUsuario;    
    
     @Transient
     private String imagemImovel;

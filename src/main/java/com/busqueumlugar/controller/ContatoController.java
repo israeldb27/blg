@@ -49,10 +49,43 @@ public class ContatoController {
 			  					 ModelMap map){		
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
-			List<Contato> lista = contatoService.filtrarContatos(user.getId(), form);
-			map.addAttribute("listaContatos", lista);
-			map.addAttribute("quantTotalContatos", AppUtil.recuperarQuantidadeLista(lista));	
-			form.setTipoListaContato("N");
+			if ( form.getOpcaoFiltroTipoContato().equals("meusContatos")){
+//				List<Contato> lista = contatoService.filtrarContatos(user.getId(), form);		
+				map.addAttribute("listaContatos", contatoService.filtrarContatosPaginacao(user.getId(), form));	
+				form.setTipoListaContato("N");			
+			}
+			else {
+				List<Usuario> lista = contatoService.filtrarUsuariosTipoContato(user.getId(), form);
+				form.setTipoListaContato("S");
+				map.addAttribute("listaUsuarios", lista);					
+			}
+			
+			map.addAttribute("contatoForm", form);		
+	        return DIR_PATH + "listaContatos";
+		} catch (Exception e) {
+			log.error("Erro metodo - ContatoController -  filtrarContato");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+    }
+	
+	@RequestMapping(value = "/paginarFiltroContato", method = RequestMethod.POST)
+    public String paginarFiltroContato(@ModelAttribute("contatoForm") ContatoForm form,
+			  					       HttpSession session, 
+			  					       ModelMap map){		
+		try {
+			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
+			if ( form.getOpcaoFiltroTipoContato().equals("meusContatos")){
+				//List<Contato> lista = contatoService.filtrarContatos(user.getId(), form);			
+				map.addAttribute("listaContatos", contatoService.filtrarContatosPaginacao(user.getId(), form));
+				form.setTipoListaContato("N");				
+			}
+			else {
+				List<Usuario> lista = contatoService.filtrarUsuariosTipoContato(user.getId(), form);
+				form.setTipoListaContato("S");
+				map.addAttribute("listaUsuarios", lista);					
+			}		
 			map.addAttribute("contatoForm", form);		
 	        return DIR_PATH + "listaContatos";
 		} catch (Exception e) {
@@ -70,16 +103,14 @@ public class ContatoController {
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			if ( form.getOpcaoFiltroTipoContato().equals("meusContatos")){
-				List<Contato> lista = contatoService.filtrarContatos(user.getId(), form);
-				map.addAttribute("listaContatos", lista);
-				form.setTipoListaContato("N");
-				map.addAttribute("quantTotalContatos", AppUtil.recuperarQuantidadeLista(lista));	
+				//List<Contato> lista = contatoService.filtrarContatos(user.getId(), form);			
+				map.addAttribute("listaContatos", contatoService.filtrarContatosPaginacao(user.getId(), form));
+				form.setTipoListaContato("N");				
 			}
 			else {
 				List<Usuario> lista = contatoService.filtrarUsuariosTipoContato(user.getId(), form);
 				form.setTipoListaContato("S");
-				map.addAttribute("listaUsuarios", lista);
-				map.addAttribute("quantTotalContatos", AppUtil.recuperarQuantidadeLista(lista));	
+				map.addAttribute("listaUsuarios", lista);					
 			}
 				
 			map.addAttribute("contatoForm", form);
@@ -220,7 +251,7 @@ public class ContatoController {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "listarContatos");
 			ContatoForm form = new ContatoForm();
-			List<Contato> listaContatos = contatoService.recuperarConvidados(user.getId(), form);
+			List<Contato> listaContatos = contatoService.recuperarConvidadosPaginacao(user.getId(), form);
 			map.addAttribute("listaContatos", listaContatos);
 			map.addAttribute("quantTotalContatos", AppUtil.recuperarQuantidadeLista(listaContatos));
 			form.setTipoListaContato("N");
@@ -233,7 +264,9 @@ public class ContatoController {
 			return ImovelService.PATH_ERRO_GERAL;
 		}
 		
-    }    
+    }  
+	
+	
     
 	@RequestMapping(value = "/convites", method = RequestMethod.GET)
     public String convites(HttpSession session, 

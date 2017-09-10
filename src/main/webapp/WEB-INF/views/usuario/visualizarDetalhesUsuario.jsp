@@ -16,6 +16,7 @@
 <spring:url value="/mensagem" var="urlMensagem"/>
 <spring:url value="/imovel" var="urlImovel"/>
 <spring:url value="/nota" var="urlNota"/>
+<spring:url value="/notificacao" var="urlNotificacao"/>
 <spring:url value="/preferencia" var="urlPreferencia"/>
 <spring:url var="urlImovelFavoritos" value="/imovelFavoritos"/>
    
@@ -286,7 +287,7 @@ function mostrarModal(id){
 </script>
 		
 <c:import url="../layout/head-layout.jsp"></c:import>   
-    <body>
+    <body style="">
 
         <!-- START @WRAPPER -->
         <section id="wrapper">
@@ -313,10 +314,10 @@ function mostrarModal(id){
                 </div><!-- /.header-content -->
                                 
                 <!-- Start body content -->
-                <div class="body-content animated fadeIn">
-					<div class="row">
-						<!-- START  -->
-						<div class="col-lg-9 col-md-9 col-sm-13">
+                <div class="body-content animated fadeIn container"  style="min-height: 500px; width: 920px;">
+					<div class="col-lg-12 col-md-12 col-sm-12">	
+						<div class="row">
+						<!-- START  -->						
 							<div class="panel rounded shadow">
 								<div class="panel-heading" align="center">
     								<span class="label pull-left"  style="font-size: 18px;margin-bottom:10px;background-color: black;font-size: 100%;">${usuarioForm.perfilFmt}</span>                                    
@@ -455,9 +456,6 @@ function mostrarModal(id){
                                 	</div>       	
 							</div><!-- /.panel -->
 						</div>
-					</div>
-					<div class="row">
-						<div class="col-lg-9 col-md-9 col-sm-13">
 						
 							<!-- /.START Descricao -->
 							<div class="panel rounded shadow">
@@ -955,7 +953,7 @@ function mostrarModal(id){
                                 <c:choose>
                                 	<c:when test="${not  empty usuarioForm.listaRecomendacoes }">
                                 		<div class="panel-body">
-		                                    <ul class="media-list comment-list">
+		                                    <ul class="media-list" >
 												<c:forEach var="recomendacao" items="${usuarioForm.listaRecomendacoes}">
 													<li class="media">		                                            
 			                                            <c:choose>		                                            	
@@ -981,8 +979,9 @@ function mostrarModal(id){
 					                                            </div>
 			                                            		<div class="media-body">		                                            			
 					                                                <h4>${recomendacao.usuario.nome}</h4>
+					                                                 <p>${recomendacao.descricao}</p>
 					                                                <small class="text-muted"><fmt:formatDate value='${recomendacao.dataResposta}' pattern='dd/MM/yyyy HH:mm:ss'/></small>
-					                                                <p>${recomendacao.descricao}</p>
+					                                               
 					                                            </div>	
 			                                            	</c:when>
 			                                            	
@@ -1022,33 +1021,24 @@ function mostrarModal(id){
 			                                        </li><!-- media -->											
 												</c:forEach>
 												
-												
-												<!-- botao ver mais  -->
-				                         		<br>
+												<c:if test="${usuarioForm.id != usuario.id}">												
+			                                        <li class="media" >                                                                                        
+			                                            <div class="mb-20"></div>				                                            	
+				                                            <div class="form-group">
+				                                               <input type="button" class="btn btn-primary" onClick="prepararModalAddRecomendacao();" value='<spring:message code="btn.modal.adicionar.recomendacao"/> '>
+				                                            </div>	
+			                                        </li>
+			                                    </c:if>											
+				                         		
 				                                <!-- botao ver mais  -->
 					                           <c:if test="${usuarioForm.isExibeMaisListaRecomendacoes() }">
 					                                <div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
 					                                    <a href="${urlUsuario}/listarRecomendacoesPerfilUsuario/${usuarioForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
 					                               		<br> <br>
-					                                </div>
-				                               </c:if>
-			                             	
+					                                </div>				                                
+				                               </c:if>			                             	
 		                                    </ul>
-		                                    <br/>
-											
-											<c:if test="${usuarioForm.id != usuario.id}">
-												 <ul class="media-list comment-list">
-				                                        <li class="media">                                                                                        
-				                                            <div class="mb-20"></div>
-				                                            <form class="form-horizontal mb-20" role="form">	
-					                                            <div class="form-group">
-					                                               <input type="button" class="btn btn-primary" onClick="prepararModalAddRecomendacao();" value='<spring:message code="btn.modal.adicionar.recomendacao"/> '>
-					                                            </div>							                                      
-				                                            </form>
-				                                        </li>
-				                                    </ul>
-											</c:if>	
-											                                    
+		                                    <br/>                             
 		                                </div>	
                                 	</c:when>
                                 	
@@ -1067,6 +1057,12 @@ function mostrarModal(id){
                                 </c:choose>                                                                 
                             </div>
                          <!-- /.END Recomendacoes --> 
+						
+					</div>
+					<div class="row">
+						<div class="col-lg-9 col-md-9 col-sm-13">
+						
+						
 	                      
 					</div>
                 </div><!-- /.body-content -->

@@ -84,5 +84,9 @@ public interface ContatoService {
 	List<Contato> filtrarRecuperacaoConvidadosParaIndicacao(Long idUsuario, ImovelindicadoForm form);
 
 	List<Usuario> filtrarUsuariosTipoContato(Long idUsuario, ContatoForm form);
+
+	List<Contato> recuperarConvidadosPaginacao(Long idUsuario, ContatoForm form);
+
+	List<Contato> filtrarContatosPaginacao(Long idUsuario, ContatoForm form);
 	
 }

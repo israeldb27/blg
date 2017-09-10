@@ -13,7 +13,7 @@ public class BaseForm {
 	private int quantMaxRegistrosPerPage;
 	private List<Select> listaPaginas;
 	private boolean isVisible;
-	int MAX_NUMBER_PER_PAGE = 15;
+	int MAX_NUMBER_PER_PAGE = 10;
 	
 	
 	public int getPageNumber() {

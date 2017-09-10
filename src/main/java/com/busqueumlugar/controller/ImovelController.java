@@ -16,19 +16,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.validation.BindingResult;
 
 import com.busqueumlugar.config.WebApplicationContext;
 import com.busqueumlugar.enumerador.AcaoImovelEnum;
+import com.busqueumlugar.enumerador.AcaoNotificacaoEnum;
 import com.busqueumlugar.enumerador.NotaAcaoEnum;
+import com.busqueumlugar.enumerador.TipoNotificacaoEnum;
 import com.busqueumlugar.form.ImovelForm;
 import com.busqueumlugar.form.ImovelMapaForm;
 import com.busqueumlugar.form.UsuarioForm;
@@ -36,14 +38,15 @@ import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.service.BairrosService;
 import com.busqueumlugar.service.CidadesService;
 import com.busqueumlugar.service.EstadosService;
+import com.busqueumlugar.service.ImovelPropostasService;
 import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.ImovelcomentarioService;
 import com.busqueumlugar.service.ImoveldestaqueService;
 import com.busqueumlugar.service.ImovelfotosService;
-import com.busqueumlugar.service.ImovelPropostasService;
 import com.busqueumlugar.service.ImovelvisualizadoService;
 import com.busqueumlugar.service.IntermediacaoService;
 import com.busqueumlugar.service.NotaService;
+import com.busqueumlugar.service.NotificacaoService;
 import com.busqueumlugar.service.ParceriaService;
 import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.AppUtil;
@@ -110,6 +113,9 @@ public class ImovelController {
 	
 	@Autowired
 	private BairrosService bairrosService;
+	
+	@Autowired
+	private NotificacaoService notificacaoService;
 	
 	
 	@RequestMapping(value = "/buscarCidades/{idEstado}", method = RequestMethod.GET)
@@ -466,6 +472,52 @@ public class ImovelController {
 			map.addAttribute("mensagemErroGeral", "S");
 			return "erro";
 		}
+	}
+	
+	@RequestMapping(value = "/notificarFecharNegocio" , method = RequestMethod.POST)	
+	@ResponseBody			
+	public String notificarFecharNegocio(HttpSession session, 	
+										 ModelMap map, 
+										 @ModelAttribute("imovelForm") ImovelForm form){
+		
+		try{	
+			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);	
+			notificacaoService.cadastrarNotificacao(form.getId(), 
+													AcaoNotificacaoEnum.FECHAR_NEGOCIO.getRotulo(),
+													user.getId(),
+													TipoNotificacaoEnum.IMOVEL.getRotulo());
+			map.addAttribute("imovelForm", form );
+			return "ok";
+		}
+		catch(Exception e) {
+			log.error("Erro metodo - NotificacaoController -  notificarFecharNegocio");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");			
+			return "erro";
+		}		
+	}
+	
+	@RequestMapping(value = "/notificarMarcarVisita" , method = RequestMethod.POST)	
+	@ResponseBody
+	public String notificarMarcarVisita(HttpSession session, 	
+										 ModelMap map, 
+										 @ModelAttribute("imovelForm") ImovelForm form){
+		
+		try{
+			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
+			notificacaoService.cadastrarNotificacao(form.getId(), 
+													AcaoNotificacaoEnum.MARCAR_VISITA.getRotulo(),
+													user.getId(),
+													TipoNotificacaoEnum.IMOVEL.getRotulo());
+			map.addAttribute("imovelForm", form );
+			return "ok";
+		}
+		catch(Exception e) {
+			log.error("Erro metodo - NotificacaoController -  notificarFecharNegocio");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");			
+			return "erro";
+		}		
 	}
 	
 	@RequestMapping(value = "/adicionarComentarioDetalheImovel")	

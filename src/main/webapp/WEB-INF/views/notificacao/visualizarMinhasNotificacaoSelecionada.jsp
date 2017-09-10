@@ -128,7 +128,7 @@
 		 				                                      <p>  
 							                                      <i class="fa fa-pencil-square-o">&nbsp; </i><spring:message code="lbl.desc.notificacao"/> :
 						                                      		<a href="${urlUsuario}/detalhesUsuario/${notificacao.usuarioConvite.id}"> 
-						                                      			${notificacao.descricao} 
+						                                      			${notificacao.usuarioConvite.nome} <spring:message code="lbl.desc.aceitou.convite"/> 
 						                                    		</a> 
 		 				                                     </p>
 		 				                                    </div>
@@ -140,18 +140,14 @@
 											
 											<c:when test="${notificacao.tipoNotificacao == 'I' }">
 												<div class="blog-item rounded shadow">
-			                    					<div class="row">
-			                    					
-					                                	<div class="col-md-2 col-sm-3 col-xs-6">						                            
-						                                    <p class="inner-all no-margin">
-						                                    	<c:if test="${((notificacao.acao == 'intermediacao') || (notificacao.acao == 'parceria')) }">
-						                                    		<a href="${urlUsuario}/detalhesUsuario/${notificacao.imovel.id}">
-						                                    			<img src="${context}/${notificacao.imagemArquivo}" style="width: 120px; height: 100px; " class="media-object img-circle img-bordered-success" alt="..."/>
-						                                    		</a>	
-						                                    	</c:if>						                                    					                                        
-						                                    </p>
-								                           
-								                     	</div>			                                
+			                    					<div class="row">			                    					
+					                                	  <div class="col-md-2 col-sm-3 col-xs-6">						                            
+							                                    <p class="inner-all no-margin">							                                    
+						                                    		<a href="${urlUsuario}/detalhesUsuario/${notificacao.usuarioConvite.id}">
+						                                    			<img src="data:image/jpeg;base64,${notificacao.usuarioConvite.imagemArquivo}" style="width: 120px; height: 100px; "  class="media-object img-circle img-bordered-success" alt="..."/>
+						                                    		</a>						                                        
+							                                    </p>									                           
+									                     	</div>			                                
 					                                
 							                                <div class="blog-details">
 							                                	<c:if test="${notificacao.statusLeitura == 'N' }">
@@ -166,8 +162,13 @@
 														   				 
 														   				 <c:when test="${notificacao.acao == 'parceria'}">	
 														   				 	<h4 class="blog-title"><a href=""><spring:message code="lbl.notificacao.title.parceria"/></a></h4>
-														   				 </c:when>														   				
-														   				 
+														   				 </c:when>	
+														   				  <c:when test="${notificacao.acao == 'F'}">	
+														   				 	<h4 class="blog-title"><a href=""><spring:message code="lbl.notificacao.title.fechar.negocio"/></a></h4>
+														   				 </c:when>
+														   				 <c:when test="${notificacao.acao == 'M'}">	
+														   				 	<h4 class="blog-title"><a href=""><spring:message code="lbl.notificacao.title.marcar.visita"/></a></h4>
+														   				 </c:when>	
 														   		    </c:choose>  
 							                                    <ul class="blog-meta">			                                        
 							                                        <li><i class="fa fa-calendar"></i>&nbsp;<spring:message code="lbl.data.notificacao"/>:  <fmt:formatDate value='${notificacao.dataNotificacao}' pattern='dd/MM/yyyy'/></li>
@@ -177,7 +178,22 @@
 							                                        <p>         
 						                                       			<i class="fa fa-pencil-square-o">&nbsp; </i><spring:message code="lbl.desc.notificacao"/> :
 						                                       				<a href="${urlImovel}/detalhesImovel/${notificacao.imovel.id}"> 
-						                                       					${notificacao.descricao} : ${notificacao.imovel.titulo}
+						                                       					<c:choose>
+																		   				 <c:when test="${notificacao.acao == 'I'}">	
+																		   				 	${notificacao.imovel.usuario.nome} <spring:message code="lbl.desc.aceitou.intermediacao"/> : ${notificacao.imovel.titulo}
+																		   				 </c:when>
+																		   				 
+																		   				 <c:when test="${notificacao.acao == 'P'}">	
+																		   				 	${notificacao.imovel.usuario.nome} <spring:message code="lbl.desc.aceitou.parceria"/> : ${notificacao.imovel.titulo}
+																		   				 </c:when>
+																		   				  <c:when test="${notificacao.acao == 'F'}">	
+																		   				 	${notificacao.usuarioConvite.nome} <spring:message code="lbl.desc.sol.fechar.negocio"/> : ${notificacao.imovel.titulo}
+																		   				 </c:when>
+																		   				 
+																		   				 <c:when test="${notificacao.acao == 'M'}">	
+																		   				 	${notificacao.usuarioConvite.nome} <spring:message code="lbl.desc.sol.marcar.visita"/> : ${notificacao.imovel.titulo}
+																		   				 </c:when>
+																		   		    </c:choose> 
 						                                     				</a> 					                                     		
 							                                        </p>			                                        
 							                                    </div>
@@ -211,8 +227,7 @@
 					                                          
 					                                    </ul>
 					                                    <div class="blog-summary">
-					                                        <p><i class="fa fa-pencil-square-o">&nbsp; </i><spring:message code="lbl.desc.notificacao"/> : ${notificacao.descricao}</p>
-					                                        
+					                                        <p><i class="fa fa-pencil-square-o">&nbsp; </i><spring:message code="lbl.desc.notificacao"/> : <spring:message code="lbl.desc.aceitou.servico"/> </p>					                                        
 					                                    </div>
 					                                </div>
 					                             </div>   
@@ -228,8 +243,7 @@
 								                                    <p class="inner-all no-margin">
 								                                        <i class="fa fa-university fa-5x"></i>
 								                                    </p>
-								                                </div><!-- /.panel-heading -->
-								                                
+								                                </div><!-- /.panel-heading -->								                                
 								                            </div><!-- /.panel -->
 								                     </div>						                     
 					                                
@@ -245,7 +259,7 @@
 					                                          
 					                                    </ul>
 					                                    <div class="blog-summary">
-					                                        <p><i class="fa fa-pencil-square-o">&nbsp; </i><spring:message code="lbl.desc.notificacao"/> : ${notificacao.descricao}</p>
+					                                        <p><i class="fa fa-pencil-square-o">&nbsp; </i><spring:message code="lbl.desc.notificacao"/> : <spring:message code="lbl.desc.aceitou.plano"/></p>
 					                                        
 					                                    </div>
 					                                </div>
@@ -280,7 +294,7 @@
 		 				                                    </ul>
 		 				                                    <div class="blog-summary">
 		 				                                      <p>  
-							                                       <i class="fa fa-pencil-square-o">&nbsp; </i><spring:message code="lbl.desc.notificacao"/> : ${notificacao.descricao}
+							                                      <i class="fa fa-pencil-square-o">&nbsp; </i><spring:message code="lbl.desc.notificacao"/> : <spring:message code="lbl.desc.seja.bemvindo"/>
 		 				                                     </p>
 		 				                                    </div>
 		 				                                </div>

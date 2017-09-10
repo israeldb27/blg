@@ -28,6 +28,7 @@
 <spring:url value="/mensagem" var="urlMensagem"/>
 <spring:url value="/intermediacao" var="urlIntermediacao"/>
 <spring:url value="/parceria" var="urlParceria"/>
+<spring:url value="/notificacao" var="urlNotificacao"/>
 
 <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBC9ter9LUNs4kWEqVoQUFy6UthDBQYuXw&callback"></script>
 
@@ -43,8 +44,7 @@
 <script type="text/javascript" src="${context}/js/jquery.min.js"></script>
 <script type="text/javascript" src="${context}/js/jquery.validate.js"></script>
 <script type="text/javascript" src="${context}/js/jquery-ui.js"></script>
-<script type="text/javascript" src="${context}/js/additional-methods.js"></script>   
-
+<script type="text/javascript" src="${context}/js/additional-methods.js"></script>  
 
 <style type="text/css">
 #owl-demo .item img{
@@ -62,9 +62,6 @@ div#map_container{
   background-image:none;
 }
 </style>
-
-
-  
 
 <!-- TABS -->
 <script src="${context}/js/jquery-ui.js "></script>
@@ -343,6 +340,55 @@ function adicionarComparar(id) {
 	 });
 }
 
+function prepararModalFecharNegocio(id){
+	$("#msgRetornoFecharNegocioErro").html("");	
+	$("#idModalFecharNegocio").modal("show");	
+}
+
+function notificarFecharNegocio(){	
+	$.ajax({      
+		type: 'POST',
+		 url: '${urlImovel}/notificarFecharNegocio',
+		 dataType: 'json',
+		 success: function(data){				 
+			 if ( data == 'ok') {
+				 $("#idModalFecharNegocio").modal("hide");
+        	 }
+        	 else  {
+	        	 $('#msgRetornoFecharNegocioErro').html(data);
+	         }     	    
+		 },
+		 error: function(jqXHR, textStatus, errorThrown) {				 
+			 $('#msgRetornoCancelSolParceriaErro').html("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+		 }
+	 });
+}
+
+function prepararModalMarcarVisita(id){
+	$("#msgRetornoMarcarVisitaErro").html("");	
+	$("#idModalMarcarVisita").modal("show");	
+}
+
+function notificarMarcarVisita() {
+		
+    $.ajax({  
+    	type: 'POST',
+        url: '${urlImovel}/notificarMarcarVisita',   
+        dataType: 'json',
+        success: function(data){
+        	if ( data == 'ok') {
+        		$("#idModalMarcarVisita").modal("hide");
+	       	 }
+	       	 else  {
+	        	 $('#idModalMarcarVisita').html(data);
+	         } 
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+        }
+    });
+}
+
 function mostrarModal(id){
 	
 	if (id == 0){
@@ -427,10 +473,10 @@ function prepararModalGaleriaFotos(){
                 </div><!-- /.header-content -->
                                 
                 <!-- Start body content -->
-                <div class="body-content animated fadeIn" style="min-height: 500px;">
-					<div class="row">
+                <div class="body-content animated fadeIn container" style="min-height: 500px; width: 920px;" >
+					<div class="col-lg-12 col-md-12 col-sm-12">					
 						<!-- START  -->
-						<div class="col-lg-12 col-md-12 col-sm-12">
+						  <div class="row">		
 							<div class="panel rounded shadow">
 								<div class="panel-heading" align="center">
     								<span class="label pull-left label-${imovelForm.classePorAcao}"  style="font-size: 100%;margin-bottom:10px;">${imovelForm.acaoFmt}</span>
@@ -441,6 +487,7 @@ function prepararModalGaleriaFotos(){
 									<h5 style="margin-top: 4px;margin-bottom: 0px;width: 50%;">${imovelForm.bairro}, ${imovelForm.cidade} - ${imovelForm.estado}</h5>
 									<br>
                                     <div class="pull-right">
+                                    	
                                     	<a href="#a" onClick="prepararModalGaleriaFotos()" style="font-size:x-large;" class="meta-action"><i class="fa fa-file-image-o" style="color:gray" title="<spring:message code="lbl.title.link.alterar.galeria.foto.imovel"/>"></i><font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.title.link.alterar.galeria.foto.imovel"/> </font></a>
                                     	&nbsp;&nbsp;&nbsp;&nbsp;                                     	 
                                     	<c:choose>
@@ -463,6 +510,10 @@ function prepararModalGaleriaFotos(){
  										 
                                         <a href="#a" onClick="adicionarComparar(${imovelForm.id})" style="font-size:x-large;" class="meta-action"><i class="fa fa-eye" style="color:gray" title="<spring:message code="lbl.title.link.comparar"/>"></i><font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.title.link.comparar"/> </font></a>&nbsp;&nbsp;&nbsp;&nbsp; 
                                         <a href="${urlImovelIndicado}/selecionarParaIndicarImovel/${imovelForm.id}" style="font-size:x-large;" class="meta-action"><i class="fa fa-share-alt" style="color:gray" title="<spring:message code="lbl.acao.sugerir"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.acao.sugerir"/> </font></a>
+                                   		&nbsp;&nbsp;&nbsp;&nbsp;
+                                   		<a href="#a" onClick="prepararModalFecharNegocio(${imovelForm.id})" style="font-size:x-large;" class="meta-action"><i class="fa fa-shopping-cart" style="color:gray" title="Fechar Negócio"></i><font style="color: rgb(99, 110, 123); font-size: 12px;"> Fechar Negócio </font></a>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                   		<a href="#a" onClick="prepararModalMarcarVisita(${imovelForm.id})" style="font-size:x-large;" class="meta-action"><i class="fa fa-calendar-check-o" style="color:gray" title="Visitar Imóvel"></i><font style="color: rgb(99, 110, 123); font-size: 12px;"> Visitar Imóvel </font></a>	
                                     </div>
                                     
                                     <br> <br>
@@ -472,7 +523,7 @@ function prepararModalGaleriaFotos(){
 								<div class="panel-body">
 									<div class="col-lg-7 col-md-8 col-sm-6">
                                       	<div id="owl-demo" class="owl-carousel owl-theme">                                             
-	                                             <div class="item"><img class="responsive" src="data:image/jpeg;base64,${imovelForm.imagemArquivo}"  style="max-height:395px; height: 500px;"></div>                                            
+	                                             <div class="item"><img class="responsive" src="data:image/jpeg;base64,${imovelForm.imagemArquivo}"  style="max-height:395px; height: 500px; width: 450px;"></div>                                            
 	                                     </div>
 	                				</div>
 	                				
@@ -512,7 +563,6 @@ function prepararModalGaleriaFotos(){
 	                                                        <td class="text-right">${imovelForm.quantQuartos}</td>
 	                                                    </tr>  
                                                     </c:if>
-                                                    
                                                     
                                                     <c:if test="${imovelForm.quantGaragem > 0}">
                                                     	<tr>
@@ -563,11 +613,8 @@ function prepararModalGaleriaFotos(){
                                  <!-- End Galeria Fotos -->
                          
 							</div><!-- /.panel -->
-						</div>
-					</div>
-					<div class="row" style="margin-left: 10px;">
-						<div class="col-lg-8 col-md-8 col-sm-8">
-						
+							
+							
 							<!-- /.START Descricao -->
 							<div class="panel rounded shadow">
 								<div class="panel-heading">
@@ -621,7 +668,7 @@ function prepararModalGaleriaFotos(){
 										<div class="panel-body panel panel-info rounded shadow">
 											<div id="result"></div>
 											<br/>
-											<div style="width:700px;height:400px" id="map"></div>		
+											<div style="width:830px;height:400px" id="map"></div>		
 											
 											<script>
 											function initMap(){
@@ -658,9 +705,7 @@ function prepararModalGaleriaFotos(){
 									
 									     </br> </br> 
 									</c:when>
-								</c:choose>		
-								
-																								   
+								</c:choose>														   
 							</div>							
 							<!-- /.END Mapa -->							
                          
@@ -1355,13 +1400,10 @@ function prepararModalGaleriaFotos(){
                                 	</c:when>
                                 	
                                 </c:choose>
+                                 <!-- /.END Comentarios -->
                             </div>
-                
-                         <!-- /.END Comentarios -->  
-						</div>						
-						
-						<div class="col-lg-4 col-md-4 col-sm-12">
-							<!-- /.START Informação de Contato do Imóvel -- Dono Imovel -->
+                            
+                            <!-- /.START Informação de Contato do Imóvel -- Dono Imovel -->
 							<c:if test="${(((imovelForm.usuarioDonoImovel.perfil == 'P') && 
 											(imovelForm.usuarioIntermediador == null ) ) || 
 											(imovelForm.usuarioDonoImovel.perfil != 'P') || 
@@ -1383,7 +1425,7 @@ function prepararModalGaleriaFotos(){
 	                                        <ul class="list-unstyled">
 	                                            <li class="text-center">
 	                                            	<a href="${urlUsuario}/detalhesUsuario/${imovelForm.usuarioDonoImovel.id}">  
-														<img data-no-retina="" class="img-square img-bordered-black" src="data:image/jpeg;base64,${imovelForm.usuarioDonoImovel.imagemArquivo}" style="width: 90px;  ">	                				
+														<img data-no-retina="" class="img-square img-bordered-black" src="data:image/jpeg;base64,${imovelForm.usuarioDonoImovel.imagemArquivo}" style="width: 400px;  ">	                				
 													</a>
 	                                            </li>
 	                                            <li class="text-center">
@@ -1470,30 +1512,9 @@ function prepararModalGaleriaFotos(){
 							
 							<!-- /.END Informação de Contato do Imóvel -- Intermediador (Corretor ou Imobiliaria)-->
 							
-							<c:if test="${imovelForm.idUsuario == usuario.id && not  empty imovelForm.listaUsuariosInteressados}">
-                                <div class="panel rounded shadow">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title">Interessados</h3>
-                                    </div>
-                                    <div class="panel-body no-padding">
-                                        <c:forEach var="imovelFavorito" items="${imovelForm.listaUsuariosInteressados}">
-                                            <div class="media inner-all no-margin">
-                                                <div class="pull-left">
-                                                    <img src="data:image/jpeg;base64,${imovelFavorito.usuario.imagemArquivo}"style="width: 90px;" />
-                                                </div><!-- /.pull-left -->
-                                                <div class="media-body">
-                                                    <a href="${urlUsuario}/detalhesUsuario/${imovelFavorito.idUsuario}" class="h4">${imovelFavorito.nomeUsuarioInteressado}</a>
-                                                    <br/><em class="text-xs text-muted">Interessado em <span class="text-danger"><fmt:formatDate value='${imovelFavorito.dataInteresse}' pattern='dd/MM/yyyy'/></span></em>
-                                                </div><!-- /.media-body -->
-                                            </div>
-                                            <div class="line no-margin"></div>
-                                        </c:forEach>
-                                    </div>
-                                </div>
-                            </c:if>
-                            
 						</div>
 					</div>
+				
                 </div><!-- /.body-content -->
 			</div>              
             </section><!-- /#page-content -->
@@ -1855,6 +1876,54 @@ function prepararModalGaleriaFotos(){
 				    </div>
 				</div>
             </div><!-- /.modal -->
+            
+            <!-- Start optional size modal element - fechar negocio -->
+            <div id="idModalFecharNegocio" class="modal fade bs-example-modal-lg-confirmacao-fechar-negocio" tabindex="-1" role="dialog" aria-hidden="true">
+	            <input type="hidden" id="modIdImovel" readonly="readonly" name="modIdImovel">
+	                <div class="modal-dialog modal-lg">
+	                    <div class="modal-content">
+	                        <div class="modal-header">
+	                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                            <h4 class="modal-title"><spring:message code="lbl.modal.confirmar.fechar.negocio"/></h4>
+	                        </div>
+	                        <div class="modal-body">
+	                            <p><spring:message code="lbl.modal.pergunta.confirma.fechar.negocio"/></p>
+	                        </div>
+	                        <div class="modal-footer">
+	                            <button type="button" class="btn btn-theme" onClick="notificarFecharNegocio();"><spring:message code="lbl.sim"/></button>                            
+	                       		<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
+	                        </div>
+							
+							<div id="msgRetornoFecharNegocioErro" cssClass="errorEntrada"  ></div>   
+							
+	                    </div><!-- /.modal-content -->
+	                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+         <!-- End optional size modal element - fechar negocio -->
+         
+          <!-- Start optional size modal element - marcar visita -->
+            <div id="idModalMarcarVisita" class="modal fade bs-example-modal-lg-confirmacao-fechar-negocio" tabindex="-1" role="dialog" aria-hidden="true">
+	            <input type="hidden" id="modIdImovel" readonly="readonly" name="modIdImovel">
+	                <div class="modal-dialog modal-lg">
+	                    <div class="modal-content">
+	                        <div class="modal-header">
+	                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                            <h4 class="modal-title"><spring:message code="lbl.modal.confirmar.marcar.visita"/></h4>
+	                        </div>
+	                        <div class="modal-body">
+	                            <p><spring:message code="lbl.modal.pergunta.confirma.marcar.visita"/></p>
+	                        </div>
+	                        <div class="modal-footer">
+	                            <button type="button" class="btn btn-theme" onClick="notificarMarcarVisita();"><spring:message code="lbl.sim"/></button>                            
+	                       		<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
+	                        </div>
+							
+							<div id="msgRetornoMarcarVisitaErro" cssClass="errorEntrada"  ></div>   
+							
+	                    </div><!-- /.modal-content -->
+	                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+         <!-- End optional size modal element - fechar negocio -->
 
 			<!-- Start content modal Ajuda - funcionalidade -->
 				<c:import url="../ajuda/contentMenuModal.jsp"></c:import>																				

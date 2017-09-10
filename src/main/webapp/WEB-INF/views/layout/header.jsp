@@ -324,7 +324,7 @@ function adicionarComparativo(id) {
 														<a href="${urlNotificacao}/selecionarNotificacao/${notificacao.id}" class="media">
 															<div class="pull-left"><img src="data:image/jpeg;base64,${notificacao.usuarioConvite.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
 															<div class="media-body">
-																<span class="media-heading"> ${notificacao.descricao}</span>
+																<span class="media-heading"> ${notificacao.usuarioConvite.nome} <spring:message code="lbl.desc.aceitou.convite"/></span>
 																<span class="media-text"></span>		                                                		                                                
 																<span class="media-meta pull-right"><spring:message code="lbl.data.notificacao"/>:  <fmt:formatDate value='${notificacao.dataNotificacao}' pattern='dd/MM/yyyy'/></span>		                                                
 															</div><!-- /.media-body -->
@@ -335,7 +335,24 @@ function adicionarComparativo(id) {
 														<a href="${urlNotificacao}/selecionarNotificacao/${notificacao.id}" class="media">
 															<div class="pull-left"><img src="data:image/jpeg;base64,${notificacao.usuario.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
 															<div class="media-body">
-																<span class="media-heading"> ${notificacao.descricao}</span>
+																<span class="media-heading"> 
+																					<c:choose>
+																		   				 <c:when test="${notificacao.acao == 'I'}">	
+																		   				 	${notificacao.imovel.usuario.nome} <spring:message code="lbl.desc.aceitou.intermediacao"/> : ${notificacao.imovel.titulo}
+																		   				 </c:when>
+																		   				 
+																		   				 <c:when test="${notificacao.acao == 'P'}">	
+																		   				 	${notificacao.imovel.usuario.nome} <spring:message code="lbl.desc.aceitou.parceria"/> : ${notificacao.imovel.titulo}
+																		   				 </c:when>
+																		   				 <c:when test="${notificacao.acao == 'F'}">	
+																		   				 	${notificacao.usuarioConvite.nome} <spring:message code="lbl.desc.sol.fechar.negocio"/> : ${notificacao.imovel.titulo}
+																		   				 </c:when>
+																		   				 
+																		   				 <c:when test="${notificacao.acao == 'M'}">	
+																		   				 	${notificacao.usuarioConvite.nome} <spring:message code="lbl.desc.sol.marcar.visita"/> : ${notificacao.imovel.titulo}
+																		   				 </c:when>
+																		   		    </c:choose> 
+															     </span>
 																<span class="media-text"></span>		                                                		                                                
 																<span class="media-meta pull-right"><spring:message code="lbl.data.notificacao"/>:  <fmt:formatDate value='${notificacao.dataNotificacao}' pattern='dd/MM/yyyy'/></span>		                                                
 															</div><!-- /.media-body -->
@@ -346,7 +363,7 @@ function adicionarComparativo(id) {
 														<a href="${urlNotificacao}/selecionarNotificacao/${notificacao.id}" class="media">
 															<div class="pull-left"><img src="data:image/jpeg;base64,${notificacao.usuario.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
 															<div class="media-body">
-																<span class="media-heading"> ${notificacao.descricao}</span>
+																<span class="media-heading"> <spring:message code="lbl.desc.seja.bemvindo"/> </span>
 																<span class="media-text"></span>		                                                		                                                
 																<span class="media-meta pull-right"><spring:message code="lbl.data.notificacao"/>:  <fmt:formatDate value='${notificacao.dataNotificacao}' pattern='dd/MM/yyyy'/></span>		                                                
 															</div><!-- /.media-body -->
@@ -357,29 +374,18 @@ function adicionarComparativo(id) {
 														<a href="${urlNotificacao}/selecionarNotificacao/${notificacao.id}" class="media">
 															<div class="pull-left"><i class="fa fa-building-o fa-5x"></i></div>
 															<div class="media-body">
-																<span class="media-heading"> ${notificacao.descricao}</span>
+																<span class="media-heading"> <spring:message code="lbl.desc.aceitou.servico"/></span>
 																<span class="media-text"></span>		                                                		                                                
 																<span class="media-meta pull-right"><spring:message code="lbl.data.notificacao"/>:  <fmt:formatDate value='${notificacao.dataNotificacao}' pattern='dd/MM/yyyy'/></span>		                                                
 															</div><!-- /.media-body -->
 														</a><!-- /.media -->												
-													</c:when>												
-													
-													<c:when test="${notificacao.tipoNotificacao == 'S' }">
-														<a href="${urlNotificacao}/selecionarNotificacao/${notificacao.id}" class="media">
-															<div class="pull-left"><i class="fa fa-building-o fa-5x"></i></div>
-															<div class="media-body">
-																<span class="media-heading"> ${notificacao.descricao}</span>
-																<span class="media-text"></span>		                                                		                                                
-																<span class="media-meta pull-right"><spring:message code="lbl.data.notificacao"/>:  <fmt:formatDate value='${notificacao.dataNotificacao}' pattern='dd/MM/yyyy'/></span>		                                                
-															</div><!-- /.media-body -->
-														</a><!-- /.media -->												
-													</c:when>
+													</c:when>	
 													
 													<c:when test="${notificacao.tipoNotificacao == 'P' }">
 														<a href="${urlNotificacao}/selecionarNotificacao/${notificacao.id}" class="media">
 															<div class="pull-left"><i class="fa fa-university fa-5x"></i></i></div>
 															<div class="media-body">
-																<span class="media-heading"> ${notificacao.descricao}</span>
+																<span class="media-heading"> <spring:message code="lbl.desc.aceitou.plano"/></span>
 																<span class="media-text"></span>		                                                		                                                
 																<span class="media-meta pull-right"><spring:message code="lbl.data.notificacao"/>:  <fmt:formatDate value='${notificacao.dataNotificacao}' pattern='dd/MM/yyyy'/></span>		                                                
 															</div><!-- /.media-body -->
@@ -387,8 +393,7 @@ function adicionarComparativo(id) {
 													</c:when>													
 												</c:choose>											
                                     		</c:forEach>		
-                                    	</c:if>
-	                                  
+                                    	</c:if>	                                  
                                     </div>
                                     <!--/ End notification list -->
                                 </div>

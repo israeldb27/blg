@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Subqueries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -20,7 +23,9 @@ import com.busqueumlugar.form.ContatoForm;
 import com.busqueumlugar.form.ImovelindicadoForm;
 import com.busqueumlugar.form.RelatorioForm;
 import com.busqueumlugar.model.Contato;
+import com.busqueumlugar.model.Preferencialocalidade;
 import com.busqueumlugar.model.Usuario;
+import com.busqueumlugar.util.AppUtil;
 import com.mysql.jdbc.StringUtils;
 
 
@@ -373,6 +378,99 @@ public class ContatoDaoImpl extends GenericDAOImpl<Contato, Long>  implements Co
 		if (! CollectionUtils.isEmpty(crit2.list())){
 			listaFinal.addAll(crit2.list());
 		}
+		
+		return (List<Contato>) listaFinal;	
+	}
+
+
+	@Override
+	public List<Contato> findContatosPaginacao(Long idUsuario, ContatoForm form) {
+
+		Criteria crit = session().createCriteria(Contato.class);
+		Criterion usuarioHost 	   = Restrictions.eq("usuarioHost.id", idUsuario);
+		Criterion usuarioConvidado = Restrictions.eq("usuarioConvidado.id", idUsuario); 
+		LogicalExpression orExp = Restrictions.or(usuarioHost,usuarioConvidado); 
+		crit.add(orExp);
+		
+		if ( form != null){
+			if (! StringUtils.isNullOrEmpty(form.getOpcaoFiltro()))
+				crit.add(Restrictions.eq("status", form.getOpcaoFiltro()));
+			else
+				crit.add(Restrictions.eq("status", ContatoStatusEnum.OK.getRotulo()));
+			
+			if (! StringUtils.isNullOrEmpty(form.getOpcaoOrdenacao())){
+				if (form.getOpcaoOrdenacao().equals("maiorDataContato"))
+					crit.addOrder(Order.desc("dataConvite"));	        
+				else if (form.getOpcaoOrdenacao().equals("menorDataContato"))
+					crit.addOrder(Order.asc("dataConvite"));	       
+			}
+		}
+		else {
+			crit.add(Restrictions.eq("status", ContatoStatusEnum.OK.getRotulo()));
+			crit.addOrder(Order.asc("dataConvite"));
+		}
+		
+		 form.setQuantRegistros(AppUtil.recuperarQuantidadeLista(crit.list()));
+    	 if ( form.isVisible()){
+	        crit.setFirstResult((Integer.parseInt((StringUtils.isNullOrEmpty(form.getOpcaoPaginacao())) ? "1": form.getOpcaoPaginacao()) - 1) * form.getQuantMaxRegistrosPerPage());        
+	        crit.setMaxResults(form.getQuantMaxRegistrosPerPage());
+	        form.setListaPaginas(AppUtil.carregarQuantidadePaginas(form.getQuantRegistros(), form.getQuantMaxRegistrosPerPage()));
+		 } 
+	    	
+		return (List<Contato>) crit.list();		
+	}
+
+
+	@Override
+	public List<Contato> filterContatosPaginacao(Long idUsuario, ContatoForm form) {
+		
+		Criteria crit1 = session().createCriteria(Contato.class);
+		crit1.add(Restrictions.eq("status", ContatoStatusEnum.OK.getRotulo()));
+		crit1.createCriteria("usuarioHost").add(Restrictions.eq("id", idUsuario));		
+		Criteria critUsuarioHost = crit1.createCriteria("usuarioConvidado");
+		
+		Criteria crit2 = session().createCriteria(Contato.class);
+		crit2.add(Restrictions.eq("status", ContatoStatusEnum.OK.getRotulo()));		
+		crit2.createCriteria("usuarioConvidado").add(Restrictions.eq("id", idUsuario));		
+		Criteria critUsuarioConvidado = crit2.createCriteria("usuarioHost");
+		
+		if (! StringUtils.isNullOrEmpty(form.getOpcaoFiltro()) && ! form.getOpcaoFiltro().equals("T")){			
+			critUsuarioHost.add(Restrictions.eq("perfil", form.getOpcaoFiltro()));
+			critUsuarioConvidado.add(Restrictions.eq("perfil", form.getOpcaoFiltro()));
+		}
+		List<Contato> listaFinal = new ArrayList<Contato>();
+		if (! CollectionUtils.isEmpty(crit1.list())){
+			listaFinal.addAll(crit1.list());
+		}
+		
+		if (! CollectionUtils.isEmpty(crit2.list())){
+			listaFinal.addAll(crit2.list());
+		}
+		
+		form.setQuantRegistros(AppUtil.recuperarQuantidadeLista(listaFinal));
+		int maxIndex = 0;
+		int minIndex = 0;
+		int totalPaginas = 0;
+		int paginaSelecionada = 0;
+   	    if ( form.isVisible()){
+   	    	if ( StringUtils.isNullOrEmpty(form.getOpcaoPaginacao()))
+   	    		paginaSelecionada = 1; 
+   	    	else
+   	    		paginaSelecionada = Integer.parseInt(form.getOpcaoPaginacao());
+   	    	
+   	    	form.setListaPaginas(AppUtil.carregarQuantidadePaginas(form.getQuantRegistros(), form.getQuantMaxRegistrosPerPage()));
+   	    	totalPaginas = form.getListaPaginas().size();
+   	    	if ( paginaSelecionada < totalPaginas ){
+   	    		maxIndex = ( form.getQuantMaxRegistrosPerPage() * paginaSelecionada );
+   	    		minIndex = (form.getQuantMaxRegistrosPerPage() * paginaSelecionada) - form.getQuantMaxRegistrosPerPage();
+   	    	}
+   	    	else {
+   	    		maxIndex = form.getQuantRegistros();
+   	    		minIndex = (form.getQuantMaxRegistrosPerPage() * paginaSelecionada) - form.getQuantMaxRegistrosPerPage();
+   	    	}
+   	    	return (List<Contato>) listaFinal.subList(minIndex, maxIndex);
+		 } 
+		
 		return (List<Contato>) listaFinal;	
 	}	
 }

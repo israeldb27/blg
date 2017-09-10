@@ -16,9 +16,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.busqueumlugar.enumerador.AcaoNotificacaoEnum;
+import com.busqueumlugar.enumerador.TipoNotificacaoEnum;
 import com.busqueumlugar.form.ContatoForm;
+import com.busqueumlugar.form.ImovelForm;
 import com.busqueumlugar.form.NotificacaoForm;
 import com.busqueumlugar.form.UsuarioForm;
 import com.busqueumlugar.model.Notificacao;
@@ -39,6 +43,7 @@ public class NotificacaoController {
 	private NotificacaoService notificacaoService;
 	
 	private static final String DIR_PATH = "/notificacao/";	
+		
 	
 	@RequestMapping(value = "/desmarcarCheck")	
 	public void desmarcarCheck(Long idNotificacao, HttpServletResponse response, HttpSession session){

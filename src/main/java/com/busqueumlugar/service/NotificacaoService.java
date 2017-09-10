@@ -38,4 +38,6 @@ public interface NotificacaoService {
 
 	void atualizarStatusLeituraNotificacaoByIdUsuario(Long idUsuario);
 
+	void cadastrarNotificacao(Long idImovel, String acaoNotificacao, Long idUsuarioSolicitante, String tipoNotificacao);
+
 }

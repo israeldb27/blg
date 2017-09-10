@@ -2216,14 +2216,10 @@ public class UsuarioServiceImpl implements UsuarioService{
 					session.setAttribute(TimelineService.ULTIMA_REGRA_TIMELINE, regra);
 				}
 				
-				if (! user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){ // Inicio Timeline para Corretores e Imobiliarias 					
-					
-					if ( regra == 1 ){	
-						
+				if (! user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){ // Inicio Timeline para Corretores e Imobiliarias 
+					if ( regra == 1 ){							
 						while ( (AppUtil.recuperarQuantidadeLista(listaFinal) < 2)){  // para o caso de o usuario ter algum contato ou usuario seguindo
-							
-							regraSel = paramTimeline.getInicioRegra() + (int) (Math.random() * paramTimeline.getFimRegra());	
-							
+							regraSel = paramTimeline.getInicioRegra() + (int) (Math.random() * paramTimeline.getFimRegra());			
 							if ( ( regraSel >= 1 ) && ( regraSel <= 4 )) { // Exibir preferencia de imóveis de usuários com contato ou que esteja seguindo
 								prefLocalidadeTimeline = this.regraTimelineRecuperarPreferenciaLocalidadeUsuario(paramTimeline, false);
 								if ( prefLocalidadeTimeline != null ){
@@ -2265,8 +2261,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 									if ( paramTimeline.getInicioRegra() == 9 )
 										paramTimeline.setInicioRegra(12);  // afunilando ainda mais o range de regras
 								}
-							}
-							
+							}							
 							// Exibir imoveis de seus contatos e usuarios que esteja seguindo
 							else if ( ( regraSel >= 12 ) && ( regraSel <= 14 ) && ! paramTimeline.isEmptyImoveisContatos()) { 
 								lista = this.regraTimeLineRecuperarImoveisCompartilhadosIdsUsuarios( "N", paramTimeline);
@@ -2307,8 +2302,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 									if ( paramTimeline.getInicioRegra() == 15 )
 										paramTimeline.setInicioRegra(18);  // afunilando ainda mais o range de regras									
 								}	
-							}	
-								
+							}									
 							else if ( ( regraSel >= 18 ) && ( regraSel <= 20 ) && ! paramTimeline.isEmptyImoveisAnuncios()) { // Exibir uma anuncio imovel  
 								imovel = this.regraTimeLineRecuperarImovelAnuncio(paramTimeline);
 								if ( imovel != null){
@@ -2342,8 +2336,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 								}
 							}								
 						}		
-					}
-					
+					}					
 					session.setAttribute(TimelineService.PARAMETROS_TIMELINE, paramTimeline);
 					
 					if (isUsuarioTimeLine){
@@ -2363,8 +2356,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 								listaFinalTimeLine.add(carregarTimeLineImovel(user, imovelFinal));
 							}
 						}
-						return listaFinalTimeLine;
-						
+						return listaFinalTimeLine;						
 					}					
 					else if ( isNotaExiste ){
 						listaFinalTimeLine.add(carregarTimeLineNota(notaTimeLine, user));
@@ -2382,18 +2374,15 @@ public class UsuarioServiceImpl implements UsuarioService{
 							}
 						}
 						return listaFinalTimeLine;
-					}
-					
+					}				
 					
 				} // Fim Timeline para Corretores e Imobiliaris 
 				
-				else if (user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){ // Inicio Timeline para usuario perfil padrao
-										
+				else if (user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){ // Inicio Timeline para usuario perfil padrao										
 					if ( regra == 1 ){ // podera nao ser exibido um novo anuncio de imovel consecutivo 				
 						regraSel = 0;							
 							while ( (AppUtil.recuperarQuantidadeLista(listaFinal) < 2)){
-								regraSel = paramTimeline.getInicioRegra() + (int) (Math.random() * paramTimeline.getFimRegra());								
-								
+								regraSel = paramTimeline.getInicioRegra() + (int) (Math.random() * paramTimeline.getFimRegra());
 								// Exibir alguma Nota de Contato
 								 if ( ( regraSel >= 1 ) && ( regraSel <= 3 ) && ! paramTimeline.isEmptyNotas() ) { 
 									notaTimeLine = this.regraTimeLineRecuperarNota(user,  paramTimeline);
@@ -2406,8 +2395,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 										if ( paramTimeline.getInicioRegra() == 1)
 											paramTimeline.setInicioRegra(4);
 									}	
-								}
-								 
+								}								 
 								// Exibir um anucio imovel
 									else if ( ( regraSel >= 4 ) && ( regraSel <= 6 ) && ! paramTimeline.isEmptyImoveisAnuncios()) { 
 										imovel = this.regraTimeLineRecuperarImovelAnuncio(paramTimeline);
@@ -2458,8 +2446,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 											break;
 										}
 									}
-								}
-								
+								}								
 								// Recuperar Imoveis semelhantes àqueles que o usuário tenha visitado anteriormente
 								else if ( ( regraSel >= 17) && ( regraSel <= 19 )  ) { 
 									lista = this.regraTimeLineRecuperarImoveisVisitadosSemelhantes(user, paramTimeline);
@@ -2474,8 +2461,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 											break;
 										}
 									}
-								}
-								
+								}								
 								// Exibir algum imovel selecionado aleatoriamente da base
 								else if ( ( regraSel >= 20 ) && ( regraSel <= 21)) { 
 									lista = this.regraTimeLineRecuperarImoveisAleatoriamente(user, paramTimeline);
@@ -2495,8 +2481,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 								}
 							}							
 						}						
-					}	
-				
+					}					
 					session.setAttribute(TimelineService.PARAMETROS_TIMELINE, paramTimeline);
 					
 					if ( isNotaExiste ){
@@ -2525,13 +2510,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 						}
 						return listaFinalTimeLine;
 					}
-				 // Fim Timeline para usuario comuns				
-				
+				 // Fim Timeline para usuario comuns	
 	}
 	
 
-	private List<Imovel> regraTimeLineRecuperarImoveisVisitadosSemelhantes(UsuarioForm user, ParametrosTimeline paramTimeline) {		
-		
+	private List<Imovel> regraTimeLineRecuperarImoveisVisitadosSemelhantes(UsuarioForm user, ParametrosTimeline paramTimeline) {
 		Imovelvisualizado imovelvisualizado = imovelvisualizadoDao.findImoveisVisitadosByIdUsuarioByIndex(user.getId(), paramTimeline.getIdIndexImovelVisitado());
 		if (imovelvisualizado != null){
 			ImovelForm form = new ImovelForm();
@@ -2545,8 +2528,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 
-	private Usuario regraTimelineRecuperarSugestaoUsuario(ParametrosTimeline param,	UsuarioForm user) {
-	
+	private Usuario regraTimelineRecuperarSugestaoUsuario(ParametrosTimeline param,	UsuarioForm user) {	
 		Usuario usuario = dao.findUsuarioByUsuarioByIndex(param.getListaIds(), 
 														  user, 
 														  param.getIdIndexSugestaoUsuario());
@@ -2718,7 +2700,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		 buf.append("    			<img class='timeline-badge-userpic' src='data:image/jpeg;base64," + nota.getUsuario().getImagemArquivo() + "' style='width: 72px; height: 72px; ' />  ");
 		 buf.append(" 			</a>");
 		 buf.append("		</div>  ");
-		 buf.append("	<div class='timeline-body'>   ");
+		 buf.append("	<div class='timeline-body' style='width: 800px;'>    ");
 		 buf.append("    	<div class='timeline-body-arrow'>  "); 
 		 buf.append("    	</div>   ");
 		 buf.append("    <div class='timeline-body-head'>  ");
@@ -2854,7 +2836,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		    buf.append("                 <span class='label pull-right' style='background-color: #9d2428; font-size: 12px'>" + imovel.getTipoImovelFmt() + "</span> ");
 		    buf.append("                <h4 class='media-heading pull-left' style='margin-bottom:20px;'><a href='" + context.getContextPath() + "/imovel/detalhesImovel/" +  imovel.getId() + "'> <strong> "+ imovel.getTitulo() + " </strong> </a></h4> <br> <br> <br>");
 		 //   buf.append("	                       <h5 class='media-heading' style='margin-bottom:12px;'><i class='fa fa-map-marker'></i> " + imovel.getEndereco() + " - " + imovel.getBairro()  + " - " +  imovel.getCidade() + " - " + imovel.getUf() + "</h1> ");
-		    buf.append("	                       <h5 class='media-heading pull-left'><i class='fa fa-map-marker'></i> " + imovel.getEndereco() + "," + imovel.getBairro()  + " - " +  imovel.getCidade() + " - " + imovel.getUf() + "</h1> ");
+		    buf.append("	                       <h5 class='media-heading pull-left'><i class='fa fa-map-marker'></i> &nbsp;&nbsp;" + imovel.getEndereco() + "," + imovel.getBairro()  + " - " +  imovel.getCidade() + " - " + imovel.getUf() + "</h1> ");
 		    buf.append("	                       <div class='col-md-7' > ");	                                                
 		    buf.append("	                       	<div class='media-body' > ");		                               
 		  //  buf.append("                              <em class='text-xs text-muted'> <font style='font-size:13px; font-style: normal;'> "+ MessageUtils.getMessage("lbl.data.cadastro.imovel") +": </font><span class='text-success'><br>		");		                                            
@@ -2928,7 +2910,6 @@ public class UsuarioServiceImpl implements UsuarioService{
 	    buf.append("                      <span class='timeline-body-time font-grey-cascade' style='font-style: italic;' >" + MessageUtils.getMessage("lbl.usuario.voce.conhece") + "</span> ");
 	    buf.append("               </div> ");
 	    buf.append("  <span class='label pull-right'>  <a href='#a' class='btn btn-sm'  onClick='mostrarModal(8);' ><i class='fa fa-question' ></i></a>  </span> ");
-	
 	    buf.append("               <div class='timeline-body-head-actions'> ");
 	    buf.append("                  <div class='btn-group'> ");		                                                            
 	    buf.append("               </div> ");
@@ -2944,7 +2925,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	    buf.append("     <div class='media-body'> ");                                           
 	    buf.append("          <span class='label pull-right' style='background-color: #9d2428; font-size: 12px; margin-top: 25px; '>" + usuario.getPerfilFmt() + "</span></br> ");
 	    //buf.append("			   <h4 class='media-heading' style='margin-bottom:20px;'><a href='"+  context.getContextPath() + "/usuario/detalhesUsuario/"+ usuario.getId()  +"' style='color : #9d2428;'>"+ usuario.getNome()  +"</a></h4> ");
-	    buf.append("			   <h5 class='media-heading' style='margin-bottom:12px;'><i class='fa fa-map-marker'></i> "+ usuario.getUf() + " - "+ usuario.getCidade() + "</h1> ");                                 
+	    buf.append("			   <h5 class='media-heading' style='margin-bottom:12px;'><i class='fa fa-map-marker'></i> &nbsp;&nbsp; "+ usuario.getUf() + " - "+ usuario.getCidade() + "</h1> ");                                 
 	    buf.append("			   <div class='col-md-5' > ");  	                                                
 	    buf.append("					<div class='media-body' > ");
 	    buf.append("						 <em class='text-xs text-muted'> <font style='font-size:13px; font-style: normal;'>" + MessageUtils.getMessage("lbl.data.cadastro.usuario") + " : </font><span class='text-success'><font style='font-size:11px; font-style: normal;'> " + DateUtil.formataData(usuario.getDataCadastro()) + "</font></span></em> ");
@@ -3030,15 +3011,14 @@ public class UsuarioServiceImpl implements UsuarioService{
 	    buf.append("				  		<img class='timeline-badge-userpic' src='data:image/jpeg;base64," + pref.getUsuario().getImagemArquivo() + "' style='width: 90px; height: 90px; ' /> &nbsp; ");
 	    buf.append("				  </a> ");                                                          
 	    buf.append("      	  </div> ");
-	    buf.append("      <div class='timeline-body'> ");    
+	    buf.append("      <div class='timeline-body' style='width: 800px;'> ");    
 	    buf.append("		  <div class='timeline-body-arrow'> </div> ");
 	    buf.append("          <div class='timeline-body-head'> ");
 	    buf.append("              <div class='timeline-body-head-caption'> ");
 	    buf.append("                  <a href='"+  context.getContextPath() + "/usuario/detalhesUsuario/"+ pref.getUsuario().getId()  +"' class='timeline-body-title font-blue-madison'> "+ pref.getUsuario().getNome()  +" </a> ");
 	    buf.append("                      <span class='timeline-body-time font-grey-cascade' style='font-style: italic;' >" + MessageUtils.getMessage("lbl.preferencia.localidade.timeline") + "</span> ");
 	    buf.append("               </div> ");
-	    buf.append("  <span class='label pull-right'>  <a href='#a' class='btn btn-sm'  onClick='mostrarModal(9);' ><i class='fa fa-question' ></i></a>  </span> ");
-	    
+	    buf.append("  <span class='label pull-right'>  <a href='#a' class='btn btn-sm'  onClick='mostrarModal(9);' ><i class='fa fa-question' ></i></a>  </span> ");    
 	    buf.append("               <div class='timeline-body-head-actions'> ");
 	    buf.append("                  <div class='btn-group'> ");		                                                            
 	    buf.append("               </div> ");
@@ -3047,7 +3027,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	    buf.append("     <div class='timeline-body-content'> "); 
 	    buf.append("     <div class='media'> ");     
 	    buf.append("     <div class='media-body'> "); 
-	    buf.append("		  <div class='col-md-7'> ");
+	    buf.append("		  <div class='col-md-10'> ");
 	    buf.append("			    <table class='table table-striped'> ");
 	    buf.append("                      <tbody style='font-size: 15px;'> ");
 	    buf.append("                        <tr> ");    

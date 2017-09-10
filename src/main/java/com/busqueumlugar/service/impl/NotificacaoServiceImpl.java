@@ -130,6 +130,23 @@ public class NotificacaoServiceImpl implements NotificacaoService {
         notificacao.setUsuarioConvite(usuarioDao.findUsuario(idUsuarioConvite));
         dao.save(notificacao);
 	}
+	
+	@Override
+	public void cadastrarNotificacao(Long idImovel, String acaoNotificacao, Long idUsuarioSolicitante, String tipoNotificacao) {
+		Imovel imovel = imovelDao.findImovelById(idImovel);
+		Notificacao notificacao = new Notificacao();
+        notificacao.setUsuario(imovel.getUsuario());
+        notificacao.setDataNotificacao(new Date());
+        notificacao.setStatusLeitura(StatusLeituraEnum.NOVO.getRotulo());
+        notificacao.setAcao(acaoNotificacao); 
+        notificacao.setDescricao("");
+        notificacao.setTipoNotificacao(tipoNotificacao); 
+        notificacao.setImovel(imovel);
+        if ( idUsuarioSolicitante != null && idUsuarioSolicitante.longValue() > 0)
+        	notificacao.setUsuarioConvite(usuarioDao.findUsuario(idUsuarioSolicitante));
+        
+        dao.save(notificacao);
+	}
 
 
 	@Transactional
@@ -180,4 +197,5 @@ public class NotificacaoServiceImpl implements NotificacaoService {
 		dao.atualizarStatusLeituraNotificacaoByIdUsuario(idUsuario);
 		
 	}
+	
 }

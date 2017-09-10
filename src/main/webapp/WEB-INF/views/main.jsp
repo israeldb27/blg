@@ -218,8 +218,6 @@
     		$("#idModalItem").modal("show");
     	}
 
-		
-	  
     </script>	
     
     <style type="text/css">
@@ -364,13 +362,13 @@ border-color: black;
 	                                        <div id="idTimeLine" >
 	                                        	
 	                                        </div>                                     
-	                                        
+	                                        <br> <br>
 	                                        <div id="loadMore-container" class="">
-					                            <a href="#a" onClick="carregarTimeline();" class="cbp-l-loadMore-link">
+					                            <button type="button" onClick="carregarTimeline();" class="button btn-primary">
 					                                <span class="cbp-l-loadMore-defaultText">Carregar Mais</span>
 					                                <span class="cbp-l-loadMore-loadingText">Carregando...</span>
 					                                <span class="cbp-l-loadMore-noMoreLoading">NO MORE WORKS</span>
-					                            </a>
+					                            </button>
 					                        </div>
 	                                    </div>
 	                                </div><!-- /.profile-body -->                           		
