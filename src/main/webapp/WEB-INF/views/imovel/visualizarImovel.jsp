@@ -510,10 +510,13 @@ function prepararModalGaleriaFotos(){
  										 
                                         <a href="#a" onClick="adicionarComparar(${imovelForm.id})" style="font-size:x-large;" class="meta-action"><i class="fa fa-eye" style="color:gray" title="<spring:message code="lbl.title.link.comparar"/>"></i><font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.title.link.comparar"/> </font></a>&nbsp;&nbsp;&nbsp;&nbsp; 
                                         <a href="${urlImovelIndicado}/selecionarParaIndicarImovel/${imovelForm.id}" style="font-size:x-large;" class="meta-action"><i class="fa fa-share-alt" style="color:gray" title="<spring:message code="lbl.acao.sugerir"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.acao.sugerir"/> </font></a>
-                                   		&nbsp;&nbsp;&nbsp;&nbsp;
-                                   		<a href="#a" onClick="prepararModalFecharNegocio(${imovelForm.id})" style="font-size:x-large;" class="meta-action"><i class="fa fa-shopping-cart" style="color:gray" title="Fechar Negócio"></i><font style="color: rgb(99, 110, 123); font-size: 12px;"> Fechar Negócio </font></a>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
-                                   		<a href="#a" onClick="prepararModalMarcarVisita(${imovelForm.id})" style="font-size:x-large;" class="meta-action"><i class="fa fa-calendar-check-o" style="color:gray" title="Visitar Imóvel"></i><font style="color: rgb(99, 110, 123); font-size: 12px;"> Visitar Imóvel </font></a>	
+                                   		<c:if test="${imovelForm.usuarioDonoImovel.id != usuario.id}">                                      
+                                        	&nbsp;&nbsp;&nbsp;&nbsp;
+	                                   		<a href="#a" onClick="prepararModalFecharNegocio(${imovelForm.id})" style="font-size:x-large;" class="meta-action"><i class="fa fa-shopping-cart" style="color:gray" title="<spring:message code="lbl.title.fechar.negocio"/>"></i><font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.title.fechar.negocio"/> </font></a>
+	                                        &nbsp;&nbsp;&nbsp;&nbsp;
+	                                   		<a href="#a" onClick="prepararModalMarcarVisita(${imovelForm.id})" style="font-size:x-large;" class="meta-action"><i class="fa fa-calendar-check-o" style="color:gray" title="<spring:message code="lbl.title.marcar.visita"/>"></i><font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.title.marcar.visita"/> </font></a> 
+                                        </c:if>
+                                   		
                                     </div>
                                     
                                     <br> <br>
