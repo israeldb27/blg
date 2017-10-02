@@ -37,9 +37,7 @@ $(document).ready(function() {
 
             <!-- START @PAGE CONTENT -->
             <section id="page-content">
-            
-            	<!-- Inicio - Meus Favoritos -->
-            
+
             	 <!-- Start header content -->
                 <div class="header-content">
                     <h2><i class="fa fa-pencil"></i> <spring:message code="lbl.admin.link.relatorios.assinaturas"/> </h2>                                                      
@@ -47,7 +45,7 @@ $(document).ready(function() {
                 <!--/ End header content -->
                 
                 <!-- Start body content -->
-                <div class="body-content animated fadeIn">
+                  <div class="body-content animated fadeIn container limit-form" style="width:1200px;">
 
                     <div class="row">
                         <div class="col-md-12">                        		

@@ -6,8 +6,8 @@
 
 <spring:url value="/usuario" var="urlUsuario"/>
 <spring:url value="/contato" var="urlContato"/>
-<spring:url value="/localidade/buscarCidades" var="urlBuscarCidades"/>
-<spring:url value="/localidade/buscarBairros" var="urlBuscarBairros"/>
+<spring:url value="/usuario/buscarCidades" var="urlBuscarCidades"/>
+<spring:url value="/usuario/buscarBairros" var="urlBuscarBairros"/>
 <spring:url value="/mensagem" var="urlMensagem"/>
 <spring:url value="/admin" var="urlAdmin"/>
 <spring:url value="/mensagemAdmin" var="urlMensagemAdmin"/>
@@ -247,7 +247,7 @@ function enviarConvite(id) {
 	                                </div>
 	                                <div class="pull-right" >
 	                                     <form:form method="POST" id="buscarUsuariosForm" modelAttribute="usuarioForm" action="${urlAdmin}/ordenarBuscarUsuarios" >         		      	
-					                        	<form:select id="opcaoOrdenacao" path="opcaoOrdenacao" class="chosen-select" tabindex="-1" style="display: none;">                                
+					                        	<form:select id="opcaoOrdenacao" path="opcaoOrdenacao" class="form-control" >                                
 							                        <form:option value="" disabled="true"><spring:message code="lbl.opcao.ordenar"/></form:option>
 							                        <form:option value="maiorDataCadastrado" ><spring:message code="lbl.opcao.ordenacao.usuario.cad.mais.recente"/></form:option>
 													<form:option value="menorDataCadastrado" ><spring:message code="lbl.opcao.ordenacao.usuario.cad.menos.recente"/></form:option>

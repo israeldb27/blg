@@ -137,7 +137,7 @@
                             <ul class="dropdown-menu animated flipInX">
                                 <li class="dropdown-header"><spring:message code="lbl.title.conta"/></li>  
                                 <li><a href="${urlUsuario}/meuPerfil"><i class="fa fa-user"></i><spring:message code="lbl.title.link.perfil"/></a></li>
-                                <li><a href="${urlUsuario}/prepararEdicaoUsuario"><i class="fa fa-user"></i><spring:message code="lbl.title.aba.editar.perfil"/></a></li>
+                                <li><a href="${urlAdmin}/prepararEdicaoUsuarioAdmin"><i class="fa fa-user"></i><spring:message code="lbl.title.aba.editar.perfil"/></a></li>
                                 <li><a href="${urlUsuario}/prepararAlterarFotoUsuario"><i class="fa fa-user"></i><spring:message code="lbl.title.aba.alterar.foto.perfil"/></a></li>
                                 <li><a href="mail-inbox.html"><i class="fa fa-envelope-square"></i><spring:message code="lbl.title.link.mensagens"/> <span class="label label-info pull-right">30</span></a></li>                                                                
                                 <li class="divider"></li>

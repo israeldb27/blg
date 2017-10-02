@@ -54,7 +54,7 @@ function recuperaRelatorios(){
             <!--/ END SIDEBAR LEFT -->
 
             <!-- START @PAGE CONTENT -->
-            <section id="page-content">
+            <section id="page-content" style="background-color:#e9eaed;">
 
             	 <!-- Start header content -->
                 <div class="header-content">
@@ -63,13 +63,13 @@ function recuperaRelatorios(){
                 <!--/ End header content -->
                 
                 <!-- Start body content -->
-                <div class="body-content animated fadeIn">
+                 <div class="body-content animated fadeIn container limit-form" style="width:900px; min-height:200px;">
 
                     <div class="row">
                     	<% if ( request.getSession().getAttribute("acessoValido").equals("N") ) {%>
 							<c:import url="../avisoRenovacaoAssinatura.jsp"></c:import>
                         <% } %>
-                        <div class="col-md-9">
+                        <div class="col-md-12">
                             <div class="panel rounded shadow">
                                 <div class="panel-heading">
                                     <div class="pull-left">
@@ -117,12 +117,7 @@ function recuperaRelatorios(){
                                     
                                 </div><!-- /.panel-body -->                                
                             </div><!-- /.panel -->
-                        </div>          
-                         <!--  START SIDEBAR RIGHT -->
-                        <div class="col-md-3">
-                            <c:import url="../layout/sidebar-right.jsp"></c:import>
-                        </div>                        
-                        <!--  END SIDEBAR RIGHT -->      
+                        </div>  
                                              
                     </div><!-- /.row -->
 
@@ -130,81 +125,8 @@ function recuperaRelatorios(){
                 <!--/ End body content -->
 
          
-            </section><!-- /#page-content -->
-
-             <!-- Start inside form layout -->             
-            <div class="modal fade bs-example-modal-form" tabindex="-1" role="dialog" aria-hidden="true">
-              
-                <div class="modal-dialog modal-lg modal-photo-viewer">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title"><spring:message code="lbl.detalhes.imovel"/></h4> 
-                        </div>
-                        <div class="modal-body no-padding">
-                            <form name="userForm" class="form-horizontal form-bordered" role="form">
-                                <div class="form-body">
-                                	<div class="form-group">                                	
-                                        <label for="idTituloImovelSelecionado" class="col-sm-3 control-label"><spring:message code="lbl.titulo.imovel"/>: </label>
-                                        <div class="col-sm-7">
-                                            
-                                        </div>
-                                    </div><!-- /.form-group -->
-                                    <div class="form-group">
-                                        <label for="idTipoImovel" class="col-sm-3 control-label"><spring:message code="lbl.tipo.imovel"/>: </label>
-                                        <div class="col-sm-7">
-                                            Apto
-                                        </div>
-                                    </div><!-- /.form-group -->
-                                	
-                                    <div class="form-group">
-                                        <label for="idEstadoSelecionado" class="col-sm-3 control-label"><spring:message code="lbl.estado"/>: </label>
-                                        <div class="col-sm-7">
-                                            
-                                        </div>
-                                    </div><!-- /.form-group -->
-                                    <div class="form-group">
-                                        <label for="idCidadeSelecionada" class="col-sm-3 control-label"><spring:message code="lbl.cidade"/>: </label>
-                                        <div class="col-sm-7">
-                                        	<div id="resposta"></div>
-                                            
-                                        </div>
-                                    </div><!-- /.form-group -->                                    
-                                    <div class="form-group">
-                                        <label for="idBairroSelecionado" class="col-sm-3 control-label"><spring:message code="lbl.bairro"/>: </label>
-                                        <div class="col-sm-7">
-                                            ${imovel.dataCadastro}
-                                        </div>
-                                    </div><!-- /.form-group -->
-                                     <div class="form-group">
-                                        <label for="idDataCadastro" class="col-sm-3 control-label"><spring:message code="lbl.data.cadastro.imovel"/>: </label>
-                                        <div class="col-sm-7">
-                                            <div class="elemento"></div>
-                                        </div>
-                                    </div><!-- /.form-group -->
-                                    <div class="form-group">
-                                        <label for="idAcao" class="col-sm-3 control-label"><spring:message code="lbl.acao.imovel"/>: </label>
-                                        <div class="col-sm-7">
-                                             <input type="text" class="form-control input-sm" id="firstname-1" >
-                                        </div>
-                                    </div><!-- /.form-group -->
-                                </div><!-- /.form-body -->
-                                <div class="form-footer">
-                                    <div class="col-sm-offset-3">
-                                    	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-success">Sign in</button>
-                                    </div>
-                                </div><!-- /.form-footer -->
-                            </form>
-                        </div>
-
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->               
-            </div><!-- /.modal -->
-			
-            	<!-- Start content modal Ajuda - funcionalidade -->
-					<c:import url="../ajuda/contentMenuModal.jsp"></c:import>																				
-				<!-- End content  modal Ajuda - funcionalidade -->            
+            </section><!-- /#page-content -->           
+                     
 
         </section><!-- /#wrapper -->
         <!--/ END WRAPPER -->

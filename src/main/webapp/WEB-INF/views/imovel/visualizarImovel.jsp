@@ -473,7 +473,7 @@ function prepararModalGaleriaFotos(){
                 </div><!-- /.header-content -->
                                 
                 <!-- Start body content -->
-                <div class="body-content animated fadeIn container" style="min-height: 500px; width: 920px;" >
+                <div class="body-content animated fadeIn container limit-container" style="min-height: 500px; width: 920px;" >
 					<div class="col-lg-12 col-md-12 col-sm-12">					
 						<!-- START  -->
 						  <div class="row">		
@@ -1366,8 +1366,9 @@ function prepararModalGaleriaFotos(){
 			                                            </div>
 			                                            <div class="media-body">
 			                                                <h4>${imovel.usuarioComentario.nome}</h4>
+			                                                <br>
+			                                                <p>${imovel.comentario}</p>			                                                
 			                                                <small class="text-muted"><fmt:formatDate value='${imovel.dataComentario}' pattern='dd/MM/yyyy HH:mm:ss'/></small>
-			                                                <p>${imovel.comentario}</p>
 			                                            </div>
 			                                        </li><!-- media -->											
 												</c:forEach>

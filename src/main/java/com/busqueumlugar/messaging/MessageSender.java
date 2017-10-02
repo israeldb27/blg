@@ -7,6 +7,8 @@ import javax.jms.Session;
  
 
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Component;
 
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Usuario;
+import com.busqueumlugar.util.EmailJms;
+import com.busqueumlugar.util.EnviaEmailHtml;
  
 
  
@@ -34,12 +38,12 @@ public class MessageSender {
 	            });
 	    }
 	    
-	    public void sendMessage(final Imovel imovel) {
+	    public void sendMessage(final EmailJms email) {
 	   	 
 	        jmsTemplate.send(new MessageCreator(){
 	                @Override
 	                public Message createMessage(Session session) throws JMSException{
-	                    ObjectMessage objectMessage = session.createObjectMessage(imovel);
+	                    ObjectMessage objectMessage = session.createObjectMessage(email);
 	                    return objectMessage;
 	                }
 	            });

@@ -350,8 +350,10 @@ public class ImovelIndicadoController {
 			}
 			else 
 				map.addAttribute("msgErroEnviadoEmail", MessageUtils.getMessage("msg.email.indicacao.enviado.erro"));
-				
-			map.addAttribute("imovelIndicadoForm", form);
+			
+			map.addAttribute("imovel", imovelService.recuperarImovelPorid(form.getIdImovel()));	
+			form.setListaTodosContatos(contatoService.recuperarConvidadosIndicacaoImovel(user.getId() , form.getIdImovel(), null));
+			map.addAttribute("imovelIndicadoForm", form);	
 			return DIR_PATH + "indicarImovel";
 		} catch (Exception e) {
 			log.error("Erro metodo - ImovelIndicadoController -  indicarImovelPorEmail");

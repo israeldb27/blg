@@ -37,9 +37,7 @@ $(document).ready(function() {
 
             <!-- START @PAGE CONTENT -->
             <section id="page-content">
-            
-            	<!-- Inicio - Meus Favoritos -->
-            
+             
             	 <!-- Start header content -->
                 <div class="header-content">
                     <h2><i class="fa fa-pencil"></i> <spring:message code="lbl.admin.link.relatorios.imoveis"/> </h2>                                                      
@@ -47,7 +45,7 @@ $(document).ready(function() {
                 <!--/ End header content -->
                 
                 <!-- Start body content -->
-                <div class="body-content animated fadeIn">
+              <div class="body-content animated fadeIn container limit-form" style="width:1200px;">
 
                     <div class="row">
                         <div class="col-md-12">                        		
@@ -77,7 +75,7 @@ $(document).ready(function() {
 														<form:option value="maisInteressados"><spring:message code="lbl.admin.opcao.rel.mais.interessados"/></form:option>
 														<form:option value="maisPropostas"><spring:message code="lbl.admin.opcao.rel.mais.propostas"/></form:option>
 														<form:option value="maisComentarios"><spring:message code="lbl.admin.opcao.rel.mais.comentarios"/></form:option>
-														<form:option value="maisVisitas"><spring:message code="lbl.admin.opcao.rel.mais.visitados"/></form:option>
+														<form:option value="maisVisitas"><spring:message code="lbl.admin.opcao.rel.mais.visualizados"/></form:option>
 														<form:option value="maisIndicacoes"><spring:message code="lbl.admin.opcao.rel.mais.indicados"/></form:option>
 														<form:option value="maisSolParceria"><spring:message code="lbl.admin.opcao.rel.mais.sol.parceria"/></form:option>
 														<form:option value="maisSolIntermediacao"><spring:message code="lbl.admin.opcao.rel.mais.sol.intermediacao"/></form:option>

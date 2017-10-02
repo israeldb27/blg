@@ -100,7 +100,7 @@
                 <!--/ End header content -->
                 
                 <!-- Start body content -->
-                <div class="body-content animated fadeIn">
+                <div class="body-content animated fadeIn container limit-form" style="width:1000px;">
                  <div class="row">
                  		
                     	<% if ( request.getSession().getAttribute("acessoValido").equals("N") ) {%>
@@ -194,10 +194,6 @@
 				                    </div>	
                         	</c:when>
                         </c:choose>
-   
-                       <div class="col-md-3">
-                            <c:import url="../layout/sidebar-right.jsp"></c:import>
-                        </div>    
                         
                    </div><!-- /.row -->  
 

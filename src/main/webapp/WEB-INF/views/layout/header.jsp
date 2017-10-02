@@ -21,6 +21,7 @@
 <spring:url var="urlAjuda" value="/ajuda"/>
 <spring:url var="urlRecomendacao" value="/recomendacao"/>
 <spring:url var="urlImovelComparativo" value="/imovelComparativo"/>
+<spring:url var="urlAdmin" value="/admin"/>
 
 <c:set var="context" value="<%= request.getContextPath()%>"/>
 <script type="text/javascript" src="${context}/js/jquery-1.9.1.min.js"></script>
@@ -481,9 +482,9 @@ function adicionarComparativo(id) {
                             </a>
                             <!-- Start dropdown menu -->
                             <ul class="dropdown-menu animated flipInX">
-                                <li class="dropdown-header"><spring:message code="lbl.title.conta"/></li>  
-                                <li><a href="${urlUsuario}/detalhesUsuario/${usuario.id}"><i class="fa fa-user"></i><spring:message code="lbl.title.link.perfil"/></a></li>
-                                <li><a href="${urlUsuario}/prepararEdicaoUsuario"><i class="fa fa-user"></i><spring:message code="lbl.title.aba.editar.perfil"/></a></li>
+                                <li class="dropdown-header"><spring:message code="lbl.title.conta"/></li> 
+                                <li><a href="${urlUsuario}/prepararEdicaoUsuario"><i class="fa fa-user"></i><spring:message code="lbl.title.aba.editar.perfil"/></a></li>	                   
+                                <li><a href="${urlUsuario}/detalhesUsuario/${usuario.id}"><i class="fa fa-user"></i><spring:message code="lbl.title.link.perfil"/></a></li>                      
                                 <li><a href="${urlUsuario}/prepararEditarSenha"><i class="fa fa-user"></i><spring:message code="lbl.title.aba.editar.senha"/></a></li>
                                 <li><a href="${urlUsuario}/prepararIndicarAmigo"><i class="fa fa-user"></i><spring:message code="lbl.title.aba.indicar.amigo"/></a></li>                                                                                                
                                 <li class="divider"></li>

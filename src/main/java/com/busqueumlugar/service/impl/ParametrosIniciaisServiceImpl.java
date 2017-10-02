@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
@@ -17,6 +19,7 @@ import com.busqueumlugar.dao.ParametrosIniciaisDao;
 import com.busqueumlugar.form.ParametrosIniciaisForm;
 import com.busqueumlugar.model.ParametrosIniciais;
 import com.busqueumlugar.service.ParametrosIniciaisService;
+import com.busqueumlugar.service.UsuarioService;
 import com.mysql.jdbc.StringUtils;
 
 @Service
@@ -25,7 +28,10 @@ public class ParametrosIniciaisServiceImpl implements ParametrosIniciaisService 
 	private static final Logger log = LoggerFactory.getLogger(ParametrosIniciaisServiceImpl.class);
 	
 	@Autowired
-	private ParametrosIniciaisDao dao;
+	private ParametrosIniciaisDao dao;	
+	
+	@Autowired
+	private  HttpSession session;
 
 	@Override
 	public ParametrosIniciais recuperarParamservicoPorId(Long id) {
@@ -165,5 +171,18 @@ public class ParametrosIniciaisServiceImpl implements ParametrosIniciaisService 
 		param.setIdUsuarioCadastro(idUsuarioAdmin);
 		dao.save(param);	
 	}
+
+	public boolean isHabilitadoEnvioEmail() {
+		String valor = (String)session.getAttribute(UsuarioService.HABILITA_ENVIO_EMAIL);
+		if ( ! StringUtils.isNullOrEmpty(valor)){
+			if ( valor.equals("S"))
+				return true;
+			else
+				return false;
+		}
+		return false;
+	}
+
+
 
 }

@@ -34,8 +34,13 @@ import com.busqueumlugar.model.Imovelvisualizado;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.ImovelvisualizadoService;
+import com.busqueumlugar.service.ParametrosIniciaisService;
 import com.busqueumlugar.service.UsuarioService;
+import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.DateUtil;
+import com.busqueumlugar.util.EmailJms;
+import com.busqueumlugar.util.EnviaEmailHtml;
+import com.busqueumlugar.util.MessageUtils;
 
 @Service
 public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
@@ -68,7 +73,9 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 	
 	@Autowired
 	private  MessageSender messageSender;
-
+	
+	@Autowired
+	private ParametrosIniciaisService parametrosIniciaisService;
 	
 	
 	public Imovelvisualizado recuperarImovelvisitadoPorId(Long id) {
@@ -149,7 +156,7 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 
 	
 	@Transactional
-	public void adicionarVisitaImovel(Long idImovel, Long idUsuario) {
+	public void adicionarVisitaImovel(Long idImovel, Long idUsuario) {		
 		Imovel imovel = imovelDao.findImovelById(idImovel);
 		if (! imovel.getUsuario().getId().equals(idUsuario)){
 			//checar se este imovel ja foi visitado anteriormente
@@ -162,23 +169,22 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 	            imovelvisitado.setUsuarioDonoImovel(imovel.getUsuario());
 	            imovelvisitado.setStatusVisita(StatusLeituraEnum.NOVO.getRotulo());
 	            dao.save(imovelvisitado);	     
-	            
-	        /*    try {
-	            	
-	            	//messageSender.sendMessage(imovel);
-	            	
-	            	// enviar email
-		            EnviaEmailHtml enviaEmail = new EnviaEmailHtml();
-		            enviaEmail.setSubject(MessageUtils.getMessage("msg.email.subject.imovel.visualizado"));
-		            enviaEmail.setTo("israeldb27@gmail.com");
-		            enviaEmail.setTexto(MessageUtils.getMessage("msg.email.texto.imovel.visualizado"));		            	
-		            enviaEmail.enviaEmail(enviaEmail.getEmail());
-				} catch (Exception e) {		
-					e.printStackTrace();
-				}*/
+	        	boolean isHabilitado = parametrosIniciaisService.isHabilitadoEnvioEmail();
+	        	if ( isHabilitado){
+	        		try {	            	
+			            EmailJms email = new EmailJms();
+			            email.setSubject(MessageUtils.getMessage("msg.email.subject.imovel.visualizado"));
+			            email.setTo(imovelvisitado.getUsuarioDonoImovel().getEmail());
+			            email.setTexto(MessageUtils.getMessage("msg.email.texto.imovel.visualizado"));			            
+			            messageSender.sendMessage(email);
+					} catch (Exception e) {	
+						log.error("Imovelvisualizado - Erro envio email");
+						log.error("Mensagem erro: " + e.getMessage());
+						e.printStackTrace();
+					}
+	        	}	            
 	        }
-		}		 
-		
+		}
 	}
 
 	

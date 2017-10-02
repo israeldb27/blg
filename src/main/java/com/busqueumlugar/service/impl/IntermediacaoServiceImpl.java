@@ -30,6 +30,7 @@ import com.busqueumlugar.enumerador.TipoNotificacaoEnum;
 import com.busqueumlugar.form.AdministracaoForm;
 import com.busqueumlugar.form.IntermediacaoForm;
 import com.busqueumlugar.form.PerfilForm;
+import com.busqueumlugar.messaging.MessageSender;
 import com.busqueumlugar.model.EmailImovel;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Intermediacao;
@@ -39,10 +40,12 @@ import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.IntermediacaoService;
 import com.busqueumlugar.service.NotaService;
 import com.busqueumlugar.service.NotificacaoService;
+import com.busqueumlugar.service.ParametrosIniciaisService;
 import com.busqueumlugar.service.RecomendacaoService;
 import com.busqueumlugar.service.SeguidorService;
 import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.AppUtil;
+import com.busqueumlugar.util.EmailJms;
 import com.busqueumlugar.util.MessageUtils;
 import com.mysql.jdbc.StringUtils;
 
@@ -84,7 +87,11 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
 	@Autowired
 	private UsuarioService usuarioService;
 
-
+	@Autowired
+	private  MessageSender messageSender;
+	
+	@Autowired
+	private ParametrosIniciaisService parametrosIniciaisService;
 	
 	public Intermediacao recuperarIntermediacaoPorId(Long id) {
 		return dao.findIntermediacaoById(id);
@@ -102,6 +109,21 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
         imovelComp.setUsuarioDonoImovel(imovelComp.getImovel().getUsuario());        
         imovelComp.setDescricaoCompartilhamento(descricaoCompart);    
         dao.save(imovelComp);
+        
+        boolean isHabilitado = parametrosIniciaisService.isHabilitadoEnvioEmail();
+    	if ( isHabilitado){
+    		try {	            	
+                EmailJms email = new EmailJms();
+                email.setSubject(MessageUtils.getMessage("msg.email.subject.intermediacao.sol"));
+                email.setTo(imovelComp.getUsuarioDonoImovel().getEmail());
+                email.setTexto(MessageUtils.getMessage("msg.email.texto.intermediacao.sol"));			            
+                messageSender.sendMessage(email);
+    		} catch (Exception e) {		
+    			log.error("Intermediacao - cadastrarSolicitacaoIntermediacao - Erro envio email");
+				log.error("Mensagem erro: " + e.getMessage());
+    			e.printStackTrace();
+    		}
+    	}
 	}
 
 	
@@ -186,14 +208,24 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
             						  imovel.getUsuarioSolicitante(), 
             						  imovel.getImovel(), 
             						  new Date(),
-            						  NotaAcaoEnum.INTERMEDIACAO.getRotulo());            
+            						  NotaAcaoEnum.INTERMEDIACAO.getRotulo());  
+            
+            boolean isHabilitado = parametrosIniciaisService.isHabilitadoEnvioEmail();
+        	if ( isHabilitado){
+        		try {	            	
+                    EmailJms email = new EmailJms();
+                    email.setSubject(MessageUtils.getMessage("msg.email.subject.intermediacao.sol.aceita"));
+                    email.setTo(imovel.getUsuarioSolicitante().getEmail());
+                    email.setTexto(MessageUtils.getMessage("msg.email.texto.intermediacao.sol.aceita"));			            
+                    messageSender.sendMessage(email);
+        		} catch (Exception e) {		
+        			log.error("Intermediacao - atualizarStatusIntermediacao - Erro envio email");
+					log.error("Mensagem erro: " + e.getMessage());
+        			e.printStackTrace();
+        		} 
+        	}       
         }
-       /* else if ( status.equals("rejeitada")){
-        	imovel.setDataResposta(new Date());
-            imovel.setStatusLeitura(StatusLeituraEnum.LIDO.getRotulo());
-            imovel.setStatus(StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo());
-            this.dao.update(imovel);
-        }*/    
+    
         else if ( status.equals(StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo())){
             imovel.setDataResposta(null);
             this.dao.update(imovel);

@@ -25,6 +25,7 @@ public interface UsuarioService {
 	String CONTADOR_TELA_INICIAL = "contadorTelaInicial";
 	String HABILITA_FUNC_PLANOS   = "habilitaFuncPlanos";
 	String HABILITA_FUNC_SERVICOS = "habilitaFuncServicos";
+	String HABILITA_ENVIO_EMAIL = "habilitaEnvioEmail";
 	
 
 	boolean validarLoginPassword(UsuarioForm form);

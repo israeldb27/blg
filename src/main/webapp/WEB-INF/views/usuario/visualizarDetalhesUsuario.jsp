@@ -391,8 +391,7 @@ function mostrarModal(id){
 								<div class="panel-body">
 									<div class="pull-left">
 										<div class="col-lg-6 col-md-6 col-sm-6"> 
-	                                        <div id="owl-demo" class="owl-carousel owl-theme" >                                             
-	                                            
+	                                        <div id="owl-demo" class="owl-carousel owl-theme" >
 	                                            <img class="img-circle"  src="data:image/jpeg;base64,${usuarioForm.imagemArquivo}" style="margin-left:30px; width: 240px; height: 240px; ">	                                            	                                            	                                                                                        
 	                                        </div>
 	                                    </div>

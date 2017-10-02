@@ -43,7 +43,7 @@ $(document).ready(function() {
                 <!--/ End header content -->
                 
                 <!-- Start body content -->
-                <div class="body-content animated fadeIn">
+                  <div class="body-content animated fadeIn container limit-form" style="width:1200px;">
 
                     <div class="row">
                     	<form:form method="POST" class="form-horizontal form-bordered col-sm-3" id="administracaoForm" modelAttribute="administracaoForm" action="${urlAdmin}/voltarSelecaoRelatorio" >
@@ -80,18 +80,18 @@ $(document).ready(function() {
 		                                    <div class="form-group">
 		                                    	<label for="statusPlano" class="col-sm-4 control-label"><spring:message code="lbl.status.plano"/>:</label>
 		                                    	<div class="col-sm-7">
-			                                    	<form:select id="statusPlano" path="statusPlano" class="chosen-select" tabindex="-1" style="display: none;">                                
+			                                    	<form:select id="status" path="status" class="form-control" >                                
 															<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>   
 															<form:options items="${listaStatusServicoPlano}" itemValue="identificador" itemLabel="rotulo" />
 													</form:select>  
-													<form:errors id="statusPlano" path="statusPlano" cssClass="errorEntrada"  />  
+													<form:errors id="status" path="status" cssClass="errorEntrada"  />  
 												</div>
 		                                    </div><!-- /.form-group -->
 		                                    
 		                                    <div class="form-group">
 		                                    	<label  class="col-sm-4 control-label"><spring:message code="lbl.relatorio.data.inicio"/>:</label>
 		                                    	<div class="col-sm-7">		                                		
-			                                		<form:input id="dataInicio" path="dataInicio" class="chosen-select" tabindex="-1" style="display: none;" value="" data-date-format="dd/mm/yyyy" />	
+			                                		<form:input id="dataInicio" path="dataInicio" class="form-control"  value="" data-date-format="dd/mm/yyyy" />	
 												</div>											
 		                                    </div><!-- /.form-group -->
 		                                    

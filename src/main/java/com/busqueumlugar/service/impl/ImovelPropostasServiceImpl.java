@@ -28,6 +28,7 @@ import com.busqueumlugar.form.AdministracaoForm;
 import com.busqueumlugar.form.ImovelPropostasForm;
 import com.busqueumlugar.form.RelatorioForm;
 import com.busqueumlugar.form.UsuarioForm;
+import com.busqueumlugar.messaging.MessageSender;
 import com.busqueumlugar.model.EmailImovel;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.ImovelPropostas;
@@ -36,9 +37,11 @@ import com.busqueumlugar.service.ContatoService;
 import com.busqueumlugar.service.ImovelFavoritosService;
 import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.ImovelPropostasService;
+import com.busqueumlugar.service.ParametrosIniciaisService;
 import com.busqueumlugar.service.RecomendacaoService;
 import com.busqueumlugar.service.SeguidorService;
 import com.busqueumlugar.service.UsuarioService;
+import com.busqueumlugar.util.EmailJms;
 import com.busqueumlugar.util.MessageUtils;
 
 
@@ -70,6 +73,12 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 	
 	@Autowired
 	private RecomendacaoDao recomendacaoDao;
+	
+	@Autowired
+	private  MessageSender messageSender;
+	
+	@Autowired
+	private ParametrosIniciaisService parametrosIniciaisService;
 		
 	
 	public ImovelPropostas recuperarImovelImovelPropostasPorId(Long id) {
@@ -105,7 +114,22 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
         imovelPropostas.setUsuarioReceptor(imovel.getUsuario());        
         imovelPropostas.setDescricao(imovel.getDescricao());
         imovelPropostas.setStatus(StatusLeituraEnum.NOVO.getRotulo());
-        dao.save(imovelPropostas);		
+        dao.save(imovelPropostas);	
+        
+        boolean isHabilitado = parametrosIniciaisService.isHabilitadoEnvioEmail();
+    	if ( isHabilitado){
+    		try {	            	
+                EmailJms email = new EmailJms();
+                email.setSubject(MessageUtils.getMessage("msg.email.subject.imovel.proposta"));
+                email.setTo(imovelPropostas.getUsuarioReceptor().getEmail());
+                email.setTexto(MessageUtils.getMessage("msg.email.texto.imovel.proposta"));			            
+                messageSender.sendMessage(email);
+    		} catch (Exception e) {		
+    			log.error("Imovelpropostas - Erro envio email");
+				log.error("Mensagem erro: " + e.getMessage());
+    			e.printStackTrace();
+    		}
+    	}
 	}
 	
 	@Override
@@ -125,17 +149,20 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
         imovelPropostas.setObservacao(novaObs);
         dao.save(imovelPropostas);	
       
-        /*try {
-        	
-        	// enviar email
-            EnviaEmailHtml enviaEmail = new EnviaEmailHtml();
-            enviaEmail.setSubject(MessageUtils.getMessage("msg.email.subject.imovel.proposta"));
-            enviaEmail.setTo("israeldb27@gmail.com");
-            enviaEmail.setTexto(MessageUtils.getMessage("msg.email.texto.imovel.proposta"));		            	
-            enviaEmail.enviaEmail(enviaEmail.getEmail());
-		} catch (Exception e) {		
-			e.printStackTrace();
-		}*/
+        boolean isHabilitado = parametrosIniciaisService.isHabilitadoEnvioEmail();
+    	if ( isHabilitado){
+    		try {	            	
+                EmailJms email = new EmailJms();
+                email.setSubject(MessageUtils.getMessage("msg.email.subject.imovel.proposta"));
+                email.setTo(imovelPropostas.getUsuarioReceptor().getEmail());
+                email.setTexto(MessageUtils.getMessage("msg.email.texto.imovel.proposta"));			            
+                messageSender.sendMessage(email);
+    		} catch (Exception e) {		
+    			log.error("Imovelpropostas - Erro envio email");
+				log.error("Mensagem erro: " + e.getMessage());
+    			e.printStackTrace();
+    		}
+    	}
 	}
 	
 	@Override

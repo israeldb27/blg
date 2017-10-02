@@ -219,7 +219,7 @@
 												<form:option value="5" >5</form:option>
 												<form:option value="6" ><spring:message code="opcao.selecao.mais.seis"/></form:option>	                
 							                </form:select>
-							             <br>
+							             <br> <br>
 							         
 							         <span class="label label-default"><spring:message code="lbl.buscar.imovel.garagem"/> </span>
 								             <form:select id="quantGaragem" path="quantGaragem" class="chosen-select" tabindex="-1" style="display: none;">                                
@@ -231,7 +231,7 @@
 												<form:option value="5" >5</form:option>
 												<form:option value="6" ><spring:message code="opcao.selecao.mais.seis"/></form:option>	    
 							                </form:select>
-							             <br>    
+							             <br> <br>   
 							         
 							        <span class="label label-default"><spring:message code="lbl.buscar.imovel.banheiros"/> </span>
 								             <form:select id="quantBanheiro" path="quantBanheiro" class="chosen-select" tabindex="-1" style="display: none;">                                
@@ -243,7 +243,7 @@
 												<form:option value="5" >5</form:option>
 												<form:option value="6" ><spring:message code="opcao.selecao.mais.seis"/></form:option>	    
 							                </form:select>
-							             <br>       
+							             <br> <br>       
 							             
 							         <span class="label label-default"><spring:message code="lbl.buscar.imovel.suites"/> </span>
 								            <form:select id="quantSuites" path="quantSuites" class="chosen-select" tabindex="-1" style="display: none;">                                
@@ -268,13 +268,13 @@
                                 	 <div class="panel-body">
 	                                	 <br>
 	                                	 <span class="label label-default"><spring:message code="lbl.filtro.data.inicio.anuncio"/> </span>                                	                                 	  
-		                                 <form:input  id="dataInicioAnuncio" path="dataInicioAnuncio" class="chosen-select" tabindex="-1" style="display: none;"    />		                                 
+		                                 <form:input  id="dataInicioAnuncio" path="dataInicioAnuncio" class="form-control"   />		                                 
 		                                 <form:errors id="dataInicioAnuncio" path="dataInicioAnuncio" cssClass="errorEntrada"  />
 	
 	                                	  <br> <br>
 	                                	  
 	                                	  <span class="label label-default"><spring:message code="lbl.filtro.data.fim.anuncio"/> </span>
-	                                	  <form:input  id="dataFimAnuncio" path="dataFimAnuncio" class="chosen-select" tabindex="-1" style="display: none;"  />
+	                                	  <form:input  id="dataFimAnuncio" path="dataFimAnuncio" class="form-control"   />
 	                                      <form:errors id="dataFimAnuncio" path="dataFimAnuncio" cssClass="errorEntrada"  />
 	                                	  
 	                                      <br>
@@ -289,13 +289,13 @@
                                 	 <div class="panel-body">
 	                                	 <br>
 	                                	 <span class="label label-default"><spring:message code="lbl.filtro.data.inicio.cadastro"/> </span>                                	                                 	  
-		                                 <form:input  id="dataInicioCadastro" path="dataInicioCadastro" class="chosen-select" tabindex="-1" style="display: none;"    />		                                 
+		                                 <form:input  id="dataInicioCadastro" path="dataInicioCadastro" class="form-control"     />		                                 
 		                                 <form:errors id="dataInicioCadastro" path="dataInicioCadastro" cssClass="errorEntrada"  />
 	
 	                                	  <br> <br>
 	                                	  
 	                                	  <span class="label label-default"><spring:message code="lbl.filtro.data.fim.cadastro"/> </span>
-	                                	  <form:input  id="dataFimCadastro" path="dataFimCadastro" class="chosen-select" tabindex="-1" style="display: none;"  />
+	                                	  <form:input  id="dataFimCadastro" path="dataFimCadastro" class="form-control"   />
 	                                      <form:errors id="dataFimCadastro" path="dataFimCadastro" cssClass="errorEntrada"  />
 	                                	  
 	                                      <br>
@@ -313,9 +313,8 @@
                         	<c:choose>
                         		<c:when test="${ empty listaImoveisAnuncios }">
                         			<div class="callout callout-warning">
-	                                    <strong>Ooops! Não encontramos resultados para esta busca!</strong>
-	                                    <p>Faça alguns ajustes nos filtros e tente novamente.
-	                                </div>	
+	                                    <strong><spring:message code="lbl.rel.nenhum.registro"/></strong>
+	                                </div>
                         		</c:when>
                         		
                         		<c:when test="${ not empty listaImoveisAnuncios }">
@@ -370,7 +369,8 @@
 	                                                
 	                                                <div class="col-md-5" >                                                    
 	                                                    <div class="media-body" >
-				                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.table.data.destaque.imovel.anuncio" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;"><fmt:formatDate value='${imovelAnuncio.dataDestaque}' pattern='dd/MM/yyyy'/></font></span></em>
+				                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.table.data.destaque.imovel.anuncio" />: </font> <br>
+				                                            <span class="text-success"><font style="font-size:11px; font-style: normal;"><fmt:formatDate value='${imovelAnuncio.dataDestaque}' pattern='dd/MM/yyyy'/></font></span></em>
 				                                        </div>                                                  
 	                                                    <br/> <br/> <br/>                                                      
 	                                                </div>

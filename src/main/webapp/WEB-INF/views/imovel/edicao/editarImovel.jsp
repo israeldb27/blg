@@ -177,7 +177,7 @@
                 <!--/ End header content -->
                 
                 <!-- Start body content -->
-                <div class="body-content animated fadeIn">
+               <div class="body-content animated fadeIn container limit-form" style="width:800px;">
 
                    <form:form id="imovelForm" modelAttribute="imovelForm" action="${urlImovel}/editarImovel" class="form-horizontal mt-10" enctype="multipart/form-data" >
                    <form:hidden path="fotoPrincipal"/>

@@ -109,7 +109,7 @@
                 <!--/ End header content -->
                 
                 <!-- Start body content -->
-                <div class="body-content animated fadeIn">
+                <div class="body-content animated fadeIn container limit-form" style="width:800px;">
 					<form:form id="usuarioForm" modelAttribute="usuarioForm" action="${urlAdmin}/cadastrarUsuarioAdmin" class="form-horizontal mt-10" enctype="multipart/form-data">
                      	
                      <div class="row"> 	
@@ -215,28 +215,16 @@
                                                 </div>
                                             </div><!-- /.form-group -->
                                             
-                                            <div class="form-group">
-                                                <label for=diaNascimento class="col-sm-3 control-label"><spring:message code="lbl.data.nascimento"/></label>
-                                                <div class="col-sm-7">
-	                                                	<div class="col-sm-2">  
-															  <form:select id="diaNascimento" path="diaNascimento" class="form-control">										                 
-												                 <form:options items="${usuarioForm.listaDiaNascimento}" itemValue="key" itemLabel="label"/>
-													          </form:select>
-													    </div>
-												    	<div class="col-sm-3">      
-												          <form:select id="mesNascimento" path="mesNascimento" class="form-control">										                 
-											                 <form:options items="${usuarioForm.listaMesNascimento}" itemValue="key" itemLabel="label"/>
-												          </form:select>												          
-												    	</div>      
-												    	<div class="col-sm-2">      
-												          <form:select id="anoNascimento" path="anoNascimento" class="form-control">										                 
-											                 <form:options items="${usuarioForm.listaAnoNascimento}" itemValue="key" itemLabel="label"/>
-												          </form:select>												          
-												     	</div>
-												    <form:errors id="dataNascimento" path="dataNascimento" cssClass="errorEntrada"  /> 
-                                                </div>
-                                            </div><!-- /.form-group -->
-                                                                                              
+                                            <div id="lblDataNascimento" class="form-group">
+	                                            <div class="form-group">
+	                                                <label for=diaNascimento class="col-sm-3 control-label"><spring:message code="lbl.data.nascimento"/></label>
+	                                                <div class="col-sm-7">                                                    
+	                                                    <spring:message code="lbl.hint.usuario.data.nascimento" var="hintDataNascimento"/>         
+	                                                    <form:input id="dataNascimentoFmt" path="dataNascimentoFmt" class="form-control" title="${hintDataNascimento}"/>
+	                                                    <form:errors id="dataNascimentoFmt" path="dataNascimentoFmt" cssClass="errorEntrada"  />
+	                                                </div>                                               
+	                                            </div><!-- /.form-group -->
+                                             </div>                                                   
                                                                                       
                                             <div id="lblCPF" class="form-group">
                                                 <label for=cpf class="col-sm-3 control-label"><spring:message code="lbl.cpf"/></label>

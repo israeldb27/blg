@@ -30,6 +30,7 @@ import com.busqueumlugar.enumerador.TipoNotificacaoEnum;
 import com.busqueumlugar.form.AdministracaoForm;
 import com.busqueumlugar.form.ParceriaForm;
 import com.busqueumlugar.form.PerfilForm;
+import com.busqueumlugar.messaging.MessageSender;
 import com.busqueumlugar.model.EmailImovel;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Parceria;
@@ -38,9 +39,11 @@ import com.busqueumlugar.service.ContatoService;
 import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.NotaService;
 import com.busqueumlugar.service.NotificacaoService;
+import com.busqueumlugar.service.ParametrosIniciaisService;
 import com.busqueumlugar.service.ParceriaService;
 import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.AppUtil;
+import com.busqueumlugar.util.EmailJms;
 import com.busqueumlugar.util.MessageUtils;
 import com.mysql.jdbc.StringUtils;
 
@@ -81,6 +84,12 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
 
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	@Autowired
+	private  MessageSender messageSender;
+	
+	@Autowired
+	private ParametrosIniciaisService parametrosIniciaisService;
 
 	
 	public Parceria recuperarParceriaId(Long id) {
@@ -99,6 +108,21 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
         imovelComp.setUsuarioDonoImovel(imovelComp.getImovel().getUsuario());        
         imovelComp.setDescricaoCompartilhamento(descricaoCompart);    
         dao.save(imovelComp);
+        
+        boolean isHabilitado = parametrosIniciaisService.isHabilitadoEnvioEmail();
+    	if ( isHabilitado){
+    		try {	            	
+                EmailJms email = new EmailJms();
+                email.setSubject(MessageUtils.getMessage("msg.email.subject.parceria.sol"));
+                email.setTo(imovelComp.getUsuarioDonoImovel().getEmail());
+                email.setTexto(MessageUtils.getMessage("msg.email.texto.parceria.sol"));			            
+                messageSender.sendMessage(email);
+    		} catch (Exception e) {	
+    			log.error("Parceria - cadastrarSolicitacaoParceria - Erro envio email");
+				log.error("Mensagem erro: " + e.getMessage());
+    			e.printStackTrace();
+    		}
+    	}
 	}
 
 	
@@ -184,7 +208,22 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
             						  imovel.getUsuarioSolicitante(), 
             						  imovel.getImovel(), 
             						  new Date(),
-            						  NotaAcaoEnum.PARCERIA.getRotulo());            
+            						  NotaAcaoEnum.PARCERIA.getRotulo());  
+            
+            boolean isHabilitado = parametrosIniciaisService.isHabilitadoEnvioEmail();
+        	if ( isHabilitado){
+        		try {	            	
+                    EmailJms email = new EmailJms();
+                    email.setSubject(MessageUtils.getMessage("msg.email.subject.parceria.sol.aceita"));
+                    email.setTo(imovel.getUsuarioSolicitante().getEmail());
+                    email.setTexto(MessageUtils.getMessage("msg.email.texto.parceria.sol.aceita"));			            
+                    messageSender.sendMessage(email);
+        		} catch (Exception e) {	
+        			log.error("Parceria - atualizarStatusParceria - Erro envio email");
+					log.error("Mensagem erro: " + e.getMessage());
+        			e.printStackTrace();
+        		}
+        	}
         }
         else if ( status.equals("rejeitada")){
         	imovel.setDataResposta(new Date());

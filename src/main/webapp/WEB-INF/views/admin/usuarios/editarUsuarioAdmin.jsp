@@ -111,7 +111,7 @@
                 <!--/ End header content -->
                 
                 <!-- Start body content -->
-                <div class="body-content animated fadeIn">
+                 <div class="body-content animated fadeIn container limit-form" style="width:800px;">
 					<form:form id="usuarioForm" modelAttribute="usuarioForm" action="${urlAdmin}/editarUsuarioAdmin" class="form-horizontal mt-10" enctype="multipart/form-data">
                      	
                      <div class="row"> 	
@@ -219,24 +219,11 @@
                                             
                                             <div class="form-group">
                                                 <label for=diaNascimento class="col-sm-3 control-label"><spring:message code="lbl.data.nascimento"/></label>
-                                                <div class="col-sm-7">
-	                                                	<div class="col-sm-2">  
-															  <form:select id="diaNascimento" path="diaNascimento" class="form-control">										                 
-												                 <form:options items="${usuarioForm.listaDiaNascimento}" itemValue="key" itemLabel="label"/>
-													          </form:select>
-													    </div>
-												    	<div class="col-sm-3">      
-												          <form:select id="mesNascimento" path="mesNascimento" class="form-control">										                 
-											                 <form:options items="${usuarioForm.listaMesNascimento}" itemValue="key" itemLabel="label"/>
-												          </form:select>												          
-												    	</div>      
-												    	<div class="col-sm-2">      
-												          <form:select id="anoNascimento" path="anoNascimento" class="form-control">										                 
-											                 <form:options items="${usuarioForm.listaAnoNascimento}" itemValue="key" itemLabel="label"/>
-												          </form:select>												          
-												     	</div>
-												    <form:errors id="dataNascimento" path="dataNascimento" cssClass="errorEntrada"  /> 
-                                                </div>
+                                                <div class="col-sm-7">                                                    
+                                                    <spring:message code="lbl.hint.usuario.data.nascimento" var="hintDataNascimento"/>         
+                                                    <form:input id="dataNascimentoFmt" path="dataNascimentoFmt" class="form-control" title="${hintDataNascimento}"/>
+                                                    <form:errors id="dataNascimentoFmt" path="dataNascimentoFmt" cssClass="errorEntrada"  />
+                                                </div>                                               
                                             </div><!-- /.form-group -->
                                                                                               
                                                                                       
@@ -256,45 +243,6 @@
                         </div>
 						<!--/ FIM ABA INFORMACOES BASICAS -->
 						
-						<!--/ INICIO ABA PASSWORD -->
-                        <div class="col-md-12">
-                            <!-- Start horizontal form -->
-                            <div class="panel rounded shadow">
-                                <div class="panel-heading">  
-                                    <div class="pull-left">
-                                        <h3 class="panel-title"><spring:message code="lbl.password"/>  <code></code></h3>
-                                    </div>
-                                    <div class="pull-right">
-                                        <button class="btn btn-sm" data-action="collapse" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Collapse"><i class="fa fa-angle-up"></i></button>                                        
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div><!-- /.panel-heading -->
-                                <div class="panel-body no-padding">
-
-                                        <div class="form-body">
-                                        
-                                			<div class="form-group">
-                                                <label for="password" class="col-sm-3 control-label"><spring:message code="lbl.password"/> </label>
-                                                <div class="col-sm-7">                                                    
-                                                    <form:password id="password" path="password" class="form-control"/>
-                                                    <form:errors id="password" path="password" cssClass="errorEntrada"  />
-                                                </div>
-                                            </div><!-- /.form-group -->
-                                            
-                                            <div class="form-group">
-                                                <label for="password" class="col-sm-3 control-label"><spring:message code="lbl.confirma.password"/> </label>
-                                                <div class="col-sm-7">                                                    
-                                                    <form:password id="confirmaPassword" path="confirmaPassword" class="form-control"/>
-                                                    <form:errors id="confirmaPassword" path="confirmaPassword" cssClass="errorEntrada"  />
-                                                </div>
-                                            </div><!-- /.form-group -->                        
-
-                                		</div><!-- /.panel-body -->
-                            	</div><!-- /.panel -->
-                            <!--/ End horizontal form -->
-                        </div>
-                        
-                        <!--/ FIM ABA PASSWORD -->
 						
 						<!--/ INICIO ABA LOCALIZACAO -->
 						<div class="col-md-12">

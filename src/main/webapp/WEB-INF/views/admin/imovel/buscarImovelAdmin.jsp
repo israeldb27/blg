@@ -8,8 +8,8 @@
 
 <spring:url value="/imovelVisualizado" var="urlImovelVisualizado"/>
 <spring:url value="/imovel" var="urlImovel"/>
-<spring:url value="/localidade/buscarCidades" var="urlBuscarCidades"/>
-<spring:url value="/localidade/buscarBairros" var="urlBuscarBairros"/>
+<spring:url value="/imovel/buscarCidades" var="urlBuscarCidades"/>
+<spring:url value="/imovel/buscarBairros" var="urlBuscarBairros"/>
 <spring:url var="urlImovelFavoritos" value="/imovelFavoritos"/>
 <spring:url var="urlAdmin" value="/admin"/>
 
@@ -231,7 +231,7 @@
 												<form:option value="5" >5</form:option>
 												<form:option value="6" ><spring:message code="opcao.selecao.mais.seis"/></form:option>	                
 							                </form:select>
-							             <br>
+							             <br> <br> 
 							         
 							         <span class="label label-default"><spring:message code="lbl.buscar.imovel.garagem"/> </span>
 								             <form:select id="qtdGaragem" path="qtdGaragem" class="chosen-select" tabindex="-1" style="display: none;">                                
@@ -243,7 +243,7 @@
 												<form:option value="5" >5</form:option>
 												<form:option value="6" ><spring:message code="opcao.selecao.mais.seis"/></form:option>	    
 							                </form:select>
-							             <br>    
+							             <br> <br>    
 							         
 							        <span class="label label-default"><spring:message code="lbl.buscar.imovel.banheiros"/> </span>
 								             <form:select id="qtdBanheiro" path="qtdBanheiro" class="chosen-select" tabindex="-1" style="display: none;">                                
@@ -255,7 +255,7 @@
 												<form:option value="5" >5</form:option>
 												<form:option value="6" ><spring:message code="opcao.selecao.mais.seis"/></form:option>	    
 							                </form:select>
-							             <br>       
+							             <br> <br>       
 							             
 							         <span class="label label-default"><spring:message code="lbl.buscar.imovel.suites"/> </span>
 								            <form:select id="qtdSuites" path="qtdSuites" class="chosen-select" tabindex="-1" style="display: none;">                                
@@ -283,10 +283,10 @@
 							                    	<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 													<form:options items="${listaPerfilUsuario}" itemValue="identificador" itemLabel="rotulo" />
 							                </form:select>  
-							             <br>
+							             <br> <br> 
 							             
-							         	<c:if test="${(usuario.perfil != 'P')}">
-								             <span class="label label-default">Parceria ou Intermediação </span>
+							         	<c:if test="${(usuario.perfil != 'P')}">  
+								             <span class="label label-default"><spring:message code="lbl.buscar.imovel.intermediacao.parceria"/> </span>
 									             <form:select id="autorizacaoOutroUsuario" path="autorizacaoOutroUsuario" class="chosen-select" tabindex="-1" style="display: none;">            
 													<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>                        
 													<form:option value="S" ><spring:message code="lbl.sim"/></form:option>                        
@@ -307,9 +307,8 @@
                         	<c:choose>
                         		<c:when test="${ empty listaBuscarImoveis }">
                         			<div class="callout callout-warning">
-	                                    <strong>Ooops! Não encontramos resultados para esta busca!</strong>
-	                                    <p>Faça alguns ajustes nos filtros e tente novamente.
-	                                </div>	
+	                                    <strong><spring:message code="lbl.rel.nenhum.registro"/></strong>
+	                                </div>
                         		</c:when>
                         		
                         		<c:when test="${ not empty listaBuscarImoveis }">
@@ -318,7 +317,7 @@
 	                                </div>
 	                                <div class="pull-right" >
 	                                      <form:form method="POST" id="imovelBuscarImoveisForm" modelAttribute="imovelForm" action="${urlAdmin}/ordenaBuscarImoveis" >							                        	
-						                        	<form:select id="opcaoOrdenacao" path="opcaoOrdenacao" class="chosen-select" tabindex="-1" style="display: none;">                                
+						                        	<form:select id="opcaoOrdenacao" path="opcaoOrdenacao" class="form-control">                                
 								                        <form:option value="" disabled="true"><spring:message code="lbl.opcao.ordenar"/></form:option>                      
 								                        <form:option value="maiorDataCadastrado" ><spring:message code="lbl.opcao.ordenacao.imovel.mais.recente"/></form:option>
 														<form:option value="menorDataCadastrado" ><spring:message code="lbl.opcao.ordenacao.imovel.menos.recente"/></form:option>
@@ -366,7 +365,8 @@
 	                                                
 	                                                <div class="col-md-5" >                                                    
 	                                                    <div class="media-body" >
-				                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.ultima.imovel.atualizacao" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;"><fmt:formatDate value='${imovel.dataUltimaAtualizacao}' pattern='dd/MM/yyyy'/></font></span></em> 
+				                                            <em class="text-xs text-muted"> <font style="font-size:13px; font-style: normal;"><spring:message code="lbl.data.ultima.imovel.atualizacao" />: </font><span class="text-success"><font style="font-size:11px; font-style: normal;"> <br> 
+				                                            <fmt:formatDate value='${imovel.dataUltimaAtualizacao}' pattern='dd/MM/yyyy'/></font></span></em> 
 				                                            
 				                                            <br> <br>
 				                                            

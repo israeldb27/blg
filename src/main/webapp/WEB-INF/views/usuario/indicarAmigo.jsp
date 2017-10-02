@@ -125,15 +125,9 @@ function mostrarModal(id){
                     <h2><i class="fa fa-pencil"></i><spring:message code="lbl.title.aba.indicar.amigo"/> </h2>                                                                        
                 </div><!-- /.header-content -->
                 
-                <c:if test="${msgSucesso != null }">
-                	 <div class="alert alert-success">
-                           <strong>${msgSucesso}</strong> 
-                      </div>    
-               </c:if>  
-  	
                 
                 <!-- Start body content -->
-                <div class="body-content animated fadeIn">
+                <div class="body-content animated fadeIn container limit-form" style="width:800px; min-height:300px;">
 
                    <form:form id="usuarioForm" modelAttribute="usuarioForm" action="${urlUsuario}/indicarAmigo" class="form-horizontal mt-10">
                         <div class="row"> 	
@@ -171,6 +165,12 @@ function mostrarModal(id){
 				                                  <button type="submit" class="btn btn-success" title="${hintConfirmaDados}"><spring:message code="lbl.btn.confirmar.dados.geral"/></button>
 				                              </div>
 				                          </div><!-- /.form-footer -->
+				                          
+				                          <c:if test="${msgSucesso != null }">
+						                	 <div class="alert alert-success">
+						                           <strong>${msgSucesso}</strong> 
+						                      </div>    
+						                </c:if>  
 				                          
 	                            	</div><!-- /.panel -->
 	                            <!--/ End horizontal form -->

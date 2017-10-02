@@ -21,14 +21,18 @@ import com.busqueumlugar.dao.UsuarioDao;
 import com.busqueumlugar.enumerador.StatusLeituraEnum;
 import com.busqueumlugar.enumerador.TipoNotificacaoEnum;
 import com.busqueumlugar.form.NotificacaoForm;
+import com.busqueumlugar.messaging.MessageSender;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Notificacao;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.ImovelFavoritosService;
 import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.NotificacaoService;
+import com.busqueumlugar.service.ParametrosIniciaisService;
 import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.AppUtil;
+import com.busqueumlugar.util.EmailJms;
+import com.busqueumlugar.util.MessageUtils;
 
 @Service
 public class NotificacaoServiceImpl implements NotificacaoService {
@@ -46,6 +50,12 @@ public class NotificacaoServiceImpl implements NotificacaoService {
 	
 	@Autowired
 	private UsuarioService usuarioService;	
+	
+	@Autowired
+	private  MessageSender messageSender;
+	
+	@Autowired
+	private ParametrosIniciaisService parametrosIniciaisService;
 	
 	
 	public Notificacao recuperarNotificacaoPorId(Long idNotificacao) {
@@ -101,6 +111,25 @@ public class NotificacaoServiceImpl implements NotificacaoService {
         if ( idUsuarioConvite != null && idUsuarioConvite.longValue() > 0l)
         	notificacao.setUsuarioConvite(usuarioDao.findUsuario(idUsuarioConvite));
         dao.save(notificacao);
+        
+        boolean isHabilitado = parametrosIniciaisService.isHabilitadoEnvioEmail();
+    	if ( isHabilitado){
+    		try {	            	
+                EmailJms email = new EmailJms();
+                email.setSubject(MessageUtils.getMessage("msg.email.subject.notificacao"));
+                if ( idUsuarioConvite != null && idUsuarioConvite.longValue() > 0l)
+                	 email.setTo(notificacao.getUsuarioConvite().getEmail());
+                else            
+                	email.setTo(notificacao.getUsuario().getEmail());
+                
+                email.setTexto(MessageUtils.getMessage("msg.email.texto.notificacao"));			            
+                messageSender.sendMessage(email);
+    		} catch (Exception e) {		
+    			log.error("Notificacao - Erro envio email");
+				log.error("Mensagem erro: " + e.getMessage());
+    			e.printStackTrace();
+    		}
+    	}
 	}
 	
 	@Transactional
@@ -115,6 +144,25 @@ public class NotificacaoServiceImpl implements NotificacaoService {
         if ( idUsuarioConvite != null && idUsuarioConvite.longValue() > 0l)
         	notificacao.setUsuarioConvite(usuarioDao.findUsuario(idUsuarioConvite));
         dao.save(notificacao);
+        
+        boolean isHabilitado = parametrosIniciaisService.isHabilitadoEnvioEmail();
+    	if ( isHabilitado){
+    		try {	            	
+                EmailJms email = new EmailJms();
+                email.setSubject(MessageUtils.getMessage("msg.email.subject.notificacao"));
+                if ( idUsuarioConvite != null && idUsuarioConvite.longValue() > 0l)
+                	 email.setTo(notificacao.getUsuarioConvite().getEmail());
+                else            
+                	email.setTo(notificacao.getUsuario().getEmail());
+                
+                email.setTexto(MessageUtils.getMessage("msg.email.texto.notificacao"));			            
+                messageSender.sendMessage(email);
+    		} catch (Exception e) {		
+    			log.error("Notificacao - Erro envio email");
+				log.error("Mensagem erro: " + e.getMessage());
+    			e.printStackTrace();
+    		}
+    	}
 	}
 	
 	@Transactional
@@ -129,6 +177,21 @@ public class NotificacaoServiceImpl implements NotificacaoService {
         notificacao.setTipoNotificacao(tipoNotificacao);
         notificacao.setUsuarioConvite(usuarioDao.findUsuario(idUsuarioConvite));
         dao.save(notificacao);
+        
+        boolean isHabilitado = parametrosIniciaisService.isHabilitadoEnvioEmail();
+    	if ( isHabilitado){
+    		try {	            	
+                EmailJms email = new EmailJms();
+                email.setSubject(MessageUtils.getMessage("msg.email.subject.notificacao"));                     
+                email.setTo(notificacao.getUsuario().getEmail());            
+                email.setTexto(MessageUtils.getMessage("msg.email.texto.notificacao"));			            
+                messageSender.sendMessage(email);
+    		} catch (Exception e) {	
+    			log.error("Notificacao - Erro envio email");
+				log.error("Mensagem erro: " + e.getMessage());
+    			e.printStackTrace();
+    		}
+    	}
 	}
 	
 	@Override
@@ -146,6 +209,16 @@ public class NotificacaoServiceImpl implements NotificacaoService {
         	notificacao.setUsuarioConvite(usuarioDao.findUsuario(idUsuarioSolicitante));
         
         dao.save(notificacao);
+        
+        try {	            	
+            EmailJms email = new EmailJms();
+            email.setSubject(MessageUtils.getMessage("msg.email.subject.notificacao"));                     
+            email.setTo(notificacao.getUsuario().getEmail());            
+            email.setTexto(MessageUtils.getMessage("msg.email.texto.notificacao"));			            
+            messageSender.sendMessage(email);
+		} catch (Exception e) {		
+			e.printStackTrace();
+		}
 	}
 
 

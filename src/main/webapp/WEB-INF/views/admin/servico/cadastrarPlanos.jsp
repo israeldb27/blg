@@ -135,7 +135,7 @@ function confirmarExclusaoParametro(){
                                 <div class="panel-body no-padding">                                 	
                                  
                                     <div class="table-responsive" style="margin-top: -1px;">
-                                        <table class="table table-striped table-primary">
+                                        <table class="table table-striped">
                                             <thead>
                                             <tr>                                            	
                                                 <th class="text-center"><spring:message code="lbl.admin.nome.plano.resum"/></th>
@@ -151,8 +151,8 @@ function confirmarExclusaoParametro(){
 	                                                <td class="text-center"><fmt:formatNumber value="${plano.valorPlano}" pattern="#,##0.00;-0"/></td>
 	                                                
 													<td class="text-center">
-														  <a href="#" onClick="prepararModalDetalhesPlano(${plano.id})" class="btn btn-sm btn-primary btn-xs btn-push"><i class="fa fa-eye"></i> <spring:message code="lbl.admin.link.ver.param.inicial"/></a>
-														  <a href="${urlAdmin}/manterPlano/atualizar/${plano.id}" class="btn btn-sm btn-primary btn-xs btn-push"><i class="fa fa-eye"></i> <spring:message code="lbl.admin.link.atualizar.plano"/></a>														  
+														  <a href="#" onClick="prepararModalDetalhesPlano(${plano.id})" ><i class="fa fa-eye"></i> </a> &nbsp;&nbsp;
+														  <a href="${urlAdmin}/manterPlano/atualizar/${plano.id}" ><i class="fa fa-pencil-square-o"></i> </a>														  
 													</td>	  
 												</tr>
                                             </c:forEach>

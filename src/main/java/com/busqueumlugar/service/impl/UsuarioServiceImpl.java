@@ -49,6 +49,7 @@ import com.busqueumlugar.service.TimelineService;
 import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.DateUtil;
+import com.busqueumlugar.util.EmailJms;
 import com.busqueumlugar.util.EnviaEmailHtml;
 import com.busqueumlugar.util.JsfUtil;
 import com.busqueumlugar.util.MessageUtils;
@@ -203,6 +204,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	
 	 @Autowired
 	 private  MessageSender messageSender;
+
 	
 	
 	@Override
@@ -784,29 +786,21 @@ public class UsuarioServiceImpl implements UsuarioService{
 			filtroValido = true;
 		}
 	
-		
-		boolean estaVaziaDataNascimento = false;
-		if ( StringUtils.isEmpty(form.getDiaNascimento()) || StringUtils.isEmpty(form.getMesNascimento()) || StringUtils.isEmpty(form.getAnoNascimento())){
-			result.rejectValue("dataNascimento", "msg.erro.data.nascimento.invalida");
-			filtroValido = true;
-			estaVaziaDataNascimento = true;
-		}		
-		
-		
-		if ( ! estaVaziaDataNascimento){			
-			try{
-				String dtNascimento = form.getDiaNascimento() + "/" + form.getMesNascimento() + "/" + form.getAnoNascimento();
+		if ( StringUtils.isEmpty(form.getDataNascimentoFmt())){
+			result.rejectValue("dataNascimentoFmt", "msg.erro.campo.obrigatorio");
+			filtroValido = true;                   
+		}
+		else {
+			try{				
 				DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
 				df.setLenient (false); 
-				df.parse (dtNascimento);   
+				df.parse (form.getDataNascimentoFmt());   
 			}
 			catch(ParseException e){
-				result.rejectValue("dataNascimento", "msg.erro.data.nascimento.invalida");
+				result.rejectValue("dataNascimentoFmt", "msg.erro.data.nascimento.invalida");
 				filtroValido = true;
 			}
-		}
-
-		
+		}	
 		// fim - validacao minhas informacoes
 		
 		// inicio - validacao localizacao
@@ -1662,7 +1656,8 @@ public class UsuarioServiceImpl implements UsuarioService{
 		
 		session.setAttribute(UsuarioService.HABILITA_FUNC_PLANOS  , parametrosIniciaisService.findParametroInicialPorNome(UsuarioService.HABILITA_FUNC_PLANOS));
 		session.setAttribute(UsuarioService.HABILITA_FUNC_SERVICOS, parametrosIniciaisService.findParametroInicialPorNome(UsuarioService.HABILITA_FUNC_SERVICOS));
-						
+		session.setAttribute(UsuarioService.HABILITA_ENVIO_EMAIL, parametrosIniciaisService.findParametroInicialPorNome(UsuarioService.HABILITA_ENVIO_EMAIL));
+		
 		session.setAttribute(UsuarioService.ACESSO_VALIDO, user.getAcessoValido());		
 		session.setAttribute(UsuarioService.CONTADOR_TELA_INICIAL, 1L);
 		session.setAttribute(ImovelService.QUANT_LISTA_IMOVEL_COMPARATIVO, 0L);
@@ -1705,6 +1700,8 @@ public class UsuarioServiceImpl implements UsuarioService{
 																																									    StatusLeituraEnum.NOVO.getRotulo(),
 																																									    StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo()));	
 		}
+		
+	
 		
 		//session.setAttribute(ImovelService.LISTA_IMOVEL_ANUNCIO_DESTAQUE, imovelService.recuperarImovelDestaqueParaAnuncio(3));
 	}
@@ -2030,11 +2027,8 @@ public class UsuarioServiceImpl implements UsuarioService{
         usuario.setDataCadastro(new Date());
         usuario.setDataUltimoAcesso(null);
         usuario.setAtivado("S");
-        usuario.setPerfil(PerfilUsuarioOpcaoEnum.ADMIN.getRotulo());
-        
-        DateUtil dtNascimento = new DateUtil(frm.getDiaNascimento(), frm.getMesNascimento(), frm.getAnoNascimento());
-        usuario.setDataNascimento(dtNascimento.getTime());
-      	
+        usuario.setPerfil(PerfilUsuarioOpcaoEnum.ADMIN.getRotulo());        
+        usuario.setDataNascimento(DateUtil.formataDataBanco(frm.getDataNascimentoFmt()));      	
         usuario.setCpf(frm.getCpf());       
         
         Estados estado = estadosDao.findEstadosById(frm.getIdEstado());
@@ -2056,7 +2050,6 @@ public class UsuarioServiceImpl implements UsuarioService{
         frm = new UsuarioForm();
         BeanUtils.copyProperties(usuario, frm);
         return frm;
-
 	}
 	
 	@Override
@@ -3119,12 +3112,22 @@ public class UsuarioServiceImpl implements UsuarioService{
 			usuario.setPassword(md5(novaSenhaTemporaria));
 			usuario.setStatusUsuario("senhaTemporaria");
 			dao.save(usuario);
-			
-			EnviaEmailHtml enviaEmail = new EnviaEmailHtml();
-	        enviaEmail.setSubject(MessageUtils.getMessage("msg.email.subject.esqueceu.senha"));
-	        enviaEmail.setTo(form.getEmailEsqueceu());
-	        enviaEmail.setTexto(MessageUtils.getMessage("msg.email.texto.esqueceu.senha") + ": " + novaSenhaTemporaria);		            	
-	        enviaEmail.enviaEmail(enviaEmail.getEmail());
+	        
+			boolean isHabilitado = parametrosIniciaisService.isHabilitadoEnvioEmail();
+        	if ( isHabilitado){
+        		try {	            	
+    	            EmailJms email = new EmailJms();
+    	            email.setSubject(MessageUtils.getMessage("msg.email.subject.esqueceu.senha"));
+    	            email.setTo(form.getEmailEsqueceu());
+    	            email.setTexto(MessageUtils.getMessage("msg.email.texto.esqueceu.senha") + ": " + novaSenhaTemporaria);			            
+    	            messageSender.sendMessage(email);
+    			} catch (Exception e) {	
+    				log.error("Usuario - enviarSenhaTemporarioEsqueceuSenha - Erro envio email");
+					log.error("Mensagem erro: " + e.getMessage());
+    				e.printStackTrace();
+    			}
+        	}
+	        
 		}
 		else 
 			throw new EmailException(MessageUtils.getMessage("msg.erro.enviar.nova.senha.temporaria"));
@@ -3276,12 +3279,17 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 
 	@Override
-	public void enviarIndicarAmigo(UsuarioForm form) throws EmailException {
-		EnviaEmailHtml enviaEmail = new EnviaEmailHtml();
-        enviaEmail.setSubject(MessageUtils.getMessage("msg.email.subject.indicar.amigo"));
-        enviaEmail.setTo(form.getEmailIndicaAmigos()); 
-        enviaEmail.setTexto(MessageUtils.getMessage("msg.email.texto.indicar.amigo") + ": " + MessageUtils.getMessage("msg.email.texto.indicar.amigo.link"));		            	
-        enviaEmail.enviaEmail(enviaEmail.getEmail());		
+	public void enviarIndicarAmigo(UsuarioForm form) throws EmailException {	
+        
+        try {	            	
+            EmailJms email = new EmailJms();
+            email.setSubject(MessageUtils.getMessage("msg.email.subject.indicar.amigo"));
+            email.setTo(form.getEmailIndicaAmigos());
+            email.setTexto(MessageUtils.getMessage("msg.email.texto.indicar.amigo"));			            
+            messageSender.sendMessage(email);
+		} catch (Exception e) {		
+			e.printStackTrace();
+		}
 	}
 
 

@@ -72,7 +72,7 @@
                 <!--/ End header content -->
                 
                 <!-- Start body content -->
-                <div class="body-content animated fadeIn">
+                 <div class="body-content animated fadeIn container limit-form" style="width:1200px;">
                 	<div class="row">                		
                 		<form:form method="POST" id="mensagemAdminForm" modelAttribute="mensagemAdminForm" action="${urlMensagemAdmin}/adicionarNovaMaisMensagem" class="form-horizontal mt-10">
 	                        <div class="col-md-12">

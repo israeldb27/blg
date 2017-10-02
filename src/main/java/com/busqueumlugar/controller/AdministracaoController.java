@@ -131,7 +131,7 @@ public class AdministracaoController {
 	private static final String MENU = "menu";
 	
 	
-	@RequestMapping(value = "/adicionarConfiguracaoAnuncioImovel/{dataInicio}/{dataFim}")	
+	@RequestMapping(value = "/adicionarConfiguracaoAnuncioImovel/{dataInicio}/{dataFim}", method = RequestMethod.GET)	
 	@ResponseBody
 	public String adicionarConfiguracaoAnuncioImovel(@PathVariable("dataInicio") String dataInicio,
 											     	 @PathVariable("dataFim") String dataFim,											   
@@ -139,18 +139,43 @@ public class AdministracaoController {
 											     	 ModelMap map, 											   
 											     	 @ModelAttribute("imovelForm") ImovelForm form){
 		
-		String msg = imoveldestaqueService.validarCadastroAnuncioImovel(dataInicio, dataFim, form);
-		if ( msg.equals("")){
-			imoveldestaqueService.cadastrarAnuncioImovel(dataInicio, dataFim, form);
-			form.setListaImovelAnuncio(imoveldestaqueService.recuperarListaAnuncioPorImovel(form.getId()));
-			map.addAttribute("imovelForm", form );
-			return "ok";
-		}
-		else {
-			return msg;
+		try {
+			String msg = imoveldestaqueService.validarCadastroAnuncioImovel(dataInicio, dataFim, form);
+			if ( msg.equals("")){
+				imoveldestaqueService.cadastrarAnuncioImovel(dataInicio, dataFim, form);
+				form.setListaImovelAnuncio(imoveldestaqueService.recuperarListaAnuncioPorImovel(form.getId()));
+				map.addAttribute("imovelForm", form );
+				return "ok";
+			}
+			else {
+				return msg;
+			}
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelController -  adicionarConfiguracaoAnuncioImovel");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return null;
 		}
 	}
 	
+	@RequestMapping(value = "/adicionarConfiguracao")	
+	@ResponseBody
+	public String adicionarConfiguracao(HttpSession session, 	
+											     	 ModelMap map, 											   
+											     	 @ModelAttribute("imovelForm") ImovelForm form){
+		
+		try {
+			
+				return "ok";
+			
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelController -  adicionarConfiguracaoAnuncioImovel");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return null;
+		}
+	}
+		
 	
 	@RequestMapping(value = "/prepararBuscaImoveisAnuncio", method = RequestMethod.GET)
 	public String prepararBuscaImoveisAnuncio(ModelMap map, 
@@ -1109,6 +1134,16 @@ public class AdministracaoController {
 		
 		
 		UsuarioForm form = usuarioService.prepararEdicaoUsuarioAdmin(idUsuarioAdmin);		
+    	map.addAttribute("usuarioForm", form);    	
+    	return DIR_PATH_USUARIO + "editarUsuarioAdmin";
+	}
+	
+	@RequestMapping(value = "/prepararEdicaoUsuarioAdmin")
+	public String prepararEdicaoUsuarioAdmin( HttpSession session,
+											  ModelMap map){
+		
+		UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
+		UsuarioForm form = usuarioService.prepararEdicaoUsuarioAdmin(user.getId());		
     	map.addAttribute("usuarioForm", form);    	
     	return DIR_PATH_USUARIO + "editarUsuarioAdmin";
 	}

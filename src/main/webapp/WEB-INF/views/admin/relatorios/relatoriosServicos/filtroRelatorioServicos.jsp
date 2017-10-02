@@ -46,7 +46,7 @@ $(document).ready(function() {
                 <!--/ End header content -->
                 
                 <!-- Start body content -->
-                <div class="body-content animated fadeIn">
+               <div class="body-content animated fadeIn container limit-form" style="width:1200px;">
                     <div class="row">
                         <div class="col-md-12">
                         	<form:form method="POST" class="form-horizontal form-bordered col-sm-3" id="administracaoForm" modelAttribute="administracaoForm" action="${urlAdmin}/voltarSelecaoRelatorio" >
@@ -57,7 +57,7 @@ $(document).ready(function() {
                             <div class="panel rounded shadow">
                                 <div class="panel-heading">
                                     <div class="pull-left">  
-                                        <h3 class="panel-title">Formulário</h3>
+                                        <h3 class="panel-title"></h3>
                                     </div><!-- /.pull-left -->
                                     <div class="pull-right">
                                         <button class="btn btn-sm" data-action="collapse" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Collapse"><i class="fa fa-angle-up"></i></button>
@@ -82,7 +82,7 @@ $(document).ready(function() {
 		                                    <div class="form-group">
 		                                    	<label for="status" class="col-sm-4 control-label"><spring:message code="lbl.status.servico"/>:</label>
 		                                    	<div class="col-sm-7">
-			                                    	<form:select id="status" path="status" class="chosen-select" tabindex="-1" style="display: none;">                                
+			                                    	<form:select id="status" path="status" class="form-control">                                
 															<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>   
 															<form:options items="${listaStatusServicoPlano}" itemValue="identificador" itemLabel="rotulo" />
 													</form:select>   

@@ -104,7 +104,7 @@ function confirmarExclusaoFormaPagamento(){
                                 <div class="panel-body no-padding">                                 	
                                  
                                     <div class="table-responsive" style="margin-top: -1px;">
-                                        <table class="table table-striped table-primary">
+                                        <table class="table table-striped">
                                             <thead>
                                             <tr>  
                                             	<th class="text-center"><spring:message code="lbl.admin.data.cadastro.forma.pagto"/></th>
@@ -125,7 +125,7 @@ function confirmarExclusaoFormaPagamento(){
 													<td class="text-center">${parametro.descricao}</td>
 													
 													<td class="text-center">
-														  <a href="${urlAdmin}/prepararAtualizacaoFormasPagto/${parametro.id}" class="btn btn-sm btn-primary btn-xs btn-push"><i class="fa fa-eye"></i> <spring:message code="lbl.admin.link.atualizar.forma.pagto"/></a>
+														  <a href="${urlAdmin}/prepararAtualizacaoFormasPagto/${parametro.id}" ><i class="fa fa-pencil-square-o"></i> </a>
 													</td>	                                            
 	                                            </tr>  
                                             </c:forEach>

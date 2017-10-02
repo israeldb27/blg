@@ -21,14 +21,18 @@ import com.busqueumlugar.form.AdministracaoForm;
 import com.busqueumlugar.form.ImovelcomentarioForm;
 import com.busqueumlugar.form.RelatorioForm;
 import com.busqueumlugar.form.UsuarioForm;
+import com.busqueumlugar.messaging.MessageSender;
 import com.busqueumlugar.model.EmailImovel;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Imovelcomentario;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.ImovelcomentarioService;
+import com.busqueumlugar.service.ParametrosIniciaisService;
 import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.DateUtil;
+import com.busqueumlugar.util.EmailJms;
+import com.busqueumlugar.util.MessageUtils;
 
 @Service
 public class ImovelcomentarioServiceImpl implements ImovelcomentarioService {
@@ -43,6 +47,12 @@ public class ImovelcomentarioServiceImpl implements ImovelcomentarioService {
 	
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	@Autowired
+	private  MessageSender messageSender;
+	
+	@Autowired
+	private ParametrosIniciaisService parametrosIniciaisService;
 	
 	
 	@Override
@@ -99,7 +109,24 @@ public class ImovelcomentarioServiceImpl implements ImovelcomentarioService {
         imovelcomentario.setUsuarioComentario(usuarioService.recuperarUsuarioPorId(usuarioForm.getId()));   
         imovelcomentario.setUsuario(imovelcomentario.getImovel().getUsuario());
         imovelcomentario.setStatus(StatusLeituraEnum.NOVO.getRotulo());
-        dao.save(imovelcomentario);  
+        dao.save(imovelcomentario); 
+        
+        boolean isHabilitado = parametrosIniciaisService.isHabilitadoEnvioEmail();
+    	if ( isHabilitado){
+    		try {	            	
+                EmailJms email = new EmailJms();
+                email.setSubject(MessageUtils.getMessage("msg.email.subject.imovel.comentario"));
+                email.setTo(imovelcomentario.getUsuario().getEmail());
+                email.setTexto(MessageUtils.getMessage("msg.email.texto.imovel.comentario"));			            
+                messageSender.sendMessage(email);
+    		} catch (Exception e) {	
+    			log.error("Imovelcomentario - Erro envio email");
+				log.error("Mensagem erro: " + e.getMessage());
+    			e.printStackTrace();
+    		}
+    	}
+        
+         
 	}
 	
 	@Override
@@ -113,6 +140,21 @@ public class ImovelcomentarioServiceImpl implements ImovelcomentarioService {
         imovelcomentario.setUsuario(imovelcomentario.getImovel().getUsuario());   
         imovelcomentario.setStatus(StatusLeituraEnum.NOVO.getRotulo());
         dao.save(imovelcomentario);  
+        
+        boolean isHabilitado = parametrosIniciaisService.isHabilitadoEnvioEmail();
+    	if ( isHabilitado){
+    		try {	            	
+                EmailJms email = new EmailJms();
+                email.setSubject(MessageUtils.getMessage("msg.email.subject.imovel.comentario"));
+                email.setTo(imovelcomentario.getUsuario().getEmail());
+                email.setTexto(MessageUtils.getMessage("msg.email.texto.imovel.comentario"));			            
+                messageSender.sendMessage(email);
+    		} catch (Exception e) {	
+    			log.error("Imovelcomentario - Erro envio email");
+				log.error("Mensagem erro: " + e.getMessage());
+    			e.printStackTrace();
+    		}
+    	} 
 	}
 
 	@Override

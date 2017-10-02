@@ -65,7 +65,7 @@
 
     <!--/ END HEAD -->
    
-    <body class="home">
+    <body style="background: #f7f4f4;">
     
     <div class="all">
 		<div class="header">
@@ -82,7 +82,7 @@
                 <!--/ End header content -->
                 
                 <!-- Start body content -->
-                <div class="body-content animated fadeIn">
+                 <div class="body-content animated fadeIn container limit-form" style="width:800px; min-height:300px;">
                 	  
                    <form:form id="usuarioForm" modelAttribute="usuarioForm" action="${urlUsuario}/enviarEmailTemporario" class="form-horizontal mt-10" enctype="multipart/form-data">
                      	
@@ -112,16 +112,16 @@
 	                                        <div class="form-body">
 	                                        
 	                                			<div class="form-group">
-	                                                <label for="emailEsqueceu" class="col-sm-3 control-label"><spring:message code="lbl.email"/> </label>
-	                                                <div class="col-sm-5">                       
+	                                                <label for="emailEsqueceu" class="col-sm-5 control-label"><spring:message code="lbl.email"/> </label>
+	                                                <div class="col-sm-7">                       
 	                                                    <form:input id="emailEsqueceu" path="emailEsqueceu" class="form-control" />
 	                                                    <form:errors id="emailEsqueceu" path="emailEsqueceu" cssClass="errorEntrada"  />
 	                                                </div>
 	                                            </div><!-- /.form-group -->
 	                                            
 	                                            <div class="form-group">
-	                                                <label for="cpfCnpjEsqueceuSenha" class="col-sm-3 control-label"><spring:message code="lbl.cpf.cnpj.esqueceu.senha"/> </label>
-	                                                <div class="col-sm-5">                       
+	                                                <label for="cpfCnpjEsqueceuSenha" class="col-sm-5 control-label"><spring:message code="lbl.cpf.cnpj.esqueceu.senha"/> </label>
+	                                                <div class="col-sm-7">                       
 	                                                    <form:input id="cpfCnpjEsqueceuSenha"  path="cpfCnpjEsqueceuSenha" class="form-control" />
 	                                                    <form:errors id="cpfCnpjEsqueceuSenha" path="cpfCnpjEsqueceuSenha" cssClass="errorEntrada"  />
 	                                                </div>
@@ -132,7 +132,7 @@
 	                                		<div class="form-footer">  
 				                              <div class="col-sm-offset-3">                              	
 				                              	<spring:message code="lbl.hint.confirmar.geral" var="hintConfirmaDados"/>
-				                                  <button type="submit" class="btn btn-primary btn-block" style="width: 30%;" title="${hintConfirmaDados}"><spring:message code="lbl.btn.confirmar.dados.geral"/></button>
+				                                  <button type="submit" class="btn btn-primary btn-block" style="width: 70%;" title="${hintConfirmaDados}"><spring:message code="lbl.btn.confirmar.dados.geral"/></button>
 				                              </div>
 				                          </div><!-- /.form-footer -->
 	                            	</div><!-- /.panel -->

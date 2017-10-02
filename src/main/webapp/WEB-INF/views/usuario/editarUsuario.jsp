@@ -173,7 +173,7 @@ function mostrarModalPermissoes(id){
                </c:if>	
                 
                 <!-- Start body content -->
-                <div class="body-content animated fadeIn">
+                <div class="body-content animated fadeIn container limit-form" style="width:800px;">
 
                    <form:form id="usuarioForm" modelAttribute="usuarioForm" action="${urlUsuario}/editarUsuario" class="form-horizontal mt-10">
                      <div class="row">

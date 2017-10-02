@@ -331,7 +331,7 @@
 												<form:option value="5" >5</form:option>
 												<form:option value="6" ><spring:message code="opcao.selecao.mais.seis"/></form:option>	                
 							                </form:select>
-							             <br>
+							             <br> <br>
 							         
 							         <span class="label label-default"><spring:message code="lbl.buscar.imovel.garagem"/> </span>
 								             <spring:message code="lbl.hint.imovel.quant.garagem" var="hintQuantGaragem"/>
@@ -344,7 +344,7 @@
 												<form:option value="5" >5</form:option>
 												<form:option value="6" ><spring:message code="opcao.selecao.mais.seis"/></form:option>	    
 							                </form:select>
-							             <br>    
+							             <br>    <br>
 							         
 							        <span class="label label-default"><spring:message code="lbl.buscar.imovel.banheiros"/> </span>
 								             <spring:message code="lbl.hint.imovel.quant.banheiros" var="hintQuantBanheiros"/>
@@ -357,7 +357,7 @@
 												<form:option value="5" >5</form:option>
 												<form:option value="6" ><spring:message code="opcao.selecao.mais.seis"/></form:option>	    
 							                </form:select>
-							             <br>       
+							             <br>     <br>  
 							             
 							         <span class="label label-default"><spring:message code="lbl.buscar.imovel.suites"/> </span>
 								            <spring:message code="lbl.hint.imovel.quant.suites" var="hintQuantSuites"/>

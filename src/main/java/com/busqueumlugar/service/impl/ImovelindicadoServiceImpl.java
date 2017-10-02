@@ -25,13 +25,16 @@ import com.busqueumlugar.enumerador.StatusLeituraEnum;
 import com.busqueumlugar.form.AdministracaoForm;
 import com.busqueumlugar.form.ImovelForm;
 import com.busqueumlugar.form.ImovelindicadoForm;
+import com.busqueumlugar.messaging.MessageSender;
 import com.busqueumlugar.model.EmailImovel;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Imovelindicado;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.ImovelindicadoService;
+import com.busqueumlugar.service.ParametrosIniciaisService;
 import com.busqueumlugar.service.UsuarioService;
+import com.busqueumlugar.util.EmailJms;
 import com.busqueumlugar.util.EnviaEmailHtml;
 import com.busqueumlugar.util.MessageUtils;
 
@@ -64,6 +67,11 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
 	@Autowired
 	private RecomendacaoDao recomendacaoDao;
 
+	@Autowired
+	private  MessageSender messageSender;
+	
+	@Autowired
+	private ParametrosIniciaisService parametrosIniciaisService;
 
 	
 	public Imovelindicado recuperarImovelindicadoPorId(Long id) {
@@ -85,7 +93,22 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
         
         //atualizando a quantidade de indicacoes do usuario
         usuario.setQuantMaxIndicacoesImovel(usuario.getQuantMaxIndicacoesImovel() - 1);
-        usuarioDao.save(usuario);		
+        usuarioDao.save(usuario);	
+        boolean isHabilitado = parametrosIniciaisService.isHabilitadoEnvioEmail();
+    	if ( isHabilitado){
+    		try {	            	
+                EmailJms emailjms = new EmailJms();
+                emailjms.setSubject(MessageUtils.getMessage("msg.email.subject.imovel.indicado"));
+                emailjms.setTo(imovelindicado.getUsuario().getEmail());
+                emailjms.setTexto(MessageUtils.getMessage("msg.email.texto.imovel.indicado"));			            
+                messageSender.sendMessage(emailjms);
+    		} catch (Exception e) {		
+    			log.error("Imovelindicado - cadastrarIndicacao - Erro envio email");
+				log.error("Mensagem erro: " + e.getMessage());
+    			e.printStackTrace();
+    		}
+    	}
+        
 	}
 
 	@Override
@@ -103,18 +126,23 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
         
         //atualizando a quantidade de indicacoes do usuario
         usuario.setQuantMaxIndicacoesImovel(usuario.getQuantMaxIndicacoesImovel() - 1);
-        usuarioDao.save(usuario);	        
+        usuarioDao.save(usuario);
         
-        try {
-        	// enviar email
-            EnviaEmailHtml enviaEmail = new EnviaEmailHtml();
-            enviaEmail.setSubject(MessageUtils.getMessage("msg.email.subject.imovel.indicado.email"));
-            enviaEmail.setTo(email);
-            enviaEmail.setTexto(MessageUtils.getMessage("msg.email.texto.imovel.indicado.email"));		            	
-            enviaEmail.enviaEmail(enviaEmail.getEmail());
-		} catch (Exception e) {		
-			e.printStackTrace();
-		}
+        boolean isHabilitado = parametrosIniciaisService.isHabilitadoEnvioEmail();
+    	if ( isHabilitado){
+    		try {	            	
+                EmailJms emailjms = new EmailJms();
+                emailjms.setSubject(MessageUtils.getMessage("msg.email.subject.imovel.indicado.email"));
+                emailjms.setTo(email);
+                emailjms.setTexto(MessageUtils.getMessage("msg.email.texto.imovel.indicado.email"));			            
+                messageSender.sendMessage(emailjms);
+    		} catch (Exception e) {	
+    			log.error("Imovelindicado - cadastrarIndicacaoPorEmail - Erro envio email");
+				log.error("Mensagem erro: " + e.getMessage());
+    			e.printStackTrace();
+    		}
+    	}
+        
         
 	}
 

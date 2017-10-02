@@ -118,7 +118,7 @@ function mostrarModal(id){
             <!--/ END SIDEBAR LEFT -->
 
             <!-- START @PAGE CONTENT -->
-            <section id="page-content">
+            <section id="page-content" style="background-color:#e9eaed;">
 
             	 <!-- Start header content -->
                 <div class="header-content">
@@ -137,10 +137,10 @@ function mostrarModal(id){
                </c:if>	
                 
                 <!-- Start body content -->
-                <div class="body-content animated fadeIn">
+                <div class="body-content animated fadeIn container limit-form" style="width:800px; min-height:300px;">
 
                    <form:form id="usuarioForm" modelAttribute="usuarioForm" action="${urlUsuario}/editarSenha" class="form-horizontal mt-10">
-                        <div class="row"> 	
+                        	
                   		   <!--/ INICIO ABA PASSWORD -->
 	                        <div class="col-md-12">
 	                            <!-- Start horizontal form -->

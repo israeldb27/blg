@@ -19,9 +19,11 @@ import java.util.Random;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.CharUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -31,12 +33,16 @@ import com.busqueumlugar.model.Cidades;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.ImovelService;
+import com.busqueumlugar.service.UsuarioService;
 
 
 public class AppUtil {
 	
 	@Autowired
 	private static ServletContext context;	
+	
+	@Autowired
+	private static HttpSession session;
 	
 	
 	public static BigDecimal formatarMoeda(String valor){
@@ -188,5 +194,7 @@ public class AppUtil {
 		}
 		return listaFinal;
 	}
+	
+	
 	
 }

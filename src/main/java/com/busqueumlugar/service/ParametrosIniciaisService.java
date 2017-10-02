@@ -29,4 +29,6 @@ public interface ParametrosIniciaisService {
 	ParametrosIniciaisForm carregarParametrosIniciaisPorIdParametro(Long idParametro);
 
 	void editarParametroInicial(ParametrosIniciaisForm form, Long idUsuario);
+
+	boolean isHabilitadoEnvioEmail();
 }

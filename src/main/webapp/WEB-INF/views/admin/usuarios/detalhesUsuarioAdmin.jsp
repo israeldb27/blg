@@ -31,35 +31,35 @@ $(document).ready(function() {
 
 function mostrarModal(id){	
 	if (id == 0){
-		$('#msgModal').html("Informação resumida sobre o usuário");
+		$('#msgModal').html("<spring:message code='lbl.modal.sobre.mim'/>");		
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.sobre.mim'/>");		
 	}
 	else if ( id == 1){
-		$('#msgModal').html("Lista de notas sobre ações do usuário");
+		$('#msgModal').html("<spring:message code='lbl.modal.notas.usuario'/> ");
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.notas.usuario'/>");		
 	}
 	else if ( id == 2){
-		$('#msgModal').html("Lista de preferências de imóveis do usuário");
+		$('#msgModal').html("<spring:message code='lbl.modal.pref.imoveis'/>");
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.pref.imoveis'/>");
 	}
 	else if ( id == 3){
-		$('#msgModal').html("Lista de contatos do usuário");
+		$('#msgModal').html("<spring:message code='lbl.modal.contatos'/>");
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.contatos'/>");
 	}
 	else if ( id == 4){
-		$('#msgModal').html("Lista de seguidores do usuário");
+		$('#msgModal').html("<spring:message code='lbl.modal.lista.seguidores.detalhes.usuario'/>");
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.lista.seguidores.detalhes.usuario'/>");
 	}
 	else if ( id == 5){
-		$('#msgModal').html("Lista de recomendações feitas ao usuário");
+		$('#msgModal').html("<spring:message code='lbl.modal.recomendacoes.detalhe.usuario'/>");
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.aba.recomendacoes.detalhe.usuario'/>");
 	}
-	else if ( id == 6){
-		$('#msgModal').html("Lista de serviços relacionados ao usuário");
+	else if ( id == 6){   
+		$('#msgModal').html("<spring:message code='lbl.modal.lista.servicos.concedido.revogados'/>");
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.admin.lista.servicos.concedidos.revogados'/>");
 	}
-	else if ( id == 7){
-		$('#msgModal').html("Lista de planos relacionados ao usuário");
+	else if ( id == 7){    
+		$('#msgModal').html("<spring:message code='lbl.modal.lista.planos.concedidos.revogados'/>");
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.admin.lista.planos.concedidos.revogados'/>");
 	}
 	
@@ -91,107 +91,111 @@ function mostrarModal(id){
                 <div class="header-content">
                     <h2><i class="fa fa-pencil"></i><spring:message code="lbl.title.detalhes.usuario.admin"/> </h2>                                                                        
                 </div><!-- /.header-content -->
-                                
-                <!-- Start body content -->
-                <div class="body-content animated fadeIn">
-                		<div class="row">
-								<!-- START  -->
-								<div class="col-lg-9 col-md-9 col-sm-13">
-									<div class="panel rounded shadow">
-										<div class="panel-heading" align="center">
-		    								<span class="label pull-left"  style="font-size: 18px;margin-bottom:10px;background-color: black;font-size: 100%;">${usuarioForm.perfilFmt}</span>                                    
-		    								<span class="label pull-right" style="margin-left: 14px;color:gray; font-size: 12px;"><spring:message code="lbl.data.cadastro.usuario"/> <fmt:formatDate value='${usuarioForm.dataCadastro}' pattern='dd/MM/yyyy'/></span>
-											<h2 class="text-bold" style="margin-top: 0px;margin-bottom: 5px;width: 50%;">${usuarioForm.nome}</h2>
-											<h5 style="margin-top: 4px;margin-bottom: 0px;width: 50%;">${usuarioForm.cidade} - ${usuarioForm.estado}</h5>
-											<br>
-		                                    <div class="pull-right">		                                     
-													&nbsp;<a href="${urlAdmin}/visualizarImoveisPerfilUsuarioAdmin/${usuarioForm.id}" style="font-size:x-large; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.visualizar.imoveis.perfil.usuario"/>' ><i class="fa fa-home pull-right" style="color:gray"><font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.visualizar.imoveis.perfil.usuario"/> </font> &nbsp; &nbsp; </i>  </a>
-													
-													&nbsp;<a href="${urlMensagemAdmin}/prepararNovaMensagemPorAdmin/${usuarioForm.id}" style="font-size:x-large; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.enviar.mensagem"/>' ><i class="fa fa-envelope-o pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"><spring:message code="lbl.enviar.mensagem"/> </font>&nbsp;&nbsp; </i> </a>  
+                
+                <div class="body-content animated fadeIn container"  style="min-height: 500px; width: 920px;">
+					<div class="col-lg-12 col-md-12 col-sm-12">	
+						<div class="row">
+						
+						aqui
+						
+					      <div class="panel rounded shadow">
+									<div class="panel-heading" align="center">
+	    								<span class="label pull-left"  style="font-size: 18px;margin-bottom:10px;background-color: black;font-size: 100%;">${usuarioForm.perfilFmt}</span>                                    
+	    								<span class="label pull-right" style="margin-left: 14px;color:gray; font-size: 12px;"><spring:message code="lbl.data.cadastro.usuario"/> <fmt:formatDate value='${usuarioForm.dataCadastro}' pattern='dd/MM/yyyy'/></span>
+										<h2 class="text-bold" style="margin-top: 0px;margin-bottom: 5px;width: 50%;">${usuarioForm.nome}</h2>
+										<h5 style="margin-top: 4px;margin-bottom: 0px;width: 50%;">${usuarioForm.cidade} - ${usuarioForm.estado}</h5>
+										<br>
+	                                    <div class="pull-right">		                                     
+												&nbsp;<a href="${urlAdmin}/visualizarImoveisPerfilUsuarioAdmin/${usuarioForm.id}" style="font-size:x-large; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.visualizar.imoveis.perfil.usuario"/>' ><i class="fa fa-home pull-right" style="color:gray"><font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"> <spring:message code="lbl.visualizar.imoveis.perfil.usuario"/> </font> &nbsp; &nbsp; </i>  </a>
+												
+												&nbsp;<a href="${urlMensagemAdmin}/prepararNovaMensagemPorAdmin/${usuarioForm.id}" style="font-size:x-large; color: rgb(99, 110, 123);" class="meta-action" title='<spring:message code="lbl.enviar.mensagem"/>' ><i class="fa fa-envelope-o pull-right" style="color:gray"> <font style="color: rgb(99, 110, 123); font-size: 12px; margin-bottom: 22px;"><spring:message code="lbl.enviar.mensagem"/> </font>&nbsp;&nbsp; </i> </a>  
+	                                    </div>
+	                                    <br> <br>                                                                        
+	
+									</div>
+									<div class="panel-body">
+										<div class="pull-left">
+											<div class="col-lg-6 col-md-6 col-sm-6"> 
+		                                        <div id="owl-demo" class="owl-carousel owl-theme">                                             
+		                                            <img class="img-circle" src="data:image/jpeg;base64,${usuarioForm.imagemArquivo}" style="margin-left:110px; width: 260px; height: 260px; ">	                                            	                                            	                                                                                        
+		                                        </div>
 		                                    </div>
-		                                    <br> <br>                                                                        
-		
-										</div>
-										<div class="panel-body">
-											<div class="pull-left">
-												<div class="col-lg-6 col-md-6 col-sm-6"> 
-			                                        <div id="owl-demo" class="owl-carousel owl-theme">                                             
-			                                            <img class="img-circle" src="${context}/${usuarioForm.imagemArquivo}" style="margin-left:30px; width: 240px; height: 240px; ">	                                            	                                            	                                                                                        
-			                                        </div>
-			                                    </div>
-		                                    </div>
-		                                	
-		                                	<div class="pull-right">
-		                                		 <table class="table table-striped" style="margin-top:10px; font-size: 13px;">
-		                                         <tbody>
-		                                         
-		                                         <c:choose>
-		                                         	<c:when test="${((usuarioForm.perfil == 'P') || (usuarioForm.perfil == 'C')) }">
-		                                         		  <tr>
-			                                                 <td class="text-left"><spring:message code="lbl.cpf"/></td>
-			                                                 <td class="text-right">${usuario.cpf}</td>
-			                                              </tr>                                                     
-		                                         	</c:when>
-		                                         	
-		                                        	<c:when test="${usuarioForm.perfil == 'I'}">
-		                                       			<tr>
-		                                                  <td class="text-left"><spring:message code="lbl.cnpj"/></td>
-		                                                  <td class="text-right">${usuario.cpf}</td>
-		                                               </tr>  	
-		                                         	</c:when>
-		                                         	
-		                                         	<c:when test="${usuarioForm.perfil == 'C'}">
-		                                         		<tr>
-		                                                   <td class="text-left"><spring:message code="lbl.creci"/></td>
-		                                                   <td class="text-right">${usuarioForm.creci}</td>
-		                                              	</tr>
-		                                         	</c:when>                                                                              
-		                                         </c:choose>                     
-		                                         
-		                                             <tr>
-		                                                 <td class="text-left"><spring:message code="lbl.total.imoveis"/></td>
-		                                                 <td class="text-right">${usuarioForm.quantTotalImoveis}</td>
-		                                             </tr>
-		                                             
-		                                             <tr>
-		                                                 <td class="text-left"><spring:message code="lbl.total.contato"/></td>
-		                                                 <td class="text-right">${usuarioForm.quantTotalContatos}</td>
-		                                             </tr>
-		                                             <tr>
-		                                                 <td class="text-left"><spring:message code="lbl.total.parcerias"/></td>
-		                                                 <td class="text-right">${usuarioForm.quantTotalParcerias}</td>
-		                                             </tr>
-		                                             <tr>
-		                                                 <td class="text-left"><spring:message code="lbl.total.interessados"/></td>
-		                                                 <td class="text-right">${usuarioForm.quantTotalInteressadosImoveis}</td>
-		                                             </tr>
-		                                             <tr>
-		                                                 <td class="text-left"><spring:message code="lbl.total.intermediacoes" /></td>
-		                                                 <td class="text-right">${usuarioForm.quantTotalIntermediacoes}</td>
-		                                             </tr>
-		                                             <tr>
-		                                                 <td class="text-left"><spring:message code="lbl.total.visualizacoes" /></td>
-		                                                 <td class="text-right">${usuarioForm.quantTotalVisitasImoveis}</td>
-		                                             </tr>
-		                                             <tr>
-		                                                 <td class="text-left"><spring:message code="lbl.total.aprovacoes.usuario" /></td>
-		                                                 <td class="text-right">${usuarioForm.quantTotalAprovacoesUsuario}</td>
-		                                             </tr>
-		                                         </tbody>
-		                                     </table>	
-		                                	</div>       	
-									</div><!-- /.panel -->
-								</div>
+	                                    </div>
+	                                	
+	                                	<div class="pull-right">
+	                                		 <table class="table table-striped" style="margin-top:10px; font-size: 13px;">
+	                                         <tbody>
+	                                         
+	                                         <c:choose>
+	                                         	<c:when test="${((usuarioForm.perfil == 'P') || (usuarioForm.perfil == 'C')) }">
+	                                         		  <tr>
+		                                                 <td class="text-left"><spring:message code="lbl.cpf"/></td>
+		                                                 <td class="text-right">${usuario.cpf}</td>
+		                                              </tr>                                                     
+	                                         	</c:when>
+	                                         	
+	                                        	<c:when test="${usuarioForm.perfil == 'I'}">
+	                                       			<tr>
+	                                                  <td class="text-left"><spring:message code="lbl.cnpj"/></td>
+	                                                  <td class="text-right">${usuario.cpf}</td>
+	                                               </tr>  	
+	                                         	</c:when>
+	                                         	
+	                                         	<c:when test="${usuarioForm.perfil == 'C'}">
+	                                         		<tr>
+	                                                   <td class="text-left"><spring:message code="lbl.creci"/></td>
+	                                                   <td class="text-right">${usuarioForm.creci}</td>
+	                                              	</tr>
+	                                         	</c:when>                                                                              
+	                                         </c:choose>                     
+	                                         
+	                                             <tr>
+	                                                 <td class="text-left"><spring:message code="lbl.total.imoveis"/></td>
+	                                                 <td class="text-right">${usuarioForm.quantTotalImoveis}</td>
+	                                             </tr>
+	                                             
+	                                             <tr>
+	                                                 <td class="text-left"><spring:message code="lbl.total.contato"/></td>
+	                                                 <td class="text-right">${usuarioForm.quantTotalContatos}</td>
+	                                             </tr>
+	                                             <tr>
+	                                                 <td class="text-left"><spring:message code="lbl.total.parcerias"/></td>
+	                                                 <td class="text-right">${usuarioForm.quantTotalParcerias}</td>
+	                                             </tr>
+	                                             <tr>
+	                                                 <td class="text-left"><spring:message code="lbl.total.interessados"/></td>
+	                                                 <td class="text-right">${usuarioForm.quantTotalInteressadosImoveis}</td>
+	                                             </tr>
+	                                             <tr>
+	                                                 <td class="text-left"><spring:message code="lbl.total.intermediacoes" /></td>
+	                                                 <td class="text-right">${usuarioForm.quantTotalIntermediacoes}</td>
+	                                             </tr>
+	                                             <tr>
+	                                                 <td class="text-left"><spring:message code="lbl.total.visualizacoes" /></td>
+	                                                 <td class="text-right">${usuarioForm.quantTotalVisitasImoveis}</td>
+	                                             </tr>
+	                                             <tr>
+	                                                 <td class="text-left"><spring:message code="lbl.total.aprovacoes.usuario" /></td>
+	                                                 <td class="text-right">${usuarioForm.quantTotalAprovacoesUsuario}</td>
+	                                             </tr>
+	                                         </tbody>
+	                                     </table>	
+	                                	</div>       	
+								</div><!-- /.panel -->
 							</div>
-							<div class="row">
-								<div class="col-lg-9 col-md-9 col-sm-13">
-								
-									<!-- /.START Descricao -->
+							
+							<!-- /.START Descricao -->
 									<div class="panel rounded shadow">
 										<div class="panel-heading">
 											<h3 class="panel-title">
-												<spring:message code="lbl.sobre.mim"/>
-												<a href="#a" class="btn btn-sm"  onClick="mostrarModal(0);" style="margin-left: 670px;"><i style="font-size: 18px" class="fa fa-question" ></i></a>
+													<div class="pull-left">
+			                              				<spring:message code="lbl.sobre.mim"/>
+			                               			</div>
+			                               				
+			                              			<div class="pull-right">
+			                              				<a href="#a" class="btn btn-sm"  onClick="mostrarModal(0);" style="margin-left: 670px;"><i style="font-size: 18px" class="fa fa-question" ></i></a>
+			                              			</div>
+			                              			<br>
 											</h3>
 										</div>
 										<div class="panel-body">
@@ -297,11 +301,17 @@ function mostrarModal(id){
 		 
 		 						<!-- /.START Notas Usuario  -->  
 		 						 <div class="panel panel-scrollable rounded shadow">
-		                                <div class="panel-heading">			                                	
-		                                    <h3 class="panel-title">
-		                                    	<spring:message code="lbl.notas.usuario"/>
-		                                    	<a href="#a" class="btn btn-sm" onClick="mostrarModal(1);" style="margin-left: 620px;"><i style="font-size: 18px" class="fa fa-question" ></i></a>
-		                                    </h3>
+		                                <div class="panel-heading">	
+		                                	<h3 class="panel-title">
+													<div class="pull-left">
+			                              				<spring:message code="lbl.notas.usuario"/>
+			                               			</div>
+			                               				
+			                              			<div class="pull-right">
+			                              				<a href="#a" class="btn btn-sm" onClick="mostrarModal(1);" style="margin-left: 620px;"><i style="font-size: 18px" class="fa fa-question" ></i></a>
+			                              			</div>
+			                              			<br>
+											</h3>
 		                                   		&nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.total.notas"/> </strong>: (${usuarioForm.quantTotalNotas}) </label>
 		                                   	
 		                                </div><!-- /.panel-heading -->
@@ -376,11 +386,17 @@ function mostrarModal(id){
 				                      <!-- /.START PREFERENCIAS DO USUARIO -->		                      	   
 					                      		<!-- Start scrollable panel -->
 						                            <div class="panel panel-scrollable  rounded shadow">
-						                                <div class="panel-heading">			                                	
-						                                    <h3 class="panel-title">
-						                                    	<spring:message code="lbl.pref.imoveis"/>
-						                                    	<a href="#a" class="btn btn-sm" onClick="mostrarModal(2);" style="margin-left: 590px;"><i style="font-size: 18px" class="fa fa-question" ></i></a>
-						                                    </h3>
+						                                <div class="panel-heading">	
+						                                	<h3 class="panel-title">
+																	<div class="pull-left">
+							                              				<spring:message code="lbl.pref.imoveis"/>
+							                               			</div>
+							                               				
+							                              			<div class="pull-right">
+							                              				<a href="#a" class="btn btn-sm" onClick="mostrarModal(2);" style="margin-left: 590px;"><i style="font-size: 18px" class="fa fa-question" ></i></a>
+							                              			</div>
+							                              			<br>
+															</h3>
 						                                    &nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.total.pref.imoveis"/> </strong>: (${usuarioForm.quantTotalPrefImoveis}) </label>
 						                                </div><!-- /.panel-heading -->
 						                                
@@ -431,10 +447,17 @@ function mostrarModal(id){
 			                      
 			                         <!-- /.START CONTATOS DO USUARIO -->	                       
 				                            <div class="panel">
-				                                <div class="panel-heading">			                                	
-				                                    <h3 class="panel-title"><spring:message code="lbl.contatos"/> &nbsp;		                                   
-				                             			<a href="#a" class="btn btn-sm" onClick="mostrarModal(3);" style="margin-left: 650px;"><i style="font-size: 18px" class="fa fa-question" ></i></a>
-			                             			</h3>
+				                                <div class="panel-heading">
+				                                	<h3 class="panel-title">
+															<div class="pull-left">
+					                              				<spring:message code="lbl.contatos"/>
+					                               			</div>
+					                               				
+					                              			<div class="pull-right">
+					                              				<a href="#a" class="btn btn-sm" onClick="mostrarModal(3);" style="margin-left: 650px;"><i style="font-size: 18px" class="fa fa-question" ></i></a>
+					                              			</div>
+					                              			<br>
+													</h3>
 			                             			&nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.total.contato"/> </strong>: (${usuarioForm.quantTotalContatos}) </label>
 			                             			
 				                                </div><!-- /.panel-heading -->
@@ -505,10 +528,17 @@ function mostrarModal(id){
 			                       
 			                        <!-- /.START SEGUIDORES DO USUARIO -->	                       
 			                            <div class="panel panel-scrollable rounded shadow">
-			                                <div class="panel-heading">			                                	
-			                                    <h3 class="panel-title"><spring:message code="lbl.title.lista.seguidores.detalhes.usuario"/> &nbsp;
-			                             			<a href="#a" class="btn btn-sm" onClick="mostrarModal(4);" style="margin-left: 570px;"><i style="font-size: 18px" class="fa fa-question" ></i></a>
-		                             			</h3>
+			                                <div class="panel-heading">		
+			                                	<h3 class="panel-title">
+														<div class="pull-left">
+				                              				<spring:message code="lbl.title.lista.seguidores.detalhes.usuario"/>
+				                               			</div>
+				                               				
+				                              			<div class="pull-right">
+				                              				<a href="#a" class="btn btn-sm" onClick="mostrarModal(4);" style="margin-left: 570px;"><i style="font-size: 18px" class="fa fa-question" ></i></a>
+				                              			</div>
+				                              			<br>
+												</h3>
 		                             			&nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.total.seguidores"/> </strong>: (${usuarioForm.quantTotalSeguidores}) </label>
 		                             			
 			                                </div><!-- /.panel-heading -->
@@ -560,10 +590,16 @@ function mostrarModal(id){
 																	
 									<div class="panel rounded shadow">
 		                                <div class="panel-heading">
-		                                    <h3 class="panel-title">
-		                                    	<spring:message code="lbl.title.aba.recomendacoes.detalhe.usuario"/>
-		                                    	<a href="#a" class="btn btn-sm" onClick="mostrarModal(5);" style="margin-left: 625px;"><i style="font-size: 18px" class="fa fa-question" ></i></a>
-		                                    </h3>
+		                                	<h3 class="panel-title">
+													<div class="pull-left">
+			                              				<spring:message code="lbl.title.aba.recomendacoes.detalhe.usuario"/>
+			                               			</div>
+			                               				
+			                              			<div class="pull-right">
+			                              				<a href="#a" class="btn btn-sm" onClick="mostrarModal(5);" style="margin-left: 625px;"><i style="font-size: 18px" class="fa fa-question" ></i></a>
+			                              			</div>
+			                              			<br>
+											</h3>
 		                                    &nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.total.recomendacoes"/> </strong>: (${usuarioForm.quantTotalRecomendacoes}) </label>
 		                                </div>
 		                                
@@ -665,14 +701,20 @@ function mostrarModal(id){
 		                            </div>
 		                         <!-- /.END Recomendacoes --> 
 		                         
-		                         <!-- /.START Serviços Concedidos/Revogados -->
-		                         
+		                         <!-- /.START Serviços Concedidos/Revogados -->		                         
 				                         <div class="panel panel-scrollable  rounded shadow">
-			                                <div class="panel-heading">			                                	
-			                                    <h3 class="panel-title">
-			                                    	<spring:message code="lbl.admin.lista.servicos.concedidos.revogados"/>
-			                                    	<a href="#a" class="btn btn-sm" onClick="mostrarModal(6);" style="margin-left: 500px;"><i style="font-size: 18px" class="fa fa-question" ></i></a>
-			                                    </h3>
+			                                <div class="panel-heading">	
+			                                	<h3 class="panel-title">
+													<div class="pull-left">
+			                              				<spring:message code="lbl.admin.lista.servicos.concedidos.revogados"/>
+			                               			</div>
+			                               				
+			                              			<div class="pull-right">
+			                              				<a href="#a" class="btn btn-sm" onClick="mostrarModal(6);" style="margin-left: 500px;"><i style="font-size: 18px" class="fa fa-question" ></i></a>
+			                              			</div>
+			                              			<br>
+												</h3>		                                	
+			                                   
 			                                    &nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.admin.opcao.rel.total.servicos"/> </strong>: (${usuarioForm.quantTotalPrefImoveis}) </label>
 			                                </div><!-- /.panel-heading -->
 			                                
@@ -738,11 +780,18 @@ function mostrarModal(id){
 		                         <!-- /.START lista dos planos concedidos/revogados e seus respectivos usuarios envolvidos dados por este usuario administrador -->
 		                         
 		                         <div class="panel panel-scrollable  rounded shadow">
-			                                <div class="panel-heading">			                                	
-			                                    <h3 class="panel-title">
-			                                    	<spring:message code="lbl.admin.lista.planos.concedidos.revogados"/>
-			                                    	<a href="#a" class="btn btn-sm" onClick="mostrarModal(7);" style="margin-left: 510px;"><i style="font-size: 18px" class="fa fa-question" ></i></a>
-			                                    </h3>
+			                                <div class="panel-heading">	
+			                                		<h3 class="panel-title">
+														<div class="pull-left">
+				                              				<spring:message code="lbl.admin.lista.planos.concedidos.revogados"/>
+				                               			</div>
+				                               				
+				                              			<div class="pull-right">
+				                              				<a href="#a" class="btn btn-sm" onClick="mostrarModal(7);" style="margin-left: 510px;"><i style="font-size: 18px" class="fa fa-question" ></i></a>
+				                              			</div>
+				                              			<br>
+													</h3>	                                	
+			                                  
 			                                    &nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.admin.total.planos"/> </strong>: (${usuarioForm.quantTotalPrefImoveis}) </label>
 			                                </div><!-- /.panel-heading -->
 			                                
@@ -794,12 +843,10 @@ function mostrarModal(id){
 			                             
 			                            </div><!-- /.panel -->
 		                         <!-- /.END lista dos planos concedidos/revogados e seus respectivos usuarios envolvidos dados por este usuario administrador -->					
-			                      
-							</div>
-		                </div><!-- /.body-content -->
-					</div>    	
-	            </div>
-                 <!-- END  Painel de Informações -->
+			                   
+						</div>
+					</div>
+			    </div>
 
             </section><!-- /#page-content -->
 
@@ -815,7 +862,7 @@ function mostrarModal(id){
 				          <h4 class="modal-title"><div id="msgModalFuncionalidade" > </div> </h4>
 				        </div>
 				        <div class="modal-body">
-				       	   <strong> Descrição:  </strong> <div id="msgModal" > </div>
+				       	   <strong> <spring:message code="lbl.descricao.geral"/>:  </strong> <div id="msgModal" > </div>
 				        </div>
 				        <div class="modal-footer">			          
 	                      <button type="button" class="btn btn-primary" data-dismiss="modal"><spring:message code="lbl.btn.fechar.geral"/></button>

@@ -26,6 +26,7 @@ import com.busqueumlugar.form.ContatoForm;
 import com.busqueumlugar.form.ImovelindicadoForm;
 import com.busqueumlugar.form.RelatorioForm;
 import com.busqueumlugar.form.UsuarioForm;
+import com.busqueumlugar.messaging.MessageSender;
 import com.busqueumlugar.model.Contato;
 import com.busqueumlugar.model.EmailImovel;
 import com.busqueumlugar.model.Imovel;
@@ -34,8 +35,10 @@ import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.ContatoService;
 import com.busqueumlugar.service.ImovelindicadoService;
 import com.busqueumlugar.service.NotificacaoService;
+import com.busqueumlugar.service.ParametrosIniciaisService;
 import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.DateUtil;
+import com.busqueumlugar.util.EmailJms;
 import com.busqueumlugar.util.MessageUtils;
 import com.mysql.jdbc.StringUtils;
 
@@ -65,7 +68,11 @@ public class ContatoServiceImpl implements ContatoService {
 	@Autowired
 	private UsuarioService usuarioService; 
 	
+	@Autowired
+	private  MessageSender messageSender;
 	
+	@Autowired
+	private ParametrosIniciaisService parametrosIniciaisService;
 
 
 	public Contato recuperarContatoPorId(Long id) {
@@ -80,7 +87,22 @@ public class ContatoServiceImpl implements ContatoService {
         contato.setPerfilContato(recuperarEnumPerfilUsuario(user.getPerfil()));
         contato.setDataConvite(new Date());
         contato.setStatusLeitura(StatusLeituraEnum.NOVO.getRotulo());
-        dao.save(contato);		
+        dao.save(contato);
+        
+        boolean isHabilitado = parametrosIniciaisService.isHabilitadoEnvioEmail();
+    	if ( isHabilitado){
+    		try {	            	
+                EmailJms email = new EmailJms();
+                email.setSubject(MessageUtils.getMessage("msg.email.subject.enviar.convite"));
+                email.setTo(contato.getUsuarioConvidado().getEmail());
+                email.setTexto(MessageUtils.getMessage("msg.email.texto.enviar.convite"));			            
+                messageSender.sendMessage(email);
+    		} catch (Exception e) {	
+    			log.error("Contato - enviarconvite - Erro envio email");
+				log.error("Mensagem erro: " + e.getMessage());
+    			e.printStackTrace();
+    		} 
+    	}
 	}
 
 	
@@ -93,6 +115,21 @@ public class ContatoServiceImpl implements ContatoService {
         contato.setDataConvite(new Date());
         contato.setStatusLeitura(StatusLeituraEnum.NOVO.getRotulo()	); 
         dao.save(contato);		
+        
+        boolean isHabilitado = parametrosIniciaisService.isHabilitadoEnvioEmail();
+    	if ( isHabilitado){
+    		try {	            	
+                EmailJms email = new EmailJms();
+                email.setSubject(MessageUtils.getMessage("msg.email.subject.enviar.convite"));
+                email.setTo(contato.getUsuarioConvidado().getEmail());
+                email.setTexto(MessageUtils.getMessage("msg.email.texto.enviar.convite"));			            
+                messageSender.sendMessage(email);
+    		} catch (Exception e) {	
+    			log.error("Contato - enviarconvite - Erro envio email");
+				log.error("Mensagem erro: " + e.getMessage());
+    			e.printStackTrace();
+    		} 
+    	} 
 	}
 
 	

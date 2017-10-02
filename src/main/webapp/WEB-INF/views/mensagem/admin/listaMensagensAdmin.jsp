@@ -69,7 +69,7 @@
                 </div><!-- /.header-content -->    
                 
                 <!-- Start body content -->
-                <div class="body-content animated fadeIn">
+                 <div class="body-content animated fadeIn container limit-form" style="width:1200px;">
 					<div class="row">
                         <div class="col-md-12">
                             <div class="panel panel-success shadow">                                

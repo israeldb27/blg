@@ -1582,6 +1582,17 @@ pre code {
   margin-right: auto;
   margin-left: auto;
 }
+
+.limit-container{
+	min-height: 500px; 
+	width: 920px;
+}
+
+.limit-form{
+	min-height: 500px; 
+	width: 800px;
+}
+
 @media (min-width: 768px) {
   .container {
     width: 750px;

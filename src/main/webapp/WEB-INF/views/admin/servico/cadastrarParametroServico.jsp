@@ -90,15 +90,14 @@ $(document).ready(function() {
                                 <div class="panel-body no-padding">                                 	
                                  
                                     <div class="table-responsive" style="margin-top: -1px;">
-                                        <table class="table table-striped table-primary">
+                                        <table class="table table-striped">
                                             <thead>
                                             <tr>
                                                 <th class="text-center"><spring:message code="lbl.admin.label.servico"/></th>
                                                 <th class="text-center"><spring:message code="lbl.admin.value.servico"/></th>
                                                 <th class="text-center"><spring:message code="lbl.admin.tipo.param.servico"/></th>
                                                 <th class="text-center"><spring:message code="lbl.admin.descricao.servico"/></th>                                                
-                                                <th class="text-center"><spring:message code="lbl.admin.cobranca.servico"/></th>                                                
-                                                <th class="text-center"><spring:message code="lbl.admin.col.acoes"/></th>
+                                                <th class="text-center"><spring:message code="lbl.admin.cobranca.servico"/></th>  
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -127,7 +126,7 @@ $(document).ready(function() {
 												              				</c:if></td>
 													
 													<td class="text-center">														  	
-														  <a href="${urlAdmin}/manterParamServico/atualizar/${parametro.id}" class="btn btn-sm btn-primary btn-xs btn-push"><i class="fa fa-eye"></i> <spring:message code="lbl.table.param.servico.atualizar"/></a>			                      											                      											                      
+														  <a href="${urlAdmin}/manterParamServico/atualizar/${parametro.id}" ><i class="fa fa-pencil-square-o"></i> </a>			                      											                      											                      
 													</td>	                                            
 	                                            </tr>
                                             </c:forEach>

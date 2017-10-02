@@ -134,7 +134,7 @@ function confirmarExclusaoParametro(){
                                 <div class="panel-body no-padding">                                 	
                                  
                                     <div class="table-responsive" style="margin-top: -1px;">
-                                        <table class="table table-striped table-primary">
+                                        <table class="table table-striped">
                                             <thead>
                                             <tr>  
                                             	<th class="text-center"><spring:message code="lbl.admin.param.iniciais.data.cadastro"/></th>                                                
@@ -158,8 +158,8 @@ function confirmarExclusaoParametro(){
 													</td>	                                                
 													
 													<td class="text-center"> 
-														  <a href="#" onClick="prepararModalDetalhesParametro(${parametro.id})" class="btn btn-sm btn-primary btn-xs btn-push"><i class="fa fa-eye"></i> <spring:message code="lbl.admin.link.ver.param.inicial"/></a>														  
-														  <a href="${urlAdmin}/prepararEditarParametrosInicial/${parametro.id}" class="btn btn-sm btn-primary btn-xs btn-push"><i class="fa fa-eye"></i> <spring:message code="lbl.btn.editar.geral"/></a>														  
+														  <a href="#" onClick="prepararModalDetalhesParametro(${parametro.id})" ><i class="fa fa-eye"></i> </a>  &nbsp;&nbsp;												  
+														  <a href="${urlAdmin}/prepararEditarParametrosInicial/${parametro.id}" ><i class="fa fa-pencil-square-o"></i> </a>														  
 													</td>	                                            
 	                                            </tr>  
                                             </c:forEach>

@@ -190,11 +190,9 @@ function mostrarModal(id){
 				                </c:if>
 			                   
 			                   <c:if test="${msgSucessoEnviadoEmail != null }">
-				               		 <div class="panel panel-danger">
-				                          <div class="panel-heading">
-				                              <h3 class="panel-title">${msgSucessoEnviadoEmail}</h3>
-				                          </div><!-- /.panel-heading -->		                          
-				                      </div><!-- /.panel -->                      
+			                   		<div class="alert alert-success">
+                                         <strong>${msgSucessoEnviadoEmail}</strong> 
+                                     </div>	                    
 				                </c:if>
 			                   
 			                    <div class="panel-body col-lg-9 col-md-9 col-sm-9">
@@ -203,9 +201,10 @@ function mostrarModal(id){
                                            <div class="tab-pane fade in active" id="tab4-1">
                                            		 
                                            		 <div class="input-group">
-                                                        <input type="text" class="form-control input-sm" id="to" placeholder="Indique este imóvel para uma pessoa digitando aqui o email">
+                                           		 		<form:input  id="emailIndicado" path="emailIndicado" class="form-control" placeholder="Indique este imóvel para uma pessoa digitando aqui o email"/>
+                                                       
                                                         <div class="input-group-btn">
-                                                            <button type="button" class="btn btn-primary btn-stroke" style="font-size: 11px;"> <i class="fa fa-envelope-o"></i> &nbsp; Indicar por Email </button>
+                                                            <button type="submit" class="btn btn-primary btn-stroke" style="font-size: 11px;"> <i class="fa fa-envelope-o"></i> &nbsp; Indicar por Email </button>
                                                         </div>
                                                     </div> 	                                            
                                            </div>

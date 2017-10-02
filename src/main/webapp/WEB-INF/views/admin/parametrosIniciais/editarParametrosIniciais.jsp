@@ -25,7 +25,7 @@ $(document).ready(function() {
     <body>
 
         <!-- START @WRAPPER -->
-        <section id="wrapper">
+        <section id="wrapper" >
 
             <!-- START @HEADER -->            	
             	<c:import url="../layout-admin/header.jsp"></c:import>
@@ -36,18 +36,15 @@ $(document).ready(function() {
             <!--/ END SIDEBAR LEFT -->
 
             <!-- START @PAGE CONTENT -->
-            <section id="page-content">
-            
-            	<!-- Inicio - Meus Favoritos -->
-            
-            	 <!-- Start header content -->
+            <section id="page-content" style="background-color:#e9eaed;">
+       
                 <div class="header-content">
                     <h2><i class="fa fa-pencil"></i> <spring:message code="lbl.admin.link.edita.parametros.iniciais"/> </h2>                                                      
                 </div><!-- /.header-content -->
                 <!--/ End header content -->
                 
                 <!-- Start body content -->
-                <div class="body-content animated fadeIn">
+                <div class="body-content animated fadeIn container limit-form" style="width:800px; min-height:300px;">
 
                     <div class="row">
                         <div class="col-md-12">                        		
@@ -55,7 +52,7 @@ $(document).ready(function() {
                             <div class="panel rounded shadow">
                                 <div class="panel-heading">
                                     <div class="pull-left">  
-                                        <h3 class="panel-title">Formulário</h3>
+                                        <h3 class="panel-title"><spring:message code="lbl.title.formulario"/></h3>
                                     </div><!-- /.pull-left -->
                                     <div class="pull-right">
                                         <button class="btn btn-sm" data-action="collapse" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Collapse"><i class="fa fa-angle-up"></i></button>

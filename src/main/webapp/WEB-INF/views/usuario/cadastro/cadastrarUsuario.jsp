@@ -203,7 +203,7 @@
 	<%@ include file="/WEB-INF/views/layout/head-login.jsp"%>
     <!--/ END HEAD -->
    
-    <body class="home">
+    <body style="background: #f7f4f4;">
     
 	<div class="all">
 		<div class="header">   
@@ -221,7 +221,7 @@
                 <!--/ End header content -->
                 
                 <!-- Start body content -->
-                <div class="body-content animated fadeIn">
+                <div class="body-content animated fadeIn container limit-form" style="width: 800px;">
                 	  
                    <form:form id="usuarioForm" modelAttribute="usuarioForm" action="${urlUsuario}/avancarCadastro" class="form-horizontal mt-10" enctype="multipart/form-data">
                      	

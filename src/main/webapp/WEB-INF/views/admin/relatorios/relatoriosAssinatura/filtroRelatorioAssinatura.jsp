@@ -48,7 +48,7 @@ $(document).ready(function() {
                 <!--/ End header content -->
                 
                 <!-- Start body content -->
-                <div class="body-content animated fadeIn">
+                  <div class="body-content animated fadeIn container limit-form" style="width:1200px;">
 
                     <div class="row">
                     	<form:form method="POST" class="form-horizontal form-bordered col-sm-3" id="administracaoForm" modelAttribute="administracaoForm" action="${urlAdmin}/voltarSelecaoRelatorio" >

@@ -16,9 +16,13 @@ import com.busqueumlugar.dao.RecomendacaoDao;
 import com.busqueumlugar.dao.UsuarioDao;
 import com.busqueumlugar.enumerador.RecomendacaoStatusEnum;
 import com.busqueumlugar.enumerador.StatusLeituraEnum;
+import com.busqueumlugar.messaging.MessageSender;
 import com.busqueumlugar.model.Recomendacao;
+import com.busqueumlugar.service.ParametrosIniciaisService;
 import com.busqueumlugar.service.RecomendacaoService;
 import com.busqueumlugar.service.UsuarioService;
+import com.busqueumlugar.util.EmailJms;
+import com.busqueumlugar.util.MessageUtils;
 import com.mysql.jdbc.StringUtils;
 
 @Service
@@ -34,6 +38,12 @@ public class RecomendacaoServiceImpl implements RecomendacaoService {
 	
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	@Autowired
+	private  MessageSender messageSender;
+	
+	@Autowired
+	private ParametrosIniciaisService parametrosIniciaisService;
 	
 
 	@Override
@@ -62,6 +72,21 @@ public class RecomendacaoServiceImpl implements RecomendacaoService {
 		rec.setStatusLeitura(StatusLeituraEnum.NOVO.getRotulo());
 		rec.setDescricao(novaRecomendacao);
 		dao.save(rec);	
+		
+		boolean isHabilitado = parametrosIniciaisService.isHabilitadoEnvioEmail();
+    	if ( isHabilitado){
+    		try {	            	
+                EmailJms email = new EmailJms();
+                email.setSubject(MessageUtils.getMessage("msg.email.subject.recomendacao"));
+                email.setTo(rec.getUsuarioRecomendado().getEmail());
+                email.setTexto(MessageUtils.getMessage("msg.email.texto.recomendacao"));			            
+                messageSender.sendMessage(email);
+    		} catch (Exception e) {		
+    			log.error("Recomendacao - Erro envio email");
+				log.error("Mensagem erro: " + e.getMessage());
+    			e.printStackTrace();
+    		}
+    	}
 	}
 
 	@Override

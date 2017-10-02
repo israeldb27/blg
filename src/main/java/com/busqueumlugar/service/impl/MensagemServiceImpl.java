@@ -26,14 +26,17 @@ import com.busqueumlugar.enumerador.StatusLeituraEnum;
 import com.busqueumlugar.enumerador.StatusPagtoOpcaoEnum;
 import com.busqueumlugar.form.MensagemForm;
 import com.busqueumlugar.form.UsuarioForm;
+import com.busqueumlugar.messaging.MessageSender;
 import com.busqueumlugar.model.EmailImovel;
 import com.busqueumlugar.model.Mensagem;
 import com.busqueumlugar.model.Servico;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.MensagemService;
+import com.busqueumlugar.service.ParametrosIniciaisService;
 import com.busqueumlugar.service.ServicoService;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.DateUtil;
+import com.busqueumlugar.util.EmailJms;
 import com.busqueumlugar.util.GenerateAccessToken;
 import com.busqueumlugar.util.MessageUtils;
 import com.paypal.api.payments.Amount;
@@ -62,6 +65,12 @@ public class MensagemServiceImpl implements MensagemService {
 	
 	@Autowired
 	private ServicoService servicoService;	
+	
+	@Autowired
+	private  MessageSender messageSender;
+	
+	@Autowired
+	private ParametrosIniciaisService parametrosIniciaisService;
 	
 	public Mensagem recuperarMensagemPorId(Long id) {
 		return dao.findMensagemById(id);
@@ -104,7 +113,22 @@ public class MensagemServiceImpl implements MensagemService {
         mensagem.setStatus(StatusLeituraEnum.NOVO.getRotulo());
         mensagem.setUsuarioDe(usuarioDe);
         mensagem.setUsuarioPara(usuarioPara);
-        dao.save(mensagem); 
+        dao.save(mensagem);
+        
+        boolean isHabilitado = parametrosIniciaisService.isHabilitadoEnvioEmail();
+    	if ( isHabilitado){
+    		try {	            	
+                EmailJms email = new EmailJms();
+                email.setSubject(MessageUtils.getMessage("msg.email.subject.mensagem"));
+                email.setTo(mensagem.getUsuarioPara().getEmail());
+                email.setTexto(MessageUtils.getMessage("msg.email.texto.mensagem"));			            
+                messageSender.sendMessage(email);
+    		} catch (Exception e) {		
+    			log.error("Mensagem - Erro envio email");
+				log.error("Mensagem erro: " + e.getMessage());
+    			e.printStackTrace();
+    		}
+    	}
 	}
 
 
@@ -117,6 +141,21 @@ public class MensagemServiceImpl implements MensagemService {
         mensagem.setUsuarioPara(usuarioDao.findUsuario(frm.getIdUsuarioPara()));  
         mensagem.setDescricao(frm.getEntradaMensagem());  
         dao.save(mensagem); 
+        
+        boolean isHabilitado = parametrosIniciaisService.isHabilitadoEnvioEmail();
+    	if ( isHabilitado){
+    		try {	            	
+                EmailJms email = new EmailJms();
+                email.setSubject(MessageUtils.getMessage("msg.email.subject.mensagem"));
+                email.setTo(mensagem.getUsuarioPara().getEmail());
+                email.setTexto(MessageUtils.getMessage("msg.email.texto.mensagem"));			            
+                messageSender.sendMessage(email);
+    		} catch (Exception e) {	
+    			log.error("Mensagem - Erro envio email");
+				log.error("Mensagem erro: " + e.getMessage());
+    			e.printStackTrace();
+    		}
+    	}
 	}
 	
 	public List<Mensagem> listaMensagensDE(UsuarioForm user) {
