@@ -966,7 +966,8 @@ public class ImovelController {
 																  NotaAcaoEnum.IMOVEL.getRotulo());  
 				return DIR_PATH_CADASTRO + "cadastrarGaleriaFotosImovel";	
 			}
-			else {
+			else {				
+				map.addAttribute("msgErro", "N");
 				map.addAttribute("imovelForm", form);
 				return DIR_PATH_CADASTRO + "cadastrarImovel";
 			}			
@@ -1027,6 +1028,7 @@ public class ImovelController {
 			form = new ImovelForm();
 			imovelService.preparaDetalhesImovelForm(idImovel, form, user);		
 			map.addAttribute("imovelForm", form);
+			session.setAttribute(ImovelService.QUANT_MEUS_IMOVEIS, imovelService.checarQuantMeusImoveis(user.getId()));
 			return DIR_PATH + "visualizarImovel";
 		} catch (Exception e) {
 			log.error("Erro metodo - ImovelController -  confirmarCadastroImovel");
@@ -1114,8 +1116,8 @@ public class ImovelController {
 	
 	@RequestMapping(value = "/editarImovel", method = RequestMethod.POST)	
 	public String editarImovel(@ModelAttribute("imovelForm") ImovelForm form, 
-			 				   @RequestParam("name") String name,
-			 				   @RequestParam("file") MultipartFile file,
+			 				//   @RequestParam("name") String name,
+			 				 //  @RequestParam("file") MultipartFile file,
 			 				   BindingResult result,
 			 				   HttpSession session,
 							   ModelMap map){

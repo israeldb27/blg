@@ -707,6 +707,10 @@ public class UsuarioController {
 			log.info("Host IP requisitante login: " + request.getLocalAddr());
 			log.info("Host Name requisitante login: " + request.getLocalName());
 			log.info("Login requisitante: " + usuarioForm.getLogin());
+			
+			System.out.println("Host IP requisitante login: " + request.getLocalAddr());
+			System.out.println("Host Name requisitante login: " + request.getLocalName());
+			System.out.println("Login requisitante: " + usuarioForm.getLogin());
 	    	boolean existe = usuarioService.validarLoginPassword(usuarioForm);
 	    	if ( existe ){
 	    		UsuarioForm user = usuarioService.carregaUsuarioByLogin(usuarioForm);
@@ -752,6 +756,9 @@ public class UsuarioController {
 		} catch (Exception e) {
 			log.error("Erro metodo - UsuarioController -  submitLogin");
 			log.error("Mensagem Erro: " + e.getMessage());
+			System.out.println("Erro metodo - UsuarioController -  submitLogin");
+			System.out.println("Mensagem Erro: " + e.getMessage());
+			e.printStackTrace();
 			map.addAttribute("mensagemErroGeral", "S");
 			return "exceptionLogin";
 		} 

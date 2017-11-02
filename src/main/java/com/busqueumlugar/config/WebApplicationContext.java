@@ -144,7 +144,7 @@ public class WebApplicationContext extends WebMvcConfigurerAdapter
  	
 
  	//<editor-fold defaultstate="collapsed" desc="HikariCP Datasoure Configuration" >
- 	   @Bean(destroyMethod = "close")
+ 	  @Bean(destroyMethod = "close")
  	    @Autowired
  	    public DataSource dataSource()
  		{
@@ -156,19 +156,19 @@ public class WebApplicationContext extends WebMvcConfigurerAdapter
  			return dataSource;
  		}
 
- 	    
- 	  /*    @Bean(destroyMethod = "close")
+ 	 /*     
+	    @Bean(destroyMethod = "close")
  	    @Autowired
  	    public DataSource dataSource()
  		{
  			BasicDataSource dataSource = new BasicDataSource();
  			dataSource.setDriverClassName("com.mysql.jdbc.Driver"); 	
- 			dataSource.setUrl("jdbc:mysql://138.197.3.199:3306/home");		
+ 			dataSource.setUrl("jdbc:mysql://138.197.78.218:3306/home");		
  			dataSource.setUsername("root");
  			dataSource.setPassword("Israel814245!"); 			
  			return dataSource;
  		}
- */	
+ */
  	  
  	//</editor-fold>
 
@@ -204,7 +204,7 @@ public class WebApplicationContext extends WebMvcConfigurerAdapter
  	        hibernateProperties.put(hibernate_format_sql, env.getProperty(hibernate_format_sql));
  	        hibernateProperties.put(hibernate_hbm2ddl_auto, env.getProperty(hibernate_hbm2ddl_auto));
  	        hibernateProperties.put(hibernate_show_sql, env.getProperty(hibernate_show_sql));
-// 	        hibernateProperties.put(hibernate_connection_provider_class, env.getProperty(hibernate_connection_provider_class));
+ 	    //    hibernateProperties.put(hibernate_connection_provider_class, env.getProperty(hibernate_connection_provider_class));
  	        return hibernateProperties;
 
  	    }

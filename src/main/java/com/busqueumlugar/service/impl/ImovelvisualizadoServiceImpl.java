@@ -176,7 +176,7 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 			            email.setSubject(MessageUtils.getMessage("msg.email.subject.imovel.visualizado"));
 			            email.setTo(imovelvisitado.getUsuarioDonoImovel().getEmail());
 			            email.setTexto(MessageUtils.getMessage("msg.email.texto.imovel.visualizado"));			            
-			            messageSender.sendMessage(email);
+			            //messageSender.sendMessage(email);
 					} catch (Exception e) {	
 						log.error("Imovelvisualizado - Erro envio email");
 						log.error("Mensagem erro: " + e.getMessage());

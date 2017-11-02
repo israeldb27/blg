@@ -5,9 +5,8 @@ import java.io.Serializable;
 import com.busqueumlugar.util.MessageUtils;
 import com.mysql.jdbc.StringUtils;
 
-public enum AcaoImovelEnum implements Serializable, ICodigoDescricao {
+public enum AcaoImovelSemCompraEnum implements Serializable, ICodigoDescricao {
     
-	C(MessageUtils.getMessage("lbl.acao.imovel.compra"), "success"),
 	V(MessageUtils.getMessage("lbl.acao.imovel.venda"), "success"),
 	A(MessageUtils.getMessage("lbl.acao.imovel.aluguel"), "warning"),	
 	D(MessageUtils.getMessage("lbl.acao.imovel.dividir"), "info"),
@@ -16,12 +15,12 @@ public enum AcaoImovelEnum implements Serializable, ICodigoDescricao {
     private String descricao;
     private String classe;
 
-    private AcaoImovelEnum( final String descricao) {
+    private AcaoImovelSemCompraEnum( final String descricao) {
     	
         this.descricao = descricao;
     }
 
-    AcaoImovelEnum(String descricao, String classe) {
+    AcaoImovelSemCompraEnum(String descricao, String classe) {
         this.descricao = descricao;
         this.classe = classe;
     }
@@ -41,14 +40,14 @@ public enum AcaoImovelEnum implements Serializable, ICodigoDescricao {
 
     public static String getLabel(String key) {
     	if (! StringUtils.isNullOrEmpty(key))
-    		return AcaoImovelEnum.valueOf(key).getRotulo();
+    		return AcaoImovelSemCompraEnum.valueOf(key).getRotulo();
     	else
     		return "";
     }
 
     public static String getClassePorAcao(String acao) {
         if (! StringUtils.isNullOrEmpty(acao))
-            return AcaoImovelEnum.valueOf(acao).getClasse();
+            return AcaoImovelSemCompraEnum.valueOf(acao).getClasse();
         else
             return "";
     }

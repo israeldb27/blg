@@ -118,7 +118,7 @@ public class ImovelcomentarioServiceImpl implements ImovelcomentarioService {
                 email.setSubject(MessageUtils.getMessage("msg.email.subject.imovel.comentario"));
                 email.setTo(imovelcomentario.getUsuario().getEmail());
                 email.setTexto(MessageUtils.getMessage("msg.email.texto.imovel.comentario"));			            
-                messageSender.sendMessage(email);
+                //messageSender.sendMessage(email);
     		} catch (Exception e) {	
     			log.error("Imovelcomentario - Erro envio email");
 				log.error("Mensagem erro: " + e.getMessage());
@@ -148,7 +148,7 @@ public class ImovelcomentarioServiceImpl implements ImovelcomentarioService {
                 email.setSubject(MessageUtils.getMessage("msg.email.subject.imovel.comentario"));
                 email.setTo(imovelcomentario.getUsuario().getEmail());
                 email.setTexto(MessageUtils.getMessage("msg.email.texto.imovel.comentario"));			            
-                messageSender.sendMessage(email);
+                //messageSender.sendMessage(email);
     		} catch (Exception e) {	
     			log.error("Imovelcomentario - Erro envio email");
 				log.error("Mensagem erro: " + e.getMessage());

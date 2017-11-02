@@ -32,4 +32,6 @@ public interface PreferencialocalidadeDao extends GenericDAO<Preferencialocalida
 	List<Preferencialocalidade> findPreferencialocalidadeByIdUsuario(Long idUsuario, int quantMaxExibeMaisListaPrefImoveis);
 
 	long findPreferencialocalidadeByIdUsuarioQuant(Long idUsuario);
+
+	boolean checarPrefImovelUsuario(PreferencialocalidadeForm form);
 }

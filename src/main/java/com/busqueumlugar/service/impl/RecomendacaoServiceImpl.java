@@ -80,7 +80,7 @@ public class RecomendacaoServiceImpl implements RecomendacaoService {
                 email.setSubject(MessageUtils.getMessage("msg.email.subject.recomendacao"));
                 email.setTo(rec.getUsuarioRecomendado().getEmail());
                 email.setTexto(MessageUtils.getMessage("msg.email.texto.recomendacao"));			            
-                messageSender.sendMessage(email);
+                //messageSender.sendMessage(email);
     		} catch (Exception e) {		
     			log.error("Recomendacao - Erro envio email");
 				log.error("Mensagem erro: " + e.getMessage());

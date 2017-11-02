@@ -6,11 +6,18 @@
 
 <c:set var="context" value="<%= request.getContextPath()%>"/>
 
-<%@page import="com.busqueumlugar.enumerador.AcaoImovelEnum"%>
+<%@page import="com.busqueumlugar.enumerador.AcaoImovelSemCompraEnum"%>
 <%@page import="com.busqueumlugar.enumerador.TipoImovelEnum"%>
 <%@page import="com.busqueumlugar.enumerador.StatusImovelEnum"%>
 
-<c:set var="listaAcaoImovel" value="<%= AcaoImovelEnum.values() %>"/>
+<%@page import="com.busqueumlugar.util.UsuarioInterface"%>
+<%@page import="com.busqueumlugar.service.UsuarioService"%>
+<%@page import="com.busqueumlugar.form.UsuarioForm"%>
+<%@page import="com.busqueumlugar.util.ParametrosUtils"%>
+
+<c:set var="usuario" value="<%= (UsuarioForm)request.getSession().getAttribute(UsuarioInterface.USUARIO_SESSAO) %>"/>
+
+<c:set var="listaAcaoImovel" value="<%= AcaoImovelSemCompraEnum.values() %>"/>
 <c:set var="listaTipoImovel" value="<%= TipoImovelEnum.values() %>"/>
 <c:set var="listaStatusImovel" value="<%= StatusImovelEnum.values() %>"/>
 
@@ -22,6 +29,48 @@
 
     	<script type="text/javascript">
     	$(document).ready(function() {
+    		
+    		var autorizacao = document.getElementById("autorizacaoOutroUsuario").value; 
+    		if ( autorizacao == 'S'){
+    			$('#labelCondParceria').show();
+        		$('#labelCondIntermediacao').show();
+    		}
+    		else {
+    			$('#labelCondParceria').hide();
+        		$('#labelCondIntermediacao').hide();
+    		}
+    		
+    		$('#autorizacaoOutroUsuario').change(function () {				
+    			var autorizacaoOutroUsuario = document.getElementById("autorizacaoOutroUsuario").value; 
+    		
+    			if ( autorizacaoOutroUsuario == 'S'){
+        			$('#labelCondParceria').show();
+            		$('#labelCondIntermediacao').show();
+        		}
+        		else {
+        			$('#labelCondParceria').hide();
+            		$('#labelCondIntermediacao').hide();
+        		}
+    		 });
+    		
+    		 $('.spinner .btn:first-of-type').on('click', function() {
+    		      var btn = $(this);
+    		      var input = btn.closest('.spinner').find('input');
+    		      if (input.attr('max') == undefined || parseInt(input.val()) < parseInt(input.attr('max'))) {    
+    		        input.val(parseInt(input.val(), 10) + 1);
+    		      } else {
+    		        btn.next("disabled", true);
+    		      }
+    		    });
+    		    $('.spinner .btn:last-of-type').on('click', function() {
+    		      var btn = $(this);
+    		      var input = btn.closest('.spinner').find('input');
+    		      if (input.attr('min') == undefined || parseInt(input.val()) > parseInt(input.attr('min'))) {    
+    		        input.val(parseInt(input.val(), 10) - 1);
+    		      } else {
+    		        btn.prev("disabled", true);
+    		      }
+    		    });
     		
     		$('#idEstado').change(function () {    			
     	        var comboPai = '#idEstado';
@@ -46,6 +95,8 @@
     		$('#btnEditarFoto').click(function () {
     			editarFoto();    			      
     		 }); 
+    		
+    		
 
     		function limpaComboLinha(comboLinha) {
     		    $(comboLinha).empty();  
@@ -152,6 +203,46 @@
     
 		</script>
 		
+<style type="text/css">
+.spinner input {
+  text-align: left;
+}
+
+.input-group-btn-vertical {
+  position: relative;
+  white-space: nowrap;
+  width: 2%;
+  vertical-align: middle;
+  display: table-cell;
+}
+
+.input-group-btn-vertical > .btn {
+  display: block;
+  float: none;
+  width: 100%;
+  max-width: 100%;
+  padding: 8px;
+  margin-left: -1px;
+  position: relative;
+  border-radius: 0;
+}
+
+.input-group-btn-vertical > .btn:first-child {
+  border-top-right-radius: 4px;
+}
+
+.input-group-btn-vertical > .btn:last-child {
+  margin-top: -2px;
+  border-bottom-right-radius: 4px;
+}
+
+.input-group-btn-vertical i {
+  position: absolute;
+  top: 0;
+  left: 4px;
+}
+</style>
+		
         <c:import url="../../layout/head-layout.jsp"></c:import>
 
     <body>
@@ -211,7 +302,7 @@
 	                                              <div class="col-sm-12" align="center">
 	                                                  <ul class="list-unstyled">
 					                                        <li class="text-center">
-					                                        	<a href="#aboutModal" data-toggle="modal" data-target="#idModalItem"> <img class="img-circle img-bordered-primary" src="data:image/jpeg;base64,${imovelForm.imagemArquivo}" style="width: 200px; height: 200px; " alt="Foto Principal"> </a>		                                              					                                              
+					                                        	<a href="#aboutModal" data-toggle="modal" data-target="#idModalFoto"> <img class="img-circle img-bordered-primary" src="data:image/jpeg;base64,${imovelForm.imagemArquivo}" style="width: 200px; height: 200px; " alt="Foto Principal"> </a>		                                              					                                              
 					                                        </li>
 					                                        <li class="text-center">
 					                                        	<br>
@@ -347,7 +438,7 @@
                                             </div><!-- /.form-group -->
                                             
                                             <div class="form-group">
-                                                <label for="valorImovel" class="col-sm-3 control-label"><spring:message code="lbl.valor.imovel"/></label>
+                                            	<label for="valorImovel" class="col-sm-3 control-label"><spring:message code="lbl.valor.imovel"/></label>	
                                                 <div class="col-sm-7">                                                    
                                                     <spring:message code="lbl.hint.imovel.valor" var="hintValorImovel"/>
                                                     <form:input  id="valorImovelFmt" path="valorImovelFmt" class="form-control" onkeypress="formatarMoeda(this);"  title="${hintValorImovel}"/>
@@ -424,39 +515,62 @@
                                                     <form:input id="area" path="area" class="form-control" title="${hintArea}"/>
                                                     <form:errors id="area" path="area" cssClass="errorEntrada"  />
                                                 </div>
-                                            </div><!-- /.form-group -->
+                                            </div><!-- /.form-group -->     
                                             
-                                            <div class="form-group">
+                                             <div class="form-group">
                                                 <label for="quantQuartos" class="col-sm-3 control-label"><spring:message code="lbl.quartos.dormitorios"/></label>
-                                                <div class="col-sm-7">
-                                                    <spring:message code="lbl.hint.imovel.quant.quartos.inf" var="hintQuantQuartos"/>
-                                                    <form:input id="quantQuartos" path="quantQuartos" class="form-control" title="${hintQuantQuartos}"/>
+                                                <div class="col-sm-7">   
+                                                	<div class="input-group spinner">
+                                                			<form:input id="quantQuartos" path="quantQuartos" class="form-control" min="0" max="20"/>                                                    
+														    <div class="input-group-btn-vertical">
+														      <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+														      <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+														    </div>                                                	
+                                                	</div> 
                                                 </div>
-                                            </div><!-- /.form-group -->
+                                            </div><!-- /.form-group -->	 
                                             
                                             <div class="form-group">
                                                 <label for="quantGaragem" class="col-sm-3 control-label"><spring:message code="lbl.vagas.garagem"/></label>
-                                                <div class="col-sm-7">
-                                                    <spring:message code="lbl.hint.imovel.quant.garagem.inf" var="hintQuantGaragem"/>
-                                                    <form:input id="quantQuartos" path="quantGaragem" class="form-control" title="${hintQuantGaragem}"/>
+                                                <div class="col-sm-7">   
+                                                	<div class="input-group spinner">
+                                                			<form:input id="quantGaragem" path="quantGaragem" class="form-control" min="0" max="20"/>                                                    
+														    <div class="input-group-btn-vertical">
+														      <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+														      <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+														    </div>                                                	
+                                                	</div> 
                                                 </div>
-                                            </div><!-- /.form-group -->
+                                            </div><!-- /.form-group -->	  
                                             
-                                            <div class="form-group">
+                                             <div class="form-group">
                                                 <label for="quantBanheiro" class="col-sm-3 control-label"><spring:message code="lbl.banheiros"/></label>
-                                                <div class="col-sm-7">
-                                                    <spring:message code="lbl.hint.imovel.quant.banheiros.inf" var="hintQuantBanheiros"/>
-                                                    <form:input id="quantBanheiro" path="quantBanheiro" class="form-control" title="${hintQuantBanheiros}"/>
+                                                <div class="col-sm-7">   
+                                                	<div class="input-group spinner">
+                                                			<form:input id="quantBanheiro" path="quantBanheiro" class="form-control" min="0" max="20"/>                                                    
+														    <div class="input-group-btn-vertical">
+														      <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+														      <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+														    </div>                                                	
+                                                	</div> 
                                                 </div>
-                                            </div><!-- /.form-group -->
+                                            </div><!-- /.form-group -->	  
                                             
                                             <div class="form-group">
                                                 <label for="quantSuites" class="col-sm-3 control-label"><spring:message code="lbl.suites"/></label>
-                                                <div class="col-sm-7">
-                                                    <spring:message code="lbl.hint.imovel.quant.suites.inf" var="hintQuantSuites"/>
-                                                    <form:input id="quantSuites" path="quantSuites" class="form-control" title="${hintQuantSuites}"/>
+                                                <div class="col-sm-7">   
+                                                	<div class="input-group spinner">
+                                                			<form:input id="quantSuites" path="quantSuites" class="form-control" min="0" max="5"/>
+                                                    
+														    <div class="input-group-btn-vertical">
+														      <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+														      <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+														    </div>
+                                                	
+                                                	</div>                                                 
+                                                    
                                                 </div>
-                                            </div><!-- /.form-group -->
+                                            </div><!-- /.form-group -->	                                           
                                                       
                                         </div><!-- /.form-body -->    
                                 </div><!-- /.panel-body -->
@@ -522,7 +636,7 @@
                                             </div><!-- /.form-group -->
                                                                                        
                                              <div class="form-group">
-                                                <label for="aceitaFinanciamento" class="col-sm-3 control-label"><spring:message code="lbl.permissao.aceita.financiamento"/></label>
+                                                <label for="aceitaFinanciamento" class="col-sm-3 control-label"> <spring:message code="lbl.permissao.aceita.financiamento"/></label>
                                                 <div class="col-sm-7">
                                                      <spring:message code="lbl.hint.imovel.aceita.financiamento" var="hintAceitaFinaciamento"/>
                                                      <form:select id="aceitaFinanciamento" path="aceitaFinanciamento" class="form-control" title="${hintAceitaFinaciamento}">                                
@@ -546,6 +660,14 @@
 										                 <form:errors id="autorizacaoOutroUsuario" path="autorizacaoOutroUsuario" cssClass="errorEntrada"  />
 	                                                </div>
 	                                            </div><!-- /.form-group -->
+	                                            
+	                                            <div class="form-group" id="labelCondParceria">
+	                                                <label for="descAceitaCorretagemParceria" class="col-sm-3 control-label"><spring:message code="lbl.condicao.parceria"/></label>
+	                                                <div class="col-sm-7">  
+	                                                	<form:textarea rows="5" cols="20" id="descAceitaCorretagemParceria" path="descAceitaCorretagemParceria" class="form-control" />
+                                                        <form:errors id="descAceitaCorretagemParceria" path="descAceitaCorretagemParceria" cssClass="errorEntrada"  />     
+	                                                </div>
+	                                            </div><!-- /.form-group -->
                                             </c:if>
                                             
                                             <c:if test="${(usuario.perfil == 'P')}">
@@ -558,6 +680,14 @@
 															<form:option value="N"> <spring:message code="lbl.nao"/></form:option>														
 										                 </form:select>
 										                 <form:errors id="autorizacaoOutroUsuario" path="autorizacaoOutroUsuario" cssClass="errorEntrada"  />
+	                                                </div>
+	                                            </div><!-- /.form-group -->
+	                                            
+	                                             <div class="form-group" id="labelCondIntermediacao">
+	                                                <label for="descAceitaCorretagemParceria" class="col-sm-3 control-label"><spring:message code="lbl.condicao.intermediacao"/></label>
+	                                                <div class="col-sm-7">  
+	                                                	<form:textarea rows="5" cols="20" id="descAceitaCorretagemParceria" path="descAceitaCorretagemParceria" class="form-control" />
+                                                        <form:errors id="descAceitaCorretagemParceria" path="descAceitaCorretagemParceria" cssClass="errorEntrada"  />     
 	                                                </div>
 	                                            </div><!-- /.form-group -->
                                             </c:if>
@@ -579,9 +709,8 @@
                                                 <label for="acessoVisualizacao" class="col-sm-3 control-label"><spring:message code="lbl.permissao.autoriza.quem.visualiza"/></label>
                                                 <div class="col-sm-7">
                                                      <spring:message code="lbl.hint.imovel.autoriza.quem.visualiza" var="hintQuemVisualiza"/>
-                                                     <form:select id="acessoVisualizacao" path="acessoVisualizacao"  class="form-control" title="${hintQuemVisualiza}">                                
-								                    	<form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>                        	                        
-														<form:option value="todos"><spring:message code="lbl.permissao.visualiza.todos"/></form:option>                        	                        
+                                                     <form:select id="acessoVisualizacao" path="acessoVisualizacao"  class="form-control" title="${hintQuemVisualiza}">                                                      	                        
+														<form:option value="T"><spring:message code="lbl.permissao.visualiza.todos"/></form:option>                        	                        
 														<form:option value="N"> <spring:message code="lbl.permissao.visualiza.ninguem"/></form:option>                        	                        
 														<form:option value="C"><spring:message code="lbl.permissao.visualiza.apenas.contatos"/></form:option>
 									                 </form:select> 
@@ -618,6 +747,40 @@
 				<!-- End content  modal Ajuda - funcionalidade -->   
 
         </section><!-- /#wrapper -->
+        
+        	 <!-- Start optional size modal element - item 1 -->
+            <div id="idModalFoto" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <form:form id="imovelForm" modelAttribute="usuarioForm" action="${urlImovel}/editarFotoPrincipal" class="form-horizontal mt-5" enctype="multipart/form-data" >
+                        <div class="modal-header" align="center">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title"><spring:message code="lbl.modal.carregar.nova.foto.imovel"/></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">                            	
+                                    <label class="control-label"></label>
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 190px; height: 130px; margin-left: 330px;"></div>
+                                        <div align="center">
+                                            <span class="btn btn-info btn-file"><span class="fileinput-new"><spring:message code="lbl.selecionar.foto.imovel"/></span><span class="fileinput-exists"><spring:message code="lbl.selecionar.foto.imovel"/></span>	                                                        
+                                            <input type="text" name="name" id="name"/>
+											<input type="file" name="file" id="file" />                                            
+                                            </span>
+                                            <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput"><spring:message code="lbl.remover.foto.imovel"/></a>
+                                        </div>
+                                    </div>                                
+                              </div><!-- /.form-group -->	
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success" ><spring:message code="lbl.btn.editar.geral"/></button> 
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.btn.fechar.geral"/></button>                                                                                  
+                        </div>
+						 </form:form>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        
        
 	   		     <!-- Start optional size modal element - item 1 -->
             <div id="idModalItem" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">

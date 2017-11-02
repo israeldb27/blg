@@ -119,7 +119,14 @@ function carregaAvisoInicial(){
 			                       <div class="alert alert-danger">
                                           <strong><spring:message code="msg.erro.lista.pref.imoveis.vazia"/></strong> 
                                    </div>                 
-			               </c:if>	
+			               </c:if>
+			               
+			               <c:if test="${msgErroPrefExistente != null }">			               		 
+			                       <div class="alert alert-danger">
+                                          <strong>${msgErroPrefExistente}</strong> 
+                                   </div>                 
+			               </c:if>
+			               
 
 	                    <div class="row"> 	
 	                   		<div class="col-md-12">                        		

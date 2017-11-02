@@ -457,6 +457,22 @@ public class UsuarioServiceImpl implements UsuarioService{
 					filtroValido = true;                   
 				}
 				
+				if ( StringUtils.isEmpty(form.getDataNascimentoFmt())){
+					result.rejectValue("dataNascimentoFmt", "msg.erro.campo.obrigatorio");
+					filtroValido = true;                   
+				}
+				else {
+					try{				
+						DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
+						df.setLenient (false); 
+						df.parse (form.getDataNascimentoFmt());   
+					}
+					catch(ParseException e){
+						result.rejectValue("dataNascimentoFmt", "msg.erro.data.nascimento.invalida");
+						filtroValido = true;
+					}
+				}
+				
 			}
 			else if ( form.getPerfil().equals(PerfilUsuarioOpcaoEnum.IMOBILIARIA.getRotulo())){
 				if ( StringUtils.isEmpty(form.getCnpj())){
@@ -487,23 +503,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		if (( form.getFotoPrincipal() == null ) || (form.getFotoPrincipal() != null && form.getFotoPrincipal().length == 0)){
 			result.rejectValue("fotoPrincipal", "msg.erro.campo.obrigatorio");
 			filtroValido = true;
-		}
-
-		if ( StringUtils.isEmpty(form.getDataNascimentoFmt())){
-			result.rejectValue("dataNascimentoFmt", "msg.erro.campo.obrigatorio");
-			filtroValido = true;                   
-		}
-		else {
-			try{				
-				DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
-				df.setLenient (false); 
-				df.parse (form.getDataNascimentoFmt());   
-			}
-			catch(ParseException e){
-				result.rejectValue("dataNascimentoFmt", "msg.erro.data.nascimento.invalida");
-				filtroValido = true;
-			}
-		}
+		}		
 		
 		/*
 		if ( StringUtils.isEmpty(form.getDescSobreMim())){
@@ -641,7 +641,23 @@ public class UsuarioServiceImpl implements UsuarioService{
 			else if ( ! JsfUtil.isValidoCPF(form.getCpf())){
 				result.rejectValue("cpf", "msg.erro.cpf.invalido");
 				filtroValido = true;
-			}		
+			}
+			
+			if ( StringUtils.isEmpty(form.getDataNascimentoFmt())){
+				result.rejectValue("dataNascimentoFmt", "msg.erro.campo.obrigatorio");
+				filtroValido = true;                   
+			}
+			else {
+				try{				
+					DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
+					df.setLenient (false); 
+					df.parse (form.getDataNascimentoFmt());   
+				}
+				catch(ParseException e){
+					result.rejectValue("dataNascimentoFmt", "msg.erro.data.nascimento.invalida");
+					filtroValido = true;
+				}
+			}
 		}
 		else if ( form.getPerfil().equals(PerfilUsuarioOpcaoEnum.IMOBILIARIA.getRotulo())){
 			if ( StringUtils.isEmpty(form.getCnpj())){
@@ -666,23 +682,8 @@ public class UsuarioServiceImpl implements UsuarioService{
 				   filtroValido = true;
 				}   
 			}
-		}
-		
-		if ( StringUtils.isEmpty(form.getDataNascimentoFmt())){
-			result.rejectValue("dataNascimentoFmt", "msg.erro.campo.obrigatorio");
-			filtroValido = true;                   
-		}
-		else {
-			try{				
-				DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
-				df.setLenient (false); 
-				df.parse (form.getDataNascimentoFmt());   
-			}
-			catch(ParseException e){
-				result.rejectValue("dataNascimentoFmt", "msg.erro.data.nascimento.invalida");
-				filtroValido = true;
-			}
 		}	
+	
 		
 		if ( StringUtils.isEmpty(form.getDescSobreMim())){
 			result.rejectValue("descSobreMim", "msg.erro.campo.obrigatorio");
@@ -2092,7 +2093,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	public boolean validarBuscarUsuarios(UsuarioForm form, BindingResult result) {
 		Usuario usuario = new Usuario();
 		usuario.setLogin("Israel Teste");
-		// messageSender.sendMessage(usuario);
+		//messageSender.sendMessage(usuario);
 
 		boolean possuiErro = false;
 		if (! StringUtils.isEmpty(form.getOpcaoTipoBuscaUsuarios())){

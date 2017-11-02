@@ -175,7 +175,8 @@ public class ImovelServiceImpl implements ImovelService{
          imovel.setHabilitaInfoDonoImovel("S");
          imovel.setAutorizacaoPropostas("S");         
          imovel.setHabilitaBusca("S");
-         imovel.setAcessoVisualizacao("S");
+         imovel.setAcessoVisualizacao("T");
+         imovel.setAutorizaComentario("S");
          
          String codigoId = this.gerarCodigoIdentificacao(imovel, estado);
          imovel.setCodigoIdentificacao(codigoId);            
@@ -675,10 +676,10 @@ public class ImovelServiceImpl implements ImovelService{
 					   filtroValido = true;                   
 		}
 		
-		if (( form.getFotoPrincipal() == null ) || (form.getFotoPrincipal() != null && form.getFotoPrincipal().length == 0)){
+		/*if (( form.getFotoPrincipal() == null ) || (form.getFotoPrincipal() != null && form.getFotoPrincipal().length == 0)){
 			result.rejectValue("fotoPrincipal", "msg.erro.campo.obrigatorio");
 			filtroValido = true;
-		}
+		}*/
 		// fim - validacao informacoes localidade	
 		
 		// inicio - validacao informacoes basicas	

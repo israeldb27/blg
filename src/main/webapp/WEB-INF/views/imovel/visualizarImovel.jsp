@@ -534,7 +534,7 @@ function prepararModalGaleriaFotos(){
 	                                     <table class="table table-striped" style="margin-top:10px;">
                                                 <tbody>
                                                 	<tr>  
-                                                        <td class="text-left"><spring:message code="lbl.valor.imovel.resum" /></td>
+                                                		<td class="text-left"><spring:message code="lbl.valor.imovel" /></td>	
                                                         <td class="text-right"><strong>R$<fmt:formatNumber value="${imovelForm.valorImovel}" pattern="#,##0.00;-0"/></strong></td>
                                                     </tr>
                                                     
@@ -665,9 +665,10 @@ function prepararModalGaleriaFotos(){
 	                              			<br>	
 										</h3>			                                    	
 								</div><!-- /.panel-heading -->	
-								
+							
 								<c:choose>
-									<c:when test="${((imovelForm.latitude != 0) && (imovelForm.longitude != 0))}">
+								
+									<c:when test="${((imovelForm.latitude != null) && (imovelForm.longitude != null))}">
 										<div class="panel-body panel panel-info rounded shadow">
 											<div id="result"></div>
 											<br/>
@@ -699,7 +700,7 @@ function prepararModalGaleriaFotos(){
 										</div>
 									</c:when>
 									
-									<c:when test="${((imovelForm.latitude == 0) && (imovelForm.longitude == 0))}">
+									<c:when test="${imovelForm.latitude == null}">
 										<div class="panel-body panel panel-info rounded shadow">
 											<div class="callout callout-warning">
 			                                    <strong><spring:message code="msg.mapa.vazio.detalhe.imovel"/></strong>		                                    

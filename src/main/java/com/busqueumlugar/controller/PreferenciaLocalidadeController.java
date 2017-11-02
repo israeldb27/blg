@@ -26,6 +26,7 @@ import com.busqueumlugar.service.CidadesService;
 import com.busqueumlugar.service.EstadosService;
 import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.service.PreferencialocalidadeService;
+import com.busqueumlugar.util.MessageUtils;
 import com.busqueumlugar.util.ParametrosUtils;
 import com.busqueumlugar.util.Select;
 import com.busqueumlugar.util.UsuarioInterface;
@@ -142,9 +143,14 @@ public class PreferenciaLocalidadeController {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			session.setAttribute("firstTime", "N");
 			boolean possuiErro = prefLocalidadeService.validarCadastroPreferencia(form, result);
-			if ( ! possuiErro)		
-				prefLocalidadeService.adicionarPreferencia(user.getId(), form);
-			
+			if ( ! possuiErro) {	
+				form.setIdUsuario(user.getId());
+				boolean prefImovelExistente = prefLocalidadeService.checarPrefExistente(form);
+				if ( prefImovelExistente )
+					map.addAttribute("msgErroPrefExistente", MessageUtils.getMessage("msg.erro.pref.existente.usuario"));
+				else
+					prefLocalidadeService.adicionarPreferencia(user.getId(), form);
+			}
 			map.addAttribute("listaPreferenciaImoveis", prefLocalidadeService.listarPreferenciaPorUsuario(user.getId()));
 			map.addAttribute("preferenciaLocalidadeForm", form);		
 			return DIR_PATH + "visualizarPreferenciaImoveis";
@@ -187,8 +193,13 @@ public class PreferenciaLocalidadeController {
 		try {
 			boolean possuiErro = prefLocalidadeService.validarAdicionarPreferenciaCadUsuario(form, result);
 			session.setAttribute("firstTime", "N");
-			if (!possuiErro)
-				prefLocalidadeService.adicionarPreferencia(form.getIdUsuario(), form);			
+			if (!possuiErro) {
+				boolean prefImovelExistente = prefLocalidadeService.checarPrefExistente(form);
+				if ( prefImovelExistente )
+					map.addAttribute("msgErroPrefExistente", MessageUtils.getMessage("msg.erro.pref.existente.usuario"));
+				else
+					prefLocalidadeService.adicionarPreferencia(form.getIdUsuario(), form);	
+			}
 			
 			map.addAttribute("listaPreferenciaImoveis", prefLocalidadeService.listarPreferenciaPorUsuario(form.getIdUsuario()));
 			map.addAttribute("preferenciaLocalidadeForm", form);
@@ -224,16 +235,10 @@ public class PreferenciaLocalidadeController {
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			session.setAttribute(ParametrosUtils.TIPO_VISUALIZACAO, TIPO_VISUALIZACAO);
-			String msgRetorno = prefLocalidadeService.validarExclusaoPrefencia(user);
-			if ( StringUtils.isNullOrEmpty(msgRetorno) ){
-				prefLocalidadeService.excluirPreferencia(idPreferencia);		
-				map.addAttribute("listaPreferenciaImoveis", prefLocalidadeService.listarPreferenciaPorUsuario(user.getId()));				
-			}
-			else
-				map.addAttribute("msgError", msgRetorno);
-			
-			map.addAttribute("preferenciaLocalidadeForm", form);
-			return DIR_PATH + "visualizarPreferenciaImoveis"; 
+			prefLocalidadeService.excluirPreferencia(idPreferencia);		
+			map.addAttribute("listaPreferenciaImoveis", prefLocalidadeService.listarPreferenciaPorUsuario(user.getId()));			
+    		map.addAttribute("preferenciaLocalidadeForm", form);
+			return DIR_PATH_CADASTRO_USUARIO + "inicioCadastrarPreferencias";
 		} catch (Exception e) {
 			log.error("Erro metodo - PreferenciaLocalidadeController - excluirPreferencia");
 			log.error("Mensagem Erro: " + e.getMessage());

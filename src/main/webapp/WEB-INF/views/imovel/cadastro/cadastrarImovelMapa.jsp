@@ -22,7 +22,7 @@ div#map_container{
 	height:350px;
 }
 </style>
-<script type="text/javascript"  src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>		
+
 
 <script type="text/javascript">
 
@@ -112,7 +112,7 @@ $( document ).ready(function() {
                 <!--/ End header content -->
                 
                 <!-- Start body content -->
-                <div class="body-content animated fadeIn">   	
+                <div class="body-content animated fadeIn container limit-form" style="width:800px;"> 	
 
                    <form:form id="imovelForm" modelAttribute="imovelForm" action="${urlImovel}/cadastrarMapaImovel" class="form-horizontal mt-10">
                    	<form:hidden path="latitude" id="latitude"/>
@@ -148,7 +148,30 @@ $( document ).ready(function() {
                                             <div class="form-group">
                                               <div id="result"></div>
 											  <br/>
-											  <div style="width:900px;height:400px" id="map"></div>
+											  <div style="width:730px;height:400px" id="map"></div>		
+											
+											<script>
+											function initMap(){
+												var longi = ${imovelForm.longitude};
+												 var lat = ${imovelForm.latitude};
+												 var latlng = new google.maps.LatLng(lat, longi);
+												 var myOptions = {
+												   zoom: 14,
+												   center: latlng,
+												   mapTypeId: google.maps.MapTypeId.ROADMAP
+												 };
+												var map = new google.maps.Map(document.getElementById("map"),myOptions);
+												 var marker = new google.maps.Marker({
+												   position: latlng,
+												   map: map,
+												   title:"my hometown, Malim Nawar!"
+												 });
+											}
+											</script>
+											
+											<script async defer
+											    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAoIntYq8CHlVWThpYtElySNBKyXRpZ9M0&callback=initMap">
+											    </script>
 											</div>
 											
 											<div class="form-group">

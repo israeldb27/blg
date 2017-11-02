@@ -96,7 +96,7 @@ public class ContatoServiceImpl implements ContatoService {
                 email.setSubject(MessageUtils.getMessage("msg.email.subject.enviar.convite"));
                 email.setTo(contato.getUsuarioConvidado().getEmail());
                 email.setTexto(MessageUtils.getMessage("msg.email.texto.enviar.convite"));			            
-                messageSender.sendMessage(email);
+                //messageSender.sendMessage(email);
     		} catch (Exception e) {	
     			log.error("Contato - enviarconvite - Erro envio email");
 				log.error("Mensagem erro: " + e.getMessage());
@@ -123,7 +123,7 @@ public class ContatoServiceImpl implements ContatoService {
                 email.setSubject(MessageUtils.getMessage("msg.email.subject.enviar.convite"));
                 email.setTo(contato.getUsuarioConvidado().getEmail());
                 email.setTexto(MessageUtils.getMessage("msg.email.texto.enviar.convite"));			            
-                messageSender.sendMessage(email);
+                //messageSender.sendMessage(email);
     		} catch (Exception e) {	
     			log.error("Contato - enviarconvite - Erro envio email");
 				log.error("Mensagem erro: " + e.getMessage());

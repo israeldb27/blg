@@ -41,5 +41,8 @@ public interface PreferencialocalidadeService {
 	String validarExclusaoPrefencia(UsuarioForm user);
 
 	boolean validarAdicionarPreferenciaCadUsuario(PreferencialocalidadeForm form, BindingResult result);
+
+	boolean checarPrefExistente(PreferencialocalidadeForm form);
+
 	
 }

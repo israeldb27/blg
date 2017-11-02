@@ -116,7 +116,7 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
                 email.setSubject(MessageUtils.getMessage("msg.email.subject.parceria.sol"));
                 email.setTo(imovelComp.getUsuarioDonoImovel().getEmail());
                 email.setTexto(MessageUtils.getMessage("msg.email.texto.parceria.sol"));			            
-                messageSender.sendMessage(email);
+                //messageSender.sendMessage(email);
     		} catch (Exception e) {	
     			log.error("Parceria - cadastrarSolicitacaoParceria - Erro envio email");
 				log.error("Mensagem erro: " + e.getMessage());
@@ -217,7 +217,7 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
                     email.setSubject(MessageUtils.getMessage("msg.email.subject.parceria.sol.aceita"));
                     email.setTo(imovel.getUsuarioSolicitante().getEmail());
                     email.setTexto(MessageUtils.getMessage("msg.email.texto.parceria.sol.aceita"));			            
-                    messageSender.sendMessage(email);
+                    //messageSender.sendMessage(email);
         		} catch (Exception e) {	
         			log.error("Parceria - atualizarStatusParceria - Erro envio email");
 					log.error("Mensagem erro: " + e.getMessage());

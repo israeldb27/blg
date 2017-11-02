@@ -117,7 +117,7 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
                 email.setSubject(MessageUtils.getMessage("msg.email.subject.intermediacao.sol"));
                 email.setTo(imovelComp.getUsuarioDonoImovel().getEmail());
                 email.setTexto(MessageUtils.getMessage("msg.email.texto.intermediacao.sol"));			            
-                messageSender.sendMessage(email);
+                //messageSender.sendMessage(email);
     		} catch (Exception e) {		
     			log.error("Intermediacao - cadastrarSolicitacaoIntermediacao - Erro envio email");
 				log.error("Mensagem erro: " + e.getMessage());
@@ -217,7 +217,7 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
                     email.setSubject(MessageUtils.getMessage("msg.email.subject.intermediacao.sol.aceita"));
                     email.setTo(imovel.getUsuarioSolicitante().getEmail());
                     email.setTexto(MessageUtils.getMessage("msg.email.texto.intermediacao.sol.aceita"));			            
-                    messageSender.sendMessage(email);
+                    //messageSender.sendMessage(email);
         		} catch (Exception e) {		
         			log.error("Intermediacao - atualizarStatusIntermediacao - Erro envio email");
 					log.error("Mensagem erro: " + e.getMessage());

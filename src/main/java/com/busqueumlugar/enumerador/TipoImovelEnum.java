@@ -11,7 +11,9 @@ public enum TipoImovelEnum implements Serializable, ICodigoDescricao {
 	C(MessageUtils.getMessage("lbl.tipo.imovel.casa.padrao")),
 	Q(MessageUtils.getMessage("lbl.tipo.imovel.quarto")),	
 	B(MessageUtils.getMessage("lbl.tipo.imovel.cobertura")),
+	M(MessageUtils.getMessage("lbl.tipo.imovel.comercial")),
 	P(MessageUtils.getMessage("lbl.tipo.imovel.pousada")),
+	MN(MessageUtils.getMessage("lbl.tipo.imovel.mansao")),	
 	T(MessageUtils.getMessage("lbl.tipo.imovel.terreno")),
 	F(MessageUtils.getMessage("lbl.tipo.imovel.fazenda")),
 	H(MessageUtils.getMessage("lbl.tipo.imovel.haras")),
@@ -26,8 +28,7 @@ public enum TipoImovelEnum implements Serializable, ICodigoDescricao {
 	G(MessageUtils.getMessage("lbl.tipo.imovel.galpao")),
 	I(MessageUtils.getMessage("lbl.tipo.imovel.predio")),
 	R(MessageUtils.getMessage("lbl.tipo.imovel.chacara")),
-	U(MessageUtils.getMessage("lbl.tipo.imovel.studio")),
-	M(MessageUtils.getMessage("lbl.tipo.imovel.comercial"));
+	U(MessageUtils.getMessage("lbl.tipo.imovel.studio"));
 	
     
     private String descricao;

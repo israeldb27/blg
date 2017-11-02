@@ -101,7 +101,7 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
                 emailjms.setSubject(MessageUtils.getMessage("msg.email.subject.imovel.indicado"));
                 emailjms.setTo(imovelindicado.getUsuario().getEmail());
                 emailjms.setTexto(MessageUtils.getMessage("msg.email.texto.imovel.indicado"));			            
-                messageSender.sendMessage(emailjms);
+                //messageSender.sendMessage(emailjms);
     		} catch (Exception e) {		
     			log.error("Imovelindicado - cadastrarIndicacao - Erro envio email");
 				log.error("Mensagem erro: " + e.getMessage());
@@ -135,7 +135,7 @@ public class ImovelindicadoServiceImpl implements ImovelindicadoService {
                 emailjms.setSubject(MessageUtils.getMessage("msg.email.subject.imovel.indicado.email"));
                 emailjms.setTo(email);
                 emailjms.setTexto(MessageUtils.getMessage("msg.email.texto.imovel.indicado.email"));			            
-                messageSender.sendMessage(emailjms);
+                //messageSender.sendMessage(emailjms);
     		} catch (Exception e) {	
     			log.error("Imovelindicado - cadastrarIndicacaoPorEmail - Erro envio email");
 				log.error("Mensagem erro: " + e.getMessage());

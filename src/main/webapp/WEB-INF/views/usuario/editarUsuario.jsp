@@ -49,7 +49,33 @@ $(document).ready(function() {
 	    $(comboLinha).append('<option value="-1" >' + "<spring:message code='opcao.selecao.uma.opcao'/>" + '</option>');
 	    $(comboLinha).trigger("chosen:updated");
 	}
+   
+   $("#txt").bind('keyup blur', function(e){
+       e.preventDefault();
+        
+       if(this.value.match(/[a-zA-Z]/g))
+       {
+           this.value = this.value.replace(/[a-zA-Z]/g,'');
+       }
+   });
+   
 });	
+
+function avisoCopyAndPaste(){
+	alert("<spring:message code='msg.proibicao.copy.paste.campo'/>");	
+	return false;
+} 
+
+function SomenteNumero(e){
+	
+    var tecla=(window.event)?event.keyCode:e.which;   
+    if((tecla>47 && tecla<58)) return true;
+    else{
+    	if (tecla==8 || tecla==0) return true;
+	else  return false;
+    }
+}
+
 
 function recuperaCidades(){
     var parametro1 = $("#idEstado").val();
@@ -89,6 +115,7 @@ function enviarConvite(id) {
         }
     });	    
   }
+   
   
 function mostrarModal(id){
 	
@@ -161,22 +188,21 @@ function mostrarModalPermissoes(id){
                     <h2><i class="fa fa-pencil"></i><spring:message code="lbl.title.link.editar.usuario"/> </h2>  
                 </div><!-- /.header-content -->
                 
-                <c:if test="${msgSucesso != null }">
-                	 <div class="alert alert-success">
-                           <strong><spring:message code="msg.edicao.usuario.sucesso"/></strong> 
-                      </div>    
-               </c:if>   
-               <c:if test="${msgErro != null }">
-               		 <div class="alert alert-danger">
-                             <strong><spring:message code="msg.edicao.usuario.erro"/></strong> 
-                      </div>         
-               </c:if>	
-                
                 <!-- Start body content -->
                 <div class="body-content animated fadeIn container limit-form" style="width:800px;">
 
                    <form:form id="usuarioForm" modelAttribute="usuarioForm" action="${urlUsuario}/editarUsuario" class="form-horizontal mt-10">
                      <div class="row">
+                     	<c:if test="${msgSucesso != null }">
+                	 <div class="alert alert-success">
+                           <strong><spring:message code="msg.edicao.usuario.sucesso"/></strong> 
+                      </div>    
+		               </c:if>   
+		               <c:if test="${msgErro != null }">
+		               		 <div class="alert alert-danger">
+		                             <strong><spring:message code="msg.edicao.usuario.erro"/></strong> 
+		                      </div>         
+		               </c:if>	
                      	
                      	<!--/ INICIO ABA FOTO PRINCIPAL -->
                      	<div class="col-md-12">
@@ -293,7 +319,7 @@ function mostrarModalPermissoes(id){
 	                                                <label for="cnpj" class="col-sm-3 control-label"><spring:message code="lbl.cpf"/></label>
 	                                                <div class="col-sm-7">                                                    
 	                                                    <spring:message code="lbl.hint.usuario.cpf" var="hintCpf"/>                                              
-                                                    	<form:input  id="cpf" path="cpf" class="form-control" title="${hintCpf}"/>
+                                                    	<form:input  id="cpf" path="cpf" class="form-control" title="${hintCpf}"  onkeypress='return SomenteNumero(event)' onpaste="return avisoCopyAndPaste()" ondrop="return avisoCopyAndPaste()"/>
 	                                                    <form:errors id="cpf" path="cpf" cssClass="errorEntrada"  />
 	                                                </div>
 	                                            </div><!-- /.form-group -->
@@ -304,7 +330,7 @@ function mostrarModalPermissoes(id){
 	                                                <label for="cnpj" class="col-sm-3 control-label"><spring:message code="lbl.cnpj"/></label>
 	                                                <div class="col-sm-7">                                                    
 	                                                    <spring:message code="lbl.hint.usuario.cnpj" var="hintCnpj"/>                                                   
-                                                    	<form:input  id="cnpj" path="cnpj" class="form-control" title="${hintCnpj}"/>
+                                                    	<form:input  id="cnpj" path="cnpj" class="form-control" title="${hintCnpj}"  onkeypress='return SomenteNumero(event)' onpaste="return avisoCopyAndPaste()" ondrop="return avisoCopyAndPaste()" />
 	                                                    <form:errors id="cnpj" path="cnpj" cssClass="errorEntrada"  />
 	                                                </div>
 	                                            </div><!-- /.form-group -->
@@ -315,7 +341,7 @@ function mostrarModalPermissoes(id){
 	                                                <label for="creci" class="col-sm-3 control-label"><spring:message code="lbl.creci"/></label>
 	                                                <div class="col-sm-7">                                                    
 	                                                    <spring:message code="lbl.hint.usuario.creci" var="hintCreci"/>                                                 
-                                                    	<form:input id="creci" path="creci" class="form-control" title="${hintCreci}"/>
+                                                    	<form:input id="creci" path="creci" class="form-control" title="${hintCreci}" onkeypress='return SomenteNumero(event)' onpaste="return avisoCopyAndPaste()" ondrop="return avisoCopyAndPaste()"/>
 	                                                    <form:errors id="creci" path="creci" cssClass="errorEntrada"  />
 	                                                </div>
 	                                            </div><!-- /.form-group -->

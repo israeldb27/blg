@@ -24,7 +24,7 @@ public class MessageReceiver implements MessageListener{
 	
 	private static final Logger LOG = LoggerFactory.getLogger(MessageReceiver.class);
 	
-	private static final String ORDER_RESPONSE_QUEUE = "order-response-queue";
+	//private static final String ORDER_RESPONSE_QUEUE = "order-response-queue";
 	private static final String ORDER_QUEUE = "order-queue";     
 	    @Autowired
 	    MessageConverter messageConverter;

@@ -132,6 +132,21 @@
     		}
     	});	
     	
+    	function avisoCopyAndPaste(){
+    		alert("<spring:message code='msg.proibicao.copy.paste.campo'/>");	
+    		return false;
+    	} 
+
+    	function SomenteNumero(e){
+    		
+    	    var tecla=(window.event)?event.keyCode:e.which;   
+    	    if((tecla>47 && tecla<58)) return true;
+    	    else{
+    	    	if (tecla==8 || tecla==0) return true;
+    		else  return false;
+    	    }
+    	}
+    	
     	function recuperaCidades(){
     	    var parametro1 = $("#idEstado").val();
     	    $.ajax({
@@ -374,7 +389,7 @@
                                                 <label for=cpf class="col-sm-3 control-label"><spring:message code="lbl.cpf"/></label>
                                                 <div class="col-sm-7">      
                                                 	<spring:message code="lbl.hint.usuario.cpf" var="hintCpf"/>                                              
-                                                    <form:input  id="cpf" path="cpf" class="form-control" title="${hintCpf}"/>
+                                                    <form:input  id="cpf" path="cpf" class="form-control" title="${hintCpf}" onkeypress='return SomenteNumero(event)' onpaste="return avisoCopyAndPaste()" ondrop="return avisoCopyAndPaste()"/>
                                                     <form:errors id="cpf" path="cpf" cssClass="errorEntrada"  />
                                                 </div>
                                             </div><!-- /.form-group -->
@@ -383,7 +398,7 @@
                                                 <label for="cnpj" class="col-sm-3 control-label"><spring:message code="lbl.cnpj"/></label>
                                                 <div class="col-sm-7"> 
                                                 	<spring:message code="lbl.hint.usuario.cnpj" var="hintCnpj"/>                                                   
-                                                    <form:input  id="cnpj" path="cnpj" class="form-control" title="${hintCnpj}"/>
+                                                    <form:input  id="cnpj" path="cnpj" class="form-control" title="${hintCnpj}" onkeypress='return SomenteNumero(event)' onpaste="return avisoCopyAndPaste()" ondrop="return avisoCopyAndPaste()"/>
                                                     <form:errors id="cnpj" path="cnpj" cssClass="errorEntrada"  />
                                                 </div>
                                             </div><!-- /.form-group -->     
@@ -392,7 +407,7 @@
                                                 <label for="creci" class="col-sm-3 control-label"><spring:message code="lbl.creci"/></label>
                                                 <div class="col-sm-7">   
                                                 	<spring:message code="lbl.hint.usuario.creci" var="hintCreci"/>                                                 
-                                                    <form:input id="creci" path="creci" class="form-control" title="${hintCreci}"/>
+                                                    <form:input id="creci" path="creci" class="form-control" title="${hintCreci}" onkeypress='return SomenteNumero(event)' onpaste="return avisoCopyAndPaste()" ondrop="return avisoCopyAndPaste()"/>
                                                     <form:errors id="creci" path="creci" cssClass="errorEntrada"  />
                                                 </div>
                                             </div><!-- /.form-group -->

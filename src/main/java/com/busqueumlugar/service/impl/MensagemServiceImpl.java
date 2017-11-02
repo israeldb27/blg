@@ -122,7 +122,7 @@ public class MensagemServiceImpl implements MensagemService {
                 email.setSubject(MessageUtils.getMessage("msg.email.subject.mensagem"));
                 email.setTo(mensagem.getUsuarioPara().getEmail());
                 email.setTexto(MessageUtils.getMessage("msg.email.texto.mensagem"));			            
-                messageSender.sendMessage(email);
+                //messageSender.sendMessage(email);
     		} catch (Exception e) {		
     			log.error("Mensagem - Erro envio email");
 				log.error("Mensagem erro: " + e.getMessage());
@@ -149,7 +149,7 @@ public class MensagemServiceImpl implements MensagemService {
                 email.setSubject(MessageUtils.getMessage("msg.email.subject.mensagem"));
                 email.setTo(mensagem.getUsuarioPara().getEmail());
                 email.setTexto(MessageUtils.getMessage("msg.email.texto.mensagem"));			            
-                messageSender.sendMessage(email);
+                //messageSender.sendMessage(email);
     		} catch (Exception e) {	
     			log.error("Mensagem - Erro envio email");
 				log.error("Mensagem erro: " + e.getMessage());

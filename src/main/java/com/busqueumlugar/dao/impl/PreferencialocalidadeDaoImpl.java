@@ -260,6 +260,60 @@ public class PreferencialocalidadeDaoImpl extends GenericDAOImpl<Preferencialoca
 		}	
 		else	
 			return null;
+	}
+
+	@Override
+	public boolean checarPrefImovelUsuario(PreferencialocalidadeForm form) {
+		
+		Criteria crit = session().createCriteria(Preferencialocalidade.class);
+		boolean isCritExist = (form.getIdEstado() > 0 ) || 
+				  (! StringUtils.isNullOrEmpty(form.getTipoImovel())) || 
+				  (! StringUtils.isNullOrEmpty(form.getAcao())) ||
+				  (! StringUtils.isNullOrEmpty(form.getPerfilImovel()));	
+		
+		if (isCritExist) {			
+			crit.createCriteria("usuario").add(Restrictions.eq("id", form.getIdUsuario()));
+			
+			if (  form.getIdEstado() > 0 )
+				crit.add(Restrictions.eq("idEstado",  form.getIdEstado()));	        	
+			
+			if ( form.getIdCidade() > 0 )
+				crit.add(Restrictions.eq("idCidade", form.getIdCidade()));
+			
+			if ( form.getIdBairro() > 0 )
+				crit.add(Restrictions.eq("idBairro", form.getIdBairro()));
+			
+			if (! StringUtils.isNullOrEmpty(form.getTipoImovel()))
+				crit.add(Restrictions.eq("tipoImovel", form.getTipoImovel())); 	
+			
+			if (! StringUtils.isNullOrEmpty(form.getAcao()))
+				crit.add(Restrictions.eq("acao", form.getAcao())); 	
+			
+			if (! StringUtils.isNullOrEmpty(form.getPerfilImovel()))
+				crit.add(Restrictions.eq("perfilImovel", form.getPerfilImovel())); 	
+			
+			if ( form.getQuantQuartos() > 0){
+				crit.add(Restrictions.eq("quantQuartos", form.getQuantQuartos())); 	
+			}
+			
+			if ( form.getQuantGaragem() > 0){
+				crit.add(Restrictions.eq("quantGaragem", form.getQuantGaragem())); 	
+			}
+			
+			if ( form.getQuantSuites() > 0){
+				crit.add(Restrictions.eq("quantSuites", form.getQuantSuites())); 	
+			}			
+			
+			if ( form.getQuantBanheiro() > 0){
+				crit.add(Restrictions.eq("quantBanheiro", form.getQuantBanheiro())); 	
+			}
+					
+		}
+	
+		if ( CollectionUtils.isEmpty(crit.list()))
+			return false;
+		else
+			return true;
 	}	
 
 }

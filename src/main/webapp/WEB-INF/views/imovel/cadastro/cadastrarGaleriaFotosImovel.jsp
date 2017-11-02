@@ -55,7 +55,7 @@ function preparaInclusaoFoto(){
                 </div><!-- /.header-content -->                
                 
                 <!-- Start body content -->
-                <div class="body-content animated fadeIn">
+                <div class="body-content animated fadeIn container limit-form" style="width:800px;">
 
                     <div class="row">                   	
                    		

@@ -216,5 +216,11 @@ public class PreferencialocalidadeServiceImpl implements PreferencialocalidadeSe
 	
 		return filtroValido;
 	}
+
+
+	@Override
+	public boolean checarPrefExistente(PreferencialocalidadeForm form) {	
+		return dao.checarPrefImovelUsuario(form);
+	}
 	
 }

@@ -247,7 +247,7 @@ function confirmarExclusaoPrefImoveis(){
 														 <div class="col-md-3">
 															<span class="label label-default"><spring:message code="lbl.banheiros"/> </span>
 															<spring:message code="lbl.hint.pref.imovel.quant.banheiros" var="hintBanheiros"/>
-															<form:input id="quantBanheiro" path="quantBanheiro" class="chosen-select" tabindex="-1" style="display: none;" title="${hintBanheiros}"/>				                                             
+															<form:input id="quantBanheiro" path="quantBanheiro" class="form-control" title="${hintBanheiros}"/>				                                             
 														 </div>														
 													</div>
 											</div>          
@@ -271,6 +271,11 @@ function confirmarExclusaoPrefImoveis(){
 					                    
                         <div class="col-md-12">                        	
                             <!-- Start basic color table -->
+                             <c:if test="${msgErroPrefExistente != null }">			               		 
+					                       <div class="alert alert-danger">
+		                                          <strong>${msgErroPrefExistente}</strong> 
+		                                   </div>                 
+					               </c:if>
                             <div class="panel">                            		
                                 <div class="panel-heading">
                                     <div class="pull-left">
@@ -293,7 +298,8 @@ function confirmarExclusaoPrefImoveis(){
 			                       <div class="alert alert-danger">
                                           <strong>${msgError}</strong> 
                                    </div>                 
-			               	</c:if>
+			                 	</c:if>
+			                 	
                                 
                                 <div class="panel-body no-padding">
                                     <div class="table-responsive" style="margin-top: -1px;">

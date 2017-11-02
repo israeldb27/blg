@@ -123,7 +123,7 @@ public class NotificacaoServiceImpl implements NotificacaoService {
                 	email.setTo(notificacao.getUsuario().getEmail());
                 
                 email.setTexto(MessageUtils.getMessage("msg.email.texto.notificacao"));			            
-                messageSender.sendMessage(email);
+                //messageSender.sendMessage(email);
     		} catch (Exception e) {		
     			log.error("Notificacao - Erro envio email");
 				log.error("Mensagem erro: " + e.getMessage());
@@ -156,7 +156,7 @@ public class NotificacaoServiceImpl implements NotificacaoService {
                 	email.setTo(notificacao.getUsuario().getEmail());
                 
                 email.setTexto(MessageUtils.getMessage("msg.email.texto.notificacao"));			            
-                messageSender.sendMessage(email);
+                //messageSender.sendMessage(email);
     		} catch (Exception e) {		
     			log.error("Notificacao - Erro envio email");
 				log.error("Mensagem erro: " + e.getMessage());
@@ -185,7 +185,7 @@ public class NotificacaoServiceImpl implements NotificacaoService {
                 email.setSubject(MessageUtils.getMessage("msg.email.subject.notificacao"));                     
                 email.setTo(notificacao.getUsuario().getEmail());            
                 email.setTexto(MessageUtils.getMessage("msg.email.texto.notificacao"));			            
-                messageSender.sendMessage(email);
+                //messageSender.sendMessage(email);
     		} catch (Exception e) {	
     			log.error("Notificacao - Erro envio email");
 				log.error("Mensagem erro: " + e.getMessage());
@@ -215,7 +215,7 @@ public class NotificacaoServiceImpl implements NotificacaoService {
             email.setSubject(MessageUtils.getMessage("msg.email.subject.notificacao"));                     
             email.setTo(notificacao.getUsuario().getEmail());            
             email.setTexto(MessageUtils.getMessage("msg.email.texto.notificacao"));			            
-            messageSender.sendMessage(email);
+            //messageSender.sendMessage(email);
 		} catch (Exception e) {		
 			e.printStackTrace();
 		}
