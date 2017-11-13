@@ -423,8 +423,8 @@
                                                 		<spring:message code="lbl.hint.imovel.valor" var="hintValorImovel"/>
                                                     	<form:input  id="valorImovelFmt" path="valorImovelFmt" onkeypress="formatarMoeda(this);" class="form-control" title="${hintValorImovel}"/>
                                                     	<span class="input-group-btn"><button type="button" class="btn btn-default">,00</button></span>                                                       	
-                                                    	<form:errors id="valorImovelFmt" path="valorImovelFmt" cssClass="errorEntrada"  />
                                                     </div>	
+                                                    <form:errors id="valorImovelFmt" path="valorImovelFmt" cssClass="errorEntrada"  />
                                                 </div>
                                             </div><!-- /.form-group -->                                  
 											

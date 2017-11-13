@@ -181,5 +181,9 @@ public interface UsuarioService {
 	List<Usuario> relatorioUsuariosImoveisMaisFavoritos(RelatorioForm form);
 
 	List<Usuario> relatorioUsuariosImoveisMaisPropostas(RelatorioForm form);
+
+	void gerarCodigoAtivacao(UsuarioForm form);
+
+	boolean confirmarCodigoAtivacao(UsuarioForm form);
 }
 

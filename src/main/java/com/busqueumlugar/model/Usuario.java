@@ -154,6 +154,9 @@ public class Usuario extends BaseEntity implements Serializable {
 	
 	@Column(name = "motivoSuspensao")
     private String motivoSuspensao; 
+	
+	@Column(name = "codConfirmacaoAtivacao")
+	private String codConfirmacaoAtivacao = "";
     
     @Transient
     private int quantNegociacoesSucesso;
@@ -745,6 +748,14 @@ public class Usuario extends BaseEntity implements Serializable {
     	else
     		return "";
     }
+
+	public String getCodConfirmacaoAtivacao() {
+		return codConfirmacaoAtivacao;
+	}
+
+	public void setCodConfirmacaoAtivacao(String codConfirmacaoAtivacao) {
+		this.codConfirmacaoAtivacao = codConfirmacaoAtivacao;
+	}
 	
 	
 }

@@ -31,7 +31,7 @@ $(document).ready(function() {
             
             <!-- Start header content -->
                 <div class="header-content">
-                    <h2><i class="fa fa-pencil"></i><spring:message code="lbl.title.cadastro.usuario"/> </h2>                                                                        
+                    <h2><i class="fa fa-pencil"></i><spring:message code="lbl.title.codigo.ativacao"/> </h2>                                                                        
                 </div><!-- /.header-content -->
                 <!--/ End header content -->
                 
@@ -54,7 +54,7 @@ $(document).ready(function() {
                         
                         
                   
-                    <form:form id="usuarioForm" modelAttribute="usuarioForm" action="${urlUsuario}/confirmarCodigoAtivacao" class="form-horizontal mt-10">    
+                    <form:form id="usuarioForm" modelAttribute="usuarioForm" action="${urlUsuario}/confirmarCodigoAtivacaoPos" class="form-horizontal mt-10">    
                         <div class="row">
                         		<div class="panel panel-info">
 	                                <div class="panel-heading"> 
@@ -63,8 +63,8 @@ $(document).ready(function() {
 	                                <div class="panel-body">
 	                                    <div class="form-body">
                                         
-                                			<div class="form-group">
-                                                <label for="codConfirmacaoAtivacao" class="col-sm-3 control-label">Codigo Ativação</label>
+                                			<div class="form-group">  
+                                                <label for="codConfirmacaoAtivacao" class="col-sm-3 control-label"><spring:message code="lbl.codigo.ativacao"/></label>
                                                 <div class="col-sm-7">                        
                                                     <form:input id="codConfirmacaoAtivacao" path="codConfirmacaoAtivacao" class="form-control" />
                                                     <form:errors id="codConfirmacaoAtivacao" path="codConfirmacaoAtivacao" cssClass="errorEntrada"  />

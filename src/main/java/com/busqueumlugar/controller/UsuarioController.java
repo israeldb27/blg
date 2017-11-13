@@ -408,10 +408,13 @@ public class UsuarioController {
 				form = usuarioService.cadastrarUsuario(form);
 				map.addAttribute("msgSucesso", "S");
 				map.addAttribute("usuarioForm", form);
+				usuarioService.gerarCodigoAtivacao(form);
+				return DIR_PATH_CADASTRO + "confirmarCadastroUsuario";
 			}
 			else {			
 				map.addAttribute("msgErro", "S");
 				map.addAttribute("usuarioForm", form);
+				return DIR_PATH_CADASTRO + "cadastrarUsuario";
 			}
 		} catch (Exception e) {
 			log.error("Erro metodo - UsuarioController -  avancarInicioCadastro");
@@ -420,7 +423,7 @@ public class UsuarioController {
 			return ImovelService.PATH_ERRO_GERAL;
 		}
 		
-		return DIR_PATH_CADASTRO + "cadastrarUsuario";
+		//return DIR_PATH_CADASTRO + "cadastrarUsuario";
 				           
     }
 	
@@ -463,6 +466,91 @@ public class UsuarioController {
 		}
     }
 	
+	@RequestMapping(value = "/confirmarCodigoAtivacao", method = RequestMethod.POST)
+    public String confirmarCodigoAtivacao(@ModelAttribute("usuarioForm") UsuarioForm form,
+										  ModelMap map, 
+										  HttpSession session){
+		try {
+			map.addAttribute("usuarioForm", form);
+			if ( !StringUtils.isNullOrEmpty(form.getCodConfirmacaoAtivacao())){
+				boolean ativado = usuarioService.confirmarCodigoAtivacao(form);
+				if ( ativado ){
+					UsuarioForm user = usuarioService.carregaUsuario(form.getId());
+		    		session.setAttribute(UsuarioInterface.USUARIO_SESSAO, user);  
+					if ( user.getStatusUsuario().equals(StatusUsuarioEnum.CRIADO.getRotulo()) || 
+	    				 user.getStatusUsuario().equals(StatusUsuarioEnum.LIBERADO.getRotulo())){
+	    				
+	    				if ( ( user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) && (user.getDataUltimoAcesso() == null )) ) {
+        					log.info("Primeiro Acesso concedido: " + new DateUtil().getStrDate());
+        					return "forward:/preferencia/inicioCadastroUsuarioPreferenciaImoveis/" + user.getId();
+        				}
+	    				else{
+	    					usuarioService.carregarDadosInfoUsuario(user, session, true); 
+	        				usuarioService.prepararParaCarregarTimeLine(user, session, map); // preparar configuracoes para carregar a Timeline do sistema
+	        				log.info("Acesso concedido: " + new DateUtil().getStrDate());
+	        				return "main";
+	    				}    
+	    			}
+				}
+				else {
+					map.addAttribute("msgErro", MessageUtils.getMessage("msg.erro.codigo.ativacao.usuario"));
+					return DIR_PATH_CADASTRO + "confirmarCadastroUsuario";
+				}		
+			}			
+			
+			map.addAttribute("msgErro", MessageUtils.getMessage("msg.erro.codigo.ativacao.usuario"));
+	    	return DIR_PATH_CADASTRO + "confirmarCadastroUsuario";
+		} catch (Exception e) {
+			log.error("Erro metodo - UsuarioController -  confirmarCodigoAtivacao");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+    }
+	
+	
+	
+	@RequestMapping(value = "/confirmarCodigoAtivacaoPos", method = RequestMethod.POST)
+    public String confirmarCodigoAtivacaoPos(@ModelAttribute("usuarioForm") UsuarioForm form,
+										     ModelMap map, 
+										     HttpSession session){
+		try {
+			map.addAttribute("usuarioForm", form);
+			if ( !StringUtils.isNullOrEmpty(form.getCodConfirmacaoAtivacao())){
+				boolean ativado = usuarioService.confirmarCodigoAtivacao(form);
+				if ( ativado ){
+					UsuarioForm user = usuarioService.carregaUsuario(form.getId());
+		    		session.setAttribute(UsuarioInterface.USUARIO_SESSAO, user);  
+					if ( user.getStatusUsuario().equals(StatusUsuarioEnum.CRIADO.getRotulo()) || 
+	    				 user.getStatusUsuario().equals(StatusUsuarioEnum.LIBERADO.getRotulo())){
+	    				
+	    				if ( ( user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) && (user.getDataUltimoAcesso() == null )) ) {
+        					log.info("Primeiro Acesso concedido: " + new DateUtil().getStrDate());
+        					return "forward:/preferencia/inicioCadastroUsuarioPreferenciaImoveis/" + user.getId();
+        				}
+	    				else{
+	    					usuarioService.carregarDadosInfoUsuario(user, session, true); 
+	        				usuarioService.prepararParaCarregarTimeLine(user, session, map); // preparar configuracoes para carregar a Timeline do sistema
+	        				log.info("Acesso concedido: " + new DateUtil().getStrDate());
+	        				return "main";
+	    				}    
+	    			}
+				}
+				else {
+					map.addAttribute("msgErro", MessageUtils.getMessage("msg.erro.codigo.ativacao.usuario"));
+					return DIR_PATH_CADASTRO + "confirmarCodigoAtivacao";
+				}		
+			}			
+			
+			map.addAttribute("msgErro", MessageUtils.getMessage("msg.erro.codigo.ativacao.usuario"));
+	    	return DIR_PATH_CADASTRO + "confirmarCodigoAtivacao";
+		} catch (Exception e) {
+			log.error("Erro metodo - UsuarioController -  confirmarCodigoAtivacao");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+    }
 	
 	@RequestMapping(value = "/cadastrarFotoUsuario", method = RequestMethod.POST)
     public String cadastrarFotoUsuario(@ModelAttribute("usuarioForm") UsuarioForm form,
@@ -706,11 +794,7 @@ public class UsuarioController {
 		try {
 			log.info("Host IP requisitante login: " + request.getLocalAddr());
 			log.info("Host Name requisitante login: " + request.getLocalName());
-			log.info("Login requisitante: " + usuarioForm.getLogin());
-			
-			System.out.println("Host IP requisitante login: " + request.getLocalAddr());
-			System.out.println("Host Name requisitante login: " + request.getLocalName());
-			System.out.println("Login requisitante: " + usuarioForm.getLogin());
+			log.info("Login requisitante: " + usuarioForm.getLogin());			
 	    	boolean existe = usuarioService.validarLoginPassword(usuarioForm);
 	    	if ( existe ){
 	    		UsuarioForm user = usuarioService.carregaUsuarioByLogin(usuarioForm);
@@ -722,8 +806,9 @@ public class UsuarioController {
 	    			administracaoService.carregaInfoDadosUsuarioAdmin(user, session);
 	    			return "/admin/inicio";
 	    		}
-	    		else {
-	    			if ( user.getStatusUsuario().equals(StatusUsuarioEnum.CRIADO.getRotulo()) || user.getStatusUsuario().equals(StatusUsuarioEnum.LIBERADO.getRotulo())){
+	    		else {	    			  
+	    			if ( user.getStatusUsuario().equals(StatusUsuarioEnum.CRIADO.getRotulo()) || 
+	    				 user.getStatusUsuario().equals(StatusUsuarioEnum.LIBERADO.getRotulo())){
 	    				
 	    				if ( ( user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) && (user.getDataUltimoAcesso() == null )) ) {
         					log.info("Primeiro Acesso concedido: " + new DateUtil().getStrDate());
@@ -739,10 +824,16 @@ public class UsuarioController {
 	    			}
 	    			else if ( user.getStatusUsuario().equals(StatusUsuarioEnum.SUSPENSO.getRotulo())){
 	    				map.addAttribute("msgError", "Voce esta com acesso suspenso");
-	    	    		map.addAttribute("usuarioForm", usuarioForm);
+	    	    		map.addAttribute("usuarioForm", user);
 	    	    		log.info("Usuario com acesso suspenso: " + new DateUtil().getStrDate());
 	    	    		return "home";
-	    			}    			    			
+	    			} 
+	    			else if ( user.getStatusUsuario().equals(StatusUsuarioEnum.PRE_ATIVADO.getRotulo())){
+	    				log.info("Usuario é pre ativado: ");
+	    				user.setCodConfirmacaoAtivacao("");
+	    				map.addAttribute("usuarioForm", user);
+	    				return "/usuario/cadastro/confirmarCodigoAtivacao";
+	    			}
 	    		}
 	    	}	
 	    	else {  

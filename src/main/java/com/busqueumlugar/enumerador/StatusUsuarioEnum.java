@@ -6,6 +6,7 @@ public enum StatusUsuarioEnum implements Serializable, ICodigoDescricao {
 
 	LIBERADO("L"), 
 	CRIADO("C"),	
+	PRE_ATIVADO("P"),
 	SUSPENSO("S"); 	
 
 	private String descricao;

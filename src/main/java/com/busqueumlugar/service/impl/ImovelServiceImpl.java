@@ -11,6 +11,7 @@ import java.util.TreeSet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -282,7 +283,7 @@ public class ImovelServiceImpl implements ImovelService{
         imovel.setUf(estado.getUf());
         imovel.setEstado(estado.getNome());
         imovel.setCidade(cidade.getNome());
-        imovel.setBairro(bairro.getNome());            
+        imovel.setBairro(bairro.getNome()); 
       //  dao.save(imovel);
         dao.update(imovel);
         BeanUtils.copyProperties(imovel, frm );
@@ -603,11 +604,22 @@ public class ImovelServiceImpl implements ImovelService{
 			filtroValido = true;                   
 		}
 		
-		if ( ! StringUtils.isEmpty(form.getValorImovel()) && ! AppUtil.formatarMoedaValido(form.getValorImovelFmt())){
+	/*	if ( ! StringUtils.isEmpty(form.getValorImovel()) && ! AppUtil.formatarMoedaValido(form.getValorImovelFmt())){
 			result.rejectValue("valorImovel", "msg.erro.campo.obrigatorio");
 			filtroValido = true;                   
 		}
+		*/
 		
+		if ( StringUtils.isEmpty(form.getValorImovelFmt())){
+			result.rejectValue("valorImovelFmt", "msg.erro.campo.obrigatorio");
+			filtroValido = true;                   
+		}
+		else {
+			if (! NumberUtils.isNumber(form.getValorImovelFmt())){
+				result.rejectValue("valorImovelFmt", "msg.erro.formato.moeda.invalido");
+				filtroValido = true;                   
+			}
+		}
 		
 		if ( StringUtils.isEmpty(form.getDescricao())){
 			result.rejectValue("descricao", "msg.erro.campo.obrigatorio");
@@ -698,10 +710,23 @@ public class ImovelServiceImpl implements ImovelService{
 			filtroValido = true;                   
 		}
 		
-		if (( form.getValorImovel() == null) || (form.getValorImovel() != null && form.getValorImovel().doubleValue() == 0.0d)){
+	/*	if (( form.getValorImovel() == null) || (form.getValorImovel() != null && form.getValorImovel().doubleValue() == 0.0d)){
 			result.rejectValue("valorImovel", "msg.erro.campo.obrigatorio");
 			filtroValido = true;                   
 		}
+		*/
+		
+		if ( StringUtils.isEmpty(form.getValorImovelFmt())){
+			result.rejectValue("valorImovelFmt", "msg.erro.campo.obrigatorio");
+			filtroValido = true;                   
+		}
+		else {
+			if (! NumberUtils.isNumber(form.getValorImovelFmt())){
+				result.rejectValue("valorImovelFmt", "msg.erro.formato.moeda.invalido");
+				filtroValido = true;                   
+			}
+		}
+		
 		
 		if ( StringUtils.isEmpty(form.getDescricao())){
 			result.rejectValue("descricao", "msg.erro.campo.obrigatorio");

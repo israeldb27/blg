@@ -171,6 +171,7 @@ public class UsuarioForm extends BaseForm {
 	private int quantMaxExibeMaisListaRecomendacoes = 8;
 	private int quantMaxExibeMaisListaPrefImoveis = 8;
 	
+	private String codConfirmacaoAtivacao = "";
 
 	public int getQuantMaxExibeMaisListaNotas() {
 		return quantMaxExibeMaisListaNotas;
@@ -1449,4 +1450,12 @@ public class UsuarioForm extends BaseForm {
   	public void setDataNascimentoFmt(String dataNascimentoFmt) {
   		this.dataNascimentoFmt = dataNascimentoFmt;
   	}
+
+	public String getCodConfirmacaoAtivacao() {
+		return codConfirmacaoAtivacao;
+	}
+
+	public void setCodConfirmacaoAtivacao(String codConfirmacaoAtivacao) {
+		this.codConfirmacaoAtivacao = codConfirmacaoAtivacao;
+	}
 }

@@ -275,7 +275,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		Usuario usuario = new Usuario();
 		BeanUtils.copyProperties(frm, usuario);
         usuario.setPassword(md5(frm.getPassword()));
-        usuario.setStatusUsuario(StatusUsuarioEnum.CRIADO.getRotulo());
+        usuario.setStatusUsuario(StatusUsuarioEnum.PRE_ATIVADO.getRotulo());
         usuario.setDataSuspensao(new Date());
         usuario.setDataCadastro(new Date());
         usuario.setDataUltimoAcesso(null);
@@ -3346,6 +3346,47 @@ public class UsuarioServiceImpl implements UsuarioService{
             }
         }
         return listaUsuarioFinal;
+	}
+
+
+	@Override
+	public void gerarCodigoAtivacao(UsuarioForm form) {
+		int seq =  (int)(Math.random() * 100000000);
+		Usuario usuario = dao.findUsuario(form.getId());
+		usuario.setCodConfirmacaoAtivacao(String.valueOf(seq));
+		dao.save(usuario);
+		
+		 try {	            	
+	            EmailJms email = new EmailJms();
+	            email.setSubject(MessageUtils.getMessage("msg.email.subject.confirmar.cod.ativacao"));
+	            email.setTo(form.getEmail());
+	            email.setTexto(MessageUtils.getMessage("msg.email.texto.codigo.ativacao") + ": " + usuario.getCodConfirmacaoAtivacao() );			            
+	            messageSender.sendMessage(email);
+			} catch (Exception e) {		
+				e.printStackTrace();
+			}
+	}
+
+
+	@Override
+	public boolean confirmarCodigoAtivacao(UsuarioForm form) {
+		Usuario usuario = dao.findUsuario(form.getId());
+		if ( usuario != null ){
+			if ( ! StringUtils.isEmpty(usuario.getCodConfirmacaoAtivacao())){
+				if ( usuario.getCodConfirmacaoAtivacao().equals(form.getCodConfirmacaoAtivacao())){
+					usuario.setStatusUsuario(StatusUsuarioEnum.LIBERADO.getRotulo());
+					dao.save(usuario);										
+					return true;					
+				}
+				else
+					return false;
+			}
+			else
+				return false;
+		}
+		else {
+			return false;
+		}		
 	}		
   
 

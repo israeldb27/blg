@@ -32,6 +32,7 @@ import com.busqueumlugar.messaging.MessageSender;
 import com.busqueumlugar.model.EmailImovel;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.ImovelPropostas;
+import com.busqueumlugar.model.Parceria;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.ContatoService;
 import com.busqueumlugar.service.ImovelFavoritosService;
@@ -168,8 +169,10 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 	@Override
 	@Transactional
 	public void excluirProposta(Long id){	
-		ImovelPropostas imovelPropostas = dao.findImovelPropostas(id);
-		dao.delete(imovelPropostas);
+	/*	ImovelPropostas imovelPropostas = dao.findImovelPropostas(id);
+		dao.delete(imovelPropostas);*/
+		
+		dao.delete(ImovelPropostas.class, id);
 	}
 
 	@Override
