@@ -35,17 +35,14 @@ public class EnviaEmailHtml implements Serializable {
    
 	public Email sessionProperties(Email email) {
 		try {
-			this.getEmail().getMailSession().getProperties().put("mail.smtp.user", "lyotomachidarj@gmail.com");
-			this.getEmail().getMailSession().getProperties().put("mail.smtp.password", "israel27");
-			this.getEmail().getMailSession().getProperties().put("mail.smtp.auth", "true");
+			this.getEmail().getMailSession().getProperties().put("mail.smtps.auth", "true");
 			this.getEmail().getMailSession().getProperties().put("mail.debug", "false");
-			this.getEmail().getMailSession().getProperties().put("mail.smtp.port", "587");
-			this.getEmail().getMailSession().getProperties().put("mail.smtp.socketFactory.port", "587");
-			this.getEmail().getMailSession().getProperties().put("mail.smtp.socketFactory.class",   "javax.net.ssl.SSLSocketFactory");
-			this.getEmail().getMailSession().getProperties().put("mail.smtp.socketFactory.fallback", "false");
+			this.getEmail().getMailSession().getProperties().put("mail.smtps.port", "587");
+			this.getEmail().getMailSession().getProperties().put("mail.smtps.socketFactory.port", "587");
+			this.getEmail().getMailSession().getProperties().put("mail.smtps.socketFactory.class",   "javax.net.ssl.SSLSocketFactory");
+			this.getEmail().getMailSession().getProperties().put("mail.smtps.socketFactory.fallback", "false");
 			this.getEmail().getMailSession().getProperties().put("mail.smtp.starttls.enable", "true");
 			this.getEmail().setFrom("admin@busqueumlugar.com.br", "BusqueUmLugar");
-			
 			//this.email.addCc("israeldb27@gmail.com");
 			//this.email.addCc("adalburq@gmail.com");
 			//email.setTLS(true);

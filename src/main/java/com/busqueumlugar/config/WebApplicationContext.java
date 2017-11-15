@@ -144,7 +144,7 @@ public class WebApplicationContext extends WebMvcConfigurerAdapter
  	
 
  	//<editor-fold defaultstate="collapsed" desc="HikariCP Datasoure Configuration" >
- 	  @Bean(destroyMethod = "close")
+ 	/*  @Bean(destroyMethod = "close")
  	    @Autowired
  	    public DataSource dataSource()
  		{
@@ -155,20 +155,20 @@ public class WebApplicationContext extends WebMvcConfigurerAdapter
  			dataSource.setPassword("admin");
  			return dataSource;
  		}
-
- 	 /*     
+*/
+ 	      
 	    @Bean(destroyMethod = "close")
  	    @Autowired
  	    public DataSource dataSource()
  		{
  			BasicDataSource dataSource = new BasicDataSource();
  			dataSource.setDriverClassName("com.mysql.jdbc.Driver"); 	
- 			dataSource.setUrl("jdbc:mysql://138.197.78.218:3306/home");		
+ 			dataSource.setUrl("jdbc:mysql://159.203.109.104:3306/home");		
  			dataSource.setUsername("root");
- 			dataSource.setPassword("Israel814245!"); 			
+ 			dataSource.setPassword("flamengo01"); 			
  			return dataSource;
  		}
- */
+ 
  	  
  	//</editor-fold>
 

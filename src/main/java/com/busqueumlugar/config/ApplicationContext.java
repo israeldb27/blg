@@ -53,14 +53,15 @@ public class ApplicationContext
 	{
 		BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource.setUrl("jdbc:mysql://localhost:3306/home");
+		//dataSource.setUrl("jdbc:mysql://localhost:3306/home");
 		//dataSource.setUrl("jdbc:mysql://162.243.62.122:3306/home");		
 		//dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/home");
-		//dataSource.setUrl("jdbc:mysql://138.197.3.199:3306/home");		
+		dataSource.setUrl("jdbc:mysql://159.203.109.104:3306/home");		
 		//dataSource.setUsername("root");
 		//dataSource.setPassword("Israel814245!"); 	
 		dataSource.setUsername("root");
-		dataSource.setPassword("admin");
+		dataSource.setPassword("flamengo01");
+		//dataSource.setPassword("admin");
 		//dataSource.setPassword("17891888");
 		return dataSource;
 	}
