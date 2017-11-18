@@ -511,8 +511,8 @@
 	                            <p><spring:message code="lbl.modal.pergunta.confirma.exclusao.sol.intermediacao"/></p>
 	                        </div>
 	                        <div class="modal-footer">
+	                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
 	                            <button type="button" class="btn btn-theme" onClick="confirmarExclusaoEnviadaIntermediacao();"><spring:message code="lbl.sim"/></button>                            
-	                        	<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
 	                        </div>
 							
 							<div id="msgRetornoConfirmExclusaoParamErro" cssClass="errorEntrada"  ></div>   

@@ -340,8 +340,8 @@ function confirmarRemocaoSolParceriaAnaliseSol(){
 	                            <p><spring:message code="lbl.modal.pergunta.confirma.exclusao.sol.parceria"/></p>
 	                        </div>
 	                        <div class="modal-footer">
+	                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
 	                            <button type="button" class="btn btn-theme" onClick="confirmarExclusaoSolParceriaAnaliseSol();"><spring:message code="lbl.sim"/></button>                            
-	                       		<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
 	                        </div>
 							
 							<div id="msgRetornoConfirmExclusaoParamErro" cssClass="errorEntrada"  ></div>   
@@ -365,8 +365,8 @@ function confirmarRemocaoSolParceriaAnaliseSol(){
 	                            <p><spring:message code="lbl.modal.pergunta.confirma.adicao.sol.parceria"/></p>
 	                        </div>
 	                        <div class="modal-footer">
+	                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
 	                            <button type="button" class="btn btn-theme" onClick="confirmarAdicaoSolParceriaAnaliseSol();"><spring:message code="lbl.sim"/></button>                            
-	                      		<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
 	                        </div>							
 							<div id="msgRetornoConfirmAdicaoParamErro" cssClass="errorEntrada"  ></div>  
 	                    </div><!-- /.modal-content -->
@@ -389,8 +389,8 @@ function confirmarRemocaoSolParceriaAnaliseSol(){
 	                            <p><spring:message code="lbl.modal.pergunta.confirma.remocao.sol.parceria"/></p>
 	                        </div>
 	                        <div class="modal-footer">
+	                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
 	                            <button type="button" class="btn btn-theme" onClick="confirmarRemocaoSolParceriaAnaliseSol();"><spring:message code="lbl.sim"/></button>                            
-	                       		<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>	                   
 	                        </div>							
 							<div id="msgRetornoConfirmRemocaoParamErro" cssClass="errorEntrada"  ></div>  
 	                    </div><!-- /.modal-content -->

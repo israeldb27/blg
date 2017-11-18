@@ -1140,6 +1140,7 @@ public class ImovelController {
 			else 
 				map.addAttribute("msgErro", "N");		
 			
+			imovelService.prepararImovelParaAtualizacao(form.getId(), form);			
 			map.addAttribute("imovelForm", form);				
 				
 			} catch (Exception e) {

@@ -179,6 +179,36 @@
     		else if ( id == 4){
     			$('#msgModal').html("<spring:message code='lbl.desc.informacoes.permissoes.imovel'/>");
     			$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.aba.imovel.permissoes'/>");  
+    		}    		
+    		
+    		else if ( id == 5){
+    			$('#msgModal').html("<spring:message code='lbl.permissao.imovel.destaque.msg.desc'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.permissao.imovel.destaque'/>");  
+    		}
+
+    		else if ( id == 6){
+    			$('#msgModal').html("<spring:message code='lbl.permissao.aceita.financiamento.msg.desc'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.permissao.aceita.financiamento'/>");  
+    		}
+
+    		else if ( id == 7){
+    			$('#msgModal').html("<spring:message code='lbl.permissao.aceita.parceria.msg.desc'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.permissao.aceita.parceria'/>");  
+    		}
+			
+    		else if ( id == 8){
+    			$('#msgModal').html("<spring:message code='lbl.condicao.parceria.msg.desc'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.condicao.parceria'/>");  
+    		}
+					
+    		else if ( id == 9){
+    			$('#msgModal').html("<spring:message code='lbl.permissao.aceita.intermediacao.msg.desc'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.permissao.aceita.intermediacao'/>");  
+    		}
+			
+    		else if ( id == 10){
+    			$('#msgModal').html("<spring:message code='lbl.condicao.intermediacao.msg.desc'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.condicao.intermediacao'/>");  
     		}
     		
     		$("#idModalItem").modal("show");
@@ -419,39 +449,30 @@
                                             <div class="form-group">
                                                 <label for="valorImovel" class="col-sm-3 control-label"><spring:message code="lbl.valor.imovel"/></label>
                                                 <div class="col-sm-7">
-                                                	<div class="input-group mb-5">
                                                 		<spring:message code="lbl.hint.imovel.valor" var="hintValorImovel"/>
                                                     	<form:input  id="valorImovelFmt" path="valorImovelFmt" onkeypress="formatarMoeda(this);" class="form-control" title="${hintValorImovel}"/>
-                                                    	<span class="input-group-btn"><button type="button" class="btn btn-default">,00</button></span>                                                       	
-                                                    </div>	
-                                                    <form:errors id="valorImovelFmt" path="valorImovelFmt" cssClass="errorEntrada"  />
+                                                    	<form:errors id="valorImovelFmt" path="valorImovelFmt" cssClass="errorEntrada"  />                                                      	
                                                 </div>
                                             </div><!-- /.form-group -->                                  
 											
 											<div class="form-group">
                                                 <label for="valorCondominioFmt" class="col-sm-3 control-label"><spring:message code="lbl.valor.condominio"/></label>
                                                 <div class="col-sm-7">
-                                                	<div class="input-group mb-5">
                                                 		<spring:message code="lbl.hint.imovel.valor.condominio" var="hintValorCondominio"/>
 	                                                    <form:input  id="valorCondominioFmt" path="valorCondominioFmt" onkeypress="formatarMoeda(this);" class="form-control" title="${hintValorCondominio}"/>
-	                                                    <span class="input-group-btn"><button type="button" class="btn btn-default">,00</button></span>                                                    	
 	                                                    <form:errors id="valorCondominioFmt" path="valorCondominioFmt" cssClass="errorEntrada"  />
-                                                	</div>
                                                 </div>
                                             </div><!-- /.form-group --> 
                                             
 											<div class="form-group">
                                                 <label for="valorIptuFmt" class="col-sm-3 control-label"><spring:message code="lbl.valor.iptu"/></label>
-                                                <div class="col-sm-7">
-                                                	<div class="input-group mb-5">
+                                                <div class="col-sm-7">                                                	
                                                 		<spring:message code="lbl.hint.imovel.valor.iptu" var="hintValorIptu"/>
-	                                                    <form:input  id="valorIptuFmt" path="valorIptuFmt" class="form-control" onkeypress="formatarMoeda(this);" title="${hintValorIptu}"/>
-	                                                    <span class="input-group-btn"><button type="button" class="btn btn-default">,00</button></span>                                                    	
+	                                                    <form:input  id="valorIptuFmt" path="valorIptuFmt" class="form-control" onkeypress="formatarMoeda(this);" title="${hintValorIptu}"/>                                                    	
 	                                                    <form:errors id="valorIptuFmt" path="valorIptuFmt" cssClass="errorEntrada"  />
-                                                	</div>
                                                 </div>
                                             </div><!-- /.form-group --> 
-                                            
+                                                            
                                             <div class="form-group">
                                                 <label for="descricao" class="col-sm-3 control-label"><spring:message code="lbl.descricao.imovel"/></label>
                                                 <div class="col-sm-7">
@@ -593,6 +614,8 @@
 									                 </form:select>
 									                 <form:errors id="destaque" path="destaque" cssClass="errorEntrada"  />
                                                 </div>
+                                                
+                                                   <a href="#a" class="btn btn-sm"  onClick="mostrarModal(5);" ><i class="fa fa-question-circle" ></i></a>
                                             </div><!-- /.form-group -->
                                                                                         
                                              <div class="form-group">
@@ -605,6 +628,7 @@
 									                 </form:select>
 									                 <form:errors id="aceitaFinanciamento" path="aceitaFinanciamento" cssClass="errorEntrada"  />
                                                 </div>
+                                                   <a href="#a" class="btn btn-sm"  onClick="mostrarModal(6);" ><i class="fa fa-question-circle" ></i></a>
                                             </div><!-- /.form-group -->
                                             
                                             <c:if test="${(usuario.perfil != 'P')}">
@@ -618,6 +642,7 @@
 										                 </form:select>
 										                 <form:errors id="autorizacaoOutroUsuario" path="autorizacaoOutroUsuario" cssClass="errorEntrada"  />
 	                                                </div>
+	                                                   <a href="#a" class="btn btn-sm"  onClick="mostrarModal(7);" ><i class="fa fa-question-circle" ></i></a>
 	                                            </div><!-- /.form-group -->
 	                                            
 	                                             <div class="form-group" id="labelCondParceria">
@@ -626,6 +651,7 @@
 	                                                	<form:textarea rows="5" cols="20" id="descAceitaCorretagemParceria" path="descAceitaCorretagemParceria" class="form-control" />
                                                         <form:errors id="descAceitaCorretagemParceria" path="descAceitaCorretagemParceria" cssClass="errorEntrada"  />     
 	                                                </div>
+	                                                <a href="#a" class="btn btn-sm"  onClick="mostrarModal(8);" ><i class="fa fa-question-circle" ></i></a>
 	                                            </div><!-- /.form-group -->
                                             </c:if>
                                             
@@ -640,6 +666,7 @@
 										                 </form:select>
 										                 <form:errors id="autorizacaoOutroUsuario" path="autorizacaoOutroUsuario" cssClass="errorEntrada"  />
 	                                                </div>
+	                                                   <a href="#a" class="btn btn-sm"  onClick="mostrarModal(9);" ><i class="fa fa-question-circle" ></i></a>
 	                                            </div><!-- /.form-group -->
 	                                            
 	                                             <div class="form-group" id="labelCondIntermediacao">
@@ -648,6 +675,7 @@
 	                                                	<form:textarea rows="5" cols="20" id="descAceitaCorretagemParceria" path="descAceitaCorretagemParceria" class="form-control" />
                                                         <form:errors id="descAceitaCorretagemParceria" path="descAceitaCorretagemParceria" cssClass="errorEntrada"  />     
 	                                                </div>
+	                                                   <a href="#a" class="btn btn-sm"  onClick="mostrarModal(10);" ><i class="fa fa-question-circle" ></i></a>
 	                                            </div><!-- /.form-group -->
                                             </c:if>                                 
                                             

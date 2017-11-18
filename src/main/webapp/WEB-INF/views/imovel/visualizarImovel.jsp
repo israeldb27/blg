@@ -824,6 +824,7 @@ function prepararModalGaleriaFotos(){
 		                                <div class="panel-heading">
 		                                    <h3 class="panel-title">	
 		                                    	<div class="pull-left">
+		                                    	
 		                              				<spring:message code="lbl.title.aba.det.intermediacoes.imovel"/>
 		                               			</div>
 		                               				
@@ -898,9 +899,10 @@ function prepararModalGaleriaFotos(){
                           
                           <!-- /.START Intermediação - na visao do Dono Imóvel--> 
                             <c:if test="${((imovelForm.usuarioDonoImovel.perfil == 'P') && 
-                          				   (usuario.perfil == 'P') &&                           				   
+                          				   (usuario.perfil == 'P') &&      
+                          				   (imovelForm.autorizacaoOutroUsuario == 'S') &&                      				   
                           				   (usuario.id == imovelForm.usuarioDonoImovel.id))}">
-                          			
+                          				                             			
                           			<div class="panel rounded shadow">
 		                                <div class="panel-heading">
 		                                    <h3 class="panel-title">	
@@ -1099,7 +1101,8 @@ function prepararModalGaleriaFotos(){
                           
                            <!-- /.START Parceria - na visao do Dono Imóvel--> 
                                 <c:if test="${((imovelForm.usuarioDonoImovel.perfil != 'P') && 
-                           				  (usuario.perfil != 'P') &&                            				  
+                           				  (usuario.perfil != 'P') &&     
+                           				   (imovelForm.autorizacaoOutroUsuario == 'S') &&                        				  
                            				  (usuario.id == imovelForm.usuarioDonoImovel.id))}">
                            			
                            			<div class="panel rounded shadow">
@@ -1895,8 +1898,8 @@ function prepararModalGaleriaFotos(){
 	                            <p><spring:message code="lbl.modal.pergunta.confirma.fechar.negocio"/></p>
 	                        </div>
 	                        <div class="modal-footer">
+	                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
 	                            <button type="button" class="btn btn-theme" onClick="notificarFecharNegocio();"><spring:message code="lbl.sim"/></button>                            
-	                       		<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
 	                        </div>
 							
 							<div id="msgRetornoFecharNegocioErro" cssClass="errorEntrada"  ></div>   
@@ -1919,8 +1922,8 @@ function prepararModalGaleriaFotos(){
 	                            <p><spring:message code="lbl.modal.pergunta.confirma.marcar.visita"/></p>
 	                        </div>
 	                        <div class="modal-footer">
+	                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
 	                            <button type="button" class="btn btn-theme" onClick="notificarMarcarVisita();"><spring:message code="lbl.sim"/></button>                            
-	                       		<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
 	                        </div>
 							
 							<div id="msgRetornoMarcarVisitaErro" cssClass="errorEntrada"  ></div>   

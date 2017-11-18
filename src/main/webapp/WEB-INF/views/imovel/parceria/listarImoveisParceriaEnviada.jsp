@@ -482,8 +482,8 @@
 	                            <p><spring:message code="lbl.modal.pergunta.confirma.exclusao.sol.parceria"/></p>
 	                        </div>
 	                        <div class="modal-footer">
+	                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
 	                            <button type="button" class="btn btn-theme" onClick="confirmarExclusaoSolParceria();"><spring:message code="lbl.sim"/></button>  
-	                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>                          
 	                        </div>
 							
 							<div id="msgRetornoConfirmExclusaoParamErro" cssClass="errorEntrada"  ></div>   

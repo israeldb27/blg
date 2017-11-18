@@ -1,14 +1,24 @@
 package com.busqueumlugar.config;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.commons.lang3.StringUtils;
+
+import com.busqueumlugar.util.AppUtil;
 
 public class Teste {
 
 	public static void main(String[] args) {
 		try {			 			
  			System.out.println("Inicio");
- 			int valor = 1 + (int) (Math.random() * 4);
+ 			
+ 			String valor = "120,00"; 		
+ 			System.out.println("subst:" + AppUtil.isValidoFormatoMoeda(valor));
+ 			
  			System.out.println("Resultado" + valor);
+ 			System.out.println("Resultado double" + Double.parseDouble(valor));
 		} catch (Exception e) {
 			System.out.println("Message error: " + e.getMessage());
 			e.printStackTrace();

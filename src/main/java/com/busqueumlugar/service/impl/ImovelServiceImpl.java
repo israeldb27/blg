@@ -2,6 +2,7 @@ package com.busqueumlugar.service.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.number.CurrencyFormatter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -615,11 +617,21 @@ public class ImovelServiceImpl implements ImovelService{
 			filtroValido = true;                   
 		}
 		else {
-			if (! NumberUtils.isNumber(form.getValorImovelFmt())){
+			if (! AppUtil.isValidoFormatoMoeda(form.getValorImovelFmt())){
 				result.rejectValue("valorImovelFmt", "msg.erro.formato.moeda.invalido");
 				filtroValido = true;                   
 			}
 		}
+		
+		if ( ! StringUtils.isEmpty(form.getValorCondominioFmt()) && ! AppUtil.isValidoFormatoMoeda(form.getValorCondominioFmt())){
+			result.rejectValue("valorCondominioFmt", "msg.erro.formato.moeda.invalido");
+			filtroValido = true;                  
+		}
+		
+		if ( ! StringUtils.isEmpty(form.getValorIptuFmt()) && ! AppUtil.isValidoFormatoMoeda(form.getValorIptuFmt())){
+			result.rejectValue("valorIptuFmt", "msg.erro.formato.moeda.invalido");
+			filtroValido = true;                  
+		}	
 		
 		if ( StringUtils.isEmpty(form.getDescricao())){
 			result.rejectValue("descricao", "msg.erro.campo.obrigatorio");
@@ -721,12 +733,21 @@ public class ImovelServiceImpl implements ImovelService{
 			filtroValido = true;                   
 		}
 		else {
-			if (! NumberUtils.isNumber(form.getValorImovelFmt())){
+			if (! AppUtil.isValidoFormatoMoeda(form.getValorImovelFmt())){
 				result.rejectValue("valorImovelFmt", "msg.erro.formato.moeda.invalido");
 				filtroValido = true;                   
 			}
 		}
 		
+		if ( ! StringUtils.isEmpty(form.getValorCondominioFmt()) && ! AppUtil.isValidoFormatoMoeda(form.getValorCondominioFmt())){
+			result.rejectValue("valorCondominioFmt", "msg.erro.formato.moeda.invalido");
+			filtroValido = true;                  
+		}
+		
+		if ( ! StringUtils.isEmpty(form.getValorIptuFmt()) && ! AppUtil.isValidoFormatoMoeda(form.getValorIptuFmt())){
+			result.rejectValue("valorIptuFmt", "msg.erro.formato.moeda.invalido");
+			filtroValido = true;                  
+		}		
 		
 		if ( StringUtils.isEmpty(form.getDescricao())){
 			result.rejectValue("descricao", "msg.erro.campo.obrigatorio");
@@ -783,6 +804,14 @@ public class ImovelServiceImpl implements ImovelService{
 			result.rejectValue("acessoVisualizacao", "msg.erro.campo.obrigatorio");
 			filtroValido = true;                   
 		}		
+		
+		if ( ! StringUtils.isEmpty(form.getAutorizacaoOutroUsuario()) && form.getAutorizacaoOutroUsuario().equals("S")){
+			if ( StringUtils.isEmpty(form.getDescAceitaCorretagemParceria())){
+				result.rejectValue("descAceitaCorretagemParceria", "msg.erro.campo.obrigatorio");
+				filtroValido = true; 
+			}
+			
+		}
 		// fim - validacao permissoes
 		
 		return filtroValido;

@@ -77,6 +77,21 @@ public class AppUtil {
 		
 	}
 	
+	public static boolean isValidoFormatoMoeda(String valor){
+		
+		try{
+			valor = valor.replace(".", "");
+ 			valor = valor.replace(",", ".");
+ 			Double.parseDouble(valor); 			
+			return true;
+		}
+		catch(Exception e){
+			return false;
+		}
+		
+		
+	}
+	
 	public static String md5(String senha){  
         String sen = "";  
         MessageDigest md = null;  

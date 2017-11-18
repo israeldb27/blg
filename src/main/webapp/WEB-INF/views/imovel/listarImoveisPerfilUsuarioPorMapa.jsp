@@ -734,8 +734,8 @@ div#map_container{
 	                            <p><spring:message code="lbl.modal.pergunta.confirma.cancel.contato"/></p>
 	                        </div>
 	                        <div class="modal-footer">
-	                            <button type="button" class="btn btn-theme" onClick="cancelarContato();"><spring:message code="lbl.sim"/></button>                            
-	                      		<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
+	                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
+	                            <button type="button" class="btn btn-theme" onClick="cancelarContato();"><spring:message code="lbl.sim"/></button>                           
 	                        </div>
 							
 							<div id="msgRetornoConfirmCancelContatoErro" cssClass="errorEntrada"  ></div>   
@@ -758,8 +758,8 @@ div#map_container{
 	                            <p><spring:message code="lbl.modal.pergunta.confirma.cancel.convite"/></p>
 	                        </div>
 	                        <div class="modal-footer">
-	                            <button type="button" class="btn btn-theme" onClick="cancelarConvite();"><spring:message code="lbl.sim"/></button>                            
 	                        	<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
+	                            <button type="button" class="btn btn-theme" onClick="cancelarConvite();"><spring:message code="lbl.sim"/></button>                            
 	                        </div>
 							
 							<div id="msgRetornoConfirmCancelContatoErro" cssClass="errorEntrada"  ></div>   
