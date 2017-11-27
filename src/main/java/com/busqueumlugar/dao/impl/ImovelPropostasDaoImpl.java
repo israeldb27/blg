@@ -20,9 +20,11 @@ import com.busqueumlugar.dao.SeguidorDao;
 import com.busqueumlugar.enumerador.StatusLeituraEnum;
 import com.busqueumlugar.enumerador.TipoContatoOpcaoEnum;
 import com.busqueumlugar.form.AdministracaoForm;
+import com.busqueumlugar.form.ImovelForm;
 import com.busqueumlugar.form.ImovelPropostasForm;
 import com.busqueumlugar.form.RelatorioForm;
 import com.busqueumlugar.model.ImovelPropostas;
+import com.busqueumlugar.model.Imovelfavoritos;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.DateUtil;
@@ -910,6 +912,46 @@ public class ImovelPropostasDaoImpl extends GenericDAOImpl<ImovelPropostas, Long
 			crit.add(Restrictions.eq("status", status));
 		crit.setProjection(Projections.rowCount());	
 		return (long) crit.uniqueResult();
+	}
+
+
+	@Override
+	public List findUsuariosImoveisPropostasSemelhantes(Long idUsuario, ImovelForm form) {
+
+		boolean isCritExist = (form.getIdEstado() > 0 ) || 
+				  (! StringUtils.isNullOrEmpty(form.getTipoImovel())) || 
+				  (! StringUtils.isNullOrEmpty(form.getAcao())) ||
+				  (! StringUtils.isNullOrEmpty(form.getPerfilImovel()));		
+
+		if (isCritExist) {
+			Criteria crit = session().createCriteria(ImovelPropostas.class);
+			crit.createCriteria("usuarioReceptor").add(Restrictions.ne("id", idUsuario));
+			crit.createCriteria("usuarioLancador").add(Restrictions.ne("id", idUsuario));
+			
+			Criteria critImovel = crit.createCriteria("imovel");
+			critImovel.add(Restrictions.ne("id",  form.getId()));	  
+			
+			if (  form.getIdEstado() > 0 )
+				critImovel.add(Restrictions.eq("idEstado",  form.getIdEstado()));	        	
+			
+			if ( form.getIdCidade() > 0 )
+				critImovel.add(Restrictions.eq("idCidade", form.getIdCidade()));
+			
+			if ( form.getIdBairro() > 0 )
+				critImovel.add(Restrictions.eq("idBairro", form.getIdBairro()));
+			
+			if (! StringUtils.isNullOrEmpty(form.getTipoImovel()))
+				critImovel.add(Restrictions.eq("tipoImovel", form.getTipoImovel())); 
+			
+			crit.addOrder(Order.desc("dataCadastro"));
+			crit.setMaxResults(10);			
+			ProjectionList projList = Projections.projectionList();
+		    projList.add(Projections.distinct(Projections.property("usuario.id")));			
+			crit.setProjection(projList);		
+			return crit.list();
+		}	
+		else	
+			return null;
 	}
 
 }

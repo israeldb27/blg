@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.busqueumlugar.form.AdministracaoForm;
+import com.busqueumlugar.form.ImovelForm;
 import com.busqueumlugar.form.ImovelPropostasForm;
 import com.busqueumlugar.form.RelatorioForm;
 import com.busqueumlugar.model.ImovelPropostas;
@@ -52,6 +53,8 @@ public interface ImovelPropostasDao extends GenericDAO<ImovelPropostas, Long> {
 	
 	void updateStatusLeituraByIdUsuarioReceptor(Long idUsuario);
 
-	long findQuantPropostasRecebidasByIdUsuarioByStatus(Long idUsuario, String status);	
+	long findQuantPropostasRecebidasByIdUsuarioByStatus(Long idUsuario, String status);
+
+	List findUsuariosImoveisPropostasSemelhantes(Long idUsuario, ImovelForm form);	
 
 }

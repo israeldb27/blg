@@ -39,7 +39,7 @@ $(document).ready(function() {
             
             	 <!-- Start header content -->
                 <div class="header-content">
-                    <h2><i class="fa fa-pencil"></i><spring:message code="lbl.title.link.resultado.analise.usuarios"/> </h2>     
+                    <h2><i class="fa fa-pencil"></i><spring:message code="lbl.title.link.resultado.procurar.compradores"/> </h2>     
                 </div><!-- /.header-content -->                
                 
                 <!-- Start body content -->
@@ -55,16 +55,16 @@ $(document).ready(function() {
 		                                <div class="inner-all">
 		                                    <ul class="list-unstyled">
 		                                        <li class="text-center">	
-													<a href="${urlImovel}/detalhesImovel/${imovel.id}" >
-														<img class="img-circle img-bordered-primary" src="data:image/jpeg;base64,${imovel.imagemArquivo}" style="width: 200px; height: 200px; ">
+													<a href="${urlImovel}/detalhesImovel/${imovelForm.id}" >
+														<img class="img-circle img-bordered-primary" src="data:image/jpeg;base64,${imovelForm.imagemArquivo}" style="width: 200px; height: 200px; ">
 													</a>		                                            
 		                                        </li>
 		                                        <li class="text-center">
-		                                            <h4 class="text-capitalize"><a href="${urlImovel}/detalhesImovel/${imovel.id}" >
-																					${imovel.titulo}
+		                                            <h4 class="text-capitalize"><a href="${urlImovel}/detalhesImovel/${imovelForm.id}" >
+																					${imovelForm.titulo}
 																				</a>		                                            
 													</h4>
-		                                            <p class="text-muted text-capitalize">  ${imovel.tipoImovelFmt} </p>
+		                                            <p class="text-muted text-capitalize">  ${imovelForm.tipoImovelFmt} </p>
 		                                        </li>
 		                                    
 		                                        <li><br/></li>		                                      
@@ -105,37 +105,37 @@ $(document).ready(function() {
 		                                            <div class="tab-pane fade in active" id="tab4-1">
 		                                            	 
 		                                            	 <div class="form-group">
-		                                                		<strong class="col-sm-5"><spring:message code="lbl.valor.imovel"/></strong> <fmt:formatNumber value="${imovel.valorImovel}" pattern="#,##0.00;-0"/>
+		                                                		<strong class="col-sm-5"><spring:message code="lbl.valor.imovel"/></strong> <fmt:formatNumber value="${imovelForm.valorImovel}" pattern="#,##0.00;-0"/>
 		                                            	 </div><!-- /.form-group -->
 		                                            	 
 		                                            	 <div class="line"></div>
 		                                            		                                            	 
 		                                            	 <div class="form-group"> 
-		                                                		<strong class="col-sm-5"><spring:message code="lbl.localidade"/> </strong> ${imovel.bairro} - ${imovel.cidade}, ${imovel.uf}
+		                                                		<strong class="col-sm-5"><spring:message code="lbl.localidade"/> </strong> ${imovelForm.bairro} - ${imovelForm.cidade}, ${imovelForm.uf}
 		                                            	 </div><!-- /.form-group -->
 		                                            	 
 		                                            	  <div class="line"></div>
 		                                            		                                            	 
 		                                            	 <div class="form-group"> 
-		                                                		<strong class="col-sm-5"><spring:message code="lbl.acao.imovel"/> </strong> ${imovel.acaoFmt} 
+		                                                		<strong class="col-sm-5"><spring:message code="lbl.acao.imovel"/> </strong> ${imovelForm.acaoFmt} 
 		                                            	 </div><!-- /.form-group -->
 		                                            	 
 		                                            	 <div class="line"></div>
 		                                            		                                            	 
 		                                            	 <div class="form-group"> 
-		                                                		<strong class="col-sm-5"><spring:message code="lbl.status.imovel"/> </strong> ${imovel.perfilImovelFmt} 
+		                                                		<strong class="col-sm-5"><spring:message code="lbl.status.imovel"/> </strong> ${imovelForm.perfilImovelFmt} 
 		                                            	 </div><!-- /.form-group -->		
 		                                            	 
 		                                            	 <div class="line"></div>		                                            	                        	 
 		                                            	 
 		                                            	 <div class="form-group">																				            
-							                              		<strong class="col-sm-5"><spring:message code="lbl.data.ultima.imovel.atualizacao.resum"/> </strong> <fmt:formatDate value='${imovel.dataUltimaAtualizacao}' pattern='dd/MM/yyyy'/>
+							                              		<strong class="col-sm-5"><spring:message code="lbl.data.ultima.imovel.atualizacao.resum"/> </strong> <fmt:formatDate value='${imovelForm.dataUltimaAtualizacao}' pattern='dd/MM/yyyy'/>
 							                             </div><!-- /.form-group -->	
 		                                            	 
 		                                            	 <div class="line"></div>		                                            	 
 		                                            	 
 		                                            	 <div class="form-group">																				            
-							                              		<strong class="col-sm-5"><spring:message code="lbl.data.cadastro.imovel"/> </strong> <fmt:formatDate value='${imovel.dataCadastro}' pattern='dd/MM/yyyy'/>
+							                              		<strong class="col-sm-5"><spring:message code="lbl.data.cadastro.imovel"/> </strong> <fmt:formatDate value='${imovelForm.dataCadastro}' pattern='dd/MM/yyyy'/>
 							                             </div><!-- /.form-group -->	
 		                                            </div>                          
 		                                        </div>                                       
@@ -171,22 +171,34 @@ $(document).ready(function() {
 				                                            </tr>			                                           
 		                                            </thead>
 		                                            <tbody>
-		                                            <c:forEach var="usuario" items="${listaUsuarios}" >
-		                                            	<tr>
-			                                                <td class="text-center">	
-																<a href="${urlUsuario}/detalhesUsuario/${usuario.id}" >
-																	<img src="data:image/jpeg;base64,${usuario.imagemArquivo}" style="width: 60px; height: 50px; " />
-																</a>									                     			                				
-			                                                </td>			                                                
-			                                                <td class="text-center">
-			                                                	<a href="${urlUsuario}/detalhesUsuario/${usuario.id}" >
-																		${usuario.nome}
-																</a>
-															</td>	
-															<td class="text-center">${usuario.perfilFmt} </td>		
-															<td class="text-center">${usuario.estado} </td>	                                              			                                              	                                            
-			                                            </tr>                            
-		                                            </c:forEach>
+		                                            <c:choose>
+		                                            	<c:when test="${not empty listaUsuarios}">
+		                                            		<c:forEach var="usuario" items="${listaUsuarios}" >
+				                                            	<tr>
+					                                                <td class="text-center">	
+																		<a href="${urlUsuario}/detalhesUsuario/${usuario.id}" >
+																			<img src="data:image/jpeg;base64,${usuario.imagemArquivo}" style="width: 60px; height: 50px; " />
+																		</a>									                     			                				
+					                                                </td>			                                                
+					                                                <td class="text-center">
+					                                                	<a href="${urlUsuario}/detalhesUsuario/${usuario.id}" >
+																				${usuario.nome}
+																		</a>
+																	</td>	
+																	<td class="text-center">${usuario.perfilFmt} </td>		
+																	<td class="text-center">${usuario.estado} </td>	                                              			                                              	                                            
+					                                            </tr>                            
+				                                            </c:forEach>
+		                                            	</c:when>
+		                                            	
+		                                            	<c:when test="${empty listaUsuarios}">
+		                                            		<div class="callout callout-warning">
+							                                    <strong><spring:message code="lbl.nenhum.usuario.procurar.compradores"/></strong>
+							                                </div>
+		                                            	</c:when>
+		                                            	
+		                                            </c:choose>
+		                                            
 		                                            </tbody>
 		                                        </table>
 		                                    </div>

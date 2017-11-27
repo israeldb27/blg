@@ -46,6 +46,7 @@ import com.busqueumlugar.model.Estados;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.Imoveldestaque;
 import com.busqueumlugar.model.Usuario;
+import com.busqueumlugar.service.AtividadesService;
 import com.busqueumlugar.service.BairrosService;
 import com.busqueumlugar.service.CidadesService;
 import com.busqueumlugar.service.ContatoService;
@@ -124,6 +125,9 @@ public class ImovelServiceImpl implements ImovelService{
 	private PreferencialocalidadeDao preferenciaLocalidadeDao;
 	
 	@Autowired
+	private AtividadesService atividadesService;
+	
+	@Autowired
 	private ServletContext context;	
 	
 	@Autowired
@@ -180,6 +184,7 @@ public class ImovelServiceImpl implements ImovelService{
          imovel.setHabilitaBusca("S");
          imovel.setAcessoVisualizacao("T");
          imovel.setAutorizaComentario("S");
+         imovel.setQuemPodeEnviarSolicitacoes("S");
          
          String codigoId = this.gerarCodigoIdentificacao(imovel, estado);
          imovel.setCodigoIdentificacao(codigoId);            
@@ -842,6 +847,7 @@ public class ImovelServiceImpl implements ImovelService{
 			form.setListaUsuariosInteressados(imovelFavoritosService.recuperarUsuariosInteressadosPorIdImovel(idImovel));
 			form.setUsuarioDonoImovel(imovel.getUsuario());
 			form.setListaVisita(imovelvisualizadoService.recuperarUsuariosVisitantesPorIdImovel(idImovel));
+			form.setListaAtividades(atividadesService.recuperarAtividadesPorIdImovel(idImovel));			
 			
 			if (usuarioSessao.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){
 				form.setListaIntermediacao(intermediacaoDao.findIntermediacaoByIdImovelByStatus(idImovel, 
@@ -1166,7 +1172,7 @@ public class ImovelServiceImpl implements ImovelService{
 	}
 
 	@Override 
-	public List<Usuario> analisarUsuariosInteressados(Long idUsuario, ImovelForm form) {		
+	public List<Usuario> pesquisarPossiveisCompradores(Long idUsuario, ImovelForm form) {		
 		
 		List<Usuario> listaFinal = new ArrayList<Usuario>();	
 		TreeSet<Long> listaIdsFinal = new TreeSet<Long>();		
@@ -1180,6 +1186,9 @@ public class ImovelServiceImpl implements ImovelService{
 		// Recuperar usuários que adotaram como favorito imóveis que são semelhantes a este 
 		List listaIdsUsuariosImoveisFavoritos = imovelfavoritosDao.findUsuariosImoveisFavoritosSemelhantes(idUsuario, form);
 		
+		// Recuperar usuários que lançaram propostas para imóveis que são semelhantes a este 
+		List listaIdsUsuariosImoveisPropostas = imovelPropostasDao.findUsuariosImoveisPropostasSemelhantes(idUsuario, form);
+		
 		if (!CollectionUtils.isEmpty(listaIdsUsuariosPrefImoveis))
 			listaIdsFinal.addAll(listaIdsUsuariosPrefImoveis);
 		
@@ -1188,6 +1197,9 @@ public class ImovelServiceImpl implements ImovelService{
 		
 		if (!CollectionUtils.isEmpty(listaIdsUsuariosImoveisFavoritos))
 			listaIdsFinal.addAll(listaIdsUsuariosImoveisFavoritos);
+		
+		if (!CollectionUtils.isEmpty(listaIdsUsuariosImoveisPropostas))
+			listaIdsFinal.addAll(listaIdsUsuariosImoveisPropostas);
 		
 		if (!CollectionUtils.isEmpty(listaIdsFinal)){
 			Usuario usuario = null;

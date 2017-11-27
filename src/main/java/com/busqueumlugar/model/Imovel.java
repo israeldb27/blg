@@ -181,6 +181,9 @@ public class Imovel extends BaseEntity implements Serializable{
         
     @Column(name = "acessoVisualizacao")
     private String acessoVisualizacao;  // {T - todos, N - ninguem, C - apenas os meus contatos}
+    
+    @Column(name = "quemPodeEnviarSolicitacoes")
+    private String quemPodeEnviarSolicitacoes;  // (T -  Todos, N - ninguem, C - contatos, S - seguidores,  G -  Seguindo )
       
     @Transient
     private Date dataInteresse;
@@ -1148,6 +1151,14 @@ public class Imovel extends BaseEntity implements Serializable{
 
 	public void setDataUltimaAtualizacaoFmt(String dataUltimaAtualizacaoFmt) {
 		this.dataUltimaAtualizacaoFmt = dataUltimaAtualizacaoFmt;
+	}
+
+	public String getQuemPodeEnviarSolicitacoes() {
+		return quemPodeEnviarSolicitacoes;
+	}
+
+	public void setQuemPodeEnviarSolicitacoes(String quemPodeEnviarSolicitacoes) {
+		this.quemPodeEnviarSolicitacoes = quemPodeEnviarSolicitacoes;
 	}
 
 }

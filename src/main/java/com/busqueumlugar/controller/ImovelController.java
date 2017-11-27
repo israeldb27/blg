@@ -35,6 +35,7 @@ import com.busqueumlugar.form.ImovelForm;
 import com.busqueumlugar.form.ImovelMapaForm;
 import com.busqueumlugar.form.UsuarioForm;
 import com.busqueumlugar.model.Imovel;
+import com.busqueumlugar.service.AtividadesService;
 import com.busqueumlugar.service.BairrosService;
 import com.busqueumlugar.service.CidadesService;
 import com.busqueumlugar.service.EstadosService;
@@ -74,6 +75,9 @@ public class ImovelController {
 	
 	@Autowired
 	private NotaService  notaService;
+	
+	@Autowired
+	private AtividadesService atividadesService;
 	
 	@Autowired
 	private ServletContext servletContext;
@@ -520,6 +524,26 @@ public class ImovelController {
 		}		
 	}
 	
+	@RequestMapping(value = "/procurarCompradores/{idImovel}" , method = RequestMethod.GET)	
+	public String procurarCompradores(@PathVariable Long idImovel,
+									  HttpSession session, 	
+								      ModelMap map, 
+								      @ModelAttribute("imovelForm") ImovelForm form){
+		
+		try{
+			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);		
+			map.addAttribute("imovelForm", form );
+			map.addAttribute("listaUsuarios", imovelService.pesquisarPossiveisCompradores(user.getId(), form));
+			return DIR_PATH + "resultadoProcurarPossiveisCompradores";
+		}
+		catch(Exception e) {
+			log.error("Erro metodo - ImovelController -  procurarCompradores");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");			
+			return "erro";
+		}		
+	}
+	
 	@RequestMapping(value = "/adicionarComentarioDetalheImovel")	
 	public String adicionarComentarioDetalheImovel(String novoComentario,
 												   HttpSession session, 	
@@ -538,6 +562,47 @@ public class ImovelController {
 			map.addAttribute("mensagemErroGeral", "S");
 			return ImovelService.PATH_ERRO_GERAL;
 		}
+	}
+	
+	@RequestMapping(value = "/adicionarAtividadeDetalhesImovel/{novaProposta}/{novaDescricao}")
+	@ResponseBody
+	public String adicionarAtividadeDetalhesImovel(@PathVariable("novaAtividade") String novaAtividade,
+											       @PathVariable("novaDescricaoAtividade") String novaDescricaoAtividade,											   
+											       HttpSession session, 	
+											       ModelMap map, 											   
+											       @ModelAttribute("imovelForm") ImovelForm form){
+		
+		try {
+			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
+			atividadesService.cadastrarAtividade(form, novaAtividade, novaDescricaoAtividade, user);
+			form.setListaAtividades(atividadesService.recuperarAtividadesPorIdImovel(form.getId()));
+			map.addAttribute("imovelForm", form );
+			return "ok";
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelController -  adicionarAtividadeDetalhesImovel");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+	}
+	
+	@RequestMapping(value = "/confirmarExclusaoAtividadeImovel/{idAtividade}", method = RequestMethod.GET)
+	@ResponseBody
+	public String confirmarExclusaoAtividadeImovel(@PathVariable("idAtividade") Long idAtividade,
+											   	  ModelMap map, 											   
+											      @ModelAttribute("imovelForm") ImovelForm form){
+		
+		try {
+			atividadesService.excluirAtividade(idAtividade);
+			form.setListaAtividades(atividadesService.recuperarAtividadesPorIdImovel(form.getId()));
+			map.addAttribute("imovelForm", form );
+			return "ok";
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelController -  confirmarExclusaoAtividadeImovel");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return null;
+		}		
 	}
 	
 	@RequestMapping(value = "/adicionarPropostaDetalheImovel/{novaProposta}/{novaDescricao}")
@@ -859,7 +924,7 @@ public class ImovelController {
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);					
 			map.addAttribute("imovel", form);
-			map.addAttribute("listaUsuarios", imovelService.analisarUsuariosInteressados(user.getId(), form));
+			map.addAttribute("listaUsuarios", imovelService.pesquisarPossiveisCompradores(user.getId(), form));
 			return DIR_PATH + "resultadoAnaliseRecuperacaoUsuariosInteressados";
 		} catch (Exception e) {
 			log.error("Erro metodo - ImovelController -  detalhesImovel");

@@ -95,8 +95,6 @@
     		$('#btnEditarFoto').click(function () {
     			editarFoto();    			      
     		 }); 
-    		
-    		
 
     		function limpaComboLinha(comboLinha) {
     		    $(comboLinha).empty();  
@@ -156,7 +154,6 @@
     	} 
     	
     	function editarFotoPrincipal(){
-    		
     		var x = document.getElementById("novaProposta2");
     		var y = document.getElementById("novaObsProposta2");
     		
@@ -245,6 +242,14 @@
     		else if ( id == 14 ){
     			$('#msgModal').html("<spring:message code='lbl.permissao.autoriza.quem.visualiza.msg.desc'/>");
     			$('#msgModalFuncionalidade').html("<spring:message code='lbl.permissao.autoriza.quem.visualiza'/>");  
+    		}
+    		else if ( id == 15 ){
+    			$('#msgModal').html("<spring:message code='bl.permissao.quem.pode.solicitacoes.intermediacao.msg.desc'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='bl.permissao.quem.pode.solicitacoes'/>");  
+    		}
+    		else if ( id == 16 ){
+    			$('#msgModal').html("<spring:message code='bl.permissao.quem.pode.solicitacoes.parceria.msg.desc'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='bl.permissao.quem.pode.solicitacoes'/>");  
     		}
 			
     		$("#idModalItem").modal("show");
@@ -726,6 +731,22 @@
 	                                                </div>
 	                                            </div><!-- /.form-group -->
 	                                            
+	                                             <div class="form-group">
+	                                                <label for="quemPodeEnviarSolicitacoes" class="col-sm-3 control-label"><spring:message code="lbl.permissao.quem.pode.solicitacoes"/></label>
+	                                                <div class="col-sm-7">	                                                     
+	                                                     <form:select id="quemPodeEnviarSolicitacoes" path="quemPodeEnviarSolicitacoes" class="form-control" >
+															<form:option value="T"><spring:message code="lbl.permissao.visualiza.todos"/></form:option>                        	                        
+														    <form:option value="N"><spring:message code="lbl.permissao.visualiza.ninguem"/></form:option>                        	                        
+															<form:option value="C"><spring:message code="lbl.permissao.visualiza.apenas.contatos"/></form:option>														
+										                	<form:option value="S"><spring:message code="lbl.permissao.visualiza.seguidores"/></form:option>
+										                	<form:option value="G"><spring:message code="lbl.permissao.visualiza.seguindo"/></form:option>
+										                 </form:select>										                 
+	                                                </div>
+	                                                <form:errors id="quemPodeEnviarSolicitacoes" path="quemPodeEnviarSolicitacoes" cssClass="errorEntrada"  />
+	                                                
+	                                                <a href="#a" class="btn btn-sm"  onClick="mostrarModal(16);" ><i class="fa fa-question-circle" ></i></a>
+	                                            </div><!-- /.form-group -->
+	                                            
 	                                             <a href="#a" class="btn btn-sm"  onClick="mostrarModal(10);" ><i class="fa fa-question-circle" ></i></a>
                                             </c:if>
                                             
@@ -751,7 +772,24 @@
                                                         <form:errors id="descAceitaCorretagemParceria" path="descAceitaCorretagemParceria" cssClass="errorEntrada"  />     
 	                                                </div>
 	                                                <a href="#a" class="btn btn-sm"  onClick="mostrarModal(12);" ><i class="fa fa-question-circle" ></i></a>
+	                                             </div><!-- /.form-group -->
+	                                            
+	                                             <div class="form-group">
+	                                                <label for="quemPodeEnviarSolicitacoes" class="col-sm-3 control-label"><spring:message code="lbl.permissao.quem.pode.solicitacoes"/></label>
+	                                                <div class="col-sm-7">	                                                     
+	                                                     <form:select id="quemPodeEnviarSolicitacoes" path="quemPodeEnviarSolicitacoes" class="form-control" >
+															<form:option value="T"><spring:message code="lbl.permissao.visualiza.todos"/></form:option>                        	                        
+														    <form:option value="N"><spring:message code="lbl.permissao.visualiza.ninguem"/></form:option>                        	                        
+															<form:option value="C"><spring:message code="lbl.permissao.visualiza.apenas.contatos"/></form:option>														
+										                	<form:option value="S"><spring:message code="lbl.permissao.visualiza.seguidores"/></form:option>
+										                	<form:option value="G"><spring:message code="lbl.permissao.visualiza.seguindo"/></form:option>
+										                 </form:select>										                 
+	                                                </div>
+	                                                <form:errors id="quemPodeEnviarSolicitacoes" path="quemPodeEnviarSolicitacoes" cssClass="errorEntrada"  />
+	                                                
+	                                                <a href="#a" class="btn btn-sm"  onClick="mostrarModal(15);" ><i class="fa fa-question-circle" ></i></a>
 	                                            </div><!-- /.form-group -->
+	                                            
                                             </c:if>
                                             
                                             <div class="form-group">

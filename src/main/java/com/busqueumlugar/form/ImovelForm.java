@@ -10,6 +10,7 @@ import javax.persistence.Transient;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.busqueumlugar.enumerador.StatusImovelEnum;
+import com.busqueumlugar.model.Atividades;
 import com.busqueumlugar.model.Imovelcomentario;
 import com.busqueumlugar.model.Imoveldestaque;
 import com.busqueumlugar.model.Imovelfavoritos;
@@ -18,6 +19,8 @@ import com.busqueumlugar.model.ImovelPropostas;
 import com.busqueumlugar.model.Imovelvisualizado;
 import com.busqueumlugar.model.Intermediacao;
 import com.busqueumlugar.model.Parceria;
+import com.busqueumlugar.model.PossivelComprador;
+import com.busqueumlugar.model.PossivelCompradorOffline;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.DateUtil;
@@ -52,6 +55,7 @@ public class ImovelForm extends BaseForm{
     private Long relevancia;
     private String habilitaBusca;
     private String acessoVisualizacao;
+    private String quemPodeEnviarSolicitacoes;
     
     private String valorBusca = "";
     private String opcaoFiltro = "";
@@ -131,6 +135,9 @@ public class ImovelForm extends BaseForm{
 	private List<Usuario> listaUsuariosParceiros;	
 	private List<Imovelfotos> listaFotos;
 	private List<Imoveldestaque> listaImovelAnuncio;
+	private List<Atividades> listaAtividades;
+	private List<PossivelComprador> listaPossivelComprador;
+	private List<PossivelCompradorOffline> listaPossivelCompradorOffline;
     private Usuario usuarioDonoImovel;
     private Usuario usuarioCorretorImovel;
     private Usuario usuarioImobiliariaImovel;
@@ -1636,6 +1643,40 @@ public class ImovelForm extends BaseForm{
 
 	public void setIntermediacaoEnviada(Intermediacao intermediacaoSelecionada) {
 		this.intermediacaoEnviada = intermediacaoSelecionada;
+	}
+
+	public List<Atividades> getListaAtividades() {
+		return listaAtividades;
+	}
+
+	public void setListaAtividades(List<Atividades> listaAtividades) {
+		this.listaAtividades = listaAtividades;
+	}
+
+	public List<PossivelComprador> getListaPossivelComprador() {
+		return listaPossivelComprador;
+	}
+
+	public void setListaPossivelComprador(
+			List<PossivelComprador> listaPossivelComprador) {
+		this.listaPossivelComprador = listaPossivelComprador;
+	}
+
+	public List<PossivelCompradorOffline> getListaPossivelCompradorOffline() {
+		return listaPossivelCompradorOffline;
+	}
+
+	public void setListaPossivelCompradorOffline(
+			List<PossivelCompradorOffline> listaPossivelCompradorOffline) {
+		this.listaPossivelCompradorOffline = listaPossivelCompradorOffline;
+	}
+
+	public String getQuemPodeEnviarSolicitacoes() {
+		return quemPodeEnviarSolicitacoes;
+	}
+
+	public void setQuemPodeEnviarSolicitacoes(String quemPodeEnviarSolicitacoes) {
+		this.quemPodeEnviarSolicitacoes = quemPodeEnviarSolicitacoes;
 	}
 	
 }

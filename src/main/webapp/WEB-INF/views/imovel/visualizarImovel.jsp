@@ -167,6 +167,7 @@ function adicionarProposta(){
 	     });
 	}	  
 } 
+
 function prepararModalConfirmaExclusaoProposta(id){
 	$("#modIdProposta").val(id);
 	$('#msgRetornoConfirmExclusaoPropostaErro').html("");	
@@ -184,6 +185,8 @@ function confirmarExclusaoPropostaImovel(){
 		 }
 	 });
 } 
+
+
 function prepararModalComentario(){
 	$("#msgRetornoComentarioErro").html("");
 	$("#idModalComentario").modal("show");
@@ -287,6 +290,7 @@ function prepararModalCancelSolParceria(){
 	$("#msgRetornoCancelSolParceriaErro").html("");	
 	$("#idModalCancelSolParceria").modal("show");	
 }
+
 function cancelarSolParceria(){	
 	$.ajax({      
 			type: 'POST',
@@ -340,6 +344,7 @@ function adicionarComparar(id) {
 	 });
 }
 
+
 function prepararModalFecharNegocio(id){
 	$("#msgRetornoFecharNegocioErro").html("");	
 	$("#idModalFecharNegocio").modal("show");	
@@ -369,9 +374,8 @@ function prepararModalMarcarVisita(id){
 	$("#idModalMarcarVisita").modal("show");	
 }
 
-function notificarMarcarVisita() {
-		
-    $.ajax({  
+function notificarMarcarVisita() {		
+    $.post({  
     	type: 'POST',
         url: '${urlImovel}/notificarMarcarVisita',   
         dataType: 'json',
@@ -388,6 +392,80 @@ function notificarMarcarVisita() {
         }
     });
 }
+
+function prepararModalProcurarCompradores(idImovel){
+	$("#msgRetornoProcurarCompradores").html("");	
+	$("#idModalProcurarCompradores").modal("show");		
+}
+
+function procurarCompradores(){
+ $.ajax({  
+    	type: 'POST',
+        url: '${urlImovel}/procurarCompradores',   
+        success: function(){
+        	$("#idModalProcurarCompradores").modal("hide");
+	        $('#msgRetornoProcurarCompradores').html(data);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+        }
+    });
+}
+
+function prepararModalAtividade(){
+	$("#msgRetornoAtividadeErro").html("");	
+	$("#idModalAtividades").modal("show");
+	$('#msgErroNovaDescricaoAtividade').html("");
+}
+
+function adicionarAtividade(){
+	var x = document.getElementById("novaAtividade");
+	var y = document.getElementById("novaDescricaoAtividade")
+	
+	if ($("#novaAtividade").val() == ''){  
+		$('#msgErroAtividade').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
+	}
+	
+	if ($("#novaDescricaoAtividade").val() == ''){
+		$('#msgErroNovaDescricaoAtividade').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
+	}
+	
+	if (($("#novaAtividade").val() != '') && ($("#novaDescricaoAtividade").val() != '')) { 
+		$.ajax({  
+		    type: 'GET',	
+	         url: '${urlImovel}/adicionarAtividadeDetalhesImovel/' + x.value + '/' + y.value,
+	         dataType: 'json',
+	         success: function(data){	        	 
+	        	 if ( data == 'ok') {
+	        		 location.reload();
+	        	 }
+	        	 else  {
+		        	 $('#msgRetornoAtividadeErro').html(data);
+		         }	
+	         },	      
+	     });
+	}
+}
+
+function prepararModalConfirmaExclusaoAtividades(id){
+	$("#modIdAtividade").val(id);
+	$('#msgRetornoConfirmExclusaoAtividadeErro').html("");	
+	$("#idModalConfirmacaoExclusaoAtividade").modal("show");	
+}
+
+function confirmarExclusaoAtividadeImovel(){	
+	var parametro = document.getElementById("modIdAtividade");	
+	$.ajax({
+		 url: '${urlImovel}/confirmarExclusaoAtividadeImovel/' + parametro.value,			 
+		 success: function(){				 
+			 location.reload();     	    
+		 },
+		 error: function(jqXHR, textStatus, errorThrown) {				 
+			 $('#msgRetornoConfirmExclusaoAtividadeErro').html("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+		 }
+	 });
+} 
+
 
 function mostrarModal(id){
 	
@@ -434,6 +512,18 @@ function mostrarModal(id){
 	else if ( id == 10){
 		$('#msgModal').html("<spring:message code='lbl.modal.contato.detalhe.imoveis'/>");
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.contato.detalhe.imoveis'/>");
+	}
+	else if ( id == 11){
+		$('#msgModal').html("<spring:message code='lbl.modal.atividades.detalhe.imoveis'/>");
+		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.aba.det.imovel.atividades'/>");
+	}
+	else if ( id == 12){
+		$('#msgModal').html("<spring:message code='lbl.modal.possivel.comprador.detalhe.imoveis'/>");
+		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.aba.det.imovel.possivel.comprador'/>");
+	}
+	else if ( id == 13){
+		$('#msgModal').html("<spring:message code='lbl.modal.possivel.comprador.offline.detalhe.imoveis'/>");
+		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.aba.det.imovel.possivel.comprador.offline'/>");
 	}
 	
 	$("#idModalItem").modal("show");
@@ -501,12 +591,7 @@ function prepararModalGaleriaFotos(){
                                             	<a href="#a" id="idInteressado" onClick="retirarInteresse(${imovelForm.id})" style="font-size:x-large;" class="meta-action"><i class="fa fa-star" style="color:gray" title="<spring:message code="lbl.interessado"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.interessado"/> </font> </a>
                                     		</c:when>
                                     	</c:choose>  
- 										 &nbsp;&nbsp;&nbsp;&nbsp;
- 										 
- 										 <c:if test="${((imovelForm.usuarioDonoImovel.id == usuario.id) && (imovelForm.usuarioDonoImovel.perfil != 'P')) }">
-	 										<a href="${urlImovel}/analisarRecuperacaoUsuariosInteressados/${imovelForm.id}" style="font-size:x-large;" class="meta-action"><i class="fa fa-hourglass-start" style="color:gray" title="<spring:message code="lbl.acao.recuperar.usuario.interessados"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.acao.recuperar.usuario.interessados"/> </font></a> 
-	 										 &nbsp;&nbsp;&nbsp;&nbsp; 
- 										 </c:if>
+ 										 &nbsp;&nbsp;&nbsp;&nbsp; 								
  										 
                                         <a href="#a" onClick="adicionarComparar(${imovelForm.id})" style="font-size:x-large;" class="meta-action"><i class="fa fa-eye" style="color:gray" title="<spring:message code="lbl.title.link.comparar"/>"></i><font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.title.link.comparar"/> </font></a>&nbsp;&nbsp;&nbsp;&nbsp; 
                                         <a href="${urlImovelIndicado}/selecionarParaIndicarImovel/${imovelForm.id}" style="font-size:x-large;" class="meta-action"><i class="fa fa-share-alt" style="color:gray" title="<spring:message code="lbl.acao.sugerir"/>"></i> <font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.acao.sugerir"/> </font></a>
@@ -517,6 +602,9 @@ function prepararModalGaleriaFotos(){
 	                                   		<a href="#a" onClick="prepararModalMarcarVisita(${imovelForm.id})" style="font-size:x-large;" class="meta-action"><i class="fa fa-calendar-check-o" style="color:gray" title="<spring:message code="lbl.title.marcar.visita"/>"></i><font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.title.marcar.visita"/> </font></a> 
                                         </c:if>
                                    		
+                                   		 &nbsp;&nbsp;&nbsp;&nbsp; 
+                                   		 
+                                   		<a href="${urlImovel}/procurarCompradores/${imovelForm.id}" style="font-size:x-large;" class="meta-action"><i class="fa  fa-money" style="color:gray" title="<spring:message code="lbl.title.link.procurar.compradores"/>"></i><font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.title.link.procurar.compradores"/> </font></a>&nbsp;&nbsp;&nbsp;&nbsp;
                                     </div>
                                     
                                     <br> <br>
@@ -813,6 +901,208 @@ function prepararModalGaleriaFotos(){
                                 </div>
                             </div>
                           <!-- /.END Propostas -->
+                          
+                          <!-- /.START Atividades --> 
+                          
+                           <div class="panel rounded shadow">
+                                <div class="panel-heading">                              
+	                     			<h3 class="panel-title">
+	                     				<div class="pull-left">
+	                     					<spring:message code="lbl.title.aba.det.imovel.atividades"/>
+	                      				</div>	
+	                     				<div class="pull-right">                                					
+	                     					<a href="#a" class="btn btn-sm"  onClick="mostrarModal(11);" style=""><i class="fa fa-question" ></i></a>
+	                     				</div>
+	                     				<br>
+	                     			</h3>
+                                </div>
+                                <div class="panel-body">
+                                	<c:choose>
+                                		<c:when test="${empty imovelForm.listaAtividades }">
+                                			<div class="callout callout-warning">
+			                                    <strong><spring:message code="msg.nenhuma.atividade.detalhe.imovel"/></strong>		                                    
+			                                </div>                             			    
+			                                
+	                                      </br> </br>	
+                                		</c:when>
+                                		
+                                		<c:when test="${not  empty imovelForm.listaAtividades }">
+                                			 <table class="table table-striped" >
+		                                         <thead>
+		                                            <tr>
+		                                               <th style="width: 15%;" class="text-center"></th>
+		                                               <th style="width: 15%;" class="text-center"><strong><spring:message code="lbl.data.atividade"/></strong></th>
+		                                               <th style="width: 45%;" class="text-center"><strong><spring:message code="lbl.descricao.atividade"/></strong></th>
+		                                               <th style="width: 15%; text-align: center;"><strong><spring:message code="lbl.status.atividade"/></strong></th>
+		                                            </tr>
+		                                         </thead>
+		
+		                                         <tbody>
+		                                            <c:forEach var="atividade" items="${imovelForm.listaAtividades}">
+		                                               <tr>
+		                                               	  <td style="font-size: 13px;" class="text-center"> <small><fmt:formatDate value='${atividade.dataAtividade}' pattern='dd/MM/yyyy'/></small> </td>	
+		                                               	  <td style="font-size: 13px;" class="text-center">${atividade.descricao} </td>
+		                                                  <td style="font-size: 13px;" class="text-center"><small> ${atividade.status} </small></td>
+		                                                  <td class="text-center" >
+		                                                     <a href="#" onClick="prepararModalConfirmaExclusaoProposta(${imovel.id});" data-toggle="tooltip" data-placement="top" title="" data-original-title="delete"><i class="fa fa-trash-o"></i></a>
+		                                                  </td>
+		                                               </tr>
+		                                            </c:forEach>
+		                                         </tbody>
+		                                      </table>
+		                                      </br> </br> 
+		                                   </c:when>		                                   
+                                	</c:choose>
+                                	
+                                	<c:if test="${imovelForm.usuarioDonoImovel.id == usuario.id}">                                      
+                                          <div class="form-group">
+                                             <input type="button" class="btn btn-primary" onClick="prepararModalAtividade();" value="<spring:message code="btn.modal.adicionar.atividade"/>">
+                                          </div>
+                                   </c:if>
+                                	 
+                                </div>
+                            </div>
+                          
+                          
+                          <!-- /.END Atividades --> 
+                          
+                          <!-- /.START Possivel Comprador --> 
+                          
+                           <div class="panel rounded shadow">
+                                <div class="panel-heading">                              
+	                     			<h3 class="panel-title">
+	                     				<div class="pull-left">
+	                     					<spring:message code="lbl.title.aba.det.imovel.possivel.comprador"/>
+	                      				</div>	
+	                     				<div class="pull-right">                                					
+	                     					<a href="#a" class="btn btn-sm"  onClick="mostrarModal(12);" style=""><i class="fa fa-question" ></i></a>
+	                     				</div>
+	                     				<br>
+	                     			</h3>
+                                </div>
+                                <div class="panel-body">
+                                	<c:choose>
+                                		<c:when test="${empty imovelForm.listaPossivelComprador }">
+                                			<div class="callout callout-warning">
+			                                    <strong><spring:message code="msg.nenhum.possivel.comprador"/></strong>		                                    
+			                                </div>                             			    
+			                                
+	                                      </br> </br>	
+                                		</c:when>
+                                		
+                                		<c:when test="${not  empty imovelForm.listaPossivelComprador }">
+                                			 <table class="table table-striped" >
+		                                         <thead>
+		                                            <tr>
+		                                               <th style="width: 15%;" class="text-center"></th>
+		                                               <th style="width: 15%;" class="text-center"><strong><spring:message code="lbl.data.cadastro.poss.comprador"/></strong></th>
+		                                               <th style="width: 45%;" class="text-center"><strong><spring:message code="lbl.nome.poss.comprador"/></strong></th>
+		                                               <th style="width: 15%; text-align: center;"><strong><spring:message code="lbl.chance.compra.poss.comprador"/></strong></th>
+		                                               <th style="width: 15%; text-align: center;"><strong><spring:message code="lbl.porc.chance.compra.poss.comprador"/></strong></th>
+		                                               <th style="width: 15%; text-align: center;"><strong><spring:message code="lbl.observacao.poss.comprador"/></strong></th>
+		                                            </tr>
+		                                         </thead>
+		
+		                                         <tbody>
+		                                            <c:forEach var="comprador" items="${imovelForm.listaPossivelComprador}">
+		                                               <tr>
+		                                               	  <td style="font-size: 13px;" class="text-center"> <small><fmt:formatDate value='${comprador.dataCadastro}' pattern='dd/MM/yyyy'/></small> </td>	
+		                                               	  <td style="font-size: 13px;" class="text-center">${comprador.usuarioComprador.nome} </td>
+		                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.chanceCompra} </small></td>
+		                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.porcentagemChanceCompra} </small></td>
+		                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.observacao} </small></td>
+		                                                  <td class="text-center" >
+		                                                     <a href="#" onClick="prepararModalConfirmaExclusaoProposta(${imovel.id});" data-toggle="tooltip" data-placement="top" title="" data-original-title="delete"><i class="fa fa-trash-o"></i></a>
+		                                                  </td>
+		                                               </tr>
+		                                            </c:forEach>
+		                                         </tbody>
+		                                      </table>
+		                                      </br> </br> 
+		                                   </c:when>		                                   
+                                	</c:choose>
+                                	
+                                	<c:if test="${imovelForm.usuarioDonoImovel.id == usuario.id}">                                      
+                                          <div class="form-group">
+                                             <input type="button" class="btn btn-primary" onClick="prepararModalPossivelComprador();" value="<spring:message code="btn.modal.adicionar.possivelComprador"/>">
+                                          </div>
+                                   </c:if>
+                                	 
+                                </div>
+                            </div>    
+                          <!-- /.END Possivel Comprador --> 
+                          
+                          <!-- /.START Possivel Comprador Offline --> 
+                          
+                            <div class="panel rounded shadow">
+                                <div class="panel-heading">                              
+	                     			<h3 class="panel-title">
+	                     				<div class="pull-left">
+	                     					<spring:message code="lbl.title.aba.det.imovel.possivel.comprador.offline"/>
+	                      				</div>	
+	                     				<div class="pull-right">                                					
+	                     					<a href="#a" class="btn btn-sm"  onClick="mostrarModal(13);" style=""><i class="fa fa-question" ></i></a>
+	                     				</div>
+	                     				<br>
+	                     			</h3>
+                                </div>
+                                <div class="panel-body">
+                                	<c:choose>
+                                		<c:when test="${empty imovelForm.listaPossivelCompradorOffline }">
+                                			<div class="callout callout-warning">
+			                                    <strong><spring:message code="msg.nenhum.possivel.comprador"/></strong>		                                    
+			                                </div>                             			    
+			                                
+	                                      </br> </br>	
+                                		</c:when>
+                                		
+                                		<c:when test="${not  empty imovelForm.listaPossivelCompradorOffline }">
+                                			 <table class="table table-striped" >
+		                                         <thead>
+		                                            <tr>
+		                                               <th style="width: 15%;" class="text-center"></th>
+		                                               <th style="width: 15%;" class="text-center"><strong><spring:message code="lbl.data.cadastro.poss.comprador"/></strong></th>
+		                                               <th style="width: 25%;" class="text-center"><strong><spring:message code="lbl.nome.poss.comprador"/></strong></th>
+		                                               <th style="width: 15%;" class="text-center"><strong><spring:message code="lbl.email.poss.comprador"/></strong></th>
+		                                               <th style="width: 10%;" class="text-center"><strong><spring:message code="lbl.telefone.poss.comprador"/></strong></th>                    
+		                                               <th style="width: 15%; text-align: center;"><strong><spring:message code="lbl.chance.compra.poss.comprador"/></strong></th>
+		                                               <th style="width: 15%; text-align: center;"><strong><spring:message code="lbl.porc.chance.compra.poss.comprador"/></strong></th>
+		                                               <th style="width: 15%; text-align: center;"><strong><spring:message code="lbl.observacao.poss.comprador"/></strong></th>
+		                                            </tr>
+		                                         </thead>
+		
+		                                         <tbody>
+		                                            <c:forEach var="comprador" items="${imovelForm.listaPossivelCompradorOffline}">
+		                                               <tr>
+		                                               	  <td style="font-size: 13px;" class="text-center"> <small><fmt:formatDate value='${comprador.dataCadastro}' pattern='dd/MM/yyyy'/></small> </td>	
+		                                               	  <td style="font-size: 13px;" class="text-center">${comprador.nomeComprador} </td>
+		                                               	  <td style="font-size: 13px;" class="text-center">${comprador.emailComprador} </td>
+		                                               	  <td style="font-size: 13px;" class="text-center">${comprador.telefoneComprador} </td>
+		                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.chanceCompra} </small></td>
+		                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.porcentagemChanceCompra} </small></td>
+		                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.observacao} </small></td>
+		                                                  <td class="text-center" >
+		                                                     <a href="#" onClick="prepararModalConfirmaExclusaoProposta(${imovel.id});" data-toggle="tooltip" data-placement="top" title="" data-original-title="delete"><i class="fa fa-trash-o"></i></a>
+		                                                  </td>
+		                                               </tr>
+		                                            </c:forEach>
+		                                         </tbody>
+		                                      </table>
+		                                      </br> </br> 
+		                                   </c:when>		                                   
+                                	</c:choose>
+                                	
+                                	<c:if test="${imovelForm.usuarioDonoImovel.id == usuario.id}">                                      
+                                          <div class="form-group">
+                                             <input type="button" class="btn btn-primary" onClick="prepararModalPossivelComprador();" value="<spring:message code="btn.modal.adicionar.possivelComprador"/>">
+                                          </div>
+                                   </c:if>
+                                	 
+                                </div>
+                            </div> 
+                          
+                           
+                          <!-- /.END Possivel Comprador Offline -->  
               				
                           <!-- /.START Intermediação --> 
                           <c:if test="${((imovelForm.usuarioDonoImovel.perfil == 'P') && 
@@ -1529,6 +1819,81 @@ function prepararModalGaleriaFotos(){
 
         </section><!-- /#wrapper -->
         
+        <!-- START Modal - Adicionar Atividades -->
+            <div id="idModalAtividades" class="modal fade bs-example-modal-form-atividades" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-photo-viewer">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title"><spring:message code="lbl.modal.cadastrar.atividades"/></h4>
+                        </div>
+                        <div class="modal-body no-padding">
+                            <form class="form-horizontal form-bordered" role="form" id="input-mask">
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.status.atividade"/></label>
+                                        <div class="col-sm-5">
+                                        	<select class="form-control" id="novaAtividade" >
+											  <option value="C" selected="selected"><spring:message code="lbl.status.atividade.criado"/></option>
+											  <option value="I"><spring:message code="lbl.status.atividade.incompleto"/></option>
+											  <option value="N"><spring:message code="lbl.status.atividade.cancelado"/></option>
+											  <option value="O"><spring:message code="lbl.status.atividade.completo"/></option>
+											</select>   
+                                            <div id="msgErroAtividade" cssClass="errorEntrada"  ></div>                                            
+                                        </div>
+                                    </div><!-- /.form-group -->
+                                    <div class="form-group">
+                                        <label for="password-1" class="col-sm-3 control-label"><spring:message code="lbl.descricao.atividade"/></label>
+                                        <div class="col-sm-5">                                            
+                                            <textarea rows="5" cols="20" class="form-control " id="novaDescricaoAtividade"></textarea>
+                                            <div id="msgErroNovaDescricaoAtividade" cssClass="errorEntrada"  ></div>
+                                        </div>
+                                    </div><!-- /.form-group -->                                    
+									<div class="form-group">                                        
+                                        <div id="msgAtividadeErro" class="col-sm-4"> </div>
+                                    </div><!-- /.form-group -->                                    
+                                </div><!-- /.form-body -->
+                                <div class="form-footer">
+                                    <div class="col-sm-offset-3">
+                                    	<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.btn.cancelar.geral"/></button>
+                                        <button type="button" class="btn btn-success" onClick="adicionarAtividade();"><spring:message code="lbl.btn.adicionar.geral"/></button>
+                                    </div>
+                                </div><!-- /.form-footer -->
+                                
+                                <div id="msgRetornoAtividadeErro"> </div>
+                            </form>
+                        </div>
+
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+            <!--/ END Modal - Adicionar Atividades -->
+            
+            <!-- START - confirmacao exclusao atividade imovel -->
+            <div id="idModalConfirmacaoExclusaoAtividade" class="modal fade bs-example-modal-lg-confirmacao-exclusao-proposta-imovel" tabindex="-1" role="dialog" aria-hidden="true">
+	            <input type="hidden" id="modIdAtividade" readonly="readonly" name="modIdAtividade">
+	                <div class="modal-dialog modal-lg">
+	                    <div class="modal-content">
+	                        <div class="modal-header">
+	                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                            <h4 class="modal-title"><spring:message code="lbl.modal.confirmar.exclusao.atividade"/></h4>
+	                        </div>
+	                        <div class="modal-body">
+	                            <p><spring:message code="lbl.modal.pergunta.confirma.exclusao.atividade"/></p>
+	                        </div>
+	                        <div class="modal-footer">
+	                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
+	                            <button type="button" class="btn btn-theme" onClick="confirmarExclusaoAtividadeImovel();"><spring:message code="lbl.sim"/></button>                            
+	                        </div>
+							
+							<div id="msgRetornoConfirmExclusaoAtividadeErro" cssClass="errorEntrada"  ></div>   
+							
+	                    </div><!-- /.modal-content -->
+	                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+         <!-- START - confirmacao exclusao atividade imovel   --> 
+            
+        
 		<!-- Start inside form layout -->
             <div id="idModalProposta" class="modal fade bs-example-modal-form" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog modal-lg modal-photo-viewer">
@@ -1931,7 +2296,33 @@ function prepararModalGaleriaFotos(){
 	                    </div><!-- /.modal-content -->
 	                </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
-         <!-- End optional size modal element - fechar negocio -->
+         <!-- End optional size modal element - fechar negocio -->         
+         
+         
+          <!-- Start optional size modal element - procurar possiveis compradores-->
+            <div id="idModalProcurarCompradores"  class="modal fade bs-example-modal-lg-procura-compradores" tabindex="-1" role="dialog" aria-hidden="true">
+                <input type="hidden" id="modIdImovel" readonly="readonly" name="modIdImovel">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title"><spring:message code="lbl.modal.procurar.compradores"/></h4>
+                        </div>
+                        <div class="modal-body">
+                            <p><spring:message code="lbl.modal.pergunta.procurar.compradores"/></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
+                            <button type="button" class="btn btn-theme" onClick="procurarCompradores();"><spring:message code="lbl.sim"/></button>                            
+                        </div>
+						
+						<div id="msgRetornoProcurarCompradores" cssClass="errorEntrada"  ></div>  
+						
+                    </div><!-- /.modal-content -->					
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->   
+           <!-- End optional size modal element - procurar possiveis compradores-->
+         
 
 			<!-- Start content modal Ajuda - funcionalidade -->
 				<c:import url="../ajuda/contentMenuModal.jsp"></c:import>																				
