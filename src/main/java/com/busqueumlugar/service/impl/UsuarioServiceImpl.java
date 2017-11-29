@@ -1636,7 +1636,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 			session.setAttribute(MensagemService.LISTA_MENSAGENS, mensagemService.recuperaTodasMensagensPorDataMensagem(user.getId(), 4));
 			session.setAttribute(MensagemService.QUANT_NOVAS_MENSAGENS, mensagemService.checarQuantidadeNovasMensagens(user.getId()));
 			//List<MensagemAdmin> listaNovasMensagensAdmin = mensagemAdminService.recuperaTodasMensagensNovasPorUsuario(user.getId());
-			// Será exibido agora no header no maximo as 4 ultimas mensagens recebidas 
+			// Serï¿½ exibido agora no header no maximo as 4 ultimas mensagens recebidas 
 			List<MensagemAdmin> listaMensagensAdmin = mensagemAdminService.recuperaTodasMensagensPorUsuarioPorQuantidade(user.getId(), 6);
 			session.setAttribute(MensagemAdminService.LISTA_MENSAGENS_ADMIN, listaMensagensAdmin);
 			session.setAttribute(MensagemAdminService.QUANT_MENSAGENS_ADMIN, AppUtil.recuperarQuantidadeLista(listaMensagensAdmin));
@@ -1659,6 +1659,22 @@ public class UsuarioServiceImpl implements UsuarioService{
 		session.setAttribute(UsuarioService.HABILITA_FUNC_SERVICOS, parametrosIniciaisService.findParametroInicialPorNome(UsuarioService.HABILITA_FUNC_SERVICOS));
 		session.setAttribute(UsuarioService.HABILITA_ENVIO_EMAIL, parametrosIniciaisService.findParametroInicialPorNome(UsuarioService.HABILITA_ENVIO_EMAIL));
 		
+		session.setAttribute(UsuarioService.HABILITA_FUNC_VISITAS_IMOVEL, parametrosIniciaisService.findParametroInicialPorNome(UsuarioService.HABILITA_FUNC_VISITAS_IMOVEL));
+		session.setAttribute(UsuarioService.HABILITA_FUNC_PROPOSTAS_IMOVEL, parametrosIniciaisService.findParametroInicialPorNome(UsuarioService.HABILITA_FUNC_PROPOSTAS_IMOVEL));
+		session.setAttribute(UsuarioService.HABILITA_FUNC_FAVORITOS_IMOVEL, parametrosIniciaisService.findParametroInicialPorNome(UsuarioService.HABILITA_FUNC_FAVORITOS_IMOVEL));
+		session.setAttribute(UsuarioService.HABILITA_FUNC_INDICA_IMOVEL, parametrosIniciaisService.findParametroInicialPorNome(UsuarioService.HABILITA_FUNC_INDICA_IMOVEL));
+		session.setAttribute(UsuarioService.HABILITA_FUNC_NOTAS, parametrosIniciaisService.findParametroInicialPorNome(UsuarioService.HABILITA_FUNC_NOTAS));
+		session.setAttribute(UsuarioService.HABILITA_FUNC_INTERMEDIACAO_IMOVEL, parametrosIniciaisService.findParametroInicialPorNome(UsuarioService.HABILITA_FUNC_INTERMEDIACAO_IMOVEL));
+		session.setAttribute(UsuarioService.HABILITA_FUNC_PARCERIA_IMOVEL, parametrosIniciaisService.findParametroInicialPorNome(UsuarioService.HABILITA_FUNC_PARCERIA_IMOVEL));
+		session.setAttribute(UsuarioService.HABILITA_FUNC_COMENTARIOS_IMOVEL, parametrosIniciaisService.findParametroInicialPorNome(UsuarioService.HABILITA_FUNC_COMENTARIOS_IMOVEL));
+		
+		session.setAttribute(UsuarioService.HABILITA_FUNC_CONVITES, parametrosIniciaisService.findParametroInicialPorNome(UsuarioService.HABILITA_FUNC_CONVITES));
+		session.setAttribute(UsuarioService.HABILITA_FUNC_RECOMENDACOES, parametrosIniciaisService.findParametroInicialPorNome(UsuarioService.HABILITA_FUNC_RECOMENDACOES));
+		session.setAttribute(UsuarioService.HABILITA_FUNC_MENSAGENS, parametrosIniciaisService.findParametroInicialPorNome(UsuarioService.HABILITA_FUNC_MENSAGENS));
+		session.setAttribute(UsuarioService.HABILITA_FUNC_NOTIFICACOES, parametrosIniciaisService.findParametroInicialPorNome(UsuarioService.HABILITA_FUNC_NOTIFICACOES));
+		session.setAttribute(UsuarioService.HABILITA_FUNC_MENSAGENS_ADMIN, parametrosIniciaisService.findParametroInicialPorNome(UsuarioService.HABILITA_FUNC_MENSAGENS_ADMIN));
+
+				
 		session.setAttribute(UsuarioService.ACESSO_VALIDO, user.getAcessoValido());		
 		session.setAttribute(UsuarioService.CONTADOR_TELA_INICIAL, 1L);
 		session.setAttribute(ImovelService.QUANT_LISTA_IMOVEL_COMPARATIVO, 0L);
@@ -2149,7 +2165,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 			paramTimeline.setExisteIdUsuario("N");	
 		
 		
-		// as variaveis 'inicioRegra' e 'fimRegra' sao usadas para evitar que uma determinada regra seja chamada já que não há dados para ela	
+		// as variaveis 'inicioRegra' e 'fimRegra' sao usadas para evitar que uma determinada regra seja chamada jï¿½ que nï¿½o hï¿½ dados para ela	
 		if (! user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){ // Inicio Timeline para Corretores e Imobiliarias 
 			paramTimeline.setInicioRegra(1);
 			paramTimeline.setFimRegra(22);
@@ -2214,7 +2230,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 					if ( regra == 1 ){							
 						while ( (AppUtil.recuperarQuantidadeLista(listaFinal) < 2)){  // para o caso de o usuario ter algum contato ou usuario seguindo
 							regraSel = paramTimeline.getInicioRegra() + (int) (Math.random() * paramTimeline.getFimRegra());			
-							if ( ( regraSel >= 1 ) && ( regraSel <= 4 )) { // Exibir preferencia de imóveis de usuários com contato ou que esteja seguindo
+							if ( ( regraSel >= 1 ) && ( regraSel <= 4 )) { // Exibir preferencia de imï¿½veis de usuï¿½rios com contato ou que esteja seguindo
 								prefLocalidadeTimeline = this.regraTimelineRecuperarPreferenciaLocalidadeUsuario(paramTimeline, false);
 								if ( prefLocalidadeTimeline != null ){
 									isPrefLocalidadeExiste = true;
@@ -2405,7 +2421,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 										}	
 									}
 								 
-								// Exibir imóveis de usuarios que tenha contato ou que esteja seguindo
+								// Exibir imï¿½veis de usuarios que tenha contato ou que esteja seguindo
 								 else if ( ( regraSel >= 7 ) && ( regraSel <= 9 ) && !paramTimeline.isEmptyImoveisContatos() ) { 
 								 	lista = this.regraTimeLineRecuperarImoveisCompartilhadosIdsUsuarios( "N", paramTimeline);
 									if (! CollectionUtils.isEmpty(lista)){
@@ -2441,7 +2457,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 										}
 									}
 								}								
-								// Recuperar Imoveis semelhantes àqueles que o usuário tenha visitado anteriormente
+								// Recuperar Imoveis semelhantes ï¿½queles que o usuï¿½rio tenha visitado anteriormente
 								else if ( ( regraSel >= 17) && ( regraSel <= 19 )  ) { 
 									lista = this.regraTimeLineRecuperarImoveisVisitadosSemelhantes(user, paramTimeline);
 									if (! CollectionUtils.isEmpty(lista)){
@@ -2764,7 +2780,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		   buf.append("           <div class='timeline-body-head-caption'> ");
 		   buf.append("               <a href='" + context.getContextPath() + "/usuario/detalhesUsuario/"+ imovel.getUsuario().getId() +"' class='timeline-body-title font-blue-madison'>" + imovel.getUsuario().getNome() + ": </a> ");		   	   
 		   if ( imovel.getIsAnuncio().equals("N")){ // nao eh anuncio de imovel			   
-			   int i = (int) (Math.random() * 10 ); // esta variavel é usada apenas para evitar que o texto se repita			   
+			   int i = (int) (Math.random() * 10 ); // esta variavel ï¿½ usada apenas para evitar que o texto se repita			   
 			   if ( user.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){				   
 				   if ( imovel.getIsPrefImoveis().equals("S")){
 					   buf.append("  <span class='timeline-body-time font-grey-cascade' style='font-style: italic;'>" +  MessageUtils.getMessage("lbl.imovel.timeline.pref.imoveis")  +"</span> ");

@@ -27,6 +27,21 @@ public interface UsuarioService {
 	String HABILITA_FUNC_SERVICOS = "habilitaFuncServicos";
 	String HABILITA_ENVIO_EMAIL = "habilitaEnvioEmail";
 	
+	String HABILITA_FUNC_VISITAS_IMOVEL = "habilitaFuncVisitasImovel";
+	String HABILITA_FUNC_PROPOSTAS_IMOVEL = "habilitaFuncPropostasImovel"; 
+	String HABILITA_FUNC_FAVORITOS_IMOVEL = "habilitaFuncFavoritosImovel";
+	String HABILITA_FUNC_INDICA_IMOVEL = "habilitaFuncIndicaImovel";
+	String HABILITA_FUNC_NOTAS = "habilitaFuncNotas";
+	String HABILITA_FUNC_INTERMEDIACAO_IMOVEL = "habilitaFuncIntermImovel";
+	String HABILITA_FUNC_PARCERIA_IMOVEL = "habilitaFuncParceriaImovel";
+	String HABILITA_FUNC_COMENTARIOS_IMOVEL = "habilitaFuncComentariosImovel";
+	
+	String HABILITA_FUNC_CONVITES = "habilitaFuncConvites";
+	String HABILITA_FUNC_RECOMENDACOES = "habilitaFuncRecomendacoes";
+	String HABILITA_FUNC_MENSAGENS = "habilitaFuncMensagens";
+	String HABILITA_FUNC_NOTIFICACOES = "habilitaFuncNotificacoes";
+	String HABILITA_FUNC_MENSAGENS_ADMIN = "habilitaFuncMensagensAdmin";	
+	
 
 	boolean validarLoginPassword(UsuarioForm form);
 	

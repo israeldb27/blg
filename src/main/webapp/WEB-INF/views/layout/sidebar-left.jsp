@@ -68,6 +68,18 @@
                         <span class="pull-right"><i class="fa fa-trophy"></i></span>
                     </li>
                     <!--/ End category apps -->
+                    
+                    
+                    <!-- Start navigation - Cadastrar Imovel -->
+                    <li class="submenu">
+                        <a href="${urlImovel}/prepararCadastroImovel">
+                            <span class="icon"><i class="fa fa-search"></i></span>
+                            <span class="text"><spring:message code="lbl.title.link.consultas"/></span>
+                            <span class="arrow"></span>
+                        </a>
+                    </li>                    
+                    
+                    <!-- End navigation - Cadastrar Imovel -->
 
                     <!-- Start navigation - Consultas -->
                     <li class="submenu">
@@ -103,194 +115,210 @@
                     </li>
                     <!--/ End navigation - Consultas -->
                     
-                        <!-- Start navigation - Visitas Imóveis -->
-                    <li class="submenu">
-                        <a href="javascript:void(0);">
-                            <span class="icon"><i class="fa fa-television"></i></span>  
-                            <span class="text"><spring:message code="lbl.title.link.imoveis.visualizacoes"/></span>
-                            <% if ( Long.parseLong(request.getSession().getAttribute("quantNovosVisitantes").toString()) > 0l ) {%>
-                            	<span class="label label-danger pull-right rounded">&nbsp;&nbsp; Novo</span>
-                           	 <% } else { %>
-                            	<span class="arrow"></span>
-                             <% }  %>                            
-                        </a>
-                        <ul>
-                        	<li><a href="${urlImovelVisualizado}/listarUsuariosVisitantes/imoveisVisitados"><spring:message code="lbl.title.link.imoveis.visualizacoes.minhas"/></a></li>
-                          
-                        	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovosVisitantes").toString()) > 0l ) {%>
-                        		<li><a href="${urlImovelVisualizado}/listarUsuariosVisitantes/meusImoveisVisitados"><spring:message code="lbl.title.link.imoveis.visualizacoes.recebidas"/><span class="label label-danger pull-right rounded">&nbsp;&nbsp; <%= request.getSession().getAttribute("quantNovosVisitantes") %></span></a></li>
-                        	<% } else { %>
-                            	<li><a href="${urlImovelVisualizado}/listarUsuariosVisitantes/meusImoveisVisitados"><spring:message code="lbl.title.link.imoveis.visualizacoes.recebidas"/></a></li>
-                             <% }  %>                        	                            
-                                                        
-                        </ul>
-                    </li>
+                    <!-- Start navigation - Visitas Imóveis -->                    
+                    <% if ( request.getSession().getAttribute("habilitaFuncVisitasImovel").equals("S") ) {%>
+		                    <li class="submenu">
+		                        <a href="javascript:void(0);">
+		                            <span class="icon"><i class="fa fa-television"></i></span>  
+		                            <span class="text"><spring:message code="lbl.title.link.imoveis.visualizacoes"/></span>
+		                            <% if ( Long.parseLong(request.getSession().getAttribute("quantNovosVisitantes").toString()) > 0l ) {%>
+		                            	<span class="label label-danger pull-right rounded">&nbsp;&nbsp; Novo</span>
+		                           	 <% } else { %>
+		                            	<span class="arrow"></span>
+		                             <% }  %>                            
+		                        </a>
+		                        <ul>
+		                        	<li><a href="${urlImovelVisualizado}/listarUsuariosVisitantes/imoveisVisitados"><spring:message code="lbl.title.link.imoveis.visualizacoes.minhas"/></a></li>
+		                          
+		                        	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovosVisitantes").toString()) > 0l ) {%>
+		                        		<li><a href="${urlImovelVisualizado}/listarUsuariosVisitantes/meusImoveisVisitados"><spring:message code="lbl.title.link.imoveis.visualizacoes.recebidas"/><span class="label label-danger pull-right rounded">&nbsp;&nbsp; <%= request.getSession().getAttribute("quantNovosVisitantes") %></span></a></li>
+		                        	<% } else { %>
+		                            	<li><a href="${urlImovelVisualizado}/listarUsuariosVisitantes/meusImoveisVisitados"><spring:message code="lbl.title.link.imoveis.visualizacoes.recebidas"/></a></li>
+		                             <% }  %>                        	                            
+		                                                        
+		                        </ul>
+		                    </li>                    
+                    <% }  %> 
                     <!--/ End navigation - Visitas Imóveis -->
                     
                      
                      <!-- Start navigation - Propostas -->
-                    <li class="submenu">
-                        <a href="javascript:void(0);">
-                            <span class="icon"><i class="fa fa-money"></i></span>
-                            <span class="text"><spring:message code="lbl.title.link.propostas.imoveis"/></span>
-                            <% if ( Long.parseLong(request.getSession().getAttribute("quantNovasImoveisPropostas").toString()) > 0l ) {%>
-                              	<span class="label label-danger pull-right rounded">&nbsp;&nbsp; Novo</span>
-                            <% } else { %>
-                            	<span class="arrow"></span>                            	
-                            <% }  %>  
-                        </a>
-                        <ul>
-                        	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovasImoveisPropostas").toString()) > 0l ) {%>
-                        		<li><a href="${urlImovelPropostas}/listarImoveisPropostas/propostasRecebidas"><spring:message code="lbl.title.link.propostas.imoveis.recebidas2"/><span class="label label-danger pull-right rounded">&nbsp;&nbsp; <%= request.getSession().getAttribute("quantNovasImoveisPropostas") %></span></a></li>
-                        	<% } else { %>
-                            	<li><a href="${urlImovelPropostas}/listarImoveisPropostas/propostasRecebidas"><spring:message code="lbl.title.link.propostas.imoveis.recebidas2"/></a></li>                            	
-                            <% }  %>
-                        	                            
-                            <li><a href="${urlImovelPropostas}/listarImoveisPropostas/propostasLancadas"><spring:message code="lbl.title.link.propostas.imoveis.enviadas2"/></a></li>                            
-                        </ul>
-                    </li>
+                     <% if ( request.getSession().getAttribute("habilitaFuncPropostasImovel").equals("S") ) {%>
+	                    <li class="submenu">
+	                        <a href="javascript:void(0);">
+	                            <span class="icon"><i class="fa fa-money"></i></span>
+	                            <span class="text"><spring:message code="lbl.title.link.propostas.imoveis"/></span>
+	                            <% if ( Long.parseLong(request.getSession().getAttribute("quantNovasImoveisPropostas").toString()) > 0l ) {%>
+	                              	<span class="label label-danger pull-right rounded">&nbsp;&nbsp; Novo</span>
+	                            <% } else { %>
+	                            	<span class="arrow"></span>                            	
+	                            <% }  %>  
+	                        </a>
+	                        <ul>
+	                        	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovasImoveisPropostas").toString()) > 0l ) {%>
+	                        		<li><a href="${urlImovelPropostas}/listarImoveisPropostas/propostasRecebidas"><spring:message code="lbl.title.link.propostas.imoveis.recebidas2"/><span class="label label-danger pull-right rounded">&nbsp;&nbsp; <%= request.getSession().getAttribute("quantNovasImoveisPropostas") %></span></a></li>
+	                        	<% } else { %>
+	                            	<li><a href="${urlImovelPropostas}/listarImoveisPropostas/propostasRecebidas"><spring:message code="lbl.title.link.propostas.imoveis.recebidas2"/></a></li>                            	
+	                            <% }  %>
+	                        	                            
+	                            <li><a href="${urlImovelPropostas}/listarImoveisPropostas/propostasLancadas"><spring:message code="lbl.title.link.propostas.imoveis.enviadas2"/></a></li>                            
+	                        </ul>
+	                    </li>
+                    <% }  %> 
                     <!--/ End navigation - Propostas -->
                     
                     <!-- Start navigation - Favoritos -->
-                    <li class="submenu">  
-                        <a href="javascript:void(0);">
-                            <span class="icon"><i class="fa fa-thumbs-up"></i></span>                            
-                            <span class="text"><spring:message code="lbl.title.link.lista.Favoritos"/></span>                                                        
-                            <% if ( Long.parseLong(request.getSession().getAttribute("quantNovoUsuarioInteressado").toString()) > 0l ) {%>
-                            	<span class="label label-danger pull-right rounded">&nbsp;&nbsp; <spring:message code="lbl.opcao.geral.novo"/> </span>
-                            <% } else { %>
-                            	<span class="arrow"></span>
-                             <% }  %>                             
-                        </a>
-                        <ul>
-                        	<li><a href="${urlImovelFavoritos}/listarInteresse/meuInteresse"><spring:message code="lbl.title.link.lista.Favoritos.meus.Favoritos"/></a></li>
-                        
-                        	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovoUsuarioInteressado").toString()) > 0l ) {%>
-                        		<li><a href="${urlImovelFavoritos}/listarInteresse/usuariosInteressados"><spring:message code="lbl.title.link.lista.Favoritos.usuarios.interessados"/><span class="label label-danger pull-right rounded">&nbsp;&nbsp; <%= request.getSession().getAttribute("quantNovoUsuarioInteressado") %></span></a></li>
-                        	<% } else { %>
-                            	<li><a href="${urlImovelFavoritos}/listarInteresse/usuariosInteressados"><spring:message code="lbl.title.link.lista.Favoritos.usuarios.interessados"/></a></li>
-                             <% }  %>                   
-                        </ul>
-                    </li>
+                    <% if ( request.getSession().getAttribute("habilitaFuncFavoritosImovel").equals("S") ) {%>
+	                    <li class="submenu">  
+	                        <a href="javascript:void(0);">
+	                            <span class="icon"><i class="fa fa-thumbs-up"></i></span>                            
+	                            <span class="text"><spring:message code="lbl.title.link.lista.Favoritos"/></span>                                                        
+	                            <% if ( Long.parseLong(request.getSession().getAttribute("quantNovoUsuarioInteressado").toString()) > 0l ) {%>
+	                            	<span class="label label-danger pull-right rounded">&nbsp;&nbsp; <spring:message code="lbl.opcao.geral.novo"/> </span>
+	                            <% } else { %>
+	                            	<span class="arrow"></span>
+	                             <% }  %>                             
+	                        </a>
+	                        <ul>
+	                        	<li><a href="${urlImovelFavoritos}/listarInteresse/meuInteresse"><spring:message code="lbl.title.link.lista.Favoritos.meus.Favoritos"/></a></li>
+	                        
+	                        	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovoUsuarioInteressado").toString()) > 0l ) {%>
+	                        		<li><a href="${urlImovelFavoritos}/listarInteresse/usuariosInteressados"><spring:message code="lbl.title.link.lista.Favoritos.usuarios.interessados"/><span class="label label-danger pull-right rounded">&nbsp;&nbsp; <%= request.getSession().getAttribute("quantNovoUsuarioInteressado") %></span></a></li>
+	                        	<% } else { %>
+	                            	<li><a href="${urlImovelFavoritos}/listarInteresse/usuariosInteressados"><spring:message code="lbl.title.link.lista.Favoritos.usuarios.interessados"/></a></li>
+	                             <% }  %>                   
+	                        </ul>
+	                    </li>
+                    <% }  %> 
                     <!--/ End navigation - Favoritos -->  
                     
-                      <!-- Start navigation - Indicações -->
-                    <li class="submenu">
-                        <a href="javascript:void(0);">
-                            <span class="icon"><i class="fa fa-arrows"></i></span>
-                            <span class="text"><spring:message code="lbl.title.link.imoveis.indicacoes"/> </span>
-                            <% if ( Long.parseLong(request.getSession().getAttribute("quantNovoImovelIndicado").toString()) > 0l ) {%>
-                              	<span class="label label-danger pull-right rounded">&nbsp;&nbsp; Novo</span>
-                            <% } else { %>
-                            	<span class="arrow"></span>                            	
-                            <% }  %>
-                        </a>
-                        <ul>
-                        	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovoImovelIndicado").toString()) > 0l ) {%>
-                        		<li><a href="${urlImovelIndicado}/listarImoveisIndicados/indicado"><spring:message code="lbl.title.link.imoveis.indicacoes.recebidas2"/><span class="label label-danger pull-right rounded">&nbsp;&nbsp; <%= request.getSession().getAttribute("quantNovoImovelIndicado") %></span></a></li>
-                        	<% } else { %>
-                        		<li><a href="${urlImovelIndicado}/listarImoveisIndicados/indicado"><spring:message code="lbl.title.link.imoveis.indicacoes.recebidas2"/></a></li>
-                        	<% }  %>
-                        	                            
-                            <li><a href="${urlImovelIndicado}/listarImoveisIndicados/indicacoes"><spring:message code="lbl.title.link.imoveis.indicacoes.enviadas2"/></a></li>                            
-                        </ul>
-                    </li>
-                    <!--/ End navigation - Indicações-->
-                    
-                         <!-- Start navigation - Notas -->
-                    <li class="submenu">
-                        <a href="javascript:void(0);">  
-                            <span class="icon"><i class="fa fa-sticky-note-o"></i></span>
-                            <span class="text"><spring:message code="lbl.title.link.notas"/></span>
-                            <span class="arrow"></span>            
-                        </a>
-                        <ul>  
-                        	<li><a href="${urlNota}/minhasNotas"><spring:message code="lbl.title.link.minhas.notas"/></a></li>                            
-                            <li><a href="${urlNota}/notasContatos"><spring:message code="lbl.title.link.notas.contatos"/></a></li>
-                        </ul>
-                    </li>
-                    <!--/ End navigation - Notas-->
-                    
-                  <!-- Start navigation - Intermediações -->
-                    <li class="submenu">
-                        <a href="javascript:void(0);">
-                            <span class="icon"><i class="fa fa-industry"></i></span>
-                            <span class="text"><spring:message code="lbl.title.link.intermediacoes"/></span>
-                            <c:if test="${usuario.perfil == 'P'}">
-                            	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovasIntermediacoes").toString()) > 0l ) {%>
+                    <!-- Start navigation - Indicações -->
+                    <% if ( request.getSession().getAttribute("habilitaFuncIndicaImovel").equals("S") ) {%>
+	                    <li class="submenu">
+	                        <a href="javascript:void(0);">
+	                            <span class="icon"><i class="fa fa-arrows"></i></span>
+	                            <span class="text"><spring:message code="lbl.title.link.imoveis.indicacoes"/> </span>
+	                            <% if ( Long.parseLong(request.getSession().getAttribute("quantNovoImovelIndicado").toString()) > 0l ) {%>
 	                              	<span class="label label-danger pull-right rounded">&nbsp;&nbsp; Novo</span>
 	                            <% } else { %>
 	                            	<span class="arrow"></span>                            	
 	                            <% }  %>
-                            </c:if>  
-                            <c:if test="${usuario.perfil == 'P'}">
-                            	<span class="arrow"></span>
-                            </c:if>
-                        </a>
-                        <ul>
-                        	<li><a href="${urlIntermediacao}/listarImoveisIntermediacoes/intermediacaoAceita"><spring:message code="lbl.title.link.aceita"/></a></li> 
-                        	
-                        	<c:if test="${usuario.perfil == 'P'}">
-                        		<% if ( Long.parseLong(request.getSession().getAttribute("quantNovasIntermediacoes").toString()) > 0l ) {%>
-	                        		<li><a href="${urlIntermediacao}/listarImoveisIntermediacoes/intermediacaoSolRecebida"><spring:message code="lbl.title.link.solicitacoes.recebidas"/><span class="label label-danger pull-right rounded">&nbsp;&nbsp; <%= request.getSession().getAttribute("quantNovasIntermediacoes") %></span></a></li>
-	                        	<% } else { %>
-	                            	<li><a href="${urlIntermediacao}/listarImoveisIntermediacoes/intermediacaoSolRecebida"><spring:message code="lbl.title.link.solicitacoes.recebidas"/></a></li>	                            	
-	                            <% }  %>
-                        	</c:if>
-                        	<c:if test="${usuario.perfil != 'P'}">
-                        		<li><a href="${urlIntermediacao}/listarImoveisIntermediacoes/intermediacaoMinhasSol"><spring:message code="lbl.title.link.solicitacoes.enviadas"/></a></li>
-                        	</c:if>                            
-                            
-                        </ul>
-                    </li>
-                    <!--/ End navigation - Intermediações-->
-                    
-                    <c:if test="${usuario.perfil != 'P'}">
-	                    <!-- Start navigation - Parcerias -->
-	                    <li class="submenu">
-	                        <a href="javascript:void(0);">
-	                            <span class="icon"><i class="fa fa-users"></i></span>
-	                            <span class="text"><spring:message code="lbl.title.link.parcerias"/></span>   
-	                            <% if ( Long.parseLong(request.getSession().getAttribute("quantNovasParcerias").toString()) > 0l ) {%>
-	                               	<span class="label label-danger pull-right rounded">&nbsp;&nbsp; Novo</span>
-	                            <% } else { %>
-	                            	<span class="arrow"></span>                            	
-	                            <% }  %> 
 	                        </a>
 	                        <ul>
-	                        	<li><a href="${urlParceria}/listarImoveisParcerias/parceriaAceita"><spring:message code="lbl.title.link.aceita"/></a></li> 
-	                        	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovasParcerias").toString()) > 0l ) {%>
-	                        		<li><a href="${urlParceria}/listarImoveisParcerias/parceriaSolRecebida"><spring:message code="lbl.title.link.solicitacoes.recebidas"/><span class="label label-danger pull-right rounded">&nbsp;&nbsp; <%= request.getSession().getAttribute("quantNovasParcerias") %></span></a></li>
+	                        	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovoImovelIndicado").toString()) > 0l ) {%>
+	                        		<li><a href="${urlImovelIndicado}/listarImoveisIndicados/indicado"><spring:message code="lbl.title.link.imoveis.indicacoes.recebidas2"/><span class="label label-danger pull-right rounded">&nbsp;&nbsp; <%= request.getSession().getAttribute("quantNovoImovelIndicado") %></span></a></li>
 	                        	<% } else { %>
-	                            	<li><a href="${urlParceria}/listarImoveisParcerias/parceriaSolRecebida"><spring:message code="lbl.title.link.solicitacoes.recebidas"/></a></li>                            	
-	                            <% }  %>                                                        
-	                                                        
-	                            <li><a href="${urlParceria}/listarImoveisParcerias/parceriaMinhasSol"><spring:message code="lbl.title.link.solicitacoes.enviadas"/></a></li>
+	                        		<li><a href="${urlImovelIndicado}/listarImoveisIndicados/indicado"><spring:message code="lbl.title.link.imoveis.indicacoes.recebidas2"/></a></li>
+	                        	<% }  %>
+	                        	                            
+	                            <li><a href="${urlImovelIndicado}/listarImoveisIndicados/indicacoes"><spring:message code="lbl.title.link.imoveis.indicacoes.enviadas2"/></a></li>                            
 	                        </ul>
 	                    </li>
-	                    <!--/ End navigation - Parcerias-->
-                    </c:if>
+                    <% }  %> 
+                    <!--/ End navigation - Indicações-->
+                    
+                    <!-- Start navigation - Notas -->
+                    <% if ( request.getSession().getAttribute("habilitaFuncNotas").equals("S") ) {%>     
+	                    <li class="submenu">
+	                        <a href="javascript:void(0);">  
+	                            <span class="icon"><i class="fa fa-sticky-note-o"></i></span>
+	                            <span class="text"><spring:message code="lbl.title.link.notas"/></span>
+	                            <span class="arrow"></span>            
+	                        </a>
+	                        <ul>  
+	                        	<li><a href="${urlNota}/minhasNotas"><spring:message code="lbl.title.link.minhas.notas"/></a></li>                            
+	                            <li><a href="${urlNota}/notasContatos"><spring:message code="lbl.title.link.notas.contatos"/></a></li>
+	                        </ul>
+	                    </li>
+                    <% }  %> 
+                    <!--/ End navigation - Notas-->
+                    
+                  <!-- Start navigation - Intermediações -->
+                  <% if ( request.getSession().getAttribute("habilitaFuncIntermImovel").equals("S") ) {%>                  
+	                    <li class="submenu">
+	                        <a href="javascript:void(0);">
+	                            <span class="icon"><i class="fa fa-industry"></i></span>
+	                            <span class="text"><spring:message code="lbl.title.link.intermediacoes"/></span>
+	                            <c:if test="${usuario.perfil == 'P'}">
+	                            	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovasIntermediacoes").toString()) > 0l ) {%>
+		                              	<span class="label label-danger pull-right rounded">&nbsp;&nbsp; Novo</span>
+		                            <% } else { %>
+		                            	<span class="arrow"></span>                            	
+		                            <% }  %>
+	                            </c:if>  
+	                            <c:if test="${usuario.perfil == 'P'}">
+	                            	<span class="arrow"></span>
+	                            </c:if>
+	                        </a>
+	                        <ul>
+	                        	<li><a href="${urlIntermediacao}/listarImoveisIntermediacoes/intermediacaoAceita"><spring:message code="lbl.title.link.aceita"/></a></li> 
+	                        	
+	                        	<c:if test="${usuario.perfil == 'P'}">
+	                        		<% if ( Long.parseLong(request.getSession().getAttribute("quantNovasIntermediacoes").toString()) > 0l ) {%>
+		                        		<li><a href="${urlIntermediacao}/listarImoveisIntermediacoes/intermediacaoSolRecebida"><spring:message code="lbl.title.link.solicitacoes.recebidas"/><span class="label label-danger pull-right rounded">&nbsp;&nbsp; <%= request.getSession().getAttribute("quantNovasIntermediacoes") %></span></a></li>
+		                        	<% } else { %>
+		                            	<li><a href="${urlIntermediacao}/listarImoveisIntermediacoes/intermediacaoSolRecebida"><spring:message code="lbl.title.link.solicitacoes.recebidas"/></a></li>	                            	
+		                            <% }  %>
+	                        	</c:if>
+	                        	<c:if test="${usuario.perfil != 'P'}">
+	                        		<li><a href="${urlIntermediacao}/listarImoveisIntermediacoes/intermediacaoMinhasSol"><spring:message code="lbl.title.link.solicitacoes.enviadas"/></a></li>
+	                        	</c:if>                            
+	                            
+	                        </ul>
+	                    </li>
+                    <% }  %> 
+                    <!--/ End navigation - Intermediações-->
+                    
+                    <% if ( request.getSession().getAttribute("habilitaFuncParceriaImovel").equals("S") ) {%>
+	                    <c:if test="${usuario.perfil != 'P'}">                    
+		                    <!-- Start navigation - Parcerias -->
+		                    <li class="submenu">
+		                        <a href="javascript:void(0);">
+		                            <span class="icon"><i class="fa fa-users"></i></span>
+		                            <span class="text"><spring:message code="lbl.title.link.parcerias"/></span>   
+		                            <% if ( Long.parseLong(request.getSession().getAttribute("quantNovasParcerias").toString()) > 0l ) {%>
+		                               	<span class="label label-danger pull-right rounded">&nbsp;&nbsp; Novo</span>
+		                            <% } else { %>
+		                            	<span class="arrow"></span>                            	
+		                            <% }  %> 
+		                        </a>
+		                        <ul>
+		                        	<li><a href="${urlParceria}/listarImoveisParcerias/parceriaAceita"><spring:message code="lbl.title.link.aceita"/></a></li> 
+		                        	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovasParcerias").toString()) > 0l ) {%>
+		                        		<li><a href="${urlParceria}/listarImoveisParcerias/parceriaSolRecebida"><spring:message code="lbl.title.link.solicitacoes.recebidas"/><span class="label label-danger pull-right rounded">&nbsp;&nbsp; <%= request.getSession().getAttribute("quantNovasParcerias") %></span></a></li>
+		                        	<% } else { %>
+		                            	<li><a href="${urlParceria}/listarImoveisParcerias/parceriaSolRecebida"><spring:message code="lbl.title.link.solicitacoes.recebidas"/></a></li>                            	
+		                            <% }  %>                                                        
+		                                                        
+		                            <li><a href="${urlParceria}/listarImoveisParcerias/parceriaMinhasSol"><spring:message code="lbl.title.link.solicitacoes.enviadas"/></a></li>
+		                        </ul>
+		                    </li>
+		                    <!--/ End navigation - Parcerias-->
+	                    </c:if>
+                    <% }  %> 
                     
 					 <!-- Start navigation - Comentários -->
-                    <li class="submenu">
-                        <a href="javascript:void(0);"> 
-                            <span class="icon"><i class="fa fa-commenting"></i></span>
-                            <span class="text"><spring:message code="lbl.title.link.comentarios.imoveis"/></span>
-                            <% if ( Long.parseLong(request.getSession().getAttribute("quantNovoComentario").toString()) > 0l ) {%>
-                              	<span class="label label-danger pull-right rounded">&nbsp;&nbsp; Novo</span>
-                            <% } else { %>
-                            	<span class="arrow"></span>                            	
-                            <% }  %> 
-                        </a>
-                        <ul>
-                        	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovoComentario").toString()) > 0l ) {%>
-                        		<li><a href="${urlImovelComentario}/listarMeusComentarios/comentariosSobreMeusImoveis"><spring:message code="lbl.title.link.comentarios.imoveis.recebidos2"/><span class="label label-danger pull-right rounded">&nbsp;&nbsp; <%= request.getSession().getAttribute("quantNovoComentario") %></span></a></li>
-                        	<% } else { %>
-                            	<li><a href="${urlImovelComentario}/listarMeusComentarios/comentariosSobreMeusImoveis"><spring:message code="lbl.title.link.comentarios.imoveis.recebidos2"/></a></li>                            	
-                            <% }  %>
-                        	                            
-                        </ul>
-                    </li>
+					<% if ( request.getSession().getAttribute("habilitaFuncComentariosImovel").equals("S") ) {%>
+		                    <li class="submenu">
+		                        <a href="javascript:void(0);"> 
+		                            <span class="icon"><i class="fa fa-commenting"></i></span>
+		                            <span class="text"><spring:message code="lbl.title.link.comentarios.imoveis"/></span>
+		                            <% if ( Long.parseLong(request.getSession().getAttribute("quantNovoComentario").toString()) > 0l ) {%>
+		                              	<span class="label label-danger pull-right rounded">&nbsp;&nbsp; Novo</span>
+		                            <% } else { %>
+		                            	<span class="arrow"></span>                            	
+		                            <% }  %> 
+		                        </a>
+		                        <ul>
+		                        	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovoComentario").toString()) > 0l ) {%>
+		                        		<li><a href="${urlImovelComentario}/listarMeusComentarios/comentariosSobreMeusImoveis"><spring:message code="lbl.title.link.comentarios.imoveis.recebidos2"/><span class="label label-danger pull-right rounded">&nbsp;&nbsp; <%= request.getSession().getAttribute("quantNovoComentario") %></span></a></li>
+		                        	<% } else { %>
+		                            	<li><a href="${urlImovelComentario}/listarMeusComentarios/comentariosSobreMeusImoveis"><spring:message code="lbl.title.link.comentarios.imoveis.recebidos2"/></a></li>                            	
+		                            <% }  %>
+		                        	                            
+		                        </ul>
+		                    </li>
+                    <% }  %> 
                     <!--/ End navigation - Comentários-->  					
                 </ul><!-- /.sidebar-menu -->  
 

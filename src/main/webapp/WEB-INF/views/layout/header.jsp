@@ -133,343 +133,353 @@ function adicionarComparativo(id) {
                         <ul class="nav navbar-nav navbar-right"><!-- /.nav navbar-nav navbar-right -->                        
  
                         <!-- Start convites -->
-                        <li class="dropdown navbar-message">
-							
-							<% if ( Long.parseLong(request.getSession().getAttribute("quantNovosConviteRecebidos").toString()) > 0l ) {%>
-						    	<spring:message code="lbl.contato.hint.header" var="mensagemContato"/>
-                           		<a href="#" class="dropdown-toggle my-tooltip" data-toggle="dropdown" data-placement="bottom" data-original-title="${mensagemContato}"><i class="fa fa-user"></i><span class="count label label-danger rounded"><%= request.getSession().getAttribute("quantNovosConviteRecebidos") %></span></a>
-                            		      
-                            <% } else if ( Long.parseLong(request.getSession().getAttribute("quantConviteRecebidos").toString()) > 0l ) {%>
-							    <spring:message code="lbl.contato.hint.header" var="mensagemContato"/>
-                            	<a href="#" class="dropdown-toggle my-tooltip" data-toggle="dropdown" data-placement="bottom" data-original-title="${mensagemContato}"><i class="fa fa-user"></i></a>
-                            			                            		     
-                            <% } else { %>
-                            	<spring:message code="lbl.contato.hint.header" var="mensagemContato"/>                            	
-								<a href="${urlContato}/listarContatos" class="dropdown-toggle my-tooltip" data-toggle="tooltip" data-placement="bottom" data-original-title="${mensagemContato}"><i class="fa fa-user"></i></a>								
-									
-							<% }  %>
-                            <!-- Start dropdown menu -->
-                            <div class="dropdown-menu animated flipInX">
-                                <div class="dropdown-header">  
-                                	<% if ( Long.parseLong(request.getSession().getAttribute("quantConviteRecebidos").toString()) > 0l ) {%>
-                                		<a href="${urlContato}/convites" class="media">
-	                                    	<span class="title"><spring:message code="lbl.title.link.convites"/> </span>
-	                                    </a>	                                    
-	                                    <span class="option text-right"><a href="${urlContato}/listarContatos">+ <spring:message code="lbl.contatos"/></a></span>                                	
-                                	<% } %>                                		
-                                </div>
-                                <div class="dropdown-body">           
-
-                                    <!-- Start message list -->
-                                    <div class="media-list niceScroll">
-                                    	<c:if test="${!empty sessionScope.listaConviteRecebidos}">
-                                    		<c:forEach var="usuario" items="${sessionScope.listaConviteRecebidos}">                                    		
-	                                    		<a href="${urlContato}/visualizarConvite/${usuario.id}" class="media">
-		                                            <div class="pull-left"><img src="data:image/jpeg;base64,${usuario.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
-		                                            <div class="media-body">
-		                                                <span class="media-heading">${usuario.nome}</span>
-		                                                <span class="media-text">${usuario.perfilFmt}</span>		                                                		                                                
-		                                                <span class="media-meta pull-right"><fmt:formatDate value="${usuario.dataConvite}" pattern='dd/MM/yyyy'/></span>		                                                
-		                                            </div><!-- /.media-body -->
-		                                        </a><!-- /.media -->
-                                    		</c:forEach>		
-                                    	</c:if>
-                                    </div>
-                                    <!--/ End message list -->
-
-                                </div>
-                                <div class="dropdown-footer">
-                                    <a href="${urlContato}/convites"><spring:message code="lbl.title.see.all"/></a>
-                                </div>
-                            </div>
-                            <!--/ End dropdown menu -->
-
-                        </li><!-- /.dropdown navbar-message -->
+                        <% if ( request.getSession().getAttribute("habilitaFuncConvites").equals("S") ) {%>                        
+	                        <li class="dropdown navbar-message">
+								
+								<% if ( Long.parseLong(request.getSession().getAttribute("quantNovosConviteRecebidos").toString()) > 0l ) {%>
+							    	<spring:message code="lbl.contato.hint.header" var="mensagemContato"/>
+	                           		<a href="#" class="dropdown-toggle my-tooltip" data-toggle="dropdown" data-placement="bottom" data-original-title="${mensagemContato}"><i class="fa fa-user"></i><span class="count label label-danger rounded"><%= request.getSession().getAttribute("quantNovosConviteRecebidos") %></span></a>
+	                            		      
+	                            <% } else if ( Long.parseLong(request.getSession().getAttribute("quantConviteRecebidos").toString()) > 0l ) {%>
+								    <spring:message code="lbl.contato.hint.header" var="mensagemContato"/>
+	                            	<a href="#" class="dropdown-toggle my-tooltip" data-toggle="dropdown" data-placement="bottom" data-original-title="${mensagemContato}"><i class="fa fa-user"></i></a>
+	                            			                            		     
+	                            <% } else { %>
+	                            	<spring:message code="lbl.contato.hint.header" var="mensagemContato"/>                            	
+									<a href="${urlContato}/listarContatos" class="dropdown-toggle my-tooltip" data-toggle="tooltip" data-placement="bottom" data-original-title="${mensagemContato}"><i class="fa fa-user"></i></a>								
+										
+								<% }  %>
+	                            <!-- Start dropdown menu -->
+	                            <div class="dropdown-menu animated flipInX">
+	                                <div class="dropdown-header">  
+	                                	<% if ( Long.parseLong(request.getSession().getAttribute("quantConviteRecebidos").toString()) > 0l ) {%>
+	                                		<a href="${urlContato}/convites" class="media">
+		                                    	<span class="title"><spring:message code="lbl.title.link.convites"/> </span>
+		                                    </a>	                                    
+		                                    <span class="option text-right"><a href="${urlContato}/listarContatos">+ <spring:message code="lbl.contatos"/></a></span>                                	
+	                                	<% } %>                                		
+	                                </div>
+	                                <div class="dropdown-body">           
+	
+	                                    <!-- Start message list -->
+	                                    <div class="media-list niceScroll">
+	                                    	<c:if test="${!empty sessionScope.listaConviteRecebidos}">
+	                                    		<c:forEach var="usuario" items="${sessionScope.listaConviteRecebidos}">                                    		
+		                                    		<a href="${urlContato}/visualizarConvite/${usuario.id}" class="media">
+			                                            <div class="pull-left"><img src="data:image/jpeg;base64,${usuario.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
+			                                            <div class="media-body">
+			                                                <span class="media-heading">${usuario.nome}</span>
+			                                                <span class="media-text">${usuario.perfilFmt}</span>		                                                		                                                
+			                                                <span class="media-meta pull-right"><fmt:formatDate value="${usuario.dataConvite}" pattern='dd/MM/yyyy'/></span>		                                                
+			                                            </div><!-- /.media-body -->
+			                                        </a><!-- /.media -->
+	                                    		</c:forEach>		
+	                                    	</c:if>
+	                                    </div>
+	                                    <!--/ End message list -->
+	
+	                                </div>
+	                                <div class="dropdown-footer">
+	                                    <a href="${urlContato}/convites"><spring:message code="lbl.title.see.all"/></a>
+	                                </div>
+	                            </div>
+	                            <!--/ End dropdown menu -->
+	
+	                        </li><!-- /.dropdown navbar-message -->
+                        <% }  %> 
                         <!--/ End convites -->                        
                         
-                          <!-- Start Recomendacoes -->
-                        <li class="dropdown navbar-message">
-							<% if ( Long.parseLong(request.getSession().getAttribute("quantNovasRecomendacoes").toString()) > 0l ) {%>
-								<spring:message code="lbl.recomendacao.hint.header" var="recomendacao"/>
-								<a href="#" class="dropdown-toggle my-tooltip" data-toggle="dropdown" data-placement="bottom" data-original-title="${recomendacao}"><i class="fa fa-flag"></i><span class="count label label-danger rounded"><%= request.getSession().getAttribute("quantNovasRecomendacoes") %></span></a>
-							<% } else { %>
-								<spring:message code="lbl.recomendacao.hint.header" var="recomendacao"/>
-								<a href="${urlRecomendacao}/listarRecomendacoesRecebidas" class="dropdown-toggle my-tooltip" data-toggle="tooltip" data-placement="bottom" data-original-title="${recomendacao}"><i class="fa fa-flag"></i></a>							
-							<% }  %>   
-							
-                            <!-- Start dropdown menu -->
-                            <div class="dropdown-menu animated flipInX">
-                                <div class="dropdown-header">
-                               		<a href="${urlRecomendacao}/listarRecomendacoesRecebidas" class="media" >
-                                    	<span class="title"><spring:message code="lbl.title.link.recomendacao"/> </span>
-                                    </a>
-                                </div> 
-                                
-                                <div class="dropdown-body">
-                                  <!-- Start message list -->
-                                    <div class="media-list niceScroll">
-                                    	<c:if test="${!empty sessionScope.listaRecomendacoes}">
-                                    		<c:forEach var="recomendacao" items="${sessionScope.listaRecomendacoes}">
-                                    			<a href="${urlRecomendacao}/visualizarRecomendacaoSelecionado/${recomendacao.id}" class="media">
-                                    			
-		                                            <div class="pull-left"><img src="data:image/jpeg;base64,${recomendacao.usuario.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
-		                                            <div class="media-body">
-		                                                <span class="media-heading">${recomendacao.usuario.nome}  </span>
-		                                                <span class="media-text">${recomendacao.descricao}</span>		                                                		                                                
-		                                                <span class="media-meta pull-right"><fmt:formatDate value="${recomendacao.dataRecomendacao}" pattern='dd/MM/yyyy'/></span>		                                                
-		                                            </div><!-- /.media-body -->
-		                                        </a><!-- /.media -->
-                                    		</c:forEach>		
-                                    	</c:if>                                            
-                                    </div>
-                                    <!--/ End message list -->
-                                </div>
-                                <div class="dropdown-footer"> 
-                                    <a href="${urlRecomendacao}/listarRecomendacoesRecebidas"><spring:message code="lbl.title.see.all"/></a>
-                                </div>
-                            </div>
-                            <!--/ End dropdown menu -->
-
-                        </li><!-- /.dropdown navbar-message -->
+                        <!-- Start Recomendacoes -->
+                        <% if ( request.getSession().getAttribute("habilitaFuncRecomendacoes").equals("S") ) {%>  
+		                        <li class="dropdown navbar-message">
+									<% if ( Long.parseLong(request.getSession().getAttribute("quantNovasRecomendacoes").toString()) > 0l ) {%>
+										<spring:message code="lbl.recomendacao.hint.header" var="recomendacao"/>
+										<a href="#" class="dropdown-toggle my-tooltip" data-toggle="dropdown" data-placement="bottom" data-original-title="${recomendacao}"><i class="fa fa-flag"></i><span class="count label label-danger rounded"><%= request.getSession().getAttribute("quantNovasRecomendacoes") %></span></a>
+									<% } else { %>
+										<spring:message code="lbl.recomendacao.hint.header" var="recomendacao"/>
+										<a href="${urlRecomendacao}/listarRecomendacoesRecebidas" class="dropdown-toggle my-tooltip" data-toggle="tooltip" data-placement="bottom" data-original-title="${recomendacao}"><i class="fa fa-flag"></i></a>							
+									<% }  %>   
+									
+		                            <!-- Start dropdown menu -->
+		                            <div class="dropdown-menu animated flipInX">
+		                                <div class="dropdown-header">
+		                               		<a href="${urlRecomendacao}/listarRecomendacoesRecebidas" class="media" >
+		                                    	<span class="title"><spring:message code="lbl.title.link.recomendacao"/> </span>
+		                                    </a>
+		                                </div> 
+		                                
+		                                <div class="dropdown-body">
+		                                  <!-- Start message list -->
+		                                    <div class="media-list niceScroll">
+		                                    	<c:if test="${!empty sessionScope.listaRecomendacoes}">
+		                                    		<c:forEach var="recomendacao" items="${sessionScope.listaRecomendacoes}">
+		                                    			<a href="${urlRecomendacao}/visualizarRecomendacaoSelecionado/${recomendacao.id}" class="media">
+		                                    			
+				                                            <div class="pull-left"><img src="data:image/jpeg;base64,${recomendacao.usuario.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
+				                                            <div class="media-body">
+				                                                <span class="media-heading">${recomendacao.usuario.nome}  </span>
+				                                                <span class="media-text">${recomendacao.descricao}</span>		                                                		                                                
+				                                                <span class="media-meta pull-right"><fmt:formatDate value="${recomendacao.dataRecomendacao}" pattern='dd/MM/yyyy'/></span>		                                                
+				                                            </div><!-- /.media-body -->
+				                                        </a><!-- /.media -->
+		                                    		</c:forEach>		
+		                                    	</c:if>                                            
+		                                    </div>
+		                                    <!--/ End message list -->
+		                                </div>
+		                                <div class="dropdown-footer"> 
+		                                    <a href="${urlRecomendacao}/listarRecomendacoesRecebidas"><spring:message code="lbl.title.see.all"/></a>
+		                                </div>
+		                            </div>
+		                            <!--/ End dropdown menu -->
+		
+		                        </li><!-- /.dropdown navbar-message -->
+                        <% }  %> 
                         <!--/ End Recomendacoes -->
                                                                                                
                         <!-- Start messages -->
-                        <li class="dropdown navbar-message">
-							<% if ( Long.parseLong(request.getSession().getAttribute("quantNovasMensagens").toString()) > 0l ) {%>
-								<spring:message code="lbl.mensagens.hint.header" var="mensagem"/>
-								<a href="#" class="dropdown-toggle my-tooltip" data-toggle="dropdown" data-placement="bottom" data-original-title="${mensagem}"><i class="fa fa-envelope-o"></i><span class="count label label-danger rounded"><%= request.getSession().getAttribute("quantNovasMensagens") %></span></a>
-							<% } else { %>
-								<spring:message code="lbl.mensagens.hint.header" var="mensagem"/>
-								<a href="${urlMensagem}/minhasMensagens" class="dropdown-toggle my-tooltip" data-toggle="tooltip" data-placement="bottom" data-original-title="${mensagem}"><i class="fa fa-envelope-o"></i></a>							
-							<% }  %>                            
-
-                            <!-- Start dropdown menu -->
-                            <div class="dropdown-menu animated flipInX">
-                                <div class="dropdown-header">  
-                                	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovasMensagens").toString()) > 0l ) {%>
-                                		<a href="${urlMensagem}/minhasNovasMensagens" class="media" >
-	                                    	<span class="title"><spring:message code="lbl.title.link.novas.mensagens"/> <strong>(<%= request.getSession().getAttribute("quantNovasMensagens") %>)</strong></span>
-	                                    </a>
-                                	<% } %>	
-                                </div> 
-                                
-                                <div class="dropdown-body">
-                                  <!-- Start message list -->
-                                    <div class="media-list niceScroll">
-                                    	<c:if test="${!empty sessionScope.listaMensagens}">
-                                    		<c:forEach var="mensagem" items="${sessionScope.listaMensagens}">
-                                    			<c:choose>
-                                    				<c:when test="${mensagem.usuarioDe.id == usuario.id}"> 
-                                    					<a href="${urlMensagem}/maisMensagens/${mensagem.usuarioPara.id}" class="media">
-                                    						<div class="pull-left"><img src="data:image/jpeg;base64,${mensagem.usuarioPara.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
-                                    						<div class="media-body">
-				                                                <span class="media-heading"> ${mensagem.usuarioPara.nome} </span>
-				                                                <span class="media-text">${mensagem.descricao}</span>		                                                		                                                
-				                                                <span class="media-meta pull-right"><fmt:formatDate value="${mensagem.dataMensagem}" pattern='dd/MM/yyyy'/></span>		                                                
-				                                            </div><!-- /.media-body -->                                    							
-                                    					</a>
-                                    				</c:when>
-                                    				
-                                    				<c:when test="${mensagem.usuarioPara.id == usuario.id}">
-                                    					<a href="${urlMensagem}/maisMensagens/${mensagem.usuarioDe.id}" class="media">
-                                    						<div class="pull-left"><img src="data:image/jpeg;base64,${mensagem.usuarioDe.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
-                                    						<div class="media-body">
-				                                                <span class="media-heading"> ${mensagem.usuarioDe.nome} </span>
-				                                                <span class="media-text">${mensagem.descricao}</span>		                                                		                                                
-				                                                <span class="media-meta pull-right"><fmt:formatDate value="${mensagem.dataMensagem}" pattern='dd/MM/yyyy'/></span>		                                                
-				                                            </div><!-- /.media-body -->                                    							
-                                    					</a>
-                                    				</c:when>                                    			
-                                    			</c:choose>                                    	
-                                    		</c:forEach>		
-                                    	</c:if>                                            
-                                    </div>
-                                    <!--/ End message list -->
-                                </div>
-                                <div class="dropdown-footer"> 
-                                    <a href="${urlMensagem}/minhasMensagens"><spring:message code="lbl.title.see.all"/></a>
-                                </div>
-                            </div>
-                            <!--/ End dropdown menu -->
-
-                        </li><!-- /.dropdown navbar-message -->
+                        <% if ( request.getSession().getAttribute("habilitaFuncMensagens").equals("S") ) {%> 
+		                        <li class="dropdown navbar-message">
+									<% if ( Long.parseLong(request.getSession().getAttribute("quantNovasMensagens").toString()) > 0l ) {%>
+										<spring:message code="lbl.mensagens.hint.header" var="mensagem"/>
+										<a href="#" class="dropdown-toggle my-tooltip" data-toggle="dropdown" data-placement="bottom" data-original-title="${mensagem}"><i class="fa fa-envelope-o"></i><span class="count label label-danger rounded"><%= request.getSession().getAttribute("quantNovasMensagens") %></span></a>
+									<% } else { %>
+										<spring:message code="lbl.mensagens.hint.header" var="mensagem"/>
+										<a href="${urlMensagem}/minhasMensagens" class="dropdown-toggle my-tooltip" data-toggle="tooltip" data-placement="bottom" data-original-title="${mensagem}"><i class="fa fa-envelope-o"></i></a>							
+									<% }  %>                            
+		
+		                            <!-- Start dropdown menu -->
+		                            <div class="dropdown-menu animated flipInX">
+		                                <div class="dropdown-header">  
+		                                	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovasMensagens").toString()) > 0l ) {%>
+		                                		<a href="${urlMensagem}/minhasNovasMensagens" class="media" >
+			                                    	<span class="title"><spring:message code="lbl.title.link.novas.mensagens"/> <strong>(<%= request.getSession().getAttribute("quantNovasMensagens") %>)</strong></span>
+			                                    </a>
+		                                	<% } %>	
+		                                </div> 
+		                                
+		                                <div class="dropdown-body">
+		                                  <!-- Start message list -->
+		                                    <div class="media-list niceScroll">
+		                                    	<c:if test="${!empty sessionScope.listaMensagens}">
+		                                    		<c:forEach var="mensagem" items="${sessionScope.listaMensagens}">
+		                                    			<c:choose>
+		                                    				<c:when test="${mensagem.usuarioDe.id == usuario.id}"> 
+		                                    					<a href="${urlMensagem}/maisMensagens/${mensagem.usuarioPara.id}" class="media">
+		                                    						<div class="pull-left"><img src="data:image/jpeg;base64,${mensagem.usuarioPara.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
+		                                    						<div class="media-body">
+						                                                <span class="media-heading"> ${mensagem.usuarioPara.nome} </span>
+						                                                <span class="media-text">${mensagem.descricao}</span>		                                                		                                                
+						                                                <span class="media-meta pull-right"><fmt:formatDate value="${mensagem.dataMensagem}" pattern='dd/MM/yyyy'/></span>		                                                
+						                                            </div><!-- /.media-body -->                                    							
+		                                    					</a>
+		                                    				</c:when>
+		                                    				
+		                                    				<c:when test="${mensagem.usuarioPara.id == usuario.id}">
+		                                    					<a href="${urlMensagem}/maisMensagens/${mensagem.usuarioDe.id}" class="media">
+		                                    						<div class="pull-left"><img src="data:image/jpeg;base64,${mensagem.usuarioDe.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
+		                                    						<div class="media-body">
+						                                                <span class="media-heading"> ${mensagem.usuarioDe.nome} </span>
+						                                                <span class="media-text">${mensagem.descricao}</span>		                                                		                                                
+						                                                <span class="media-meta pull-right"><fmt:formatDate value="${mensagem.dataMensagem}" pattern='dd/MM/yyyy'/></span>		                                                
+						                                            </div><!-- /.media-body -->                                    							
+		                                    					</a>
+		                                    				</c:when>                                    			
+		                                    			</c:choose>                                    	
+		                                    		</c:forEach>		
+		                                    	</c:if>                                            
+		                                    </div>
+		                                    <!--/ End message list -->
+		                                </div>
+		                                <div class="dropdown-footer"> 
+		                                    <a href="${urlMensagem}/minhasMensagens"><spring:message code="lbl.title.see.all"/></a>
+		                                </div>
+		                            </div>
+		                            <!--/ End dropdown menu -->
+		
+		                        </li><!-- /.dropdown navbar-message -->
+                        <% }  %> 
                         <!--/ End messages -->
 
                         <!-- Start notifications -->
-                        <li class="dropdown navbar-notification">
-							<% if ( Long.parseLong(session.getAttribute("quantNovasNotificacoes").toString()) > 0l ) {%>
-								<spring:message code="lbl.notificacao.hint.header" var="mensagemNotificacao"/>
-								<a href="#" class="dropdown-toggle my-tooltip" data-toggle="dropdown" data-placement="bottom" data-original-title="${mensagemNotificacao}"><i class="fa fa-bell-o"></i><span class="count label label-danger rounded"><%= session.getAttribute("quantNovasNotificacoes") %></span></a>
-							<% } else { %>
-								<spring:message code="lbl.notificacao.hint.header" var="mensagemNotificacao"/>
-								<a href="${urlNotificacao}/listarMinhasNotificacoes" class="dropdown-toggle my-tooltip" data-placement="bottom" data-original-title="${mensagemNotificacao}" ><i class="fa fa-bell-o"></i></a>							
-							<% }  %>
-
-                            <!-- Start dropdown menu -->
-                            <div class="dropdown-menu animated flipInX">
-                                <div class="dropdown-header">  
-                                	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovasNotificacoes").toString()) > 0l ) {%>
-                                		<a href="${urlNotificacao}/listarMinhasNotificacoes" class="media">
-	                                    	<span class="title"><spring:message code="lbl.title.link.notificacoes"/> <strong>(<%= request.getSession().getAttribute("quantNovasNotificacoes") %>)</strong></span>
-	                                    </a>
-                                	<% }  %>                           
-                                </div>
-                                <div class="dropdown-body niceScroll">
-                                    <!-- Start notification list -->
-                                    <div class="media-list small">
-									<!-- aparecerÃ¡ apenas novas NotificaÃ§Ãµes no pop-up-->
-										<c:if test="${!empty sessionScope.listaNovasNotificacoes}">
-                                    		<c:forEach var="notificacao" items="${sessionScope.listaNovasNotificacoes}">
-												<c:choose> 
-													<c:when test="${notificacao.tipoNotificacao == 'C' }"> <!--notificacao de convite aceito, disponibilizar link para ver detalhes do usuÃ¡rio -->
-														<a href="${urlNotificacao}/selecionarNotificacao/${notificacao.id}" class="media">
-															<div class="pull-left"><img src="data:image/jpeg;base64,${notificacao.usuarioConvite.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
-															<div class="media-body">
-																<span class="media-heading"> ${notificacao.usuarioConvite.nome} <spring:message code="lbl.desc.aceitou.convite"/></span>
-																<span class="media-text"></span>		                                                		                                                
-																<span class="media-meta pull-right"><spring:message code="lbl.data.notificacao"/>:  <fmt:formatDate value='${notificacao.dataNotificacao}' pattern='dd/MM/yyyy'/></span>		                                                
-															</div><!-- /.media-body -->
-														</a><!-- /.media -->
-													</c:when>
-													
-													<c:when test="${notificacao.tipoNotificacao == 'I' }">
-														<a href="${urlNotificacao}/selecionarNotificacao/${notificacao.id}" class="media">
-															<div class="pull-left"><img src="data:image/jpeg;base64,${notificacao.usuario.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
-															<div class="media-body">
-																<span class="media-heading"> 
-																					<c:choose>
-																		   				 <c:when test="${notificacao.acao == 'I'}">	
-																		   				 	${notificacao.imovel.usuario.nome} <spring:message code="lbl.desc.aceitou.intermediacao"/> : ${notificacao.imovel.titulo}
-																		   				 </c:when>
-																		   				 
-																		   				 <c:when test="${notificacao.acao == 'P'}">	
-																		   				 	${notificacao.imovel.usuario.nome} <spring:message code="lbl.desc.aceitou.parceria"/> : ${notificacao.imovel.titulo}
-																		   				 </c:when>
-																		   				 <c:when test="${notificacao.acao == 'F'}">	
-																		   				 	${notificacao.usuarioConvite.nome} <spring:message code="lbl.desc.sol.fechar.negocio"/> : ${notificacao.imovel.titulo}
-																		   				 </c:when>
-																		   				 
-																		   				 <c:when test="${notificacao.acao == 'M'}">	
-																		   				 	${notificacao.usuarioConvite.nome} <spring:message code="lbl.desc.sol.marcar.visita"/> : ${notificacao.imovel.titulo}
-																		   				 </c:when>
-																		   		    </c:choose> 
-															     </span>
-																<span class="media-text"></span>		                                                		                                                
-																<span class="media-meta pull-right"><spring:message code="lbl.data.notificacao"/>:  <fmt:formatDate value='${notificacao.dataNotificacao}' pattern='dd/MM/yyyy'/></span>		                                                
-															</div><!-- /.media-body -->
-														</a><!-- /.media -->												
-													</c:when>
-													
-													<c:when test="${notificacao.tipoNotificacao == 'U' }">
-														<a href="${urlNotificacao}/selecionarNotificacao/${notificacao.id}" class="media">
-															<div class="pull-left"><img src="data:image/jpeg;base64,${notificacao.usuario.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
-															<div class="media-body">
-																<span class="media-heading"> <spring:message code="lbl.desc.seja.bemvindo"/> </span>
-																<span class="media-text"></span>		                                                		                                                
-																<span class="media-meta pull-right"><spring:message code="lbl.data.notificacao"/>:  <fmt:formatDate value='${notificacao.dataNotificacao}' pattern='dd/MM/yyyy'/></span>		                                                
-															</div><!-- /.media-body -->
-														</a><!-- /.media -->												
-													</c:when>
-													
-													<c:when test="${notificacao.tipoNotificacao == 'S' }">
-														<a href="${urlNotificacao}/selecionarNotificacao/${notificacao.id}" class="media">
-															<div class="pull-left"><i class="fa fa-building-o fa-5x"></i></div>
-															<div class="media-body">
-																<span class="media-heading"> <spring:message code="lbl.desc.aceitou.servico"/></span>
-																<span class="media-text"></span>		                                                		                                                
-																<span class="media-meta pull-right"><spring:message code="lbl.data.notificacao"/>:  <fmt:formatDate value='${notificacao.dataNotificacao}' pattern='dd/MM/yyyy'/></span>		                                                
-															</div><!-- /.media-body -->
-														</a><!-- /.media -->												
-													</c:when>	
-													
-													<c:when test="${notificacao.tipoNotificacao == 'P' }">
-														<a href="${urlNotificacao}/selecionarNotificacao/${notificacao.id}" class="media">
-															<div class="pull-left"><i class="fa fa-university fa-5x"></i></i></div>
-															<div class="media-body">
-																<span class="media-heading"> <spring:message code="lbl.desc.aceitou.plano"/></span>
-																<span class="media-text"></span>		                                                		                                                
-																<span class="media-meta pull-right"><spring:message code="lbl.data.notificacao"/>:  <fmt:formatDate value='${notificacao.dataNotificacao}' pattern='dd/MM/yyyy'/></span>		                                                
-															</div><!-- /.media-body -->
-														</a><!-- /.media -->												
-													</c:when>													
-												</c:choose>											
-                                    		</c:forEach>		
-                                    	</c:if>	                                  
-                                    </div>
-                                    <!--/ End notification list -->
-                                </div>
-                                <div class="dropdown-footer">
-                                    <a href="${urlNotificacao}/listarMinhasNotificacoes"><spring:message code="lbl.title.see.all"/></a>
-                                </div>
-                            </div>
-                            <!--/ End dropdown menu -->
-
-                        </li><!-- /.dropdown navbar-notification -->
+                        <% if ( request.getSession().getAttribute("habilitaFuncNotificacoes").equals("S") ) {%> 
+		                        <li class="dropdown navbar-notification">
+									<% if ( Long.parseLong(session.getAttribute("quantNovasNotificacoes").toString()) > 0l ) {%>
+										<spring:message code="lbl.notificacao.hint.header" var="mensagemNotificacao"/>
+										<a href="#" class="dropdown-toggle my-tooltip" data-toggle="dropdown" data-placement="bottom" data-original-title="${mensagemNotificacao}"><i class="fa fa-bell-o"></i><span class="count label label-danger rounded"><%= session.getAttribute("quantNovasNotificacoes") %></span></a>
+									<% } else { %>
+										<spring:message code="lbl.notificacao.hint.header" var="mensagemNotificacao"/>
+										<a href="${urlNotificacao}/listarMinhasNotificacoes" class="dropdown-toggle my-tooltip" data-placement="bottom" data-original-title="${mensagemNotificacao}" ><i class="fa fa-bell-o"></i></a>							
+									<% }  %>
+		
+		                            <!-- Start dropdown menu -->
+		                            <div class="dropdown-menu animated flipInX">
+		                                <div class="dropdown-header">  
+		                                	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovasNotificacoes").toString()) > 0l ) {%>
+		                                		<a href="${urlNotificacao}/listarMinhasNotificacoes" class="media">
+			                                    	<span class="title"><spring:message code="lbl.title.link.notificacoes"/> <strong>(<%= request.getSession().getAttribute("quantNovasNotificacoes") %>)</strong></span>
+			                                    </a>
+		                                	<% }  %>                           
+		                                </div>
+		                                <div class="dropdown-body niceScroll">
+		                                    <!-- Start notification list -->
+		                                    <div class="media-list small">
+											<!-- aparecerÃ¡ apenas novas NotificaÃ§Ãµes no pop-up-->
+												<c:if test="${!empty sessionScope.listaNovasNotificacoes}">
+		                                    		<c:forEach var="notificacao" items="${sessionScope.listaNovasNotificacoes}">
+														<c:choose> 
+															<c:when test="${notificacao.tipoNotificacao == 'C' }"> <!--notificacao de convite aceito, disponibilizar link para ver detalhes do usuÃ¡rio -->
+																<a href="${urlNotificacao}/selecionarNotificacao/${notificacao.id}" class="media">
+																	<div class="pull-left"><img src="data:image/jpeg;base64,${notificacao.usuarioConvite.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
+																	<div class="media-body">
+																		<span class="media-heading"> ${notificacao.usuarioConvite.nome} <spring:message code="lbl.desc.aceitou.convite"/></span>
+																		<span class="media-text"></span>		                                                		                                                
+																		<span class="media-meta pull-right"><spring:message code="lbl.data.notificacao"/>:  <fmt:formatDate value='${notificacao.dataNotificacao}' pattern='dd/MM/yyyy'/></span>		                                                
+																	</div><!-- /.media-body -->
+																</a><!-- /.media -->
+															</c:when>
+															
+															<c:when test="${notificacao.tipoNotificacao == 'I' }">
+																<a href="${urlNotificacao}/selecionarNotificacao/${notificacao.id}" class="media">
+																	<div class="pull-left"><img src="data:image/jpeg;base64,${notificacao.usuario.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
+																	<div class="media-body">
+																		<span class="media-heading"> 
+																							<c:choose>
+																				   				 <c:when test="${notificacao.acao == 'I'}">	
+																				   				 	${notificacao.imovel.usuario.nome} <spring:message code="lbl.desc.aceitou.intermediacao"/> : ${notificacao.imovel.titulo}
+																				   				 </c:when>
+																				   				 
+																				   				 <c:when test="${notificacao.acao == 'P'}">	
+																				   				 	${notificacao.imovel.usuario.nome} <spring:message code="lbl.desc.aceitou.parceria"/> : ${notificacao.imovel.titulo}
+																				   				 </c:when>
+																				   				 <c:when test="${notificacao.acao == 'F'}">	
+																				   				 	${notificacao.usuarioConvite.nome} <spring:message code="lbl.desc.sol.fechar.negocio"/> : ${notificacao.imovel.titulo}
+																				   				 </c:when>
+																				   				 
+																				   				 <c:when test="${notificacao.acao == 'M'}">	
+																				   				 	${notificacao.usuarioConvite.nome} <spring:message code="lbl.desc.sol.marcar.visita"/> : ${notificacao.imovel.titulo}
+																				   				 </c:when>
+																				   		    </c:choose> 
+																	     </span>
+																		<span class="media-text"></span>		                                                		                                                
+																		<span class="media-meta pull-right"><spring:message code="lbl.data.notificacao"/>:  <fmt:formatDate value='${notificacao.dataNotificacao}' pattern='dd/MM/yyyy'/></span>		                                                
+																	</div><!-- /.media-body -->
+																</a><!-- /.media -->												
+															</c:when>
+															
+															<c:when test="${notificacao.tipoNotificacao == 'U' }">
+																<a href="${urlNotificacao}/selecionarNotificacao/${notificacao.id}" class="media">
+																	<div class="pull-left"><img src="data:image/jpeg;base64,${notificacao.usuario.imagemArquivo}" style="width: 50px; height: 50px; "  class="media-object img-circle" alt="..."/></div>
+																	<div class="media-body">
+																		<span class="media-heading"> <spring:message code="lbl.desc.seja.bemvindo"/> </span>
+																		<span class="media-text"></span>		                                                		                                                
+																		<span class="media-meta pull-right"><spring:message code="lbl.data.notificacao"/>:  <fmt:formatDate value='${notificacao.dataNotificacao}' pattern='dd/MM/yyyy'/></span>		                                                
+																	</div><!-- /.media-body -->
+																</a><!-- /.media -->												
+															</c:when>
+															
+															<c:when test="${notificacao.tipoNotificacao == 'S' }">
+																<a href="${urlNotificacao}/selecionarNotificacao/${notificacao.id}" class="media">
+																	<div class="pull-left"><i class="fa fa-building-o fa-5x"></i></div>
+																	<div class="media-body">
+																		<span class="media-heading"> <spring:message code="lbl.desc.aceitou.servico"/></span>
+																		<span class="media-text"></span>		                                                		                                                
+																		<span class="media-meta pull-right"><spring:message code="lbl.data.notificacao"/>:  <fmt:formatDate value='${notificacao.dataNotificacao}' pattern='dd/MM/yyyy'/></span>		                                                
+																	</div><!-- /.media-body -->
+																</a><!-- /.media -->												
+															</c:when>	
+															
+															<c:when test="${notificacao.tipoNotificacao == 'P' }">
+																<a href="${urlNotificacao}/selecionarNotificacao/${notificacao.id}" class="media">
+																	<div class="pull-left"><i class="fa fa-university fa-5x"></i></i></div>
+																	<div class="media-body">
+																		<span class="media-heading"> <spring:message code="lbl.desc.aceitou.plano"/></span>
+																		<span class="media-text"></span>		                                                		                                                
+																		<span class="media-meta pull-right"><spring:message code="lbl.data.notificacao"/>:  <fmt:formatDate value='${notificacao.dataNotificacao}' pattern='dd/MM/yyyy'/></span>		                                                
+																	</div><!-- /.media-body -->
+																</a><!-- /.media -->												
+															</c:when>													
+														</c:choose>											
+		                                    		</c:forEach>		
+		                                    	</c:if>	                                  
+		                                    </div>
+		                                    <!--/ End notification list -->
+		                                </div>
+		                                <div class="dropdown-footer">
+		                                    <a href="${urlNotificacao}/listarMinhasNotificacoes"><spring:message code="lbl.title.see.all"/></a>
+		                                </div>
+		                            </div>
+		                            <!--/ End dropdown menu -->
+		
+		                        </li><!-- /.dropdown navbar-notification -->
+                        <% }  %> 
                         <!--/ End notifications -->                        
                         
-                         <!-- Start messages -->
-                        <li class="dropdown navbar-message">
-							<% if ( Long.parseLong(request.getSession().getAttribute("quantNovasMensagensAdmin").toString()) > 0l ) {%>
-								<spring:message code="lbl.mensagens.admin.hint.header" var="mensagemAdmin"/>
-								<a href="#" class="dropdown-toggle my-tooltip" data-toggle="dropdown" data-placement="bottom" data-original-title="${mensagemAdmin}"><i class="fa fa-envelope-square"></i><span class="count label label-danger rounded"><%= request.getSession().getAttribute("quantNovasMensagensAdmin") %></span></a>
-							<% } else { %>
-								<spring:message code="lbl.mensagens.admin.hint.header" var="mensagemAdmin"/>
-								<a href="#" class="dropdown-toggle my-tooltip" data-toggle="dropdown" data-placement="bottom" data-original-title="${mensagemAdmin}"><i class="fa fa-envelope-square"></i><span class="count label label-danger rounded"></span></a>															
-							<% }  %>                            
-
-                            <!-- Start dropdown menu -->
-                            <div class="dropdown-menu animated flipInX">
-                                <div class="dropdown-header">     
-                                	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovasMensagensAdmin").toString()) > 0l ) {%>
-                                		<a href="${urlMensagemAdmin}/minhasNovasMensagensAdmin" class="media" >
-	                                    	<span class="title"><spring:message code="lbl.nova.mensagem"/> <strong>(<%= request.getSession().getAttribute("quantNovasMensagensAdmin") %>)</strong></span>
-	                                    </a>                                 	
-                                	<% } else { %>
-                                	    <a href="${urlMensagemAdmin}/minhasMensagensAdmin" class="media" >
-	                                    	<span class="title"><spring:message code="lbl.todas.mensagem"/> </span>
-	                                    </a>                          	
-                               		
-                               		<% }  %>                                 		         
-                                    <span class="option text-right"><a href="${urlMensagemAdmin}/prepararNovaMensagem">+ <spring:message code="lbl.criar.nova.mensagem"/></a></span>
-                                </div> 
-                                
-                                <% if ( Long.parseLong(request.getSession().getAttribute("quantMensagensAdmin").toString()) > 0l ) {%>
-	                                <div class="dropdown-body">                           
-	
-	                                    <!-- Start message list -->
-	                                    <div class="media-list niceScroll">										
-											<c:forEach var="mensagem" items="${sessionScope.listaMensagensAdmin}">
-												<a href="${urlMensagemAdmin}/prepararMaisMensagensAdmin/${mensagem.id}" class="media">
-													<div class="pull-left"></div>
-													<div class="media-body">
-														<span class="media-heading">${mensagem.tipoMensagemFmt}</span>
-														<span class="media-text">${mensagem.descricaoUltimaMensagem}</span>
-														<!-- Start meta icon -->										
-														<span class="media-meta pull-right"><fmt:formatDate value="${mensagem.dataUltimaMensagem}" pattern='dd/MM/yyyy'/></span>
-														<!--/ End meta icon -->
-													</div><!-- /.media-body -->
-												</a><!-- /.media -->
-											</c:forEach>	
-	                                    </div>
-	                                    <!--/ End message list -->
-	                                </div>
-	                                <div class="dropdown-footer"> 
-	                                    <a href="${urlMensagemAdmin}/minhasMensagensAdmin"><spring:message code="lbl.title.see.all"/></a>
-	                                </div>
-                                <% }  else { %>
-                                	<div class="dropdown-body niceScroll">  
-	                                    <br>
-	                                    <div class="media-list small">	
-			                                   <div class="callout callout-info">
-				                                    <strong><spring:message code="lbl.nenhuma.mensagem.recebida"/></strong>                                    
-				                                </div>
-		                                 </div>
-	                                </div>
-                                <% }  %>
-                            </div>
-                            <!--/ End dropdown menu -->
-
-                        </li><!-- /.dropdown navbar-message -->
+                         <!-- Start messages admin -->
+                        <% if ( request.getSession().getAttribute("habilitaFuncMensagensAdmin").equals("S") ) {%> 
+		                        <li class="dropdown navbar-message">
+									<% if ( Long.parseLong(request.getSession().getAttribute("quantNovasMensagensAdmin").toString()) > 0l ) {%>
+										<spring:message code="lbl.mensagens.admin.hint.header" var="mensagemAdmin"/>
+										<a href="#" class="dropdown-toggle my-tooltip" data-toggle="dropdown" data-placement="bottom" data-original-title="${mensagemAdmin}"><i class="fa fa-envelope-square"></i><span class="count label label-danger rounded"><%= request.getSession().getAttribute("quantNovasMensagensAdmin") %></span></a>
+									<% } else { %>
+										<spring:message code="lbl.mensagens.admin.hint.header" var="mensagemAdmin"/>
+										<a href="#" class="dropdown-toggle my-tooltip" data-toggle="dropdown" data-placement="bottom" data-original-title="${mensagemAdmin}"><i class="fa fa-envelope-square"></i><span class="count label label-danger rounded"></span></a>															
+									<% }  %>                            
+		
+		                            <!-- Start dropdown menu -->
+		                            <div class="dropdown-menu animated flipInX">
+		                                <div class="dropdown-header">     
+		                                	<% if ( Long.parseLong(request.getSession().getAttribute("quantNovasMensagensAdmin").toString()) > 0l ) {%>
+		                                		<a href="${urlMensagemAdmin}/minhasNovasMensagensAdmin" class="media" >
+			                                    	<span class="title"><spring:message code="lbl.nova.mensagem"/> <strong>(<%= request.getSession().getAttribute("quantNovasMensagensAdmin") %>)</strong></span>
+			                                    </a>                                 	
+		                                	<% } else { %>
+		                                	    <a href="${urlMensagemAdmin}/minhasMensagensAdmin" class="media" >
+			                                    	<span class="title"><spring:message code="lbl.todas.mensagem"/> </span>
+			                                    </a>                          	
+		                               		
+		                               		<% }  %>                                 		         
+		                                    <span class="option text-right"><a href="${urlMensagemAdmin}/prepararNovaMensagem">+ <spring:message code="lbl.criar.nova.mensagem"/></a></span>
+		                                </div> 
+		                                
+		                                <% if ( Long.parseLong(request.getSession().getAttribute("quantMensagensAdmin").toString()) > 0l ) {%>
+			                                <div class="dropdown-body">                           
+			
+			                                    <!-- Start message list -->
+			                                    <div class="media-list niceScroll">										
+													<c:forEach var="mensagem" items="${sessionScope.listaMensagensAdmin}">
+														<a href="${urlMensagemAdmin}/prepararMaisMensagensAdmin/${mensagem.id}" class="media">
+															<div class="pull-left"></div>
+															<div class="media-body">
+																<span class="media-heading">${mensagem.tipoMensagemFmt}</span>
+																<span class="media-text">${mensagem.descricaoUltimaMensagem}</span>
+																<!-- Start meta icon -->										
+																<span class="media-meta pull-right"><fmt:formatDate value="${mensagem.dataUltimaMensagem}" pattern='dd/MM/yyyy'/></span>
+																<!--/ End meta icon -->
+															</div><!-- /.media-body -->
+														</a><!-- /.media -->
+													</c:forEach>	
+			                                    </div>
+			                                    <!--/ End message list -->
+			                                </div>
+			                                <div class="dropdown-footer"> 
+			                                    <a href="${urlMensagemAdmin}/minhasMensagensAdmin"><spring:message code="lbl.title.see.all"/></a>
+			                                </div>
+		                                <% }  else { %>
+		                                	<div class="dropdown-body niceScroll">  
+			                                    <br>
+			                                    <div class="media-list small">	
+					                                   <div class="callout callout-info">
+						                                    <strong><spring:message code="lbl.nenhuma.mensagem.recebida"/></strong>                                    
+						                                </div>
+				                                 </div>
+			                                </div>
+		                                <% }  %>
+		                            </div>
+		                            <!--/ End dropdown menu -->
+		
+		                        </li><!-- /.dropdown navbar-message -->
+                        <% }  %> 
                         <!--/ End messages -->                        
 
                         <!-- Start profile -->
