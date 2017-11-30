@@ -73,9 +73,9 @@
                     <!-- Start navigation - Cadastrar Imovel -->
                     <li class="submenu">
                         <a href="${urlImovel}/prepararCadastroImovel">
-                            <span class="icon"><i class="fa fa-search"></i></span>
-                            <span class="text"><spring:message code="lbl.title.link.consultas"/></span>
-                            <span class="arrow"></span>
+                            <span class="icon"><i class="fa fa-home"></i></span>
+                            <span class="text"><spring:message code="lbl.title.link.cadastra.imovel"/></span>
+                           
                         </a>
                     </li>                    
                     

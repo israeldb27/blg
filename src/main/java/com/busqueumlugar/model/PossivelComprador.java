@@ -34,7 +34,7 @@ public class PossivelComprador extends BaseEntity implements Serializable {
     private Imovel imovel;
     
 	@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idUsuario")    
+    @JoinColumn(name="idUsuarioComprador")    
     private Usuario usuarioComprador;
 	
     @Column(name = "dataCadastro")

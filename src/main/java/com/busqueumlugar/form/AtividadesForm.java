@@ -13,7 +13,7 @@ public class AtividadesForm extends BaseForm {
 	 private Long id;  
 	 private Imovel imovel;
 	 private Usuario usuario;	
-	 private Date dataAtvidade;  
+	 private Date dataAtividade;  
 	 private String descricao;
 	 private String status; // criado, cancelado, incompleto, completo
 	 private Date dataUltimaAtualizacao;
@@ -37,11 +37,11 @@ public class AtividadesForm extends BaseForm {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	public Date getDataAtvidade() {
-		return dataAtvidade;
+	public Date getDataAtividade() {
+		return dataAtividade;
 	}
-	public void setDataAtvidade(Date dataAtvidade) {
-		this.dataAtvidade = dataAtvidade;
+	public void setDataAtividade(Date dataAtividade) {
+		this.dataAtividade = dataAtividade;
 	}
 	public String getDescricao() {
 		return descricao;

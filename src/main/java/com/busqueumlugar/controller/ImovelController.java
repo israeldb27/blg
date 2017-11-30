@@ -564,7 +564,7 @@ public class ImovelController {
 		}
 	}
 	
-	@RequestMapping(value = "/adicionarAtividadeDetalhesImovel/{novaProposta}/{novaDescricao}")
+	@RequestMapping(value = "/adicionarAtividadeDetalhesImovel/{novaAtividade}/{novaDescricaoAtividade}")
 	@ResponseBody
 	public String adicionarAtividadeDetalhesImovel(@PathVariable("novaAtividade") String novaAtividade,
 											       @PathVariable("novaDescricaoAtividade") String novaDescricaoAtividade,											   
@@ -992,7 +992,8 @@ public class ImovelController {
 		} 		
 	}
 	
-	@RequestMapping(value = "/prepararCadastroImovel", method = RequestMethod.POST)	
+	//@RequestMapping(value = "/prepararCadastroImovel", method = RequestMethod.POST)
+	@RequestMapping(value = "/prepararCadastroImovel")
 	public String prepararCadastroImovel( ModelMap map, 
 									 	  HttpSession session){		
 		try {

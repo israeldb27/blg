@@ -13,6 +13,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import com.busqueumlugar.enumerador.StatusAtividadesEnum;
+import com.busqueumlugar.enumerador.TipoImovelEnum;
 
 @Entity
 @Table(name = "atividades")
@@ -38,7 +42,7 @@ public class Atividades extends BaseEntity implements Serializable {
 	
     @Column(name = "dataAtividade")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dataAtvidade;  
+    private Date dataAtividade;  
     
     @Column(name = "descricao")
     private String descricao;
@@ -50,6 +54,9 @@ public class Atividades extends BaseEntity implements Serializable {
     @Column(name = "dataUltimaAtualizacao")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataUltimaAtualizacao;
+    
+    @Transient
+    private String statusFmt = "";
     
 
 
@@ -83,13 +90,13 @@ public class Atividades extends BaseEntity implements Serializable {
 	}
 
 
-	public Date getDataAtvidade() {
-		return dataAtvidade;
+	public Date getDataAtividade() {
+		return dataAtividade;
 	}
 
 
-	public void setDataAtvidade(Date dataAtvidade) {
-		this.dataAtvidade = dataAtvidade;
+	public void setDataAtividade(Date dataAtividade) {
+		this.dataAtividade = dataAtividade;
 	}
 
 
@@ -120,6 +127,16 @@ public class Atividades extends BaseEntity implements Serializable {
 
 	public void setDataUltimaAtualizacao(Date dataUltimaAtualizacao) {
 		this.dataUltimaAtualizacao = dataUltimaAtualizacao;
+	}
+
+
+	public String getStatusFmt() {
+		return StatusAtividadesEnum.getLabel(this.status);
+	}
+
+
+	public void setStatusFmt(String statusFmt) {
+		this.statusFmt = statusFmt;
 	} 
     
     

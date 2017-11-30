@@ -419,6 +419,7 @@ function prepararModalAtividade(){
 }
 
 function adicionarAtividade(){
+	
 	var x = document.getElementById("novaAtividade");
 	var y = document.getElementById("novaDescricaoAtividade")
 	
@@ -432,7 +433,6 @@ function adicionarAtividade(){
 	
 	if (($("#novaAtividade").val() != '') && ($("#novaDescricaoAtividade").val() != '')) { 
 		$.ajax({  
-		    type: 'GET',	
 	         url: '${urlImovel}/adicionarAtividadeDetalhesImovel/' + x.value + '/' + y.value,
 	         dataType: 'json',
 	         success: function(data){	        	 
@@ -929,11 +929,12 @@ function prepararModalGaleriaFotos(){
                                 		<c:when test="${not  empty imovelForm.listaAtividades }">
                                 			 <table class="table table-striped" >
 		                                         <thead>
-		                                            <tr>
-		                                               <th style="width: 15%;" class="text-center"></th>
+		                                            <tr>		                                              
 		                                               <th style="width: 15%;" class="text-center"><strong><spring:message code="lbl.data.atividade"/></strong></th>
-		                                               <th style="width: 45%;" class="text-center"><strong><spring:message code="lbl.descricao.atividade"/></strong></th>
+		                                               <th style="width: 40%;" class="text-center"><strong><spring:message code="lbl.descricao.atividade"/></strong></th>
 		                                               <th style="width: 15%; text-align: center;"><strong><spring:message code="lbl.status.atividade"/></strong></th>
+		                                          	   <th style="width: 5%;" class="text-center"></th>	
+		                                          	   <th style="width: 5%;" class="text-center"></th>
 		                                            </tr>
 		                                         </thead>
 		
@@ -942,7 +943,10 @@ function prepararModalGaleriaFotos(){
 		                                               <tr>
 		                                               	  <td style="font-size: 13px;" class="text-center"> <small><fmt:formatDate value='${atividade.dataAtividade}' pattern='dd/MM/yyyy'/></small> </td>	
 		                                               	  <td style="font-size: 13px;" class="text-center">${atividade.descricao} </td>
-		                                                  <td style="font-size: 13px;" class="text-center"><small> ${atividade.status} </small></td>
+		                                                  <td style="font-size: 13px;" class="text-center"><small> ${atividade.statusFmt} </small></td>
+		                                                  <td class="text-center" >
+		                                                     <a href="#" onClick="prepararModalConfirmaExclusaoProposta(${imovel.id});" data-toggle="tooltip" data-placement="top" title="" data-original-title="delete"><i class="fa fa-pencil-square-o"></i></a>
+		                                                  </td>
 		                                                  <td class="text-center" >
 		                                                     <a href="#" onClick="prepararModalConfirmaExclusaoProposta(${imovel.id});" data-toggle="tooltip" data-placement="top" title="" data-original-title="delete"><i class="fa fa-trash-o"></i></a>
 		                                                  </td>

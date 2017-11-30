@@ -14,7 +14,7 @@ public interface AtividadesService {
 	
 	List<Atividades> recuperarAtividadesPorIdImovelPorIdUsuario(Long idImovel, Long idUsuario);
 
-	void cadastrarAtividade(ImovelForm form, String novaAtividade,	String novaDescricaoAtividade, UsuarioForm user);
+	void cadastrarAtividade(ImovelForm form, String statusAtividade,	String novaDescricaoAtividade, UsuarioForm user);
 
 	void excluirAtividade(Long idAtividade);
 
