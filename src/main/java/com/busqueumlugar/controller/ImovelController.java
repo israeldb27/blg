@@ -121,6 +121,9 @@ public class ImovelController {
 	@Autowired
 	private NotificacaoService notificacaoService;
 	
+	@Autowired
+	private possivelCompradorOfflineService PossivelCompradorOfflineService;
+	
 	
 	@RequestMapping(value = "/buscarCidades/{idEstado}", method = RequestMethod.GET)
     @ResponseBody
@@ -585,6 +588,31 @@ public class ImovelController {
 			return ImovelService.PATH_ERRO_GERAL;
 		}
 	}
+	
+	
+	@RequestMapping(value = "/adicionarPossivelCompradorOfflineDetalhesImovel/{novaAtividade}/{novaDescricaoAtividade}")
+	@ResponseBody
+	public String adicionarPossivelCompradorOfflineDetalhesImovel(@PathVariable("nome") String @PathVariable("telefone") String telefone,,
+											       				  @PathVariable("telefone") String telefone,
+											       				  @PathVariable("email") String email,
+															      HttpSession session, 	
+															      ModelMap map, 											   
+															      @ModelAttribute("imovelForm") ImovelForm form){
+		
+		try {
+			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
+			possivelCompradorOfflineService.cadastrarPossivelCompradorOffline(form, nome, telefone, email);
+			form.setListaPossivelCompradorOffline(possivelCompradorOfflineService.recuperarListaPossivelCompradorOfflinePorIdImovel(form.getId());
+			map.addAttribute("imovelForm", form );
+			return "ok";
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelController -  adicionarPossivelCompradorOfflineDetalhesImovel");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+	}
+	
 	
 	@RequestMapping(value = "/confirmarExclusaoAtividadeImovel/{idAtividade}", method = RequestMethod.GET)
 	@ResponseBody

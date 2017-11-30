@@ -464,7 +464,52 @@ function confirmarExclusaoAtividadeImovel(){
 			 $('#msgRetornoConfirmExclusaoAtividadeErro').html("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
 		 }
 	 });
-} 
+}
+ 
+
+prepararModalPossivelCompradorOffline(){
+
+	$("#msgPossCompradorOfflineErro").html("");
+	$("#msgErroNomeComprador").html("");
+	$("#msgErroEmailComprador").html("");
+	$("#msgErroTelefoneComprador").html("");
+	$("#msgPossCompradorOfflineErro").html("");		
+	$("#idModalPossivelCompradorOffline").modal("show");
+	$('#msgRetornoPossCompradorOfflineErro').html("");
+}
+
+
+function adicionarPossivelCompradorOffline(){
+
+	var nome = document.getElementById("nomeComprador");
+	var email = document.getElementById("emailComprador")
+	var telefone = document.getElementById("telefoneComprador")
+	
+	if ($("#nomeComprador").val() == ''){  
+		$('#msgErroNomeComprador').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
+	}
+	
+	if ($("#telefoneComprador").val() == '')  { 
+		$('#msgErroTelefoneComprador').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
+	}
+	
+	
+	.ajax({  
+         url: '${urlImovel}/adicionarPossivelCompradorOfflineDetalhesImovel/' + nome.value + '/' + telefone.value  + '/' + email.value,
+         dataType: 'json',
+         success: function(data){	        	 
+        	 if ( data == 'ok') {
+        		 location.reload();
+        	 }
+        	 else  {
+	        	 $('#msgRetornoAtividadeErro').html(data);
+	         }	
+         },	      
+     });
+	
+	
+
+}
 
 
 function mostrarModal(id){
@@ -1098,7 +1143,7 @@ function prepararModalGaleriaFotos(){
                                 	
                                 	<c:if test="${imovelForm.usuarioDonoImovel.id == usuario.id}">                                      
                                           <div class="form-group">
-                                             <input type="button" class="btn btn-primary" onClick="prepararModalPossivelComprador();" value="<spring:message code="btn.modal.adicionar.possivelComprador"/>">
+                                             <input type="button" class="btn btn-primary" onClick="prepararModalPossivelCompradorOffline();" value="<spring:message code="btn.modal.adicionar.possivelComprador"/>">
                                           </div>
                                    </c:if>
                                 	 
@@ -1822,6 +1867,60 @@ function prepararModalGaleriaFotos(){
             </section><!-- /#page-content -->
 
         </section><!-- /#wrapper -->
+        
+        
+        <!-- START Modal - Adicionar Possivel Comprador Offline -->
+            <div id="idModalPossivelCompradorOffline" class="modal fade bs-example-modal-form-comprador-offline" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-photo-viewer">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title"><spring:message code="lbl.modal.cadastrar.possivel.comprador.offline"/></h4>
+                        </div>
+                        <div class="modal-body no-padding">
+                            <form class="form-horizontal form-bordered" role="form" id="input-mask">
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.nome.poss.comprador"/></label>
+                                        <div class="col-sm-5">
+                                        	<input type="text" class="form-control" id="nomeComprador"  > 
+                                            <div id="msgErroNomeComprador" cssClass="errorEntrada"  ></div>                                
+                                        </div>
+                                    </div><!-- /.form-group -->
+                                    <div class="form-group">
+                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.email.poss.comprador"/></label>
+                                        <div class="col-sm-5">
+                                        	<input type="text" class="form-control" id="emailComprador"  > 
+                                            <div id="msgErroEmailComprador" cssClass="errorEntrada"  ></div>                                
+                                        </div>
+                                    </div><!-- /.form-group -->
+                                    <div class="form-group">
+                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.telefone.poss.comprador"/></label>
+                                        <div class="col-sm-5">
+                                        	<input type="text" class="form-control" id="telefoneComprador"  > 
+                                            <div id="msgErroTelefoneComprador" cssClass="errorEntrada"  ></div>                                
+                                        </div>
+                                    </div><!-- /.form-group -->                                                                       
+									<div class="form-group">                                        
+                                        <div id="msgPossCompradorOfflineErro" class="col-sm-4"> </div>
+                                    </div><!-- /.form-group -->
+                                                                        
+                                </div><!-- /.form-body -->
+                                <div class="form-footer">
+                                    <div class="col-sm-offset-3">
+                                    	<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.btn.cancelar.geral"/></button>
+                                        <button type="button" class="btn btn-success" onClick="adicionarPossivelCompradorOffline();"><spring:message code="lbl.btn.adicionar.geral"/></button>
+                                    </div>
+                                </div><!-- /.form-footer -->
+                                
+                                <div id="msgRetornoPossCompradorOfflineErro"> </div>
+                            </form>
+                        </div>
+
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+            <!--/ END Modal - Adicionar Possivel Comprador Offline -->        
         
         <!-- START Modal - Adicionar Atividades -->
             <div id="idModalAtividades" class="modal fade bs-example-modal-form-atividades" tabindex="-1" role="dialog" aria-hidden="true">
