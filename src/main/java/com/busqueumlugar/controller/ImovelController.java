@@ -49,6 +49,7 @@ import com.busqueumlugar.service.IntermediacaoService;
 import com.busqueumlugar.service.NotaService;
 import com.busqueumlugar.service.NotificacaoService;
 import com.busqueumlugar.service.ParceriaService;
+import com.busqueumlugar.service.PossivelCompradorOfflineService;
 import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.MessageUtils;
@@ -122,7 +123,7 @@ public class ImovelController {
 	private NotificacaoService notificacaoService;
 	
 	@Autowired
-	private possivelCompradorOfflineService PossivelCompradorOfflineService;
+	private PossivelCompradorOfflineService possivelCompradorOfflineService ;
 	
 	
 	@RequestMapping(value = "/buscarCidades/{idEstado}", method = RequestMethod.GET)
@@ -590,19 +591,21 @@ public class ImovelController {
 	}
 	
 	
-	@RequestMapping(value = "/adicionarPossivelCompradorOfflineDetalhesImovel/{novaAtividade}/{novaDescricaoAtividade}")
+	@RequestMapping(value = "/adicionarPossivelCompradorOfflineDetalhesImovel/{nome}/{telefone}/{email}/{chanceCompra}/{observacao}")
 	@ResponseBody
-	public String adicionarPossivelCompradorOfflineDetalhesImovel(@PathVariable("nome") String @PathVariable("telefone") String telefone,,
-											       				  @PathVariable("telefone") String telefone,
+	public String adicionarPossivelCompradorOfflineDetalhesImovel(@PathVariable("nome") String nome,
+																  @PathVariable("telefone") String telefone,											       		
 											       				  @PathVariable("email") String email,
+											       				  @PathVariable("chanceCompra") String chanceCompra,
+											       				  @PathVariable("observacao") String observacao,
 															      HttpSession session, 	
 															      ModelMap map, 											   
 															      @ModelAttribute("imovelForm") ImovelForm form){
 		
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
-			possivelCompradorOfflineService.cadastrarPossivelCompradorOffline(form, nome, telefone, email);
-			form.setListaPossivelCompradorOffline(possivelCompradorOfflineService.recuperarListaPossivelCompradorOfflinePorIdImovel(form.getId());
+			possivelCompradorOfflineService.cadastrarPossivelCompradorOffline(form, nome, telefone, email, chanceCompra, observacao);
+			form.setListaPossivelCompradorOffline(possivelCompradorOfflineService.recuperarListaPossivelCompradorOfflinePorIdImovel(form.getId()));
 			map.addAttribute("imovelForm", form );
 			return "ok";
 		} catch (Exception e) {

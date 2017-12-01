@@ -467,24 +467,22 @@ function confirmarExclusaoAtividadeImovel(){
 }
  
 
-prepararModalPossivelCompradorOffline(){
+function prepararModalPossivelCompradorOffline() {
 
-	$("#msgPossCompradorOfflineErro").html("");
-	$("#msgErroNomeComprador").html("");
-	$("#msgErroEmailComprador").html("");
-	$("#msgErroTelefoneComprador").html("");
-	$("#msgPossCompradorOfflineErro").html("");		
+
 	$("#idModalPossivelCompradorOffline").modal("show");
-	$('#msgRetornoPossCompradorOfflineErro').html("");
+	
 }
 
 
 function adicionarPossivelCompradorOffline(){
 
 	var nome = document.getElementById("nomeComprador");
-	var email = document.getElementById("emailComprador")
-	var telefone = document.getElementById("telefoneComprador")
-	
+	var email = document.getElementById("emailComprador");
+	var telefone = document.getElementById("telefoneComprador");	
+	var chanceCompra = document.getElementById("chanceCompraOffline");
+	var observacao = document.getElementById("observacaoPossComprador");
+
 	if ($("#nomeComprador").val() == ''){  
 		$('#msgErroNomeComprador').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
 	}
@@ -493,9 +491,12 @@ function adicionarPossivelCompradorOffline(){
 		$('#msgErroTelefoneComprador').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
 	}
 	
+	if ($("#chanceCompraOffline").val() == '')  { 
+		$('#msgErroChanceCompra').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
+	}
 	
-	.ajax({  
-         url: '${urlImovel}/adicionarPossivelCompradorOfflineDetalhesImovel/' + nome.value + '/' + telefone.value  + '/' + email.value,
+	$.ajax({  
+         url: '${urlImovel}/adicionarPossivelCompradorOfflineDetalhesImovel/' + nome.value + '/' + telefone.value  + '/' + email.value + '/' +  chanceCompra.value + '/' + observacao.value,
          dataType: 'json',
          success: function(data){	        	 
         	 if ( data == 'ok') {
@@ -506,9 +507,6 @@ function adicionarPossivelCompradorOffline(){
 	         }	
          },	      
      });
-	
-	
-
 }
 
 
@@ -1097,26 +1095,25 @@ function prepararModalGaleriaFotos(){
                                 </div>
                                 <div class="panel-body">
                                 	<c:choose>
-                                		<c:when test="${empty imovelForm.listaPossivelCompradorOffline }">
-                                			<div class="callout callout-warning">
-			                                    <strong><spring:message code="msg.nenhum.possivel.comprador"/></strong>		                                    
+                                		<c:when test="${empty imovelForm.listaPossivelCompradorOffline}">
+                                			<div class="callout callout-warning">                                		
+			                                    <strong><spring:message code="msg.nenhum.possivel.comprador"/>${imovelForm.listaPossivelCompradorOffline}</strong>		                                    
 			                                </div>                             			    
 			                                
 	                                      </br> </br>	
                                 		</c:when>
                                 		
-                                		<c:when test="${not  empty imovelForm.listaPossivelCompradorOffline }">
+                                		<c:when test="${not empty imovelForm.listaPossivelCompradorOffline}">
                                 			 <table class="table table-striped" >
 		                                         <thead>
-		                                            <tr>
-		                                               <th style="width: 15%;" class="text-center"></th>
+		                                            <tr>		                                           
 		                                               <th style="width: 15%;" class="text-center"><strong><spring:message code="lbl.data.cadastro.poss.comprador"/></strong></th>
 		                                               <th style="width: 25%;" class="text-center"><strong><spring:message code="lbl.nome.poss.comprador"/></strong></th>
 		                                               <th style="width: 15%;" class="text-center"><strong><spring:message code="lbl.email.poss.comprador"/></strong></th>
 		                                               <th style="width: 10%;" class="text-center"><strong><spring:message code="lbl.telefone.poss.comprador"/></strong></th>                    
 		                                               <th style="width: 15%; text-align: center;"><strong><spring:message code="lbl.chance.compra.poss.comprador"/></strong></th>
-		                                               <th style="width: 15%; text-align: center;"><strong><spring:message code="lbl.porc.chance.compra.poss.comprador"/></strong></th>
 		                                               <th style="width: 15%; text-align: center;"><strong><spring:message code="lbl.observacao.poss.comprador"/></strong></th>
+		                                           	   <th style="width: 15%;" class="text-center"></th>	
 		                                            </tr>
 		                                         </thead>
 		
@@ -1127,8 +1124,7 @@ function prepararModalGaleriaFotos(){
 		                                               	  <td style="font-size: 13px;" class="text-center">${comprador.nomeComprador} </td>
 		                                               	  <td style="font-size: 13px;" class="text-center">${comprador.emailComprador} </td>
 		                                               	  <td style="font-size: 13px;" class="text-center">${comprador.telefoneComprador} </td>
-		                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.chanceCompra} </small></td>
-		                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.porcentagemChanceCompra} </small></td>
+		                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.chanceCompra} </small></td>		                          
 		                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.observacao} </small></td>
 		                                                  <td class="text-center" >
 		                                                     <a href="#" onClick="prepararModalConfirmaExclusaoProposta(${imovel.id});" data-toggle="tooltip" data-placement="top" title="" data-original-title="delete"><i class="fa fa-trash-o"></i></a>
@@ -1867,9 +1863,7 @@ function prepararModalGaleriaFotos(){
             </section><!-- /#page-content -->
 
         </section><!-- /#wrapper -->
-        
-        
-        <!-- START Modal - Adicionar Possivel Comprador Offline -->
+          <!-- START Modal - Adicionar Possivel Comprador Offline -->
             <div id="idModalPossivelCompradorOffline" class="modal fade bs-example-modal-form-comprador-offline" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog modal-lg modal-photo-viewer">
                     <div class="modal-content">
@@ -1887,22 +1881,47 @@ function prepararModalGaleriaFotos(){
                                             <div id="msgErroNomeComprador" cssClass="errorEntrada"  ></div>                                
                                         </div>
                                     </div><!-- /.form-group -->
-                                    <div class="form-group">
-                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.email.poss.comprador"/></label>
-                                        <div class="col-sm-5">
-                                        	<input type="text" class="form-control" id="emailComprador"  > 
-                                            <div id="msgErroEmailComprador" cssClass="errorEntrada"  ></div>                                
-                                        </div>
-                                    </div><!-- /.form-group -->
-                                    <div class="form-group">
-                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.telefone.poss.comprador"/></label>
-                                        <div class="col-sm-5">
-                                        	<input type="text" class="form-control" id="telefoneComprador"  > 
-                                            <div id="msgErroTelefoneComprador" cssClass="errorEntrada"  ></div>                                
-                                        </div>
-                                    </div><!-- /.form-group -->                                                                       
+                                    
+                                     <div class="form-group">
+	                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.email.poss.comprador"/></label>
+	                                        <div class="col-sm-5">
+	                                        	<input type="text" class="form-control" id="emailComprador"  > 
+	                                            <div id="msgErroEmailComprador" cssClass="errorEntrada"  ></div>                                
+	                                        </div>
+	                                  </div><!-- /.form-group -->
+	                                  
+	                                  <div class="form-group">
+	                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.telefone.poss.comprador"/></label>
+	                                        <div class="col-sm-5">
+	                                        	<input type="text" class="form-control" id="telefoneComprador"  > 
+	                                            <div id="msgErroTelefoneComprador" cssClass="errorEntrada"  ></div>                                
+	                                        </div>
+	                                   </div><!-- /.form-group -->  
+	                                   
+	                                       <div class="form-group">
+	                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.chance.compra.poss.comprador"/></label>
+	                                        <div class="col-sm-5">
+	                                        	<select class="form-control" id="chanceCompraOffline" >
+												  <option value="MA" selected="selected"><spring:message code="lbl.poss.comprador.chance.muito.alta"/></option>
+												  <option value="AL"><spring:message code="lbl.poss.comprador.chance.alta"/></option>
+												  <option value="ME"><spring:message code="lbl.poss.comprador.chance.media"/></option>
+												  <option value="BA"><spring:message code="lbl.poss.comprador.chance.baixa"/></option>
+												  <option value="MB"><spring:message code="lbl.poss.comprador.chance.muito.baixa"/></option>
+												</select>   
+	                                            <div id="msgErroChanceCompra" cssClass="errorEntrada"  ></div>                                 
+	                                        </div>
+	                                    </div><!-- /.form-group -->  
+	                                    
+	                                    <div class="form-group">
+	                                        <label for="password-1" class="col-sm-3 control-label"><spring:message code="lbl.observacao.poss.comprador"/></label>
+	                                        <div class="col-sm-5">                                            
+	                                            <textarea rows="5" cols="20" class="form-control " id="observacaoPossComprador"></textarea>
+	                                            <div id="msgErroNovaDescricaoAtividade" cssClass="errorEntrada"  ></div>
+	                                        </div>
+	                                    </div><!-- /.form-group -->                                  
+                                                                                                         
 									<div class="form-group">                                        
-                                        <div id="msgPossCompradorOfflineErro" class="col-sm-4"> </div>
+                                        <div id="msgObservacaoPossCompradorErro" class="col-sm-4"> </div>
                                     </div><!-- /.form-group -->
                                                                         
                                 </div><!-- /.form-body -->
@@ -1920,7 +1939,9 @@ function prepararModalGaleriaFotos(){
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
-            <!--/ END Modal - Adicionar Possivel Comprador Offline -->        
+            <!--/ END Modal - Adicionar Possivel Comprador Offline -->    
+           
+       
         
         <!-- START Modal - Adicionar Atividades -->
             <div id="idModalAtividades" class="modal fade bs-example-modal-form-atividades" tabindex="-1" role="dialog" aria-hidden="true">

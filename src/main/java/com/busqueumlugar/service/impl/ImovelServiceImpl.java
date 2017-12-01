@@ -57,6 +57,7 @@ import com.busqueumlugar.service.ImovelfotosService;
 import com.busqueumlugar.service.ImovelvisualizadoService;
 import com.busqueumlugar.service.IntermediacaoService;
 import com.busqueumlugar.service.NotaService;
+import com.busqueumlugar.service.PossivelCompradorOfflineService;
 import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.DateUtil;
@@ -126,6 +127,9 @@ public class ImovelServiceImpl implements ImovelService{
 	
 	@Autowired
 	private AtividadesService atividadesService;
+	
+	@Autowired
+	private PossivelCompradorOfflineService possivelCompradorOfflineService;
 	
 	@Autowired
 	private ServletContext context;	
@@ -847,7 +851,8 @@ public class ImovelServiceImpl implements ImovelService{
 			form.setListaUsuariosInteressados(imovelFavoritosService.recuperarUsuariosInteressadosPorIdImovel(idImovel));
 			form.setUsuarioDonoImovel(imovel.getUsuario());
 			form.setListaVisita(imovelvisualizadoService.recuperarUsuariosVisitantesPorIdImovel(idImovel));
-			form.setListaAtividades(atividadesService.recuperarAtividadesPorIdImovel(idImovel));			
+			form.setListaAtividades(atividadesService.recuperarAtividadesPorIdImovel(idImovel));
+			form.setListaPossivelCompradorOffline(possivelCompradorOfflineService.recuperarListaPossivelCompradorOfflinePorIdImovel(idImovel));
 			
 			if (usuarioSessao.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){
 				form.setListaIntermediacao(intermediacaoDao.findIntermediacaoByIdImovelByStatus(idImovel, 
