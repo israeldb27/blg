@@ -12,4 +12,8 @@ public interface PossivelCompradorOfflineService {
 	List<PossivelCompradorOffline> recuperarListaPossivelCompradorOfflinePorIdImovel(Long idImovel);
 
 	void cadastrarPossivelCompradorOffline(ImovelForm form, String nome, String telefone, String email, String chanceCompra, String observacao);
+
+	void excluirPossivelCompradorOffline(Long id);
+
+	void editarPossivelCompradorOffline(Long id, String nome, String telefone, String email, String chanceCompra, String observacao);
 }

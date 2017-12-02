@@ -79,7 +79,6 @@ $(window).load(function() {
 	
 });
 $(document).ready(function() {
-
 	$('#myCarousel').carousel({
 	    interval: 4000
 	});
@@ -100,8 +99,6 @@ $(document).ready(function() {
 	  $('[id=carousel-selector-'+id+']').addClass('selected');
 	});
 });	
-
-
 function adicionarInteresse(id) {    	
 	var parametro1 = id;
     $.ajax({                
@@ -167,7 +164,6 @@ function adicionarProposta(){
 	     });
 	}	  
 } 
-
 function prepararModalConfirmaExclusaoProposta(id){
 	$("#modIdProposta").val(id);
 	$('#msgRetornoConfirmExclusaoPropostaErro').html("");	
@@ -185,8 +181,6 @@ function confirmarExclusaoPropostaImovel(){
 		 }
 	 });
 } 
-
-
 function prepararModalComentario(){
 	$("#msgRetornoComentarioErro").html("");
 	$("#idModalComentario").modal("show");
@@ -290,7 +284,6 @@ function prepararModalCancelSolParceria(){
 	$("#msgRetornoCancelSolParceriaErro").html("");	
 	$("#idModalCancelSolParceria").modal("show");	
 }
-
 function cancelarSolParceria(){	
 	$.ajax({      
 			type: 'POST',
@@ -343,13 +336,10 @@ function adicionarComparar(id) {
 		 }
 	 });
 }
-
-
 function prepararModalFecharNegocio(id){
 	$("#msgRetornoFecharNegocioErro").html("");	
 	$("#idModalFecharNegocio").modal("show");	
 }
-
 function notificarFecharNegocio(){	
 	$.ajax({      
 		type: 'POST',
@@ -368,12 +358,10 @@ function notificarFecharNegocio(){
 		 }
 	 });
 }
-
 function prepararModalMarcarVisita(id){
 	$("#msgRetornoMarcarVisitaErro").html("");	
 	$("#idModalMarcarVisita").modal("show");	
 }
-
 function notificarMarcarVisita() {		
     $.post({  
     	type: 'POST',
@@ -392,12 +380,10 @@ function notificarMarcarVisita() {
         }
     });
 }
-
 function prepararModalProcurarCompradores(idImovel){
 	$("#msgRetornoProcurarCompradores").html("");	
 	$("#idModalProcurarCompradores").modal("show");		
 }
-
 function procurarCompradores(){
  $.ajax({  
     	type: 'POST',
@@ -411,17 +397,17 @@ function procurarCompradores(){
         }
     });
 }
-
 function prepararModalAtividade(){
+	$("#novaAtividade").val('');
+	$("#novaDescricaoAtividade").val('');
 	$("#msgRetornoAtividadeErro").html("");	
 	$("#idModalAtividades").modal("show");
 	$('#msgErroNovaDescricaoAtividade').html("");
 }
-
 function adicionarAtividade(){
 	
 	var x = document.getElementById("novaAtividade");
-	var y = document.getElementById("novaDescricaoAtividade")
+	var y = document.getElementById("novaDescricaoAtividade");
 	
 	if ($("#novaAtividade").val() == ''){  
 		$('#msgErroAtividade').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
@@ -447,7 +433,44 @@ function adicionarAtividade(){
 	}
 }
 
-function prepararModalConfirmaExclusaoAtividades(id){
+function prepararModalConfirmaEdicaoAtividade(id, status, descricao){
+	$("#modIdAtividadeEdicao").val(id);
+	$("#novaAtividadeEdicao").val(status);
+	$("#novaDescricaoAtividadeEdicao").val(descricao);
+	$("#idModalEdicaoAtividades").modal("show");
+}
+
+function editarAtividade(){
+	
+	var x = document.getElementById("novaAtividadeEdicao");
+	var y = document.getElementById("novaDescricaoAtividadeEdicao");
+	var z = document.getElementById("modIdAtividadeEdicao");
+	
+	if ($("#novaAtividadeEdicao").val() == ''){  
+		$('#msgErroAtividade').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
+	}
+	
+	if ($("#novaDescricaoAtividadeEdicao").val() == ''){
+		$('#msgErroNovaDescricaoAtividade').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
+	}
+	
+	if (($("#novaAtividadeEdicao").val() != '') && ($("#novaDescricaoAtividadeEdicao").val() != '')) { 
+		$.ajax({  
+	         url: '${urlImovel}/editarAtividadeDetalhesImovel/' + x.value + '/' + y.value + '/' + z.value,
+	         dataType: 'json',
+	         success: function(data){	        	 
+	        	 if ( data == 'ok') {
+	        		 location.reload();
+	        	 }
+	        	 else  {
+		        	 $('#msgRetornoAtividadeErro').html(data);
+		         }	
+	         },	      
+	     });
+	}	
+}
+
+function prepararModalConfirmaExclusaoAtividade(id){
 	$("#modIdAtividade").val(id);
 	$('#msgRetornoConfirmExclusaoAtividadeErro').html("");	
 	$("#idModalConfirmacaoExclusaoAtividade").modal("show");	
@@ -466,23 +489,18 @@ function confirmarExclusaoAtividadeImovel(){
 	 });
 }
  
-
 function prepararModalPossivelCompradorOffline() {
-
-
 	$("#idModalPossivelCompradorOffline").modal("show");
 	
 }
 
-
 function adicionarPossivelCompradorOffline(){
-
 	var nome = document.getElementById("nomeComprador");
 	var email = document.getElementById("emailComprador");
 	var telefone = document.getElementById("telefoneComprador");	
 	var chanceCompra = document.getElementById("chanceCompraOffline");
 	var observacao = document.getElementById("observacaoPossComprador");
-
+	
 	if ($("#nomeComprador").val() == ''){  
 		$('#msgErroNomeComprador').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
 	}
@@ -509,6 +527,70 @@ function adicionarPossivelCompradorOffline(){
      });
 }
 
+function prepararModalConfirmaEdicaoPossivelComprOffline(id, nomeComprador, emailComprador, telefoneComprador, chanceCompra, observacao){
+	
+	$("#modIdPossivelComprOfflineEdicao").val(id);
+	$("#nomeCompradorEdicao").val(nomeComprador);
+	$("#emailCompradorEdicao").val(emailComprador);
+	$("#telefoneCompradorEdicao").val(telefoneComprador);
+	$("#chanceCompraOfflineEdicao").val(chanceCompra);
+	$("#observacaoPossCompradorEdicao").val(observacao);	
+	$("#idModalPossivelCompradorOfflineEdicao").modal("show");	
+}
+
+function editarPossivelCompradorOffline(){
+	
+	var id = document.getElementById("modIdPossivelComprOfflineEdicao");
+	var nome = document.getElementById("nomeCompradorEdicao");
+	var email = document.getElementById("emailCompradorEdicao");
+	var telefone = document.getElementById("telefoneCompradorEdicao");	
+	var chanceCompra = document.getElementById("chanceCompraOfflineEdicao");
+	var observacao = document.getElementById("observacaoPossCompradorEdicao");
+	
+	if ($("#nomeCompradorEdicao").val() == ''){  
+		$('#msgErroNomeComprador').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
+	}
+	
+	if ($("#telefoneCompradorEdicao").val() == '')  { 
+		$('#msgErroTelefoneComprador').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
+	}
+	
+	if ($("#chanceCompraOfflineEdicao").val() == '')  { 
+		$('#msgErroChanceCompra').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
+	}
+	
+	$.ajax({  
+         url: '${urlImovel}/editarPossivelCompradorOfflineDetalhesImovel/' + id.value +  '/' + nome.value + '/' + telefone.value  + '/' + email.value + '/' +  chanceCompra.value + '/' + observacao.value,
+         dataType: 'json',
+         success: function(data){	        	 
+        	 if ( data == 'ok') {
+        		 location.reload();
+        	 }
+        	 else  {
+	        	 $('#msgRetornoAtividadeErro').html(data);
+	         }	
+         },	      
+     });
+}
+
+function prepararModalConfirmaExclusaoPossivelComprOffline(id){
+	$("#modIdPossivelComprOffline").val(id);
+	$("#idModalConfirmacaoExclusaoPossivelComprOffline").modal("show");	
+}
+
+function confirmarExclusaoPossivelComprOfflineImovel(){
+	
+	var parametro = document.getElementById("modIdPossivelComprOffline");	
+	$.ajax({
+		 url: '${urlImovel}/confirmarExclusaoPossivelComprOfflineImovel/' + parametro.value,			 
+		 success: function(){				 
+			 location.reload();     	    
+		 },
+		 error: function(jqXHR, textStatus, errorThrown) {				 
+			 $('#msgRetornoConfirmExclusaoPossivelComprOfflineErro').html("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
+		 }
+	 });	
+}
 
 function mostrarModal(id){
 	
@@ -571,7 +653,6 @@ function mostrarModal(id){
 	
 	$("#idModalItem").modal("show");
 }
-
 function prepararModalGaleriaFotos(){		
 	$("#idModalGaleriaFotos").modal("show");	
 }
@@ -925,7 +1006,7 @@ function prepararModalGaleriaFotos(){
 		                                                  <td style="font-size: 13px;" class="text-center"><small>R$<fmt:formatNumber value="${imovel.valorProposta}" pattern="#,##0.00;-0"/></small></td>
 		                                                  <td style="font-size: 13px;"><small>${imovel.observacao}</small></td>
 		                                                  <td class="text-center" >
-		                                                     <a href="#" onClick="prepararModalConfirmaExclusaoProposta(${imovel.id});" data-toggle="tooltip" data-placement="top" title="" data-original-title="delete"><i class="fa fa-trash-o"></i></a>
+		                                                     <a href="#" onClick="prepararModalConfirmaExclusaoProposta(${imovel.id});" ><i class="fa fa-trash-o"></i></a>
 		                                                  </td>
 		                                               </tr>
 		                                            </c:forEach>
@@ -988,10 +1069,10 @@ function prepararModalGaleriaFotos(){
 		                                               	  <td style="font-size: 13px;" class="text-center">${atividade.descricao} </td>
 		                                                  <td style="font-size: 13px;" class="text-center"><small> ${atividade.statusFmt} </small></td>
 		                                                  <td class="text-center" >
-		                                                     <a href="#" onClick="prepararModalConfirmaExclusaoProposta(${imovel.id});" data-toggle="tooltip" data-placement="top" title="" data-original-title="delete"><i class="fa fa-pencil-square-o"></i></a>
+		                                                     <a href="#a" onClick="prepararModalConfirmaEdicaoAtividade('${atividade.id}', '${atividade.status}', '${atividade.descricao}');" ><i class="fa fa-pencil-square-o"></i></a>
 		                                                  </td>
 		                                                  <td class="text-center" >
-		                                                     <a href="#" onClick="prepararModalConfirmaExclusaoProposta(${imovel.id});" data-toggle="tooltip" data-placement="top" title="" data-original-title="delete"><i class="fa fa-trash-o"></i></a>
+		                                                     <a href="#a" onClick="prepararModalConfirmaExclusaoAtividade(${atividade.id});" ><i class="fa fa-trash-o"></i></a>
 		                                                  </td>
 		                                               </tr>
 		                                            </c:forEach>
@@ -1008,13 +1089,10 @@ function prepararModalGaleriaFotos(){
                                    </c:if>
                                 	 
                                 </div>
-                            </div>
-                          
-                          
+                            </div>      
                           <!-- /.END Atividades --> 
                           
-                          <!-- /.START Possivel Comprador --> 
-                          
+                          <!-- /.START Possivel Comprador -->                           
                            <div class="panel rounded shadow">
                                 <div class="panel-heading">                              
 	                     			<h3 class="panel-title">
@@ -1059,7 +1137,7 @@ function prepararModalGaleriaFotos(){
 		                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.porcentagemChanceCompra} </small></td>
 		                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.observacao} </small></td>
 		                                                  <td class="text-center" >
-		                                                     <a href="#" onClick="prepararModalConfirmaExclusaoProposta(${imovel.id});" data-toggle="tooltip" data-placement="top" title="" data-original-title="delete"><i class="fa fa-trash-o"></i></a>
+		                                                     <a href="#" onClick="prepararModalConfirmaExclusaoProposta(${imovel.id});" ><i class="fa fa-trash-o"></i></a>
 		                                                  </td>
 		                                               </tr>
 		                                            </c:forEach>
@@ -1073,8 +1151,7 @@ function prepararModalGaleriaFotos(){
                                           <div class="form-group">
                                              <input type="button" class="btn btn-primary" onClick="prepararModalPossivelComprador();" value="<spring:message code="btn.modal.adicionar.possivelComprador"/>">
                                           </div>
-                                   </c:if>
-                                	 
+                                   </c:if>                                	 
                                 </div>
                             </div>    
                           <!-- /.END Possivel Comprador --> 
@@ -1124,10 +1201,13 @@ function prepararModalGaleriaFotos(){
 		                                               	  <td style="font-size: 13px;" class="text-center">${comprador.nomeComprador} </td>
 		                                               	  <td style="font-size: 13px;" class="text-center">${comprador.emailComprador} </td>
 		                                               	  <td style="font-size: 13px;" class="text-center">${comprador.telefoneComprador} </td>
-		                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.chanceCompra} </small></td>		                          
+		                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.chanceCompraFmt} </small></td>		                          
 		                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.observacao} </small></td>
 		                                                  <td class="text-center" >
-		                                                     <a href="#" onClick="prepararModalConfirmaExclusaoProposta(${imovel.id});" data-toggle="tooltip" data-placement="top" title="" data-original-title="delete"><i class="fa fa-trash-o"></i></a>
+		                                                     <a href="#a" onClick="prepararModalConfirmaEdicaoPossivelComprOffline('${comprador.id}', '${comprador.nomeComprador}', '${comprador.emailComprador}', '${comprador.telefoneComprador}', '${comprador.chanceCompra}', '${comprador.observacao}');" ><i class="fa fa-pencil-square-o"></i></a>
+		                                                  </td>		                                                  
+		                                                  <td class="text-center" >
+		                                                     <a href="#a" onClick="prepararModalConfirmaExclusaoPossivelComprOffline(${comprador.id});" ><i class="fa fa-trash-o"></i></a>
 		                                                  </td>
 		                                               </tr>
 		                                            </c:forEach>
@@ -1863,6 +1943,7 @@ function prepararModalGaleriaFotos(){
             </section><!-- /#page-content -->
 
         </section><!-- /#wrapper -->
+          
           <!-- START Modal - Adicionar Possivel Comprador Offline -->
             <div id="idModalPossivelCompradorOffline" class="modal fade bs-example-modal-form-comprador-offline" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog modal-lg modal-photo-viewer">
@@ -1939,10 +2020,111 @@ function prepararModalGaleriaFotos(){
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
-            <!--/ END Modal - Adicionar Possivel Comprador Offline -->    
-           
-       
-        
+            <!--/ END Modal - Adicionar Possivel Comprador Offline -->  
+            
+            <!-- START Modal - Editar Possivel Comprador Offline -->
+            <div id="idModalPossivelCompradorOfflineEdicao" class="modal fade bs-example-modal-form-comprador-offline-edicao" tabindex="-1" role="dialog" aria-hidden="true">
+              	<input type="hidden" id="modIdPossivelComprOfflineEdicao" readonly="readonly" name="modIdPossivelComprOfflineEdicao">
+                <div class="modal-dialog modal-lg modal-photo-viewer">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title"><spring:message code="lbl.modal.editar.possivel.comprador.offline"/></h4>
+                        </div>
+                        <div class="modal-body no-padding">
+                            <form class="form-horizontal form-bordered" role="form" id="input-mask">
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.nome.poss.comprador"/></label>
+                                        <div class="col-sm-5">
+                                        	<input type="text" class="form-control" id="nomeCompradorEdicao"  > 
+                                            <div id="msgErroNomeComprador" cssClass="errorEntrada"  ></div>                                
+                                        </div>
+                                    </div><!-- /.form-group -->
+                                    
+                                     <div class="form-group">
+	                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.email.poss.comprador"/></label>
+	                                        <div class="col-sm-5">
+	                                        	<input type="text" class="form-control" id="emailCompradorEdicao"  > 
+	                                            <div id="msgErroEmailComprador" cssClass="errorEntrada"  ></div>                                
+	                                        </div>
+	                                  </div><!-- /.form-group -->
+	                                  
+	                                  <div class="form-group">
+	                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.telefone.poss.comprador"/></label>
+	                                        <div class="col-sm-5">
+	                                        	<input type="text" class="form-control" id="telefoneCompradorEdicao"  > 
+	                                            <div id="msgErroTelefoneComprador" cssClass="errorEntrada"  ></div>                                
+	                                        </div>
+	                                   </div><!-- /.form-group -->  
+	                                   
+	                                       <div class="form-group">
+	                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.chance.compra.poss.comprador"/></label>
+	                                        <div class="col-sm-5">
+	                                        	<select class="form-control" id="chanceCompraOfflineEdicao" >
+												  <option value="MA" selected="selected"><spring:message code="lbl.poss.comprador.chance.muito.alta"/></option>
+												  <option value="AL"><spring:message code="lbl.poss.comprador.chance.alta"/></option>
+												  <option value="ME"><spring:message code="lbl.poss.comprador.chance.media"/></option>
+												  <option value="BA"><spring:message code="lbl.poss.comprador.chance.baixa"/></option>
+												  <option value="MB"><spring:message code="lbl.poss.comprador.chance.muito.baixa"/></option>
+												</select>   
+	                                            <div id="msgErroChanceCompra" cssClass="errorEntrada"  ></div>                                 
+	                                        </div>
+	                                    </div><!-- /.form-group -->  
+	                                    
+	                                    <div class="form-group">
+	                                        <label for="password-1" class="col-sm-3 control-label"><spring:message code="lbl.observacao.poss.comprador"/></label>
+	                                        <div class="col-sm-5">                                            
+	                                            <textarea rows="5" cols="20" class="form-control " id="observacaoPossCompradorEdicao"></textarea>
+	                                            <div id="msgErroNovaDescricaoAtividade" cssClass="errorEntrada"  ></div>
+	                                        </div>
+	                                    </div><!-- /.form-group -->                                  
+                                                                                                         
+									<div class="form-group">                                        
+                                        <div id="msgObservacaoPossCompradorErro" class="col-sm-4"> </div>
+                                    </div><!-- /.form-group -->
+                                                                        
+                                </div><!-- /.form-body -->
+                                <div class="form-footer">
+                                    <div class="col-sm-offset-3">
+                                    	<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.btn.cancelar.geral"/></button>
+                                        <button type="button" class="btn btn-success" onClick="editarPossivelCompradorOffline();"><spring:message code="lbl.btn.editar.geral"/></button>
+                                    </div>
+                                </div><!-- /.form-footer -->
+                                
+                                <div id="msgRetornoPossCompradorOfflineErro"> </div>
+                            </form>
+                        </div>
+
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+            <!--/ END Modal - Editar Possivel Comprador Offline -->  
+            
+             <!-- START - confirmacao exclusao possivel comprador offline -->
+            <div id="idModalConfirmacaoExclusaoPossivelComprOffline" class="modal fade bs-example-modal-lg-confirmacao-exclusao-poss-compr-offline" tabindex="-1" role="dialog" aria-hidden="true">
+	            <input type="hidden" id="modIdPossivelComprOffline" readonly="readonly" name="modIdPossivelComprOffline">
+	                <div class="modal-dialog modal-lg">
+	                    <div class="modal-content">
+	                        <div class="modal-header">
+	                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                            <h4 class="modal-title"><spring:message code="lbl.modal.confirmar.exclusao.possivel.compr.offline"/></h4>
+	                        </div>
+	                        <div class="modal-body">
+	                            <p><spring:message code="lbl.modal.pergunta.confirma.exclusao.possivel.compr.offline"/></p>
+	                        </div>
+	                        <div class="modal-footer">
+	                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
+	                            <button type="button" class="btn btn-theme" onClick="confirmarExclusaoPossivelComprOfflineImovel();"><spring:message code="lbl.sim"/></button>                            
+	                        </div>
+							
+							<div id="msgRetornoConfirmExclusaoPossivelComprOfflineErro" cssClass="errorEntrada"  ></div>   
+							
+	                    </div><!-- /.modal-content -->
+	                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+         <!-- END - confirmacao exclusao possivel comprador offline   -->    
+
         <!-- START Modal - Adicionar Atividades -->
             <div id="idModalAtividades" class="modal fade bs-example-modal-form-atividades" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog modal-lg modal-photo-viewer">
@@ -1992,6 +2174,57 @@ function prepararModalGaleriaFotos(){
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
             <!--/ END Modal - Adicionar Atividades -->
+            
+              <!-- START Modal - Edicao Atividades -->
+            <div id="idModalEdicaoAtividades" class="modal fade bs-example-modal-form-edicao-atividades" tabindex="-1" role="dialog" aria-hidden="true">
+                <input type="hidden" id="modIdAtividadeEdicao" readonly="readonly" name="modIdAtividadeEdicao">
+                <div class="modal-dialog modal-lg modal-photo-viewer">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title"><spring:message code="lbl.modal.editar.atividades"/></h4>
+                        </div>
+                        <div class="modal-body no-padding">
+                            <form class="form-horizontal form-bordered" role="form" id="input-mask">
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.status.atividade"/></label>
+                                        <div class="col-sm-5">
+                                        	<select class="form-control" id="novaAtividadeEdicao" >
+											  <option value="C" selected="selected"><spring:message code="lbl.status.atividade.criado"/></option>
+											  <option value="I"><spring:message code="lbl.status.atividade.incompleto"/></option>
+											  <option value="N"><spring:message code="lbl.status.atividade.cancelado"/></option>
+											  <option value="O"><spring:message code="lbl.status.atividade.completo"/></option>
+											</select>   
+                                            <div id="msgErroAtividade" cssClass="errorEntrada"  ></div>                                            
+                                        </div>
+                                    </div><!-- /.form-group -->
+                                    <div class="form-group">
+                                        <label for="password-1" class="col-sm-3 control-label"><spring:message code="lbl.descricao.atividade"/></label>
+                                        <div class="col-sm-5">                                            
+                                            <textarea rows="5" cols="20" class="form-control " id="novaDescricaoAtividadeEdicao"></textarea>
+                                            <div id="msgErroNovaDescricaoAtividade" cssClass="errorEntrada"  ></div>
+                                        </div>
+                                    </div><!-- /.form-group -->                                    
+									<div class="form-group">                                        
+                                        <div id="msgAtividadeErro" class="col-sm-4"> </div>
+                                    </div><!-- /.form-group -->                                    
+                                </div><!-- /.form-body -->
+                                <div class="form-footer">
+                                    <div class="col-sm-offset-3">
+                                    	<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.btn.cancelar.geral"/></button>
+                                        <button type="button" class="btn btn-success" onClick="editarAtividade();"><spring:message code="lbl.btn.editar.geral"/></button>
+                                    </div>
+                                </div><!-- /.form-footer -->
+                                
+                                <div id="msgRetornoAtividadeErro"> </div>
+                            </form>
+                        </div>
+
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+            <!--/ END Modal - Edicao Atividades -->
             
             <!-- START - confirmacao exclusao atividade imovel -->
             <div id="idModalConfirmacaoExclusaoAtividade" class="modal fade bs-example-modal-lg-confirmacao-exclusao-proposta-imovel" tabindex="-1" role="dialog" aria-hidden="true">

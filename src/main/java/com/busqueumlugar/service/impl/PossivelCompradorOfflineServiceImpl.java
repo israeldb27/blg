@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.busqueumlugar.dao.PossivelCompradorOfflineDao;
 import com.busqueumlugar.form.ImovelForm;
 import com.busqueumlugar.model.Imovel;
+import com.busqueumlugar.model.Parceria;
 import com.busqueumlugar.model.PossivelCompradorOffline;
 import com.busqueumlugar.service.PossivelCompradorOfflineService;
 
@@ -48,5 +49,24 @@ public class PossivelCompradorOfflineServiceImpl implements	PossivelCompradorOff
 		possivel.setImovel(imovel);
 		dao.save(possivel);
 	}
+
+	@Override
+	public void excluirPossivelCompradorOffline(Long id) {
+		dao.delete(PossivelCompradorOffline.class, id);
+	}
+
+	@Override
+	public void editarPossivelCompradorOffline(Long id, String nome,String telefone, String email, String chanceCompra,	String observacao) {
+		PossivelCompradorOffline possivel = dao.findPossivelCompradorOfflineById(id);
+		possivel.setDataUltimaAtualizacao(new Date());
+		possivel.setEmailComprador(email);
+		possivel.setNomeComprador(nome);
+		possivel.setTelefoneComprador(telefone);
+		possivel.setChanceCompra(chanceCompra);
+		possivel.setObservacao(observacao);
+		dao.update(possivel);
+	}
+	
+	
 
 }

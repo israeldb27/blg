@@ -32,7 +32,4 @@ public enum StatusAtividadesEnum implements Serializable, ICodigoDescricao{
     public static String getLabel(String key) {    
         return StatusAtividadesEnum.valueOf(key).getRotulo();
     }
-	
-
-	
 }

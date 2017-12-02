@@ -18,4 +18,6 @@ public interface AtividadesService {
 
 	void excluirAtividade(Long idAtividade);
 
+	void editarAtividade(ImovelForm form, Long idAtividade,	String novaAtividade, String novaDescricaoAtividade, UsuarioForm user);
+
 }

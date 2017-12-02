@@ -54,8 +54,16 @@ public class AtividadesServiceImpl implements AtividadesService{
 
 	@Override
 	public void excluirAtividade(Long idAtividade) {
-		// TODO Auto-generated method stub
-		
+		dao.delete(Atividades.class, idAtividade);		
+	}
+
+	@Override
+	public void editarAtividade(ImovelForm form, Long idAtividade,	String novaAtividade, String novaDescricaoAtividade, UsuarioForm user) {
+		Atividades atividades = dao.findAtividadesById(idAtividade);
+		atividades.setDataUltimaAtualizacao(new Date());
+		atividades.setStatus(novaAtividade);
+		atividades.setDescricao(novaDescricaoAtividade);
+		dao.update(atividades);
 	}
 
 }
