@@ -881,17 +881,40 @@ public class ImovelServiceImpl implements ImovelService{
 			}
 			
 			if ( imovel.getAutorizacaoPropostas().equals("S"))
-				form.setListaPropostas(imovelPropostasDao.findImoveisPropostasLancadasByIdUsuarioByIdImovel(usuarioSessao.getId(), idImovel));			
+				form.setListaPropostas(imovelPropostasDao.findImoveisPropostasLancadasByIdUsuarioByIdImovel(usuarioSessao.getId(), idImovel));
 			
-			if (imovel.getUsuario().getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()))	{	
-				form.setUsuarioIntermediador(intermediacaoService.recuperarUsuarioIntermediador(form.getId()));
-				if ( ! usuarioSessao.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) )						
-					form.setIntermediacaoEnviada(intermediacaoDao.findIntermediacaoByIdUsuarioSolicitanteByIdImovel(usuarioSessao.getId(), form.getId()));						
-			}	
-			else {
-				if ( ! usuarioSessao.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) ) 
-					form.setParceriaEnviada(parceriaDao.findParceriaByIdUsuarioSolicitanteByIdImovel(usuarioSessao.getId(), form.getId()));	
-			}
+			if ( imovel.getAutorizacaoOutroUsuario().equals("S") ){
+				boolean podeEnviarSolicitacoes = false; // criar um Enum para trabalhar com este atributo QuemPodeEnviarSolicitacoes
+				if ( imovel.getQuemPodeEnviarSolicitacoes().equals("T")) // Todos podem enviar
+					podeEnviarSolicitacoes = true;
+				else if ( imovel.getQuemPodeEnviarSolicitacoes().equals("C") ){ // apenas contatos podem enviar
+					String isContato = contatoService.checarTipoContato(imovel.getUsuario().getId(), usuarioSessao.getId());
+					if (isContato != null && isContato.equals("S"))
+						podeEnviarSolicitacoes = true;
+				}
+				else if ( imovel.getQuemPodeEnviarSolicitacoes().equals("S") ){ // apenas seguidores podem enviar
+					boolean isUsuarioSeguidor = seguidorService.checarUsuarioEstaSeguindo(imovel.getUsuario().getId(), usuarioSessao.getId());
+					if ( isUsuarioSeguidor )
+						podeEnviarSolicitacoes = true;
+				}
+				else if ( imovel.getQuemPodeEnviarSolicitacoes().equals("G") ){ // apenas usuarios seguindo podem enviar
+					boolean isUsuarioSeguindo = seguidorService.checarUsuarioEstaSeguindo(usuarioSessao.getId(), imovel.getUsuario().getId());
+					if ( isUsuarioSeguindo )
+						podeEnviarSolicitacoes = true;						
+				}
+				
+				if (podeEnviarSolicitacoes){
+					if (imovel.getUsuario().getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()))	{	
+						form.setUsuarioIntermediador(intermediacaoService.recuperarUsuarioIntermediador(form.getId()));
+						if ( ! usuarioSessao.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) )						
+							form.setIntermediacaoEnviada(intermediacaoDao.findIntermediacaoByIdUsuarioSolicitanteByIdImovel(usuarioSessao.getId(), form.getId()));						
+					}	
+					else {
+						if ( ! usuarioSessao.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) ) 
+							form.setParceriaEnviada(parceriaDao.findParceriaByIdUsuarioSolicitanteByIdImovel(usuarioSessao.getId(), form.getId()));	
+					}
+				}				
+			}			
 			
 			form.setQuantVisualizacoesImovel(imovelvisualizadoService.checarQuantidadeImoveisVisualizadosPorImovel(idImovel, null));
 			form.setQuantUsuariosInteressados(imovelFavoritosService.checarQuantidadeUsuariosInteressadosPorIdImovel(idImovel));
@@ -1188,25 +1211,25 @@ public class ImovelServiceImpl implements ImovelService{
 		List<Usuario> listaFinal = new ArrayList<Usuario>();	
 		TreeSet<Long> listaIdsFinal = new TreeSet<Long>();		
 		
-		//Recuperar usuários de acordo com a preferencia imovel
+		//Recuperar usuï¿½rios de acordo com a preferencia imovel
 		List listaIdsUsuariosPrefImoveis = preferenciaLocalidadeDao.findUsuariosPreferenciaisImoveisSemelhantes(idUsuario, form);
 		
-		// Recuperar usuários que visitaram este imóvel selecionado
+		// Recuperar usuï¿½rios que visitaram este imï¿½vel selecionado
 		List listaIdsUsuariosMeuImovelVisitado = imovelvisualizadoService.recuperarUsuariosVisitouImovelPorImovel(idUsuario, form);
 		
-		// Recuperar usuários que visitaram imóveis semelhantes a este imóvel selecionado
+		// Recuperar usuï¿½rios que visitaram imï¿½veis semelhantes a este imï¿½vel selecionado
 		List listaIdsUsuariosImovelVistado = imovelvisualizadoService.recuperarUsuariosVisitouImoveisSemelhantes(idUsuario, form);
 		
-		// Recuperar usuários que adotaram como favorito imóveis
+		// Recuperar usuï¿½rios que adotaram como favorito imï¿½veis
 		List listaIdsUsuariosImoveisFavoritos = imovelfavoritosDao.findUsuariosImoveisFavoritos(idUsuario, form);
 		
-		// Recuperar usuários que adotaram como favorito imóveis que são semelhantes a este 
+		// Recuperar usuï¿½rios que adotaram como favorito imï¿½veis que sï¿½o semelhantes a este 
 		List listaIdsUsuariosImoveisFavoritosSemelhantes = imovelfavoritosDao.findUsuariosImoveisFavoritosSemelhantes(idUsuario, form);
 		
-		// Recuperar usuários que lançaram propostas para imóveis
+		// Recuperar usuï¿½rios que lanï¿½aram propostas para imï¿½veis
 		List listaIdsUsuariosImoveisProposta = imovelPropostasDao.findUsuariosImoveisProposta(idUsuario, form);
 		
-		// Recuperar usuários que lançaram propostas para imóveis que são semelhantes a este 
+		// Recuperar usuï¿½rios que lanï¿½aram propostas para imï¿½veis que sï¿½o semelhantes a este 
 		List listaIdsUsuariosImoveisPropostasSemelhantes = imovelPropostasDao.findUsuariosImoveisPropostasSemelhantes(idUsuario, form);
 		
 		if (!CollectionUtils.isEmpty(listaIdsUsuariosPrefImoveis))

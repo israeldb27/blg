@@ -735,8 +735,7 @@
 	                                                <label for="quemPodeEnviarSolicitacoes" class="col-sm-3 control-label"><spring:message code="lbl.permissao.quem.pode.solicitacoes"/></label>
 	                                                <div class="col-sm-7">	                                                     
 	                                                     <form:select id="quemPodeEnviarSolicitacoes" path="quemPodeEnviarSolicitacoes" class="form-control" >
-															<form:option value="T"><spring:message code="lbl.permissao.visualiza.todos"/></form:option>                        	                        
-														    <form:option value="N"><spring:message code="lbl.permissao.visualiza.ninguem"/></form:option>                        	                        
+															<form:option value="T"><spring:message code="lbl.permissao.visualiza.todos"/></form:option>
 															<form:option value="C"><spring:message code="lbl.permissao.visualiza.apenas.contatos"/></form:option>														
 										                	<form:option value="S"><spring:message code="lbl.permissao.visualiza.seguidores"/></form:option>
 										                	<form:option value="G"><spring:message code="lbl.permissao.visualiza.seguindo"/></form:option>
@@ -778,8 +777,7 @@
 	                                                <label for="quemPodeEnviarSolicitacoes" class="col-sm-3 control-label"><spring:message code="lbl.permissao.quem.pode.solicitacoes"/></label>
 	                                                <div class="col-sm-7">	                                                     
 	                                                     <form:select id="quemPodeEnviarSolicitacoes" path="quemPodeEnviarSolicitacoes" class="form-control" >
-															<form:option value="T"><spring:message code="lbl.permissao.visualiza.todos"/></form:option>                        	                        
-														    <form:option value="N"><spring:message code="lbl.permissao.visualiza.ninguem"/></form:option>                        	                        
+															<form:option value="T"><spring:message code="lbl.permissao.visualiza.todos"/></form:option>
 															<form:option value="C"><spring:message code="lbl.permissao.visualiza.apenas.contatos"/></form:option>														
 										                	<form:option value="S"><spring:message code="lbl.permissao.visualiza.seguidores"/></form:option>
 										                	<form:option value="G"><spring:message code="lbl.permissao.visualiza.seguindo"/></form:option>

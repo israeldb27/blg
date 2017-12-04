@@ -372,22 +372,19 @@ private static final Logger log = LoggerFactory.getLogger(ParceriaServiceImpl.cl
         if (StringUtils.isNullOrEmpty(descCompartilhamento))          
             return MessageUtils.getMessage("msg.erro.parceria.descricao.vazia");
         
-        boolean jaEnviouSolicitacao = this.checarEnviouSolicitacaoParceria(idUsuario, idImovel);
-        if (jaEnviouSolicitacao)                 
-            return MessageUtils.getMessage("msg.parceria.sol.sucesso.enviada.antes");
-        
         Imovel imovel = imovelDao.findImovelById(idImovel);
         if ( imovel.getAtivado().equals("N"))
         	return MessageUtils.getMessage("msg.parceria.intermediacao.sol.imovel.desativado");
-                   
-        boolean existeContato = contatoService.checarExisteContato(idUsuario, imovel.getUsuario().getId());    
-        if (! existeContato )
-        	return MessageUtils.getMessage("msg.parceria.intermediacao.sol.erro.enviada.sem.contato");                       
-       
-        if (imovel.getUsuario().getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){
-        	long quant = dao.findQuantParceriaByIdImovelByStatus(idImovel, StatusImovelCompartilhadoEnum.ACEITA.getRotulo());
-        	if ( quant > 0 )
-        		return MessageUtils.getMessage("msg.parceria.sol.erro.imovel.existente");
+        else if ( imovel.getAtivado().equals("S")) {
+        	boolean jaEnviouSolicitacao = this.checarEnviouSolicitacaoParceria(idUsuario, idImovel);
+            if (jaEnviouSolicitacao)                 
+                return MessageUtils.getMessage("msg.parceria.sol.sucesso.enviada.antes");                                
+           
+            if (! imovel.getUsuario().getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){
+            	long quant = dao.findQuantParceriaByIdImovelByStatus(idImovel, StatusImovelCompartilhadoEnum.ACEITA.getRotulo());
+            	if ( quant > 0 )
+            		return MessageUtils.getMessage("msg.parceria.sol.erro.imovel.existente");
+            }
         }                     
              
         return "";
