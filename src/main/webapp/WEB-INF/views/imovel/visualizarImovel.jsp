@@ -527,6 +527,36 @@ function adicionarPossivelCompradorOffline(){
      });
 }
 
+function prepararModalConfirmaEdicaoPossivelCompr(id, nome, chanceCompra, observacao){
+	
+	$("#modIdPossivelComprEdicao").val(id);
+	$("#nomeComprEdicao").val(nome);
+	$("#obsPossCompradorEdicao").val(observacao);
+	$("#chanceCompraEdicao").val(chanceCompra);
+	$("#idModalPossivelCompradorEdicao").modal("show");
+}
+
+function editarPossivelComprador(){
+
+	var id = document.getElementById("modIdPossivelComprEdicao");
+	var nome = document.getElementById("nomeCompradorEdicao");
+	var chanceCompra = document.getElementById("chanceCompraEdicao");
+	var observacao = document.getElementById("obsPossCompradorEdicao");
+	
+	$.ajax({  
+        url: '${urlImovel}/editarPossivelCompradorDetalhesImovel/' + id.value + '/' +  chanceCompra.value + '/' + observacao.value,
+        dataType: 'json',
+        success: function(data){	        	 
+       	 if ( data == 'ok') {
+       		 location.reload();
+       	 }
+       	 else  {
+	        	 $('#msgRetornoAtividadeErro').html(data);
+	         }	
+        },	      
+    });
+}
+
 function prepararModalConfirmaEdicaoPossivelComprOffline(id, nomeComprador, emailComprador, telefoneComprador, chanceCompra, observacao){
 	
 	$("#modIdPossivelComprOfflineEdicao").val(id);
@@ -1118,13 +1148,13 @@ function prepararModalGaleriaFotos(){
                                 		<c:when test="${not  empty imovelForm.listaPossivelComprador }">
                                 			 <table class="table table-striped" >
 		                                         <thead>
-		                                            <tr>
+		                                            <tr>		                                              
+		                                               <th style="width: 25%;" class="text-center"><strong><spring:message code="lbl.data.cadastro.poss.comprador"/></strong></th>
+		                                               <th style="width: 40%;" class="text-center"><strong><spring:message code="lbl.nome.poss.comprador"/></strong></th>
+		                                               <th style="width: 25%; text-align: center;"><strong><spring:message code="lbl.chance.compra.poss.comprador"/></strong></th>		                                              
+		                                               <th style="width: 25%; text-align: center;"><strong><spring:message code="lbl.observacao.poss.comprador"/></strong></th>
 		                                               <th style="width: 15%;" class="text-center"></th>
-		                                               <th style="width: 15%;" class="text-center"><strong><spring:message code="lbl.data.cadastro.poss.comprador"/></strong></th>
-		                                               <th style="width: 45%;" class="text-center"><strong><spring:message code="lbl.nome.poss.comprador"/></strong></th>
-		                                               <th style="width: 15%; text-align: center;"><strong><spring:message code="lbl.chance.compra.poss.comprador"/></strong></th>
-		                                               <th style="width: 15%; text-align: center;"><strong><spring:message code="lbl.porc.chance.compra.poss.comprador"/></strong></th>
-		                                               <th style="width: 15%; text-align: center;"><strong><spring:message code="lbl.observacao.poss.comprador"/></strong></th>
+		                                               <th style="width: 15%;" class="text-center"></th>
 		                                            </tr>
 		                                         </thead>
 		
@@ -1133,11 +1163,13 @@ function prepararModalGaleriaFotos(){
 		                                               <tr>
 		                                               	  <td style="font-size: 13px;" class="text-center"> <small><fmt:formatDate value='${comprador.dataCadastro}' pattern='dd/MM/yyyy'/></small> </td>	
 		                                               	  <td style="font-size: 13px;" class="text-center">${comprador.usuarioComprador.nome} </td>
-		                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.chanceCompra} </small></td>
-		                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.porcentagemChanceCompra} </small></td>
+		                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.chanceCompraFmt} </small></td>		                                               
 		                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.observacao} </small></td>
+		                                                   <td class="text-center" >
+		                                                     <a href="#a" onClick="prepararModalConfirmaEdicaoPossivelCompr('${comprador.id}', '${comprador.usuarioComprador.nome}', '${comprador.chanceCompra}','${comprador.observacao}');" ><i class="fa fa-pencil-square-o"></i></a>
+		                                                  </td>		                                                  
 		                                                  <td class="text-center" >
-		                                                     <a href="#" onClick="prepararModalConfirmaExclusaoProposta(${imovel.id});" ><i class="fa fa-trash-o"></i></a>
+		                                                     <a href="#a" onClick="prepararModalConfirmaExclusaoPossivelCompr(${comprador.id});" ><i class="fa fa-trash-o"></i></a>
 		                                                  </td>
 		                                               </tr>
 		                                            </c:forEach>
@@ -1191,6 +1223,7 @@ function prepararModalGaleriaFotos(){
 		                                               <th style="width: 15%; text-align: center;"><strong><spring:message code="lbl.chance.compra.poss.comprador"/></strong></th>
 		                                               <th style="width: 15%; text-align: center;"><strong><spring:message code="lbl.observacao.poss.comprador"/></strong></th>
 		                                           	   <th style="width: 15%;" class="text-center"></th>	
+		                                               <th style="width: 15%;" class="text-center"></th>	
 		                                            </tr>
 		                                         </thead>
 		
@@ -1224,8 +1257,7 @@ function prepararModalGaleriaFotos(){
                                    </c:if>
                                 	 
                                 </div>
-                            </div> 
-                          
+                            </div>                           
                            
                           <!-- /.END Possivel Comprador Offline -->  
               				
@@ -2123,7 +2155,71 @@ function prepararModalGaleriaFotos(){
 	                    </div><!-- /.modal-content -->
 	                </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
-         <!-- END - confirmacao exclusao possivel comprador offline   -->    
+         <!-- END - confirmacao exclusao possivel comprador offline   -->   
+         
+          <!-- START Modal - Editar Possivel Comprador -->
+            <div id="idModalPossivelCompradorEdicao" class="modal fade bs-example-modal-form-comprador-offline-edicao" tabindex="-1" role="dialog" aria-hidden="true">
+              	<input type="hidden" id="modIdPossivelComprEdicao" readonly="readonly" name="modIdPossivelComprEdicao">
+                <div class="modal-dialog modal-lg modal-photo-viewer">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title"><spring:message code="lbl.modal.editar.possivel.comprador"/></h4>
+                        </div>
+                        <div class="modal-body no-padding">
+                            <form class="form-horizontal form-bordered" role="form" id="input-mask">
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.nome.poss.comprador"/></label>
+                                        <div class="col-sm-5">
+                                        	<input type="text" class="form-control" id="nomeComprEdicao" readonly="true"> 
+                                            <div id="msgErroNomeComprador" cssClass="errorEntrada"  ></div>                                
+                                        </div>
+                                    </div><!-- /.form-group -->                                    
+	                                                                    
+	                                   <div class="form-group">
+	                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.chance.compra.poss.comprador"/></label>
+	                                        <div class="col-sm-5">
+	                                        	<select class="form-control" id="chanceCompraEdicao" >
+												  <option value="MA" selected="selected"><spring:message code="lbl.poss.comprador.chance.muito.alta"/></option>
+												  <option value="AL"><spring:message code="lbl.poss.comprador.chance.alta"/></option>
+												  <option value="ME"><spring:message code="lbl.poss.comprador.chance.media"/></option>
+												  <option value="BA"><spring:message code="lbl.poss.comprador.chance.baixa"/></option>
+												  <option value="MB"><spring:message code="lbl.poss.comprador.chance.muito.baixa"/></option>
+												</select>   
+	                                            <div id="msgErroChanceCompra" cssClass="errorEntrada"  ></div>                                 
+	                                        </div>
+	                                    </div><!-- /.form-group -->  
+	                                    
+	                                    <div class="form-group">
+	                                        <label for="password-1" class="col-sm-3 control-label"><spring:message code="lbl.observacao.poss.comprador"/></label>
+	                                        <div class="col-sm-5">                                            
+	                                            <textarea rows="5" cols="20" class="form-control " id="obsPossCompradorEdicao"></textarea>
+	                                            <div id="msgErroNovaDescricaoAtividade" cssClass="errorEntrada"  ></div>
+	                                        </div>
+	                                    </div><!-- /.form-group -->                                  
+                                                                                                         
+									<div class="form-group">                                        
+                                        <div id="msgObservacaoPossCompradorErro" class="col-sm-4"> </div>
+                                    </div><!-- /.form-group -->
+                                                                        
+                                </div><!-- /.form-body -->
+                                <div class="form-footer">
+                                    <div class="col-sm-offset-3">
+                                    	<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.btn.cancelar.geral"/></button>
+                                        <button type="button" class="btn btn-success" onClick="editarPossivelComprador();"><spring:message code="lbl.btn.editar.geral"/></button>
+                                    </div>
+                                </div><!-- /.form-footer -->
+                                
+                                <div id="msgRetornoPossCompradorOfflineErro"> </div>
+                            </form>
+                        </div>
+
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+            <!--/ END Modal - Editar Possivel Comprador -->  
+          
 
         <!-- START Modal - Adicionar Atividades -->
             <div id="idModalAtividades" class="modal fade bs-example-modal-form-atividades" tabindex="-1" role="dialog" aria-hidden="true">

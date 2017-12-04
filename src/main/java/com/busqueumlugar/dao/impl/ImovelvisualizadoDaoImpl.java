@@ -889,4 +889,21 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 			return null;
 	}
 
+
+	@Override
+	public List findUsuariosImoveisVisitados(Long idUsuario, ImovelForm form) {
+		Criteria crit = session().createCriteria(Imovelvisualizado.class);
+		crit.createCriteria("usuarioDonoImovel").add(Restrictions.ne("id", idUsuario));
+		crit.createCriteria("usuario").add(Restrictions.ne("id", idUsuario));
+		
+		Criteria critImovel = crit.createCriteria("imovel");
+		critImovel.add(Restrictions.ne("id",  form.getId()));
+		
+		crit.addOrder(Order.desc("dataVisita"));	
+		ProjectionList projList = Projections.projectionList();
+	    projList.add(Projections.distinct(Projections.property("usuario.id")));			
+		crit.setProjection(projList);		
+		return crit.list();
+	}
+
 }

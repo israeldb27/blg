@@ -17,6 +17,24 @@ $(document).ready(function() {
 
 });
 
+function adicionarPossivelComprador(idUsuario, idImovel){
+	
+	$.ajax({  
+        url: '${urlImovel}/adicionarPossivelCompradorDetalhesImovel/' + idUsuario +  '/' + idImovel,
+        dataType: 'json',
+        success: function(data){	        	 
+       	 if ( data == 'ok') {
+       		$("#adicionar_"+idUsuario).hide();  
+       		$("#adicionado_"+idUsuario).show();  
+       	 }
+       	 else  {
+	        	 $('#msgRetornoAtividadeErro').html(data);
+	         }	
+        },	      
+    });
+	
+}
+
 </script>
 		
 <c:import url="../layout/head-layout.jsp"></c:import>
@@ -149,60 +167,65 @@ $(document).ready(function() {
 	                    
 	                      	   <div class="row">
 		                      		<div class="panel">
-		                                <div class="panel-heading">
-		                                    <div class="pull-left">		                                    
-		                                    			<h3 class="panel-title"><spring:message code="lbl.analise.usuarios.lista.usuarios"/></h3>		                                    
-		                                    	&nbsp; <label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.quant.total.usuarios"/> </strong>: (${quantTotalUsuarios}) </label>		                                        
-		                                    </div>
-		                                    <div class="pull-right">
-		                                        <a href="#a" class="btn btn-sm"  data-toggle="modal" data-target=".bs-modal-ajuda-informacoes" style=""><i class="fa fa-question" ></i></a>
-		                                    </div>
-		                                    <div class="clearfix"></div>
-		                                </div><!-- /.panel-heading -->
-		                                <div class="panel-body no-padding">
-		                                    <div class="table-responsive" style="margin-top: -1px;">
-		                                        <table class="table table-striped">
-		                                            <thead>			                                           
-		                                            		<tr>		                                                
-				                                            	<th class="text-center"></th>
-				                                                <th class="text-center"><spring:message code="lbl.nome.usuario"/></th>
-				                                                <th class="text-center"><spring:message code="lbl.perfil.usuario"/></th>
-				                                                <th class="text-center"><spring:message code="lbl.estado"/></th>
-				                                            </tr>			                                           
-		                                            </thead>
-		                                            <tbody>
-		                                            <c:choose>
-		                                            	<c:when test="${not empty listaUsuarios}">
-		                                            		<c:forEach var="usuario" items="${listaUsuarios}" >
-				                                            	<tr>
-					                                                <td class="text-center">	
-																		<a href="${urlUsuario}/detalhesUsuario/${usuario.id}" >
-																			<img src="data:image/jpeg;base64,${usuario.imagemArquivo}" style="width: 60px; height: 50px; " />
-																		</a>									                     			                				
-					                                                </td>			                                                
-					                                                <td class="text-center">
-					                                                	<a href="${urlUsuario}/detalhesUsuario/${usuario.id}" >
-																				${usuario.nome}
-																		</a>
-																	</td>	
-																	<td class="text-center">${usuario.perfilFmt} </td>		
-																	<td class="text-center">${usuario.estado} </td>	                                              			                                              	                                            
-					                                            </tr>                            
-				                                            </c:forEach>
-		                                            	</c:when>
-		                                            	
-		                                            	<c:when test="${empty listaUsuarios}">
-		                                            		<div class="callout callout-warning">
-							                                    <strong><spring:message code="lbl.nenhum.usuario.procurar.compradores"/></strong>
-							                                </div>
-		                                            	</c:when>
-		                                            	
-		                                            </c:choose>
-		                                            
-		                                            </tbody>
-		                                        </table>
-		                                    </div>
-		                                </div>
+		                      			<c:choose>
+		                                  <c:when test="${not empty listaUsuarios}">
+				                                <div class="panel-heading">
+				                                    <div class="pull-left">		                                    
+				                                    			<h3 class="panel-title"><spring:message code="lbl.analise.usuarios.lista.usuarios"/></h3>		                                    
+				                                    	&nbsp; <label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.quant.total.usuarios"/> </strong>: (${quantTotalUsuarios}) </label>		                                        
+				                                    </div>
+				                                    <div class="pull-right">
+				                                        <a href="#a" class="btn btn-sm"  data-toggle="modal" data-target=".bs-modal-ajuda-informacoes" style=""><i class="fa fa-question" ></i></a>
+				                                    </div>
+				                                    <div class="clearfix"></div>
+				                                </div><!-- /.panel-heading -->
+				                                <div class="panel-body no-padding">
+				                                    <div class="table-responsive" style="margin-top: -1px;">
+				                                    	
+				                                            		 <table class="table table-striped">
+							                                            <thead>			                                           
+							                                            		<tr>		                                                
+									                                            	<th class="text-center"></th>
+									                                                <th class="text-center"><spring:message code="lbl.nome.usuario"/></th>
+									                                                <th class="text-center"><spring:message code="lbl.perfil.usuario"/></th>
+									                                                <th class="text-center"><spring:message code="lbl.estado"/></th>
+									                                                <th class="text-center"></th>
+									                                            </tr>			                                           
+							                                            </thead>
+							                                            <tbody>
+							                                            
+							                                            		<c:forEach var="usuario" items="${listaUsuarios}" >
+									                                            	<tr>
+										                                                <td class="text-center">	
+																							<a href="${urlUsuario}/detalhesUsuario/${usuario.id}" >
+																								<img src="data:image/jpeg;base64,${usuario.imagemArquivo}" style="width: 60px; height: 50px; " />
+																							</a>									                     			                				
+										                                                </td>			                                                
+										                                                <td class="text-center">
+										                                                	<a href="${urlUsuario}/detalhesUsuario/${usuario.id}" >
+																									${usuario.nome}
+																							</a>
+																						</td>	
+																						<td class="text-center">${usuario.perfilFmt} </td>		
+																						<td class="text-center">${usuario.estado} </td>	  
+																						<td>  
+																							<button id="adicionar_${usuario.id}" type="button" onClick="adicionarPossivelComprador('${usuario.id}', '${imovelForm.id}');" class="button btn-primary"> <spring:message code="lbl.btn.adicionar.geral"/> </button>
+																							<button id="adicionado_${usuario.id}" style="display: none;" type="button"  class="button btn-primary"> <spring:message code="lbl.btn.adicionado.geral"/> </button>
+																						</td>                                            			                                              	                                            
+										                                            </tr>                            
+									                                            </c:forEach>  
+							                                            </tbody>
+							                                        </table>	                                            	
+				                                       
+				                                    </div>
+				                                </div>
+		                                </c:when>
+                                           	<c:when test="${empty listaUsuarios}">
+                                           		<div class="callout callout-warning">
+				                                    <strong><spring:message code="lbl.nenhum.usuario.procurar.compradores"/></strong>
+				                                </div>
+                                           	</c:when>
+                                        </c:choose>
                             		</div><!-- /.panel -->
 		                       </div>		  
 	                    </div>                   		

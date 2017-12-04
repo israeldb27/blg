@@ -55,4 +55,6 @@ public interface ImovelfavoritosDao  extends GenericDAO<Imovelfavoritos, Long> {
 
 	List findUsuariosImoveisFavoritosSemelhantes(Long idUsuario, ImovelForm form);
 
+	List findUsuariosImoveisFavoritos(Long idUsuario, ImovelForm form);
+
 }

@@ -811,4 +811,21 @@ public class ImovelfavoritosDaoImpl extends GenericDAOImpl<Imovelfavoritos, Long
 			return null;
 	}
 
+	@Override
+	public List findUsuariosImoveisFavoritos(Long idUsuario, ImovelForm form) {
+		Criteria crit = session().createCriteria(Imovelfavoritos.class);
+		crit.createCriteria("usuarioDonoImovel").add(Restrictions.ne("id", idUsuario));
+		crit.createCriteria("usuario").add(Restrictions.ne("id", idUsuario));
+		
+		Criteria critImovel = crit.createCriteria("imovel");
+		critImovel.add(Restrictions.ne("id",  form.getId()));
+		
+		crit.addOrder(Order.desc("dataInteresse"));
+		crit.setMaxResults(10);			
+		ProjectionList projList = Projections.projectionList();
+	    projList.add(Projections.distinct(Projections.property("usuario.id")));			
+		crit.setProjection(projList);		
+		return crit.list();
+	}
+
 }

@@ -58,6 +58,7 @@ import com.busqueumlugar.service.ImovelvisualizadoService;
 import com.busqueumlugar.service.IntermediacaoService;
 import com.busqueumlugar.service.NotaService;
 import com.busqueumlugar.service.PossivelCompradorOfflineService;
+import com.busqueumlugar.service.PossivelCompradorService;
 import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.DateUtil;
@@ -130,6 +131,10 @@ public class ImovelServiceImpl implements ImovelService{
 	
 	@Autowired
 	private PossivelCompradorOfflineService possivelCompradorOfflineService;
+	
+	@Autowired
+	private PossivelCompradorService possivelCompradorService;	
+	
 	
 	@Autowired
 	private ServletContext context;	
@@ -853,6 +858,7 @@ public class ImovelServiceImpl implements ImovelService{
 			form.setListaVisita(imovelvisualizadoService.recuperarUsuariosVisitantesPorIdImovel(idImovel));
 			form.setListaAtividades(atividadesService.recuperarAtividadesPorIdImovel(idImovel));
 			form.setListaPossivelCompradorOffline(possivelCompradorOfflineService.recuperarListaPossivelCompradorOfflinePorIdImovel(idImovel));
+			form.setListaPossivelComprador(possivelCompradorService.recuperarListaPossivelCompradorPorIdImovel(idImovel));
 			
 			if (usuarioSessao.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){
 				form.setListaIntermediacao(intermediacaoDao.findIntermediacaoByIdImovelByStatus(idImovel, 
@@ -1185,17 +1191,29 @@ public class ImovelServiceImpl implements ImovelService{
 		//Recuperar usuários de acordo com a preferencia imovel
 		List listaIdsUsuariosPrefImoveis = preferenciaLocalidadeDao.findUsuariosPreferenciaisImoveisSemelhantes(idUsuario, form);
 		
+		// Recuperar usuários que visitaram este imóvel selecionado
+		List listaIdsUsuariosMeuImovelVisitado = imovelvisualizadoService.recuperarUsuariosVisitouImovelPorImovel(idUsuario, form);
+		
 		// Recuperar usuários que visitaram imóveis semelhantes a este imóvel selecionado
 		List listaIdsUsuariosImovelVistado = imovelvisualizadoService.recuperarUsuariosVisitouImoveisSemelhantes(idUsuario, form);
-				
+		
+		// Recuperar usuários que adotaram como favorito imóveis
+		List listaIdsUsuariosImoveisFavoritos = imovelfavoritosDao.findUsuariosImoveisFavoritos(idUsuario, form);
+		
 		// Recuperar usuários que adotaram como favorito imóveis que são semelhantes a este 
-		List listaIdsUsuariosImoveisFavoritos = imovelfavoritosDao.findUsuariosImoveisFavoritosSemelhantes(idUsuario, form);
+		List listaIdsUsuariosImoveisFavoritosSemelhantes = imovelfavoritosDao.findUsuariosImoveisFavoritosSemelhantes(idUsuario, form);
+		
+		// Recuperar usuários que lançaram propostas para imóveis
+		List listaIdsUsuariosImoveisProposta = imovelPropostasDao.findUsuariosImoveisProposta(idUsuario, form);
 		
 		// Recuperar usuários que lançaram propostas para imóveis que são semelhantes a este 
-		List listaIdsUsuariosImoveisPropostas = imovelPropostasDao.findUsuariosImoveisPropostasSemelhantes(idUsuario, form);
+		List listaIdsUsuariosImoveisPropostasSemelhantes = imovelPropostasDao.findUsuariosImoveisPropostasSemelhantes(idUsuario, form);
 		
 		if (!CollectionUtils.isEmpty(listaIdsUsuariosPrefImoveis))
 			listaIdsFinal.addAll(listaIdsUsuariosPrefImoveis);
+		
+		if (!CollectionUtils.isEmpty(listaIdsUsuariosMeuImovelVisitado))
+			listaIdsFinal.addAll(listaIdsUsuariosMeuImovelVisitado);
 		
 		if (!CollectionUtils.isEmpty(listaIdsUsuariosImovelVistado))
 			listaIdsFinal.addAll(listaIdsUsuariosImovelVistado);
@@ -1203,15 +1221,25 @@ public class ImovelServiceImpl implements ImovelService{
 		if (!CollectionUtils.isEmpty(listaIdsUsuariosImoveisFavoritos))
 			listaIdsFinal.addAll(listaIdsUsuariosImoveisFavoritos);
 		
-		if (!CollectionUtils.isEmpty(listaIdsUsuariosImoveisPropostas))
-			listaIdsFinal.addAll(listaIdsUsuariosImoveisPropostas);
+		if (!CollectionUtils.isEmpty(listaIdsUsuariosImoveisFavoritosSemelhantes))
+			listaIdsFinal.addAll(listaIdsUsuariosImoveisFavoritosSemelhantes);
+		
+		if (!CollectionUtils.isEmpty(listaIdsUsuariosImoveisPropostasSemelhantes))
+			listaIdsFinal.addAll(listaIdsUsuariosImoveisPropostasSemelhantes);
+		
+		if (!CollectionUtils.isEmpty(listaIdsUsuariosImoveisProposta))
+			listaIdsFinal.addAll(listaIdsUsuariosImoveisProposta);
 		
 		if (!CollectionUtils.isEmpty(listaIdsFinal)){
 			Usuario usuario = null;
 			for (Long idUsuarioRec : listaIdsFinal){
-				usuario = usuarioService.recuperarUsuarioPorId(idUsuarioRec);
-				if ( usuario != null)
-					listaFinal.add(usuario);
+				boolean isAddPossivelComprador = possivelCompradorService.checarUsuarioPossivelCompradorImovel(idUsuarioRec, form.getId());
+				if ( ! isAddPossivelComprador ){
+					usuario = usuarioService.recuperarUsuarioPorId(idUsuarioRec);
+					if ( usuario != null)
+						listaFinal.add(usuario);
+				}
+				
 			}
 		}			
 			

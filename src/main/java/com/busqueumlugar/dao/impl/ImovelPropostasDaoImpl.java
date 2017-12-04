@@ -946,12 +946,29 @@ public class ImovelPropostasDaoImpl extends GenericDAOImpl<ImovelPropostas, Long
 			crit.addOrder(Order.desc("dataCadastro"));
 			crit.setMaxResults(10);			
 			ProjectionList projList = Projections.projectionList();
-		    projList.add(Projections.distinct(Projections.property("usuario.id")));			
+		    projList.add(Projections.distinct(Projections.property("usuarioLancador.id")));			
 			crit.setProjection(projList);		
 			return crit.list();
 		}	
 		else	
 			return null;
+	}
+
+
+	@Override
+	public List findUsuariosImoveisProposta(Long idUsuario, ImovelForm form) {
+		Criteria crit = session().createCriteria(ImovelPropostas.class);
+		crit.createCriteria("usuarioReceptor").add(Restrictions.ne("id", idUsuario));
+		crit.createCriteria("usuarioLancador").add(Restrictions.ne("id", idUsuario));
+		
+		Criteria critImovel = crit.createCriteria("imovel");
+		critImovel.add(Restrictions.ne("id",  form.getId()));
+		
+		crit.addOrder(Order.desc("dataCadastro"));	
+		ProjectionList projList = Projections.projectionList();
+	    projList.add(Projections.distinct(Projections.property("usuarioLancador.id")));			
+		crit.setProjection(projList);		
+		return crit.list();
 	}
 
 }

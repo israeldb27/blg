@@ -55,6 +55,8 @@ public interface ImovelPropostasDao extends GenericDAO<ImovelPropostas, Long> {
 
 	long findQuantPropostasRecebidasByIdUsuarioByStatus(Long idUsuario, String status);
 
-	List findUsuariosImoveisPropostasSemelhantes(Long idUsuario, ImovelForm form);	
+	List findUsuariosImoveisPropostasSemelhantes(Long idUsuario, ImovelForm form);
+
+	List findUsuariosImoveisProposta(Long idUsuario, ImovelForm form);	
 
 }

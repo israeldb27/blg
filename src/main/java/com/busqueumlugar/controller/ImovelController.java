@@ -36,6 +36,7 @@ import com.busqueumlugar.form.ImovelMapaForm;
 import com.busqueumlugar.form.UsuarioForm;
 import com.busqueumlugar.model.Atividades;
 import com.busqueumlugar.model.Imovel;
+import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.AtividadesService;
 import com.busqueumlugar.service.BairrosService;
 import com.busqueumlugar.service.CidadesService;
@@ -51,6 +52,7 @@ import com.busqueumlugar.service.NotaService;
 import com.busqueumlugar.service.NotificacaoService;
 import com.busqueumlugar.service.ParceriaService;
 import com.busqueumlugar.service.PossivelCompradorOfflineService;
+import com.busqueumlugar.service.PossivelCompradorService;
 import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.MessageUtils;
@@ -126,7 +128,10 @@ public class ImovelController {
 	@Autowired
 	private PossivelCompradorOfflineService possivelCompradorOfflineService ;
 	
+	@Autowired
+	private PossivelCompradorService possivelCompradorService ;
 	
+		
 	@RequestMapping(value = "/buscarCidades/{idEstado}", method = RequestMethod.GET)
     @ResponseBody
     public List<Select> populaCidadePorEstado(@PathVariable("idEstado") Integer idEstado, 
@@ -538,7 +543,9 @@ public class ImovelController {
 		try{
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);		
 			map.addAttribute("imovelForm", form );
-			map.addAttribute("listaUsuarios", imovelService.pesquisarPossiveisCompradores(user.getId(), form));
+			List<Usuario> lista = imovelService.pesquisarPossiveisCompradores(user.getId(), form);
+			map.addAttribute("listaUsuarios", lista);
+			map.addAttribute("quantTotalUsuarios", AppUtil.recuperarQuantidadeLista(lista));
 			return DIR_PATH + "resultadoProcurarPossiveisCompradores";
 		}
 		catch(Exception e) {
@@ -668,6 +675,52 @@ public class ImovelController {
 		}
 	}
 	
+	@RequestMapping(value = "/editarPossivelCompradorDetalhesImovel/{id}/{chanceCompra}/{observacao}")
+	@ResponseBody
+	public String editarPossivelCompradorDetalhesImovel(@PathVariable("id") Long id,													    
+								       				    @PathVariable("chanceCompra") String chanceCompra,
+								       				    @PathVariable("observacao") String observacao,
+												        HttpSession session, 	
+												        ModelMap map, 											   
+												        @ModelAttribute("imovelForm") ImovelForm form){
+		
+		try {
+			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
+			possivelCompradorService.editarPossivelComprador(id, chanceCompra, observacao);
+			form.setListaPossivelComprador(possivelCompradorService.recuperarListaPossivelCompradorPorIdImovel(form.getId()));
+			map.addAttribute("imovelForm", form );
+			return "ok";
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelController -  editarPossivelCompradorDetalhesImovel");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+	}
+	
+	
+	
+	@RequestMapping(value = "/adicionarPossivelCompradorDetalhesImovel/{idUsuario}/{idImovel}")
+	@ResponseBody
+	public String adicionarPossivelCompradorDetalhesImovel(@PathVariable("idUsuario") Long idUsuario,
+															   @PathVariable("idImovel") Long idImovel,													
+														       HttpSession session, 	
+														       ModelMap map, 											   
+														       @ModelAttribute("imovelForm") ImovelForm form){
+		
+		try {
+			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
+			possivelCompradorService.cadastrarPossivelComprador(idUsuario, idImovel);
+
+			map.addAttribute("imovelForm", form );
+			return "ok";
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelController -  adicionarPossivelCompradorDetalhesImovel");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+	}
 	
 	
 	@RequestMapping(value = "/confirmarExclusaoAtividadeImovel/{idAtividade}", method = RequestMethod.GET)

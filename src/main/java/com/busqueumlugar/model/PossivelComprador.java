@@ -13,6 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import com.busqueumlugar.enumerador.ChanceCompraEnum;
 
 
 @Entity
@@ -53,6 +56,9 @@ public class PossivelComprador extends BaseEntity implements Serializable {
     @Column(name = "dataUltimaAtualizacao")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataUltimaAtualizacao;
+    
+    @Transient
+    private String chanceCompraFmt = "";
     
     
 
@@ -118,6 +124,14 @@ public class PossivelComprador extends BaseEntity implements Serializable {
 
 	public void setDataUltimaAtualizacao(Date dataUltimaAtualizacao) {
 		this.dataUltimaAtualizacao = dataUltimaAtualizacao;
+	}
+
+	public String getChanceCompraFmt() {
+		return ChanceCompraEnum.getLabel(this.chanceCompra);
+	}
+
+	public void setChanceCompraFmt(String chanceCompraFmt) {
+		this.chanceCompraFmt = chanceCompraFmt;
 	}
    
     
