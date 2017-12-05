@@ -918,7 +918,9 @@ public class ImovelServiceImpl implements ImovelService{
 						if ( ! usuarioSessao.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) ) 
 							form.setParceriaEnviada(parceriaDao.findParceriaByIdUsuarioSolicitanteByIdImovel(usuarioSessao.getId(), form.getId()));	
 					}
-				}				
+				}
+				else
+					imovel.setAutorizacaoOutroUsuario("N");
 			}			
 			
 			form.setQuantVisualizacoesImovel(imovelvisualizadoService.checarQuantidadeImoveisVisualizadosPorImovel(idImovel, null));

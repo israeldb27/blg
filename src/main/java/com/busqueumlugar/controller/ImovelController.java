@@ -500,6 +500,12 @@ public class ImovelController {
 													AcaoNotificacaoEnum.FECHAR_NEGOCIO.getRotulo(),
 													user.getId(),
 													TipoNotificacaoEnum.IMOVEL.getRotulo());
+			
+			atividadesService.cadastrarAtividade(form, 
+												 StatusAtividadesEnum.CRIADO.getRotulo(), 
+												 MessageUtils.getMessage("llbl.atividade.confirmar.fechar.negocio") , 
+												 user);	
+			
 			map.addAttribute("imovelForm", form );
 			return "ok";
 		}
@@ -523,6 +529,12 @@ public class ImovelController {
 													AcaoNotificacaoEnum.MARCAR_VISITA.getRotulo(),
 													user.getId(),
 													TipoNotificacaoEnum.IMOVEL.getRotulo());
+			
+			atividadesService.cadastrarAtividade(form, 
+												 StatusAtividadesEnum.CRIADO.getRotulo(), 
+												 MessageUtils.getMessage("lbl.atividade.confirmar.marcar.visita") , 
+												 user);		
+			
 			map.addAttribute("imovelForm", form );
 			return "ok";
 		}
