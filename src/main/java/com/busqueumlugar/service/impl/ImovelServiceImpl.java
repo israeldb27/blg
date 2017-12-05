@@ -34,6 +34,7 @@ import com.busqueumlugar.dao.ParceriaDao;
 import com.busqueumlugar.dao.PreferencialocalidadeDao;
 import com.busqueumlugar.dao.UsuarioDao;
 import com.busqueumlugar.enumerador.PerfilUsuarioOpcaoEnum;
+import com.busqueumlugar.enumerador.QuemPodeEnviarSolicitacoesOpcaoEnum;
 import com.busqueumlugar.enumerador.StatusImovelCompartilhadoEnum;
 import com.busqueumlugar.form.AdministracaoForm;
 import com.busqueumlugar.form.ImovelForm;
@@ -59,6 +60,7 @@ import com.busqueumlugar.service.IntermediacaoService;
 import com.busqueumlugar.service.NotaService;
 import com.busqueumlugar.service.PossivelCompradorOfflineService;
 import com.busqueumlugar.service.PossivelCompradorService;
+import com.busqueumlugar.service.SeguidorService;
 import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.DateUtil;
@@ -134,6 +136,9 @@ public class ImovelServiceImpl implements ImovelService{
 	
 	@Autowired
 	private PossivelCompradorService possivelCompradorService;	
+	
+	@Autowired
+	private SeguidorService seguidorService;
 	
 	
 	@Autowired
@@ -885,21 +890,21 @@ public class ImovelServiceImpl implements ImovelService{
 			
 			if ( imovel.getAutorizacaoOutroUsuario().equals("S") ){
 				boolean podeEnviarSolicitacoes = false; // criar um Enum para trabalhar com este atributo QuemPodeEnviarSolicitacoes
-				if ( imovel.getQuemPodeEnviarSolicitacoes().equals("T")) // Todos podem enviar
+				if ( imovel.getQuemPodeEnviarSolicitacoes().equals(QuemPodeEnviarSolicitacoesOpcaoEnum.TODOS.getRotulo())) // Todos podem enviar
 					podeEnviarSolicitacoes = true;
-				else if ( imovel.getQuemPodeEnviarSolicitacoes().equals("C") ){ // apenas contatos podem enviar
+				else if ( imovel.getQuemPodeEnviarSolicitacoes().equals(QuemPodeEnviarSolicitacoesOpcaoEnum.CONTATOS.getRotulo()) ){ // apenas contatos podem enviar
 					String isContato = contatoService.checarTipoContato(imovel.getUsuario().getId(), usuarioSessao.getId());
 					if (isContato != null && isContato.equals("S"))
 						podeEnviarSolicitacoes = true;
 				}
-				else if ( imovel.getQuemPodeEnviarSolicitacoes().equals("S") ){ // apenas seguidores podem enviar
-					boolean isUsuarioSeguidor = seguidorService.checarUsuarioEstaSeguindo(imovel.getUsuario().getId(), usuarioSessao.getId());
-					if ( isUsuarioSeguidor )
+				else if ( imovel.getQuemPodeEnviarSolicitacoes().equals(QuemPodeEnviarSolicitacoesOpcaoEnum.SEGUIDORES.getRotulo()) ){ // apenas seguidores podem enviar
+					String isUsuarioSeguidor = seguidorService.checarUsuarioEstaSeguindo(imovel.getUsuario().getId(), usuarioSessao.getId());
+					if ( isUsuarioSeguidor.equals("S") )
 						podeEnviarSolicitacoes = true;
 				}
-				else if ( imovel.getQuemPodeEnviarSolicitacoes().equals("G") ){ // apenas usuarios seguindo podem enviar
-					boolean isUsuarioSeguindo = seguidorService.checarUsuarioEstaSeguindo(usuarioSessao.getId(), imovel.getUsuario().getId());
-					if ( isUsuarioSeguindo )
+				else if ( imovel.getQuemPodeEnviarSolicitacoes().equals(QuemPodeEnviarSolicitacoesOpcaoEnum.SEGUINDO.getRotulo()) ){ // apenas usuarios seguindo podem enviar
+					String isUsuarioSeguindo = seguidorService.checarUsuarioEstaSeguindo(usuarioSessao.getId(), imovel.getUsuario().getId());
+					if ( isUsuarioSeguindo.equals("S") )
 						podeEnviarSolicitacoes = true;						
 				}
 				

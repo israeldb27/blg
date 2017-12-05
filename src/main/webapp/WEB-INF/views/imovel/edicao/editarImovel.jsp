@@ -9,6 +9,7 @@
 <%@page import="com.busqueumlugar.enumerador.AcaoImovelSemCompraEnum"%>
 <%@page import="com.busqueumlugar.enumerador.TipoImovelEnum"%>
 <%@page import="com.busqueumlugar.enumerador.StatusImovelEnum"%>
+<%@page import="com.busqueumlugar.enumerador.QuemPodeEnviarSolicitacoesEnum"%>
 
 <%@page import="com.busqueumlugar.util.UsuarioInterface"%>
 <%@page import="com.busqueumlugar.service.UsuarioService"%>
@@ -20,6 +21,8 @@
 <c:set var="listaAcaoImovel" value="<%= AcaoImovelSemCompraEnum.values() %>"/>
 <c:set var="listaTipoImovel" value="<%= TipoImovelEnum.values() %>"/>
 <c:set var="listaStatusImovel" value="<%= StatusImovelEnum.values() %>"/>
+<c:set var="listaQuemPodeEnviarSolicitacoesEnum" value="<%= QuemPodeEnviarSolicitacoesEnum.values() %>"/>
+
 
 <spring:url value="/localidade/buscarCidades" var="urlBuscarCidades"/>
 <spring:url value="/localidade/buscarBairros" var="urlBuscarBairros"/>
@@ -245,16 +248,15 @@
     		}
     		else if ( id == 15 ){
     			$('#msgModal').html("<spring:message code='bl.permissao.quem.pode.solicitacoes.intermediacao.msg.desc'/>");
-    			$('#msgModalFuncionalidade').html("<spring:message code='bl.permissao.quem.pode.solicitacoes'/>");  
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.permissao.quem.pode.solicitacoes'/>");  
     		}
     		else if ( id == 16 ){
     			$('#msgModal').html("<spring:message code='bl.permissao.quem.pode.solicitacoes.parceria.msg.desc'/>");
-    			$('#msgModalFuncionalidade').html("<spring:message code='bl.permissao.quem.pode.solicitacoes'/>");  
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.permissao.quem.pode.solicitacoes'/>");  
     		}
 			
     		$("#idModalItem").modal("show");
-    	}
-    	
+    	}    	
     
 		</script>
 		
@@ -735,11 +737,8 @@
 	                                                <label for="quemPodeEnviarSolicitacoes" class="col-sm-3 control-label"><spring:message code="lbl.permissao.quem.pode.solicitacoes"/></label>
 	                                                <div class="col-sm-7">	                                                     
 	                                                     <form:select id="quemPodeEnviarSolicitacoes" path="quemPodeEnviarSolicitacoes" class="form-control" >
-															<form:option value="T"><spring:message code="lbl.permissao.visualiza.todos"/></form:option>
-															<form:option value="C"><spring:message code="lbl.permissao.visualiza.apenas.contatos"/></form:option>														
-										                	<form:option value="S"><spring:message code="lbl.permissao.visualiza.seguidores"/></form:option>
-										                	<form:option value="G"><spring:message code="lbl.permissao.visualiza.seguindo"/></form:option>
-										                 </form:select>										                 
+											           		<form:options items="${listaQuemPodeEnviarSolicitacoesEnum}" itemValue="identificador" itemLabel="rotulo" />
+											            </form:select>									                 
 	                                                </div>
 	                                                <form:errors id="quemPodeEnviarSolicitacoes" path="quemPodeEnviarSolicitacoes" cssClass="errorEntrada"  />
 	                                                
@@ -775,13 +774,10 @@
 	                                            
 	                                             <div class="form-group">
 	                                                <label for="quemPodeEnviarSolicitacoes" class="col-sm-3 control-label"><spring:message code="lbl.permissao.quem.pode.solicitacoes"/></label>
-	                                                <div class="col-sm-7">	                                                     
-	                                                     <form:select id="quemPodeEnviarSolicitacoes" path="quemPodeEnviarSolicitacoes" class="form-control" >
-															<form:option value="T"><spring:message code="lbl.permissao.visualiza.todos"/></form:option>
-															<form:option value="C"><spring:message code="lbl.permissao.visualiza.apenas.contatos"/></form:option>														
-										                	<form:option value="S"><spring:message code="lbl.permissao.visualiza.seguidores"/></form:option>
-										                	<form:option value="G"><spring:message code="lbl.permissao.visualiza.seguindo"/></form:option>
-										                 </form:select>										                 
+	                                                <div class="col-sm-7">
+	                                                	<form:select id="quemPodeEnviarSolicitacoes" path="quemPodeEnviarSolicitacoes" class="form-control" >
+											           		<form:options items="${listaQuemPodeEnviarSolicitacoesEnum}" itemValue="identificador" itemLabel="rotulo" />
+											            </form:select>	 				                 
 	                                                </div>
 	                                                <form:errors id="quemPodeEnviarSolicitacoes" path="quemPodeEnviarSolicitacoes" cssClass="errorEntrada"  />
 	                                                
