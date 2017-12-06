@@ -247,11 +247,11 @@
     			$('#msgModalFuncionalidade').html("<spring:message code='lbl.permissao.autoriza.quem.visualiza'/>");  
     		}
     		else if ( id == 15 ){
-    			$('#msgModal').html("<spring:message code='bl.permissao.quem.pode.solicitacoes.intermediacao.msg.desc'/>");
+    			$('#msgModal').html("<spring:message code='lbl.permissao.quem.pode.solicitacoes.intermediacao.msg.desc'/>");
     			$('#msgModalFuncionalidade').html("<spring:message code='lbl.permissao.quem.pode.solicitacoes'/>");  
     		}
     		else if ( id == 16 ){
-    			$('#msgModal').html("<spring:message code='bl.permissao.quem.pode.solicitacoes.parceria.msg.desc'/>");
+    			$('#msgModal').html("<spring:message code='lbl.permissao.quem.pode.solicitacoes.parceria.msg.desc'/>");
     			$('#msgModalFuncionalidade').html("<spring:message code='lbl.permissao.quem.pode.solicitacoes'/>");  
     		}
 			

@@ -358,12 +358,15 @@ function notificarFecharNegocio(){
 		 }
 	 });
 }
+
 function prepararModalMarcarVisita(id){
 	$("#msgRetornoMarcarVisitaErro").html("");	
 	$("#idModalMarcarVisita").modal("show");	
 }
-function notificarMarcarVisita() {		
-    $.post({  
+
+function notificarMarcarVisita() {	
+	alert('chamou marcar visita');
+    $.ajax({  
     	type: 'POST',
         url: '${urlImovel}/notificarMarcarVisita',   
         dataType: 'json',

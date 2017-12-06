@@ -7,6 +7,7 @@
 <%@page import="com.busqueumlugar.enumerador.TipoImovelEnum"%>
 <%@page import="com.busqueumlugar.enumerador.AcaoImovelSemCompraEnum"%>
 <%@page import="com.busqueumlugar.enumerador.StatusImovelEnum"%>
+<%@page import="com.busqueumlugar.enumerador.QuemPodeEnviarSolicitacoesEnum"%>
 
 <c:set var="context" value="<%= request.getContextPath()%>"/>
 
@@ -27,6 +28,7 @@
 <c:set var="listaTipoImovel" value="<%= TipoImovelEnum.values() %>"/>
 <c:set var="listaAcaoImovel" value="<%= AcaoImovelSemCompraEnum.values() %>"/>
 <c:set var="listaStatusImovel" value="<%= StatusImovelEnum.values() %>"/>
+<c:set var="listaQuemPodeEnviarSolicitacoesEnum" value="<%= QuemPodeEnviarSolicitacoesEnum.values() %>"/>
 
 <script>
 	function mascara(o,f){   
@@ -210,6 +212,14 @@
     			$('#msgModal').html("<spring:message code='lbl.condicao.intermediacao.msg.desc'/>");
     			$('#msgModalFuncionalidade').html("<spring:message code='lbl.condicao.intermediacao'/>");  
     		}
+    		else if ( id == 11 ){
+    			$('#msgModal').html("<spring:message code='lbl.permissao.quem.pode.solicitacoes.parceria.msg.desc'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.permissao.quem.pode.solicitacoes'/>");  
+    		}
+    		else if ( id == 12 ){
+    			$('#msgModal').html("<spring:message code='lbl.permissao.quem.pode.solicitacoes.intermediacao.msg.desc'/>");
+    			$('#msgModalFuncionalidade').html("<spring:message code='lbl.permissao.quem.pode.solicitacoes'/>");  
+    		}  
     		
     		$("#idModalItem").modal("show");
     	}
@@ -653,6 +663,18 @@
 	                                                </div>
 	                                                <a href="#a" class="btn btn-sm"  onClick="mostrarModal(8);" ><i class="fa fa-question-circle" ></i></a>
 	                                            </div><!-- /.form-group -->
+	                                            
+	                                            <div class="form-group">
+	                                                <label for="quemPodeEnviarSolicitacoes" class="col-sm-3 control-label"><spring:message code="lbl.permissao.quem.pode.solicitacoes"/></label>
+	                                                <div class="col-sm-7">	                                                     
+	                                                     <form:select id="quemPodeEnviarSolicitacoes" path="quemPodeEnviarSolicitacoes" class="form-control" >
+											           		<form:options items="${listaQuemPodeEnviarSolicitacoesEnum}" itemValue="identificador" itemLabel="rotulo" />
+											            </form:select>									                 
+	                                                </div>
+	                                                <form:errors id="quemPodeEnviarSolicitacoes" path="quemPodeEnviarSolicitacoes" cssClass="errorEntrada"  />
+	                                                
+	                                                <a href="#a" class="btn btn-sm"  onClick="mostrarModal(11);" ><i class="fa fa-question-circle" ></i></a>
+	                                            </div><!-- /.form-group -->
                                             </c:if>
                                             
                                             <c:if test="${(usuario.perfil == 'P')}">
@@ -676,6 +698,18 @@
                                                         <form:errors id="descAceitaCorretagemParceria" path="descAceitaCorretagemParceria" cssClass="errorEntrada"  />     
 	                                                </div>
 	                                                   <a href="#a" class="btn btn-sm"  onClick="mostrarModal(10);" ><i class="fa fa-question-circle" ></i></a>
+	                                            </div><!-- /.form-group -->
+	                                            
+	                                            <div class="form-group">
+	                                                <label for="quemPodeEnviarSolicitacoes" class="col-sm-3 control-label"><spring:message code="lbl.permissao.quem.pode.solicitacoes"/></label>
+	                                                <div class="col-sm-7">	                                                     
+	                                                     <form:select id="quemPodeEnviarSolicitacoes" path="quemPodeEnviarSolicitacoes" class="form-control" >
+											           		<form:options items="${listaQuemPodeEnviarSolicitacoesEnum}" itemValue="identificador" itemLabel="rotulo" />
+											            </form:select>									                 
+	                                                </div>
+	                                                <form:errors id="quemPodeEnviarSolicitacoes" path="quemPodeEnviarSolicitacoes" cssClass="errorEntrada"  />
+	                                                
+	                                                <a href="#a" class="btn btn-sm"  onClick="mostrarModal(12);" ><i class="fa fa-question-circle" ></i></a>
 	                                            </div><!-- /.form-group -->
                                             </c:if>                                 
                                             

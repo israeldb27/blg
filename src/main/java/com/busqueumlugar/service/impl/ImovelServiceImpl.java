@@ -33,6 +33,7 @@ import com.busqueumlugar.dao.IntermediacaoDao;
 import com.busqueumlugar.dao.ParceriaDao;
 import com.busqueumlugar.dao.PreferencialocalidadeDao;
 import com.busqueumlugar.dao.UsuarioDao;
+import com.busqueumlugar.enumerador.ContatoStatusEnum;
 import com.busqueumlugar.enumerador.PerfilUsuarioOpcaoEnum;
 import com.busqueumlugar.enumerador.QuemPodeEnviarSolicitacoesOpcaoEnum;
 import com.busqueumlugar.enumerador.StatusImovelCompartilhadoEnum;
@@ -198,7 +199,6 @@ public class ImovelServiceImpl implements ImovelService{
          imovel.setHabilitaBusca("S");
          imovel.setAcessoVisualizacao("T");
          imovel.setAutorizaComentario("S");
-         imovel.setQuemPodeEnviarSolicitacoes("S");
          
          String codigoId = this.gerarCodigoIdentificacao(imovel, estado);
          imovel.setCodigoIdentificacao(codigoId);            
@@ -893,17 +893,17 @@ public class ImovelServiceImpl implements ImovelService{
 				if ( imovel.getQuemPodeEnviarSolicitacoes().equals(QuemPodeEnviarSolicitacoesOpcaoEnum.TODOS.getRotulo())) // Todos podem enviar
 					podeEnviarSolicitacoes = true;
 				else if ( imovel.getQuemPodeEnviarSolicitacoes().equals(QuemPodeEnviarSolicitacoesOpcaoEnum.CONTATOS.getRotulo()) ){ // apenas contatos podem enviar
-					String isContato = contatoService.checarTipoContato(imovel.getUsuario().getId(), usuarioSessao.getId());
-					if (isContato != null && isContato.equals("S"))
+					String isContato = contatoService.checarTipoContato(usuarioSessao.getId(), imovel.getUsuario().getId());
+					if (isContato != null && isContato.equals(ContatoStatusEnum.OK.getRotulo()))
 						podeEnviarSolicitacoes = true;
 				}
 				else if ( imovel.getQuemPodeEnviarSolicitacoes().equals(QuemPodeEnviarSolicitacoesOpcaoEnum.SEGUIDORES.getRotulo()) ){ // apenas seguidores podem enviar
-					String isUsuarioSeguidor = seguidorService.checarUsuarioEstaSeguindo(imovel.getUsuario().getId(), usuarioSessao.getId());
+					String isUsuarioSeguidor = seguidorService.checarUsuarioEstaSeguindo(usuarioSessao.getId(), imovel.getUsuario().getId());
 					if ( isUsuarioSeguidor.equals("S") )
 						podeEnviarSolicitacoes = true;
 				}
 				else if ( imovel.getQuemPodeEnviarSolicitacoes().equals(QuemPodeEnviarSolicitacoesOpcaoEnum.SEGUINDO.getRotulo()) ){ // apenas usuarios seguindo podem enviar
-					String isUsuarioSeguindo = seguidorService.checarUsuarioEstaSeguindo(usuarioSessao.getId(), imovel.getUsuario().getId());
+					String isUsuarioSeguindo = seguidorService.checarUsuarioEstaSeguindo(imovel.getUsuario().getId(), usuarioSessao.getId());
 					if ( isUsuarioSeguindo.equals("S") )
 						podeEnviarSolicitacoes = true;						
 				}
@@ -920,7 +920,7 @@ public class ImovelServiceImpl implements ImovelService{
 					}
 				}
 				else
-					imovel.setAutorizacaoOutroUsuario("N");
+					form.setAutorizacaoOutroUsuario("N");
 			}			
 			
 			form.setQuantVisualizacoesImovel(imovelvisualizadoService.checarQuantidadeImoveisVisualizadosPorImovel(idImovel, null));

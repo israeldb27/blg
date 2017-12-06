@@ -30,6 +30,8 @@ import com.busqueumlugar.config.WebApplicationContext;
 import com.busqueumlugar.enumerador.AcaoImovelEnum;
 import com.busqueumlugar.enumerador.AcaoNotificacaoEnum;
 import com.busqueumlugar.enumerador.NotaAcaoEnum;
+import com.busqueumlugar.enumerador.StatusAtividadeOpcaoEnum;
+import com.busqueumlugar.enumerador.StatusAtividadesEnum;
 import com.busqueumlugar.enumerador.TipoNotificacaoEnum;
 import com.busqueumlugar.form.ImovelForm;
 import com.busqueumlugar.form.ImovelMapaForm;
@@ -502,8 +504,8 @@ public class ImovelController {
 													TipoNotificacaoEnum.IMOVEL.getRotulo());
 			
 			atividadesService.cadastrarAtividade(form, 
-												 StatusAtividadesEnum.CRIADO.getRotulo(), 
-												 MessageUtils.getMessage("llbl.atividade.confirmar.fechar.negocio") , 
+												 StatusAtividadeOpcaoEnum.CRIADO.getRotulo(), 
+												 MessageUtils.getMessage("lbl.atividade.confirmar.fechar.negocio") , 
 												 user);	
 			
 			map.addAttribute("imovelForm", form );
@@ -531,7 +533,7 @@ public class ImovelController {
 													TipoNotificacaoEnum.IMOVEL.getRotulo());
 			
 			atividadesService.cadastrarAtividade(form, 
-												 StatusAtividadesEnum.CRIADO.getRotulo(), 
+												 StatusAtividadeOpcaoEnum.CRIADO.getRotulo(), 
 												 MessageUtils.getMessage("lbl.atividade.confirmar.marcar.visita") , 
 												 user);		
 			
