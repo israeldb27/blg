@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.persistence.Transient;
 
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.busqueumlugar.enumerador.StatusImovelEnum;
@@ -174,6 +175,17 @@ public class ImovelForm extends BaseForm{
 	private String valorIptuFmt = "";
 	private String valorCondominioFmt = "";
 	
+	private boolean exibeMaisListaPropostas = false;
+	private boolean exibeMaisListaAtividades = false;
+	private boolean exibeMaisListaPossivelComprador = false;
+	private boolean exibeMaisListaPossivelCompradorOffline = false;
+	private boolean exibeMaisListaIntermediacao = false;
+	private boolean exibeMaisListaParceria = false;
+	private boolean exibeMaisListaVisita = false;
+	private boolean exibeMaisListaUsuariosInteressados = false;
+	private boolean exibeMaisListaComentarios= false;
+	
+	private int quantMaxLista = 15;
 	
 	public List<Imovelfotos> getListaImovelFotos() {
 		return listaImovelFotos;
@@ -1677,6 +1689,108 @@ public class ImovelForm extends BaseForm{
 
 	public void setQuemPodeEnviarSolicitacoes(String quemPodeEnviarSolicitacoes) {
 		this.quemPodeEnviarSolicitacoes = quemPodeEnviarSolicitacoes;
+	}
+
+	public boolean isExibeMaisListaPropostas() {
+		if (! CollectionUtils.isEmpty(this.listaPropostas) && this.listaPropostas.size() > this.quantMaxLista)
+			return true;
+		else
+			return false;
+	}
+
+	public void setExibeMaisListaPropostas(boolean exibeMaisListaPropostas) {
+		this.exibeMaisListaPropostas = exibeMaisListaPropostas;
+	}
+
+	public boolean isExibeMaisListaAtividades() {
+		if (! CollectionUtils.isEmpty(this.listaAtividades) && this.listaAtividades.size() > this.quantMaxLista)
+			return true;
+		else
+			return false;
+	}
+
+	public void setExibeMaisListaAtividades(boolean exibeMaisListaAtividades) {
+		this.exibeMaisListaAtividades = exibeMaisListaAtividades;
+	}
+
+	public boolean isExibeMaisListaPossivelComprador() {
+		if (! CollectionUtils.isEmpty(this.listaPossivelComprador) && this.listaPossivelComprador.size() > this.quantMaxLista)
+			return true;
+		else
+			return false;
+	}
+
+	public void setExibeMaisListaPossivelComprador(
+			boolean exibeMaisListaPossivelComprador) {
+		this.exibeMaisListaPossivelComprador = exibeMaisListaPossivelComprador;
+	}
+
+	public boolean isExibeMaisListaPossivelCompradorOffline() {
+		if (! CollectionUtils.isEmpty(this.listaPossivelCompradorOffline) && this.listaPossivelCompradorOffline.size() > this.quantMaxLista)
+			return true;
+		else
+			return false;
+	}
+
+	public void setExibeMaisListaPossivelCompradorOffline(
+			boolean exibeMaisListaPossivelCompradorOffline) {
+		this.exibeMaisListaPossivelCompradorOffline = exibeMaisListaPossivelCompradorOffline;
+	}
+
+	public boolean isExibeMaisListaIntermediacao() {
+		if (! CollectionUtils.isEmpty(this.listaIntermediacao) && this.listaIntermediacao.size() > this.quantMaxLista)
+			return true;
+		else
+			return false;
+	}
+
+	public void setExibeMaisListaIntermediacao(boolean exibeMaisListaIntermediacao) {
+		this.exibeMaisListaIntermediacao = exibeMaisListaIntermediacao;
+	}
+
+	public boolean isExibeMaisListaParceria() {
+		if (! CollectionUtils.isEmpty(this.listaParceria) && this.listaParceria.size() > this.quantMaxLista)
+			return true;
+		else
+			return false;
+	}
+
+	public void setExibeMaisListaParceria(boolean exibeMaisListaParceria) {
+		this.exibeMaisListaParceria = exibeMaisListaParceria;
+	}
+
+	public boolean isExibeMaisListaVisita() {
+		if (! CollectionUtils.isEmpty(this.listaVisita) && this.listaVisita.size() > this.quantMaxLista)
+			return true;
+		else
+			return false;
+	}
+
+	public void setExibeMaisListaVisita(boolean exibeMaisListaVisita) {
+		this.exibeMaisListaVisita = exibeMaisListaVisita;
+	}
+
+	public boolean isExibeMaisListaUsuariosInteressados() {
+		if (! CollectionUtils.isEmpty(this.listaUsuariosInteressados) && this.listaUsuariosInteressados.size() > this.quantMaxLista)
+			return true;
+		else
+			return false;
+	}
+
+	public void setExibeMaisListaUsuariosInteressados(
+			boolean exibeMaisListaUsuariosInteressados) {
+		this.exibeMaisListaUsuariosInteressados = exibeMaisListaUsuariosInteressados;
+	}
+
+	public boolean isExibeMaisListaComentarios() {
+		if (! CollectionUtils.isEmpty(this.listaComentario) && this.listaComentario.size() > this.quantMaxLista)
+			return true;
+		else
+			return false;
+	}
+
+	public void setExibeMaisListaComentarios(boolean exibeMaisListaComentarios) {
+		this.exibeMaisListaComentarios = exibeMaisListaComentarios;
 	}
 	
 }

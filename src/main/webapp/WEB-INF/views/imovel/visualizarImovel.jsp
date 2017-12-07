@@ -1046,6 +1046,14 @@ function prepararModalGaleriaFotos(){
 		                                         </tbody>
 		                                      </table>
 		                                      </br> </br> 
+		                                      
+		                                       <!-- botao ver mais  -->
+				                                <c:if test="${imovelForm.isExibeMaisListaPropostas() }">
+				                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
+					                                    <a href="${urlImovel}/listar<definirFuncaoAinda>/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+					                               		<br> <br>
+					                                </div>
+				                                </c:if>	
 		                                   </c:when>		                                   
                                 	</c:choose>
                                 	
@@ -1111,7 +1119,14 @@ function prepararModalGaleriaFotos(){
 		                                            </c:forEach>
 		                                         </tbody>
 		                                      </table>
-		                                      </br> </br> 
+		                                      </br> </br>
+		                                      <!-- botao ver mais  -->
+				                                <c:if test="${imovelForm.isExibeMaisListaAtividades() }">
+				                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
+					                                    <a href="${urlImovel}/listar<definirFuncaoAinda>/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+					                               		<br> <br>
+					                                </div>
+				                                </c:if>	 
 		                                   </c:when>		                                   
                                 	</c:choose>
                                 	
@@ -1119,8 +1134,7 @@ function prepararModalGaleriaFotos(){
                                           <div class="form-group">
                                              <input type="button" class="btn btn-primary" onClick="prepararModalAtividade();" value="<spring:message code="btn.modal.adicionar.atividade"/>">
                                           </div>
-                                   </c:if>
-                                	 
+                                   </c:if>                                	 
                                 </div>
                             </div>      
                           <!-- /.END Atividades --> 
@@ -1179,6 +1193,13 @@ function prepararModalGaleriaFotos(){
 		                                         </tbody>
 		                                      </table>
 		                                      </br> </br> 
+		                                       <!-- botao ver mais  -->
+				                                <c:if test="${imovelForm.isExibeMaisListaPossivelComprador() }">
+				                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
+					                                    <a href="${urlImovel}/listar<definirFuncaoAinda>/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+					                               		<br> <br>
+					                                </div>
+				                                </c:if>	
 		                                   </c:when>		                                   
                                 	</c:choose>
                                 	
@@ -1191,8 +1212,7 @@ function prepararModalGaleriaFotos(){
                             </div>    
                           <!-- /.END Possivel Comprador --> 
                           
-                          <!-- /.START Possivel Comprador Offline --> 
-                          
+                          <!-- /.START Possivel Comprador Offline -->                           
                             <div class="panel rounded shadow">
                                 <div class="panel-heading">                              
 	                     			<h3 class="panel-title">
@@ -1250,6 +1270,13 @@ function prepararModalGaleriaFotos(){
 		                                         </tbody>
 		                                      </table>
 		                                      </br> </br> 
+		                                       <!-- botao ver mais  -->
+				                                <c:if test="${imovelForm.isExibeMaisListaPossivelCompradorOffline() }">
+				                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
+					                                    <a href="${urlImovel}/listar<definirFuncaoAinda>/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+					                               		<br> <br>
+					                                </div>
+				                                </c:if>
 		                                   </c:when>		                                   
                                 	</c:choose>
                                 	
@@ -1443,6 +1470,14 @@ function prepararModalGaleriaFotos(){
 				                                         	   </c:forEach>	                                   
 				                                         </tbody>
 				                                      </table>	
+				                                      <br></br>
+				                                       <!-- botao ver mais  -->
+						                                <c:if test="${imovelForm.isExibeMaisListaIntermediacao() }">
+						                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
+							                                    <a href="${urlImovel}/listar<definirFuncaoAinda>/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+							                               		<br> <br>
+							                                </div>
+						                                </c:if>
 		                                    	</c:when>
 		                                    	
 		                                    	<c:when test="${empty imovelForm.listaIntermediacao}">
@@ -1655,7 +1690,15 @@ function prepararModalGaleriaFotos(){
 						                                                </tr>
 					                                         	   </c:forEach>		                                            
 					                                         </tbody>
-					                                      </table>				                                     
+					                                      </table>	
+					                                      <br></br>
+					                                       <!-- botao ver mais  -->
+							                                <c:if test="${imovelForm.isExibeMaisListaParceria() }">
+							                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
+								                                    <a href="${urlImovel}/listar<definirFuncaoAinda>/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+								                               		<br> <br>
+								                                </div>
+							                                </c:if>			                                     
 							                           </div>
 		                                  	   		</c:when>
 		                                  	   		
@@ -1724,9 +1767,16 @@ function prepararModalGaleriaFotos(){
 		                                            </c:forEach>
 		                                         </tbody>
 		                                      </table>	
+		                                      <br></br>
+		                                       <!-- botao ver mais  -->
+				                                <c:if test="${imovelForm.isExibeMaisListaVisita() }">
+				                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
+					                                    <a href="${urlImovel}/listar<definirFuncaoAinda>/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+					                               		<br> <br>
+					                                </div>
+				                                </c:if>	
                                 		</c:when>
-                                	</c:choose>
-                                   
+                                	</c:choose>                                   
                                 </div>
                                </div> 
                             </c:if>
@@ -1783,16 +1833,22 @@ function prepararModalGaleriaFotos(){
 		                                            </c:forEach>
 		                                         </tbody>
 		                                      </table>
+		                                      <br></br>
+		                                       <!-- botao ver mais  -->
+				                                <c:if test="${imovelForm.isExibeMaisListaUsuariosInteressados() }">
+				                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
+					                                    <a href="${urlImovel}/listar<definirFuncaoAinda>/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+					                               		<br> <br>
+					                                </div>
+				                                </c:if>	
                                 		</c:when>
-                                	</c:choose>
-                                   
+                                	</c:choose>                                   
                                 </div>
                                </div> 
 							</c:if>
 						  <!-- /.END Usuarios Interessados-->	
 						  
-						  <!-- /.START Comentarios -->	
-															
+						  <!-- /.START Comentarios -->																
 							<div class="panel rounded shadow">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">
@@ -1827,17 +1883,22 @@ function prepararModalGaleriaFotos(){
 			                                        </li><!-- media -->											
 												</c:forEach>
 		                                    </ul>
-		                                    <br/>
-		
+		                                    <br><br/>
+		                                      <!-- botao ver mais  -->
+				                                <c:if test="${imovelForm.isExibeMaisListaComentarios() }">
+				                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
+					                                    <a href="${urlImovel}/listar<definirFuncaoAinda>/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+					                               		<br> <br>
+					                                </div>
+				                                </c:if>
+												<br>
 		                                    <ul class="media-list comment-list">
 		                                        <li class="media">                                                                                        
 		                                            <div class="mb-20"></div>
-		                                            <form class="form-horizontal mb-20" role="form">	                                                                                           
-					                                         
+		                                            <form class="form-horizontal mb-20" role="form"> 
 			                                            <div class="form-group">
 			                                               <input type="button" class="btn btn-primary" onClick="prepararModalComentario();" value='<spring:message code="btn.modal.adicionar.comentario"/> '>
-			                                            </div>
-					                                      
+			                                            </div>					                                      
 		                                            </form>
 		                                        </li>
 		                                    </ul>
@@ -1966,8 +2027,7 @@ function prepararModalGaleriaFotos(){
 	                                    </div>
 									</div>
 								</div>
-							</c:if>
-							
+							</c:if>							
 							<!-- /.END Informação de Contato do Imóvel -- Intermediador (Corretor ou Imobiliaria)-->
 							
 						</div>
