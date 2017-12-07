@@ -29,6 +29,7 @@
 <spring:url value="/intermediacao" var="urlIntermediacao"/>
 <spring:url value="/parceria" var="urlParceria"/>
 <spring:url value="/notificacao" var="urlNotificacao"/>
+<spring:url value="/imovelPropostas" var="urlImovelPropostas"/>
 
 <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBC9ter9LUNs4kWEqVoQUFy6UthDBQYuXw&callback"></script>
 
@@ -1049,8 +1050,8 @@ function prepararModalGaleriaFotos(){
 		                                      
 		                                       <!-- botao ver mais  -->
 				                                <c:if test="${imovelForm.isExibeMaisListaPropostas() }">
-				                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
-					                                    <a href="${urlImovel}/listar<definirFuncaoAinda>/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+				                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;">				                                	
+					                                    <a href="${urlImovelPropostas}/visualizarPropostasPorImovel/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
 					                               		<br> <br>
 					                                </div>
 				                                </c:if>	
@@ -1123,7 +1124,7 @@ function prepararModalGaleriaFotos(){
 		                                      <!-- botao ver mais  -->
 				                                <c:if test="${imovelForm.isExibeMaisListaAtividades() }">
 				                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
-					                                    <a href="${urlImovel}/listar<definirFuncaoAinda>/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+					                                    <a href="${urlImovel}/visualizarTodasAtividadesImovel/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
 					                               		<br> <br>
 					                                </div>
 				                                </c:if>	 
@@ -1195,8 +1196,8 @@ function prepararModalGaleriaFotos(){
 		                                      </br> </br> 
 		                                       <!-- botao ver mais  -->
 				                                <c:if test="${imovelForm.isExibeMaisListaPossivelComprador() }">
-				                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
-					                                    <a href="${urlImovel}/listar<definirFuncaoAinda>/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+				                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;">
+					                                    <a href="${urlImovel}/visualizarTodosPossivelCompradorImovel/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
 					                               		<br> <br>
 					                                </div>
 				                                </c:if>	
@@ -1273,7 +1274,7 @@ function prepararModalGaleriaFotos(){
 		                                       <!-- botao ver mais  -->
 				                                <c:if test="${imovelForm.isExibeMaisListaPossivelCompradorOffline() }">
 				                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
-					                                    <a href="${urlImovel}/listar<definirFuncaoAinda>/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+					                                     <a href="${urlImovel}/visualizarTodosPossivelCompradorImovelOffline/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
 					                               		<br> <br>
 					                                </div>
 				                                </c:if>
@@ -1473,8 +1474,8 @@ function prepararModalGaleriaFotos(){
 				                                      <br></br>
 				                                       <!-- botao ver mais  -->
 						                                <c:if test="${imovelForm.isExibeMaisListaIntermediacao() }">
-						                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
-							                                    <a href="${urlImovel}/listar<definirFuncaoAinda>/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+						                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;">
+							                                    <a href="${urlIntermediacao}/analisarSolicitacoesIntermediacoesRecebidas/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>							                                    
 							                               		<br> <br>
 							                                </div>
 						                                </c:if>
@@ -1695,7 +1696,7 @@ function prepararModalGaleriaFotos(){
 					                                       <!-- botao ver mais  -->
 							                                <c:if test="${imovelForm.isExibeMaisListaParceria() }">
 							                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
-								                                    <a href="${urlImovel}/listar<definirFuncaoAinda>/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+								                                    <a href="${urlParceria}/analisarSolicitacoesParceriasRecebidas/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
 								                               		<br> <br>
 								                                </div>
 							                                </c:if>			                                     
@@ -1771,7 +1772,7 @@ function prepararModalGaleriaFotos(){
 		                                       <!-- botao ver mais  -->
 				                                <c:if test="${imovelForm.isExibeMaisListaVisita() }">
 				                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
-					                                    <a href="${urlImovel}/listar<definirFuncaoAinda>/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+					                                    <a href="${urlImovelVisualizado}/visualizarTodosUsuariosVisitantes/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
 					                               		<br> <br>
 					                                </div>
 				                                </c:if>	
@@ -1837,7 +1838,7 @@ function prepararModalGaleriaFotos(){
 		                                       <!-- botao ver mais  -->
 				                                <c:if test="${imovelForm.isExibeMaisListaUsuariosInteressados() }">
 				                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
-					                                    <a href="${urlImovel}/listar<definirFuncaoAinda>/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+					                                    <a href="${urlImovelFavoritos}/visualizarTodosFavoritosImovel/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
 					                               		<br> <br>
 					                                </div>
 				                                </c:if>	
@@ -1887,7 +1888,7 @@ function prepararModalGaleriaFotos(){
 		                                      <!-- botao ver mais  -->
 				                                <c:if test="${imovelForm.isExibeMaisListaComentarios() }">
 				                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
-					                                    <a href="${urlImovel}/listar<definirFuncaoAinda>/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+					                                    <a href="${urlImovelComentario}/visualizarTodosComentariosImovel/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
 					                               		<br> <br>
 					                                </div>
 				                                </c:if>

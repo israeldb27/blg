@@ -95,6 +95,8 @@ public class ImovelController {
 	private static final String DIR_PATH_EDICAO = "/imovel/edicao/";	
 	private static final String DIR_PATH_EXPANSAO = "/imovel/expansao/";	
 	private static final String DIR_PATH_CADASTRO = "/imovel/cadastro/";
+	private static final String DIR_PATH_ATIVIDADES = "/imovel/atividades/";
+	private static final String DIR_PATH_POSSIVEL_COMPRADOR = "/imovel/possivelComprador/";
 	
 	
 	@Autowired
@@ -637,6 +639,26 @@ public class ImovelController {
 		}
 	}
 	
+	@RequestMapping(value = "/visualizarTodasAtividadesImovel/{idImovel}")	
+	public String visualizarTodasAtividadesImovel(@PathVariable("idImovel") Long idImovel,											       											   
+											       HttpSession session, 	
+											       ModelMap map, 											   
+											       @ModelAttribute("imovelForm") ImovelForm form){
+		
+		try {
+			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);			
+			form.setListaAtividades(atividadesService.recupe rarAtividadesPorIdImovel(idImovel));
+			map.addAttribute("imovelForm", form );
+			return DIR_PATH_ATIVIDADES + "visualizarTodasAtividadesImovel";
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelController -  visualizarTodasAtividadesImovel");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+	}
+	
+	
 	
 	@RequestMapping(value = "/adicionarPossivelCompradorOfflineDetalhesImovel/{nome}/{telefone}/{email}/{chanceCompra}/{observacao}")
 	@ResponseBody
@@ -689,6 +711,24 @@ public class ImovelController {
 		}
 	}
 	
+	@RequestMapping(value = "/visualizarTodosPossivelCompradorImovelOffline/{idImovel}")	
+	public String visualizarTodosPossivelCompradorImovelOffline(@PathVariable("idImovel") Long idImovel,											       											   
+															    HttpSession session, 	
+															    ModelMap map, 											   
+															    @ModelAttribute("imovelForm") ImovelForm form){
+		
+		try {	
+			form.setListaPossivelCompradorOffline(possivelCompradorOfflineService.recuperarListaPossivelCompradorOfflinePorIdImovel(idImovel));
+			map.addAttribute("imovelForm", form );
+			return DIR_PATH_POSSIVEL_COMPRADOR + "visualizarTodosPossivesisCompradoresImovelOffline";
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelController -  visualizarTodosPossivelCompradorImovelOffline");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+	}
+	
 	@RequestMapping(value = "/editarPossivelCompradorDetalhesImovel/{id}/{chanceCompra}/{observacao}")
 	@ResponseBody
 	public String editarPossivelCompradorDetalhesImovel(@PathVariable("id") Long id,													    
@@ -725,11 +765,28 @@ public class ImovelController {
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			possivelCompradorService.cadastrarPossivelComprador(idUsuario, idImovel);
-
 			map.addAttribute("imovelForm", form );
 			return "ok";
 		} catch (Exception e) {
 			log.error("Erro metodo - ImovelController -  adicionarPossivelCompradorDetalhesImovel");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+	}
+	
+	@RequestMapping(value = "/visualizarTodosPossivelCompradorImovel/{idImovel}")	
+	public String visualizarTodosPossivelCompradorImovel(@PathVariable("idImovel") Long idImovel,											       											   
+													     HttpSession session, 	
+													     ModelMap map, 											   
+													     @ModelAttribute("imovelForm") ImovelForm form){
+		
+		try {			
+			form.setListaPossivelComprador(possivelCompradorService.recuperarListaPossivelCompradorPorIdImovel(form.getId()));
+			map.addAttribute("imovelForm", form );
+			return DIR_PATH_POSSIVEL_COMPRADOR + "visualizarTodosPossivesisCompradoresImovel";
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelController -  visualizarTodosPossivelCompradorImovel");
 			log.error("Mensagem Erro: " + e.getMessage());
 			map.addAttribute("mensagemErroGeral", "S");
 			return ImovelService.PATH_ERRO_GERAL;
