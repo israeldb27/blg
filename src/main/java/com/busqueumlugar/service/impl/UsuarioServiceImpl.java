@@ -989,10 +989,15 @@ public class UsuarioServiceImpl implements UsuarioService{
                 }
             }
         }
-        else if ( tipoVisualizar.equals("infoPessoais")) {
-            if (! StringUtils.isEmpty(frm.getValorBusca()) && JsfUtil.isEmail(frm.getValorBusca())){
-               listaUsuario = dao.findUsuariosByCampo(frm, "email", false);
-            }            
+        else if ( tipoVisualizar.equals("infoPessoais")) {              
+            if (! StringUtils.isEmpty(frm.getValorBusca() ){
+            	if (JsfUtil.isEmail(frm.getValorBusca())
+            	   listaUsuario = dao.findUsuariosByCampo(frm, "email", false);
+            	else 
+            		listaUsuario = dao.findUsuariosByCampo(frm, "nomeLike", false);
+            	
+            }
+            
             else if ( frm.getIdEstado() > 0 || frm.getIdCidade() > 0 || frm.getIdBairro() > 0 ){                                       
                     listaUsuario = dao.findUsuarios(frm);
             }
@@ -1032,9 +1037,11 @@ public class UsuarioServiceImpl implements UsuarioService{
             }
         }
         else if ( tipoVisualizar.equals("infoPessoais")) {        	
-            if ( frm.getValorBusca()!= null && ! frm.getValorBusca().equals("") && JsfUtil.isEmail(frm.getValorBusca())){
-               listaUsuario = dao.findUsuariosByCampo(frm, "email", false);
-            }            
+        	if (JsfUtil.isEmail(frm.getValorBusca()) {
+             	   listaUsuario = dao.findUsuariosByCampo(frm, "email", false);
+             	else 
+             		listaUsuario = dao.findUsuariosByCampo(frm, "nomeLike", false);  
+        	}
             else if ( frm.getIdEstado() > 0 || frm.getIdCidade() > 0 || frm.getIdBairro() > 0 ){                                       
                     listaUsuario = dao.findUsuarios(frm);
             }

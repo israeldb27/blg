@@ -25,6 +25,8 @@ public class ContatoForm extends BaseForm {
     private String opcaoFiltro = "";
     
     private String opcaoFiltroTipoContato = "";
+    
+    private String valorBusca = "";
 
 
 	public String getOpcaoFiltroTipoContato() {
@@ -98,6 +100,13 @@ public class ContatoForm extends BaseForm {
 	}
 	public void setTipoListaContato(String tipoListaContato) {
 		this.tipoListaContato = tipoListaContato;
+	}
+	
+	public String getValorBusca() {
+		return valorBusca;
+	}
+	public void setValorBusca(String valorBusca) {
+		this.valorBusca = valorBusca;
 	}
 
 }

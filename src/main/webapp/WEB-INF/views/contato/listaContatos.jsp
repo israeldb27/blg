@@ -142,7 +142,27 @@ function mostrarModal(id){
 	                                       <br>	
 	                               	</div>
 	                        	 </div>
-                            </div><!-- /.panel -->                            
+                            </div><!-- /.panel -->  
+                            
+                            <div class="panel-body">
+                                <div class="form-group no-margin">
+                                	
+                                	<span class="label label-default"><spring:message code="lbl.nome.usuario"/> </span>  
+                                	<form:form method="POST" id="contatoFiltroForm" modelAttribute="contatoForm" action="${urlContato}/filtrarContato" >
+                                		<form:input  id="valorBusca" path="valorBusca" class="form-control"  />
+		                                <form:errors id="valorBusca" path="valorBusca" cssClass="errorEntrada"  />
+	                                    <br>
+	                                    
+	                                    <div class="pull-right">
+									  		<spring:message code="lbl.hint.aplicar.filtro" var="hintBtnFiltro"/>
+											<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
+									  </div><!-- /.pull-right -->
+                                	
+                                	</form>                      
+                                	
+                                </div>
+                            </div>
+                                                      
                         </div>	 
                         
                         <div class="col-lg-9 col-md-9 col-sm-8"> 

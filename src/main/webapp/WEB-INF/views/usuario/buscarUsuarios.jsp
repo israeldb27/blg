@@ -302,7 +302,14 @@ function cancelarSeguirUsuario(id) {
 							                       <form:option value="" ><spring:message code="opcao.selecao.uma.opcao"/></form:option>
 												   <form:options items="${listaPerfilUsuario}" itemValue="identificador" itemLabel="rotulo" />
 							                  </form:select>
-									     	<br> 									  
+									     	<br> 		
+									     	
+									     	<span class="label label-default"><spring:message code="lbl.nome.usuario"/> </span>                                                                                        
+                                            <form:input  id="valorBusca" path="valorBusca" class="form-control"  />
+			                                <form:errors id="valorBusca" path="valorBusca" cssClass="errorEntrada"  />
+                                           <br>
+                                            
+									     								  
 												  <div class="pull-right">
 												  	<spring:message code="lbl.hint.aplicar.filtro" var="hintBtnFiltro"/>
 													<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>

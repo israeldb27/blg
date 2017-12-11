@@ -383,11 +383,11 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
             if (jaEnviouSolicitacao) 
             	return MessageUtils.getMessage("msg.intermediacao.sol.sucesso.enviada.antes");
             
-            if ( imovel.getUsuario().getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){
+            /*if ( imovel.getUsuario().getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){
             	long quant = dao.findQuantIntermediacaoByIdImovelByStatus(idImovel, StatusImovelCompartilhadoEnum.ACEITA.getRotulo());
             	if ( quant > 0 )
             		return MessageUtils.getMessage("msg.parceria.sol.erro.imovel.existente");
-            }
+            }*/
         }     
         return "";
 	}
@@ -521,7 +521,7 @@ private static final Logger log = LoggerFactory.getLogger(IntermediacaoServiceIm
 	}
 	
 	@Override
-	public List<Imovel> agruparImoveisIntermediacao(Long idUsuarioSessao,	IntermediacaoForm form) {
+	public List<Imovel> agruparImoveisIntermediacao(Long idUsuarioSessao, IntermediacaoForm form) {
 
 		List<Imovel> listaFinal = new ArrayList<Imovel>();
 		List lista = null;

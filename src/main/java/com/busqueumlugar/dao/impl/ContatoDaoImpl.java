@@ -370,6 +370,12 @@ public class ContatoDaoImpl extends GenericDAOImpl<Contato, Long>  implements Co
 			critUsuarioHost.add(Restrictions.eq("perfil", form.getOpcaoFiltro()));
 			critUsuarioConvidado.add(Restrictions.eq("perfil", form.getOpcaoFiltro()));
 		}
+		
+		if (! StringUtils.isNullOrEmpty(form.getValorBusca()){
+			critUsuarioHost.add(Restrictions.ilike("nome", "%" + form.getValorBusca() + "%"));
+			critUsuarioConvidado.add(Restrictions.ilike("nome", "%" + form.getValorBusca() + "%"));
+		}		
+		
 		List<Contato> listaFinal = new ArrayList<Contato>();
 		if (! CollectionUtils.isEmpty(crit1.list())){
 			listaFinal.addAll(crit1.list());
@@ -438,6 +444,12 @@ public class ContatoDaoImpl extends GenericDAOImpl<Contato, Long>  implements Co
 			critUsuarioHost.add(Restrictions.eq("perfil", form.getOpcaoFiltro()));
 			critUsuarioConvidado.add(Restrictions.eq("perfil", form.getOpcaoFiltro()));
 		}
+		
+		if (! StringUtils.isNullOrEmpty(form.getValorBusca()){
+			critUsuarioHost.add(Restrictions.ilike("nome", "%" + form.getValorBusca() + "%"));
+			critUsuarioConvidado.add(Restrictions.ilike("nome", "%" + form.getValorBusca() + "%"));
+		}
+		
 		List<Contato> listaFinal = new ArrayList<Contato>();
 		if (! CollectionUtils.isEmpty(crit1.list())){
 			listaFinal.addAll(crit1.list());
