@@ -66,6 +66,11 @@ public class PossivelCompradorOfflineServiceImpl implements	PossivelCompradorOff
 		possivel.setObservacao(observacao);
 		dao.update(possivel);
 	}
+
+	@Override
+	public List<PossivelCompradorOffline> recuperarListaPossivelCompradorOfflinePorIdImovelPorQuant(Long idImovel, int quantMaxLista) {
+		return dao.findPossivelCompradorOfflineByIdImovelByQuant(idImovel, quantMaxLista);
+	}
 	
 	
 

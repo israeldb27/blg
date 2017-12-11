@@ -71,5 +71,7 @@ public interface ImovelcomentarioService {
 	void atualizarStatusComentariosMeusImoveis(Long idUsuario);
 
 	long checarQuantidadeTotalImoveisComentariosRecebidos(Long idUsuario);
+
+	List<Imovelcomentario> listarComentariosPorQuant(Long idImovel, int quantMaxLista);
 	
 }

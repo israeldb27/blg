@@ -61,5 +61,7 @@ public interface IntermediacaoDao extends GenericDAO<Intermediacao, Long> {
 	long checarQuantidadeIntermediacaoSolRecebidaByDonoImovelByStatusByStatusLeitura(Long idDonoImovel, String statusLeitura, String status);
 
 	long findQuantIntermediacaoByIdImovelByStatus(Long idImovel, String status);
+
+	List<Intermediacao> findIntermediacaoByIdImovelByStatusByQuant(Long idImovel, String status, int quantMaxLista);
 	
 }

@@ -72,5 +72,7 @@ public interface ImovelPropostasService {
 
 	void atualizarStatusLeituraImoveisPropostas(Long idUsuario);
 
-	long checarQuantidadesPropostasRecebidasPorUsuarioPorStatus(Long idUsuario, String status);	
+	long checarQuantidadesPropostasRecebidasPorUsuarioPorStatus(Long idUsuario, String status);
+
+	List<ImovelPropostas> recuperarPropostasImovelPorQuant(Long idImovel, int quantMaxLista);	
 }

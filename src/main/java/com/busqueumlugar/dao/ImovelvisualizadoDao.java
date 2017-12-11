@@ -13,35 +13,35 @@ import com.busqueumlugar.util.DateUtil;
 
 public interface ImovelvisualizadoDao extends GenericDAO<Imovelvisualizado, Long> {
 	
-	Imovelvisualizado findImovelvisitadoById(Long id);
+	Imovelvisualizado findImovelvisualizadoById(Long id);
 	
 	List<Imovelvisualizado> findImoveisMaisVisitadosOrderDesc();
 	
-	List<Imovelvisualizado> filterImovelVisitadoHoje(DateUtil dtHoje, ImovelForm imovelForm);
+	List<Imovelvisualizado> filterImovelVisualizadoHoje(DateUtil dtHoje, ImovelForm imovelForm);
 	
-	List relatorioImovelVisitadoPeriodo(RelatorioForm form);
+	List relatorioImovelVisualizadoPeriodo(RelatorioForm form);
 	
 	List relatorioImovelVisitadoPeriodo(AdministracaoForm form);
 	
-	List<Imovelvisualizado> filterImovelVisitadoPeriodo(DateUtil dataHoje, DateUtil dataSemana, ImovelForm imovelForm);
+	List<Imovelvisualizado> filterImovelVisualizadoPeriodo(DateUtil dataHoje, DateUtil dataSemana, ImovelForm imovelForm);
 	
-	List<Imovelvisualizado> findImoveisvisitadosByIdDonoImovel(Long idUsuario, ImovelvisualizadoForm form);
+	List<Imovelvisualizado> findImoveisvisualizadosByIdDonoImovel(Long idUsuario, ImovelvisualizadoForm form);
 	
-	List<Imovelvisualizado> findImoveisvisitadosByIdDonoImovelNovos(Long idUsuario);
+	List<Imovelvisualizado> findImoveisvisualizadosByIdDonoImovelNovos(Long idUsuario);
 	
 	List<Imovelvisualizado> findImoveisVisitadosPorIdImovel(Long idImovel);
 	
-	List filterImovelVisitadoPorDataPorQuantImoveis(Date dataInicio, Date dataFim, int quantImoveis);
+	List filterImovelVisualizadoPorDataPorQuantImoveis(Date dataInicio, Date dataFim, int quantImoveis);
 	
 	List checarImoveisComMaisVisitasPeriodo(Date dataInicio, Date dataFim, int quant);
 	
-	Imovelvisualizado findImovelVisitadoPorUsuarioPorImovel(Long idUsuario, Long idImovel);	
+	Imovelvisualizado findImovelVisualizadoPorUsuarioPorImovel(Long idUsuario, Long idImovel);	
 	
-	Imovelvisualizado findLastImoveloVisitadoByIdImovel(Long idImovel);
+	Imovelvisualizado findLastImovelVisualizadoByIdImovel(Long idImovel);
 
-	List<Imovelvisualizado> findImoveisvisitadosByIdUsuario(Long idUsuario, ImovelvisualizadoForm form);
+	List<Imovelvisualizado> findImoveisvisualizadosByIdUsuario(Long idUsuario, ImovelvisualizadoForm form);
 
-	List findMeusImoveisVisitadosByIdUsuarioDistinct(Long idUsuario, ImovelvisualizadoForm form);
+	List findMeusImoveisVisualizadoByIdUsuarioDistinct(Long idUsuario, ImovelvisualizadoForm form);
 
 	long findQuantidadeImoveisVisitadosPorImovelPorStatus(Long idImovel, String statusLeitura);
 
@@ -65,8 +65,10 @@ public interface ImovelvisualizadoDao extends GenericDAO<Imovelvisualizado, Long
 
 	Imovelvisualizado findImoveisVisitadosByIdUsuarioByIndex(Long idUsuario, int idIndex);
 
-	List findUsuariosImoveisVisitadosSemelhantes(Long idUsuario,	ImovelForm form);
+	List findUsuariosImoveisVisitadosSemelhantes(Long idUsuario, ImovelForm form);
 
-	List findUsuariosImoveisVisitados(Long idUsuario, ImovelForm form);	
+	List findUsuariosImoveisVisitados(Long idUsuario, ImovelForm form);
+
+	List<Imovelvisualizado> findImoveisVisitadosPorIdImovelByQuant(Long idImovel, int quantMaxLista);	
 	
 }

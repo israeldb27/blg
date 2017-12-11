@@ -66,4 +66,9 @@ public class AtividadesServiceImpl implements AtividadesService{
 		dao.update(atividades);
 	}
 
+	@Override
+	public List<Atividades> recuperarAtividadesPorIdImovelPorQuant(	Long idImovel, int quantMaxLista) {
+		return dao.findAtividadesByIdImovelByQuant(idImovel, quantMaxLista );
+	}
+
 }

@@ -84,5 +84,7 @@ public interface ImovelFavoritosService {
 
 	long checarQuantidadeUsuariosInteressadosPorUsuario(Long idUsuario, String status);
 
-	void atualizarStatusLeitura(Long idUsuario);			
+	void atualizarStatusLeitura(Long idUsuario);
+
+	List<Imovelfavoritos> recuperarUsuariosInteressadosPorIdImovelPorQuant(Long idImovel, int quantMaxLista);			
 }

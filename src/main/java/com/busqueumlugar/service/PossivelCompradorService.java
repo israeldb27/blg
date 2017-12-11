@@ -15,6 +15,8 @@ public interface PossivelCompradorService {
 	boolean checarUsuarioPossivelCompradorImovel(Long idUsuarioRec, Long idImovel);
 
 	void editarPossivelComprador(Long id, String chanceCompra, String observacao);
+
+	List<PossivelComprador> recuperarListaPossivelCompradorPorIdImovelPorQuant(	Long idImovel, int quantMaxLista);
 	
 
 }

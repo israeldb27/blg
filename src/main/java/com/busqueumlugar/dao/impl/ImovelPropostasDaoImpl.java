@@ -971,4 +971,25 @@ public class ImovelPropostasDaoImpl extends GenericDAOImpl<ImovelPropostas, Long
 		return crit.list();
 	}
 
+
+	@Override
+	public List<ImovelPropostas> findImovelPropostaByIdImovelByQuant(Long idImovel, int quantMaxLista) {
+		Criteria crit = session().createCriteria(ImovelPropostas.class);		
+		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));	
+		crit.addOrder(Order.desc("dataCadastro"));
+		crit.setMaxResults(quantMaxLista);	
+		return (List<ImovelPropostas>)crit.list();
+	}
+
+
+	@Override
+	public List<ImovelPropostas> findImoveisPropostasLancadasByIdUsuarioByIdImovelByQuant(Long idUsuario, Long idImovel, int quantMaxLista) {
+		Criteria crit = session().createCriteria(ImovelPropostas.class);		
+		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));
+		crit.createCriteria("usuarioLancador").add(Restrictions.eq("id", idUsuario));	
+		crit.addOrder(Order.desc("dataCadastro"));
+		crit.setMaxResults(quantMaxLista);
+		return (List<ImovelPropostas>)crit.list();	
+	}
+
 }

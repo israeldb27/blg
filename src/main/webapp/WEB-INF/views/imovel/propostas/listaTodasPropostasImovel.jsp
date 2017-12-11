@@ -18,8 +18,12 @@
 
 	function mostrarModal(id){	
 		if (id == 0){
-			$('#msgModal').html("<spring:message code='lbl.aba.modal.desc.lista.todos.possiveis.compradores'/>");		
-			$('#msgModalFuncionalidade').html("<spring:message code='lbl.lista.todos.possiveis.compradores'/>");
+			$('#msgModal').html("<spring:message code='lbl.aba.modal.desc.lista.todas.propostas'/>");		
+			$('#msgModalFuncionalidade').html("<spring:message code='lbl.lista.todas.propostas'/>");
+		}
+		else if (id == 1){
+			$('#msgModal').html("<spring:message code='lbl.aba.modal.desc.link.todos.imoveis.proposta'/>");		
+			$('#msgModalFuncionalidade').html("<spring:message code='lbl.lista.todas.minhas.propostas'/>");
 		}
 		$("#idModalItem").modal("show");
 	}
@@ -46,7 +50,7 @@
             
             	 <!-- Start header content -->
                 <div class="header-content">
-                    <h2><i class="fa fa-pencil"></i><spring:message code="lbl.title.aba.det.imovel.possivel.comprador"/> </h2>     
+                    <h2><i class="fa fa-pencil"></i><spring:message code="lbl.title.link.propostas.imoveis"/> </h2>     
                 </div><!-- /.header-content -->                
                 
                 <!-- Start body content -->
@@ -97,7 +101,7 @@
 		                                                <a href="#tab4-1" data-toggle="tab">
 		                                                    <i class="fa fa-home"></i>
 		                                                    <div>
-		                                                        <span class="text-strong"><spring:message code="lbl.title.cad.informacoes.basicas"/></span>                                                        
+		                                                        <span class="text-strong"><spring:message code="lbl.todas.propostas.info.imovel"/></span>                                                        
 		                                                    </div>
 		                                                </a>
 		                                            </li>
@@ -157,11 +161,11 @@
 	                      	   <div class="row">
 		                      		<div class="panel">
 		                      			<c:choose>
-											<c:when test="${not empty listaPossivelComprador}">
+											<c:when test="${not empty listaTodasPropostas}">
 												<div class="panel-heading">				                       
 		                                			 <div class="pull-left">	
-		                                					<h3 class="panel-title"><spring:message code="lbl.lista.todas.atividades"/></h3>
-		                                        			&nbsp;&nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.quant.total.atividades"/> </strong>: (${quantTotalAtividades}) </label>
+		                                					<h3 class="panel-title"><spring:message code="lbl.lista.todas.propostas"/></h3>
+		                                        			&nbsp;&nbsp;<label style="font-size: 12px; font-style: italic;"><strong> <spring:message code="lbl.quant.total.usuarios"/> </strong>: (${quantTotalUsuarios}) </label>
 		                                			 </div>
 		                                			 <div class="pull-right">
 				                                        <a href="#a" class="btn btn-sm" onClick="mostrarModal(0);" ><i class="fa fa-question" ></i></a>	
@@ -170,42 +174,41 @@
 				                                </div><!-- /.panel-heading -->
 				                                <div class="panel-body no-padding">
 				                                    <div class="table-responsive" style="margin-top: -1px;">
-				                                        <table class="table table-striped" >
-					                                         <thead>
-					                                            <tr>		                                              
-					                                               <th style="width: 25%;" class="text-center"><strong><spring:message code="lbl.data.cadastro.poss.comprador"/></strong></th>
-					                                               <th style="width: 40%;" class="text-center"><strong><spring:message code="lbl.nome.poss.comprador"/></strong></th>
-					                                               <th style="width: 25%; text-align: center;"><strong><spring:message code="lbl.chance.compra.poss.comprador"/></strong></th>		                                              
-					                                               <th style="width: 25%; text-align: center;"><strong><spring:message code="lbl.observacao.poss.comprador"/></strong></th>
-					                                               <th style="width: 15%;" class="text-center"></th>
-					                                               <th style="width: 15%;" class="text-center"></th>
-					                                            </tr>
-					                                         </thead>
-					
-					                                         <tbody>
-					                                            <c:forEach var="comprador" items="${listaPossivelComprador}">
-					                                               <tr>
-					                                               	  <td style="font-size: 13px;" class="text-center"> <small><fmt:formatDate value='${comprador.dataCadastro}' pattern='dd/MM/yyyy'/></small> </td>	
-					                                               	  <td style="font-size: 13px;" class="text-center">${comprador.usuarioComprador.nome} </td>
-					                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.chanceCompraFmt} </small></td>		                                               
-					                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.observacao} </small></td>
-					                                                   <td class="text-center" >
-					                                                     <a href="#a" onClick="prepararModalConfirmaEdicaoPossivelCompr('${comprador.id}', '${comprador.usuarioComprador.nome}', '${comprador.chanceCompra}','${comprador.observacao}');" ><i class="fa fa-pencil-square-o"></i></a>
-					                                                  </td>		                                                  
-					                                                  <td class="text-center" >
-					                                                     <a href="#a" onClick="prepararModalConfirmaExclusaoPossivelCompr(${comprador.id});" ><i class="fa fa-trash-o"></i></a>
-					                                                  </td>
-					                                               </tr>
-					                                            </c:forEach>
-					                                         </tbody>
-					                                      </table>
+				                                        <table class="table table-striped">
+				                                            <thead>					                                       
+			                                            		<tr>		                                                
+					                                            	<th class="text-center"></th>
+					                                                <th class="text-center"><spring:message code="lbl.usuario.proposta"/></th>
+					                                                <th class="text-center"><spring:message code="lbl.data.proposta"/></th>
+					                                                <th class="text-center"><spring:message code="lbl.valor.proposta"/></th>
+					                                            </tr>					                                      				                                            
+				                                            </thead>
+				                                            <tbody>
+				                                            <c:forEach var="imovelProposta" items="${listaTodasPropostas}" >				                                          
+			                                            			<tr>
+						                                                <td class="text-center" >	
+																			<a href="${urlUsuario}/detalhesUsuario/${imovelProposta.usuarioLancador.id}" >
+																				<img src="data:image/jpeg;base64,${imovelProposta.usuarioLancador.imagemArquivo}" style="width: 60px; height: 50px; " />
+																			</a>									                     			                				
+						                                                </td>			                                                
+						                                                <td class="text-center" style="font-size: 13px;">
+						                                                	<a href="${urlUsuario}/detalhesUsuario/${imovelProposta.usuarioLancador.id}" >
+																									${imovelProposta.usuarioLancador.nome}
+																			</a>
+																		</td>
+						                                                <td class="text-center" style="font-size: 13px;"><fmt:formatDate value='${imovelProposta.dataCadastro}' pattern='dd/MM/yyyy'/></td>
+						                                                <td class="text-center" style="font-size: 13px;"><fmt:formatNumber value="${imovelProposta.valorProposta}" pattern="#,##0.00;-0"/></td>			                                              	                                            
+						                                            </tr>				                                            		                                            
+				                                            </c:forEach>
+				                                            </tbody>
+				                                        </table>
 				                                    </div>
 				                                </div>	
 											</c:when>
-											<c:when test="${empty listaPossivelComprador}">
-												<div class="callout callout-warning">                                		
-				                                    <strong><spring:message code="msg.nenhum.possivel.comprador"/></strong>		                                    
-				                                </div>  
+											<c:when test="${empty listaTodasPropostas}">
+												<div class="callout callout-warning">
+				                                    <strong><spring:message code="msg.nenhuma.proposta.recebida"/></strong>                              
+				                                </div>
 											</c:when>
 										</c:choose>
                             		</div><!-- /.panel -->

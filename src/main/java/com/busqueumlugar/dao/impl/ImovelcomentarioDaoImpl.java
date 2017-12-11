@@ -465,4 +465,13 @@ public class ImovelcomentarioDaoImpl extends GenericDAOImpl<Imovelcomentario, Lo
 		return (long)crit.uniqueResult();
 	}
 
+	@Override
+	public List<Imovelcomentario> findImovelcomentariosByIdImovelByQuant(Long idImovel, int quantMaxLista) {
+		Criteria crit = session().createCriteria(Imovelcomentario.class);
+		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));
+		crit.addOrder(Order.desc("dataComentario"));		
+		crit.setMaxResults(quantMaxLista);
+		return crit.list();
+	}
+
 }

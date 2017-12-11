@@ -78,13 +78,13 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 	private ParametrosIniciaisService parametrosIniciaisService;
 	
 	
-	public Imovelvisualizado recuperarImovelvisitadoPorId(Long id) {
-		return dao.findImovelvisitadoById(id);
+	public Imovelvisualizado recuperarImovelvisualizadoPorId(Long id) {
+		return dao.findImovelvisualizadoById(id);
 	}
 
 	public List<Imovel> relatorioImoveisMaisVisitadosPorPeriodo(RelatorioForm frm) {	
   		
-        List lista = dao.relatorioImovelVisitadoPeriodo(frm);
+        List lista = dao.relatorioImovelVisualizadoPeriodo(frm);
             List<Imovel> listaFinal = new ArrayList<Imovel>();
             if (! CollectionUtils.isEmpty(lista)){
                 Imovel imovel = null;       
@@ -122,16 +122,16 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
         List<Imovelvisualizado> lista = null;
         if ( opcaoPeriodo != null) {
             if ( opcaoPeriodo.equals("hoje"))                
-                lista = dao.filterImovelVisitadoHoje(dtCorrente, imovelForm);
+                lista = dao.filterImovelVisualizadoHoje(dtCorrente, imovelForm);
             else if ( opcaoPeriodo.equals("semana")){
                 DateUtil dtSemana = new DateUtil();
                 dtSemana.add(Calendar.DAY_OF_MONTH, -7);
-                lista = dao.filterImovelVisitadoPeriodo(dtCorrente, dtSemana, imovelForm);
+                lista = dao.filterImovelVisualizadoPeriodo(dtCorrente, dtSemana, imovelForm);
             }                  
             else if ( opcaoPeriodo.equals("hoje")){
                 DateUtil dtMes = new DateUtil();
                 dtMes.add(Calendar.DAY_OF_MONTH, -30);
-                lista = dao.filterImovelVisitadoPeriodo(dtCorrente, dtMes, imovelForm);
+                lista = dao.filterImovelVisualizadoPeriodo(dtCorrente, dtMes, imovelForm);
             }    
         }
         
@@ -160,7 +160,7 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 		Imovel imovel = imovelDao.findImovelById(idImovel);
 		if (! imovel.getUsuario().getId().equals(idUsuario)){
 			//checar se este imovel ja foi visitado anteriormente
-	        Imovelvisualizado imovelVisitadoAntes = dao.findImovelVisitadoPorUsuarioPorImovel(idUsuario, idImovel);
+	        Imovelvisualizado imovelVisitadoAntes = dao.findImovelVisualizadoPorUsuarioPorImovel(idUsuario, idImovel);
 	        if ( imovelVisitadoAntes == null ){
 	            Imovelvisualizado imovelvisitado = new Imovelvisualizado();   
 	            imovelvisitado.setImovel(imovel);
@@ -189,7 +189,7 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 
 	
 	public List<Imovelvisualizado> recuperarUsuariosVisitantesPorImovel(Long idUsuario, ImovelvisualizadoForm form) {
-		return dao.findImoveisvisitadosByIdDonoImovel(idUsuario, form);
+		return dao.findImoveisvisualizadosByIdDonoImovel(idUsuario, form);
 	}
 
 	
@@ -216,7 +216,7 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 
 	
 	public List<Imovelvisualizado> recuperarUsuariosVisitantesPorImovelNovos(Long idUsuario) {		
-		return dao.findImoveisvisitadosByIdDonoImovelNovos(idUsuario);
+		return dao.findImoveisvisualizadosByIdDonoImovelNovos(idUsuario);
 	}
 	
 	public List<Imovelvisualizado> recuperarUsuariosVisitantesPorIdImovel(Long idImovel) {
@@ -225,7 +225,7 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 
 	
 	public List<Imovel> checarImoveisMaisAcessadosPorPeriodo(Date dataInicio, Date dataFim, int quantImoveis) {		
-		List lista = dao.filterImovelVisitadoPorDataPorQuantImoveis(dataInicio, dataFim, quantImoveis);
+		List lista = dao.filterImovelVisualizadoPorDataPorQuantImoveis(dataInicio, dataFim, quantImoveis);
         List<Imovel> listaFinal = new ArrayList<Imovel>();
         if ( !CollectionUtils.isEmpty(lista) ){
             Imovel imovel = null;       
@@ -280,7 +280,7 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 
 	
 	public Imovelvisualizado recuperarUltimaVisitaPorIdImovel(Long idImovel) {
-        return dao.findLastImoveloVisitadoByIdImovel(idImovel);
+        return dao.findLastImovelVisualizadoByIdImovel(idImovel);
 	}
 
 	
@@ -304,13 +304,13 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 
 	
 	public Imovelvisualizado recuperarUltimoUsuarioVisitantePorIdImovel(Long idImovel) {
-        return  dao.findLastImoveloVisitadoByIdImovel(idImovel);
+        return  dao.findLastImovelVisualizadoByIdImovel(idImovel);
 	}
 
 
 	@Override
 	public List<Imovelvisualizado> recuperarImoveisVisitadorPorIdUsuario(Long idUsuario, ImovelvisualizadoForm form) {
-		return dao.findImoveisvisitadosByIdUsuario(idUsuario, form);
+		return dao.findImoveisvisualizadosByIdUsuario(idUsuario, form);
 	}
 
 
@@ -344,7 +344,7 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 		List<Imovel> listaFinal = new ArrayList<Imovel>();
 		if ( form.getTipoLista().equals("meusImoveisVisitados")){
 			// lista dos IdImovel do usuario sessao na qual tenha recebido pelo menos uma visita
-			List lista = dao.findMeusImoveisVisitadosByIdUsuarioDistinct(idUsuario, form);
+			List lista = dao.findMeusImoveisVisualizadoByIdUsuarioDistinct(idUsuario, form);
 			Object[] obj = null;			
 			Imovel imovel = null;
 			for (Iterator iter = lista.iterator();iter.hasNext();){
@@ -458,6 +458,11 @@ public class ImovelvisualizadoServiceImpl implements ImovelvisualizadoService{
 	@Override
 	public List recuperarUsuariosVisitouImovelPorImovel(Long idUsuario,	ImovelForm form) {
 		return dao.findUsuariosImoveisVisitados(idUsuario, form);
+	}
+
+	@Override
+	public List<Imovelvisualizado> recuperarUsuariosVisitantesPorIdImovelPorQuant(Long idImovel, int quantMaxLista) {
+		return dao.findImoveisVisitadosPorIdImovelByQuant(idImovel, quantMaxLista);
 	}
 
 }

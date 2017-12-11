@@ -477,4 +477,9 @@ public class ImovelFavoritosServiceImpl implements ImovelFavoritosService {
 		dao.updateStatusLeitura(idUsuario);		
 	}
 
+	@Override
+	public List<Imovelfavoritos> recuperarUsuariosInteressadosPorIdImovelPorQuant(Long idImovel, int quantMaxLista) {
+		return dao.findUsuariosInteressadosPorIdImovelByQuant(idImovel, quantMaxLista);
+	}
+
 }

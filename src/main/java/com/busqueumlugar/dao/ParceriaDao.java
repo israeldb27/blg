@@ -65,5 +65,7 @@ public interface ParceriaDao extends GenericDAO<Parceria, Long> {
 	long checarQuantidadeParceriaSolRecebidaByDonoImovelByStatusByStatusLeitura(Long idDonoImovel, String statusLeitura, String status);
 
 	long findQuantParceriaByIdImovelByStatus(Long idImovel, String status);
+
+	List<Parceria> findParceriaByIdImovelByStatusByQuant(Long idImovel,	String status, int quantMaxLista);
 	
 }

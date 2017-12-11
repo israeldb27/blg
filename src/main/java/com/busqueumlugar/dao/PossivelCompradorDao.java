@@ -11,7 +11,7 @@ public interface PossivelCompradorDao extends GenericDAO<PossivelComprador, Long
 	List<PossivelComprador> findPossivelCompradorByIdImovel(Long idImovel);
 
 	PossivelComprador findPossivelCompradorByIdUsuarioByIdImovel(Long idUsuario, Long idImovel);
-	
-	
 
+	List<PossivelComprador> findPossivelCompradorByIdImovelByQuant(Long idImovel, int quantMaxLista);	
+	
 }

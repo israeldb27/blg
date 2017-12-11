@@ -485,5 +485,10 @@ public class ImovelPropostasServiceImpl implements ImovelPropostasService {
 	@Override
 	public long checarQuantidadesPropostasRecebidasPorUsuarioPorStatus(	Long idUsuario, String status) {
 		return dao.findQuantPropostasRecebidasByIdUsuarioByStatus(idUsuario, status);
+	}
+
+	@Override
+	public List<ImovelPropostas> recuperarPropostasImovelPorQuant(Long idImovel, int quantMaxLista) {
+		return dao.findImovelPropostaByIdImovelByQuant(idImovel, quantMaxLista);
 	}	
 }

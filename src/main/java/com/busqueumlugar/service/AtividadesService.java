@@ -20,4 +20,6 @@ public interface AtividadesService {
 
 	void editarAtividade(ImovelForm form, Long idAtividade,	String novaAtividade, String novaDescricaoAtividade, UsuarioForm user);
 
+	List<Atividades> recuperarAtividadesPorIdImovelPorQuant(Long idImovel,int quantMaxLista);
+
 }

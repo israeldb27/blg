@@ -16,4 +16,6 @@ public interface PossivelCompradorOfflineService {
 	void excluirPossivelCompradorOffline(Long id);
 
 	void editarPossivelCompradorOffline(Long id, String nome, String telefone, String email, String chanceCompra, String observacao);
+
+	List<PossivelCompradorOffline> recuperarListaPossivelCompradorOfflinePorIdImovelPorQuant(Long idImovel, int quantMaxLista);
 }

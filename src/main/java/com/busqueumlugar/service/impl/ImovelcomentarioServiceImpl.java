@@ -591,4 +591,9 @@ public class ImovelcomentarioServiceImpl implements ImovelcomentarioService {
 		return dao.findQuantImoveisComentariosRecebidos(idUsuario, null);
 	}
 
+	@Override
+	public List<Imovelcomentario> listarComentariosPorQuant(Long idImovel,	int quantMaxLista) {
+		return dao.findImovelcomentariosByIdImovelByQuant(idImovel, quantMaxLista);
+	}
+
 }

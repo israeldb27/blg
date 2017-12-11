@@ -34,6 +34,8 @@ public interface ImovelService {
 	String QUANT_NOVAS_INTERMEDIACOES = "quantNovasIntermediacoes";
 	String LISTA_IMOVEL_ANUNCIO_DESTAQUE = "listaImovelAnuncioDestaque";
 	
+	int QUANT_MAX_LISTA = 3;
+	
 	String PATH_ERRO_IMOVEL = "/mensagemErro";
 	String PATH_ERRO_GERAL  = "/mensagemErro";
 	

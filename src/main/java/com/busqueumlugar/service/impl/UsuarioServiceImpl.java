@@ -1838,7 +1838,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 		else
 			form.setListaImoveisUsuario(null);
 		
-		form.setDataNascimentoFmt(DateUtil.formataData(usuario.getDataNascimento()));
+		
+		if ( ! usuario.getPerfil().equals(PerfilUsuarioOpcaoEnum.IMOBILIARIA.getRotulo())){
+			form.setDataNascimentoFmt(DateUtil.formataData(usuario.getDataNascimento()));
+		}
+		
 		
 		form.setListaNotasUsuario(notaService.listarTodasNotasPorPerfil(idUsuario, null, form.getQuantMaxExibeMaisListaNotas()));
 		form.setListaSeguidores(seguidorService.recuperarSeguidoresPorIdUsuarioSeguido(idUsuario, form.getQuantMaxExibeMaisListaSeguidores()));		
@@ -2773,7 +2777,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		   buf.append("    			<img class='timeline-badge-userpic' src='data:image/jpeg;base64," + imovel.getUsuario().getImagemArquivo() + "' style='width: 72px; height: 72px; ' />  ");
 		   buf.append(" 		</a>");
 		   buf.append("   </div> ");
-		   buf.append("   <div class='timeline-body' style='width:800px;'> ");
+		   buf.append("   <div class='timeline-body' style='width:800px; max-height: 380px;'> ");
 		   buf.append("    	<div class='timeline-body-arrow'>  "); 
 		   buf.append("    	</div>   ");
 		   buf.append("      <div class='timeline-body-head'> ");
@@ -2836,10 +2840,10 @@ public class UsuarioServiceImpl implements UsuarioService{
 	        buf.append("        <div class='media rounded shadow no-overflow'>");             
 		    buf.append("            <div class='media-left'>");
 		    buf.append("                <a href='" + context.getContextPath() + "/imovel/detalhesImovel/" +  imovel.getId() + "' > ");
-		    buf.append("                   <span class='meta-provider' style='font-size:19px;'>" + imovel.getAcaoFmt() + " <br>");
+		    buf.append("                   <span class='meta-provider' style='font-size:17px; bottom: 35px;'>" + imovel.getAcaoFmt() + " <br>");
 		    buf.append("                   		<strong>  R$ " + AppUtil.formataMoedaString(imovel.getValorImovel()) + "</strong> ");
 		    buf.append("                   </span><br>");
-		    buf.append("                    <img src='data:image/jpeg;base64, " + imovel.getImagemArquivo() + "' style='width: 270px; height: 355px; '  />	"); 
+		    buf.append("                    <img src='data:image/jpeg;base64, " + imovel.getImagemArquivo() + "' style='width: 270px; height: 260px; '  />	"); 
 		    buf.append("                </a>	");
 		    buf.append("            </div>");
 		    buf.append("            <div class='media-body'>");		   
@@ -2847,14 +2851,9 @@ public class UsuarioServiceImpl implements UsuarioService{
 		    buf.append("                <h4 class='media-heading pull-left' style='margin-bottom:20px;'><a href='" + context.getContextPath() + "/imovel/detalhesImovel/" +  imovel.getId() + "'> <strong> "+ imovel.getTitulo() + " </strong> </a></h4> <br> <br> <br>");
 		 //   buf.append("	                       <h5 class='media-heading' style='margin-bottom:12px;'><i class='fa fa-map-marker'></i> " + imovel.getEndereco() + " - " + imovel.getBairro()  + " - " +  imovel.getCidade() + " - " + imovel.getUf() + "</h1> ");
 		    buf.append("	                       <h5 class='media-heading pull-left'><i class='fa fa-map-marker'></i> &nbsp;&nbsp;" + imovel.getEndereco() + "," + imovel.getBairro()  + " - " +  imovel.getCidade() + " - " + imovel.getUf() + "</h1> ");
-		    buf.append("	                       <div class='col-md-7' > ");	                                                
-		    buf.append("	                       	<div class='media-body' > ");		                               
-		  //  buf.append("                              <em class='text-xs text-muted'> <font style='font-size:13px; font-style: normal;'> "+ MessageUtils.getMessage("lbl.data.cadastro.imovel") +": </font><span class='text-success'><br>		");		                                            
-		  //  buf.append("                              <font style='font-size:11px; font-style: normal;'>" + imovel.getDataCadastroFmt() + "</font></span></em>		");
-		    buf.append("	                           </div>   ");                                             
-		    buf.append("	                           <br/> <br/> 	  ");                                               
-		    buf.append("	                       </div>  ");	                       
-		    buf.append("	                       <div class='col-md-8' style='margin-left: 152px;'> ");
+		    buf.append(" <br> </br> ");
+		    buf.append("	                       <div class='col-md-7' > ");	
+		    buf.append("	                       <div class='col-md-12' style='margin-left: 152px;'> ");
 		    buf.append("                    <table class='table table-condensed'>  ");
 		    buf.append("	                               <tbody style='font-size: 13px;'>	 ");
 		    buf.append("                        	<tr>  ");

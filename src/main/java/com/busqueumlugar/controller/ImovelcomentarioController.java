@@ -153,6 +153,24 @@ public class ImovelcomentarioController {
 		}
 	}
 	
+	@RequestMapping(value = "/listarTodosComentariosImovel/{idImovel}")
+	public String listarTodosComentariosImovel(@PathVariable Long idImovel, 
+											   HttpSession session,
+											   ModelMap map){	
+		try {
+			List<Imovelcomentario> lista = imovelComentarioService.listarComentarios(idImovel, null);
+			map.addAttribute("listaTodosComentarios", lista);
+			map.addAttribute("quantTotalComentarios", AppUtil.recuperarQuantidadeLista(lista));
+	        map.addAttribute("imovel", imovelService.recuperarImovelPorid(idImovel));        
+			return DIR_PATH + "visualizarComentariosImoveis";
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelcomentarioController -  listarTodosComentariosImovel");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+	}
+	
 	@RequestMapping(value = "/visualizarTodosComentariosImovelCompartilhado/{idImovel}")
 	public String visualizarTodosComentariosImovelCompartilhado(@PathVariable Long idImovel, 
 												   				HttpSession session,

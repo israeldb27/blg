@@ -182,16 +182,7 @@ function desmarcarCheck(id) {
 				                                    <div id="popular" class="blog-list tab-pane active">
 					                                 	 <c:forEach var="imovel" items="${listaTodosComentarios}">
 					                                		<div class="media">
-					                                			   <c:if test="${imovel.status == 'N' }">
-																		<div id="idCheckImovelDiv_${imovel.id}"   class="ribbon-wrapper">
-									                                        <div class="ribbon ribbon-danger">Novo</div>
-									                                   </div>
-									                                   		
-																	   <div class="media-left">
-									                                        <input id="idCheckImovel_${imovel.id}"  checked="checked" type="checkbox" onclick="desmarcarCheck(${imovel.id});">
-									                                    </div>
-																	</c:if>	
-					                                		
+					                                			  					                                		
 						                                        <a class="pull-left" href="${urlUsuario}/detalhesUsuario/${imovel.usuarioComentario.id}">
 						                                            <img src="data:image/jpeg;base64,${imovel.usuario.imagemArquivo}" style="width: 60px; height: 50px;"  class="img-responsive img-thumbnail"/>								                                            
 						                                        </a><!-- /.pull-left -->

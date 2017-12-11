@@ -27,11 +27,11 @@ public class Imovelvisualizado extends BaseEntity implements Serializable{
     @Column(name = "id")
 	private Long id;	
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
     @JoinColumn(name="idImovel")    
     private Imovel imovel;
     
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
     @JoinColumn(name="idUsuario")    
     private Usuario usuario;
         
@@ -42,7 +42,7 @@ public class Imovelvisualizado extends BaseEntity implements Serializable{
     @Column(name = "statusVisita")
     private String statusVisita;
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
     @JoinColumn(name="idDonoImovel")    
     private Usuario usuarioDonoImovel;
     
@@ -110,7 +110,7 @@ public class Imovelvisualizado extends BaseEntity implements Serializable{
 
     @Override
     public String toString() {
-        return "br.app.imovelvisitado.Imovelvisitado[ id=" + id + " ]";
+        return "br.app.imovelvisualizado.Imovelvisualizado[ id=" + id + " ]";
     }
 
     /**

@@ -14,7 +14,7 @@ import com.busqueumlugar.model.Usuario;
 
 public interface ImovelvisualizadoService {
 	
-	Imovelvisualizado recuperarImovelvisitadoPorId(Long id);
+	Imovelvisualizado recuperarImovelvisualizadoPorId(Long id);
 	
 	List<Imovel> relatorioImoveisMaisVisitadosPorPeriodo(RelatorioForm frm);
 	
@@ -30,7 +30,7 @@ public interface ImovelvisualizadoService {
 	
 	List<Imovelvisualizado> carregaListaNovosUsuariosVisitantes(List<Imovelvisualizado> lista);
 	
-	boolean atualizarStatus(Imovelvisualizado imovelVisitado);
+	boolean atualizarStatus(Imovelvisualizado imovelVisualizado);
 	
 	List<Imovelvisualizado> recuperarUsuariosVisitantesPorImovelNovos(Long idUsuario);
 	
@@ -77,5 +77,7 @@ public interface ImovelvisualizadoService {
 	List recuperarUsuariosVisitouImoveisSemelhantes(Long idUsuario, ImovelForm form);
 
 	List recuperarUsuariosVisitouImovelPorImovel(Long idUsuario, ImovelForm form);
+
+	List<Imovelvisualizado> recuperarUsuariosVisitantesPorIdImovelPorQuant(Long idImovel, int quantMaxLista);
 	
 }

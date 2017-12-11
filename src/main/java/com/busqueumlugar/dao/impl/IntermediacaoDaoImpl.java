@@ -1249,4 +1249,14 @@ public class IntermediacaoDaoImpl extends GenericDAOImpl<Intermediacao, Long>  i
 		return (long)crit.uniqueResult();
 	}
 
+	@Override
+	public List<Intermediacao> findIntermediacaoByIdImovelByStatusByQuant(Long idImovel, String status, int quantMaxLista) {
+		Criteria crit = session().createCriteria(Intermediacao.class);
+		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));
+		crit.addOrder(Order.desc("dataSolicitacao"));
+		crit.add(Restrictions.eq("status", status));
+		crit.setMaxResults(quantMaxLista);
+		return crit.list();	
+	}
+
 }

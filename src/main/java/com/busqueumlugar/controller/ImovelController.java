@@ -38,6 +38,8 @@ import com.busqueumlugar.form.ImovelMapaForm;
 import com.busqueumlugar.form.UsuarioForm;
 import com.busqueumlugar.model.Atividades;
 import com.busqueumlugar.model.Imovel;
+import com.busqueumlugar.model.PossivelComprador;
+import com.busqueumlugar.model.PossivelCompradorOffline;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.AtividadesService;
 import com.busqueumlugar.service.BairrosService;
@@ -74,7 +76,7 @@ public class ImovelController {
 	private ImovelService imovelService;
 	
 	@Autowired
-	private ImovelvisualizadoService imovelvisitadoService;
+	private ImovelvisualizadoService imovelvisualizadoService;
 	
 	@Autowired
 	private EstadosService estadosService;
@@ -581,7 +583,7 @@ public class ImovelController {
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			imovelComentarioService.cadastrarComentario(form.getId(), user.getId(), novoComentario);
-			form.setListaComentario(imovelComentarioService.listarComentarios(form.getId(), null)); 
+			form.setListaComentario(imovelComentarioService.listarComentariosPorQuant(form.getId(), ImovelService.QUANT_MAX_LISTA)); 
 			map.addAttribute("imovelForm", form );		
 			return DIR_PATH + "visualizarImovel";
 		} catch (Exception e) {
@@ -603,7 +605,7 @@ public class ImovelController {
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			atividadesService.cadastrarAtividade(form, novaAtividade, novaDescricaoAtividade, user);
-			form.setListaAtividades(atividadesService.recuperarAtividadesPorIdImovel(form.getId()));
+			form.setListaAtividades(atividadesService.recuperarAtividadesPorIdImovelPorQuant(form.getId(), ImovelService.QUANT_MAX_LISTA));
 			map.addAttribute("imovelForm", form );
 			return "ok";
 		} catch (Exception e) {
@@ -628,7 +630,7 @@ public class ImovelController {
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			atividadesService.editarAtividade(form, idAtividadeEdicao, novaAtividadeEdicao, novaDescricaoAtividadeEdicao, user);
-			form.setListaAtividades(atividadesService.recuperarAtividadesPorIdImovel(form.getId()));
+			form.setListaAtividades(atividadesService.recuperarAtividadesPorIdImovelPorQuant(form.getId(), ImovelService.QUANT_MAX_LISTA));
 			map.addAttribute("imovelForm", form );
 			return "ok";
 		} catch (Exception e) {
@@ -645,10 +647,11 @@ public class ImovelController {
 											       ModelMap map, 											   
 											       @ModelAttribute("imovelForm") ImovelForm form){
 		
-		try {
-			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);			
-			form.setListaAtividades(atividadesService.recupe rarAtividadesPorIdImovel(idImovel));
-			map.addAttribute("imovelForm", form );
+		try {	
+			List<Atividades> lista = atividadesService.recuperarAtividadesPorIdImovel(idImovel);
+			map.addAttribute("listaAtividades", lista );
+			map.addAttribute("quantTotalAtividades", AppUtil.recuperarQuantidadeLista( lista) );
+			map.addAttribute("imovel", imovelService.recuperarImovelPorid(idImovel) );
 			return DIR_PATH_ATIVIDADES + "visualizarTodasAtividadesImovel";
 		} catch (Exception e) {
 			log.error("Erro metodo - ImovelController -  visualizarTodasAtividadesImovel");
@@ -672,9 +675,8 @@ public class ImovelController {
 															      @ModelAttribute("imovelForm") ImovelForm form){
 		
 		try {
-			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			possivelCompradorOfflineService.cadastrarPossivelCompradorOffline(form, nome, telefone, email, chanceCompra, observacao);
-			form.setListaPossivelCompradorOffline(possivelCompradorOfflineService.recuperarListaPossivelCompradorOfflinePorIdImovel(form.getId()));
+			form.setListaPossivelCompradorOffline(possivelCompradorOfflineService.recuperarListaPossivelCompradorOfflinePorIdImovelPorQuant(form.getId(), ImovelService.QUANT_MAX_LISTA));
 			map.addAttribute("imovelForm", form );
 			return "ok";
 		} catch (Exception e) {
@@ -698,9 +700,8 @@ public class ImovelController {
 														       @ModelAttribute("imovelForm") ImovelForm form){
 		
 		try {
-			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			possivelCompradorOfflineService.editarPossivelCompradorOffline(id, nome, telefone, email, chanceCompra, observacao);
-			form.setListaPossivelCompradorOffline(possivelCompradorOfflineService.recuperarListaPossivelCompradorOfflinePorIdImovel(form.getId()));
+			form.setListaPossivelCompradorOffline(possivelCompradorOfflineService.recuperarListaPossivelCompradorOfflinePorIdImovelPorQuant(form.getId(), ImovelService.QUANT_MAX_LISTA));
 			map.addAttribute("imovelForm", form );
 			return "ok";
 		} catch (Exception e) {
@@ -714,12 +715,13 @@ public class ImovelController {
 	@RequestMapping(value = "/visualizarTodosPossivelCompradorImovelOffline/{idImovel}")	
 	public String visualizarTodosPossivelCompradorImovelOffline(@PathVariable("idImovel") Long idImovel,											       											   
 															    HttpSession session, 	
-															    ModelMap map, 											   
-															    @ModelAttribute("imovelForm") ImovelForm form){
+															    ModelMap map){
 		
 		try {	
-			form.setListaPossivelCompradorOffline(possivelCompradorOfflineService.recuperarListaPossivelCompradorOfflinePorIdImovel(idImovel));
-			map.addAttribute("imovelForm", form );
+			List<PossivelCompradorOffline> lista = possivelCompradorOfflineService.recuperarListaPossivelCompradorOfflinePorIdImovel(idImovel);
+			map.addAttribute("listaPossivelCompradorOffline", lista);
+			map.addAttribute("quantTotalPossivelCompradorOffline", AppUtil.recuperarQuantidadeLista(lista));
+			map.addAttribute("imovel", imovelService.recuperarImovelPorid(idImovel));
 			return DIR_PATH_POSSIVEL_COMPRADOR + "visualizarTodosPossivesisCompradoresImovelOffline";
 		} catch (Exception e) {
 			log.error("Erro metodo - ImovelController -  visualizarTodosPossivelCompradorImovelOffline");
@@ -739,9 +741,8 @@ public class ImovelController {
 												        @ModelAttribute("imovelForm") ImovelForm form){
 		
 		try {
-			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			possivelCompradorService.editarPossivelComprador(id, chanceCompra, observacao);
-			form.setListaPossivelComprador(possivelCompradorService.recuperarListaPossivelCompradorPorIdImovel(form.getId()));
+			form.setListaPossivelComprador(possivelCompradorService.recuperarListaPossivelCompradorPorIdImovelPorQuant(form.getId(),ImovelService.QUANT_MAX_LISTA));
 			map.addAttribute("imovelForm", form );
 			return "ok";
 		} catch (Exception e) {
@@ -763,8 +764,8 @@ public class ImovelController {
 														       @ModelAttribute("imovelForm") ImovelForm form){
 		
 		try {
-			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			possivelCompradorService.cadastrarPossivelComprador(idUsuario, idImovel);
+			form.setListaPossivelComprador(possivelCompradorService.recuperarListaPossivelCompradorPorIdImovelPorQuant(idImovel,ImovelService.QUANT_MAX_LISTA));
 			map.addAttribute("imovelForm", form );
 			return "ok";
 		} catch (Exception e) {
@@ -778,12 +779,13 @@ public class ImovelController {
 	@RequestMapping(value = "/visualizarTodosPossivelCompradorImovel/{idImovel}")	
 	public String visualizarTodosPossivelCompradorImovel(@PathVariable("idImovel") Long idImovel,											       											   
 													     HttpSession session, 	
-													     ModelMap map, 											   
-													     @ModelAttribute("imovelForm") ImovelForm form){
+													     ModelMap map){
 		
-		try {			
-			form.setListaPossivelComprador(possivelCompradorService.recuperarListaPossivelCompradorPorIdImovel(form.getId()));
-			map.addAttribute("imovelForm", form );
+		try {
+			List<PossivelComprador> lista = possivelCompradorService.recuperarListaPossivelCompradorPorIdImovel(idImovel); 
+			map.addAttribute("listaPossivelComprador", lista);
+			map.addAttribute("quantTotalPossivelComprador", AppUtil.recuperarQuantidadeLista(lista));
+			map.addAttribute("imovel", imovelService.recuperarImovelPorid(idImovel));
 			return DIR_PATH_POSSIVEL_COMPRADOR + "visualizarTodosPossivesisCompradoresImovel";
 		} catch (Exception e) {
 			log.error("Erro metodo - ImovelController -  visualizarTodosPossivelCompradorImovel");
@@ -802,7 +804,7 @@ public class ImovelController {
 		
 		try {
 			atividadesService.excluirAtividade(idAtividade);
-			form.setListaAtividades(atividadesService.recuperarAtividadesPorIdImovel(form.getId()));
+			form.setListaAtividades(atividadesService.recuperarAtividadesPorIdImovelPorQuant(form.getId(), ImovelService.QUANT_MAX_LISTA));			
 			map.addAttribute("imovelForm", form );
 			return "ok";
 		} catch (Exception e) {
@@ -820,7 +822,7 @@ public class ImovelController {
 														      @ModelAttribute("imovelForm") ImovelForm form){		
 		try {
 			possivelCompradorOfflineService.excluirPossivelCompradorOffline(idPossivelCompr);
-			form.setListaPossivelCompradorOffline(possivelCompradorOfflineService.recuperarListaPossivelCompradorOfflinePorIdImovel(form.getId()));
+			form.setListaPossivelCompradorOffline(possivelCompradorOfflineService.recuperarListaPossivelCompradorOfflinePorIdImovelPorQuant(form.getId(), ImovelService.QUANT_MAX_LISTA));
 			map.addAttribute("imovelForm", form );
 			return "ok";
 		} catch (Exception e) {
@@ -844,7 +846,7 @@ public class ImovelController {
 			String msg = imovelPropostasservice.validarCadastroProposta(form.getId(), novaProposta, user);
 			if ( msg.equals("")){
 				imovelPropostasservice.cadastrarProposta(form.getId(), user.getId(), novaDescricao, AppUtil.formatarMoeda(novaProposta));				
-				form.setListaPropostas(imovelPropostasservice.recuperarPropostasImovel(form.getId()));
+				form.setListaPropostas(imovelPropostasservice.recuperarPropostasImovelPorQuant(form.getId(), ImovelService.QUANT_MAX_LISTA));
 				map.addAttribute("imovelForm", form );
 				return "ok";
 			}
@@ -867,7 +869,7 @@ public class ImovelController {
 		
 		try {
 			imovelPropostasservice.excluirProposta(idProposta);				
-			form.setListaPropostas(imovelPropostasservice.recuperarPropostasImovel(form.getId()));
+			form.setListaPropostas(imovelPropostasservice.recuperarPropostasImovelPorQuant(form.getId(), ImovelService.QUANT_MAX_LISTA));
 			map.addAttribute("imovelForm", form );
 			return "ok";
 		} catch (Exception e) {
@@ -886,7 +888,7 @@ public class ImovelController {
 		
 		try {			
 			imovelPropostasservice.excluirProposta(idImovelproposta);
-			form.setListaPropostas(imovelPropostasservice.recuperarPropostasImovel(form.getId()));
+			form.setListaPropostas(imovelPropostasservice.recuperarPropostasImovelPorQuant(form.getId(), ImovelService.QUANT_MAX_LISTA));
 			map.addAttribute("imovelForm", form );
 			return "ok";
 		} catch (Exception e) {

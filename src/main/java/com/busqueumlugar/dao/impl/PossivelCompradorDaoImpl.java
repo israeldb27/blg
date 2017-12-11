@@ -3,6 +3,7 @@ package com.busqueumlugar.dao.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -38,6 +39,15 @@ public class PossivelCompradorDaoImpl extends GenericDAOImpl<PossivelComprador, 
 		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));
 		crit.createCriteria("usuarioComprador").add(Restrictions.eq("id", idUsuario));		
 		return (PossivelComprador) crit.uniqueResult();
+	}
+
+	@Override
+	public List<PossivelComprador> findPossivelCompradorByIdImovelByQuant(Long idImovel, int quantMaxLista) {
+		Criteria crit = session().createCriteria(PossivelComprador.class);
+		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));
+		crit.addOrder(Order.desc("dataCadastro"));
+		crit.setMaxResults(quantMaxLista);
+		return (List<PossivelComprador>)crit.list();
 	}
 
 

@@ -828,4 +828,13 @@ public class ImovelfavoritosDaoImpl extends GenericDAOImpl<Imovelfavoritos, Long
 		return crit.list();
 	}
 
+	@Override
+	public List<Imovelfavoritos> findUsuariosInteressadosPorIdImovelByQuant(Long idImovel, int quantMaxLista) {
+		Criteria crit = session().createCriteria(Imovelfavoritos.class);				
+		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));
+		crit.addOrder(Order.desc("dataInteresse"));
+		crit.setMaxResults(quantMaxLista);
+		return (List<Imovelfavoritos>)crit.list();
+	}
+
 }

@@ -51,6 +51,8 @@ public interface ImovelcomentarioDao extends GenericDAO<Imovelcomentario, Long> 
 
 	long findQuantImoveisComentariosRecebidos(Long idUsuario, String statusLeitura);
 
-	long findQuantImovelcomentariosByIdImovelStatus(Long idImovel, String statusLeitura);	
+	long findQuantImovelcomentariosByIdImovelStatus(Long idImovel, String statusLeitura);
+
+	List<Imovelcomentario> findImovelcomentariosByIdImovelByQuant(Long idImovel, int quantMaxLista);	
 
 }

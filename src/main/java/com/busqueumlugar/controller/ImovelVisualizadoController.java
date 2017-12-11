@@ -54,7 +54,7 @@ public class ImovelVisualizadoController {
 	private UsuarioService usuarioService;
 	
 	@Autowired
-	private ImovelvisualizadoService imovelVisitadoService;
+	private ImovelvisualizadoService imovelVisualizadoService;
 	
 	@Autowired
 	private EstadosService estadosService;
@@ -102,11 +102,11 @@ public class ImovelVisualizadoController {
     }
 		
 	@RequestMapping(value = "/desmarcarCheck")	
-	public void desmarcarCheck(Long idImovelvisitado, HttpServletResponse response, HttpSession session){
+	public void desmarcarCheck(Long idImovelvisualizado, HttpServletResponse response, HttpSession session){
 		try {
-			imovelVisitadoService.atualizarStatus(imovelVisitadoService.recuperarImovelvisitadoPorId(idImovelvisitado));
+			imovelVisualizadoService.atualizarStatus(imovelVisualizadoService.recuperarImovelvisualizadoPorId(idImovelvisualizado));
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
-			session.setAttribute(ImovelService.QUANT_NOVOS_VISITANTES, imovelVisitadoService.checarQuantidadeVisitantesPorUsuarioPorStatus(user.getId(), "novo"));
+			session.setAttribute(ImovelService.QUANT_NOVOS_VISITANTES, imovelVisualizadoService.checarQuantidadeVisitantesPorUsuarioPorStatus(user.getId(), "novo"));
 			response.setStatus(200);
 		} catch (Exception e) {
 			log.error("Erro metodo - ImovelVisualizadoController - populaBairroPorEstado");
@@ -125,7 +125,7 @@ public class ImovelVisualizadoController {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			map.addAttribute("imovelvisualizadoForm", form);
 	        map.addAttribute("usuarioVisitante", usuarioService.recuperarUsuarioPorId(idUsuario));
-	        map.addAttribute("listaTodasVisitas", imovelVisitadoService.recuperarImoveisVisitadosPorUsuario (idUsuario, user.getId()));
+	        map.addAttribute("listaTodasVisitas", imovelVisualizadoService.recuperarImoveisVisitadosPorUsuario (idUsuario, user.getId()));
 	        return DIR_PATH + "visualizarImoveisVisitadosUsuario";
 		} catch (Exception e) {
 			log.error("Erro metodo - ImovelVisualizadoController -  visualizarImoveisVisiteiUsuario");
@@ -146,24 +146,24 @@ public class ImovelVisualizadoController {
 			
 			if ( form.getTipoLista().equals("meusImoveisVisitados")){ // visitas que eu recebi
 				if ( form.getOpcaoVisualizacao().equals("agruparImoveis")){				
-					map.addAttribute("listaAgruposImoveis", imovelVisitadoService.agruparImoveis(user.getId(), form));
+					map.addAttribute("listaAgruposImoveis", imovelVisualizadoService.agruparImoveis(user.getId(), form));
 					map.addAttribute("imovelvisualizadoForm", form);
 					return DIR_PATH + "agruparImoveis";
 				}
 				else if ( form.getOpcaoVisualizacao().equals("agruparUsuarios")){				
-					map.addAttribute("listaAgruposUsuarios", imovelVisitadoService.agruparUsuarios(user.getId(), form));
+					map.addAttribute("listaAgruposUsuarios", imovelVisualizadoService.agruparUsuarios(user.getId(), form));
 					map.addAttribute("imovelvisualizadoForm", form);
 					return DIR_PATH + "agruparUsuarios";
 				}
 				else if ( form.getOpcaoVisualizacao().equals("todos")) {				 
 					if ( form.getTipoLista().equals("imoveisVisitados")){										 
-						 map.addAttribute("imoveisVisitados", imovelVisitadoService.recuperarImoveisVisitadorPorIdUsuario(user.getId(), form));
+						 map.addAttribute("imoveisVisitados", imovelVisualizadoService.recuperarImoveisVisitadorPorIdUsuario(user.getId(), form));
 						 map.addAttribute("imovelvisualizadoForm", form);
 						 session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "minhasVisitas");
 						 return DIR_PATH + "listarMinhasVisualizacoes";				 
 					 }
 					else if ( form.getTipoLista().equals("meusImoveisVisitados")){
-						 map.addAttribute("meusImoveisVisitados", imovelVisitadoService.recuperarUsuariosVisitantesPorImovel(user.getId(), form));
+						 map.addAttribute("meusImoveisVisitados", imovelVisualizadoService.recuperarUsuariosVisitantesPorImovel(user.getId(), form));
 						 map.addAttribute("imovelvisualizadoForm", form);			 
 						 session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "meusImoveisVisitados");
 						 return DIR_PATH + "listarVisualizacoesRecebidas";			 					 
@@ -172,18 +172,18 @@ public class ImovelVisualizadoController {
 			}		
 			else {  // imoveisvisitados - imoveis que eu visite
 				if ( form.getOpcaoVisualizacao().equals("agruparUsuarios")){				
-					map.addAttribute("listaAgruposUsuarios", imovelVisitadoService.agruparUsuarios(user.getId(), form));
+					map.addAttribute("listaAgruposUsuarios", imovelVisualizadoService.agruparUsuarios(user.getId(), form));
 					map.addAttribute("imovelvisualizadoForm", form);
 					return DIR_PATH + "agruparUsuarios";
 				}
 				else if ( form.getOpcaoVisualizacao().equals("todos")) {
 					if ( form.getTipoLista().equals("imoveisVisitados")){					 
-						 map.addAttribute("imoveisVisitados", imovelVisitadoService.recuperarImoveisVisitadorPorIdUsuario(user.getId(), form));
+						 map.addAttribute("imoveisVisitados", imovelVisualizadoService.recuperarImoveisVisitadorPorIdUsuario(user.getId(), form));
 						 map.addAttribute("imovelvisualizadoForm", form);
 						 return DIR_PATH + "listarMinhasVisualizacoes";
 					 }
 					else if ( form.getTipoLista().equals("meusImoveisVisitados")){
-						 map.addAttribute("meusImoveisVisitados", imovelVisitadoService.recuperarUsuariosVisitantesPorImovel(user.getId(), form));
+						 map.addAttribute("meusImoveisVisitados", imovelVisualizadoService.recuperarUsuariosVisitantesPorImovel(user.getId(), form));
 						 map.addAttribute("imovelvisualizadoForm", form);					 
 						 return DIR_PATH + "listarVisualizacoesRecebidas";
 					 }			
@@ -212,16 +212,16 @@ public class ImovelVisualizadoController {
 				 if ( tipoLista.equals("meusImoveisVisitados")){
 					 long quantNovas = Long.parseLong(request.getSession().getAttribute("quantNovosVisitantes").toString());
 					 if ( quantNovas > 0 ){
-						 imovelVisitadoService.atualizarStatusLeituraMeusImoveisVisitados(user.getId());
+						 imovelVisualizadoService.atualizarStatusLeituraMeusImoveisVisitados(user.getId());
 						 session.setAttribute(ImovelService.QUANT_NOVOS_VISITANTES,  0);
 					 }			 
-					 map.addAttribute("meusImoveisVisitados", imovelVisitadoService.recuperarUsuariosVisitantesPorImovel(user.getId(), form));
+					 map.addAttribute("meusImoveisVisitados", imovelVisualizadoService.recuperarUsuariosVisitantesPorImovel(user.getId(), form));
 					 map.addAttribute("imovelvisualizadoForm", form);			 
 					 session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "meusImoveisVisitados");
 					 return DIR_PATH + "listarVisualizacoesRecebidas";
 				 }
 				 else if ( tipoLista.equals("imoveisVisitados")){			 
-					 map.addAttribute("imoveisVisitados", imovelVisitadoService.recuperarImoveisVisitadorPorIdUsuario(user.getId(), form));
+					 map.addAttribute("imoveisVisitados", imovelVisualizadoService.recuperarImoveisVisitadorPorIdUsuario(user.getId(), form));
 					 map.addAttribute("imovelvisualizadoForm", form);
 					 session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "minhasVisitas");
 					 return DIR_PATH + "listarMinhasVisualizacoes";
@@ -243,12 +243,12 @@ public class ImovelVisualizadoController {
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			 if ( form.getTipoLista().equals("meusImoveisVisitados")){
-				 map.addAttribute("meusImoveisVisitados", imovelVisitadoService.recuperarUsuariosVisitantesPorImovel(user.getId(), form));
+				 map.addAttribute("meusImoveisVisitados", imovelVisualizadoService.recuperarUsuariosVisitantesPorImovel(user.getId(), form));
 				 map.addAttribute("imovelvisualizadoForm", form);
 				 return DIR_PATH + "listarVisualizacoesRecebidas";
 			 }
 			 else if ( form.getTipoLista().equals("imoveisVisitados")){
-				 map.addAttribute("imoveisVisitados", imovelVisitadoService.recuperarImoveisVisitadorPorIdUsuario(user.getId(), form));
+				 map.addAttribute("imoveisVisitados", imovelVisualizadoService.recuperarImoveisVisitadorPorIdUsuario(user.getId(), form));
 				 map.addAttribute("imovelvisualizadoForm", form);
 				 return DIR_PATH + "listarMinhasVisualizacoes";
 			 }
@@ -271,12 +271,12 @@ public class ImovelVisualizadoController {
 			 UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			 form.setOpcaoOrdenacao("");
 			 if ( form.getTipoLista().equals("meusImoveisVisitados")){
-				 map.addAttribute("meusImoveisVisitados", imovelVisitadoService.filtrarUsuariosVisitantes(user.getId(), form));
+				 map.addAttribute("meusImoveisVisitados", imovelVisualizadoService.filtrarUsuariosVisitantes(user.getId(), form));
 				 map.addAttribute("imovelvisualizadoForm", form);
 				 return DIR_PATH + "listarVisualizacoesRecebidas";
 			 }
 			 else if ( form.getTipoLista().equals("imoveisVisitados")){			 
-				 map.addAttribute("imoveisVisitados", imovelVisitadoService.filtrarImoveisVisitados(user.getId(), form));
+				 map.addAttribute("imoveisVisitados", imovelVisualizadoService.filtrarImoveisVisitados(user.getId(), form));
 				 map.addAttribute("imovelvisualizadoForm", form);
 				 return DIR_PATH + "listarMinhasVisualizacoes";
 			 }
@@ -295,7 +295,7 @@ public class ImovelVisualizadoController {
 									     ModelMap map){
 		try {
 			 UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
-			 map.addAttribute("listaAgruposUsuarios", imovelVisitadoService.filtrarAgruparUsuarios(user.getId(), form));
+			 map.addAttribute("listaAgruposUsuarios", imovelVisualizadoService.filtrarAgruparUsuarios(user.getId(), form));
 			 map.addAttribute("imovelvisualizadoForm", form);		
 			 return DIR_PATH + "agruparUsuarios";	
 		} catch (Exception e) {
@@ -312,7 +312,7 @@ public class ImovelVisualizadoController {
 									    ModelMap map){		
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);		 
-			 map.addAttribute("listaAgruposImoveis", imovelVisitadoService.filtrarAgruparImoveis(user.getId(), form));
+			 map.addAttribute("listaAgruposImoveis", imovelVisualizadoService.filtrarAgruparImoveis(user.getId(), form));
 			 map.addAttribute("imovelvisualizadoForm", form);		
 			 return DIR_PATH + "agruparImoveis";	
 		} catch (Exception e) {
@@ -331,12 +331,12 @@ public class ImovelVisualizadoController {
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			if ( form.getTipoLista().equals("meusImoveisVisitados")) {
-				 map.addAttribute("meusImoveisVisitados", imovelVisitadoService.ordenarImoveis(user.getId(), form, "meusImoveisVisitados"));
+				 map.addAttribute("meusImoveisVisitados", imovelVisualizadoService.ordenarImoveis(user.getId(), form, "meusImoveisVisitados"));
 				 map.addAttribute("imovelvisualizadoForm", form);
 				return DIR_PATH + "listarVisualizacoesRecebidas";			
 			}	
 			else {  			 
-				 map.addAttribute("imoveisVisitados", imovelVisitadoService.ordenarImoveis(user.getId(), form, "imoveisVisitados"));			 
+				 map.addAttribute("imoveisVisitados", imovelVisualizadoService.ordenarImoveis(user.getId(), form, "imoveisVisitados"));			 
 				 map.addAttribute("imovelvisualizadoForm", form);			
 				 return DIR_PATH + "listarMinhasVisualizacoes";			
 			}	
@@ -356,11 +356,11 @@ public class ImovelVisualizadoController {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);		
 			map.addAttribute("imovelvisualizadoForm", form);
 			if ( form.getOpcaoVisualizacao().equals("agruparImoveis")) {			
-				map.addAttribute("listaAgruposImoveis", imovelVisitadoService.ordenarAgruparImoveisVisitados(user.getId(), form));
+				map.addAttribute("listaAgruposImoveis", imovelVisualizadoService.ordenarAgruparImoveisVisitados(user.getId(), form));
 				return DIR_PATH + "agruparImoveis";
 			}	
 			else {			
-				map.addAttribute("listaAgruposUsuarios", imovelVisitadoService.ordenarAgruparImoveisVisitados(user.getId(), form));
+				map.addAttribute("listaAgruposUsuarios", imovelVisualizadoService.ordenarAgruparImoveisVisitados(user.getId(), form));
 				return DIR_PATH + "agruparUsuarios";
 			}
 		} catch (Exception e) {
@@ -376,7 +376,7 @@ public class ImovelVisualizadoController {
 													ModelMap map,
 													@ModelAttribute("imovelvisualizadoForm") ImovelvisualizadoForm  form){
 		try {
-			List<Imovelvisualizado> lista = imovelVisitadoService.recuperarUsuariosVisitantesPorIdImovel(idImovel);
+			List<Imovelvisualizado> lista = imovelVisualizadoService.recuperarUsuariosVisitantesPorIdImovel(idImovel);
 			map.addAttribute("listaTodasVisitasImovel", lista);
 			map.addAttribute("quantTotalUsuarios", AppUtil.recuperarQuantidadeLista(lista));
 			map.addAttribute("imovelvisualizadoForm", form);
@@ -390,11 +390,28 @@ public class ImovelVisualizadoController {
 		}
 	}
 	
+	@RequestMapping(value = "/listarTodosUsuariosVisitantes/{idImovel}")
+	public String listarTodosUsuariosVisitantes(@PathVariable Long idImovel, 
+													ModelMap map){
+		try {
+			List<Imovelvisualizado> lista = imovelVisualizadoService.recuperarUsuariosVisitantesPorIdImovel(idImovel);
+			map.addAttribute("listaTodasVisitasImovel", lista);
+			map.addAttribute("quantTotalUsuarios", AppUtil.recuperarQuantidadeLista(lista));
+			map.addAttribute("imovel", imovelService.recuperarImovelPorid(idImovel));
+			return DIR_PATH + "todasVisitasImovel";
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelVisualizadoController - listarTodosUsuariosVisitantes");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+	}
+	
 	@RequestMapping(value = "/todosUsuariosVisitantesCompartilhado/{idImovel}", method = RequestMethod.GET)
 	public String visualizarTodosUsuariosVisitantesCompartilhado(@PathVariable Long idImovel, 
 																 ModelMap map){
 		try {
-			List<Imovelvisualizado> lista = imovelVisitadoService.recuperarUsuariosVisitantesPorIdImovel(idImovel);
+			List<Imovelvisualizado> lista = imovelVisualizadoService.recuperarUsuariosVisitantesPorIdImovel(idImovel);
 			map.addAttribute("listaTodasVisitasImovel", lista);
 			map.addAttribute("quantTotalUsuarios", AppUtil.recuperarQuantidadeLista(lista));
 			map.addAttribute("imovel", imovelService.recuperarImovelPorid(idImovel));
@@ -416,9 +433,9 @@ public class ImovelVisualizadoController {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
 			List<Imovelvisualizado> lista = null;
 			if ( form.getTipoLista().equals("imoveisVisitados"))
-				lista = imovelVisitadoService.recuperarImoveisVisitadosPorUsuario(idUsuario, user.getId());
+				lista = imovelVisualizadoService.recuperarImoveisVisitadosPorUsuario(idUsuario, user.getId());
 			else
-				lista = imovelVisitadoService.recuperarImoveisVisitadosPorUsuario(user.getId(), idUsuario);
+				lista = imovelVisualizadoService.recuperarImoveisVisitadosPorUsuario(user.getId(), idUsuario);
 			map.addAttribute("listaTodasVisitasUsuario", lista);
 			map.addAttribute("quantTotalImoveis", AppUtil.recuperarQuantidadeLista(lista));
 			map.addAttribute("imovelvisualizadoForm", form);		

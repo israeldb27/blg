@@ -3,6 +3,7 @@ package com.busqueumlugar.dao.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -37,6 +38,15 @@ public class AtividadesDaoImpl extends GenericDAOImpl<Atividades, Long>  impleme
 		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));
 		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));
 		return (List<Atividades>)crit.list();	
+	}
+
+	@Override
+	public List<Atividades> findAtividadesByIdImovelByQuant(Long idImovel,	int quantMaxLista) {
+		Criteria crit = session().createCriteria(Atividades.class);
+		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));
+		crit.addOrder(Order.desc("dataAtividade"));
+		crit.setMaxResults(quantMaxLista);
+		return (List<Atividades>)crit.list();
 	}
 
 }

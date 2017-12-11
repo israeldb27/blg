@@ -23,6 +23,7 @@ import com.busqueumlugar.model.Parceria;
 import com.busqueumlugar.model.PossivelComprador;
 import com.busqueumlugar.model.PossivelCompradorOffline;
 import com.busqueumlugar.model.Usuario;
+import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.DateUtil;
 import com.busqueumlugar.util.Select;
@@ -185,7 +186,7 @@ public class ImovelForm extends BaseForm{
 	private boolean exibeMaisListaUsuariosInteressados = false;
 	private boolean exibeMaisListaComentarios= false;
 	
-	private int quantMaxLista = 15;
+	private int quantMaxLista = ImovelService.QUANT_MAX_LISTA;
 	
 	public List<Imovelfotos> getListaImovelFotos() {
 		return listaImovelFotos;
@@ -1692,7 +1693,7 @@ public class ImovelForm extends BaseForm{
 	}
 
 	public boolean isExibeMaisListaPropostas() {
-		if (! CollectionUtils.isEmpty(this.listaPropostas) && this.listaPropostas.size() > this.quantMaxLista)
+		if (! CollectionUtils.isEmpty(this.listaPropostas) && this.listaPropostas.size() >= this.quantMaxLista)
 			return true;
 		else
 			return false;
@@ -1703,7 +1704,7 @@ public class ImovelForm extends BaseForm{
 	}
 
 	public boolean isExibeMaisListaAtividades() {
-		if (! CollectionUtils.isEmpty(this.listaAtividades) && this.listaAtividades.size() > this.quantMaxLista)
+		if (! CollectionUtils.isEmpty(this.listaAtividades) && this.listaAtividades.size() >= this.quantMaxLista)
 			return true;
 		else
 			return false;
@@ -1714,7 +1715,7 @@ public class ImovelForm extends BaseForm{
 	}
 
 	public boolean isExibeMaisListaPossivelComprador() {
-		if (! CollectionUtils.isEmpty(this.listaPossivelComprador) && this.listaPossivelComprador.size() > this.quantMaxLista)
+		if (! CollectionUtils.isEmpty(this.listaPossivelComprador) && this.listaPossivelComprador.size() >= this.quantMaxLista)
 			return true;
 		else
 			return false;
@@ -1726,7 +1727,7 @@ public class ImovelForm extends BaseForm{
 	}
 
 	public boolean isExibeMaisListaPossivelCompradorOffline() {
-		if (! CollectionUtils.isEmpty(this.listaPossivelCompradorOffline) && this.listaPossivelCompradorOffline.size() > this.quantMaxLista)
+		if (! CollectionUtils.isEmpty(this.listaPossivelCompradorOffline) && this.listaPossivelCompradorOffline.size() >= this.quantMaxLista)
 			return true;
 		else
 			return false;
@@ -1738,7 +1739,7 @@ public class ImovelForm extends BaseForm{
 	}
 
 	public boolean isExibeMaisListaIntermediacao() {
-		if (! CollectionUtils.isEmpty(this.listaIntermediacao) && this.listaIntermediacao.size() > this.quantMaxLista)
+		if (! CollectionUtils.isEmpty(this.listaIntermediacao) && this.listaIntermediacao.size() >= this.quantMaxLista)
 			return true;
 		else
 			return false;
@@ -1749,7 +1750,7 @@ public class ImovelForm extends BaseForm{
 	}
 
 	public boolean isExibeMaisListaParceria() {
-		if (! CollectionUtils.isEmpty(this.listaParceria) && this.listaParceria.size() > this.quantMaxLista)
+		if (! CollectionUtils.isEmpty(this.listaParceria) && this.listaParceria.size() >= this.quantMaxLista)
 			return true;
 		else
 			return false;
@@ -1760,7 +1761,7 @@ public class ImovelForm extends BaseForm{
 	}
 
 	public boolean isExibeMaisListaVisita() {
-		if (! CollectionUtils.isEmpty(this.listaVisita) && this.listaVisita.size() > this.quantMaxLista)
+		if (! CollectionUtils.isEmpty(this.listaVisita) && this.listaVisita.size() >= this.quantMaxLista)
 			return true;
 		else
 			return false;
@@ -1771,7 +1772,7 @@ public class ImovelForm extends BaseForm{
 	}
 
 	public boolean isExibeMaisListaUsuariosInteressados() {
-		if (! CollectionUtils.isEmpty(this.listaUsuariosInteressados) && this.listaUsuariosInteressados.size() > this.quantMaxLista)
+		if (! CollectionUtils.isEmpty(this.listaUsuariosInteressados) && this.listaUsuariosInteressados.size() >= this.quantMaxLista)
 			return true;
 		else
 			return false;
@@ -1783,7 +1784,7 @@ public class ImovelForm extends BaseForm{
 	}
 
 	public boolean isExibeMaisListaComentarios() {
-		if (! CollectionUtils.isEmpty(this.listaComentario) && this.listaComentario.size() > this.quantMaxLista)
+		if (! CollectionUtils.isEmpty(this.listaComentario) && this.listaComentario.size() >= this.quantMaxLista)
 			return true;
 		else
 			return false;

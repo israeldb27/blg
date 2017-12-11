@@ -1305,4 +1305,15 @@ public class ParceriaDaoImpl extends GenericDAOImpl<Parceria, Long>  implements 
 		return (long)crit.uniqueResult();
 	}
 
+
+	@Override
+	public List<Parceria> findParceriaByIdImovelByStatusByQuant(Long idImovel, String status, int quantMaxLista) {
+		Criteria crit = session().createCriteria(Parceria.class);
+		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));
+		crit.addOrder(Order.desc("dataSolicitacao"));
+		crit.add(Restrictions.eq("status", status));
+		crit.setMaxResults(quantMaxLista);
+		return crit.list();	
+	}
+
 }

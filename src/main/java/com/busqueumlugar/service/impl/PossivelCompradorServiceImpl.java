@@ -71,4 +71,9 @@ public class PossivelCompradorServiceImpl implements PossivelCompradorService {
 		dao.update(possivel);
 	}
 
+	@Override
+	public List<PossivelComprador> recuperarListaPossivelCompradorPorIdImovelPorQuant(Long idImovel, int quantMaxLista) {
+		return dao.findPossivelCompradorByIdImovelByQuant(idImovel, quantMaxLista);
+	}
+
 }

@@ -47,7 +47,7 @@ public class ImovelDaoImpl extends GenericDAOImpl<Imovel, Long>   implements Imo
 	private PreferencialocalidadeDao preferencialocalidadeDao;
 	
 	@Autowired	
-	private ImovelvisualizadoDao imovelvisitadoDao;
+	private ImovelvisualizadoDao imovelvisualizadoDao;
 	
 	@Autowired
 	private ContatoDao contatoDao;

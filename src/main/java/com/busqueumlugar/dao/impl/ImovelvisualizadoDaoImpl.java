@@ -48,7 +48,7 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 	}    
 
 	
-	public Imovelvisualizado findImovelvisitadoById(Long id) {
+	public Imovelvisualizado findImovelvisualizadoById(Long id) {
 		return (Imovelvisualizado)session().createCriteria(Imovelvisualizado.class)
 				.add(Restrictions.eq("id", id)).uniqueResult();	
 	}
@@ -61,7 +61,7 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 	}
 
 	@Override
-	public List<Imovelvisualizado> filterImovelVisitadoHoje(DateUtil dtHoje, ImovelForm imovelForm) {
+	public List<Imovelvisualizado> filterImovelVisualizadoHoje(DateUtil dtHoje, ImovelForm imovelForm) {
 		
 		Criteria crit = session().createCriteria(Imovelvisualizado.class);
 		
@@ -81,7 +81,7 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 	}
 
 	@Override
-	public List relatorioImovelVisitadoPeriodo(RelatorioForm form) {
+	public List relatorioImovelVisualizadoPeriodo(RelatorioForm form) {
 		
 		Criteria crit = session().createCriteria(Imovelvisualizado.class);
 		Criteria critUsuario = null;
@@ -224,7 +224,7 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 	}
 
 	@Override
-	public List<Imovelvisualizado> filterImovelVisitadoPeriodo(DateUtil dataHoje, DateUtil dataSemana, ImovelForm imovelForm) {
+	public List<Imovelvisualizado> filterImovelVisualizadoPeriodo(DateUtil dataHoje, DateUtil dataSemana, ImovelForm imovelForm) {
 		
 		Criteria crit = session().createCriteria(Imovelvisualizado.class);
 		
@@ -245,7 +245,7 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 	}
 
 	@Override
-	public List<Imovelvisualizado> findImoveisvisitadosByIdDonoImovel(	Long idUsuario, ImovelvisualizadoForm form) {
+	public List<Imovelvisualizado> findImoveisvisualizadosByIdDonoImovel(	Long idUsuario, ImovelvisualizadoForm form) {
 		Criteria crit = session().createCriteria(Imovelvisualizado.class);
 		crit.createCriteria("usuarioDonoImovel").add(Restrictions.eq("id", idUsuario));	
 		form.setQuantRegistros(AppUtil.recuperarQuantidadeLista(crit.list()));
@@ -258,7 +258,7 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 	}
 
 	@Override
-	public List<Imovelvisualizado> findImoveisvisitadosByIdDonoImovelNovos(Long idUsuario) {
+	public List<Imovelvisualizado> findImoveisvisualizadosByIdDonoImovelNovos(Long idUsuario) {
 		Criteria crit = session().createCriteria(Imovelvisualizado.class);
 		crit.createCriteria("usuarioDonoImovel").add(Restrictions.eq("id", idUsuario));
 		crit.add(Restrictions.eq("statusVisita", StatusLeituraEnum.NOVO.getRotulo())).list();
@@ -273,7 +273,7 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 	}
 
 	@Override
-	public List filterImovelVisitadoPorDataPorQuantImoveis(Date dataInicio,	Date dataFim, int quantImoveis) {		
+	public List filterImovelVisualizadoPorDataPorQuantImoveis(Date dataInicio,	Date dataFim, int quantImoveis) {		
 		Criteria crit = session().createCriteria(Imovelvisualizado.class);
 		ProjectionList projList = Projections.projectionList();
 		projList.add(Projections.groupProperty("imovel.id"));
@@ -301,7 +301,7 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 	}
 
 	@Override
-	public Imovelvisualizado findImovelVisitadoPorUsuarioPorImovel(Long idUsuario,	Long idImovel) {
+	public Imovelvisualizado findImovelVisualizadoPorUsuarioPorImovel(Long idUsuario,	Long idImovel) {
 		Criteria crit = session().createCriteria(Imovelvisualizado.class);
 		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));
 		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));		
@@ -309,7 +309,7 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 	}
 
 	@Override
-	public Imovelvisualizado findLastImoveloVisitadoByIdImovel(Long idImovel) {
+	public Imovelvisualizado findLastImovelVisualizadoByIdImovel(Long idImovel) {
 		Criteria crit = session().createCriteria(Imovelvisualizado.class);
 		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));
 		crit.add(Restrictions.eq("dataCadastro", this.recuperarDataVisitaMax(idImovel)));				
@@ -326,7 +326,7 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 	
 
 	@Override
-	public List<Imovelvisualizado> findImoveisvisitadosByIdUsuario(Long idUsuario, ImovelvisualizadoForm form) {
+	public List<Imovelvisualizado> findImoveisvisualizadosByIdUsuario(Long idUsuario, ImovelvisualizadoForm form) {
 		Criteria crit = session().createCriteria(Imovelvisualizado.class);
 		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));		
 		form.setQuantRegistros(AppUtil.recuperarQuantidadeLista(crit.list()));
@@ -339,7 +339,7 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 	}
 
 	@Override
-	public List findMeusImoveisVisitadosByIdUsuarioDistinct(Long idUsuario, ImovelvisualizadoForm form) {
+	public List findMeusImoveisVisualizadoByIdUsuarioDistinct(Long idUsuario, ImovelvisualizadoForm form) {
 		Criteria crit = session().createCriteria(Imovelvisualizado.class);
 		ProjectionList projList = Projections.projectionList();	
 		projList.add(Projections.groupProperty("imovel.id"));
@@ -859,12 +859,12 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 				  (! StringUtils.isNullOrEmpty(form.getPerfilImovel()));		
 
 		if (isCritExist) {
-			Criteria crit = session().createCriteria(Imovelvisualizado.class);
-			crit.createCriteria("usuarioDonoImovel").add(Restrictions.ne("id", idUsuario));
-			crit.createCriteria("usuario").add(Restrictions.ne("id", idUsuario));
+			Criteria crit = session().createCriteria(Imovelvisualizado.class);	
 			
 			Criteria critImovel = crit.createCriteria("imovel");
-			critImovel.add(Restrictions.ne("id",  form.getId()));	  
+			critImovel.add(Restrictions.eq("id",  form.getId()));	 
+			
+			crit.createCriteria("usuarioDonoImovel").add(Restrictions.ne("id", idUsuario));
 			
 			if (  form.getIdEstado() > 0 )
 				critImovel.add(Restrictions.eq("idEstado",  form.getIdEstado()));	        	
@@ -893,16 +893,25 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 	@Override
 	public List findUsuariosImoveisVisitados(Long idUsuario, ImovelForm form) {
 		Criteria crit = session().createCriteria(Imovelvisualizado.class);
-		crit.createCriteria("usuarioDonoImovel").add(Restrictions.ne("id", idUsuario));
-		crit.createCriteria("usuario").add(Restrictions.ne("id", idUsuario));
+	
+		crit.createCriteria("imovel").add(Restrictions.eq("id",  form.getId()));
 		
-		Criteria critImovel = crit.createCriteria("imovel");
-		critImovel.add(Restrictions.ne("id",  form.getId()));
+		//crit.createCriteria("usuarioDonoImovel").add(Restrictions.ne("id", idUsuario));
 		
 		crit.addOrder(Order.desc("dataVisita"));	
 		ProjectionList projList = Projections.projectionList();
 	    projList.add(Projections.distinct(Projections.property("usuario.id")));			
 		crit.setProjection(projList);		
+		return crit.list();
+	}
+
+
+	@Override
+	public List<Imovelvisualizado> findImoveisVisitadosPorIdImovelByQuant(Long idImovel, int quantMaxLista) {
+		Criteria crit = session().createCriteria(Imovelvisualizado.class);
+		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));	
+		crit.addOrder(Order.desc("dataVisita"));
+		crit.setMaxResults(quantMaxLista);
 		return crit.list();
 	}
 

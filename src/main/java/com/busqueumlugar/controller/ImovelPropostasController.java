@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.busqueumlugar.enumerador.StatusLeituraEnum;
+import com.busqueumlugar.form.ImovelForm;
 import com.busqueumlugar.form.ImovelPropostasForm;
 import com.busqueumlugar.form.UsuarioForm;
 import com.busqueumlugar.model.ImovelPropostas;
@@ -312,6 +313,25 @@ public class ImovelPropostasController {
 			return ImovelService.PATH_ERRO_GERAL;
 		}	
     }
+	
+	 // permite visualizar todas as Propostas sobre um imovel
+		@RequestMapping(value = "/listaTodasPropostasImovel/{idImovel}", method = RequestMethod.GET)
+	    public String listaTodasPropostasImovel(@PathVariable Long idImovel, 
+		    								    ModelMap map){
+			
+			try {
+				List<ImovelPropostas> lista = imovelPropostasservice.recuperarPropostasImovel(idImovel); 
+				map.addAttribute("listaTodasPropostas", lista);
+				map.addAttribute("quantTotalUsuarios", AppUtil.recuperarQuantidadeLista(lista));
+				map.addAttribute("imovel", imovelService.recuperarImovelPorid(idImovel));
+		        return DIR_PATH + "listaTodasPropostasImovel";
+			} catch (Exception e) {
+				log.error("Erro metodo - ImovelPropostasController - listaTodasPropostasImovel");
+				log.error("Mensagem Erro: " + e.getMessage());
+				map.addAttribute("mensagemErroGeral", "S");
+				return ImovelService.PATH_ERRO_GERAL;
+			}	
+	    }
 	
 	@RequestMapping(value = "/visualizarPropostasPorImovelCompartilhado/{idImovel}", method = RequestMethod.GET)
     public String visualizarTodasPropostasImovelCompartilhado(@PathVariable Long idImovel, 

@@ -853,27 +853,29 @@ public class ImovelServiceImpl implements ImovelService{
 		Imovel imovel = dao.findImovelById(idImovel);	
 		BeanUtils.copyProperties(imovel, form);			
 		form.setListaFotos(imovelfotosService.recuperarFotosImovel(imovel.getId()));		
-		form.setListaComentario(imovelcomentarioDao.findImovelcomentariosByIdImovel(idImovel, null));
+		form.setListaComentario(imovelcomentarioDao.findImovelcomentariosByIdImovelByQuant(idImovel, ImovelService.QUANT_MAX_LISTA));
 		
 		if (usuarioSessao.getId().equals(imovel.getUsuario().getId())){
-			form.setListaPropostas(imovelPropostasDao.findImovelPropostaByIdImovel(idImovel));
-			form.setListaComentario(imovelcomentarioDao.findImovelcomentariosByIdImovel(idImovel, null));
-			form.setListaUsuariosInteressados(imovelFavoritosService.recuperarUsuariosInteressadosPorIdImovel(idImovel));
+			form.setListaPropostas(imovelPropostasDao.findImovelPropostaByIdImovelByQuant(idImovel, ImovelService.QUANT_MAX_LISTA));	
+			form.setListaUsuariosInteressados(imovelFavoritosService.recuperarUsuariosInteressadosPorIdImovelPorQuant(idImovel, ImovelService.QUANT_MAX_LISTA));
 			form.setUsuarioDonoImovel(imovel.getUsuario());
-			form.setListaVisita(imovelvisualizadoService.recuperarUsuariosVisitantesPorIdImovel(idImovel));
-			form.setListaAtividades(atividadesService.recuperarAtividadesPorIdImovel(idImovel));
-			form.setListaPossivelCompradorOffline(possivelCompradorOfflineService.recuperarListaPossivelCompradorOfflinePorIdImovel(idImovel));
-			form.setListaPossivelComprador(possivelCompradorService.recuperarListaPossivelCompradorPorIdImovel(idImovel));
+			form.setListaVisita(imovelvisualizadoService.recuperarUsuariosVisitantesPorIdImovelPorQuant(idImovel,ImovelService.QUANT_MAX_LISTA));
+			form.setListaAtividades(atividadesService.recuperarAtividadesPorIdImovelPorQuant(idImovel, ImovelService.QUANT_MAX_LISTA));
+			form.setListaPossivelCompradorOffline(possivelCompradorOfflineService.recuperarListaPossivelCompradorOfflinePorIdImovelPorQuant(idImovel, ImovelService.QUANT_MAX_LISTA));
+			form.setListaPossivelComprador(possivelCompradorService.recuperarListaPossivelCompradorPorIdImovelPorQuant(idImovel,ImovelService.QUANT_MAX_LISTA));
 			
 			if (usuarioSessao.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){
-				form.setListaIntermediacao(intermediacaoDao.findIntermediacaoByIdImovelByStatus(idImovel, 
-																								StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo()));	
+				form.setListaIntermediacao(intermediacaoDao.findIntermediacaoByIdImovelByStatusByQuant(idImovel, 
+																									   StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo(),
+																									   ImovelService.QUANT_MAX_LISTA));	
 			
 				form.setUsuarioIntermediador(intermediacaoService.recuperarUsuarioIntermediador(form.getId()));
 				form.setIntermediacaoEnviada(intermediacaoDao.findIntermediacaoByIdUsuarioSolicitanteByIdImovel(usuarioSessao.getId(), form.getId()));	
 			}
 			else {
-				form.setListaParceria(parceriaDao.findParceriaByIdImovelByStatus(idImovel, StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo()));
+				form.setListaParceria(parceriaDao.findParceriaByIdImovelByStatusByQuant(idImovel, 
+																				 		StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo(),
+																				 		ImovelService.QUANT_MAX_LISTA));
 				form.setParceriaEnviada(parceriaDao.findParceriaByIdUsuarioSolicitanteByIdImovel(usuarioSessao.getId(), form.getId()));				
 			}
 		}
@@ -886,7 +888,9 @@ public class ImovelServiceImpl implements ImovelService{
 			}
 			
 			if ( imovel.getAutorizacaoPropostas().equals("S"))
-				form.setListaPropostas(imovelPropostasDao.findImoveisPropostasLancadasByIdUsuarioByIdImovel(usuarioSessao.getId(), idImovel));
+				form.setListaPropostas(imovelPropostasDao.findImoveisPropostasLancadasByIdUsuarioByIdImovelByQuant(usuarioSessao.getId(), 
+																												   idImovel,
+																												   ImovelService.QUANT_MAX_LISTA));
 			
 			if ( imovel.getAutorizacaoOutroUsuario().equals("S") ){
 				boolean podeEnviarSolicitacoes = false; // criar um Enum para trabalhar com este atributo QuemPodeEnviarSolicitacoes
@@ -912,7 +916,8 @@ public class ImovelServiceImpl implements ImovelService{
 					if (imovel.getUsuario().getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()))	{	
 						form.setUsuarioIntermediador(intermediacaoService.recuperarUsuarioIntermediador(form.getId()));
 						if ( ! usuarioSessao.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) )						
-							form.setIntermediacaoEnviada(intermediacaoDao.findIntermediacaoByIdUsuarioSolicitanteByIdImovel(usuarioSessao.getId(), form.getId()));						
+							form.setIntermediacaoEnviada(intermediacaoDao.findIntermediacaoByIdUsuarioSolicitanteByIdImovel(usuarioSessao.getId(), 
+																															form.getId()));						
 					}	
 					else {
 						if ( ! usuarioSessao.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()) ) 

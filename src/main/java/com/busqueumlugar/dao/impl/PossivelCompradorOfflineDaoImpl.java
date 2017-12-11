@@ -3,6 +3,7 @@ package com.busqueumlugar.dao.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -28,6 +29,15 @@ public class PossivelCompradorOfflineDaoImpl extends GenericDAOImpl<PossivelComp
 	public List<PossivelCompradorOffline> findPossivelCompradorOfflineByIdImovel(Long idImovel) {
 		Criteria crit = session().createCriteria(PossivelCompradorOffline.class);
 		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));
+		return (List<PossivelCompradorOffline>)crit.list();	
+	}
+
+	@Override
+	public List<PossivelCompradorOffline> findPossivelCompradorOfflineByIdImovelByQuant(Long idImovel, int quantMaxLista) {
+		Criteria crit = session().createCriteria(PossivelCompradorOffline.class);
+		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));
+		crit.addOrder(Order.desc("dataCadastro"));
+		crit.setMaxResults(quantMaxLista);
 		return (List<PossivelCompradorOffline>)crit.list();	
 	}
 

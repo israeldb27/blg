@@ -183,6 +183,26 @@ public class ImovelFavoritosController {
 		}	
 	}
 	
+	@RequestMapping(value = "/listarTodosFavoritosUsuario/{idImovel}")
+	public String listarTodosFavoritosUsuario(@PathVariable Long idImovel,	
+											  HttpSession session,
+											  ModelMap map){
+		
+		try {
+			List<Imovelfavoritos> lista = imovelFavoritosService.recuperarUsuariosInteressadosPorIdImovel(idImovel);
+			map.addAttribute("listaTodosUsuariosInteresados", lista);
+			map.addAttribute("imovel", imovelService.recuperarImovelPorid(idImovel));
+			map.addAttribute("quantTotalUsuarios", AppUtil.recuperarQuantidadeLista(lista));
+			return DIR_PATH + "todosUsuariosListaInteresse";	
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelFavoritosController -  listarTodosFavoritosUsuario");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		}	
+	}
+	
+	
 	@RequestMapping(value = "/modoVisualizar", method = RequestMethod.POST)
     public String modoVisualizar(HttpSession session,
     							 @ModelAttribute("imovelFavoritoForm") ImovelfavoritosForm form, 

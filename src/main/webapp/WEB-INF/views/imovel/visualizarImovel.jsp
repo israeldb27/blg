@@ -30,6 +30,8 @@
 <spring:url value="/parceria" var="urlParceria"/>
 <spring:url value="/notificacao" var="urlNotificacao"/>
 <spring:url value="/imovelPropostas" var="urlImovelPropostas"/>
+<spring:url value="/imovelVisualizado" var="urlImovelVisualizado"/>
+
 
 <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBC9ter9LUNs4kWEqVoQUFy6UthDBQYuXw&callback"></script>
 
@@ -1051,7 +1053,7 @@ function prepararModalGaleriaFotos(){
 		                                       <!-- botao ver mais  -->
 				                                <c:if test="${imovelForm.isExibeMaisListaPropostas() }">
 				                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;">				                                	
-					                                    <a href="${urlImovelPropostas}/visualizarPropostasPorImovel/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+					                                    <a href="${urlImovelPropostas}/listaTodasPropostasImovel/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
 					                               		<br> <br>
 					                                </div>
 				                                </c:if>	
@@ -1230,7 +1232,7 @@ function prepararModalGaleriaFotos(){
                                 	<c:choose>
                                 		<c:when test="${empty imovelForm.listaPossivelCompradorOffline}">
                                 			<div class="callout callout-warning">                                		
-			                                    <strong><spring:message code="msg.nenhum.possivel.comprador"/>${imovelForm.listaPossivelCompradorOffline}</strong>		                                    
+			                                    <strong><spring:message code="msg.nenhum.possivel.comprador"/></strong>		                                    
 			                                </div>                             			    
 			                                
 	                                      </br> </br>	
@@ -1464,7 +1466,7 @@ function prepararModalGaleriaFotos(){
 																					${imovelIntermediacao.usuarioSolicitante.nome}
 																			</a>			                                               	  
 					                                               	  </td>
-					                                                  <td class="text-center"> <a href="${urlUsuario}/detalhesUsuario/${imovelIntermediacao.usuarioSolicitante.id}" ><img src="data:image/jpeg;base64,${imovelIntermediacao.usuarioSolicitante.imagemArquivo}"  style="width: 60px; height: 50px; " />	</a></td>
+					                                             
 					                                                  <td style="font-size: 13px;" class="text-center"><small><fmt:formatDate value='${imovelIntermediacao.dataSolicitacao}' pattern='dd/MM/yyyy'/></small></td>
 					                                                  <td style="font-size: 13px;" class="text-center"><small>${imovelIntermediacao.descricaoCompartilhamento} </small> </td>
 					                                               </tr>		                                         	   
@@ -1772,7 +1774,7 @@ function prepararModalGaleriaFotos(){
 		                                       <!-- botao ver mais  -->
 				                                <c:if test="${imovelForm.isExibeMaisListaVisita() }">
 				                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
-					                                    <a href="${urlImovelVisualizado}/visualizarTodosUsuariosVisitantes/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+					                                    <a href="${urlImovelVisualizado}/listarTodosUsuariosVisitantes/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
 					                               		<br> <br>
 					                                </div>
 				                                </c:if>	
@@ -1838,7 +1840,7 @@ function prepararModalGaleriaFotos(){
 		                                       <!-- botao ver mais  -->
 				                                <c:if test="${imovelForm.isExibeMaisListaUsuariosInteressados() }">
 				                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
-					                                    <a href="${urlImovelFavoritos}/visualizarTodosFavoritosImovel/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+					                                    <a href="${urlImovelFavoritos}/listarTodosFavoritosUsuario/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
 					                               		<br> <br>
 					                                </div>
 				                                </c:if>	
@@ -1888,7 +1890,7 @@ function prepararModalGaleriaFotos(){
 		                                      <!-- botao ver mais  -->
 				                                <c:if test="${imovelForm.isExibeMaisListaComentarios() }">
 				                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
-					                                    <a href="${urlImovelComentario}/visualizarTodosComentariosImovel/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+					                                    <a href="${urlImovelComentario}/listarTodosComentariosImovel/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
 					                               		<br> <br>
 					                                </div>
 				                                </c:if>

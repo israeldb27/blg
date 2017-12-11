@@ -11,4 +11,6 @@ public interface PossivelCompradorOfflineDao extends GenericDAO<PossivelComprado
 
 	List<PossivelCompradorOffline> findPossivelCompradorOfflineByIdImovel(Long idImovel);
 
+	List<PossivelCompradorOffline> findPossivelCompradorOfflineByIdImovelByQuant(Long idImovel, int quantMaxLista);
+
 }
