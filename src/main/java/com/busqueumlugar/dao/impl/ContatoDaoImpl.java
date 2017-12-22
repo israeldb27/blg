@@ -371,7 +371,7 @@ public class ContatoDaoImpl extends GenericDAOImpl<Contato, Long>  implements Co
 			critUsuarioConvidado.add(Restrictions.eq("perfil", form.getOpcaoFiltro()));
 		}
 		
-		if (! StringUtils.isNullOrEmpty(form.getValorBusca()){
+		if (! StringUtils.isNullOrEmpty(form.getValorBusca())) {
 			critUsuarioHost.add(Restrictions.ilike("nome", "%" + form.getValorBusca() + "%"));
 			critUsuarioConvidado.add(Restrictions.ilike("nome", "%" + form.getValorBusca() + "%"));
 		}		
@@ -445,7 +445,7 @@ public class ContatoDaoImpl extends GenericDAOImpl<Contato, Long>  implements Co
 			critUsuarioConvidado.add(Restrictions.eq("perfil", form.getOpcaoFiltro()));
 		}
 		
-		if (! StringUtils.isNullOrEmpty(form.getValorBusca()){
+		if (! StringUtils.isNullOrEmpty(form.getValorBusca())){
 			critUsuarioHost.add(Restrictions.ilike("nome", "%" + form.getValorBusca() + "%"));
 			critUsuarioConvidado.add(Restrictions.ilike("nome", "%" + form.getValorBusca() + "%"));
 		}

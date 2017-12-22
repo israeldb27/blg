@@ -27,15 +27,7 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
-	
-   $('#opcaoFiltro1').change(function () {				
-		$("#contatoFiltroForm").submit();      
-	 });
-   
-   $('#opcaoFiltroTipoContato').change(function () {				
-		$("#contatoFiltroTipoForm").submit();      
-	 });
-   
+
    $('#opcaoPaginacao').change(function () {				
  		$("#paginarContatosPageForm").submit();      
  	 });
@@ -114,54 +106,60 @@ function mostrarModal(id){
 
                                 </div><!-- /.panel-body -->
                                 
-                                <div class="panel-body">
-	                        	 	<div class="form-group no-margin">		
-	                        	 		<br>  	                                		
-	                               		<span class="label label-default"><spring:message code="lbl.relatorio.tipo.contato"/> </span>
-	                               		<spring:message code="lbl.hint.usuario.perfil.contato" var="hintFiltrar"/> 
-	                                       <form:form method="POST" id="contatoFiltroTipoForm" modelAttribute="contatoForm" action="${urlContato}/filtrarTipoContato" >
-	                                       	<form:select id="opcaoFiltroTipoContato" path="opcaoFiltroTipoContato" class="form-control" title="${hintFiltrar}">                                
-							                        <form:option value="" disabled="true"><spring:message code="opcao.selecao.uma.opcao"/></form:option>
-							                        <form:options items="${listaTipoContato}" itemValue="identificador" itemLabel="rotulo" />														
-							                  </form:select>  
-	                                       </form:form> 
-	                                       
-	                                        <br> <br>
-	                                        
-	                                       <span class="label label-default"><spring:message code="lbl.perfil.usuario"/> </span>
-	                                       <spring:message code="lbl.hint.usuario.perfil.contato" var="hintFiltrar"/> 
-	                                       <form:form method="POST" id="contatoFiltroForm" modelAttribute="contatoForm" action="${urlContato}/filtrarContato" >
-		                                       	 <form:hidden id="opcaoFiltroTipoContato" path="opcaoFiltroTipoContato" />
-		                                       	<form:select id="opcaoFiltro1" path="opcaoFiltro" class="form-control" title="${hintFiltrar}">                                
-								                        <form:option value="" disabled="true"><spring:message code="opcao.selecao.uma.opcao"/></form:option>
-								                        <form:options items="${listaPerfilUsuario}" itemValue="identificador" itemLabel="rotulo" />
-														<form:option value="T"><spring:message code="lbl.perfil.usuario.todos"/></form:option>
+                              <form:form method="POST" id="contatoFiltroTipoForm" modelAttribute="contatoForm" action="${urlContato}/filtrarTipoContato" >
+
+	                                <div class="panel-body">
+		                        	 	<div class="form-group no-margin">		
+		                        	 		<br>  	                                		
+		                               		<span class="label label-default"><spring:message code="lbl.relatorio.tipo.contato"/> </span>
+		                               		<spring:message code="lbl.hint.usuario.perfil.contato" var="hintFiltrar"/> 
+		                                       
+		                                       	<form:select id="opcaoFiltroTipoContato" path="opcaoFiltroTipoContato" class="form-control" title="${hintFiltrar}">                                          
+								                        <form:options items="${listaTipoContato}" itemValue="identificador" itemLabel="rotulo" />														
 								                  </form:select>  
-	                                       </form:form>
-	                                       
-	                                       <br>	
-	                               	</div>
-	                        	 </div>
+		                                       
+		                                       
+		                                        <br> <br>
+		                                        
+		                                       <span class="label label-default"><spring:message code="lbl.perfil.usuario"/> </span>
+		                                       <spring:message code="lbl.hint.usuario.perfil.contato" var="hintFiltrar"/> 
+		                                      
+			                                 
+			                                       	<form:select id="opcaoFiltro1" path="opcaoFiltro" class="form-control" title="${hintFiltrar}">                                
+									                        <form:option value="" disabled="true"><spring:message code="opcao.selecao.uma.opcao"/></form:option>
+									                        <form:options items="${listaPerfilUsuario}" itemValue="identificador" itemLabel="rotulo" />
+															<form:option value="T"><spring:message code="lbl.perfil.usuario.todos"/></form:option>
+									                  </form:select>  
+		                                 
+		                                       
+		                                       <br>	
+		                               	</div>
+		                        	 </div>
+		                        	 
+		                        	 <div class="panel-body">
+		                                <div class="form-group no-margin">
+		                                	
+		                                	<span class="label label-default"><spring:message code="lbl.nome.usuario"/> </span>  
+		                               
+		                                
+		                                		<form:input  id="valorBusca" path="valorBusca" class="form-control"  />
+				                                <form:errors id="valorBusca" path="valorBusca" cssClass="errorEntrada"  />
+			                                    <br>
+			                                    
+			                                    <div class="pull-right">
+											  		<spring:message code="lbl.hint.aplicar.filtro" var="hintBtnFiltro"/>
+													<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
+											  </div><!-- /.pull-right -->
+		                                	
+		                                                
+		                                	
+		                                </div>
+		                            </div>
+	                            
+	                            </form:form> 
                             </div><!-- /.panel -->  
                             
-                            <div class="panel-body">
-                                <div class="form-group no-margin">
-                                	
-                                	<span class="label label-default"><spring:message code="lbl.nome.usuario"/> </span>  
-                                	<form:form method="POST" id="contatoFiltroForm" modelAttribute="contatoForm" action="${urlContato}/filtrarContato" >
-                                		<form:input  id="valorBusca" path="valorBusca" class="form-control"  />
-		                                <form:errors id="valorBusca" path="valorBusca" cssClass="errorEntrada"  />
-	                                    <br>
-	                                    
-	                                    <div class="pull-right">
-									  		<spring:message code="lbl.hint.aplicar.filtro" var="hintBtnFiltro"/>
-											<button type="submit" class="button btn-primary" title="${hintBtnFiltro}"> <spring:message code="lbl.filtrar.geral"/></button>
-									  </div><!-- /.pull-right -->
-                                	
-                                	</form>                      
-                                	
-                                </div>
-                            </div>
+                            
                                                       
                         </div>	 
                         

@@ -164,6 +164,9 @@ public class SeguidorDaoImpl extends GenericDAOImpl<Seguidor, Long>  implements 
         
         if (! StringUtils.isNullOrEmpty(form.getOpcaoFiltro()) )
         	critUsuarioSeguidor.add(Restrictions.eq("perfil", form.getOpcaoFiltro()));
+        
+        if (! StringUtils.isNullOrEmpty(form.getValorBusca()))
+        	critUsuarioSeguidor.add(Restrictions.ilike("nome", "%" + form.getValorBusca() + "%"));        
 		
 	    form.setQuantRegistros(AppUtil.recuperarQuantidadeLista(crit.list()));
     	if ( form.isVisible()){
@@ -182,7 +185,10 @@ public class SeguidorDaoImpl extends GenericDAOImpl<Seguidor, Long>  implements 
 		critUsuarioSeguidor.add(Restrictions.eq("id", idUsuario));  
 		
         if (! StringUtils.isNullOrEmpty(form.getOpcaoFiltro()) )
-        	critUsuarioSeguido.add(Restrictions.eq("perfil", form.getOpcaoFiltro()));		
+        	critUsuarioSeguido.add(Restrictions.eq("perfil", form.getOpcaoFiltro()));	
+        
+        if (! StringUtils.isNullOrEmpty(form.getValorBusca()))
+        	critUsuarioSeguido.add(Restrictions.ilike("nome", "%" + form.getValorBusca() + "%"));  
 		
 		form.setQuantRegistros(AppUtil.recuperarQuantidadeLista(crit.list()));
     	if ( form.isVisible()){

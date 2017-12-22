@@ -197,39 +197,51 @@ function confirmarRemocaoSolIntermediacaoAnaliseSol(){
                                 <div class="panel-body">
                                     <div class="tab-content">
                                         <div class="tab-pane fade in active" id="tab1-1">
-                                        	<c:if test="${intermediacaoSelecionadaForm != null }">
-                                        		<div class="form-group"> &nbsp;&nbsp;	 </div><!-- /.form-group -->
-                                        		 
-                                        		 <div class="form-group">																            
-							                             <strong class="col-sm-3"><spring:message code="lbl.nome.usuario"/> </strong>   <a href="${urlUsuario}/detalhesUsuario/${intermediacaoSelecionadaForm.usuarioSolicitante.id}" >
-																																			${intermediacaoSelecionadaForm.usuarioSolicitante.nome}
-																																	   </a> 						                                  
-		                                         </div><!-- /.form-group -->
+                                        	<c:choose>
+                                        		<c:when test="${not empty listaImovelIntermediacaoSelecionados }">
+                                        			<div class="form-group"> &nbsp;&nbsp;	 </div><!-- /.form-group -->                                        		
+		                                        			<div class="table-responsive">
+		                                                        <table class="table table-middle">
+		                                                        	<thead>
+						                                            <tr>
+						                                            	<th class="text-center"> </th>
+						                                                <th class="text-center"><spring:message code="lbl.nome.usuario.intermediacao"/></th>
+						                                                <th class="text-center"><spring:message code="lbl.data.resposta"/></th>
+						                                                <th class="text-center"><spring:message code="lbl.data.sol"/></th>				                                                                                                
+						                                                <th class="text-center"><spring:message code="lbl.table.data.acoes"/></th>                                                
+						                                            </tr>
+						                                            </thead>
+		                                                            <tbody>
+		                                                            <c:forEach var="intermediacaoSelecionada" items="${listaImovelIntermediacaoSelecionados}" >                                                            
+			                                                            <tr class="border-primary">
+			                                                                <td> 
+																				<a href="${urlUsuario}/detalhesUsuario/${intermediacaoSelecionada.usuarioSolicitante.id}" >
+																					<img src="data:image/jpeg;base64,${intermediacaoSelecionada.usuarioSolicitante.imagemArquivo}" style="width: 35px; height: 35px; " />
+																				</a>
+			                                                                </td>
+			                                                                <td class="text-center"><b><a href="${urlUsuario}/detalhesUsuario/${intermediacaoSelecionada.usuarioSolicitante.id}" >
+																											${intermediacaoSelecionada.usuarioSolicitante.nome}
+																									   </a></b>
+																			</td>
+			                                                                <td class="text-center"><fmt:formatDate value='${intermediacaoSelecionada.dataResposta}' pattern='dd/MM/yyyy'/></td>
+			                                                                <td class="text-center"><fmt:formatDate value='${intermediacaoSelecionada.dataSolicitacao}' pattern='dd/MM/yyyy'/></td>                                                                
+			                                                                <td class="text-center"><a href="#" onClick="prepararModalConfirmaRemocao(${intermediacaoSelecionada.id},${intermediacaoSelecionada.imovel.id})" data-toggle="tooltip" data-placement="top" data-original-title="Excluir Solicitação"><i class="fa fa-times"></i></a> 
+		                                          							</td>
+			                                                            </tr>
+		                                                            </c:forEach>
+		                                                            </tbody>
+		                                                        </table>
+		                                                    </div>
+                                        		</c:when>
                                         		
-	                                             <div class="form-group">																            
-							                             <strong class="col-sm-3"><spring:message code="lbl.data.sol"/> </strong>  <fmt:formatDate value='${intermediacaoSelecionadaForm.dataResposta}' pattern='dd/MM/yyyy'/>						                                  
-		                                         </div><!-- /.form-group -->
-		                                           
-		                                         <div class="form-group">																            
-							                             <strong class="col-sm-3"><spring:message code="lbl.data.resposta"/> </strong>  <fmt:formatDate value='${intermediacaoSelecionadaForm.dataSolicitacao}' pattern='dd/MM/yyyy'/>						                                  
-		                                         </div><!-- /.form-group -->  
-		                                         
-		                                         <div class="form-group">																            
-							                             <strong class="col-sm-3"><spring:message code="lbl.desc.solicitacao"/> </strong>  ${intermediacaoSelecionadaForm.descricaoCompartilhamento}						                                  
-		                                         </div><!-- /.form-group -->
-		                                         
-		                                         <div class="section-sample">		                                				
-		                                				<a href="#" onClick="prepararModalConfirmaRemocao(${intermediacaoSelecionadaForm.id}, ${intermediacaoSelecionadaForm.imovel.id })" class="btn btn-primary btn-stroke"><spring:message code="lbl.link.limpar.sol.intermediacoes"/></a>         
-		                                         </div>
-                                        
-	                                         </c:if>	                                         
-	                                         <c:if test="${intermediacaoSelecionadaForm == null }">
-	                                         		  <div class="form-group"> &nbsp;&nbsp;	 </div><!-- /.form-group -->
-	                                         		  <div align="center">	                                         		  
-	                                         		  		<spring:message code="lbl.nenhuma.intermediacao"/>			                                         	
-			                                         </div>	                                         			                                         
-	                                         		  <div class="form-group"> &nbsp;&nbsp;	 </div><!-- /.form-group -->
-	                                         </c:if>
+                                        		<c:when test="${empty listaImovelIntermediacaoSelecionados }">
+                                        		    <div class="form-group"> &nbsp;&nbsp;	 </div><!-- /.form-group -->
+		                                         		  <div align="center">	                                         		  
+		                                         		  		<spring:message code="lbl.nenhuma.intermediacao"/>			                                         	
+				                                         </div>	                                         			                                         
+		                                         	 <div class="form-group"> &nbsp;&nbsp;	 </div><!-- /.form-group --> 
+                                        		</c:when>
+                                        	</c:choose>                                        	
                                         </div>
                                         <div class="tab-pane fade" id="tab1-2" >                                            
                                            
@@ -251,8 +263,7 @@ function confirmarRemocaoSolIntermediacaoAnaliseSol(){
                                             
                                             <div class="form-group">																            
 						                         <strong class="col-sm-3"><spring:message code="lbl.data.cadastro.imovel"/> </strong>  <fmt:formatDate value='${imovel.dataCadastro}' pattern='dd/MM/yyyy'/>						                                  
-	                                        </div><!-- /.form-group -->                                            
-                                            
+	                                        </div><!-- /.form-group -->  
                                         </div>                                   
                                     </div>
                                 </div><!-- /.panel-body -->

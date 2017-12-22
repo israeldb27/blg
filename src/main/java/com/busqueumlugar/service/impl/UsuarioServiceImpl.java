@@ -990,21 +990,11 @@ public class UsuarioServiceImpl implements UsuarioService{
             }
         }
         else if ( tipoVisualizar.equals("infoPessoais")) {              
-            if (! StringUtils.isEmpty(frm.getValorBusca() ){
-            	if (JsfUtil.isEmail(frm.getValorBusca())
-            	   listaUsuario = dao.findUsuariosByCampo(frm, "email", false);
-            	else 
-            		listaUsuario = dao.findUsuariosByCampo(frm, "nomeLike", false);
-            	
-            }
-            
-            else if ( frm.getIdEstado() > 0 || frm.getIdCidade() > 0 || frm.getIdBairro() > 0 ){                                       
-                    listaUsuario = dao.findUsuarios(frm);
-            }
-            else {                
-                if (! StringUtils.isEmpty(frm.getValorBusca())) 
-                    listaUsuario = dao.findUsuariosByCampo(frm, "nome", false);                
-            } 
+            if (! StringUtils.isEmpty(frm.getEmail()))            
+            	   listaUsuario.addAll(dao.findUsuariosByCampo(frm, "email", false));          	
+                       
+            if ( frm.getIdEstado() > 0 )                                       
+            	listaUsuario.addAll(dao.findUsuarios(frm));
             
             if ( ! CollectionUtils.isEmpty(listaUsuario)){
             	if (! usuarioSessao.getPerfil().equals(PerfilUsuarioOpcaoEnum.ADMIN.getRotulo())){
@@ -1036,14 +1026,12 @@ public class UsuarioServiceImpl implements UsuarioService{
                 listaUsuario = preferenciaLocalidadeDao.findPreferencialocalidadeSemDuplicidadeUsuario(frm);          
             }
         }
-        else if ( tipoVisualizar.equals("infoPessoais")) {        	
-        	if (JsfUtil.isEmail(frm.getValorBusca()) {
-             	   listaUsuario = dao.findUsuariosByCampo(frm, "email", false);
-             	else 
-             		listaUsuario = dao.findUsuariosByCampo(frm, "nomeLike", false);  
-        	}
-            else if ( frm.getIdEstado() > 0 || frm.getIdCidade() > 0 || frm.getIdBairro() > 0 ){                                       
-                    listaUsuario = dao.findUsuarios(frm);
+        else if ( tipoVisualizar.equals("infoPessoais")) { 
+        	if ( !StringUtils.isEmpty(frm.getEmail())){
+        		listaUsuario.addAll(dao.findUsuariosByCampo(frm, "email", false));     			
+        	}        	
+            if ( frm.getIdEstado() > 0 ){                                       
+                 listaUsuario.addAll(dao.findUsuarios(frm));
             }
             else {                
                 if ( frm.getValorBusca() != null && ! frm.getValorBusca().equals("")) 
@@ -2107,7 +2095,19 @@ public class UsuarioServiceImpl implements UsuarioService{
 	@Override
 	public List<Usuario> pesquisarTodosUsuarios (UsuarioForm form){		
 		form.setNome(form.getValorBusca());
-		return dao.findUsuariosByCampo(form, "nomeLike", false);
+		List<Usuario> lista = dao.findUsuariosByCampo(form, "nomeLike", false);
+		List<Usuario> listaFinal = new ArrayList<Usuario>();
+		if ( ! CollectionUtils.isEmpty(lista)){
+			for (Usuario usuario : lista){
+				usuario.setQuantTotalImoveis(imovelService.checarQuantMeusImoveis(usuario.getId()));
+				usuario.setQuantTotalContatos(contatoService.checarTotalContatosPorUsuarioPorStatus(usuario.getId(), ContatoStatusEnum.OK.getRotulo()));
+				usuario.setQuantTotalSeguidores(seguidorService.checarQuantidadeSeguidores(usuario.getId()));
+				usuario.setQuantTotalRecomendacoes(recomendacaoService.checarQuantidadeTotalRecomendacaoRecebidaPorStatus(usuario.getId(), RecomendacaoStatusEnum.ACEITO.getRotulo()));
+				listaFinal.add(usuario);	
+			}
+		}
+		
+		return listaFinal;
 	}
 	
 	@Override

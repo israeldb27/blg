@@ -7,9 +7,9 @@ import com.busqueumlugar.util.MessageUtils;
 
 public enum TipoContatoOpcao2Enum implements Serializable, ICodigoDescricao {
 	
+	meusContatos(MessageUtils.getMessage("lbl.relatorio.meus.contatos")),
 	usuariosSeguidores(MessageUtils.getMessage("lbl.relatorio.usuarios.seguidores")),
-	usuariosSeguindo(MessageUtils.getMessage("lbl.relatorio.usuarios.seguindo")),
-	meusContatos(MessageUtils.getMessage("lbl.relatorio.meus.contatos"));
+	usuariosSeguindo(MessageUtils.getMessage("lbl.relatorio.usuarios.seguindo"));
 	
     private String descricao;
     

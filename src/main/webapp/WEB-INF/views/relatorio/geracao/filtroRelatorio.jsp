@@ -333,7 +333,7 @@ function mostrarModalInfo(){
                                       <div class="form-body">
                                     	<form:hidden id="path" path="path" value="${relatorioForm.path}"  />
                                         <form:hidden id="item" path="item" value="${menu}"  />
-                                        <form:hidden id="itemFmt" path="item" value="${relatorioForm.itemFmt}"  />
+                                        <form:hidden id="itemFmt" path="itemFmt" value="${relatorioForm.itemFmt}"  />
                                         
                                      <!-- INICIO PRIMEIRO GRUPO DE RELATORIOS -->
                                      	  <c:choose>

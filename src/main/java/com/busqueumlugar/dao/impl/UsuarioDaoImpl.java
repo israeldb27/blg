@@ -162,6 +162,9 @@ public class UsuarioDaoImpl extends GenericDAOImpl<Usuario, Long> implements  Us
 			else if (nomeCampo.equals("nomeLike")){
 				crit.add(Restrictions.ilike("nome", "%" + form.getNome() + "%"));
 			}
+			else if (nomeCampo.equals("valorBusca")){
+				crit.add(Restrictions.ilike("nome", "%" + form.getValorBusca() + "%"));
+			}
 			else if (nomeCampo.equals("creci")){
 				crit.add(Restrictions.eq("creci", form.getCreci()));
 			}
@@ -200,7 +203,10 @@ public class UsuarioDaoImpl extends GenericDAOImpl<Usuario, Long> implements  Us
 		 }	 	
         
         if ( ! StringUtils.isNullOrEmpty(form.getPerfil() ))
-        	crit.add(Restrictions.eq("perfil", form.getPerfil()));        
+        	crit.add(Restrictions.eq("perfil", form.getPerfil())); 
+        
+        if (! StringUtils.isNullOrEmpty(form.getValorBusca()))
+        	crit.add(Restrictions.ilike("nome", "%" + form.getValorBusca() + "%"));    
         
         if (!StringUtils.isNullOrEmpty(form.getOpcaoOrdenacao())) {
         	if (form.getOpcaoOrdenacao().equals("maiorDataCadastrado")){

@@ -324,6 +324,7 @@ public class IntermediacaoController {
     public String goAnalisarSolIntermediacoes(@PathVariable Long idImovel, ModelMap map){
 		try {
 			map.addAttribute("intermediacaoSelecionadaForm", intermediacaoService.recuperarImovelIntermediadoSelecionadoPorIdImovel(idImovel));
+			map.addAttribute("listaImovelIntermediacaoSelecionados", intermediacaoService.recuperarIntermediacoesPorIdImovel(idImovel,StatusImovelCompartilhadoEnum.ACEITA.getRotulo()));
 			map.addAttribute("listaSolImovelIntermediacao", intermediacaoService.recuperarSolicitacoesIntermediacoesRecebidasPorIdImovelPorStatus(idImovel));
 			map.addAttribute("imovel", imovelService.recuperarImovelPorid(idImovel));
 			return DIR_PATH_INTERMEDIACOES + "analisarSolicitacoesIntermediacoes";
@@ -366,7 +367,8 @@ public class IntermediacaoController {
 		
 		try {
 			intermediacaoService.atualizarStatusIntermediacao(idImovelIntermediacao, StatusImovelCompartilhadoEnum.ACEITA.getRotulo());
-			List<Intermediacao> lista = intermediacaoService.recuperarSolicitacoesIntermediacoesRecebidasPorIdImovelPorStatus(idImovel);
+			map.addAttribute("listaImovelIntermediacaoSelecionados", intermediacaoService.recuperarIntermediacoesPorIdImovel(idImovel,StatusImovelCompartilhadoEnum.ACEITA.getRotulo()));
+			List<Intermediacao> lista = intermediacaoService.recuperarSolicitacoesIntermediacoesRecebidasPorIdImovelPorStatus(idImovel);		
 			map.addAttribute("intermediacaoSelecionadaForm", intermediacaoService.recuperarImovelIntermediadoSelecionadoPorIdImovel(idImovel) );
 			map.addAttribute("listaSolImovelIntermediacao", lista);
 			map.addAttribute("imovel", imovelService.recuperarImovelPorid(idImovel));

@@ -343,7 +343,7 @@ public class ImovelPropostasController {
 			map.addAttribute("imovelPropostaForm", form );			
 			List<ImovelPropostas> lista = imovelPropostasservice.recuperarPropostasImovel(idImovel);
 			map.addAttribute("listaTodasPropostas",  lista);
-			map.addAttribute("quantTotalImoveis", AppUtil.recuperarQuantidadeLista(lista) );
+			map.addAttribute("quantTotalUsuarios", AppUtil.recuperarQuantidadeLista(lista) );
 			map.addAttribute("imovel", imovelService.recuperarImovelPorid(idImovel));
 	        return DIR_PATH + "visualizarTodasPropostasImovel";
 		} catch (Exception e) {

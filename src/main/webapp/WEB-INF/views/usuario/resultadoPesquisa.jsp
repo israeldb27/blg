@@ -16,8 +16,7 @@
 <c:set var="usuario" value="<%= (UsuarioForm)request.getSession().getAttribute(UsuarioInterface.USUARIO_SESSAO) %>"/> 
    
  <script type="text/javascript">
-    	$(document).ready(function() {
-    		
+    	$(document).ready(function() {    		
     		
     	}
     	
