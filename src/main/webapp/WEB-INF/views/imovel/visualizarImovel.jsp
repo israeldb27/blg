@@ -386,17 +386,17 @@ function notificarMarcarVisita() {
         }
     });
 }
-function prepararModalProcurarCompradores(idImovel){
-	$("#msgRetornoProcurarCompradores").html("");	
-	$("#idModalProcurarCompradores").modal("show");		
+function prepararModalprocurarInteressados(idImovel){
+	$("#msgRetornoprocurarInteressados").html("");	
+	$("#idModalprocurarInteressados").modal("show");		
 }
-function procurarCompradores(){
+function procurarInteressados(){
  $.ajax({  
     	type: 'POST',
-        url: '${urlImovel}/procurarCompradores',   
+        url: '${urlImovel}/procurarInteressados',   
         success: function(){
-        	$("#idModalProcurarCompradores").modal("hide");
-	        $('#msgRetornoProcurarCompradores').html(data);
+        	$("#idModalprocurarInteressados").modal("hide");
+	        $('#msgRetornoprocurarInteressados').html(data);
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert("OPSSSS!" + textStatus + "-" + errorThrown + "-"+jqXHR);
@@ -495,32 +495,32 @@ function confirmarExclusaoAtividadeImovel(){
 	 });
 }
  
-function prepararModalPossivelCompradorOffline() {
-	$("#idModalPossivelCompradorOffline").modal("show");
+function prepararModalPossivelInteressadoOffline() {
+	$("#idModalPossivelInteressadoOffline").modal("show");
 	
 }
 
-function adicionarPossivelCompradorOffline(){
-	var nome = document.getElementById("nomeComprador");
-	var email = document.getElementById("emailComprador");
-	var telefone = document.getElementById("telefoneComprador");	
-	var chanceCompra = document.getElementById("chanceCompraOffline");
+function adicionarPossivelInteressadoOffline(){
+	var nome = document.getElementById("nomeInteressado");
+	var email = document.getElementById("emailInteressado");
+	var telefone = document.getElementById("telefoneInteressado");	
+	var chanceInteresse = document.getElementById("chanceInteresseOffline");
 	var observacao = document.getElementById("observacaoPossComprador");
 	
-	if ($("#nomeComprador").val() == ''){  
-		$('#msgErroNomeComprador').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
+	if ($("#nomeInteressado").val() == ''){  
+		$('#msgErronomeInteressado').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
 	}
 	
-	if ($("#telefoneComprador").val() == '')  { 
-		$('#msgErroTelefoneComprador').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
+	if ($("#telefoneInteressado").val() == '')  { 
+		$('#msgErrotelefoneInteressado').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
 	}
 	
-	if ($("#chanceCompraOffline").val() == '')  { 
-		$('#msgErroChanceCompra').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
+	if ($("#chanceInteresseOffline").val() == '')  { 
+		$('#msgErrochanceInteresse').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
 	}
 	
 	$.ajax({  
-         url: '${urlImovel}/adicionarPossivelCompradorOfflineDetalhesImovel/' + nome.value + '/' + telefone.value  + '/' + email.value + '/' +  chanceCompra.value + '/' + observacao.value,
+         url: '${urlImovel}/adicionarPossivelInteressadoOfflineDetalhesImovel/' + nome.value + '/' + telefone.value  + '/' + email.value + '/' +  chanceInteresse.value + '/' + observacao.value,
          dataType: 'json',
          success: function(data){	        	 
         	 if ( data == 'ok') {
@@ -533,24 +533,24 @@ function adicionarPossivelCompradorOffline(){
      });
 }
 
-function prepararModalConfirmaEdicaoPossivelCompr(id, nome, chanceCompra, observacao){
+function prepararModalConfirmaEdicaoPossivelCompr(id, nome, chanceInteresse, observacao){
 	
 	$("#modIdPossivelComprEdicao").val(id);
 	$("#nomeComprEdicao").val(nome);
 	$("#obsPossCompradorEdicao").val(observacao);
-	$("#chanceCompraEdicao").val(chanceCompra);
-	$("#idModalPossivelCompradorEdicao").modal("show");
+	$("#chanceInteresseEdicao").val(chanceInteresse);
+	$("#idModalPossivelInteressadoEdicao").modal("show");
 }
 
-function editarPossivelComprador(){
+function editarPossivelInteressado(){
 
 	var id = document.getElementById("modIdPossivelComprEdicao");
-	var nome = document.getElementById("nomeCompradorEdicao");
-	var chanceCompra = document.getElementById("chanceCompraEdicao");
+	var nome = document.getElementById("nomeInteressadoEdicao");
+	var chanceInteresse = document.getElementById("chanceInteresseEdicao");
 	var observacao = document.getElementById("obsPossCompradorEdicao");
 	
 	$.ajax({  
-        url: '${urlImovel}/editarPossivelCompradorDetalhesImovel/' + id.value + '/' +  chanceCompra.value + '/' + observacao.value,
+        url: '${urlImovel}/editarPossivelInteressadoDetalhesImovel/' + id.value + '/' +  chanceInteresse.value + '/' + observacao.value,
         dataType: 'json',
         success: function(data){	        	 
        	 if ( data == 'ok') {
@@ -563,40 +563,40 @@ function editarPossivelComprador(){
     });
 }
 
-function prepararModalConfirmaEdicaoPossivelComprOffline(id, nomeComprador, emailComprador, telefoneComprador, chanceCompra, observacao){
+function prepararModalConfirmaEdicaoPossivelComprOffline(id, nomeInteressado, emailInteressado, telefoneInteressado, chanceInteresse, observacao){
 	
 	$("#modIdPossivelComprOfflineEdicao").val(id);
-	$("#nomeCompradorEdicao").val(nomeComprador);
-	$("#emailCompradorEdicao").val(emailComprador);
-	$("#telefoneCompradorEdicao").val(telefoneComprador);
-	$("#chanceCompraOfflineEdicao").val(chanceCompra);
+	$("#nomeInteressadoEdicao").val(nomeInteressado);
+	$("#emailInteressadoEdicao").val(emailInteressado);
+	$("#telefoneInteressadoEdicao").val(telefoneInteressado);
+	$("#chanceInteresseOfflineEdicao").val(chanceInteresse);
 	$("#observacaoPossCompradorEdicao").val(observacao);	
-	$("#idModalPossivelCompradorOfflineEdicao").modal("show");	
+	$("#idModalPossivelInteressadoOfflineEdicao").modal("show");	
 }
 
-function editarPossivelCompradorOffline(){
+function editarPossivelInteressadoOffline(){
 	
 	var id = document.getElementById("modIdPossivelComprOfflineEdicao");
-	var nome = document.getElementById("nomeCompradorEdicao");
-	var email = document.getElementById("emailCompradorEdicao");
-	var telefone = document.getElementById("telefoneCompradorEdicao");	
-	var chanceCompra = document.getElementById("chanceCompraOfflineEdicao");
+	var nome = document.getElementById("nomeInteressadoEdicao");
+	var email = document.getElementById("emailInteressadoEdicao");
+	var telefone = document.getElementById("telefoneInteressadoEdicao");	
+	var chanceInteresse = document.getElementById("chanceInteresseOfflineEdicao");
 	var observacao = document.getElementById("observacaoPossCompradorEdicao");
 	
-	if ($("#nomeCompradorEdicao").val() == ''){  
-		$('#msgErroNomeComprador').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
+	if ($("#nomeInteressadoEdicao").val() == ''){  
+		$('#msgErronomeInteressado').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
 	}
 	
-	if ($("#telefoneCompradorEdicao").val() == '')  { 
-		$('#msgErroTelefoneComprador').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
+	if ($("#telefoneInteressadoEdicao").val() == '')  { 
+		$('#msgErrotelefoneInteressado').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
 	}
 	
-	if ($("#chanceCompraOfflineEdicao").val() == '')  { 
-		$('#msgErroChanceCompra').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
+	if ($("#chanceInteresseOfflineEdicao").val() == '')  { 
+		$('#msgErrochanceInteresse').html("<spring:message code='msg.erro.campo.obrigatorio'/>");
 	}
 	
 	$.ajax({  
-         url: '${urlImovel}/editarPossivelCompradorOfflineDetalhesImovel/' + id.value +  '/' + nome.value + '/' + telefone.value  + '/' + email.value + '/' +  chanceCompra.value + '/' + observacao.value,
+         url: '${urlImovel}/editarPossivelInteressadoOfflineDetalhesImovel/' + id.value +  '/' + nome.value + '/' + telefone.value  + '/' + email.value + '/' +  chanceInteresse.value + '/' + observacao.value,
          dataType: 'json',
          success: function(data){	        	 
         	 if ( data == 'ok') {
@@ -679,12 +679,12 @@ function mostrarModal(id){
 		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.aba.det.imovel.atividades'/>");
 	}
 	else if ( id == 12){
-		$('#msgModal').html("<spring:message code='lbl.modal.possivel.comprador.detalhe.imoveis'/>");
-		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.aba.det.imovel.possivel.comprador'/>");
+		$('#msgModal').html("<spring:message code='lbl.modal.possivel.interessado.detalhe.imoveis'/>");
+		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.aba.det.imovel.possivel.interessado'/>");
 	}
 	else if ( id == 13){
-		$('#msgModal').html("<spring:message code='lbl.modal.possivel.comprador.offline.detalhe.imoveis'/>");
-		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.aba.det.imovel.possivel.comprador.offline'/>");
+		$('#msgModal').html("<spring:message code='lbl.modal.possivel.interessado.offline.detalhe.imoveis'/>");
+		$('#msgModalFuncionalidade').html("<spring:message code='lbl.title.aba.det.imovel.possivel.interessado.offline'/>");
 	}
 	
 	$("#idModalItem").modal("show");
@@ -764,7 +764,7 @@ function prepararModalGaleriaFotos(){
                                    		
                                    		 &nbsp;&nbsp;&nbsp;&nbsp; 
                                    		 
-                                   		<a href="${urlImovel}/procurarCompradores/${imovelForm.id}" style="font-size:x-large;" class="meta-action"><i class="fa  fa-money" style="color:gray" title="<spring:message code="lbl.title.link.procurar.compradores"/>"></i><font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.title.link.procurar.compradores"/> </font></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                   		<a href="${urlImovel}/procurarInteressados/${imovelForm.id}" style="font-size:x-large;" class="meta-action"><i class="fa  fa-money" style="color:gray" title="<spring:message code="lbl.title.link.procurar.interessados"/>"></i><font style="color: rgb(99, 110, 123); font-size: 12px;"> <spring:message code="lbl.title.link.procurar.interessados"/> </font></a>&nbsp;&nbsp;&nbsp;&nbsp;
                                     </div>
                                     
                                     <br> <br>
@@ -1147,7 +1147,7 @@ function prepararModalGaleriaFotos(){
                                 <div class="panel-heading">                              
 	                     			<h3 class="panel-title">
 	                     				<div class="pull-left">
-	                     					<spring:message code="lbl.title.aba.det.imovel.possivel.comprador"/>
+	                     					<spring:message code="lbl.title.aba.det.imovel.possivel.interessado"/>
 	                      				</div>	
 	                     				<div class="pull-right">                                					
 	                     					<a href="#a" class="btn btn-sm"  onClick="mostrarModal(12);" style=""><i class="fa fa-question" ></i></a>
@@ -1157,36 +1157,36 @@ function prepararModalGaleriaFotos(){
                                 </div>
                                 <div class="panel-body">
                                 	<c:choose>
-                                		<c:when test="${empty imovelForm.listaPossivelComprador }">
+                                		<c:when test="${empty imovelForm.listaPossivelInteressado }">
                                 			<div class="callout callout-warning">
-			                                    <strong><spring:message code="msg.nenhum.possivel.comprador"/></strong>		                                    
+			                                    <strong><spring:message code="msg.nenhum.possivel.interessado"/></strong>		                                    
 			                                </div>                             			    
 			                                
 	                                      </br> </br>	
                                 		</c:when>
                                 		
-                                		<c:when test="${not  empty imovelForm.listaPossivelComprador }">
+                                		<c:when test="${not  empty imovelForm.listaPossivelInteressado }">
                                 			 <table class="table table-striped" >
 		                                         <thead>
 		                                            <tr>		                                              
-		                                               <th style="width: 25%;" class="text-center"><strong><spring:message code="lbl.data.cadastro.poss.comprador"/></strong></th>
-		                                               <th style="width: 40%;" class="text-center"><strong><spring:message code="lbl.nome.poss.comprador"/></strong></th>
-		                                               <th style="width: 25%; text-align: center;"><strong><spring:message code="lbl.chance.compra.poss.comprador"/></strong></th>		                                              
-		                                               <th style="width: 25%; text-align: center;"><strong><spring:message code="lbl.observacao.poss.comprador"/></strong></th>
+		                                               <th style="width: 25%;" class="text-center"><strong><spring:message code="lbl.data.cadastro.poss.interessado"/></strong></th>
+		                                               <th style="width: 40%;" class="text-center"><strong><spring:message code="lbl.nome.poss.interessado"/></strong></th>
+		                                               <th style="width: 25%; text-align: center;"><strong><spring:message code="lbl.chance.interesse.poss.interessado"/></strong></th>		                                              
+		                                               <th style="width: 25%; text-align: center;"><strong><spring:message code="lbl.observacao.poss.interessado"/></strong></th>
 		                                               <th style="width: 15%;" class="text-center"></th>
 		                                               <th style="width: 15%;" class="text-center"></th>
 		                                            </tr>
 		                                         </thead>
 		
 		                                         <tbody>
-		                                            <c:forEach var="comprador" items="${imovelForm.listaPossivelComprador}">
+		                                            <c:forEach var="comprador" items="${imovelForm.listaPossivelInteressado}">
 		                                               <tr>
 		                                               	  <td style="font-size: 13px;" class="text-center"> <small><fmt:formatDate value='${comprador.dataCadastro}' pattern='dd/MM/yyyy'/></small> </td>	
-		                                               	  <td style="font-size: 13px;" class="text-center">${comprador.usuarioComprador.nome} </td>
-		                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.chanceCompraFmt} </small></td>		                                               
+		                                               	  <td style="font-size: 13px;" class="text-center">${comprador.usuarioInteressado.nome} </td>
+		                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.chanceInteresseFmt} </small></td>		                                               
 		                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.observacao} </small></td>
 		                                                   <td class="text-center" >
-		                                                     <a href="#a" onClick="prepararModalConfirmaEdicaoPossivelCompr('${comprador.id}', '${comprador.usuarioComprador.nome}', '${comprador.chanceCompra}','${comprador.observacao}');" ><i class="fa fa-pencil-square-o"></i></a>
+		                                                     <a href="#a" onClick="prepararModalConfirmaEdicaoPossivelCompr('${comprador.id}', '${comprador.usuarioInteressado.nome}', '${comprador.chanceInteresse}','${comprador.observacao}');" ><i class="fa fa-pencil-square-o"></i></a>
 		                                                  </td>		                                                  
 		                                                  <td class="text-center" >
 		                                                     <a href="#a" onClick="prepararModalConfirmaExclusaoPossivelCompr(${comprador.id});" ><i class="fa fa-trash-o"></i></a>
@@ -1197,9 +1197,9 @@ function prepararModalGaleriaFotos(){
 		                                      </table>
 		                                      </br> </br> 
 		                                       <!-- botao ver mais  -->
-				                                <c:if test="${imovelForm.isExibeMaisListaPossivelComprador() }">
+				                                <c:if test="${imovelForm.isExibeMaisListaPossivelInteressado() }">
 				                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;">
-					                                    <a href="${urlImovel}/visualizarTodosPossivelCompradorImovel/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+					                                    <a href="${urlImovel}/visualizarTodosPossivelInteressadoImovel/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
 					                               		<br> <br>
 					                                </div>
 				                                </c:if>	
@@ -1208,7 +1208,7 @@ function prepararModalGaleriaFotos(){
                                 	
                                 	<c:if test="${imovelForm.usuarioDonoImovel.id == usuario.id}">                                      
                                           <div class="form-group">
-                                             <input type="button" class="btn btn-primary" onClick="prepararModalPossivelComprador();" value="<spring:message code="btn.modal.adicionar.possivelComprador"/>">
+                                             <input type="button" class="btn btn-primary" onClick="prepararModalPossivelInteressado();" value="<spring:message code="btn.modal.adicionar.possivel.interessado"/>">
                                           </div>
                                    </c:if>                                	 
                                 </div>
@@ -1220,7 +1220,7 @@ function prepararModalGaleriaFotos(){
                                 <div class="panel-heading">                              
 	                     			<h3 class="panel-title">
 	                     				<div class="pull-left">
-	                     					<spring:message code="lbl.title.aba.det.imovel.possivel.comprador.offline"/>
+	                     					<spring:message code="lbl.title.aba.det.imovel.possivel.interessado.offline"/>
 	                      				</div>	
 	                     				<div class="pull-right">                                					
 	                     					<a href="#a" class="btn btn-sm"  onClick="mostrarModal(13);" style=""><i class="fa fa-question" ></i></a>
@@ -1230,40 +1230,40 @@ function prepararModalGaleriaFotos(){
                                 </div>
                                 <div class="panel-body">
                                 	<c:choose>
-                                		<c:when test="${empty imovelForm.listaPossivelCompradorOffline}">
+                                		<c:when test="${empty imovelForm.listaPossivelInteressadoOffline}">
                                 			<div class="callout callout-warning">                                		
-			                                    <strong><spring:message code="msg.nenhum.possivel.comprador"/></strong>		                                    
+			                                    <strong><spring:message code="msg.nenhum.possivel.interessado"/></strong>		                                    
 			                                </div>                             			    
 			                                
 	                                      </br> </br>	
                                 		</c:when>
                                 		
-                                		<c:when test="${not empty imovelForm.listaPossivelCompradorOffline}">
+                                		<c:when test="${not empty imovelForm.listaPossivelInteressadoOffline}">
                                 			 <table class="table table-striped" >
 		                                         <thead>
 		                                            <tr>		                                           
-		                                               <th style="width: 15%;" class="text-center"><strong><spring:message code="lbl.data.cadastro.poss.comprador"/></strong></th>
-		                                               <th style="width: 25%;" class="text-center"><strong><spring:message code="lbl.nome.poss.comprador"/></strong></th>
-		                                               <th style="width: 15%;" class="text-center"><strong><spring:message code="lbl.email.poss.comprador"/></strong></th>
-		                                               <th style="width: 10%;" class="text-center"><strong><spring:message code="lbl.telefone.poss.comprador"/></strong></th>                    
-		                                               <th style="width: 15%; text-align: center;"><strong><spring:message code="lbl.chance.compra.poss.comprador"/></strong></th>
-		                                               <th style="width: 15%; text-align: center;"><strong><spring:message code="lbl.observacao.poss.comprador"/></strong></th>
+		                                               <th style="width: 15%;" class="text-center"><strong><spring:message code="lbl.data.cadastro.poss.interessado"/></strong></th>
+		                                               <th style="width: 25%;" class="text-center"><strong><spring:message code="lbl.nome.poss.interessado"/></strong></th>
+		                                               <th style="width: 15%;" class="text-center"><strong><spring:message code="lbl.email.poss.interessado"/></strong></th>
+		                                               <th style="width: 10%;" class="text-center"><strong><spring:message code="lbl.telefone.poss.interessado"/></strong></th>                    
+		                                               <th style="width: 15%; text-align: center;"><strong><spring:message code="lbl.chance.interesse.poss.interessado"/></strong></th>
+		                                               <th style="width: 15%; text-align: center;"><strong><spring:message code="lbl.observacao.poss.interessado"/></strong></th>
 		                                           	   <th style="width: 15%;" class="text-center"></th>	
 		                                               <th style="width: 15%;" class="text-center"></th>	
 		                                            </tr>
 		                                         </thead>
 		
 		                                         <tbody>
-		                                            <c:forEach var="comprador" items="${imovelForm.listaPossivelCompradorOffline}">
+		                                            <c:forEach var="comprador" items="${imovelForm.listaPossivelInteressadoOffline}">
 		                                               <tr>
 		                                               	  <td style="font-size: 13px;" class="text-center"> <small><fmt:formatDate value='${comprador.dataCadastro}' pattern='dd/MM/yyyy'/></small> </td>	
-		                                               	  <td style="font-size: 13px;" class="text-center">${comprador.nomeComprador} </td>
-		                                               	  <td style="font-size: 13px;" class="text-center">${comprador.emailComprador} </td>
-		                                               	  <td style="font-size: 13px;" class="text-center">${comprador.telefoneComprador} </td>
-		                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.chanceCompraFmt} </small></td>		                          
+		                                               	  <td style="font-size: 13px;" class="text-center">${comprador.nomeInteressado} </td>
+		                                               	  <td style="font-size: 13px;" class="text-center">${comprador.emailInteressado} </td>
+		                                               	  <td style="font-size: 13px;" class="text-center">${comprador.telefoneInteressado} </td>
+		                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.chanceInteresseFmt} </small></td>		                          
 		                                                  <td style="font-size: 13px;" class="text-center"><small> ${comprador.observacao} </small></td>
 		                                                  <td class="text-center" >
-		                                                     <a href="#a" onClick="prepararModalConfirmaEdicaoPossivelComprOffline('${comprador.id}', '${comprador.nomeComprador}', '${comprador.emailComprador}', '${comprador.telefoneComprador}', '${comprador.chanceCompra}', '${comprador.observacao}');" ><i class="fa fa-pencil-square-o"></i></a>
+		                                                     <a href="#a" onClick="prepararModalConfirmaEdicaoPossivelComprOffline('${comprador.id}', '${comprador.nomeInteressado}', '${comprador.emailInteressado}', '${comprador.telefoneInteressado}', '${comprador.chanceInteresse}', '${comprador.observacao}');" ><i class="fa fa-pencil-square-o"></i></a>
 		                                                  </td>		                                                  
 		                                                  <td class="text-center" >
 		                                                     <a href="#a" onClick="prepararModalConfirmaExclusaoPossivelComprOffline(${comprador.id});" ><i class="fa fa-trash-o"></i></a>
@@ -1274,9 +1274,9 @@ function prepararModalGaleriaFotos(){
 		                                      </table>
 		                                      </br> </br> 
 		                                       <!-- botao ver mais  -->
-				                                <c:if test="${imovelForm.isExibeMaisListaPossivelCompradorOffline() }">
+				                                <c:if test="${imovelForm.isExibeMaisListaPossivelInteressadoOffline() }">
 				                                	<div class="dropdown-footer" align="center" style="font-size: 14px; font-style: inherit;"> 
-					                                     <a href="${urlImovel}/visualizarTodosPossivelCompradorImovelOffline/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
+					                                     <a href="${urlImovel}/visualizarTodosPossivelInteressadoImovelOffline/${imovelForm.id}"><strong><spring:message code="lbl.title.see.all"/></strong></a>
 					                               		<br> <br>
 					                                </div>
 				                                </c:if>
@@ -1285,7 +1285,7 @@ function prepararModalGaleriaFotos(){
                                 	
                                 	<c:if test="${imovelForm.usuarioDonoImovel.id == usuario.id}">                                      
                                           <div class="form-group">
-                                             <input type="button" class="btn btn-primary" onClick="prepararModalPossivelCompradorOffline();" value="<spring:message code="btn.modal.adicionar.possivelComprador"/>">
+                                             <input type="button" class="btn btn-primary" onClick="prepararModalPossivelInteressadoOffline();" value="<spring:message code="btn.modal.adicionar.possivel.interessado"/>">
                                           </div>
                                    </c:if>
                                 	 
@@ -2043,56 +2043,56 @@ function prepararModalGaleriaFotos(){
         </section><!-- /#wrapper -->
           
           <!-- START Modal - Adicionar Possivel Comprador Offline -->
-            <div id="idModalPossivelCompradorOffline" class="modal fade bs-example-modal-form-comprador-offline" tabindex="-1" role="dialog" aria-hidden="true">
+            <div id="idModalPossivelInteressadoOffline" class="modal fade bs-example-modal-form-comprador-offline" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog modal-lg modal-photo-viewer">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title"><spring:message code="lbl.modal.cadastrar.possivel.comprador.offline"/></h4>
+                            <h4 class="modal-title"><spring:message code="lbl.modal.cadastrar.possivel.interessado.offline"/></h4>
                         </div>
                         <div class="modal-body no-padding">
                             <form class="form-horizontal form-bordered" role="form" id="input-mask">
                                 <div class="form-body">
                                     <div class="form-group">
-                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.nome.poss.comprador"/></label>
+                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.nome.poss.interessado"/></label>
                                         <div class="col-sm-5">
-                                        	<input type="text" class="form-control" id="nomeComprador"  > 
-                                            <div id="msgErroNomeComprador" cssClass="errorEntrada"  ></div>                                
+                                        	<input type="text" class="form-control" id="nomeInteressado"  > 
+                                            <div id="msgErronomeInteressado" cssClass="errorEntrada"  ></div>                                
                                         </div>
                                     </div><!-- /.form-group -->
                                     
                                      <div class="form-group">
-	                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.email.poss.comprador"/></label>
+	                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.email.poss.interessado"/></label>
 	                                        <div class="col-sm-5">
-	                                        	<input type="text" class="form-control" id="emailComprador"  > 
-	                                            <div id="msgErroEmailComprador" cssClass="errorEntrada"  ></div>                                
+	                                        	<input type="text" class="form-control" id="emailInteressado"  > 
+	                                            <div id="msgErroemailInteressado" cssClass="errorEntrada"  ></div>                                
 	                                        </div>
 	                                  </div><!-- /.form-group -->
 	                                  
 	                                  <div class="form-group">
-	                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.telefone.poss.comprador"/></label>
+	                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.telefone.poss.interessado"/></label>
 	                                        <div class="col-sm-5">
-	                                        	<input type="text" class="form-control" id="telefoneComprador"  > 
-	                                            <div id="msgErroTelefoneComprador" cssClass="errorEntrada"  ></div>                                
+	                                        	<input type="text" class="form-control" id="telefoneInteressado"  > 
+	                                            <div id="msgErrotelefoneInteressado" cssClass="errorEntrada"  ></div>                                
 	                                        </div>
 	                                   </div><!-- /.form-group -->  
 	                                   
 	                                       <div class="form-group">
-	                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.chance.compra.poss.comprador"/></label>
+	                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.chance.interesse.poss.interessado"/></label>
 	                                        <div class="col-sm-5">
-	                                        	<select class="form-control" id="chanceCompraOffline" >
-												  <option value="MA" selected="selected"><spring:message code="lbl.poss.comprador.chance.muito.alta"/></option>
-												  <option value="AL"><spring:message code="lbl.poss.comprador.chance.alta"/></option>
-												  <option value="ME"><spring:message code="lbl.poss.comprador.chance.media"/></option>
-												  <option value="BA"><spring:message code="lbl.poss.comprador.chance.baixa"/></option>
-												  <option value="MB"><spring:message code="lbl.poss.comprador.chance.muito.baixa"/></option>
+	                                        	<select class="form-control" id="chanceInteresseOffline" >
+												  <option value="MA" selected="selected"><spring:message code="lbl.poss.interessado.chance.muito.alta"/></option>
+												  <option value="AL"><spring:message code="lbl.poss.interessado.chance.alta"/></option>
+												  <option value="ME"><spring:message code="lbl.poss.interessado.chance.media"/></option>
+												  <option value="BA"><spring:message code="lbl.poss.interessado.chance.baixa"/></option>
+												  <option value="MB"><spring:message code="lbl.poss.interessado.chance.muito.baixa"/></option>
 												</select>   
-	                                            <div id="msgErroChanceCompra" cssClass="errorEntrada"  ></div>                                 
+	                                            <div id="msgErrochanceInteresse" cssClass="errorEntrada"  ></div>                                 
 	                                        </div>
 	                                    </div><!-- /.form-group -->  
 	                                    
 	                                    <div class="form-group">
-	                                        <label for="password-1" class="col-sm-3 control-label"><spring:message code="lbl.observacao.poss.comprador"/></label>
+	                                        <label for="password-1" class="col-sm-3 control-label"><spring:message code="lbl.observacao.poss.interessado"/></label>
 	                                        <div class="col-sm-5">                                            
 	                                            <textarea rows="5" cols="20" class="form-control " id="observacaoPossComprador"></textarea>
 	                                            <div id="msgErroNovaDescricaoAtividade" cssClass="errorEntrada"  ></div>
@@ -2107,7 +2107,7 @@ function prepararModalGaleriaFotos(){
                                 <div class="form-footer">
                                     <div class="col-sm-offset-3">
                                     	<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.btn.cancelar.geral"/></button>
-                                        <button type="button" class="btn btn-success" onClick="adicionarPossivelCompradorOffline();"><spring:message code="lbl.btn.adicionar.geral"/></button>
+                                        <button type="button" class="btn btn-success" onClick="adicionarPossivelInteressadoOffline();"><spring:message code="lbl.btn.adicionar.geral"/></button>
                                     </div>
                                 </div><!-- /.form-footer -->
                                 
@@ -2121,57 +2121,57 @@ function prepararModalGaleriaFotos(){
             <!--/ END Modal - Adicionar Possivel Comprador Offline -->  
             
             <!-- START Modal - Editar Possivel Comprador Offline -->
-            <div id="idModalPossivelCompradorOfflineEdicao" class="modal fade bs-example-modal-form-comprador-offline-edicao" tabindex="-1" role="dialog" aria-hidden="true">
+            <div id="idModalPossivelInteressadoOfflineEdicao" class="modal fade bs-example-modal-form-comprador-offline-edicao" tabindex="-1" role="dialog" aria-hidden="true">
               	<input type="hidden" id="modIdPossivelComprOfflineEdicao" readonly="readonly" name="modIdPossivelComprOfflineEdicao">
                 <div class="modal-dialog modal-lg modal-photo-viewer">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title"><spring:message code="lbl.modal.editar.possivel.comprador.offline"/></h4>
+                            <h4 class="modal-title"><spring:message code="lbl.modal.editar.possivel.interessado.offline"/></h4>
                         </div>
                         <div class="modal-body no-padding">
                             <form class="form-horizontal form-bordered" role="form" id="input-mask">
                                 <div class="form-body">
                                     <div class="form-group">
-                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.nome.poss.comprador"/></label>
+                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.nome.poss.interessado"/></label>
                                         <div class="col-sm-5">
-                                        	<input type="text" class="form-control" id="nomeCompradorEdicao"  > 
-                                            <div id="msgErroNomeComprador" cssClass="errorEntrada"  ></div>                                
+                                        	<input type="text" class="form-control" id="nomeInteressadoEdicao"  > 
+                                            <div id="msgErronomeInteressado" cssClass="errorEntrada"  ></div>                                
                                         </div>
                                     </div><!-- /.form-group -->
                                     
                                      <div class="form-group">
-	                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.email.poss.comprador"/></label>
+	                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.email.poss.interessado"/></label>
 	                                        <div class="col-sm-5">
-	                                        	<input type="text" class="form-control" id="emailCompradorEdicao"  > 
-	                                            <div id="msgErroEmailComprador" cssClass="errorEntrada"  ></div>                                
+	                                        	<input type="text" class="form-control" id="emailInteressadoEdicao"  > 
+	                                            <div id="msgErroemailInteressado" cssClass="errorEntrada"  ></div>                                
 	                                        </div>
 	                                  </div><!-- /.form-group -->
 	                                  
 	                                  <div class="form-group">
-	                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.telefone.poss.comprador"/></label>
+	                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.telefone.poss.interessado"/></label>
 	                                        <div class="col-sm-5">
-	                                        	<input type="text" class="form-control" id="telefoneCompradorEdicao"  > 
-	                                            <div id="msgErroTelefoneComprador" cssClass="errorEntrada"  ></div>                                
+	                                        	<input type="text" class="form-control" id="telefoneInteressadoEdicao"  > 
+	                                            <div id="msgErrotelefoneInteressado" cssClass="errorEntrada"  ></div>                                
 	                                        </div>
 	                                   </div><!-- /.form-group -->  
 	                                   
 	                                       <div class="form-group">
-	                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.chance.compra.poss.comprador"/></label>
+	                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.chance.interesse.poss.interessado"/></label>
 	                                        <div class="col-sm-5">
-	                                        	<select class="form-control" id="chanceCompraOfflineEdicao" >
-												  <option value="MA" selected="selected"><spring:message code="lbl.poss.comprador.chance.muito.alta"/></option>
-												  <option value="AL"><spring:message code="lbl.poss.comprador.chance.alta"/></option>
-												  <option value="ME"><spring:message code="lbl.poss.comprador.chance.media"/></option>
-												  <option value="BA"><spring:message code="lbl.poss.comprador.chance.baixa"/></option>
-												  <option value="MB"><spring:message code="lbl.poss.comprador.chance.muito.baixa"/></option>
+	                                        	<select class="form-control" id="chanceInteresseOfflineEdicao" >
+												  <option value="MA" selected="selected"><spring:message code="lbl.poss.interessado.chance.muito.alta"/></option>
+												  <option value="AL"><spring:message code="lbl.poss.interessado.chance.alta"/></option>
+												  <option value="ME"><spring:message code="lbl.poss.interessado.chance.media"/></option>
+												  <option value="BA"><spring:message code="lbl.poss.interessado.chance.baixa"/></option>
+												  <option value="MB"><spring:message code="lbl.poss.interessado.chance.muito.baixa"/></option>
 												</select>   
-	                                            <div id="msgErroChanceCompra" cssClass="errorEntrada"  ></div>                                 
+	                                            <div id="msgErrochanceInteresse" cssClass="errorEntrada"  ></div>                                 
 	                                        </div>
 	                                    </div><!-- /.form-group -->  
 	                                    
 	                                    <div class="form-group">
-	                                        <label for="password-1" class="col-sm-3 control-label"><spring:message code="lbl.observacao.poss.comprador"/></label>
+	                                        <label for="password-1" class="col-sm-3 control-label"><spring:message code="lbl.observacao.poss.interessado"/></label>
 	                                        <div class="col-sm-5">                                            
 	                                            <textarea rows="5" cols="20" class="form-control " id="observacaoPossCompradorEdicao"></textarea>
 	                                            <div id="msgErroNovaDescricaoAtividade" cssClass="errorEntrada"  ></div>
@@ -2186,7 +2186,7 @@ function prepararModalGaleriaFotos(){
                                 <div class="form-footer">
                                     <div class="col-sm-offset-3">
                                     	<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.btn.cancelar.geral"/></button>
-                                        <button type="button" class="btn btn-success" onClick="editarPossivelCompradorOffline();"><spring:message code="lbl.btn.editar.geral"/></button>
+                                        <button type="button" class="btn btn-success" onClick="editarPossivelInteressadoOffline();"><spring:message code="lbl.btn.editar.geral"/></button>
                                     </div>
                                 </div><!-- /.form-footer -->
                                 
@@ -2206,10 +2206,10 @@ function prepararModalGaleriaFotos(){
 	                    <div class="modal-content">
 	                        <div class="modal-header">
 	                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	                            <h4 class="modal-title"><spring:message code="lbl.modal.confirmar.exclusao.possivel.compr.offline"/></h4>
+	                            <h4 class="modal-title"><spring:message code="lbl.modal.confirmar.exclusao.possivel.interessado.offline"/></h4>
 	                        </div>
 	                        <div class="modal-body">
-	                            <p><spring:message code="lbl.modal.pergunta.confirma.exclusao.possivel.compr.offline"/></p>
+	                            <p><spring:message code="lbl.modal.pergunta.confirma.exclusao.possivel.interessado.offline"/></p>
 	                        </div>
 	                        <div class="modal-footer">
 	                            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
@@ -2224,41 +2224,41 @@ function prepararModalGaleriaFotos(){
          <!-- END - confirmacao exclusao possivel comprador offline   -->   
          
           <!-- START Modal - Editar Possivel Comprador -->
-            <div id="idModalPossivelCompradorEdicao" class="modal fade bs-example-modal-form-comprador-offline-edicao" tabindex="-1" role="dialog" aria-hidden="true">
+            <div id="idModalPossivelInteressadoEdicao" class="modal fade bs-example-modal-form-comprador-offline-edicao" tabindex="-1" role="dialog" aria-hidden="true">
               	<input type="hidden" id="modIdPossivelComprEdicao" readonly="readonly" name="modIdPossivelComprEdicao">
                 <div class="modal-dialog modal-lg modal-photo-viewer">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title"><spring:message code="lbl.modal.editar.possivel.comprador"/></h4>
+                            <h4 class="modal-title"><spring:message code="lbl.modal.editar.possivel.interessado"/></h4>
                         </div>
                         <div class="modal-body no-padding">
                             <form class="form-horizontal form-bordered" role="form" id="input-mask">
                                 <div class="form-body">
                                     <div class="form-group">
-                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.nome.poss.comprador"/></label>
+                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.nome.poss.interessado"/></label>
                                         <div class="col-sm-5">
                                         	<input type="text" class="form-control" id="nomeComprEdicao" readonly="true"> 
-                                            <div id="msgErroNomeComprador" cssClass="errorEntrada"  ></div>                                
+                                            <div id="msgErronomeInteressado" cssClass="errorEntrada"  ></div>                                
                                         </div>
                                     </div><!-- /.form-group -->                                    
 	                                                                    
 	                                   <div class="form-group">
-	                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.chance.compra.poss.comprador"/></label>
+	                                        <label for="firstname-1" class="col-sm-3 control-label"><spring:message code="lbl.chance.interesse.poss.interessado"/></label>
 	                                        <div class="col-sm-5">
-	                                        	<select class="form-control" id="chanceCompraEdicao" >
-												  <option value="MA" selected="selected"><spring:message code="lbl.poss.comprador.chance.muito.alta"/></option>
-												  <option value="AL"><spring:message code="lbl.poss.comprador.chance.alta"/></option>
-												  <option value="ME"><spring:message code="lbl.poss.comprador.chance.media"/></option>
-												  <option value="BA"><spring:message code="lbl.poss.comprador.chance.baixa"/></option>
-												  <option value="MB"><spring:message code="lbl.poss.comprador.chance.muito.baixa"/></option>
+	                                        	<select class="form-control" id="chanceInteresseEdicao" >
+												  <option value="MA" selected="selected"><spring:message code="lbl.poss.interessado.chance.muito.alta"/></option>
+												  <option value="AL"><spring:message code="lbl.poss.interessado.chance.alta"/></option>
+												  <option value="ME"><spring:message code="lbl.poss.interessado.chance.media"/></option>
+												  <option value="BA"><spring:message code="lbl.poss.interessado.chance.baixa"/></option>
+												  <option value="MB"><spring:message code="lbl.poss.interessado.chance.muito.baixa"/></option>
 												</select>   
-	                                            <div id="msgErroChanceCompra" cssClass="errorEntrada"  ></div>                                 
+	                                            <div id="msgErrochanceInteresse" cssClass="errorEntrada"  ></div>                                 
 	                                        </div>
 	                                    </div><!-- /.form-group -->  
 	                                    
 	                                    <div class="form-group">
-	                                        <label for="password-1" class="col-sm-3 control-label"><spring:message code="lbl.observacao.poss.comprador"/></label>
+	                                        <label for="password-1" class="col-sm-3 control-label"><spring:message code="lbl.observacao.poss.interessado"/></label>
 	                                        <div class="col-sm-5">                                            
 	                                            <textarea rows="5" cols="20" class="form-control " id="obsPossCompradorEdicao"></textarea>
 	                                            <div id="msgErroNovaDescricaoAtividade" cssClass="errorEntrada"  ></div>
@@ -2273,7 +2273,7 @@ function prepararModalGaleriaFotos(){
                                 <div class="form-footer">
                                     <div class="col-sm-offset-3">
                                     	<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.btn.cancelar.geral"/></button>
-                                        <button type="button" class="btn btn-success" onClick="editarPossivelComprador();"><spring:message code="lbl.btn.editar.geral"/></button>
+                                        <button type="button" class="btn btn-success" onClick="editarPossivelInteressado();"><spring:message code="lbl.btn.editar.geral"/></button>
                                     </div>
                                 </div><!-- /.form-footer -->
                                 
@@ -2819,23 +2819,23 @@ function prepararModalGaleriaFotos(){
          
          
           <!-- Start optional size modal element - procurar possiveis compradores-->
-            <div id="idModalProcurarCompradores"  class="modal fade bs-example-modal-lg-procura-compradores" tabindex="-1" role="dialog" aria-hidden="true">
+            <div id="idModalprocurarInteressados"  class="modal fade bs-example-modal-lg-procura-compradores" tabindex="-1" role="dialog" aria-hidden="true">
                 <input type="hidden" id="modIdImovel" readonly="readonly" name="modIdImovel">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title"><spring:message code="lbl.modal.procurar.compradores"/></h4>
+                            <h4 class="modal-title"><spring:message code="lbl.modal.procurar.interessados"/></h4>
                         </div>
                         <div class="modal-body">
-                            <p><spring:message code="lbl.modal.pergunta.procurar.compradores"/></p>
+                            <p><spring:message code="lbl.modal.pergunta.procurar.interessados"/></p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.nao"/></button>
-                            <button type="button" class="btn btn-theme" onClick="procurarCompradores();"><spring:message code="lbl.sim"/></button>                            
+                            <button type="button" class="btn btn-theme" onClick="procurarInteressados();"><spring:message code="lbl.sim"/></button>                            
                         </div>
 						
-						<div id="msgRetornoProcurarCompradores" cssClass="errorEntrada"  ></div>  
+						<div id="msgRetornoprocurarInteressados" cssClass="errorEntrada"  ></div>  
 						
                     </div><!-- /.modal-content -->					
                 </div><!-- /.modal-dialog -->

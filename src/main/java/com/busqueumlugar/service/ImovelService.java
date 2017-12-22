@@ -150,7 +150,7 @@ public interface ImovelService {
 
 	List<Imovel> buscarImovelParaTimeline(ImovelForm form, Long idUsuario);
 
-	List<Usuario> pesquisarPossiveisCompradores(Long idUsuario, ImovelForm form);
+	List<Usuario> pesquisarPossiveisInteressados(Long idUsuario, ImovelForm form);
 	
 		
 }

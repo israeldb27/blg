@@ -20,8 +20,8 @@ import com.busqueumlugar.model.ImovelPropostas;
 import com.busqueumlugar.model.Imovelvisualizado;
 import com.busqueumlugar.model.Intermediacao;
 import com.busqueumlugar.model.Parceria;
-import com.busqueumlugar.model.PossivelComprador;
-import com.busqueumlugar.model.PossivelCompradorOffline;
+import com.busqueumlugar.model.PossivelInteressado;
+import com.busqueumlugar.model.PossivelInteressadoOffline;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.ImovelService;
 import com.busqueumlugar.util.AppUtil;
@@ -138,8 +138,8 @@ public class ImovelForm extends BaseForm{
 	private List<Imovelfotos> listaFotos;
 	private List<Imoveldestaque> listaImovelAnuncio;
 	private List<Atividades> listaAtividades;
-	private List<PossivelComprador> listaPossivelComprador;
-	private List<PossivelCompradorOffline> listaPossivelCompradorOffline;
+	private List<PossivelInteressado> listaPossivelInteressado;
+	private List<PossivelInteressadoOffline> listaPossivelInteressadoOffline;
     private Usuario usuarioDonoImovel;
     private Usuario usuarioCorretorImovel;
     private Usuario usuarioImobiliariaImovel;
@@ -178,8 +178,8 @@ public class ImovelForm extends BaseForm{
 	
 	private boolean exibeMaisListaPropostas = false;
 	private boolean exibeMaisListaAtividades = false;
-	private boolean exibeMaisListaPossivelComprador = false;
-	private boolean exibeMaisListaPossivelCompradorOffline = false;
+	private boolean exibeMaisListaPossivelInteressado = false;
+	private boolean exibeMaisListaPossivelInteressadoOffline = false;
 	private boolean exibeMaisListaIntermediacao = false;
 	private boolean exibeMaisListaParceria = false;
 	private boolean exibeMaisListaVisita = false;
@@ -1666,22 +1666,22 @@ public class ImovelForm extends BaseForm{
 		this.listaAtividades = listaAtividades;
 	}
 
-	public List<PossivelComprador> getListaPossivelComprador() {
-		return listaPossivelComprador;
+	public List<PossivelInteressado> getListaPossivelInteressado() {
+		return listaPossivelInteressado;
 	}
 
-	public void setListaPossivelComprador(
-			List<PossivelComprador> listaPossivelComprador) {
-		this.listaPossivelComprador = listaPossivelComprador;
+	public void setListaPossivelInteressado(
+			List<PossivelInteressado> listaPossivelInteressado) {
+		this.listaPossivelInteressado = listaPossivelInteressado;
 	}
 
-	public List<PossivelCompradorOffline> getListaPossivelCompradorOffline() {
-		return listaPossivelCompradorOffline;
+	public List<PossivelInteressadoOffline> getListaPossivelInteressadoOffline() {
+		return listaPossivelInteressadoOffline;
 	}
 
-	public void setListaPossivelCompradorOffline(
-			List<PossivelCompradorOffline> listaPossivelCompradorOffline) {
-		this.listaPossivelCompradorOffline = listaPossivelCompradorOffline;
+	public void setListaPossivelInteressadoOffline(
+			List<PossivelInteressadoOffline> listaPossivelInteressadoOffline) {
+		this.listaPossivelInteressadoOffline = listaPossivelInteressadoOffline;
 	}
 
 	public String getQuemPodeEnviarSolicitacoes() {
@@ -1714,28 +1714,28 @@ public class ImovelForm extends BaseForm{
 		this.exibeMaisListaAtividades = exibeMaisListaAtividades;
 	}
 
-	public boolean isExibeMaisListaPossivelComprador() {
-		if (! CollectionUtils.isEmpty(this.listaPossivelComprador) && this.listaPossivelComprador.size() >= this.quantMaxLista)
+	public boolean isExibeMaisListaPossivelInteressado() {
+		if (! CollectionUtils.isEmpty(this.listaPossivelInteressado) && this.listaPossivelInteressado.size() >= this.quantMaxLista)
 			return true;
 		else
 			return false;
 	}
 
-	public void setExibeMaisListaPossivelComprador(
-			boolean exibeMaisListaPossivelComprador) {
-		this.exibeMaisListaPossivelComprador = exibeMaisListaPossivelComprador;
+	public void setExibeMaisListaPossivelInteressado(
+			boolean exibeMaisListaPossivelInteressado) {
+		this.exibeMaisListaPossivelInteressado = exibeMaisListaPossivelInteressado;
 	}
 
-	public boolean isExibeMaisListaPossivelCompradorOffline() {
-		if (! CollectionUtils.isEmpty(this.listaPossivelCompradorOffline) && this.listaPossivelCompradorOffline.size() >= this.quantMaxLista)
+	public boolean isExibeMaisListaPossivelInteressadoOffline() {
+		if (! CollectionUtils.isEmpty(this.listaPossivelInteressadoOffline) && this.listaPossivelInteressadoOffline.size() >= this.quantMaxLista)
 			return true;
 		else
 			return false;
 	}
 
-	public void setExibeMaisListaPossivelCompradorOffline(
-			boolean exibeMaisListaPossivelCompradorOffline) {
-		this.exibeMaisListaPossivelCompradorOffline = exibeMaisListaPossivelCompradorOffline;
+	public void setExibeMaisListaPossivelInteressadoOffline(
+			boolean exibeMaisListaPossivelInteressadoOffline) {
+		this.exibeMaisListaPossivelInteressadoOffline = exibeMaisListaPossivelInteressadoOffline;
 	}
 
 	public boolean isExibeMaisListaIntermediacao() {

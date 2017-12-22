@@ -38,8 +38,8 @@ import com.busqueumlugar.form.ImovelMapaForm;
 import com.busqueumlugar.form.UsuarioForm;
 import com.busqueumlugar.model.Atividades;
 import com.busqueumlugar.model.Imovel;
-import com.busqueumlugar.model.PossivelComprador;
-import com.busqueumlugar.model.PossivelCompradorOffline;
+import com.busqueumlugar.model.PossivelInteressado;
+import com.busqueumlugar.model.PossivelInteressadoOffline;
 import com.busqueumlugar.model.Usuario;
 import com.busqueumlugar.service.AtividadesService;
 import com.busqueumlugar.service.BairrosService;
@@ -55,8 +55,8 @@ import com.busqueumlugar.service.IntermediacaoService;
 import com.busqueumlugar.service.NotaService;
 import com.busqueumlugar.service.NotificacaoService;
 import com.busqueumlugar.service.ParceriaService;
-import com.busqueumlugar.service.PossivelCompradorOfflineService;
-import com.busqueumlugar.service.PossivelCompradorService;
+import com.busqueumlugar.service.possivelInteressadoOfflineService;
+import com.busqueumlugar.service.possivelInteressadoService;
 import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.MessageUtils;
@@ -98,7 +98,7 @@ public class ImovelController {
 	private static final String DIR_PATH_EXPANSAO = "/imovel/expansao/";	
 	private static final String DIR_PATH_CADASTRO = "/imovel/cadastro/";
 	private static final String DIR_PATH_ATIVIDADES = "/imovel/atividades/";
-	private static final String DIR_PATH_POSSIVEL_COMPRADOR = "/imovel/possivelComprador/";
+	private static final String DIR_PATH_POSSIVEL_INTERESSADO = "/imovel/possivelInteressado/";
 	
 	
 	@Autowired
@@ -132,10 +132,10 @@ public class ImovelController {
 	private NotificacaoService notificacaoService;
 	
 	@Autowired
-	private PossivelCompradorOfflineService possivelCompradorOfflineService ;
+	private possivelInteressadoOfflineService possivelInteressadoOfflineService ;
 	
 	@Autowired
-	private PossivelCompradorService possivelCompradorService ;
+	private possivelInteressadoService possivelInteressadoService ;
 	
 		
 	@RequestMapping(value = "/buscarCidades/{idEstado}", method = RequestMethod.GET)
@@ -552,8 +552,8 @@ public class ImovelController {
 		}		
 	}
 	
-	@RequestMapping(value = "/procurarCompradores/{idImovel}" , method = RequestMethod.GET)	
-	public String procurarCompradores(@PathVariable Long idImovel,
+	@RequestMapping(value = "/procurarInteressados/{idImovel}" , method = RequestMethod.GET)	
+	public String procurarInteressados(@PathVariable Long idImovel,
 									  HttpSession session, 	
 								      ModelMap map, 
 								      @ModelAttribute("imovelForm") ImovelForm form){
@@ -561,13 +561,13 @@ public class ImovelController {
 		try{
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);		
 			map.addAttribute("imovelForm", form );
-			List<Usuario> lista = imovelService.pesquisarPossiveisCompradores(user.getId(), form);
+			List<Usuario> lista = imovelService.pesquisarPossiveisInteressados(user.getId(), form);
 			map.addAttribute("listaUsuarios", lista);
 			map.addAttribute("quantTotalUsuarios", AppUtil.recuperarQuantidadeLista(lista));
-			return DIR_PATH + "resultadoProcurarPossiveisCompradores";
+			return DIR_PATH + "resultadoProcurarPossiveisInteressados";
 		}
 		catch(Exception e) {
-			log.error("Erro metodo - ImovelController -  procurarCompradores");
+			log.error("Erro metodo - ImovelController -  procurarInteressados");
 			log.error("Mensagem Erro: " + e.getMessage());
 			map.addAttribute("mensagemErroGeral", "S");			
 			return "erro";
@@ -663,90 +663,90 @@ public class ImovelController {
 	
 	
 	
-	@RequestMapping(value = "/adicionarPossivelCompradorOfflineDetalhesImovel/{nome}/{telefone}/{email}/{chanceCompra}/{observacao}")
+	@RequestMapping(value = "/adicionarPossivelInteressadoOfflineDetalhesImovel/{nome}/{telefone}/{email}/{chanceInteresse}/{observacao}")
 	@ResponseBody
-	public String adicionarPossivelCompradorOfflineDetalhesImovel(@PathVariable("nome") String nome,
+	public String adicionarPossivelInteressadoOfflineDetalhesImovel(@PathVariable("nome") String nome,
 																  @PathVariable("telefone") String telefone,											       		
 											       				  @PathVariable("email") String email,
-											       				  @PathVariable("chanceCompra") String chanceCompra,
+											       				  @PathVariable("chanceInteresse") String chanceInteresse,
 											       				  @PathVariable("observacao") String observacao,
 															      HttpSession session, 	
 															      ModelMap map, 											   
 															      @ModelAttribute("imovelForm") ImovelForm form){
 		
 		try {
-			possivelCompradorOfflineService.cadastrarPossivelCompradorOffline(form, nome, telefone, email, chanceCompra, observacao);
-			form.setListaPossivelCompradorOffline(possivelCompradorOfflineService.recuperarListaPossivelCompradorOfflinePorIdImovelPorQuant(form.getId(), ImovelService.QUANT_MAX_LISTA));
+			possivelInteressadoOfflineService.cadastrarPossivelInteressadoOffline(form, nome, telefone, email, chanceInteresse, observacao);
+			form.setListaPossivelInteressadoOffline(possivelInteressadoOfflineService.recuperarListaPossivelInteressadoOfflinePorIdImovelPorQuant(form.getId(), ImovelService.QUANT_MAX_LISTA));
 			map.addAttribute("imovelForm", form );
 			return "ok";
 		} catch (Exception e) {
-			log.error("Erro metodo - ImovelController -  adicionarPossivelCompradorOfflineDetalhesImovel");
+			log.error("Erro metodo - ImovelController -  adicionarPossivelInteressadoOfflineDetalhesImovel");
 			log.error("Mensagem Erro: " + e.getMessage());
 			map.addAttribute("mensagemErroGeral", "S");
 			return ImovelService.PATH_ERRO_GERAL;
 		}
 	}
 	
-	@RequestMapping(value = "/editarPossivelCompradorOfflineDetalhesImovel/{id}/{nome}/{telefone}/{email}/{chanceCompra}/{observacao}")
+	@RequestMapping(value = "/editarPossivelInteressadoOfflineDetalhesImovel/{id}/{nome}/{telefone}/{email}/{chanceInteresse}/{observacao}")
 	@ResponseBody
-	public String editarPossivelCompradorOfflineDetalhesImovel(@PathVariable("id") Long id,
+	public String editarPossivelInteressadoOfflineDetalhesImovel(@PathVariable("id") Long id,
 															   @PathVariable("nome") String nome,
 															   @PathVariable("telefone") String telefone,											       		
 										       				   @PathVariable("email") String email,
-										       				   @PathVariable("chanceCompra") String chanceCompra,
+										       				   @PathVariable("chanceInteresse") String chanceInteresse,
 										       				   @PathVariable("observacao") String observacao,
 														       HttpSession session, 	
 														       ModelMap map, 											   
 														       @ModelAttribute("imovelForm") ImovelForm form){
 		
 		try {
-			possivelCompradorOfflineService.editarPossivelCompradorOffline(id, nome, telefone, email, chanceCompra, observacao);
-			form.setListaPossivelCompradorOffline(possivelCompradorOfflineService.recuperarListaPossivelCompradorOfflinePorIdImovelPorQuant(form.getId(), ImovelService.QUANT_MAX_LISTA));
+			possivelInteressadoOfflineService.editarPossivelInteressadoOffline(id, nome, telefone, email, chanceInteresse, observacao);
+			form.setListaPossivelInteressadoOffline(possivelInteressadoOfflineService.recuperarListaPossivelInteressadoOfflinePorIdImovelPorQuant(form.getId(), ImovelService.QUANT_MAX_LISTA));
 			map.addAttribute("imovelForm", form );
 			return "ok";
 		} catch (Exception e) {
-			log.error("Erro metodo - ImovelController -  editarPossivelCompradorOfflineDetalhesImovel");
+			log.error("Erro metodo - ImovelController -  editarPossivelInteressadoOfflineDetalhesImovel");
 			log.error("Mensagem Erro: " + e.getMessage());
 			map.addAttribute("mensagemErroGeral", "S");
 			return ImovelService.PATH_ERRO_GERAL;
 		}
 	}
 	
-	@RequestMapping(value = "/visualizarTodosPossivelCompradorImovelOffline/{idImovel}")	
-	public String visualizarTodosPossivelCompradorImovelOffline(@PathVariable("idImovel") Long idImovel,											       											   
+	@RequestMapping(value = "/visualizarTodosPossivelInteressadoImovelOffline/{idImovel}")	
+	public String visualizarTodosPossivelInteressadoImovelOffline(@PathVariable("idImovel") Long idImovel,											       											   
 															    HttpSession session, 	
 															    ModelMap map){
 		
 		try {	
-			List<PossivelCompradorOffline> lista = possivelCompradorOfflineService.recuperarListaPossivelCompradorOfflinePorIdImovel(idImovel);
-			map.addAttribute("listaPossivelCompradorOffline", lista);
-			map.addAttribute("quantTotalPossivelCompradorOffline", AppUtil.recuperarQuantidadeLista(lista));
+			List<PossivelInteressadoOffline> lista = possivelInteressadoOfflineService.recuperarListaPossivelInteressadoOfflinePorIdImovel(idImovel);
+			map.addAttribute("listaPossivelInteressadoOffline", lista);
+			map.addAttribute("quantTotalPossivelInteressadoOffline", AppUtil.recuperarQuantidadeLista(lista));
 			map.addAttribute("imovel", imovelService.recuperarImovelPorid(idImovel));
-			return DIR_PATH_POSSIVEL_COMPRADOR + "visualizarTodosPossivesisCompradoresImovelOffline";
+			return DIR_PATH_POSSIVEL_INTERESSADO + "visualizarTodosPossivesisInteressadosImovelOffline";
 		} catch (Exception e) {
-			log.error("Erro metodo - ImovelController -  visualizarTodosPossivelCompradorImovelOffline");
+			log.error("Erro metodo - ImovelController -  visualizarTodosPossivelInteressadoImovelOffline");
 			log.error("Mensagem Erro: " + e.getMessage());
 			map.addAttribute("mensagemErroGeral", "S");
 			return ImovelService.PATH_ERRO_GERAL;
 		}
 	}
 	
-	@RequestMapping(value = "/editarPossivelCompradorDetalhesImovel/{id}/{chanceCompra}/{observacao}")
+	@RequestMapping(value = "/editarPossivelInteressadoDetalhesImovel/{id}/{chanceInteresse}/{observacao}")
 	@ResponseBody
-	public String editarPossivelCompradorDetalhesImovel(@PathVariable("id") Long id,													    
-								       				    @PathVariable("chanceCompra") String chanceCompra,
+	public String editarPossivelInteressadoDetalhesImovel(@PathVariable("id") Long id,													    
+								       				    @PathVariable("chanceInteresse") String chanceInteresse,
 								       				    @PathVariable("observacao") String observacao,
 												        HttpSession session, 	
 												        ModelMap map, 											   
 												        @ModelAttribute("imovelForm") ImovelForm form){
 		
 		try {
-			possivelCompradorService.editarPossivelComprador(id, chanceCompra, observacao);
-			form.setListaPossivelComprador(possivelCompradorService.recuperarListaPossivelCompradorPorIdImovelPorQuant(form.getId(),ImovelService.QUANT_MAX_LISTA));
+			possivelInteressadoService.editarPossivelInteressado(id, chanceInteresse, observacao);
+			form.setListaPossivelInteressado(possivelInteressadoService.recuperarListaPossivelInteressadoPorIdImovelPorQuant(form.getId(),ImovelService.QUANT_MAX_LISTA));
 			map.addAttribute("imovelForm", form );
 			return "ok";
 		} catch (Exception e) {
-			log.error("Erro metodo - ImovelController -  editarPossivelCompradorDetalhesImovel");
+			log.error("Erro metodo - ImovelController -  editarPossivelInteressadoDetalhesImovel");
 			log.error("Mensagem Erro: " + e.getMessage());
 			map.addAttribute("mensagemErroGeral", "S");
 			return ImovelService.PATH_ERRO_GERAL;
@@ -755,40 +755,40 @@ public class ImovelController {
 	
 	
 	
-	@RequestMapping(value = "/adicionarPossivelCompradorDetalhesImovel/{idUsuario}/{idImovel}")
+	@RequestMapping(value = "/adicionarPossivelInteressadoDetalhesImovel/{idUsuario}/{idImovel}")
 	@ResponseBody
-	public String adicionarPossivelCompradorDetalhesImovel(@PathVariable("idUsuario") Long idUsuario,
+	public String adicionarPossivelInteressadoDetalhesImovel(@PathVariable("idUsuario") Long idUsuario,
 															   @PathVariable("idImovel") Long idImovel,													
 														       HttpSession session, 	
 														       ModelMap map, 											   
 														       @ModelAttribute("imovelForm") ImovelForm form){
 		
 		try {
-			possivelCompradorService.cadastrarPossivelComprador(idUsuario, idImovel);
-			form.setListaPossivelComprador(possivelCompradorService.recuperarListaPossivelCompradorPorIdImovelPorQuant(idImovel,ImovelService.QUANT_MAX_LISTA));
+			possivelInteressadoService.cadastrarPossivelInteressado(idUsuario, idImovel);
+			form.setListaPossivelInteressado(possivelInteressadoService.recuperarListaPossivelInteressadoPorIdImovelPorQuant(idImovel,ImovelService.QUANT_MAX_LISTA));
 			map.addAttribute("imovelForm", form );
 			return "ok";
 		} catch (Exception e) {
-			log.error("Erro metodo - ImovelController -  adicionarPossivelCompradorDetalhesImovel");
+			log.error("Erro metodo - ImovelController -  adicionarPossivelInteressadoDetalhesImovel");
 			log.error("Mensagem Erro: " + e.getMessage());
 			map.addAttribute("mensagemErroGeral", "S");
 			return ImovelService.PATH_ERRO_GERAL;
 		}
 	}
 	
-	@RequestMapping(value = "/visualizarTodosPossivelCompradorImovel/{idImovel}")	
-	public String visualizarTodosPossivelCompradorImovel(@PathVariable("idImovel") Long idImovel,											       											   
-													     HttpSession session, 	
-													     ModelMap map){
+	@RequestMapping(value = "/visualizarTodosPossivelInteressadoImovel/{idImovel}")	
+	public String visualizarTodosPossivelInteressadoImovel(@PathVariable("idImovel") Long idImovel,											       											   
+													       HttpSession session, 	
+													       ModelMap map){
 		
 		try {
-			List<PossivelComprador> lista = possivelCompradorService.recuperarListaPossivelCompradorPorIdImovel(idImovel); 
-			map.addAttribute("listaPossivelComprador", lista);
-			map.addAttribute("quantTotalPossivelComprador", AppUtil.recuperarQuantidadeLista(lista));
+			List<PossivelInteressado> lista = possivelInteressadoService.recuperarListaPossivelInteressadoPorIdImovel(idImovel); 
+			map.addAttribute("listaPossivelInteressado", lista);
+			map.addAttribute("quantTotalPossivelInteressado", AppUtil.recuperarQuantidadeLista(lista));
 			map.addAttribute("imovel", imovelService.recuperarImovelPorid(idImovel));
-			return DIR_PATH_POSSIVEL_COMPRADOR + "visualizarTodosPossivesisCompradoresImovel";
+			return DIR_PATH_POSSIVEL_INTERESSADO + "visualizarTodosPossivesisInteressadosImovel";
 		} catch (Exception e) {
-			log.error("Erro metodo - ImovelController -  visualizarTodosPossivelCompradorImovel");
+			log.error("Erro metodo - ImovelController -  visualizarTodosPossivelInteressadoImovel");
 			log.error("Mensagem Erro: " + e.getMessage());
 			map.addAttribute("mensagemErroGeral", "S");
 			return ImovelService.PATH_ERRO_GERAL;
@@ -821,8 +821,8 @@ public class ImovelController {
 														   	  ModelMap map, 											   
 														      @ModelAttribute("imovelForm") ImovelForm form){		
 		try {
-			possivelCompradorOfflineService.excluirPossivelCompradorOffline(idPossivelCompr);
-			form.setListaPossivelCompradorOffline(possivelCompradorOfflineService.recuperarListaPossivelCompradorOfflinePorIdImovelPorQuant(form.getId(), ImovelService.QUANT_MAX_LISTA));
+			possivelInteressadoOfflineService.excluirPossivelInteressadoOffline(idPossivelCompr);
+			form.setListaPossivelInteressadoOffline(possivelInteressadoOfflineService.recuperarListaPossivelInteressadoOfflinePorIdImovelPorQuant(form.getId(), ImovelService.QUANT_MAX_LISTA));
 			map.addAttribute("imovelForm", form );
 			return "ok";
 		} catch (Exception e) {
@@ -1152,7 +1152,7 @@ public class ImovelController {
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);					
 			map.addAttribute("imovel", form);
-			map.addAttribute("listaUsuarios", imovelService.pesquisarPossiveisCompradores(user.getId(), form));
+			map.addAttribute("listaUsuarios", imovelService.pesquisarPossiveisInteressados(user.getId(), form));
 			return DIR_PATH + "resultadoAnaliseRecuperacaoUsuariosInteressados";
 		} catch (Exception e) {
 			log.error("Erro metodo - ImovelController -  detalhesImovel");

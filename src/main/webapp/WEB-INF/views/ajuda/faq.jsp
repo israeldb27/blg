@@ -464,13 +464,13 @@
 					                                    <div class="panel-heading no-border">
 					                                        <h4 class="panel-title">
 					                                            <a data-toggle="collapse" data-parent="#accordion1"  style="font-size: 13px;" href="#collapse1-27">
-					                                                <spring:message code="msg.faq.pergunta.possiveis.compradores"/>
+					                                                <spring:message code="msg.faq.pergunta.possiveis.interessados"/>
 					                                            </a>
 					                                        </h4>
 					                                    </div><!-- /.panel-heading -->
 					                                    <div id="collapse1-27" class="panel-collapse collapse">
 					                                        <div class="panel-body" style="font-size: 11px;">
-					                                            <spring:message code="msg.faq.resposta.possiveis.compradores"/>	
+					                                            <spring:message code="msg.faq.resposta.possiveis.interessados"/>	
 					                                        </div>
 					                                    </div>
 					                               </div><!-- /.panel -->
@@ -479,13 +479,13 @@
 					                                    <div class="panel-heading no-border">
 					                                        <h4 class="panel-title">
 					                                            <a data-toggle="collapse" data-parent="#accordion1"  style="font-size: 13px;" href="#collapse1-28">
-					                                                <spring:message code="msg.faq.pergunta.possiveis.compradores.offline"/>
+					                                                <spring:message code="msg.faq.pergunta.possiveis.interessados.offline"/>
 					                                            </a>
 					                                        </h4>
 					                                    </div><!-- /.panel-heading -->
 					                                    <div id="collapse1-28" class="panel-collapse collapse">
 					                                        <div class="panel-body" style="font-size: 11px;">
-					                                            <spring:message code="msg.faq.resposta.possiveis.compradores.offline"/>	
+					                                            <spring:message code="msg.faq.resposta.possiveis.interessados.offline"/>	
 					                                        </div>
 					                                    </div>
 					                               </div><!-- /.panel -->

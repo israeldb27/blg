@@ -59,8 +59,8 @@ import com.busqueumlugar.service.ImovelfotosService;
 import com.busqueumlugar.service.ImovelvisualizadoService;
 import com.busqueumlugar.service.IntermediacaoService;
 import com.busqueumlugar.service.NotaService;
-import com.busqueumlugar.service.PossivelCompradorOfflineService;
-import com.busqueumlugar.service.PossivelCompradorService;
+import com.busqueumlugar.service.PossivelInteressadoOfflineService;
+import com.busqueumlugar.service.PossivelInteressadoService;
 import com.busqueumlugar.service.SeguidorService;
 import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.AppUtil;
@@ -133,10 +133,10 @@ public class ImovelServiceImpl implements ImovelService{
 	private AtividadesService atividadesService;
 	
 	@Autowired
-	private PossivelCompradorOfflineService possivelCompradorOfflineService;
+	private PossivelInteressadoOfflineService PossivelInteressadoOfflineService;
 	
 	@Autowired
-	private PossivelCompradorService possivelCompradorService;	
+	private PossivelInteressadoService PossivelInteressadoService;	
 	
 	@Autowired
 	private SeguidorService seguidorService;
@@ -861,8 +861,8 @@ public class ImovelServiceImpl implements ImovelService{
 			form.setUsuarioDonoImovel(imovel.getUsuario());
 			form.setListaVisita(imovelvisualizadoService.recuperarUsuariosVisitantesPorIdImovelPorQuant(idImovel,ImovelService.QUANT_MAX_LISTA));
 			form.setListaAtividades(atividadesService.recuperarAtividadesPorIdImovelPorQuant(idImovel, ImovelService.QUANT_MAX_LISTA));
-			form.setListaPossivelCompradorOffline(possivelCompradorOfflineService.recuperarListaPossivelCompradorOfflinePorIdImovelPorQuant(idImovel, ImovelService.QUANT_MAX_LISTA));
-			form.setListaPossivelComprador(possivelCompradorService.recuperarListaPossivelCompradorPorIdImovelPorQuant(idImovel,ImovelService.QUANT_MAX_LISTA));
+			form.setListaPossivelInteressadoOffline(PossivelInteressadoOfflineService.recuperarListaPossivelInteressadoOfflinePorIdImovelPorQuant(idImovel, ImovelService.QUANT_MAX_LISTA));
+			form.setListaPossivelInteressado(PossivelInteressadoService.recuperarListaPossivelInteressadoPorIdImovelPorQuant(idImovel,ImovelService.QUANT_MAX_LISTA));
 			
 			if (usuarioSessao.getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo())){
 				form.setListaIntermediacao(intermediacaoDao.findIntermediacaoByIdImovelByStatusByQuant(idImovel, 
@@ -1218,7 +1218,7 @@ public class ImovelServiceImpl implements ImovelService{
 	}
 
 	@Override 
-	public List<Usuario> pesquisarPossiveisCompradores(Long idUsuario, ImovelForm form) {		
+	public List<Usuario> pesquisarPossiveisInteressados(Long idUsuario, ImovelForm form) {		
 		
 		List<Usuario> listaFinal = new ArrayList<Usuario>();	
 		TreeSet<Long> listaIdsFinal = new TreeSet<Long>();		
@@ -1268,8 +1268,8 @@ public class ImovelServiceImpl implements ImovelService{
 		if (!CollectionUtils.isEmpty(listaIdsFinal)){
 			Usuario usuario = null;
 			for (Long idUsuarioRec : listaIdsFinal){
-				boolean isAddPossivelComprador = possivelCompradorService.checarUsuarioPossivelCompradorImovel(idUsuarioRec, form.getId());
-				if ( ! isAddPossivelComprador ){
+				boolean isAddPossivelInteressado = PossivelInteressadoService.checarUsuarioPossivelInteressadoImovel(idUsuarioRec, form.getId());
+				if ( ! isAddPossivelInteressado ){
 					usuario = usuarioService.recuperarUsuarioPorId(idUsuarioRec);
 					if ( usuario != null)
 						listaFinal.add(usuario);
