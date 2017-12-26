@@ -50,8 +50,11 @@
                             <i class="online"></i>                            
                         </a>
                         <div class="media-body">
-                            <h4 class="media-heading">
-								<span><a href="${urlUsuario}/detalhesUsuario/${usuario.id}"><strong> ${usuario.nome} </strong></a> </span>
+                            <h4 class="media-heading" style="">
+								<span>
+									<a href="${urlUsuario}/detalhesUsuario/${usuario.id}">
+										<strong><font style="text-transform:none; font-family: Helvetica Neue,Helvetica,Arial,sans-serif; font-size: 14px"> ${usuario.nome} </font></strong></a> 
+								</span>
 							</h4>    
 							<small>${usuario.perfilFmt} </small>
                         </div>

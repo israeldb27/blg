@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.busqueumlugar.dao.ImovelDao;
 import com.busqueumlugar.dao.PossivelInteressadoDao;
 import com.busqueumlugar.dao.UsuarioDao;
-import com.busqueumlugar.enumerador.chanceInteresseEnum;
+import com.busqueumlugar.enumerador.ChanceInteresseEnum;
 import com.busqueumlugar.model.Imovel;
 import com.busqueumlugar.model.PossivelInteressado;
 import com.busqueumlugar.model.Usuario;
@@ -44,7 +44,7 @@ public class PossivelInteressadoServiceImpl implements PossivelInteressadoServic
 		possivel.setDataUltimaAtualizacao(new Date());
 		possivel.setImovel(imovel);
 		possivel.setUsuarioInteressado(usuario);
-		possivel.setchanceInteresse(chanceInteresseEnum.MA.getIdentificador());
+		possivel.setChanceInteresse(ChanceInteresseEnum.MA.getIdentificador());
 		dao.save(possivel);
 	}
 

@@ -28,6 +28,16 @@ public class AjudaController {
 		return DIR_PATH + "faq";
 	}
 	
+	@RequestMapping(value = "/conhecendoFuncionalidadesOffline", method = RequestMethod.GET)
+	public String conhecendoFuncionalidadesOffline(HttpSession session){
+		return DIR_PATH + "conhecendoFuncionalidades-offline";
+	}
+	
+	@RequestMapping(value = "/faqOffline", method = RequestMethod.GET)
+	public String faqOffline(HttpSession session){
+		return DIR_PATH + "faq-offline";
+	}
+	
 	@RequestMapping(value = "/sobre", method = RequestMethod.GET)
 	public String sobre(HttpSession session){
 		return DIR_PATH + "sobre";

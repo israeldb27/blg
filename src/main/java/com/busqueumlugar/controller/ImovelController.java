@@ -55,8 +55,8 @@ import com.busqueumlugar.service.IntermediacaoService;
 import com.busqueumlugar.service.NotaService;
 import com.busqueumlugar.service.NotificacaoService;
 import com.busqueumlugar.service.ParceriaService;
-import com.busqueumlugar.service.possivelInteressadoOfflineService;
-import com.busqueumlugar.service.possivelInteressadoService;
+import com.busqueumlugar.service.PossivelInteressadoOfflineService;
+import com.busqueumlugar.service.PossivelInteressadoService;
 import com.busqueumlugar.service.UsuarioService;
 import com.busqueumlugar.util.AppUtil;
 import com.busqueumlugar.util.MessageUtils;
@@ -132,10 +132,10 @@ public class ImovelController {
 	private NotificacaoService notificacaoService;
 	
 	@Autowired
-	private possivelInteressadoOfflineService possivelInteressadoOfflineService ;
+	private PossivelInteressadoOfflineService possivelInteressadoOfflineService ;
 	
 	@Autowired
-	private possivelInteressadoService possivelInteressadoService ;
+	private PossivelInteressadoService possivelInteressadoService ;
 	
 		
 	@RequestMapping(value = "/buscarCidades/{idEstado}", method = RequestMethod.GET)
@@ -1135,7 +1135,26 @@ public class ImovelController {
 			imovelService.preparaDetalhesImovelForm(idImovel, form, user);		
 			map.addAttribute("imovelForm", form);
 			map.addAttribute("comentarios", imovelComentarioService.listarComentarios(form.getId(), null));
-			return DIR_PATH + "visualizarImovel";
+			return DIR_PATH + "visualizarImovelOffline";
+			//return DIR_PATH + "visualizarImovel";
+		} catch (Exception e) {
+			log.error("Erro metodo - ImovelController -  detalhesImovel");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		} 		
+	}
+	
+	@RequestMapping(value = "/detalhesImovelOffline/{idImovel}")
+	public String detalhesImovelOffline(@PathVariable Long idImovel,
+								 		ModelMap map, 
+								 		HttpSession session){		
+		try {			
+			ImovelForm form = new ImovelForm();		
+			imovelService.preparaDetalhesOfflineImovelForm(idImovel, form);			
+			map.addAttribute("imovelForm", form);			
+			return DIR_PATH + "visualizarImovelOffline";
+			//return DIR_PATH + "visualizarImovel";
 		} catch (Exception e) {
 			log.error("Erro metodo - ImovelController -  detalhesImovel");
 			log.error("Mensagem Erro: " + e.getMessage());

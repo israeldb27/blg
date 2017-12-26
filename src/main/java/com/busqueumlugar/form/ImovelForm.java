@@ -131,7 +131,9 @@ public class ImovelForm extends BaseForm{
     private List<ImovelPropostas> listaPropostas;
     private List<Imovelcomentario> listaComentario;
     private List<Parceria> listaParceria;
+    private List<Parceria> listaParceriaAceitas;
     private List<Intermediacao> listaIntermediacao;
+    private List<Intermediacao> listaIntermediacaoAceitas;
 	private List<Imovelvisualizado> listaVisita;
 	private List<Imovelfavoritos> listaUsuariosInteressados;	
 	private List<Usuario> listaUsuariosParceiros;	
@@ -181,7 +183,9 @@ public class ImovelForm extends BaseForm{
 	private boolean exibeMaisListaPossivelInteressado = false;
 	private boolean exibeMaisListaPossivelInteressadoOffline = false;
 	private boolean exibeMaisListaIntermediacao = false;
+	private boolean exibeMaisListaIntermediacaoAceita = false;
 	private boolean exibeMaisListaParceria = false;
+	private boolean exibeMaisListaParceriaAceita = false;
 	private boolean exibeMaisListaVisita = false;
 	private boolean exibeMaisListaUsuariosInteressados = false;
 	private boolean exibeMaisListaComentarios= false;
@@ -1792,6 +1796,44 @@ public class ImovelForm extends BaseForm{
 
 	public void setExibeMaisListaComentarios(boolean exibeMaisListaComentarios) {
 		this.exibeMaisListaComentarios = exibeMaisListaComentarios;
+	}
+
+	public List<Parceria> getListaParceriaAceitas() {
+		return listaParceriaAceitas;
+	}
+
+	public void setListaParceriaAceitas(List<Parceria> listaParceriaAceitas) {
+		this.listaParceriaAceitas = listaParceriaAceitas;
+	}
+
+	public List<Intermediacao> getListaIntermediacaoAceitas() {
+		return listaIntermediacaoAceitas;
+	}
+
+	public void setListaIntermediacaoAceitas(List<Intermediacao> listaIntermediacaoAceitas) {
+		this.listaIntermediacaoAceitas = listaIntermediacaoAceitas;
+	}
+
+	public boolean isExibeMaisListaIntermediacaoAceita() {
+		if (! CollectionUtils.isEmpty(this.listaIntermediacaoAceitas) && this.listaIntermediacaoAceitas.size() >= this.quantMaxLista)
+			return true;
+		else
+			return false;
+	}
+
+	public void setExibeMaisListaIntermediacaoAceita(boolean exibeMaisListaIntermediacaoAceita) {
+		this.exibeMaisListaIntermediacaoAceita = exibeMaisListaIntermediacaoAceita;
+	}
+
+	public boolean isExibeMaisListaParceriaAceita() {
+		if (! CollectionUtils.isEmpty(this.listaParceriaAceitas) && this.listaParceriaAceitas.size() >= this.quantMaxLista)
+			return true;
+		else
+			return false;
+	}
+
+	public void setExibeMaisListaParceriaAceita(boolean exibeMaisListaParceriaAceita) {
+		this.exibeMaisListaParceriaAceita = exibeMaisListaParceriaAceita;
 	}
 	
 }

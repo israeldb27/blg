@@ -15,7 +15,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import com.busqueumlugar.enumerador.chanceInteresseEnum;
+import com.busqueumlugar.enumerador.ChanceInteresseEnum;
 
 
 @Entity
@@ -78,11 +78,11 @@ public class PossivelInteressado extends BaseEntity implements Serializable {
 		this.imovel = imovel;
 	}
 
-	public Usuario getusuarioInteressado() {
+	public Usuario getUsuarioInteressado() {
 		return usuarioInteressado;
 	}
 
-	public void setusuarioInteressado(Usuario usuarioInteressado) {
+	public void setUsuarioInteressado(Usuario usuarioInteressado) {
 		this.usuarioInteressado = usuarioInteressado;
 	}
 
@@ -102,11 +102,11 @@ public class PossivelInteressado extends BaseEntity implements Serializable {
 		this.porcentagemChanceInteresse = porcentagemChanceInteresse;
 	}
 
-	public String getchanceInteresse() {
+	public String getChanceInteresse() {
 		return chanceInteresse;
 	}
 
-	public void setchanceInteresse(String chanceInteresse) {
+	public void setChanceInteresse(String chanceInteresse) {
 		this.chanceInteresse = chanceInteresse;
 	}
 
@@ -127,7 +127,7 @@ public class PossivelInteressado extends BaseEntity implements Serializable {
 	}
 
 	public String getchanceInteresseFmt() {
-		return chanceInteresseEnum.getLabel(this.chanceInteresse);
+		return ChanceInteresseEnum.getLabel(this.chanceInteresse);
 	}
 
 	public void setChanceInteresseFmt(String chanceInteresseFmt) {

@@ -868,6 +868,9 @@ public class ImovelServiceImpl implements ImovelService{
 				form.setListaIntermediacao(intermediacaoDao.findIntermediacaoByIdImovelByStatusByQuant(idImovel, 
 																									   StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo(),
 																									   ImovelService.QUANT_MAX_LISTA));	
+				form.setListaIntermediacaoAceitas(intermediacaoDao.findIntermediacaoByIdImovelByStatusByQuant(idImovel, 
+																											  StatusImovelCompartilhadoEnum.ACEITA.getRotulo(),
+																											  ImovelService.QUANT_MAX_LISTA));
 			
 				form.setUsuarioIntermediador(intermediacaoService.recuperarUsuarioIntermediador(form.getId()));
 				form.setIntermediacaoEnviada(intermediacaoDao.findIntermediacaoByIdUsuarioSolicitanteByIdImovel(usuarioSessao.getId(), form.getId()));	
@@ -876,6 +879,10 @@ public class ImovelServiceImpl implements ImovelService{
 				form.setListaParceria(parceriaDao.findParceriaByIdImovelByStatusByQuant(idImovel, 
 																				 		StatusImovelCompartilhadoEnum.SOLICITADO.getRotulo(),
 																				 		ImovelService.QUANT_MAX_LISTA));
+				form.setListaParceriaAceitas(parceriaDao.findParceriaByIdImovelByStatusByQuant(idImovel, 
+																				 		StatusImovelCompartilhadoEnum.ACEITA.getRotulo(),
+																				 		ImovelService.QUANT_MAX_LISTA));
+				
 				form.setParceriaEnviada(parceriaDao.findParceriaByIdUsuarioSolicitanteByIdImovel(usuarioSessao.getId(), form.getId()));				
 			}
 		}
@@ -931,6 +938,16 @@ public class ImovelServiceImpl implements ImovelService{
 			form.setQuantVisualizacoesImovel(imovelvisualizadoService.checarQuantidadeImoveisVisualizadosPorImovel(idImovel, null));
 			form.setQuantUsuariosInteressados(imovelFavoritosService.checarQuantidadeUsuariosInteressadosPorIdImovel(idImovel));
 		}			
+	}
+	
+	@Override
+	public void preparaDetalhesOfflineImovelForm(Long idImovel, ImovelForm form ){		
+		Imovel imovel = dao.findImovelById(idImovel);	
+		BeanUtils.copyProperties(imovel, form);			
+		form.setListaFotos(imovelfotosService.recuperarFotosImovel(imovel.getId()));	
+		form.setUsuarioDonoImovel(imovel.getUsuario());
+		form.setQuantVisualizacoesImovel(imovelvisualizadoService.checarQuantidadeImoveisVisualizadosPorImovel(idImovel, null));
+		form.setQuantUsuariosInteressados(imovelFavoritosService.checarQuantidadeUsuariosInteressadosPorIdImovel(idImovel));
 	}
 	
 	@Override

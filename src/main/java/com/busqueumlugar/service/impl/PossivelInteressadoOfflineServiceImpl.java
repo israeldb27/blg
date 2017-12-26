@@ -35,14 +35,14 @@ public class PossivelInteressadoOfflineServiceImpl implements	PossivelInteressad
 	}
 
 	@Override
-	public void cadastrarPossivelInteressadoOffline(ImovelForm form, String nome,	String telefone, String email, String chanceInteresse, String observacao) {
+	public void cadastrarPossivelInteressadoOffline(ImovelForm form, String nome, String telefone, String email, String chanceInteresse, String observacao) {
 		PossivelInteressadoOffline possivel = new PossivelInteressadoOffline();
 		possivel.setDataCadastro(new Date());
 		possivel.setDataUltimaAtualizacao(new Date());
 		possivel.setEmailInteressado(email);
 		possivel.setNomeInteressado(nome);
-		possivel.settelefoneInteressado(telefone);
-		possivel.setchanceInteresse(chanceInteresse);
+		possivel.setTelefoneInteressado(telefone);
+		possivel.setChanceInteresse(chanceInteresse);
 		possivel.setObservacao(observacao);
 		Imovel imovel = new Imovel();
 		BeanUtils.copyProperties(form, imovel); 
@@ -56,13 +56,13 @@ public class PossivelInteressadoOfflineServiceImpl implements	PossivelInteressad
 	}
 
 	@Override
-	public void editarPossivelInteressadoOffline(Long id, String nome,String telefone, String email, String chanceInteresse,	String observacao) {
+	public void editarPossivelInteressadoOffline(Long id, String nome,String telefone, String email, String chanceInteresse, String observacao) {
 		PossivelInteressadoOffline possivel = dao.findPossivelInteressadoOfflineById(id);
 		possivel.setDataUltimaAtualizacao(new Date());
 		possivel.setEmailInteressado(email);
 		possivel.setNomeInteressado(nome);
-		possivel.settelefoneInteressado(telefone);
-		possivel.setchanceInteresse(chanceInteresse);
+		possivel.setTelefoneInteressado(telefone);
+		possivel.setChanceInteresse(chanceInteresse);
 		possivel.setObservacao(observacao);
 		dao.update(possivel);
 	}

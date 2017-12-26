@@ -151,6 +151,8 @@ public interface ImovelService {
 	List<Imovel> buscarImovelParaTimeline(ImovelForm form, Long idUsuario);
 
 	List<Usuario> pesquisarPossiveisInteressados(Long idUsuario, ImovelForm form);
+
+	void preparaDetalhesOfflineImovelForm(Long idImovel, ImovelForm form);
 	
 		
 }

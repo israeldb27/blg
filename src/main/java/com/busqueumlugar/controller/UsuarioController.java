@@ -375,7 +375,7 @@ public class UsuarioController {
 		}            
     }
 	
-	@RequestMapping(value = "/prepararCadastroUsuario", method = RequestMethod.POST)
+	@RequestMapping(value = "/prepararCadastroUsuario")
     public String prepararCadastroUsuario(ModelMap map, HttpSession session){
 		
 		try {

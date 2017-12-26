@@ -14,8 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-
-import com.busqueumlugar.enumerador.chanceInteresseEnum;
+import com.busqueumlugar.enumerador.ChanceInteresseEnum;
 
 @Entity
 @Table(name = "PossivelInteressadooffline")
@@ -96,7 +95,7 @@ public class PossivelInteressadoOffline extends BaseEntity implements Serializab
 		this.dataCadastro = dataCadastro;
 	}
 
-	public Integer getporcentagemChanceInteresse() {
+	public Integer getPorcentagemChanceInteresse() {
 		return porcentagemChanceInteresse;
 	}
 
@@ -104,35 +103,35 @@ public class PossivelInteressadoOffline extends BaseEntity implements Serializab
 		this.porcentagemChanceInteresse = porcentagemChanceInteresse;
 	}
 
-	public String getchanceInteresse() {
+	public String getChanceInteresse() {
 		return chanceInteresse;
 	}
 
-	public void setchanceInteresse(String chanceInteresse) {
+	public void setChanceInteresse(String chanceInteresse) {
 		this.chanceInteresse = chanceInteresse;
 	}
 
-	public String getnomeInteressado() {
+	public String getNomeInteressado() {
 		return nomeInteressado;
 	}
 
-	public void setnomeInteressado(String nomeInteressado) {
+	public void setNomeInteressado(String nomeInteressado) {
 		this.nomeInteressado = nomeInteressado;
 	}
 
-	public String getemailInteressado() {
+	public String getEmailInteressado() {
 		return emailInteressado;
 	}
 
-	public void setemailInteressado(String emailInteressado) {
+	public void setEmailInteressado(String emailInteressado) {
 		this.emailInteressado = emailInteressado;
 	}
 
-	public String gettelefoneInteressado() {
+	public String getTelefoneInteressado() {
 		return telefoneInteressado;
 	}
 
-	public void settelefoneInteressado(String telefoneInteressado) {
+	public void setTelefoneInteressado(String telefoneInteressado) {
 		this.telefoneInteressado = telefoneInteressado;
 	}
 
@@ -145,7 +144,7 @@ public class PossivelInteressadoOffline extends BaseEntity implements Serializab
 	}
 
 	public String getChanceInteresseFmt() {
-		return chanceInteresseEnum.getLabel(this.chanceInteresse);
+		return ChanceInteresseEnum.getLabel(this.chanceInteresse);
 	}	
 		
 	public void setChanceInteresseFmt(String chanceInteresseFmt) {

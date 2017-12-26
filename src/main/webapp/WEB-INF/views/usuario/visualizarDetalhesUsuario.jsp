@@ -389,15 +389,14 @@ function mostrarModal(id){
 
 								</div>
 								<div class="panel-body">
-									<div class="pull-left">
-										<div class="col-lg-6 col-md-6 col-sm-6"> 
-	                                        <div id="owl-demo" class="owl-carousel owl-theme" >
-	                                            <img class="img-circle"  src="data:image/jpeg;base64,${usuarioForm.imagemArquivo}" style="margin-left:30px; width: 240px; height: 240px; ">	                                            	                                            	                                                                                        
-	                                        </div>
-	                                    </div>
-                                    </div>
+										<div class="col-lg-7 col-md-8 col-sm-6">
+	                                      	<div id="owl-demo" class="owl-carousel owl-theme">                                             
+		                                             <div class="item"><img class="responsive" src="data:image/jpeg;base64,${usuarioForm.imagemArquivo}"  style="max-height:395px; height: 260px; width: 470px;"></div>                                            
+		                                     </div>
+		                				</div>
+                                    
                                 	
-                                	<div class="pull-right">
+                                	<div class="col-lg-5 col-md-5 col-sm-5"> 
                                 		 <table class="table table-striped" style="margin-top:10px; font-size: 13px;">
                                          <tbody>
                                          
