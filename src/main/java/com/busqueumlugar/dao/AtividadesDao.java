@@ -15,5 +15,8 @@ public interface AtividadesDao extends GenericDAO<Atividades, Long>{
 
 	List<Atividades> findAtividadesByIdImovelByQuant(Long idImovel,	int quantMaxLista);
 	
+	long findQuantAtividadesByIdImovelByTipoAtividade(Long idImovel, String tipoAtividade);
+	
+	long findQuantAtividadesByIdDonoImovelByTipoAtividade(Long idUsuario, String tipoAtividade);	
 
 }

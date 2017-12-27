@@ -19,24 +19,7 @@
 
 <spring:url var="urlImovel" value="/imovel"/>
 <spring:url var="urlImovelIndicado" value="/imovelIndicado"/>
-<spring:url var="urlImovelComparativo" value="/imovelComparativo"/>
-<spring:url var="urlImovelDestaque" value="/imovelDestaque"/>
-<spring:url var="urlImovelFavoritos" value="/imovelFavoritos"/>
-<spring:url var="urlImovelPropostas" value="/imovelPropostas"/>
-<spring:url var="urlImovelVisualizado" value="/imovelVisualizado"/>
-<spring:url var="urlMensagem" value="/mensagem"/>
-<spring:url var="urlMensagemAdmin" value="/mensagemAdmin"/>
-<spring:url var="urlNota" value="/nota"/>
-<spring:url var="urlNotificacao" value="/notificacao"/>
-<spring:url var="urlPerfil" value="/perfil"/>
-<spring:url var="urlPlano" value="/plano"/>
-<spring:url var="urlPreferencia" value="/preferencia"/>
-<spring:url var="urlRelatorio" value="/relatorio"/>
-<spring:url var="urlServico" value="/servico"/>
-<spring:url var="urlContato" value="/contato"/>
-<spring:url var="urlEstado" value="/estado"/>
-<spring:url var="urlCidade" value="/cidade"/>
-<spring:url var="urlEstado" value="/estado"/>
+
 <spring:url var="urlGmap" value="/gmap"/>
 <spring:url var="urlAjuda" value="/ajuda"/>
 
@@ -71,7 +54,7 @@
                     <!--/ End category apps -->
                     
                     
-                    <!-- Start navigation - Cadastrar Imovel -->
+                    <!-- Start navigation - Cadastrar Usuario -->
                     <li class="submenu">
                         <a href="${urlUsuario}/prepararCadastroUsuario">
                             <span class="icon"><i class="fa fa-user"></i></span>
@@ -80,7 +63,7 @@
                         </a>
                     </li>                    
                     
-                    <!-- End navigation - Cadastrar Imovel -->
+                    <!-- End navigation - Cadastrar Usuario -->
 
                     <!-- Start navigation - Sobre -->
                      <li class="submenu">

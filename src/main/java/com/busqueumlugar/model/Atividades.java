@@ -48,12 +48,14 @@ public class Atividades extends BaseEntity implements Serializable {
     private String descricao;
     
     @Column(name = "status")
-    private String status; // criado, cancelado, incompleto, completo
-    
+    private String status; // criado, cancelado, incompleto, completo    
     
     @Column(name = "dataUltimaAtualizacao")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataUltimaAtualizacao;
+    
+    @Column(name = "tipoAtividade")
+    private String tipoAtividade;
     
     @Transient
     private String statusFmt = "";
@@ -137,7 +139,14 @@ public class Atividades extends BaseEntity implements Serializable {
 
 	public void setStatusFmt(String statusFmt) {
 		this.statusFmt = statusFmt;
-	} 
+	}
+	
+	public String getTipoAtividade() {
+		return tipoAtividade;
+	}
+	public void setTipoAtividade(String tipoAtividade) {
+		this.tipoAtividade = tipoAtividade;
+	}
     
     
 	

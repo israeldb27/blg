@@ -473,7 +473,7 @@ public class ImovelvisualizadoDaoImpl extends GenericDAOImpl<Imovelvisualizado, 
 	public List findUsuariosMeusImoveisVisitadosByIdUsuarioDistinct(Long idUsuario, ImovelvisualizadoForm form) {
 		Criteria crit = session().createCriteria(Imovelvisualizado.class);
 		ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.groupProperty("usuario.id"));
+		//projList.add(Projections.groupProperty("usuario.id"));
 		projList.add(Projections.count("usuario.id").as("quant"));
 		crit.setProjection(projList);
 		crit.createCriteria("usuarioDonoImovel").add(Restrictions.eq("id", idUsuario));

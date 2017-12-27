@@ -135,6 +135,8 @@ public class UsuarioForm extends BaseForm {
     private long  quantTotalRecomendacoes 	       = 0;
     private long  quantTotalPrefImoveis            = 0;
     private long  quantTotalNotas            	   = 0;
+    private long  quantTotalVisitasMarcadas 	   = 0;
+    private long  quantTotalSolFechamento 	   	   = 0;
     public String possuiContatoUsuarioSessao = "N";    
     
     private Long idAssinaturaSelecionada;
@@ -1399,6 +1401,22 @@ public class UsuarioForm extends BaseForm {
 
 	public void setQuantTotalNotas(long quantTotalNotas) {
 		this.quantTotalNotas = quantTotalNotas;
+	}
+	
+	public long getQuantTotalVisitasMarcadas() {
+		return quantTotalVisitasMarcadas;
+	}
+
+	public void setQuantTotalVisitasMarcadas(long quantTotalVisitasMarcadas) {
+		this.quantTotalVisitasMarcadas = quantTotalVisitasMarcadas;
+	}
+	
+	public long getQuantTotalSolFechamento() {
+		return quantTotalSolFechamento;
+	}
+
+	public void setQuantTotalSolFechamento(long quantTotalSolFechamento) {
+		this.quantTotalSolFechamento = quantTotalSolFechamento;
 	}
 
 	public String getSenhaTemporariaEsqueceu() {

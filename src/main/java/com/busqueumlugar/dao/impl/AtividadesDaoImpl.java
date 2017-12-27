@@ -48,5 +48,30 @@ public class AtividadesDaoImpl extends GenericDAOImpl<Atividades, Long>  impleme
 		crit.setMaxResults(quantMaxLista);
 		return (List<Atividades>)crit.list();
 	}
+	
+	@Override
+	public long findQuantAtividadesByIdImovelByTipoAtividade(Long idImovel, String tipoAtividade){
+		Criteria crit = session().createCriteria(Atividades.class);
+		crit.createCriteria("imovel").add(Restrictions.eq("id", idImovel));
+		
+		ProjectionList projList = Projections.projectionList();		
+		projList.add(Projections.count("imovel.id").as("quant"));
+		crit.setProjection(projList);
+		crit.setMaxResults(1);
+		return (long) crit.uniqueResult();
+		
+	}
+	
+	@Override
+	public long findQuantAtividadesByIdDonoImovelByTipoAtividade(Long idUsuario, String tipoAtividade){
+		Criteria crit = session().createCriteria(Atividades.class);
+		crit.createCriteria("usuario").add(Restrictions.eq("id", idUsuario));
+		
+		ProjectionList projList = Projections.projectionList();		
+		projList.add(Projections.count("usuario.id").as("quant"));
+		crit.setProjection(projList);
+		crit.setMaxResults(1);
+		return (long) crit.uniqueResult();
+	}
 
 }

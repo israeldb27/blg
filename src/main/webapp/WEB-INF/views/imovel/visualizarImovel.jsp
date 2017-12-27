@@ -845,6 +845,16 @@ function prepararModalGaleriaFotos(){
 	                                                        <td class="text-left"><spring:message code="lbl.total.imoveis.interessados"/></td>
 	                                                        <td class="text-right">${imovelForm.quantUsuariosInteressados}</td>
 	                                                    </tr>
+	                                                    
+	                                                    <tr>
+	                                                        <td class="text-left"><spring:message code="lbl.quant.total.tipo.atividade.marcar.visita"/></td>
+	                                                        <td class="text-right">${imovelForm.quantTotalVisitasMarcadas}</td>
+	                                                    </tr>
+	                                                    
+	                                                    <tr>
+	                                                        <td class="text-left"><spring:message code="lbl.quant.total.tipo.atividade.sol.fechar.negocio"/></td>
+	                                                        <td class="text-right">${imovelForm.quantTotalSolFechamentoNegocio}</td>
+	                                                    </tr>
                                                     
                                                       <tr>
                                                            <td class="text-left"><spring:message code="lbl.data.cadastro.imovel" /></td>

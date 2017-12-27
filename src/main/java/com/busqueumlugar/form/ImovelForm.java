@@ -311,6 +311,8 @@ public class ImovelForm extends BaseForm{
 
 	private long quantVisualizacoesImovel = 0; // checa a quantidade de visitas que o imovel recebeu - para estatistica
     private long quantUsuariosInteressados = 0;
+    private long quantTotalVisitasMarcadas = 0; // campo cujo valor é extraido a partir da tabela Atividades onde campo TipoAtividade = 'MA' (Marcar Visita)
+    private long quantTotalSolFechamentoNegocio = 0;  // campo cujo valor é extraido a partir da tabela Atividades onde campo TipoAtividade = 'FE' (Fechar Negocio)
     
     
     
@@ -1084,6 +1086,26 @@ public class ImovelForm extends BaseForm{
     public void setQuantUsuariosInteressados(long quantUsuariosInteressados) {
         this.quantUsuariosInteressados = quantUsuariosInteressados;
     }
+    
+    
+    public long getQuantTotalVisitasMarcadas() {
+        return quantTotalVisitasMarcadas;
+    }
+
+
+    public void setQuantTotalVisitasMarcadas(long quantTotalVisitasMarcadas) {
+        this.quantTotalVisitasMarcadas = quantTotalVisitasMarcadas;
+    }
+    
+    
+    public long getQuantTotalSolFechamentoNegocio() {
+        return quantTotalSolFechamentoNegocio;
+    }
+
+
+    public void setQuantTotalSolFechamentoNegocio(long quantTotalSolFechamentoNegocio) {
+        this.quantTotalSolFechamentoNegocio = quantTotalSolFechamentoNegocio;
+    }   
 
     /**
      * @return the idParamServicoSelecionado

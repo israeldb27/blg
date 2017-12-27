@@ -141,6 +141,8 @@ public interface UsuarioService {
 
 	UsuarioForm prepararDetalhesUsuarioForm(Long idUsuario, Long idUsuarioSessao);
 	
+	UsuarioForm prepararDetalhesUsuarioOfflineForm(Long idUsuario);
+	
 	boolean validarDadosCadastroUsuario(UsuarioForm form, BindingResult result);
 
 	boolean validarDadosCadastroEdicaoUsuarioAdmin(UsuarioForm form, BindingResult result);

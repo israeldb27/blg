@@ -510,6 +510,7 @@ public class ImovelController {
 			atividadesService.cadastrarAtividade(form, 
 												 StatusAtividadeOpcaoEnum.CRIADO.getRotulo(), 
 												 MessageUtils.getMessage("lbl.atividade.confirmar.fechar.negocio") , 
+												 TipoAtividadesEnum.FECHAR_NEGOCIO.getRotulo().
 												 user);	
 			
 			map.addAttribute("imovelForm", form );
@@ -539,6 +540,7 @@ public class ImovelController {
 			atividadesService.cadastrarAtividade(form, 
 												 StatusAtividadeOpcaoEnum.CRIADO.getRotulo(), 
 												 MessageUtils.getMessage("lbl.atividade.confirmar.marcar.visita") , 
+												 TipoAtividadesEnum.MARCAR_VISITA.getRotulo().
 												 user);		
 			
 			map.addAttribute("imovelForm", form );
@@ -604,7 +606,12 @@ public class ImovelController {
 		
 		try {
 			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
-			atividadesService.cadastrarAtividade(form, novaAtividade, novaDescricaoAtividade, user);
+			atividadesService.cadastrarAtividade(form, 
+												 novaAtividade, 
+												 novaDescricaoAtividade, 
+												 TipoAtividadesEnum.OUTROS.getRotulo(), 
+												 user);
+			
 			form.setListaAtividades(atividadesService.recuperarAtividadesPorIdImovelPorQuant(form.getId(), ImovelService.QUANT_MAX_LISTA));
 			map.addAttribute("imovelForm", form );
 			return "ok";

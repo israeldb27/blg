@@ -448,6 +448,17 @@ function mostrarModal(id){
                                                  <td class="text-left"><spring:message code="lbl.total.visualizacoes" /></td>
                                                  <td class="text-right">${usuarioForm.quantTotalVisitasImoveis}</td>
                                              </tr>
+                                             
+                                             <tr>
+                                                 <td class="text-left"><spring:message code="lbl.quant.total.tipo.atividade.marcar.visita" /></td>
+                                                 <td class="text-right">${usuarioForm.quantTotalVisitasMarcadas}</td>
+                                             </tr>
+                                             
+                                             <tr>
+                                                 <td class="text-left"><spring:message code="lbl.quant.total.tipo.atividade.sol.fechar.negocio" /></td>
+                                                 <td class="text-right">${usuarioForm.quantTotalSolFechamento}</td>
+                                             </tr>
+                                             
                                            
                                          </tbody>
                                      </table>	

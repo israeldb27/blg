@@ -345,13 +345,29 @@ public class UsuarioController {
     								 HttpSession session, 
     								 ModelMap map){
 		try {
-			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);
-		    UsuarioForm form = usuarioService.prepararDetalhesUsuarioForm(idUsuario, user.getId());
-		    map.addAttribute("usuarioForm", form);
+			UsuarioForm user = (UsuarioForm)session.getAttribute(UsuarioInterface.USUARIO_SESSAO);		    
+		    map.addAttribute("usuarioForm", usuarioService.prepararDetalhesUsuarioForm(idUsuario, user.getId()));
 			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "detalhesUsuario");	
 	    	return DIR_PATH + "visualizarDetalhesUsuario";
 		} catch (Exception e) {
 			log.error("Erro metodo - UsuarioController -  verDetalhesUsuario");
+			log.error("Mensagem Erro: " + e.getMessage());
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		}        
+    }
+	
+	@RequestMapping(value = "/detalhesUsuarioOffline/{idUsuario}")    
+    public String verDetalhesUsuarioOffline(@PathVariable("idUsuario") Long idUsuario,
+    								 HttpSession session, 
+    								 ModelMap map){
+		try {			
+		    UsuarioForm form = usuarioService.prepararDetalhesUsuarioForm(idUsuario, user.getId());
+		    map.addAttribute("usuarioForm", form);
+			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "detalhesUsuario");	
+	    	return DIR_PATH + "visualizarDetalhesUsuarioOffline";
+		} catch (Exception e) {
+			log.error("Erro metodo - UsuarioController -  verDetalhesUsuarioOffline");
 			log.error("Mensagem Erro: " + e.getMessage());
 			map.addAttribute("mensagemErroGeral", "S");
 			return ImovelService.PATH_ERRO_GERAL;
@@ -387,6 +403,29 @@ public class UsuarioController {
 	    	return DIR_PATH_CADASTRO + "cadastrarUsuario";
 		} catch (Exception e) {
 			log.error("Erro metodo - UsuarioController -  prepararCadastroUsuario");
+			log.error("Mensagem Erro: " + e.getMessage());			
+			map.addAttribute("mensagemErroGeral", "S");
+			return ImovelService.PATH_ERRO_GERAL;
+		}
+    }
+	
+	@RequestMapping(value = "/prepararCadastroUsuarioOffline/{idImovel}")
+    public String prepararCadastroUsuarioOffline(@PathVariable("idImovel") Long idImovel,
+    									  		 ModelMap map, 
+    									  		 HttpSession session){		
+		try {
+			UsuarioForm form = new UsuarioForm();
+			form.setListaEstados(estadosService.listarTodosEstadosSelect());
+			usuarioService.preparaCampoDataNascimento(form);
+			map.addAttribute("usuarioForm", form);
+			session.setAttribute(UsuarioInterface.ID_IMOVEL_OFFLINE , idImovel);
+			session.setAttribute(UsuarioInterface.FUNCIONALIDADE, "cadastroUsuario");
+
+			// de repente criar o arquivo "cadastrarUsuarioOffline" que irá tratar as informações do Imovel offline  
+	    	//return DIR_PATH_CADASTRO + "cadastrarUsuario";
+			return DIR_PATH_CADASTRO + "cadastrarUsuarioOffline";
+		} catch (Exception e) {
+			log.error("Erro metodo - UsuarioController -  prepararCadastroUsuarioOffline");
 			log.error("Mensagem Erro: " + e.getMessage());			
 			map.addAttribute("mensagemErroGeral", "S");
 			return ImovelService.PATH_ERRO_GERAL;
@@ -829,7 +868,7 @@ public class UsuarioController {
 	    	    		return "home";
 	    			} 
 	    			else if ( user.getStatusUsuario().equals(StatusUsuarioEnum.PRE_ATIVADO.getRotulo())){
-	    				log.info("Usuario � pre ativado: ");
+	    				log.info("Usuario � pre ativado: ");
 	    				user.setCodConfirmacaoAtivacao("");
 	    				map.addAttribute("usuarioForm", user);
 	    				return "/usuario/cadastro/confirmarCodigoAtivacao";

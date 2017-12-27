@@ -28,5 +28,7 @@ public interface UsuarioInterface {
 	String ASSINATURA_PAGA = "assinaturaPaga";
 	String ASSINATURA_NAO_PAGA = "assinaturaNaoPaga";
 	String ASSINATURA_SOLICITADA = "assinaturaSolicitada";
+	
+	String ID_IMOVEL_OFFLINE = "idImovelOffline";
     
 }

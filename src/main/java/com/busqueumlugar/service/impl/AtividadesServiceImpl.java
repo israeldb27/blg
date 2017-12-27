@@ -37,12 +37,13 @@ public class AtividadesServiceImpl implements AtividadesService{
 	}
 
 	@Override
-	public void cadastrarAtividade(ImovelForm form, String statusAtividade,	String novaDescricaoAtividade, UsuarioForm user) {
+	public void cadastrarAtividade(ImovelForm form, String statusAtividade,	String novaDescricaoAtividade, String tipoAtividade, UsuarioForm user) {
 		Atividades atividades = new Atividades();
 		atividades.setDataAtividade(new Date());
 		atividades.setDataUltimaAtualizacao(new Date());
 		atividades.setStatus(statusAtividade);
 		atividades.setDescricao(novaDescricaoAtividade);
+		atividades.setTipoAtividade(tipoAtividade);
 		Imovel imovel = new Imovel();
 		BeanUtils.copyProperties(form, imovel);  
 		atividades.setImovel(imovel);
@@ -69,6 +70,18 @@ public class AtividadesServiceImpl implements AtividadesService{
 	@Override
 	public List<Atividades> recuperarAtividadesPorIdImovelPorQuant(	Long idImovel, int quantMaxLista) {
 		return dao.findAtividadesByIdImovelByQuant(idImovel, quantMaxLista );
+	}
+	
+	
+	@Override
+	public long recuperarTotalAtividadesPorImovelPorTipoAtividade(Long idImovel, String tipoAtividade){
+		return dao.findQuantAtividadesByIdImovelByTipoAtividade(idImovel, tipoAtividade);		
+	}
+	
+	
+	@Override
+	public long recuperarTotalAtividadesPorDonoImovelPorTipoAtividade(Long idUsuario, String tipoAtividade){
+		return dao.findQuantAtividadesByIdDonoImovelByTipoAtividade(idUsuario, tipoAtividade);
 	}
 
 }

@@ -937,6 +937,8 @@ public class ImovelServiceImpl implements ImovelService{
 			
 			form.setQuantVisualizacoesImovel(imovelvisualizadoService.checarQuantidadeImoveisVisualizadosPorImovel(idImovel, null));
 			form.setQuantUsuariosInteressados(imovelFavoritosService.checarQuantidadeUsuariosInteressadosPorIdImovel(idImovel));
+			form.setQuantTotalVisitasMarcadas(atividadesService.recuperarTotalAtividadesPorImovelPorTipoAtividade(idImovel, TipoAtividadesEnum.MARCAR_VISITA.getRotulo()));
+			form.setQuantTotalSolFechamentoNegocio(atividadesService.recuperarTotalAtividadesPorImovelPorTipoAtividade(idImovel,TipoAtividadesEnum.FECHAR_NEGOCIO.getRotulo()));
 		}			
 	}
 	
@@ -963,6 +965,9 @@ public class ImovelServiceImpl implements ImovelService{
 		form.setListaPropostas(imovelPropostasDao.findImovelPropostaByIdImovel(idImovel));
 		form.setListaUsuariosInteressados(imovelFavoritosService.recuperarUsuariosInteressadosPorIdImovel(idImovel));
 		form.setListaImovelAnuncio(imoveldestaqueDao.findImoveisAnunciosPorImovel(idImovel));
+		
+		form.setQuantTotalVisitasMarcadas(atividadesService.recuperarTotalAtividadesPorImovelPorTipoAtividade(idImovel, TipoAtividadesEnum.MARCAR_VISITA.getRotulo()));
+		form.setQuantTotalSolFechamentoNegocio(atividadesService.recuperarTotalAtividadesPorImovelPorTipoAtividade(idImovel,TipoAtividadesEnum.FECHAR_NEGOCIO.getRotulo()));
 		
 		if (imovel.getUsuario().getPerfil().equals(PerfilUsuarioOpcaoEnum.PADRAO.getRotulo()))			
 			form.setListaIntermediacao(intermediacaoDao.findIntermediacaoByIdImovel(idImovel));

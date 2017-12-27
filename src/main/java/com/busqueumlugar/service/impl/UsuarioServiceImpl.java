@@ -199,6 +199,9 @@ public class UsuarioServiceImpl implements UsuarioService{
 	private ImoveldestaqueService imovelDestaqueService;
 	
 	@Autowired
+	private AtividadesService atividadesService;
+	
+	@Autowired
 	private ServletContext context;	
 	
 	
@@ -1852,12 +1855,68 @@ public class UsuarioServiceImpl implements UsuarioService{
 		form.setQuantTotalContatos(contatoService.checarTotalContatosPorUsuarioPorStatus(idUsuario, ContatoStatusEnum.OK.getRotulo()));
 		form.setQuantTotalRecomendacoes(recomendacaoService.checarQuantidadeTotalRecomendacaoRecebidaPorStatus(idUsuario, RecomendacaoStatusEnum.ACEITO.getRotulo()));		
 		
+		form.setQuantTotalVisitasMarcadas(atividadesService.recuperarTotalAtividadesPorDonoImovelPorTipoAtividade(idUsuario, TipoAtividadesEnum.MARCAR_VISITA.getRotulo()));
+		form.setQuantTotalSolFechamento(atividadesService.recuperarTotalAtividadesPorDonoImovelPorTipoAtividade(idUsuario, TipoAtividadesEnum.FECHAR_NEGOCIO.getRotulo()));		
+		
 		if (idUsuarioSessao != null && idUsuarioSessao.longValue() > 0 ){
 			form.setPossuiContatoUsuarioSessao(contatoService.checarTipoContato(idUsuario, idUsuarioSessao));
 			form.setIsSeguindoUsuario(seguidorService.checarUsuarioEstaSeguindo(idUsuarioSessao, idUsuario));
 		}
 		
 		return form;
+	}
+	
+	@Override
+	public UsuarioForm prepararDetalhesUsuarioOfflineForm(Long idUsuario){
+		
+		Usuario usuario = dao.findUsuario(idUsuario);
+		UsuarioForm form = new UsuarioForm();		
+		BeanUtils.copyProperties(usuario, form);		
+		
+					
+		form.setQuantTotalParcerias(parceriaDao.findQuantidadeParceriaPorUsuarioPorStatus(idUsuario, StatusImovelCompartilhadoEnum.ACEITA.getRotulo()));
+		form.setQuantTotalIntermediacoes(intermediacaoDao.findQuantidadeIntermediacaoPorUsuarioPorStatus(idUsuario, StatusImovelCompartilhadoEnum.ACEITA.getRotulo()));			
+		form.setQuantUsuarioAprovServico(usuario.getQuantUsuarioAprovServico());
+		form.setQuantUsuarioDesaprovServico(usuario.getQuantUsuarioDesaprovServico());
+		
+		
+		List<Imovel> listaImoveisUsuario = imovelService.listarMeusImoveis(idUsuario);
+		List<Imovel> listaImoveisFinal = new ArrayList<Imovel>();
+		if ( ! CollectionUtils.isEmpty(listaImoveisUsuario) ){			
+			for (Imovel imovel : listaImoveisUsuario){
+				imovel.setInteressadoImovel(imovelFavoritosService.checarUsuarioEstaInteressadoImovel(idUsuario, imovel.getId()));	
+				listaImoveisFinal.add(imovel);
+			}
+			form.setListaImoveisUsuario(listaImoveisFinal);
+		}
+		else
+			form.setListaImoveisUsuario(null);
+		
+		
+		if ( ! usuario.getPerfil().equals(PerfilUsuarioOpcaoEnum.IMOBILIARIA.getRotulo())){
+			form.setDataNascimentoFmt(DateUtil.formataData(usuario.getDataNascimento()));
+		}
+		
+		
+		form.setListaNotasUsuario(notaService.listarTodasNotasPorPerfil(idUsuario, null, form.getQuantMaxExibeMaisListaNotas()));
+		
+		// Deixar lista de recomendacoes no Detalhes Usuario offline
+		form.setListaRecomendacoes(recomendacaoService.recuperarRecomendacoesPorIdUsuarioRecomendado(idUsuario, form.getQuantMaxExibeMaisListaRecomendacoes()));		
+				
+		
+		form.setQuantTotalSeguidores(seguidorService.checarQuantidadeSeguidores(idUsuario) );
+		form.setQuantTotalImoveis(AppUtil.recuperarQuantidadeLista(form.getListaImoveisUsuario()));
+		form.setQuantTotalInteressadosImoveis(imovelFavoritosDao.findQuantUsuariosInteressadosByIdUsuarioByStatus(idUsuario, null));
+		form.setQuantTotalVisitasImoveis(imovelvisualizadoDao.findQuantidadeVisitantesByIdUsuarioByStatus(idUsuario, null));
+		form.setQuantTotalNotas(notaService.checarQuantidadeNotasPorUsuario(idUsuario));
+		form.setQuantTotalContatos(contatoService.checarTotalContatosPorUsuarioPorStatus(idUsuario, ContatoStatusEnum.OK.getRotulo()));
+		form.setQuantTotalRecomendacoes(recomendacaoService.checarQuantidadeTotalRecomendacaoRecebidaPorStatus(idUsuario, RecomendacaoStatusEnum.ACEITO.getRotulo()));		
+		
+		form.setQuantTotalVisitasMarcadas(atividadesService.recuperarTotalAtividadesPorDonoImovelPorTipoAtividade(idUsuario, TipoAtividadesEnum.MARCAR_VISITA.getRotulo()));
+		form.setQuantTotalSolFechamento(atividadesService.recuperarTotalAtividadesPorDonoImovelPorTipoAtividade(idUsuario, TipoAtividadesEnum.FECHAR_NEGOCIO.getRotulo()));	
+		
+		
+		return form;		
 	}
 
 

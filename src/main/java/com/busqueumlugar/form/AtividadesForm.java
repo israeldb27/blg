@@ -17,6 +17,7 @@ public class AtividadesForm extends BaseForm {
 	 private String descricao;
 	 private String status; // criado, cancelado, incompleto, completo
 	 private Date dataUltimaAtualizacao;
+	 private String tipoAtividade;
 	 
 	 
 	public Long getId() {
@@ -60,6 +61,13 @@ public class AtividadesForm extends BaseForm {
 	}
 	public void setDataUltimaAtualizacao(Date dataUltimaAtualizacao) {
 		this.dataUltimaAtualizacao = dataUltimaAtualizacao;
+	}	
+	
+	public String getTipoAtividade() {
+		return tipoAtividade;
+	}
+	public void setTipoAtividade(String tipoAtividade) {
+		this.tipoAtividade = tipoAtividade;
 	}
 	    
 }
